@@ -29,7 +29,10 @@ use Cycle\Schema\Generator\SyncTables;
 use Cycle\Schema\Generator\ValidateEntities;
 use Cycle\Schema\Registry;
 use Doctrine\Common\Annotations\AnnotationRegistry;
+use FinGather\Model\Entity\Broker;
+use FinGather\Model\Repository\BrokerRepository;
 use FinGather\Route\Routes;
+use FinGather\Service\Dbal\DbContext;
 use Http\Discovery\Psr17FactoryDiscovery;
 use League\Container\Container;
 use League\Container\ReflectionContainer;
@@ -76,6 +79,8 @@ class Application
 
 		$container->add(ORM::class, $this->initOrm());
 
+		$container->add(BrokerRepository::class, fn () => $container->get(ORM::class)->getRepository(Broker::class));
+
 		return $container;
 	}
 
@@ -96,50 +101,12 @@ class Application
 
 	private function initOrm(): ORM
 	{
-		$dbal = new DatabaseManager(
-			new DatabaseConfig([
-				'default' => 'default',
-				'databases' => [
-					'default' => ['connection' => 'sqlite']
-				],
-				'connections' => [
-					'sqlite' => new MySQLDriverConfig(
-						connection: new DsnConnectionConfig(
-							dsn: 'mysql:host=db;dbname=fingather',
-							user: 'fingather',
-							password: 'fingather',
-						)
-					),
-				]
-			])
+		$dbContext = new DbContext(
+			dsn: 'mysql:host=db;dbname=fingather',
+			user: 'fingather',
+			password: 'fingather',
 		);
 
-		$finder = (new Finder())->files()->in([
-			__DIR__ . '/../Model/Entity',
-		]); // __DIR__ here is folder with entities
-		$classLocator = new ClassLocator($finder);
-
-		// Initialize annotations
-		//AnnotationRegistry::registerLoader('class_exists');
-
-		$schema = (new Compiler())->compile(new Registry($dbal), [
-			new ResetTables(),             // Reconfigure table schemas (deletes columns if necessary)
-			new Embeddings($classLocator),        // Recognize embeddable entities
-			new Entities($classLocator),          // Identify attributed entities
-			new TableInheritance(),               // Setup Single Table or Joined Table Inheritance
-			new MergeColumns(),                   // Integrate table #[Column] attributes
-			new GenerateRelations(),       // Define entity relationships
-			new GenerateModifiers(),       // Apply schema modifications
-			new ValidateEntities(),        // Ensure entity schemas adhere to conventions
-			new RenderTables(),            // Create table schemas
-			new RenderRelations(),         // Establish keys and indexes for relationships
-			new RenderModifiers(),         // Implement schema modifications
-			new ForeignKeys(),             // Define foreign key constraints
-			new MergeIndexes(),                   // Merge table index attributes
-			new SyncTables(),              // Align table changes with the database
-			new GenerateTypecast(),        // Typecast non-string columns
-		]);
-
-		return new ORM(new Factory($dbal), new Schema($schema));
+		return $dbContext->getOrm();
 	}
 }

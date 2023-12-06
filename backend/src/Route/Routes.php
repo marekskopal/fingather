@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Route;
 
 use FinGather\Controller\AuthenticationController;
+use FinGather\Controller\BrokerController;
 use FinGather\Controller\PortfolioController;
 
 enum Routes: string
@@ -12,6 +13,7 @@ enum Routes: string
 	case Health = '/acl/health';
 
 	case AuthenticationLogin = '/api/authentication/login';
+	case BrokerId = '/api/broker/{brokerId:number}';
 	case Portfolio = '/api/portfolio';
 
 
@@ -22,6 +24,8 @@ enum Routes: string
 		$routeList->get(self::Health->value, fn (): array => ['status' => 200, 'message' => 'OK']);
 
 		$routeList->post(self::AuthenticationLogin->value, [AuthenticationController::class, 'actionPostLogin']);
+
+		$routeList->get(self::BrokerId->value, [BrokerController::class, 'actionGetBroker']);
 
 		$routeList->get(self::Portfolio->value, [PortfolioController::class, 'actionGetPortfolio']);
 

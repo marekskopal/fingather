@@ -23,7 +23,10 @@
         "firebase/php-jwt": "^6.10",
         "php-http/discovery": "^1.19",
         "cycle/orm": "^2.5",
-        "cycle/annotated": "^3.4"
+        "cycle/annotated": "^3.4",
+        "symfony/console": "^7.0",
+        "cycle/migrations": "^4.2",
+        "cycle/schema-migrations-generator": "^2.2"
 	},
     "require-dev": {
 		"phpstan/phpstan": "^1.10",
