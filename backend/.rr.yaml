@@ -1,0 +1,20 @@
+version: '3'
+
+server:
+    command: "php /app/src/rr-worker.php"
+    env:
+        - XDEBUG_SESSION: 1
+        - XDEBUG_CONFIG: "remote_host=host.docker.internal"
+        - PHP_IDE_CONFIG: "serverName=PHPSTORM"
+http:
+    address: 0.0.0.0:80
+    middleware:
+        - gzip
+    pool:
+        supervisor:
+            watch_tick: 1s
+            ttl: 1200s
+            idle_ttl: 300s
+            max_worker_memory: 256
+        num_workers: ${ACL__RR_WORKERS:-5}
+        debug: ${ACL__RR_DEBUG:-0}

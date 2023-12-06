@@ -1,0 +1,70 @@
+﻿<div class="modal-header">
+    <h4 class="modal-title" *ngIf="isAddMode">Add Transaction</h4>
+    <h4 class="modal-title" *ngIf="!isAddMode">Edit Transaction</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <input type="hidden" formControlName="assetId">
+        <div class="form-row">
+            <div class="form-group col">
+                <label for="actionType">Action Type</label>
+                <select id="actionType" formControlName="actionType" class="form-control">
+                    <option *ngFor="let actionType of actionTypes" [ngValue]="actionType.key">
+                        {{ actionType.name }}
+                    </option>
+                </select>
+                <div *ngIf="submitted && f.actionType.errors" class="invalid-feedback">
+                    <div *ngIf="f.actionType.errors.required">Action Type is required</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col">
+                <label for="brokerId">Broker</label>
+                <select id="brokerId" formControlName="brokerId">
+                    <option *ngFor="let broker of brokers" [ngValue]="broker.id">
+                        {{ broker.name }}
+                    </option>
+                </select>
+                <div *ngIf="submitted && f.brokerId.errors" class="invalid-feedback">
+                    <div *ngIf="f.brokerId.errors.required">Broker is required</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col">
+                <label for="created">Created</label>
+                <input type="datetime-local" id="created" formControlName="created" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.created.errors }" />
+                <div *ngIf="submitted && f.created.errors" class="invalid-feedback">
+                    <div *ngIf="f.created.errors.required">Date is required</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col">
+                <label for="units">Units</label>
+                <input type="number" step="0.01" min="0" id="units" formControlName="units" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.units.errors }" [defaultValue]="0" />
+                <div *ngIf="submitted && f.units.errors" class="invalid-feedback">
+                    <div *ngIf="f.units.errors.required">Date is required</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col">
+                <label for="priceUnit">Unit Price</label>
+                <input type="number" step="0.01" min="0" id="priceUnit" formControlName="priceUnit" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.priceUnit.errors }" [defaultValue]="0.00" />
+                <div *ngIf="submitted && f.priceUnit.errors" class="invalid-feedback">
+                    <div *ngIf="f.priceUnit.errors.required">Date is required</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <button [disabled]="loading" class="btn btn-primary">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                Save
+            </button>
+            <a (click)="activeModal.dismiss()" class="btn btn-link">Cancel</a>
+        </div>
+    </form>
+</div>

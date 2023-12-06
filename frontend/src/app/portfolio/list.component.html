@@ -1,0 +1,71 @@
+﻿<h1>Portfolio Overview</h1>
+
+<portfolio-total></portfolio-total>
+
+<div *ngFor="let group of portfolio.groups">
+    <table class="table table-striped">
+        <caption *ngIf="group.id !== null">{{group.name}}</caption>
+        <thead>
+            <tr>
+                <th style="width: 24%">Name</th>
+                <th style="width: 9.5%">Price</th>
+                <th style="width: 9.5%">Units</th>
+                <th style="width: 9.5%">Value</th>
+                <th style="width: 9.5%">Gain/Loss</th>
+                <th style="width: 9.5%">Dividend</th>
+                <th style="width: 9.5%">FX Impact</th>
+                <th style="width: 9.5%"><strong>Return</strong></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let asset of group.assets">
+                <td><strong>{{asset.assetTicker.ticker}}</strong> {{asset.assetTicker.name}}</td>
+                <td class="text-right">{{asset.price | number:'1.2-2' }}</td>
+                <td>{{asset.units}}</td>
+                <td class="text-right">{{asset.value | number:'1.2-2'}}</td>
+                <td class="text-right" style="color:{{asset.gain > 0 ? 'green' : (asset.gain < 0 ? 'red' : '')}}">
+                    <div class="small">{{asset.gain | number:'1.2-2'}}</div>
+                    <div>{{asset.gainPercentage}}%</div>
+                </td>
+                <td class="text-right" style="color:{{asset.dividendGain > 0 ? 'green' : (asset.dividendGain < 0 ? 'red' : '')}}">
+                    <div class="small">{{asset.dividendGain | number:'1.2-2'}}</div>
+                    <div>{{asset.dividendGainPercentage}}%</div>
+                </td>
+                <td class="text-right" style="color:{{asset.fxImpact > 0 ? 'green' : (asset.fxImpact < 0 ? 'red' : '')}}">
+                    <div class="small">{{asset.fxImpact | number:'1.2-2'}}</div>
+                    <div>{{asset.fxImpactPercentage}}%</div>
+                </td>
+                <td class="text-right" style="color:{{asset.return > 0 ? 'green' : (asset.return < 0 ? 'red' : '')}}">
+                    <div class="small"><strong>{{asset.return | number:'1.2-2'}}</strong></div>
+                    <div><strong>{{asset.returnPercentage}}%</strong></div>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Total {{group.percentage | number:'1.2-2'}}%</strong></td>
+                <td></td>
+                <td></td>
+                <td class="text-right">{{group.groupData.value | number:'1.2-2'}}</td>
+                <td class="text-right" style="color:{{group.groupData.gain > 0 ? 'green' : (group.groupData.gain < 0 ? 'red' : '')}}">
+                    <div class="small">{{group.groupData.gain | number:'1.2-2'}}</div>
+                    <div>{{group.groupData.gainPercentage}}%</div>
+                </td>
+                <td class="text-right" style="color:{{group.groupData.dividendGain > 0 ? 'green' : (group.groupData.dividendGain < 0 ? 'red' : '')}}">
+                    <div class="small">{{group.groupData.dividendGain | number:'1.2-2'}}</div>
+                    <div>{{group.groupData.dividendGainPercentage}}%</div>
+                </td>
+                <td class="text-right" style="color:{{group.groupData.fxImpact > 0 ? 'green' : (group.groupData.fxImpact < 0 ? 'red' : '')}}">
+                    <div class="small">{{group.groupData.fxImpact | number:'1.2-2'}}</div>
+                    <div>{{group.groupData.fxImpactPercentage}}%</div>
+                </td>
+                <td class="text-right" style="color:{{group.groupData.return > 0 ? 'green' : (group.groupData.return < 0 ? 'red' : '')}}">
+                    <div class="small"><strong>{{group.groupData.return | number:'1.2-2'}}</strong></div>
+                    <div><strong>{{group.groupData.returnPercentage}}%</strong></div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div *ngIf="!portfolio">
+    <span class="spinner-border spinner-border-lg align-center"></span>
+</div>

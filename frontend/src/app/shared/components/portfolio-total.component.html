@@ -1,0 +1,23 @@
+﻿<table *ngIf="portfolioData">
+    <tr>
+        <th>Portfolio Value</th>
+        <th>Gain/Loss</th>
+        <th>Dividend</th>
+        <th>FX Impact</th>
+        <th><strong>Return</strong></th>
+    </tr>
+    <tr>
+        <td><strong>{{portfolioData.value | number:'1.2-2'}}</strong></td>
+        <td>{{portfolioData.gain | number:'1.2-2'}}</td>
+        <td>{{portfolioData.dividendGain | number:'1.2-2'}}</td>
+        <td>{{portfolioData.fxImpact | number:'1.2-2'}}</td>
+        <td><strong><strong>{{portfolioData.return | number:'1.2-2'}}</strong></strong></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>{{portfolioData.gainPercentage | number:'1.2-2'}}%</td>
+        <td>{{portfolioData.dividendGainPercentage | number:'1.2-2'}}%</td>
+        <td>{{portfolioData.fxImpactPercentage | number:'1.2-2'}}%</td>
+        <td><strong>{{portfolioData.returnPercentage | number:'1.2-2'}}%</strong></td>
+    </tr>
+</table>

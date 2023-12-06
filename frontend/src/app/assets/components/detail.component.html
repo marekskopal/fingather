@@ -1,0 +1,17 @@
+﻿<div *ngIf="asset">
+    <h1>{{asset.assetTicker.name}}</h1>
+
+    <chart assetTickerId="{{asset.assetTicker.id}}"></chart>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <transaction-list></transaction-list>
+            
+        </div>
+        <div class="col-lg-6">
+            <dividend-list></dividend-list>
+            
+        </div>
+    </div>
+</div>
+

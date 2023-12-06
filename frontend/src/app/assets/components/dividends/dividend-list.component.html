@@ -1,0 +1,27 @@
+﻿<h2>Dividends</h2>
+<a (click)="addDividend()" class="btn btn-sm btn-success mb-2">Add Dividend</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th style="width: 80%">Date</th>
+            <th style="width: 20%"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let dividend of dividends">
+            <td>{{dividend.paidDate | amFromUtc | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm'}}</td>
+            <td style="white-space: nowrap">
+                <a (click)="editDividend(dividend.id)" class="btn btn-sm btn-primary mr-1">Edit</a>
+                <button (click)="deleteDividend(dividend.id)" class="btn btn-sm btn-danger btn-delete-user" [disabled]="dividend.isDeleting">
+                    <span *ngIf="dividend.isDeleting" class="spinner-border spinner-border-sm"></span>
+                    <span *ngIf="!dividend.isDeleting">Delete</span>
+                </button>
+            </td>
+        </tr>
+        <tr *ngIf="!dividends">
+            <td colspan="2" class="text-center">
+                <span class="spinner-border spinner-border-lg align-center"></span>
+            </td>
+        </tr>
+    </tbody>
+</table>

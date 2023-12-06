@@ -1,0 +1,68 @@
+version: '3.4'
+
+services:
+    proxy:
+        build: 
+            context: ./Proxy
+            dockerfile: Dockerfile
+        ports: 
+            - "${PROXY_PORT}:80"
+            - "${PROXY_PORT_SSL}:443"
+        restart: always
+        networks:
+            - frontend
+            - backend
+        volumes: 
+            - ${PROXY_SSL_CERT}:/etc/nginx/ssl/server.pem:ro
+            - ${PROXY_SSL_KEY}:/etc/nginx/ssl/server.key:ro
+
+    frontend:
+        build:
+            context: ./frontend
+            dockerfile: Dockerfile
+        depends_on:
+            - proxy
+            - backend
+        networks:
+            - frontend
+
+    backend:
+        build: 
+            context: ./backend
+            dockerfile: Dockerfile
+        environment:
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+            ALPHAVANTAGEAPIKEY: ${ALPHAVANTAGEAPIKEY}
+        depends_on:
+            - proxy
+            - db
+        restart: always    
+        networks:
+            - backend
+        volumes:
+            - ./log:/app/log
+
+    db:
+        image: mariadb:11.2
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+        networks:
+            - backend    
+        volumes:
+            - ./fingather_data:/var/lib/mysql
+
+networks:
+    frontend:
+        name: frontend
+    backend:
+        name: backend
+
+volumes:
+    fingather_data:
+        name: fingather_data

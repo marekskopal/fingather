@@ -1,0 +1,24 @@
+﻿<h2>Transactions</h2>
+<a (click)="addTransaction()" class="btn btn-sm btn-success mb-2">Add Transaction</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th style="width: 80%">Date</th>
+            <th style="width: 80%">Action</th>
+            <th style="width: 20%"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let transaction of transactions">
+            <td>{{transaction.created | amFromUtc | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm'}}</td>
+            <td>{{transaction.actionType}}</td>
+            <td style="white-space: nowrap">
+            </td>
+        </tr>
+        <tr *ngIf="!transactions">
+            <td colspan="4" class="text-center">
+                <span class="spinner-border spinner-border-lg align-center"></span>
+            </td>
+        </tr>
+    </tbody>
+</table>

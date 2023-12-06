@@ -1,0 +1,34 @@
+﻿<div class="modal-header">
+    <h4 class="modal-title" *ngIf="isAddMode">Add Group</h4>
+    <h4 class="modal-title" *ngIf="!isAddMode">Edit Group</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input id="name" type="text" formControlName="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
+            <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                <div *ngIf="f.name.errors.required">Name is required</div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="assetIds" class="form-label">Assets</label>
+            <select multiple id="assetIds" formControlName="assetIds" class="form-control">
+                <option *ngFor="let asset of assets" [ngValue]="asset.id" [disabled]="asset.groupId != null && asset.groupId != id">
+                    {{ asset.assetTicker.name }}
+                </option>
+            </select>
+            <div *ngIf="submitted && f.assetIds.errors" class="invalid-feedback">
+                <div *ngIf="f.assetIds.errors.required">Assets is required</div>
+            </div>
+        </div>
+        <div>
+            <button [disabled]="loading" class="btn btn-primary">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                Save
+            </button>
+            <a class="btn btn-link" (click)="activeModal.dismiss()">Cancel</a>
+        </div>
+    </form>
+</div>
