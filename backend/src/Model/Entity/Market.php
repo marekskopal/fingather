@@ -7,6 +7,7 @@ namespace FinGather\Model\Entity;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\HasOne;
+use Cycle\Annotated\Annotation\Relation\RefersTo;
 use FinGather\Model\Repository\BrokerRepository;
 use FinGather\Model\Repository\CurrencyRepository;
 use FinGather\Model\Repository\MarketRepository;
@@ -30,7 +31,7 @@ final class Market
 		public readonly string $city,
 		#[Column(type: 'string')]
 		public readonly string $web,
-		#[HasOne(target: Currency::class)]
+		#[RefersTo(target: Currency::class)]
 		public readonly Currency $currency,
 	) {
 	}

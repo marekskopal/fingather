@@ -7,6 +7,7 @@ namespace FinGather\Model\Entity;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\HasOne;
+use Cycle\Annotated\Annotation\Relation\RefersTo;
 use FinGather\Model\Repository\BrokerRepository;
 use FinGather\Model\Repository\CurrencyRepository;
 use FinGather\Model\Repository\SplitRepository;
@@ -18,7 +19,7 @@ final class Split
 	private int $id;
 
 	public function __construct(
-		#[HasOne(target: Ticker::class)]
+		#[RefersTo(target: Ticker::class)]
 		public readonly Ticker $ticker,
 		#[Column(type: 'timestamp')]
 		public readonly \DateTime $date,

@@ -2,16 +2,17 @@
 
 namespace FinGather\Command;
 
+use Cycle\Schema\Generator\Migrations\GenerateMigrations;
 use FinGather\Service\Dbal\DbContext;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class MigrationCommand extends Command
+class MigrationGenerateCommand extends Command
 {
 	protected function configure(): void
 	{
-		$this->setName('migration:run');
+		$this->setName('migration:generate');
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int
@@ -24,7 +25,8 @@ class MigrationCommand extends Command
 
 		$migrator = $dbContext->getMigrator();
 
-		while($migrator->run() !== null) { }
+		$generator = new GenerateMigrations($migrator->getRepository(), $migrator->getConfig());
+		$generator->run($dbContext->getRegistry());
 
 		return 0;
 	}

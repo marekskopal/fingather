@@ -43,7 +43,7 @@ services:
             - backend
         volumes:
             - ./log:/app/log
-            - ./backend/migrations:/app/backend/migrations
+            - ./backend/migrations:/app/migrations
 
     db:
         image: mariadb:11.2

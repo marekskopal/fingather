@@ -7,6 +7,7 @@ namespace FinGather\Model\Entity;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\HasOne;
+use Cycle\Annotated\Annotation\Relation\RefersTo;
 use FinGather\Model\Entity\Enum\ActionTypeEnum;
 use FinGather\Model\Repository\BrokerRepository;
 use FinGather\Model\Repository\CurrencyRepository;
@@ -19,11 +20,11 @@ final class Transaction
 	private int $id;
 
 	public function __construct(
-		#[HasOne(target: User::class)]
+		#[RefersTo(target: User::class)]
 		public readonly User $user,
-		#[HasOne(target: Asset::class)]
+		#[RefersTo(target: Asset::class)]
 		public readonly Asset $asset,
-		#[HasOne(target: Broker::class)]
+		#[RefersTo(target: Broker::class)]
 		public readonly Broker $broker,
 		#[Column(type: 'enum(Undefined,Buy,Sell)')]
 		public readonly ActionTypeEnum $actionType,
@@ -33,7 +34,7 @@ final class Transaction
 		public readonly float $units,
 		#[Column(type: 'decimal(10,10)')]
 		public readonly float $priceUnit,
-		#[HasOne(target: Currency::class)]
+		#[RefersTo(target: Currency::class)]
 		public readonly Currency $currency,
 		#[Column(type: 'decimal(10,10)')]
 		public readonly float $exchangeRate,

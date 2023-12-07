@@ -7,6 +7,7 @@ namespace FinGather\Model\Entity;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\HasOne;
+use Cycle\Annotated\Annotation\Relation\RefersTo;
 use FinGather\Model\Repository\AssetRepository;
 use FinGather\Model\Repository\BrokerRepository;
 use FinGather\Model\Repository\CurrencyRepository;
@@ -18,11 +19,11 @@ final class Asset
 	private int $id;
 
 	public function __construct(
-		#[HasOne(target: User::class)]
+		#[RefersTo(target: User::class)]
 		public readonly User $user,
-		#[HasOne(target: Ticker::class)]
+		#[RefersTo(target: Ticker::class)]
 		public readonly Ticker $ticker,
-		#[HasOne(target: Group::class, nullable: true)]
+		#[RefersTo(target: Group::class, nullable: true)]
 		public readonly ?Group $group,
 	) {
 	}

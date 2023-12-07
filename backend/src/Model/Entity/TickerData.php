@@ -7,6 +7,7 @@ namespace FinGather\Model\Entity;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\HasOne;
+use Cycle\Annotated\Annotation\Relation\RefersTo;
 use FinGather\Model\Repository\BrokerRepository;
 use FinGather\Model\Repository\CurrencyRepository;
 use FinGather\Model\Repository\TickerDataRepository;
@@ -19,7 +20,7 @@ final class TickerData
 	private int $id;
 
 	public function __construct(
-		#[HasOne(target: Currency::class)]
+		#[RefersTo(target: Currency::class)]
 		public readonly Ticker $ticker,
 		#[Column(type: 'timestamp')]
 		public readonly \DateTime $date,

@@ -5,11 +5,13 @@ declare(strict_types=1);
 
 require __DIR__ . '/../vendor/autoload.php';
 
-use FinGather\Command\MigrationCommand;
+use FinGather\Command\MigrationGenerateCommand;
+use FinGather\Command\MigrationRunCommand;
 use Symfony\Component\Console\Application;
 
 $application = new Application();
 
-$application->add(new MigrationCommand());
+$application->add(new MigrationGenerateCommand());
+$application->add(new MigrationRunCommand());
 
 $application->run();

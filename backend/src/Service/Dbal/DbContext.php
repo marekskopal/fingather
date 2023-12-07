@@ -41,6 +41,8 @@ class DbContext
 
 	private readonly Migrator $migrator;
 
+	private readonly Registry $registry;
+
 	public function __construct(
 		string $dsn,
 		string $user,
@@ -83,7 +85,9 @@ class DbContext
 		// Initialize annotations
 		//AnnotationRegistry::registerLoader('class_exists');
 
-		$schema = (new Compiler())->compile(new Registry($dbal), [
+		$this->registry = new Registry($dbal);
+
+		$schema = (new Compiler())->compile($this->registry, [
 			new ResetTables(),             // Reconfigure table schemas (deletes columns if necessary)
 			new Embeddings($classLocator),        // Recognize embeddable entities
 			new Entities($classLocator),          // Identify attributed entities
@@ -97,7 +101,6 @@ class DbContext
 			new RenderModifiers(),         // Implement schema modifications
 			new ForeignKeys(),             // Define foreign key constraints
 			new MergeIndexes(),                   // Merge table index attributes
-			new GenerateMigrations($this->migrator->getRepository(), $this->migrator->getConfig()),  // generate migrations
 			new GenerateTypecast(),        // Typecast non-string columns
 		]);
 
@@ -112,5 +115,10 @@ class DbContext
 	public function getMigrator(): Migrator
 	{
 		return $this->migrator;
+	}
+
+	public function getRegistry(): Registry
+	{
+		return $this->registry;
 	}
 }
