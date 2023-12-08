@@ -43,6 +43,11 @@ class DbContext
 
 	private readonly Registry $registry;
 
+	/**
+	 * @param non-empty-string $dsn
+	 * @param non-empty-string $user
+	 * @param non-empty-string $password
+	 */
 	public function __construct(
 		string $dsn,
 		string $user,

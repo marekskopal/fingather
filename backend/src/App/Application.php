@@ -29,13 +29,11 @@ class Application
 			$container = $this->initContainer();
 			$router = $this->initRouter($container);
 
-			//$dbAdapter = $container->get(DbAdapter::class);
-			//assert($dbAdapter instanceof DbAdapter);
 			$logger = $container->get(LoggerInterface::class);
 			assert($logger instanceof LoggerInterface);
 
 			$psr7Processor($router, $logger);
-		} catch (\Throwable $e) { // @phpstan-ignore-line 'Throwable' must be rethrown (nowhere to rethrow)
+		} catch (\Throwable $e) {
 			$psr7Processor->handleException($e, $logger ?? null, null);
 		}
 	}
@@ -55,8 +53,11 @@ class Application
 
 		$container->add(ORM::class, $this->initOrm());
 
-		$container->add(BrokerRepository::class, fn () => $container->get(ORM::class)->getRepository(Broker::class));
-		$container->add(UserRepository::class, fn () => $container->get(ORM::class)->getRepository(User::class));
+		$orm = $container->get(ORM::class);
+		assert($orm instanceof ORM);
+
+		$container->add(BrokerRepository::class, fn () => $orm->getRepository(Broker::class));
+		$container->add(UserRepository::class, fn () => $orm->getRepository(User::class));
 
 		return $container;
 	}

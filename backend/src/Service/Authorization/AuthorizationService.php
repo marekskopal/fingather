@@ -37,7 +37,7 @@ final class AuthorizationService
 
 	private function createToken(int $userId, int $exp): string
 	{
-		$key = getenv('AUTHORIZATION_TOKEN_KEY');
+		$key = (string) getenv('AUTHORIZATION_TOKEN_KEY');
 
 		return JWT::encode([
 			'id' => $userId,

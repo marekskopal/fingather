@@ -14,11 +14,8 @@ use FinGather\Model\Repository\CurrencyRepository;
 use FinGather\Model\Repository\ExchangeRateRepository;
 
 #[Entity(repository: ExchangeRateRepository::class)]
-class ExchangeRate
+class ExchangeRate extends AEntity
 {
-	#[Column(type: 'primary')]
-	private int $id;
-
 	public function __construct(
 		#[RefersTo(target: Currency::class)]
 		private Currency $currency,
@@ -27,11 +24,6 @@ class ExchangeRate
 		#[Column(type: 'decimal(10,10)')]
 		private float $rate,
 	) {
-	}
-
-	public function getId(): int
-	{
-		return $this->id;
 	}
 
 	public function getCurrency(): Currency

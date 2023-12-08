@@ -11,11 +11,8 @@ use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Model\Repository\BrokerRepository;
 
 #[Entity(repository: BrokerRepository::class)]
-class Broker
+class Broker extends AEntity
 {
-	#[Column(type: 'primary')]
-	private int $id;
-
 	public function __construct(
 		#[RefersTo(target: User::class)]
 		private User $user,
@@ -24,11 +21,6 @@ class Broker
 		#[Column(type: 'enum(Trading212,Revolut)')]
 		private string $importType,
 	) {
-	}
-
-	public function getId(): int
-	{
-		return $this->id;
 	}
 
 	public function getUser(): User

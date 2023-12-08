@@ -10,11 +10,8 @@ use FinGather\Model\Repository\BrokerRepository;
 use FinGather\Model\Repository\CurrencyRepository;
 
 #[Entity(repository: CurrencyRepository::class)]
-class Currency
+class Currency extends AEntity
 {
-	#[Column(type: 'primary')]
-	private int $id;
-
 	public function __construct(
 		#[Column(type: 'string(3)')]
 		private int $code,
@@ -23,11 +20,6 @@ class Currency
 		#[Column(type: 'string(5)')]
 		private string $symbol,
 	) {
-	}
-
-	public function getId(): int
-	{
-		return $this->id;
 	}
 
 	public function getCode(): int

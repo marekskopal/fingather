@@ -13,11 +13,8 @@ use FinGather\Model\Repository\CurrencyRepository;
 use FinGather\Model\Repository\TickerRepository;
 
 #[Entity(repository: TickerRepository::class)]
-class Ticker
+class Ticker extends AEntity
 {
-	#[Column(type: 'primary')]
-	private int $id;
-
 	public function __construct(
 		#[Column(type: 'string(20)')]
 		private int $ticker,
@@ -28,11 +25,6 @@ class Ticker
 		#[RefersTo(target: Currency::class)]
 		private Currency $currency,
 	) {
-	}
-
-	public function getId(): int
-	{
-		return $this->id;
 	}
 
 	public function getTicker(): int

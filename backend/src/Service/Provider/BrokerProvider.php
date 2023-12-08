@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Service\Provider;
 
 use FinGather\Dto\BrokerDto;
+use FinGather\Model\Entity\Broker;
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Model\Repository\BrokerRepository;
 
@@ -32,5 +33,10 @@ class BrokerProvider
 		}
 
 		return $brokers;
+	}
+
+	public function getBroker(int $brokerId): ?Broker
+	{
+		return $this->brokerRepository->findBroker($brokerId, 1);
 	}
 }

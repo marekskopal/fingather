@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Controller;
 
 use FinGather\Model\Repository\BrokerRepository;
+use FinGather\Response\NotFoundResponse;
 use FinGather\Service\Provider\BrokerProvider;
 use FinGather\Service\Provider\PortfolioProvider;
 use Laminas\Diactoros\Response\JsonResponse;
@@ -23,8 +24,21 @@ class BrokerController
 		return new JsonResponse($this->brokerProvider->getBrokers());
 	}
 
+	/**
+	 * @param array{brokerId: string} $args
+	 */
 	public function actionGetBroker(ServerRequestInterface $request, array $args): ResponseInterface
 	{
-		return new JsonResponse($this->brokerRepository->findByPK($args['brokerId']));
+		$brokerId = (int) $args['brokerId'];
+		if ($brokerId < 1) {
+			return new NotFoundResponse('Broker id is required.');
+		}
+
+		$broker = $this->brokerProvider->getBroker($brokerId);
+		if ($broker === null) {
+			return new NotFoundResponse('Broker with id "' . $brokerId . '" was not found.');
+		}
+
+		return new JsonResponse($broker);
 	}
 }

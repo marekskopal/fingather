@@ -13,11 +13,8 @@ use FinGather\Model\Repository\CurrencyRepository;
 use FinGather\Model\Repository\SplitRepository;
 
 #[Entity(repository: SplitRepository::class)]
-class Split
+class Split extends AEntity
 {
-	#[Column(type: 'primary')]
-	private int $id;
-
 	public function __construct(
 		#[RefersTo(target: Ticker::class)]
 		private Ticker $ticker,
@@ -26,11 +23,6 @@ class Split
 		#[Column(type: 'decimal(10,10)')]
 		private float $factor,
 	) {
-	}
-
-	public function getId(): int
-	{
-		return $this->id;
 	}
 
 	public function getTicker(): Ticker

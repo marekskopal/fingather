@@ -14,11 +14,8 @@ use FinGather\Model\Repository\CurrencyRepository;
 use FinGather\Model\Repository\DividendRepository;
 
 #[Entity(repository: DividendRepository::class)]
-class Dividend
+class Dividend extends AEntity
 {
-	#[Column(type: 'primary')]
-	private int $id;
-
 	public function __construct(
 		#[RefersTo(target: Asset::class)]
 		private Asset $asset,
@@ -37,11 +34,6 @@ class Dividend
 		#[Column(type: 'decimal(10,10)')]
 		private float $exchangeRate,
 	) {
-	}
-
-	public function getId(): int
-	{
-		return $this->id;
 	}
 
 	public function getAsset(): Asset

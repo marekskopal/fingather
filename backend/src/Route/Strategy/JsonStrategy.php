@@ -44,13 +44,13 @@ class JsonStrategy extends \League\Route\Strategy\JsonStrategy
 
 					$this->logger->error($exception);
 
-					$response->getBody()->write(json_encode([
+					$response->getBody()->write(\Safe\json_encode([
 						'status_code'   => 500,
 						'reason_phrase' => $exception->getMessage()
 					]));
 
 					$response = $response->withAddedHeader('content-type', 'application/json');
-					return $response->withStatus(500, strtok($exception->getMessage(), "\n"));
+					return $response->withStatus(500, (string)strtok($exception->getMessage(), "\n"));
 				}
 			}
 		};

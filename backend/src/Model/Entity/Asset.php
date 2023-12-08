@@ -13,11 +13,8 @@ use FinGather\Model\Repository\BrokerRepository;
 use FinGather\Model\Repository\CurrencyRepository;
 
 #[Entity(repository: AssetRepository::class)]
-class Asset
+class Asset extends AEntity
 {
-	#[Column(type: 'primary')]
-	private int $id;
-
 	public function __construct(
 		#[RefersTo(target: User::class)]
 		private User $user,
@@ -26,11 +23,6 @@ class Asset
 		#[RefersTo(target: Group::class, nullable: true)]
 		private ?Group $group,
 	) {
-	}
-
-	public function getId(): int
-	{
-		return $this->id;
 	}
 
 	public function getUser(): User

@@ -27,7 +27,7 @@ class AuthenticationController
 		/**
 		 * @var array{email: string, password:string}
 		 */
-		$requestBody = json_decode($request->getBody()->getContents(), associative: true);
+		$requestBody = \Safe\json_decode($request->getBody()->getContents(), assoc: true);
 
 		$credentials = new CredentialsDto($requestBody['email'], $requestBody['password']);
 

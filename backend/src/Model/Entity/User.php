@@ -13,11 +13,8 @@ use FinGather\Model\Repository\CurrencyRepository;
 use FinGather\Model\Repository\UserRepository;
 
 #[Entity(repository: UserRepository::class)]
-class User
+class User extends AEntity
 {
-	#[Column(type: 'primary')]
-	private int $id;
-
 	public function __construct(
 		#[Column(type: 'string')]
 		private string $email,
@@ -28,11 +25,6 @@ class User
 		#[RefersTo(target: Currency::class, innerKey:'default_currency_id')]
 		private Currency $defaultCurrency,
 	) {
-	}
-
-	public function getId(): int
-	{
-		return $this->id;
 	}
 
 	public function getEmail(): string

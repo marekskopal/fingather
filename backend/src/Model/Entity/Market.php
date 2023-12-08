@@ -13,11 +13,8 @@ use FinGather\Model\Repository\CurrencyRepository;
 use FinGather\Model\Repository\MarketRepository;
 
 #[Entity(repository: MarketRepository::class)]
-class Market
+class Market extends AEntity
 {
-	#[Column(type: 'primary')]
-	private int $id;
-
 	public function __construct(
 		#[Column(type: 'string')]
 		private int $name,
@@ -34,11 +31,6 @@ class Market
 		#[RefersTo(target: Currency::class)]
 		private Currency $currency,
 	) {
-	}
-
-	public function getId(): int
-	{
-		return $this->id;
 	}
 
 	public function getName(): int
