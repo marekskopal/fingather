@@ -6,6 +6,6 @@
 }
 
 export enum BrokerImportTypes {
-    Trading212,
-    Revolut,
+    Trading212 = 'Trading212',
+    Revolut = 'Revolut',
 }
