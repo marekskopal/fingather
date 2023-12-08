@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace FinGather\Controller;
 
 use FinGather\Dto\AuthorizationDto;
+use FinGather\Dto\CredentialsDto;
+use FinGather\Service\Authorization\AuthorizationService;
+use FinGather\Service\Authorization\Exceptions\AuthorizationException;
 use FinGather\Service\Provider\PortfolioProvider;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -14,12 +17,24 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class AuthenticationController
 {
+	public function __construct(
+		private readonly AuthorizationService $authorizationService,
+	){
+	}
+
 	public function actionPostLogin(ServerRequestInterface $request): ResponseInterface
 	{
-		return new JsonResponse(new AuthorizationDto(
-			JWT::encode(['id' => 1], '123456789', 'HS256'),
-			time() + 86400,
-			1,
-		));
+		/**
+		 * @var array{email: string, password:string}
+		 */
+		$requestBody = json_decode($request->getBody()->getContents(), associative: true);
+
+		$credentials = new CredentialsDto($requestBody['email'], $requestBody['password']);
+
+		try {
+			return new JsonResponse($this->authorizationService->authorize($credentials));
+		} catch (AuthorizationException) {
+			return new JsonResponse('Email or password id invalid.', 401);
+		}
 	}
 }

@@ -4,46 +4,22 @@ declare(strict_types=1);
 
 namespace FinGather\App;
 
-use Cycle\Annotated\Embeddings;
-use Cycle\Annotated\Entities;
-use Cycle\Annotated\MergeColumns;
-use Cycle\Annotated\MergeIndexes;
-use Cycle\Annotated\TableInheritance;
-use Cycle\Database\Config\DatabaseConfig;
-use Cycle\Database\Config\MySQL\DsnConnectionConfig;
-use Cycle\Database\Config\MySQLDriverConfig;
-use Cycle\Database\DatabaseManager;
-use Cycle\ORM\Factory;
 use Cycle\ORM\ORM;
-use Cycle\ORM\Schema;
-use Cycle\Schema\Compiler;
-use Cycle\Schema\Generator\ForeignKeys;
-use Cycle\Schema\Generator\GenerateModifiers;
-use Cycle\Schema\Generator\GenerateRelations;
-use Cycle\Schema\Generator\GenerateTypecast;
-use Cycle\Schema\Generator\RenderModifiers;
-use Cycle\Schema\Generator\RenderRelations;
-use Cycle\Schema\Generator\RenderTables;
-use Cycle\Schema\Generator\ResetTables;
-use Cycle\Schema\Generator\SyncTables;
-use Cycle\Schema\Generator\ValidateEntities;
-use Cycle\Schema\Registry;
-use Doctrine\Common\Annotations\AnnotationRegistry;
 use FinGather\Model\Entity\Broker;
+use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\BrokerRepository;
+use FinGather\Model\Repository\UserRepository;
 use FinGather\Route\Routes;
+use FinGather\Route\Strategy\JsonStrategy;
 use FinGather\Service\Dbal\DbContext;
 use Http\Discovery\Psr17FactoryDiscovery;
 use League\Container\Container;
 use League\Container\ReflectionContainer;
 use League\Route\Router;
-use League\Route\Strategy\JsonStrategy;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Log\LoggerInterface;
-use Spiral\Tokenizer\ClassLocator;
-use Symfony\Component\Finder\Finder;
 
 class Application
 {
@@ -80,6 +56,7 @@ class Application
 		$container->add(ORM::class, $this->initOrm());
 
 		$container->add(BrokerRepository::class, fn () => $container->get(ORM::class)->getRepository(Broker::class));
+		$container->add(UserRepository::class, fn () => $container->get(ORM::class)->getRepository(User::class));
 
 		return $container;
 	}

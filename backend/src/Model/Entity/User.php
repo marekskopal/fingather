@@ -20,7 +20,7 @@ class User
 
 	public function __construct(
 		#[Column(type: 'string')]
-		private int $email,
+		private string $email,
 		#[Column(type: 'string')]
 		private string $password,
 		#[Column(type: 'string')]
@@ -35,12 +35,12 @@ class User
 		return $this->id;
 	}
 
-	public function getEmail(): int
+	public function getEmail(): string
 	{
 		return $this->email;
 	}
 
-	public function setEmail(int $email): void
+	public function setEmail(string $email): void
 	{
 		$this->email = $email;
 	}
