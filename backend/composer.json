@@ -33,7 +33,8 @@
 		"phpstan/extension-installer": "^1.3",
 		"phpunit/phpunit": "^10.2",
 		"spatie/ray": "^1.39",
-        "thecodingmachine/phpstan-safe-rule": "^1.2"
+        "thecodingmachine/phpstan-safe-rule": "^1.2",
+        "slevomat/coding-standard": "^8.14"
 	},
     "autoload": {
         "psr-4": {
@@ -43,7 +44,8 @@
     "config": {
         "allow-plugins": {
             "phpstan/extension-installer": true,
-            "php-http/discovery": true
+            "php-http/discovery": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
         }
     }
 }
