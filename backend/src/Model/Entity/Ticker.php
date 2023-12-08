@@ -13,22 +13,65 @@ use FinGather\Model\Repository\CurrencyRepository;
 use FinGather\Model\Repository\TickerRepository;
 
 #[Entity(repository: TickerRepository::class)]
-final class Ticker
+class Ticker
 {
 	#[Column(type: 'primary')]
 	private int $id;
 
 	public function __construct(
+		#[Column(type: 'string(20)')]
+		private int $ticker,
 		#[Column(type: 'string')]
-		public readonly int $ticker,
-		#[Column(type: 'string')]
-		public readonly string $name,
-		#[Column(type: 'string')]
-		public readonly string $symbol,
+		private string $name,
 		#[RefersTo(target: Market::class)]
-		public readonly Market $market,
+		private Market $market,
 		#[RefersTo(target: Currency::class)]
-		public readonly Currency $currency,
+		private Currency $currency,
 	) {
+	}
+
+	public function getId(): int
+	{
+		return $this->id;
+	}
+
+	public function getTicker(): int
+	{
+		return $this->ticker;
+	}
+
+	public function setTicker(int $ticker): void
+	{
+		$this->ticker = $ticker;
+	}
+
+	public function getName(): string
+	{
+		return $this->name;
+	}
+
+	public function setName(string $name): void
+	{
+		$this->name = $name;
+	}
+
+	public function getMarket(): Market
+	{
+		return $this->market;
+	}
+
+	public function setMarket(Market $market): void
+	{
+		$this->market = $market;
+	}
+
+	public function getCurrency(): Currency
+	{
+		return $this->currency;
+	}
+
+	public function setCurrency(Currency $currency): void
+	{
+		$this->currency = $currency;
 	}
 }

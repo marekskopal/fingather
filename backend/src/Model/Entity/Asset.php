@@ -13,18 +13,53 @@ use FinGather\Model\Repository\BrokerRepository;
 use FinGather\Model\Repository\CurrencyRepository;
 
 #[Entity(repository: AssetRepository::class)]
-final class Asset
+class Asset
 {
 	#[Column(type: 'primary')]
 	private int $id;
 
 	public function __construct(
 		#[RefersTo(target: User::class)]
-		public readonly User $user,
+		private User $user,
 		#[RefersTo(target: Ticker::class)]
-		public readonly Ticker $ticker,
+		private Ticker $ticker,
 		#[RefersTo(target: Group::class, nullable: true)]
-		public readonly ?Group $group,
+		private ?Group $group,
 	) {
+	}
+
+	public function getId(): int
+	{
+		return $this->id;
+	}
+
+	public function getUser(): User
+	{
+		return $this->user;
+	}
+
+	public function setUser(User $user): void
+	{
+		$this->user = $user;
+	}
+
+	public function getTicker(): Ticker
+	{
+		return $this->ticker;
+	}
+
+	public function setTicker(Ticker $ticker): void
+	{
+		$this->ticker = $ticker;
+	}
+
+	public function getGroup(): ?Group
+	{
+		return $this->group;
+	}
+
+	public function setGroup(?Group $group): void
+	{
+		$this->group = $group;
 	}
 }

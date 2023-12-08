@@ -13,20 +13,65 @@ use FinGather\Model\Repository\CurrencyRepository;
 use FinGather\Model\Repository\UserRepository;
 
 #[Entity(repository: UserRepository::class)]
-final class User
+class User
 {
 	#[Column(type: 'primary')]
 	private int $id;
 
 	public function __construct(
 		#[Column(type: 'string')]
-		public readonly int $email,
+		private int $email,
 		#[Column(type: 'string')]
-		public readonly string $password,
+		private string $password,
 		#[Column(type: 'string')]
-		public readonly string $name,
+		private string $name,
 		#[RefersTo(target: Currency::class, innerKey:'default_currency_id')]
-		public readonly Currency $defaultCurrency,
+		private Currency $defaultCurrency,
 	) {
+	}
+
+	public function getId(): int
+	{
+		return $this->id;
+	}
+
+	public function getEmail(): int
+	{
+		return $this->email;
+	}
+
+	public function setEmail(int $email): void
+	{
+		$this->email = $email;
+	}
+
+	public function getPassword(): string
+	{
+		return $this->password;
+	}
+
+	public function setPassword(string $password): void
+	{
+		$this->password = $password;
+	}
+
+	public function getName(): string
+	{
+		return $this->name;
+	}
+
+	public function setName(string $name): void
+	{
+		$this->name = $name;
+	}
+
+	public function getDefaultCurrency(): Currency
+	{
+		return $this->defaultCurrency;
+	}
+
+	public function setDefaultCurrency(Currency $defaultCurrency): void
+	{
+		$this->defaultCurrency = $defaultCurrency;
 	}
 }

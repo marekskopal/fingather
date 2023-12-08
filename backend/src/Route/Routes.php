@@ -13,7 +13,8 @@ enum Routes: string
 	case Health = '/acl/health';
 
 	case AuthenticationLogin = '/api/authentication/login';
-	case BrokerId = '/api/broker/{brokerId:number}';
+	case Brokers = '/api/broker';
+	case Broker = '/api/broker/{brokerId:number}';
 	case Portfolio = '/api/portfolio';
 
 
@@ -25,7 +26,8 @@ enum Routes: string
 
 		$routeList->post(self::AuthenticationLogin->value, [AuthenticationController::class, 'actionPostLogin']);
 
-		$routeList->get(self::BrokerId->value, [BrokerController::class, 'actionGetBroker']);
+		$routeList->get(self::Brokers->value, [BrokerController::class, 'actionGetBrokers']);
+		$routeList->get(self::Broker->value, [BrokerController::class, 'actionGetBroker']);
 
 		$routeList->get(self::Portfolio->value, [PortfolioController::class, 'actionGetPortfolio']);
 

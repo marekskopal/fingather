@@ -14,9 +14,9 @@ class InitMigration extends Migration
     {
         $this->table('currencies')
         ->addColumn('id', 'primary', ['nullable' => false, 'default' => null, 'size' => 11])
-        ->addColumn('code', 'string', ['nullable' => false, 'default' => null, 'size' => 255])
-        ->addColumn('name', 'string', ['nullable' => false, 'default' => null, 'size' => 255])
-        ->addColumn('symbol', 'string', ['nullable' => false, 'default' => null, 'size' => 255])
+        ->addColumn('code', 'string', ['nullable' => false, 'default' => null, 'size' => 3])
+        ->addColumn('name', 'string', ['nullable' => false, 'default' => null, 'size' => 50])
+        ->addColumn('symbol', 'string', ['nullable' => false, 'default' => null, 'size' => 5])
         ->setPrimaryKeys(['id'])
         ->create();
         $this->table('users')
@@ -50,9 +50,9 @@ class InitMigration extends Migration
         $this->table('markets')
         ->addColumn('id', 'primary', ['nullable' => false, 'default' => null, 'size' => 11])
         ->addColumn('name', 'string', ['nullable' => false, 'default' => null, 'size' => 255])
-        ->addColumn('acronym', 'string', ['nullable' => false, 'default' => null, 'size' => 255])
-        ->addColumn('mic', 'string', ['nullable' => false, 'default' => null, 'size' => 255])
-        ->addColumn('country', 'string', ['nullable' => false, 'default' => null, 'size' => 255])
+        ->addColumn('acronym', 'string', ['nullable' => false, 'default' => null, 'size' => 20])
+        ->addColumn('mic', 'string', ['nullable' => false, 'default' => null, 'size' => 4])
+        ->addColumn('country', 'string', ['nullable' => false, 'default' => null, 'size' => 2])
         ->addColumn('city', 'string', ['nullable' => false, 'default' => null, 'size' => 255])
         ->addColumn('web', 'string', ['nullable' => false, 'default' => null, 'size' => 255])
         ->addColumn('currency_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
@@ -67,9 +67,8 @@ class InitMigration extends Migration
         ->create();
         $this->table('tickers')
         ->addColumn('id', 'primary', ['nullable' => false, 'default' => null, 'size' => 11])
-        ->addColumn('ticker', 'string', ['nullable' => false, 'default' => null, 'size' => 255])
+        ->addColumn('ticker', 'string', ['nullable' => false, 'default' => null, 'size' => 20])
         ->addColumn('name', 'string', ['nullable' => false, 'default' => null, 'size' => 255])
-        ->addColumn('symbol', 'string', ['nullable' => false, 'default' => null, 'size' => 255])
         ->addColumn('market_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
         ->addColumn('currency_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
         ->addIndex(['market_id'], ['name' => 'tickers_index_market_id_657179dd4f54a', 'unique' => false])
@@ -154,6 +153,13 @@ class InitMigration extends Migration
         ->addColumn('user_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
         ->addColumn('name', 'string', ['nullable' => false, 'default' => null, 'size' => 255])
         ->addColumn('import_type', 'enum', ['nullable' => false, 'default' => null, 'values' => ['Trading212', 'Revolut']])
+		->addIndex(['user_id'], ['name' => 'brokers_index_user_id_657179dd4f4c5', 'unique' => false])
+		->addForeignKey(['user_id'], 'users', ['id'], [
+			'name' => 'brokers_foreign_user_id_657179dd4f4c9',
+			'delete' => 'CASCADE',
+			'update' => 'CASCADE',
+			'indexCreate' => true,
+		])
         ->setPrimaryKeys(['id'])
         ->create();
         $this->table('exchange_rates')

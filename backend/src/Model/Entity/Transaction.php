@@ -21,29 +21,154 @@ final class Transaction
 
 	public function __construct(
 		#[RefersTo(target: User::class)]
-		public readonly User $user,
+		private User $user,
 		#[RefersTo(target: Asset::class)]
-		public readonly Asset $asset,
+		private Asset $asset,
 		#[RefersTo(target: Broker::class)]
-		public readonly Broker $broker,
+		private Broker $broker,
 		#[Column(type: 'enum(Undefined,Buy,Sell)')]
-		public readonly ActionTypeEnum $actionType,
+		private string $actionType,
 		#[Column(type: 'timestamp')]
-		public readonly \DateTime $created,
+		private \DateTime $created,
 		#[Column(type: 'decimal(10,10)')]
-		public readonly float $units,
+		private float $units,
 		#[Column(type: 'decimal(10,10)')]
-		public readonly float $priceUnit,
+		private float $priceUnit,
 		#[RefersTo(target: Currency::class)]
-		public readonly Currency $currency,
+		private Currency $currency,
 		#[Column(type: 'decimal(10,10)')]
-		public readonly float $exchangeRate,
+		private float $exchangeRate,
 		#[Column(type: 'decimal(10,10)')]
-		public readonly float $feeConversion,
+		private float $feeConversion,
 		#[Column(type: 'tinyText')]
-		public readonly ?string $notes,
+		private ?string $notes,
 		#[Column(type: 'string')]
-		public readonly ?string $importIdentifier,
+		private ?string $importIdentifier,
 	) {
+	}
+
+	public function getId(): int
+	{
+		return $this->id;
+	}
+
+	public function getUser(): User
+	{
+		return $this->user;
+	}
+
+	public function setUser(User $user): void
+	{
+		$this->user = $user;
+	}
+
+	public function getAsset(): Asset
+	{
+		return $this->asset;
+	}
+
+	public function setAsset(Asset $asset): void
+	{
+		$this->asset = $asset;
+	}
+
+	public function getBroker(): Broker
+	{
+		return $this->broker;
+	}
+
+	public function setBroker(Broker $broker): void
+	{
+		$this->broker = $broker;
+	}
+
+	public function getActionType(): string
+	{
+		return $this->actionType;
+	}
+
+	public function setActionType(string $actionType): void
+	{
+		$this->actionType = $actionType;
+	}
+
+	public function getCreated(): \DateTime
+	{
+		return $this->created;
+	}
+
+	public function setCreated(\DateTime $created): void
+	{
+		$this->created = $created;
+	}
+
+	public function getUnits(): float
+	{
+		return $this->units;
+	}
+
+	public function setUnits(float $units): void
+	{
+		$this->units = $units;
+	}
+
+	public function getPriceUnit(): float
+	{
+		return $this->priceUnit;
+	}
+
+	public function setPriceUnit(float $priceUnit): void
+	{
+		$this->priceUnit = $priceUnit;
+	}
+
+	public function getCurrency(): Currency
+	{
+		return $this->currency;
+	}
+
+	public function setCurrency(Currency $currency): void
+	{
+		$this->currency = $currency;
+	}
+
+	public function getExchangeRate(): float
+	{
+		return $this->exchangeRate;
+	}
+
+	public function setExchangeRate(float $exchangeRate): void
+	{
+		$this->exchangeRate = $exchangeRate;
+	}
+
+	public function getFeeConversion(): float
+	{
+		return $this->feeConversion;
+	}
+
+	public function setFeeConversion(float $feeConversion): void
+	{
+		$this->feeConversion = $feeConversion;
+	}
+
+	public function getNotes(): ?string
+	{
+		return $this->notes;
+	}
+
+	public function setNotes(?string $notes): void
+	{
+		$this->notes = $notes;
+	}
+
+	public function getImportIdentifier(): ?string
+	{
+		return $this->importIdentifier;
+	}
+
+	public function setImportIdentifier(?string $importIdentifier): void
+	{
+		$this->importIdentifier = $importIdentifier;
 	}
 }

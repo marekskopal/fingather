@@ -14,28 +14,113 @@ use FinGather\Model\Repository\CurrencyRepository;
 use FinGather\Model\Repository\DividendRepository;
 
 #[Entity(repository: DividendRepository::class)]
-final class Dividend
+class Dividend
 {
 	#[Column(type: 'primary')]
 	private int $id;
 
 	public function __construct(
 		#[RefersTo(target: Asset::class)]
-		public readonly Asset $asset,
+		private Asset $asset,
 		#[RefersTo(target: Broker::class)]
-		public readonly Broker $broker,
+		private Broker $broker,
 		#[Column(type: 'timestamp')]
-		public readonly \DateTime $paidDate,
+		private \DateTime $paidDate,
 		#[Column(type: 'decimal(10,10)')]
-		public readonly float $priceGross,
+		private float $priceGross,
 		#[Column(type: 'decimal(10,10)')]
-		public readonly float $priceNet,
+		private float $priceNet,
 		#[Column(type: 'decimal(10,10)')]
-		public readonly float $tax,
+		private float $tax,
 		#[RefersTo(target: Currency::class)]
-		public readonly Currency $currency,
+		private Currency $currency,
 		#[Column(type: 'decimal(10,10)')]
-		public readonly float $exchangeRate,
+		private float $exchangeRate,
 	) {
+	}
+
+	public function getId(): int
+	{
+		return $this->id;
+	}
+
+	public function getAsset(): Asset
+	{
+		return $this->asset;
+	}
+
+	public function setAsset(Asset $asset): void
+	{
+		$this->asset = $asset;
+	}
+
+	public function getBroker(): Broker
+	{
+		return $this->broker;
+	}
+
+	public function setBroker(Broker $broker): void
+	{
+		$this->broker = $broker;
+	}
+
+	public function getPaidDate(): \DateTime
+	{
+		return $this->paidDate;
+	}
+
+	public function setPaidDate(\DateTime $paidDate): void
+	{
+		$this->paidDate = $paidDate;
+	}
+
+	public function getPriceGross(): float
+	{
+		return $this->priceGross;
+	}
+
+	public function setPriceGross(float $priceGross): void
+	{
+		$this->priceGross = $priceGross;
+	}
+
+	public function getPriceNet(): float
+	{
+		return $this->priceNet;
+	}
+
+	public function setPriceNet(float $priceNet): void
+	{
+		$this->priceNet = $priceNet;
+	}
+
+	public function getTax(): float
+	{
+		return $this->tax;
+	}
+
+	public function setTax(float $tax): void
+	{
+		$this->tax = $tax;
+	}
+
+	public function getCurrency(): Currency
+	{
+		return $this->currency;
+	}
+
+	public function setCurrency(Currency $currency): void
+	{
+		$this->currency = $currency;
+	}
+
+	public function getExchangeRate(): float
+	{
+		return $this->exchangeRate;
+	}
+
+	public function setExchangeRate(float $exchangeRate): void
+	{
+		$this->exchangeRate = $exchangeRate;
 	}
 }

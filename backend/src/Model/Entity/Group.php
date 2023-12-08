@@ -13,16 +13,41 @@ use FinGather\Model\Repository\CurrencyRepository;
 use FinGather\Model\Repository\GroupRepository;
 
 #[Entity(repository: GroupRepository::class)]
-final class Group
+class Group
 {
 	#[Column(type: 'primary')]
 	private int $id;
 
 	public function __construct(
 		#[RefersTo(target: User::class)]
-		public readonly User $user,
+		private User $user,
 		#[Column(type: 'string')]
-		public readonly string $name,
+		private string $name,
 	) {
+	}
+
+	public function getId(): int
+	{
+		return $this->id;
+	}
+
+	public function getUser(): User
+	{
+		return $this->user;
+	}
+
+	public function setUser(User $user): void
+	{
+		$this->user = $user;
+	}
+
+	public function getName(): string
+	{
+		return $this->name;
+	}
+
+	public function setName(string $name): void
+	{
+		$this->name = $name;
 	}
 }

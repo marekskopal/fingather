@@ -10,18 +10,53 @@ use FinGather\Model\Repository\BrokerRepository;
 use FinGather\Model\Repository\CurrencyRepository;
 
 #[Entity(repository: CurrencyRepository::class)]
-final class Currency
+class Currency
 {
 	#[Column(type: 'primary')]
 	private int $id;
 
 	public function __construct(
-		#[Column(type: 'string')]
-		public readonly int $code,
-		#[Column(type: 'string')]
-		public readonly string $name,
-		#[Column(type: 'string')]
-		public readonly string $symbol,
+		#[Column(type: 'string(3)')]
+		private int $code,
+		#[Column(type: 'string(50)')]
+		private string $name,
+		#[Column(type: 'string(5)')]
+		private string $symbol,
 	) {
+	}
+
+	public function getId(): int
+	{
+		return $this->id;
+	}
+
+	public function getCode(): int
+	{
+		return $this->code;
+	}
+
+	public function setCode(int $code): void
+	{
+		$this->code = $code;
+	}
+
+	public function getName(): string
+	{
+		return $this->name;
+	}
+
+	public function setName(string $name): void
+	{
+		$this->name = $name;
+	}
+
+	public function getSymbol(): string
+	{
+		return $this->symbol;
+	}
+
+	public function setSymbol(string $symbol): void
+	{
+		$this->symbol = $symbol;
 	}
 }

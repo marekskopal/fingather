@@ -14,18 +14,53 @@ use FinGather\Model\Repository\CurrencyRepository;
 use FinGather\Model\Repository\ExchangeRateRepository;
 
 #[Entity(repository: ExchangeRateRepository::class)]
-final class ExchangeRate
+class ExchangeRate
 {
 	#[Column(type: 'primary')]
 	private int $id;
 
 	public function __construct(
 		#[RefersTo(target: Currency::class)]
-		public readonly Currency $currency,
+		private Currency $currency,
 		#[Column(type: 'timestamp')]
-		public readonly \DateTime $date,
+		private \DateTime $date,
 		#[Column(type: 'decimal(10,10)')]
-		public readonly float $rate,
+		private float $rate,
 	) {
+	}
+
+	public function getId(): int
+	{
+		return $this->id;
+	}
+
+	public function getCurrency(): Currency
+	{
+		return $this->currency;
+	}
+
+	public function setCurrency(Currency $currency): void
+	{
+		$this->currency = $currency;
+	}
+
+	public function getDate(): \DateTime
+	{
+		return $this->date;
+	}
+
+	public function setDate(\DateTime $date): void
+	{
+		$this->date = $date;
+	}
+
+	public function getRate(): float
+	{
+		return $this->rate;
+	}
+
+	public function setRate(float $rate): void
+	{
+		$this->rate = $rate;
 	}
 }
