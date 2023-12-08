@@ -37,7 +37,6 @@
         </properties>
     </rule>
     <rule ref="Generic.Functions.FunctionCallArgumentSpacing"/>
-    <rule ref="Generic.Functions.OpeningFunctionBraceBsdAllman"/>
     <rule ref="Generic.NamingConventions.ConstructorName"/>
     <rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
     <rule ref="Generic.PHP.CharacterBeforePHPOpeningTag"/>
@@ -46,11 +45,6 @@
     <rule ref="Generic.PHP.ForbiddenFunctions"/>
     <rule ref="Generic.PHP.LowerCaseConstant"/>
     <rule ref="Generic.PHP.LowerCaseKeyword"/>
-    <rule ref="Generic.Strings.UnnecessaryStringConcat">
-        <properties>
-            <property name="allowMultiLine" value="true"/>
-        </properties>
-    </rule>
     <rule ref="Generic.WhiteSpace.DisallowSpaceIndent"/>
     <rule ref="Generic.WhiteSpace.ScopeIndent">
         <properties>
@@ -64,7 +58,6 @@
     <rule ref="PEAR.WhiteSpace.ObjectOperatorIndent"/>
 
     <rule ref="PSR1.Classes.ClassDeclaration"/>
-    <rule ref="PSR1.Files.SideEffects"/>
     <rule ref="PSR1.Methods.CamelCapsMethodName"/>
     <rule ref="PSR2.Classes.PropertyDeclaration"/>
     <rule ref="PSR2.ControlStructures.ControlStructureSpacing">
@@ -107,22 +100,6 @@
         <exclude name="Squiz.Commenting.DocCommentAlignment.SpaceAfterStar"/><!-- space needed for indented annotations -->
     </rule>
     <rule ref="Squiz.Commenting.EmptyCatchComment"/>
-    <rule ref="Squiz.Commenting.FunctionComment">
-        <exclude name="Squiz.Commenting.FunctionComment.EmptyThrows"/><!-- @throws are forbidden -->
-        <exclude name="Squiz.Commenting.FunctionComment.IncorrectParamVarName"/><!-- Throws error with short type hint for integer and boolean -->
-        <exclude name="Squiz.Commenting.FunctionComment.IncorrectTypeHint"/><!-- Collection syntax such as string[] is not supported -->
-        <exclude name="Squiz.Commenting.FunctionComment.InvalidReturn"/><!-- Enforces incorrect types -->
-        <exclude name="Squiz.Commenting.FunctionComment.InvalidReturnNotVoid"/><!-- Is not able to detect return types such as string|null as correct -->
-        <exclude name="Squiz.Commenting.FunctionComment.InvalidThrows"/><!-- @throws are forbidden -->
-        <exclude name="Squiz.Commenting.FunctionComment.Missing"/><!-- PHPDoc is not required on all methods -->
-        <exclude name="Squiz.Commenting.FunctionComment.MissingParamComment"/><!-- Comments are not required for @param -->
-        <exclude name="Squiz.Commenting.FunctionComment.MissingReturn"/><!-- Void type is not used -->
-        <exclude name="Squiz.Commenting.FunctionComment.ParamCommentFullStop"/><!-- Comments don't have to be sentences -->
-        <exclude name="Squiz.Commenting.FunctionComment.ParamCommentNotCapital"/><!-- Comments don't have to be sentences -->
-        <exclude name="Squiz.Commenting.FunctionComment.ScalarTypeHintMissing"/><!-- Works only for code requiring PHP 7 code or better -->
-        <exclude name="Squiz.Commenting.FunctionComment.SpacingAfterParamType"/><!-- We don't want spacing with alignment -->
-        <exclude name="Squiz.Commenting.FunctionComment.SpacingAfterParamName"/><!-- We don't want spacing with alignment -->
-    </rule>
     <rule ref="Squiz.Commenting.FunctionComment.DuplicateReturn">
         <message>Only 1 @return annotation is allowed in a function comment</message>
     </rule>
@@ -131,9 +108,6 @@
     </rule>
     <rule ref="Squiz.Commenting.FunctionComment.InvalidNoReturn">
         <message>Function has no return statement, but annotation @return is present</message>
-    </rule>
-    <rule ref="Squiz.Commenting.FunctionComment.MissingParamTag">
-        <message>@param annotation for parameter "%s" missing</message>
     </rule>
     <rule ref="Squiz.ControlStructures.ControlSignature"/>
     <rule ref="Squiz.ControlStructures.ForEachLoopDeclaration"/>
@@ -153,11 +127,6 @@
         <exclude name="Squiz.Operators.IncrementDecrementUsage.NoBrackets"/><!-- Afaik there is no need for brackets -->
     </rule>
     <rule ref="Squiz.Operators.ValidLogicalOperators"/>
-    <rule ref="Squiz.PHP.CommentedOutCode">
-        <properties>
-            <property name="maxPercentage" value="50"/>
-        </properties>
-    </rule>
     <rule ref="Squiz.PHP.GlobalKeyword"/>
     <rule ref="Squiz.PHP.Heredoc"/>
     <rule ref="Squiz.PHP.InnerFunctions"/>
@@ -179,13 +148,19 @@
     <rule ref="Squiz.WhiteSpace.CastSpacing"/>
     <rule ref="Squiz.WhiteSpace.FunctionOpeningBraceSpace"/>
     <rule ref="Squiz.WhiteSpace.FunctionSpacing">
-        <exclude name="Squiz.WhiteSpace.FunctionSpacing.After"/><!-- does not allow PHPUnit ignore comments -->
         <properties>
             <property name="spacing" value="1"/>
+            <property name="spacingBeforeFirst" value="0"/>
+            <property name="spacingAfterLast" value="0"/>
         </properties>
     </rule>
     <rule ref="Squiz.WhiteSpace.LogicalOperatorSpacing"/>
-    <rule ref="Squiz.WhiteSpace.MemberVarSpacing"/>
+    <rule ref="Squiz.WhiteSpace.MemberVarSpacing">
+        <properties>
+            <property name="spacingBeforeFirst" value="0"/>
+            <property name="spacingAfterLast" value="0"/>
+        </properties>
+    </rule>
     <rule ref="Squiz.WhiteSpace.ObjectOperatorSpacing">
         <properties>
             <property name="ignoreNewlines" value="true"/>
@@ -212,7 +187,12 @@
     <rule ref="SlevomatCodingStandard.Classes.DisallowLateStaticBindingForConstants"/>
     <rule ref="SlevomatCodingStandard.Classes.DisallowMultiConstantDefinition"/>
     <rule ref="SlevomatCodingStandard.Classes.DisallowMultiPropertyDefinition"/>
-    <rule ref="SlevomatCodingStandard.Classes.EmptyLinesAroundClassBraces"/>
+    <rule ref="SlevomatCodingStandard.Classes.EmptyLinesAroundClassBraces">
+        <properties>
+            <property name="linesCountAfterOpeningBrace" value="0"/>
+            <property name="linesCountBeforeClosingBrace" value="0"/>
+        </properties>
+    </rule>
     <rule ref="SlevomatCodingStandard.Classes.MethodSpacing"/>
     <rule ref="SlevomatCodingStandard.Classes.ModernClassNameReference"/>
     <rule ref="SlevomatCodingStandard.Classes.ParentCallSpacing"/>
@@ -276,6 +256,7 @@
     </rule>
     <rule ref="SlevomatCodingStandard.Commenting.ForbiddenComments"/>
     <rule ref="SlevomatCodingStandard.Commenting.InlineDocCommentDeclaration"/>
+    <rule ref="SlevomatCodingStandard.Commenting.RequireOneLineDocComment"/>
     <rule ref="SlevomatCodingStandard.Commenting.RequireOneLinePropertyDocComment"/>
     <rule ref="SlevomatCodingStandard.Commenting.UselessFunctionDocComment"/>
     <rule ref="SlevomatCodingStandard.Commenting.UselessInheritDocComment"/>
@@ -291,7 +272,7 @@
     </rule>
     <rule ref="SlevomatCodingStandard.ControlStructures.DisallowContinueWithoutIntegerOperandInSwitch"/>
     <rule ref="SlevomatCodingStandard.ControlStructures.DisallowEmpty"/>
-    <rule ref="SlevomatCodingStandard.ControlStructures.DisallowNullSafeObjectOperator"/>
+    <rule ref="SlevomatCodingStandard.ControlStructures.RequireNullSafeObjectOperator"/>
     <rule ref="SlevomatCodingStandard.ControlStructures.DisallowYodaComparison"/>
     <rule ref="SlevomatCodingStandard.ControlStructures.EarlyExit">
         <properties>
@@ -350,9 +331,7 @@
         </properties>
     </rule>
 
-
     <rule ref="SlevomatCodingStandard.Functions.DisallowEmptyFunction"/>
-    <rule ref="SlevomatCodingStandard.Functions.StaticClosure"/>
     <rule ref="SlevomatCodingStandard.Functions.StrictCall"/>
     <rule ref="SlevomatCodingStandard.Functions.RequireMultiLineCall">
         <properties>
@@ -366,7 +345,6 @@
     </rule>
     <rule ref="SlevomatCodingStandard.Functions.UselessParameterDefaultValue"/>
     <rule ref="SlevomatCodingStandard.Functions.UnusedInheritedVariablePassedToClosure"/>
-    <rule ref="SlevomatCodingStandard.Functions.UnusedParameter"/>
 
     <rule ref="SlevomatCodingStandard.Namespaces.AlphabeticallySortedUses">
         <properties>
@@ -382,7 +360,7 @@
             <property name="searchAnnotations" value="true"/>
             <property name="allowFallbackGlobalFunctions" value="true"/>
             <property name="allowFallbackGlobalConstants" value="false"/>
-            <property name="allowFullyQualifiedExceptions" value="false"/>
+            <property name="allowFullyQualifiedExceptions" value="true"/>
             <property name="allowFullyQualifiedNameForCollidingClasses" value="true"/>
             <property name="allowFullyQualifiedNameForCollidingFunctions" value="true"/>
             <property name="allowFullyQualifiedNameForCollidingConstants" value="true"/>
@@ -423,7 +401,8 @@
 
     <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes">
         <properties>
-            <property name="declareOnFirstLine" value="true"/>
+            <property name="declareOnFirstLine" value="false"/>
+            <property name="spacesCountAroundEqualsSign" value="0"/>
         </properties>
     </rule>
     <rule ref="SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint">
@@ -443,7 +422,6 @@
     <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHintSpacing"/>
     <rule ref="SlevomatCodingStandard.TypeHints.UselessConstantTypeHint"/>
 
-    <rule ref="SlevomatCodingStandard.Variables.DisallowSuperGlobalVariable"/>
     <rule ref="SlevomatCodingStandard.Variables.DuplicateAssignmentToVariable"/>
     <rule ref="SlevomatCodingStandard.Variables.UnusedVariable"/>
     <rule ref="SlevomatCodingStandard.Variables.UselessVariable"/>

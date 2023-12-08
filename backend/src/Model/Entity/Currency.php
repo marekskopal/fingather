@@ -6,7 +6,6 @@ namespace FinGather\Model\Entity;
 
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
-use FinGather\Model\Repository\BrokerRepository;
 use FinGather\Model\Repository\CurrencyRepository;
 
 #[Entity(repository: CurrencyRepository::class)]

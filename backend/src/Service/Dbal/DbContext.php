@@ -24,12 +24,10 @@ use Cycle\Schema\Generator\ForeignKeys;
 use Cycle\Schema\Generator\GenerateModifiers;
 use Cycle\Schema\Generator\GenerateRelations;
 use Cycle\Schema\Generator\GenerateTypecast;
-use Cycle\Schema\Generator\Migrations\GenerateMigrations;
 use Cycle\Schema\Generator\RenderModifiers;
 use Cycle\Schema\Generator\RenderRelations;
 use Cycle\Schema\Generator\RenderTables;
 use Cycle\Schema\Generator\ResetTables;
-use Cycle\Schema\Generator\SyncTables;
 use Cycle\Schema\Generator\ValidateEntities;
 use Cycle\Schema\Registry;
 use Spiral\Tokenizer\ClassLocator;
@@ -48,18 +46,15 @@ class DbContext
 	 * @param non-empty-string $user
 	 * @param non-empty-string $password
 	 */
-	public function __construct(
-		string $dsn,
-		string $user,
-		string $password,
-	) {
+	public function __construct(string $dsn, string $user, string $password)
+	{
 		$dbal = new DatabaseManager(
 			new DatabaseConfig([
 				'default' => 'default',
 				'databases' => [
 					'default' => [
-						'connection' => 'mariadb'
-					]
+						'connection' => 'mariadb',
+					],
 				],
 				'connections' => [
 					'mariadb' => new MySQLDriverConfig(
@@ -67,10 +62,10 @@ class DbContext
 							dsn: $dsn,
 							user: $user,
 							password: $password,
-						)
+						),
 					),
-				]
-			])
+				],
+			]),
 		);
 
 		$finder = (new Finder())->files()->in([
@@ -79,8 +74,10 @@ class DbContext
 		$classLocator = new ClassLocator($finder);
 
 		$migrationConfig = new MigrationConfig([
-			'directory' => __DIR__ . '/../../../migrations/',  // where to store migrations
-			'table' => 'migrations'                      // database table to store migration status
+			// where to store migrations
+			'directory' => __DIR__ . '/../../../migrations/',
+			// database table to store migration status
+			'table' => 'migrations',
 		]);
 
 		$this->migrator = new Migrator($migrationConfig, $dbal, new FileRepository($migrationConfig));
@@ -93,20 +90,34 @@ class DbContext
 		$this->registry = new Registry($dbal);
 
 		$schema = (new Compiler())->compile($this->registry, [
-			new ResetTables(),             // Reconfigure table schemas (deletes columns if necessary)
-			new Embeddings($classLocator),        // Recognize embeddable entities
-			new Entities($classLocator),          // Identify attributed entities
-			new TableInheritance(),               // Setup Single Table or Joined Table Inheritance
-			new MergeColumns(),                   // Integrate table #[Column] attributes
-			new GenerateRelations(),       // Define entity relationships
-			new GenerateModifiers(),       // Apply schema modifications
-			new ValidateEntities(),        // Ensure entity schemas adhere to conventions
-			new RenderTables(),            // Create table schemas
-			new RenderRelations(),         // Establish keys and indexes for relationships
-			new RenderModifiers(),         // Implement schema modifications
-			new ForeignKeys(),             // Define foreign key constraints
-			new MergeIndexes(),                   // Merge table index attributes
-			new GenerateTypecast(),        // Typecast non-string columns
+			// Reconfigure table schemas (deletes columns if necessary)
+			new ResetTables(),
+			// Recognize embeddable entities
+			new Embeddings($classLocator),
+			// Identify attributed entities
+			new Entities($classLocator),
+			// Setup Single Table or Joined Table Inheritance
+			new TableInheritance(),
+			// Integrate table #[Column] attributes
+			new MergeColumns(),
+			// Define entity relationships
+			new GenerateRelations(),
+			// Apply schema modifications
+			new GenerateModifiers(),
+			// Ensure entity schemas adhere to conventions
+			new ValidateEntities(),
+			// Create table schemas
+			new RenderTables(),
+			// Establish keys and indexes for relationships
+			new RenderRelations(),
+			// Implement schema modifications
+			new RenderModifiers(),
+			// Define foreign key constraints
+			new ForeignKeys(),
+			// Merge table index attributes
+			new MergeIndexes(),
+			// Typecast non-string columns
+			new GenerateTypecast(),
 		]);
 
 		$this->orm = new ORM(new Factory($dbal), new Schema($schema));

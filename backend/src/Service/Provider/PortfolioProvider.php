@@ -6,5 +6,4 @@ namespace FinGather\Service\Provider;
 
 class PortfolioProvider
 {
-
 }

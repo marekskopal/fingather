@@ -7,7 +7,6 @@ namespace FinGather\Model\Entity;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\RefersTo;
-use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Model\Repository\BrokerRepository;
 
 #[Entity(repository: BrokerRepository::class)]

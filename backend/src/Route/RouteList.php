@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace FinGather\Route;
 
 use League\Route\Router;

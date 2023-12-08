@@ -6,10 +6,7 @@ namespace FinGather\Dto;
 
 final readonly class AuthorizationDto
 {
-	public function __construct(
-		public string $token,
-		public int $tokenExpirationTime,
-		public int $id,
-	) {
+	public function __construct(public string $token, public int $tokenExpirationTime, public int $id,)
+	{
 	}
 }

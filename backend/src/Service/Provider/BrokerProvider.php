@@ -11,14 +11,11 @@ use FinGather\Model\Repository\BrokerRepository;
 
 class BrokerProvider
 {
-	public function __construct(
-		private readonly BrokerRepository $brokerRepository,
-	) {
+	public function __construct(private readonly BrokerRepository $brokerRepository)
+	{
 	}
 
-	/**
-	 * @return list<BrokerDto>
-	 */
+	/** @return list<BrokerDto> */
 	public function getBrokers(): array
 	{
 		$brokers = [];

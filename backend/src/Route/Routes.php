@@ -17,7 +17,6 @@ enum Routes: string
 	case Broker = '/api/broker/{brokerId:number}';
 	case Portfolio = '/api/portfolio';
 
-
 	public static function getRouteList(): RouteList
 	{
 		$routeList = new RouteList();

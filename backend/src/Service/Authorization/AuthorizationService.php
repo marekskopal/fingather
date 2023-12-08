@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace FinGather\Service\Authorization;
 
 use FinGather\Dto\AuthorizationDto;
@@ -10,9 +12,8 @@ use Firebase\JWT\JWT;
 
 final class AuthorizationService
 {
-	public function __construct(
-		private readonly UserRepository $userRepository,
-	) {
+	public function __construct(private readonly UserRepository $userRepository)
+	{
 	}
 
 	public function authorize(CredentialsDto $credential): AuthorizationDto

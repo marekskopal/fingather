@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace FinGather\Response;
 
 class NotFoundResponse extends AErrorResponse

@@ -6,11 +6,8 @@ namespace FinGather\Model\Entity;
 
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
-use Cycle\Annotated\Annotation\Relation\HasOne;
 use Cycle\Annotated\Annotation\Relation\RefersTo;
-use FinGather\Model\Entity\Enum\ActionTypeEnum;
-use FinGather\Model\Repository\BrokerRepository;
-use FinGather\Model\Repository\CurrencyRepository;
+use DateTime;
 use FinGather\Model\Repository\TransactionRepository;
 
 #[Entity(repository: TransactionRepository::class)]
@@ -26,7 +23,7 @@ final class Transaction extends AEntity
 		#[Column(type: 'enum(Undefined,Buy,Sell)')]
 		private string $actionType,
 		#[Column(type: 'timestamp')]
-		private \DateTime $created,
+		private DateTime $created,
 		#[Column(type: 'decimal(10,10)')]
 		private float $units,
 		#[Column(type: 'decimal(10,10)')]
@@ -84,12 +81,12 @@ final class Transaction extends AEntity
 		$this->actionType = $actionType;
 	}
 
-	public function getCreated(): \DateTime
+	public function getCreated(): DateTime
 	{
 		return $this->created;
 	}
 
-	public function setCreated(\DateTime $created): void
+	public function setCreated(DateTime $created): void
 	{
 		$this->created = $created;
 	}

@@ -6,12 +6,9 @@ namespace FinGather\Model\Entity;
 
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
-use Cycle\Annotated\Annotation\Relation\HasOne;
 use Cycle\Annotated\Annotation\Relation\RefersTo;
-use FinGather\Model\Repository\BrokerRepository;
-use FinGather\Model\Repository\CurrencyRepository;
+use DateTime;
 use FinGather\Model\Repository\TickerDataRepository;
-use FinGather\Model\Repository\TickerRepository;
 
 #[Entity(repository: TickerDataRepository::class)]
 final class TickerData extends AEntity
@@ -20,7 +17,7 @@ final class TickerData extends AEntity
 		#[RefersTo(target: Currency::class)]
 		private Ticker $ticker,
 		#[Column(type: 'timestamp')]
-		private \DateTime $date,
+		private DateTime $date,
 		#[Column(type: 'decimal(10,10)')]
 		private float $open,
 		#[Column(type: 'decimal(10,10)')]
@@ -46,12 +43,12 @@ final class TickerData extends AEntity
 		$this->ticker = $ticker;
 	}
 
-	public function getDate(): \DateTime
+	public function getDate(): DateTime
 	{
 		return $this->date;
 	}
 
-	public function setDate(\DateTime $date): void
+	public function setDate(DateTime $date): void
 	{
 		$this->date = $date;
 	}

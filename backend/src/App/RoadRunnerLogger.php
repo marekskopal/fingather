@@ -10,6 +10,14 @@ use Tracy\Bridges\Psr\TracyToPsrLoggerAdapter;
 use Tracy\Debugger;
 use Tracy\Helpers;
 use Tracy\Logger;
+use function Safe\file_put_contents;
+use function Safe\ini_set;
+use function Safe\json_encode;
+use function Safe\mb_internal_encoding;
+use function Safe\preg_replace;
+use const E_ALL;
+use const FILE_APPEND;
+use const PHP_EOL;
 
 class RoadRunnerLogger
 {
@@ -17,14 +25,14 @@ class RoadRunnerLogger
 	{
 		// @see https://github.com/nette/tracy/issues/280
 		Debugger::setLogger(new class ($directory) extends Logger {
-			public static function formatLogLine($message, ?string $exceptionFile = null): string
+			public static function formatLogLine(mixed $message, ?string $exceptionFile = null): string
 			{
 				// Legito: remove date() from log line and append Stack trace
 				return implode(' ', [
-						\Safe\preg_replace('#\s*\r?\n\s*#', ' ', static::formatMessage($message)),
-						' @  ' . Helpers::getSource(),
-						$exceptionFile ? ' @@  ' . basename($exceptionFile) : null,
-					]) . ($message instanceof \Throwable ? PHP_EOL . strstr((string) $message, 'Stack trace:') : '');
+					preg_replace('#\s*\r?\n\s*#', ' ', static::formatMessage($message)),
+					' @  ' . Helpers::getSource(),
+					$exceptionFile ? ' @@  ' . basename($exceptionFile) : null,
+				]) . ($message instanceof \Throwable ? PHP_EOL . strstr((string) $message, 'Stack trace:') : '');
 			}
 
 			public function log(mixed $message, string $level = self::INFO): ?string
@@ -38,15 +46,15 @@ class RoadRunnerLogger
 				$exceptionFile = parent::log($message, $level);
 
 				set_error_handler(
-					function ($severity, $message, $file, $line) {
+					function ($severity, $message, $file, $line): void {
 						throw new ErrorException($message, $severity, $severity, $file, $line);
 					},
 				);
 
 				try {
 					$log = static::formatLogLine($message, $exceptionFile);
-					$log = str_replace(' @@ ', \Safe\json_encode($context ?? []) . ' @@ ', $log);
-					\Safe\file_put_contents('php://stderr', $log, FILE_APPEND);
+					$log = str_replace(' @@ ', json_encode($context ?? []) . ' @@ ', $log);
+					file_put_contents('php://stderr', $log, FILE_APPEND);
 				} finally {
 					restore_error_handler();
 				}
@@ -55,11 +63,14 @@ class RoadRunnerLogger
 			}
 		});
 
-		\Safe\mb_internal_encoding('UTF-8');
+		mb_internal_encoding('UTF-8');
 		error_reporting(E_ALL);
-		\Safe\ini_set('display_errors', 'stderr'); // RoadRunner logger collects stderr output
-		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'roadrunner/sapi'; // Force Tracy to send error response in php-cli mode
-		Debugger::$strictMode = true; // Convert E_WARNING to \ErrorException
+		// RoadRunner logger collects stderr output
+		ini_set('display_errors', 'stderr');
+		// Force Tracy to send error response in php-cli mode
+		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'roadrunner/sapi';
+		// Convert E_WARNING to \ErrorException
+		Debugger::$strictMode = true;
 		Debugger::enable(true, $directory);
 
 		return new TracyToPsrLoggerAdapter(Debugger::getLogger());

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace FinGather\Command;
 
 use FinGather\Service\Dbal\DbContext;
@@ -16,15 +18,12 @@ class MigrationRunCommand extends Command
 
 	protected function execute(InputInterface $input, OutputInterface $output): int
 	{
-		$dbContext = new DbContext(
-			dsn: 'mysql:host=db;dbname=fingather',
-			user: 'fingather',
-			password: 'fingather',
-		);
+		$dbContext = new DbContext(dsn: 'mysql:host=db;dbname=fingather', user: 'fingather', password: 'fingather');
 
 		$migrator = $dbContext->getMigrator();
 
-		while($migrator->run() !== null) { }
+		while ($migrator->run() !== null) { //phpcs:ignore
+		}
 
 		return 0;
 	}

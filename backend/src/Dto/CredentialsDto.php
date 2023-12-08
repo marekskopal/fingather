@@ -4,15 +4,11 @@ declare(strict_types=1);
 
 namespace FinGather\Dto;
 
-use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
+use SensitiveParameter;
 
 final readonly class CredentialsDto
 {
-	public function __construct(
-		#[\SensitiveParameter]
-		public string $email,
-		#[\SensitiveParameter]
-		public string $password,
-	) {
+	public function __construct(#[SensitiveParameter] public string $email, #[SensitiveParameter] public string $password,)
+	{
 	}
 }

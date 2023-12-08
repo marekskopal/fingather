@@ -79,11 +79,7 @@ class Application
 
 	private function initOrm(): ORM
 	{
-		$dbContext = new DbContext(
-			dsn: 'mysql:host=db;dbname=fingather',
-			user: 'fingather',
-			password: 'fingather',
-		);
+		$dbContext = new DbContext(dsn: 'mysql:host=db;dbname=fingather', user: 'fingather', password: 'fingather');
 
 		return $dbContext->getOrm();
 	}
