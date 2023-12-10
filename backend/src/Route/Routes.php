@@ -27,6 +27,9 @@ enum Routes: string
 
 		$routeList->get(self::Brokers->value, [BrokerController::class, 'actionGetBrokers']);
 		$routeList->get(self::Broker->value, [BrokerController::class, 'actionGetBroker']);
+		$routeList->post(self::Brokers->value, [BrokerController::class, 'actionCreateBroker']);
+		$routeList->put(self::Broker->value, [BrokerController::class, 'actionUpdateBroker']);
+		$routeList->delete(self::Broker->value, [BrokerController::class, 'actionDeleteBroker']);
 
 		$routeList->get(self::Portfolio->value, [PortfolioController::class, 'actionGetPortfolio']);
 

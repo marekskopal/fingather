@@ -12,6 +12,8 @@ use Firebase\JWT\JWT;
 
 final class AuthorizationService
 {
+	public const TokenAlgorithm = 'HS256';
+
 	public function __construct(private readonly UserRepository $userRepository)
 	{
 	}
@@ -43,6 +45,6 @@ final class AuthorizationService
 		return JWT::encode([
 			'id' => $userId,
 			'exp' => $exp,
-		], $key, 'HS256');
+		], $key, self::TokenAlgorithm);
 	}
 }

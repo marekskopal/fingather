@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace FinGather\Route\Strategy;
 
+use FinGather\Middleware\Exception\NotAuthorizedException;
+use FinGather\Response\ErrorResponse;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Log\LoggerInterface;
-use function Safe\json_encode;
 
 class JsonStrategy extends \League\Route\Strategy\JsonStrategy
 {
@@ -21,9 +22,9 @@ class JsonStrategy extends \League\Route\Strategy\JsonStrategy
 
 	public function getThrowableHandler(): MiddlewareInterface
 	{
-		return new class ($this->responseFactory->createResponse(), $this->logger) implements MiddlewareInterface
+		return new class ($this->logger) implements MiddlewareInterface
 		{
-			public function __construct(private readonly ResponseInterface $response, private readonly LoggerInterface $logger,)
+			public function __construct(private readonly LoggerInterface $logger,)
 			{
 			}
 
@@ -32,21 +33,15 @@ class JsonStrategy extends \League\Route\Strategy\JsonStrategy
 				try {
 					return $handler->handle($request);
 				} catch (\Throwable $exception) {
-					$response = $this->response;
-
-					if ($exception instanceof \League\Route\Http\Exception) {
-						return $exception->buildJsonResponse($response);
+					switch ($exception::class) {
+						case NotAuthorizedException::class:
+							$this->logger->warning($exception);
+							break;
+						default:
+							$this->logger->error($exception);
 					}
 
-					$this->logger->error($exception);
-
-					$response->getBody()->write(json_encode([
-						'status_code' => 500,
-						'reason_phrase' => $exception->getMessage(),
-					]));
-
-					$response = $response->withAddedHeader('content-type', 'application/json');
-					return $response->withStatus(500, (string) strtok($exception->getMessage(), "\n"));
+					return ErrorResponse::fromException($exception);
 				}
 			}
 		};

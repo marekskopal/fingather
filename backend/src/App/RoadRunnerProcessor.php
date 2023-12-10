@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace FinGather\App;
 
+use FinGather\Middleware\Exception\NotAuthorizedException;
+use FinGather\Response\ErrorResponse;
 use Nyholm\Psr7\Factory\Psr17Factory;
-use Nyholm\Psr7\Response;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Log\LoggerInterface;
@@ -13,7 +14,6 @@ use Spiral\RoadRunner\Http\PSR7Worker;
 use Spiral\RoadRunner\Worker;
 use Throwable;
 use function Safe\file_put_contents;
-use function Safe\json_encode;
 use const FILE_APPEND;
 
 final class RoadRunnerProcessor
@@ -40,14 +40,8 @@ final class RoadRunnerProcessor
 					return;
 				}
 
-				//try {
-					$response = $handler->handle($request);
-					$this->psr7->respond($response);
-				//} catch (UnauthorizedException $e) {
-				//	// FIXME: UnauthorizedException is Acl-only code. Push into middleware
-				//	$this->psr7->respond(new UnauthorizedResponse());
-				//	$logger?->warning($e);
-				//}
+				$response = $handler->handle($request);
+				$this->psr7->respond($response);
 
 				// Clean up hanging references
 				gc_collect_cycles();
@@ -59,16 +53,20 @@ final class RoadRunnerProcessor
 
 	public function handleException(\Throwable $e, ?LoggerInterface $logger, ?ServerRequestInterface $request): void
 	{
-		$code = $e->getCode() >= 100 && $e->getCode() <= 999 ? $e->getCode() : 500;
-		$body = json_encode(['status_code' => $code, 'error' => $e->getMessage() ?: 'Internal Server Error']);
-
 		if ($logger === null) {
 			// Failsafe in case the logger is not initialized yet
 			file_put_contents('php://stderr', __METHOD__ . ': ' . (string) $e, FILE_APPEND);
 		} else {
 			/** @see Application::initLogger() */
+
 			// Warning: do not add context: here, it will totally flood the log
-			$logger->error($e);
+			switch ($e::class) {
+				case NotAuthorizedException::class:
+					$logger->warning($e);
+					break;
+				default:
+					$logger->error($e);
+			}
 		}
 
 		if ($request === null) {
@@ -77,7 +75,7 @@ final class RoadRunnerProcessor
 			$this->psr7->waitRequest();
 		}
 
-		$this->psr7->respond(new Response((int) $code, ['content-type' => 'application/json'], $body));
+		$this->psr7->respond(ErrorResponse::fromException($e));
 
 		// Stop and pass the request to the next worker process
 		$this->psr7->getWorker()->stop();

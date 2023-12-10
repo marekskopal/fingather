@@ -10,6 +10,13 @@ use FinGather\Model\Entity\User;
 /** @extends Repository<User> */
 class UserRepository extends Repository
 {
+	public function findUserById(string $userId): ?User
+	{
+		return $this->findOne([
+			'id' => $userId,
+		]);
+	}
+
 	public function findUserByEmail(string $email): ?User
 	{
 		return $this->findOne([

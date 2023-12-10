@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FinGather\App;
 
 use Cycle\ORM\ORM;
+use FinGather\Middleware\AuthorizationMiddleware;
 use FinGather\Model\Entity\Broker;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\BrokerRepository;
@@ -70,6 +71,10 @@ class Application
 
 		$router = new Router();
 		$router->setStrategy($strategy);
+
+		$authorizationMiddleware = $container->get(AuthorizationMiddleware::class);
+		assert($authorizationMiddleware instanceof AuthorizationMiddleware);
+		$router->middleware($authorizationMiddleware);
 
 		$routeList = Routes::getRouteList();
 		$routeList->setRouteListToRouter($router);
