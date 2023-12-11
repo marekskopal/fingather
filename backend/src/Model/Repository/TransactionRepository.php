@@ -4,10 +4,31 @@ declare(strict_types=1);
 
 namespace FinGather\Model\Repository;
 
-use Cycle\ORM\Select\Repository;
 use FinGather\Model\Entity\Transaction;
+use Safe\DateTime;
 
-/** @extends Repository<Transaction> */
-class TransactionRepository extends Repository
+/** @extends ARepository<Transaction> */
+class TransactionRepository extends ARepository
 {
+	public function findOpenTransactions(int $userId, DateTime $dateTime): array
+	{
+		return $this->orm->getSource(Transaction::class)
+			->getDatabase()
+			->select()
+			->where([
+				'user_id' => $userId,
+				'created <= ?' => $dateTime->getTimestamp(),
+			])
+			->groupBy('asset_id')
+			->having('SUM(units)>0')
+			->fetchAll();
+	}
+
+	public function findTransactionByIdentifier(int $brokerId, string $identifier): ?Transaction
+	{
+		return $this->findOne([
+			'broker_id' => $brokerId,
+			'transaction_identifier' => $identifier,
+		]);
+	}
 }

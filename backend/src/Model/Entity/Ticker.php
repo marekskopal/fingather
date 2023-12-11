@@ -14,7 +14,7 @@ class Ticker extends AEntity
 {
 	public function __construct(
 		#[Column(type: 'string(20)')]
-		private int $ticker,
+		private string $ticker,
 		#[Column(type: 'string')]
 		private string $name,
 		#[RefersTo(target: Market::class)]
@@ -24,12 +24,12 @@ class Ticker extends AEntity
 	) {
 	}
 
-	public function getTicker(): int
+	public function getTicker(): string
 	{
 		return $this->ticker;
 	}
 
-	public function setTicker(int $ticker): void
+	public function setTicker(string $ticker): void
 	{
 		$this->ticker = $ticker;
 	}

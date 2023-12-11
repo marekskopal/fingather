@@ -17,7 +17,7 @@ abstract class ARepository extends Repository
 {
 	protected readonly EntityManager $entityManager;
 
-	public function __construct(Select $select, protected readonly ORM $orm,)
+	public function __construct(Select $select, protected readonly ORM $orm)
 	{
 		parent::__construct($select);
 

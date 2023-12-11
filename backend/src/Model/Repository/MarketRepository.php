@@ -10,4 +10,10 @@ use FinGather\Model\Entity\Market;
 /** @extends Repository<Market> */
 class MarketRepository extends Repository
 {
+	public function findMarkerByMic(string $mic): ?Market
+	{
+		return $this->findOne([
+			'mic' => $mic,
+		]);
+	}
 }

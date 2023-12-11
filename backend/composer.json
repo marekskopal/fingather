@@ -26,7 +26,9 @@
         "cycle/annotated": "^3.4",
         "symfony/console": "^7.0",
         "cycle/migrations": "^4.2",
-        "cycle/schema-migrations-generator": "^2.2"
+        "cycle/schema-migrations-generator": "^2.2",
+        "league/csv": "^9.12",
+        "kokspflanze/alpha-vantage-api": "^0.11.0"
 	},
     "require-dev": {
 		"phpstan/phpstan": "^1.10",

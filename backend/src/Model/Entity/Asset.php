@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Model\Entity;
 
 use Cycle\Annotated\Annotation\Entity;
+use Cycle\Annotated\Annotation\Relation\HasMany;
 use Cycle\Annotated\Annotation\Relation\RefersTo;
 use FinGather\Model\Repository\AssetRepository;
 
@@ -18,6 +19,8 @@ class Asset extends AEntity
 		private Ticker $ticker,
 		#[RefersTo(target: Group::class, nullable: true)]
 		private ?Group $group,
+		#[HasMany(target: Transaction::class)]
+		private array $transactions,
 	) {
 	}
 
@@ -49,5 +52,10 @@ class Asset extends AEntity
 	public function setGroup(?Group $group): void
 	{
 		$this->group = $group;
+	}
+
+	public function getTransactions(): array
+	{
+		return $this->transactions;
 	}
 }
