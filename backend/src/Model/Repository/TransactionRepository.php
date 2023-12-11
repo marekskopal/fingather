@@ -10,6 +10,7 @@ use Safe\DateTime;
 /** @extends ARepository<Transaction> */
 class TransactionRepository extends ARepository
 {
+	/** @return array<Transaction> */
 	public function findOpenTransactions(int $userId, DateTime $dateTime): array
 	{
 		return $this->orm->getSource(Transaction::class)

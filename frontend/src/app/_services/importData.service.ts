@@ -13,6 +13,6 @@ export class ImportDataService {
     ) {}
 
     create(importData: ImportData) {
-        return this.http.post(`${environment.apiUrl}/importdata`, importData);
+        return this.http.post(`${environment.apiUrl}/import-data`, importData);
     }
 }

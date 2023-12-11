@@ -7,6 +7,7 @@ namespace FinGather\Service\Import;
 use FinGather\Dto\BrokerDto;
 use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
+use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\AssetRepository;
 use FinGather\Model\Repository\TransactionRepository;
 use FinGather\Model\Repository\UserRepository;
@@ -16,6 +17,7 @@ use FinGather\Service\Import\Mapper\RevolutMapper;
 use FinGather\Service\Import\Mapper\Trading212Mapper;
 use FinGather\Service\Provider\TickerProvider;
 use League\Csv\Reader;
+use Safe\DateTime;
 
 final class ImportService
 {
@@ -35,9 +37,11 @@ final class ImportService
 		$importMapper = $this->getImportMapper($broker->importType);
 
 		$user = $this->userRepository->findUserById($broker->userId);
+		assert($user instanceof User);
 
 		$records = $csv->getRecords();
 		foreach ($records as $record) {
+			/** @var array<string, string> $record */
 			$transactionRecord = $this->mapTransactionRecord($importMapper, $record);
 
 			if (
@@ -71,12 +75,19 @@ final class ImportService
 		}
 	}
 
+	/** @param array<string, string> $csvRecord */
 	private function mapTransactionRecord(MapperInterface $mapper, array $csvRecord): TransactionRecord
 	{
 		$transactionRecord = new TransactionRecord();
 
 		foreach ($mapper->getMapping() as $attribute => $recordKey) {
-			$transactionRecord->{$attribute} = $csvRecord[$recordKey] ?? null;
+			$value = $csvRecord[$recordKey] ?? null;
+
+			if ($attribute === 'created' && $value !== null) {
+				$value = new DateTime($value);
+			}
+
+			$transactionRecord->{$attribute} = $value;
 		}
 
 		return $transactionRecord;

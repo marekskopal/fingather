@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Dto;
 
+use function Safe\base64_decode;
 use function Safe\json_decode;
 
 readonly class ImportDataDto
@@ -12,12 +13,16 @@ readonly class ImportDataDto
 	{
 	}
 
+	/** @param array{brokerId: int, data: string} $data */
 	public static function fromArray(array $data): self
 	{
-		return new self($data['brokerId'], $data['string']);
+		return new self(
+			brokerId: $data['brokerId'],
+			data: base64_decode(substr($data['data'], (int) strpos($data['data'], 'base64,') + 7)),
+		);
 	}
 
-	public static function fromJson(string $json)
+	public static function fromJson(string $json): self
 	{
 		/** @var array{brokerId: int, data: string} $data */
 		$data = json_decode($json, assoc: true);

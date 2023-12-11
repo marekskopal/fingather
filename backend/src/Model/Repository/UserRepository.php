@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace FinGather\Model\Repository;
 
-use Cycle\ORM\Select\Repository;
 use FinGather\Model\Entity\User;
 
-/** @extends Repository<User> */
-class UserRepository extends Repository
+/** @extends ARepository<User> */
+class UserRepository extends ARepository
 {
-	public function findUserById(string $userId): ?User
+	public function findUserById(int $userId): ?User
 	{
 		return $this->findOne([
 			'id' => $userId,

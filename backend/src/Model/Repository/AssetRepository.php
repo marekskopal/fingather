@@ -19,7 +19,7 @@ class AssetRepository extends ARepository
 
 		$transactionIds = [];
 		foreach ($transactionRepository->findOpenTransactions($userId, $dateTime) as $transaction) {
-			$transactionIds[] = $transaction->id;
+			$transactionIds[] = $transaction->getId();
 		}
 
 		return $this->findAll([

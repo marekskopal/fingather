@@ -6,6 +6,7 @@ namespace FinGather\Service\Import\Mapper;
 
 class RevolutMapper implements MapperInterface
 {
+	/** @return array<string, string> */
 	public function getMapping(): array
 	{
 		return [

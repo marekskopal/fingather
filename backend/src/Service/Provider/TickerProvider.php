@@ -22,9 +22,9 @@ class TickerProvider
 
 	public function getOrCreateTicker(string $ticker): ?Ticker
 	{
-		$ticker = $this->tickerRepository->findTickerByTicker($ticker);
-		if ($ticker !== null) {
-			return $ticker;
+		$tickerEntity = $this->tickerRepository->findTickerByTicker($ticker);
+		if ($tickerEntity !== null) {
+			return $tickerEntity;
 		}
 
 		$apiTicker = $this->alphaVantageApiClient->tickerSearch($ticker);

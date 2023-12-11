@@ -12,6 +12,7 @@ use FinGather\Model\Repository\AssetRepository;
 #[Entity(repository: AssetRepository::class)]
 class Asset extends AEntity
 {
+	/** @param array<Transaction> $transactions */
 	public function __construct(
 		#[RefersTo(target: User::class)]
 		private User $user,
@@ -54,6 +55,7 @@ class Asset extends AEntity
 		$this->group = $group;
 	}
 
+	/** @return array<Transaction> */
 	public function getTransactions(): array
 	{
 		return $this->transactions;

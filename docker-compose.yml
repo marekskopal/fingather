@@ -35,7 +35,7 @@ services:
             MYSQL_USER: ${MYSQL_USER}
             MYSQL_PASSWORD: ${MYSQL_PASSWORD}
             AUTHORIZATION_TOKEN_KEY: ${AUTHORIZATION_TOKEN_KEY}
-            ALPHAVANTAGEAPIKEY: ${ALPHAVANTAGEAPIKEY}
+            ALPHAVANTAGE_API_KEY: ${ALPHAVANTAGE_API_KEY}
         depends_on:
             - proxy
             - db

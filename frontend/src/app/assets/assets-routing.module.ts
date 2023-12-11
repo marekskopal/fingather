@@ -14,10 +14,10 @@ const routes: Routes = [
         path: '', component: LayoutComponent,
         children: [
             { path: '', component: ListComponent },
+            { path: 'import', loadChildren: importModule, canActivate: [AuthGuard] },
             { path: ':id', component: DetailComponent },
             { path: 'add', component: AddEditComponent },
             { path: 'edit/:id', component: AddEditComponent },
-            { path: 'import', loadChildren: importModule, canActivate: [AuthGuard] },
         ]
     }
 ];

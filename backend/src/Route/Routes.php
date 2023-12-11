@@ -6,6 +6,7 @@ namespace FinGather\Route;
 
 use FinGather\Controller\AuthenticationController;
 use FinGather\Controller\BrokerController;
+use FinGather\Controller\ImportDataController;
 use FinGather\Controller\PortfolioController;
 
 enum Routes: string
@@ -16,6 +17,8 @@ enum Routes: string
 	case Brokers = '/api/broker';
 	case Broker = '/api/broker/{brokerId:number}';
 	case Portfolio = '/api/portfolio';
+
+	case ImportData = '/api/import-data';
 
 	public static function getRouteList(): RouteList
 	{
@@ -30,6 +33,8 @@ enum Routes: string
 		$routeList->post(self::Brokers->value, [BrokerController::class, 'actionCreateBroker']);
 		$routeList->put(self::Broker->value, [BrokerController::class, 'actionUpdateBroker']);
 		$routeList->delete(self::Broker->value, [BrokerController::class, 'actionDeleteBroker']);
+
+		$routeList->post(self::ImportData->value, [ImportDataController::class, 'actionImportData']);
 
 		$routeList->get(self::Portfolio->value, [PortfolioController::class, 'actionGetPortfolio']);
 

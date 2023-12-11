@@ -6,9 +6,29 @@ namespace FinGather\App;
 
 use Cycle\ORM\ORM;
 use FinGather\Middleware\AuthorizationMiddleware;
+use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Broker;
+use FinGather\Model\Entity\Currency;
+use FinGather\Model\Entity\Dividend;
+use FinGather\Model\Entity\ExchangeRate;
+use FinGather\Model\Entity\Group;
+use FinGather\Model\Entity\Market;
+use FinGather\Model\Entity\Split;
+use FinGather\Model\Entity\Ticker;
+use FinGather\Model\Entity\TickerData;
+use FinGather\Model\Entity\Transaction;
 use FinGather\Model\Entity\User;
+use FinGather\Model\Repository\AssetRepository;
 use FinGather\Model\Repository\BrokerRepository;
+use FinGather\Model\Repository\CurrencyRepository;
+use FinGather\Model\Repository\DividendRepository;
+use FinGather\Model\Repository\ExchangeRateRepository;
+use FinGather\Model\Repository\GroupRepository;
+use FinGather\Model\Repository\MarketRepository;
+use FinGather\Model\Repository\SplitRepository;
+use FinGather\Model\Repository\TickerDataRepository;
+use FinGather\Model\Repository\TickerRepository;
+use FinGather\Model\Repository\TransactionRepository;
 use FinGather\Model\Repository\UserRepository;
 use FinGather\Route\Routes;
 use FinGather\Route\Strategy\JsonStrategy;
@@ -57,7 +77,17 @@ class Application
 		$orm = $container->get(ORM::class);
 		assert($orm instanceof ORM);
 
+		$container->add(AssetRepository::class, fn () => $orm->getRepository(Asset::class));
 		$container->add(BrokerRepository::class, fn () => $orm->getRepository(Broker::class));
+		$container->add(CurrencyRepository::class, fn () => $orm->getRepository(Currency::class));
+		$container->add(DividendRepository::class, fn () => $orm->getRepository(Dividend::class));
+		$container->add(ExchangeRateRepository::class, fn () => $orm->getRepository(ExchangeRate::class));
+		$container->add(GroupRepository::class, fn () => $orm->getRepository(Group::class));
+		$container->add(MarketRepository::class, fn () => $orm->getRepository(Market::class));
+		$container->add(SplitRepository::class, fn () => $orm->getRepository(Split::class));
+		$container->add(TickerDataRepository::class, fn () => $orm->getRepository(TickerData::class));
+		$container->add(TickerRepository::class, fn () => $orm->getRepository(Ticker::class));
+		$container->add(TransactionRepository::class, fn () => $orm->getRepository(Transaction::class));
 		$container->add(UserRepository::class, fn () => $orm->getRepository(User::class));
 
 		return $container;
