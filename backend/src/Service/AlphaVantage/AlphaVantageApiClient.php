@@ -25,7 +25,7 @@ final class AlphaVantageApiClient
 		$ticker = $this->sanitizeTicker($ticker);
 
 		$searchResults = $this->client->timeSeries()->symbolSearch($ticker);
-		foreach ($searchResults as $searchResult) {
+		foreach ($searchResults['bestMatches'] ?? [] as $searchResult) {
 			if ($searchResult['1. symbol'] === $ticker) {
 				return new TickerSearchDto(
 					symbol: $searchResult['1. symbol'],
@@ -36,7 +36,7 @@ final class AlphaVantageApiClient
 					marketClose: $searchResult['6. marketClose'],
 					timezone: $searchResult['7. timezone'],
 					currency: $searchResult['8. currency'],
-					matchScore: $searchResult['9. matchScore'],
+					matchScore: (float)$searchResult['9. matchScore'],
 				);
 			}
 		}

@@ -7,7 +7,7 @@ namespace FinGather\Model\Entity;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\RefersTo;
-use DateTime;
+use DateTimeImmutable;
 use FinGather\Model\Repository\DividendRepository;
 
 #[Entity(repository: DividendRepository::class)]
@@ -19,7 +19,7 @@ class Dividend extends AEntity
 		#[RefersTo(target: Broker::class)]
 		private Broker $broker,
 		#[Column(type: 'timestamp')]
-		private DateTime $paidDate,
+		private DateTimeImmutable $paidDate,
 		#[Column(type: 'decimal(10,10)')]
 		private float $priceGross,
 		#[Column(type: 'decimal(10,10)')]
@@ -53,12 +53,12 @@ class Dividend extends AEntity
 		$this->broker = $broker;
 	}
 
-	public function getPaidDate(): DateTime
+	public function getPaidDate(): DateTimeImmutable
 	{
 		return $this->paidDate;
 	}
 
-	public function setPaidDate(DateTime $paidDate): void
+	public function setPaidDate(DateTimeImmutable $paidDate): void
 	{
 		$this->paidDate = $paidDate;
 	}

@@ -28,40 +28,30 @@ class BrokerProvider
 		return $brokers;
 	}
 
-	public function getBroker(User $user, int $brokerId): ?BrokerDto
+	public function getBroker(User $user, int $brokerId): ?Broker
 	{
-		$broker = $this->brokerRepository->findBroker($brokerId, $user->getId());
-		if ($broker === null) {
-			return null;
-		}
-
-		return BrokerDto::fromEntity($broker);
+		return $this->brokerRepository->findBroker($brokerId, $user->getId());
 	}
 
-	public function createBroker(User $user, string $name, BrokerImportTypeEnum $importType): BrokerDto
+	public function createBroker(User $user, string $name, BrokerImportTypeEnum $importType): Broker
 	{
 		$broker = new Broker(user: $user, name: $name, importType: $importType->value);
 		$this->brokerRepository->persist($broker);
 
-		return BrokerDto::fromEntity($broker);
+		return $broker;
 	}
 
-	public function updateBroker(BrokerDto $broker, string $name, BrokerImportTypeEnum $importType): BrokerDto
+	public function updateBroker(Broker $broker, string $name, BrokerImportTypeEnum $importType): Broker
 	{
-		$broker = $this->brokerRepository->findBroker($broker->id, $broker->userId);
-		assert($broker instanceof Broker);
-
 		$broker->setName($name);
 		$broker->setImportType($importType->value);
 		$this->brokerRepository->persist($broker);
 
-		return BrokerDto::fromEntity($broker);
+		return $broker;
 	}
 
-	public function deleteBroker(BrokerDto $broker): void
+	public function deleteBroker(Broker $broker): void
 	{
-		$broker = $this->brokerRepository->findBroker($broker->id, $broker->userId);
-		assert($broker instanceof Broker);
 		$this->brokerRepository->delete($broker);
 	}
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Controller;
 
+use FinGather\Dto\BrokerDto;
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Response\OkResponse;
@@ -41,7 +42,7 @@ class BrokerController
 			return new NotFoundResponse('Broker with id "' . $brokerId . '" was not found.');
 		}
 
-		return new JsonResponse($broker);
+		return new JsonResponse(BrokerDto::fromEntity($broker));
 	}
 
 	public function actionCreateBroker(ServerRequestInterface $request): ResponseInterface
@@ -49,11 +50,11 @@ class BrokerController
 		/** @var array{name: string, importType: value-of<BrokerImportTypeEnum>} $requestBody */
 		$requestBody = json_decode($request->getBody()->getContents(), assoc: true);
 
-		return new JsonResponse($this->brokerProvider->createBroker(
+		return new JsonResponse(BrokerDto::fromEntity($this->brokerProvider->createBroker(
 			user: $this->requestService->getUser($request),
 			name: $requestBody['name'],
 			importType: BrokerImportTypeEnum::from($requestBody['importType']),
-		));
+		)));
 	}
 
 	/** @param array{brokerId: string} $args */
@@ -75,11 +76,11 @@ class BrokerController
 		/** @var array{name: string, importType: value-of<BrokerImportTypeEnum>} $requestBody */
 		$requestBody = json_decode($request->getBody()->getContents(), assoc: true);
 
-		return new JsonResponse($this->brokerProvider->updateBroker(
+		return new JsonResponse(BrokerDto::fromEntity($this->brokerProvider->updateBroker(
 			broker: $broker,
 			name: $requestBody['name'],
 			importType: BrokerImportTypeEnum::from($requestBody['importType']),
-		));
+		)));
 	}
 
 	/** @param array{brokerId: string} $args */

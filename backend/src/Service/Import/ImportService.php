@@ -4,20 +4,24 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Import;
 
-use FinGather\Dto\BrokerDto;
 use FinGather\Model\Entity\Asset;
+use FinGather\Model\Entity\Broker;
+use FinGather\Model\Entity\Currency;
+use FinGather\Model\Entity\Dividend;
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
-use FinGather\Model\Entity\User;
+use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
+use FinGather\Model\Entity\Transaction;
 use FinGather\Model\Repository\AssetRepository;
+use FinGather\Model\Repository\CurrencyRepository;
+use FinGather\Model\Repository\DividendRepository;
 use FinGather\Model\Repository\TransactionRepository;
-use FinGather\Model\Repository\UserRepository;
 use FinGather\Service\Import\Entity\TransactionRecord;
 use FinGather\Service\Import\Mapper\MapperInterface;
 use FinGather\Service\Import\Mapper\RevolutMapper;
 use FinGather\Service\Import\Mapper\Trading212Mapper;
 use FinGather\Service\Provider\TickerProvider;
 use League\Csv\Reader;
-use Safe\DateTime;
+use Safe\DateTimeImmutable;
 
 final class ImportService
 {
@@ -25,19 +29,21 @@ final class ImportService
 		private readonly TransactionRepository $transactionRepository,
 		private readonly TickerProvider $tickerProvider,
 		private readonly AssetRepository $assetRepository,
-		private readonly UserRepository $userRepository,
+		private readonly CurrencyRepository $currencyRepository,
+		private readonly DividendRepository $dividendRepository,
 	) {
 	}
 
-	public function importCsv(BrokerDto $broker, string $csvContent): void
+	public function importCsv(Broker $broker, string $csvContent): void
 	{
 		$csv = Reader::createFromString($csvContent);
 		$csv->setHeaderOffset(0);
 
-		$importMapper = $this->getImportMapper($broker->importType);
+		$importMapper = $this->getImportMapper(BrokerImportTypeEnum::from($broker->getImportType()));
 
-		$user = $this->userRepository->findUserById($broker->userId);
-		assert($user instanceof User);
+		$user = $broker->getUser();
+
+		$firstDate = null;
 
 		$records = $csv->getRecords();
 		foreach ($records as $record) {
@@ -46,7 +52,10 @@ final class ImportService
 
 			if (
 				isset($transactionRecord->importIdentifier)
-				&& $this->transactionRepository->findTransactionByIdentifier($broker->id, $transactionRecord->importIdentifier) !== null
+				&& $this->transactionRepository->findTransactionByIdentifier(
+					$broker->getId(),
+					$transactionRecord->importIdentifier
+				) !== null
 			) {
 				continue;
 			}
@@ -71,26 +80,89 @@ final class ImportService
 				$this->assetRepository->persist($asset);
 			}
 
-			//$transaction = new Transaction()
+			$currencyCode = $transactionRecord->currency ?? 'USD';
+			$currency = $this->currencyRepository->findCurrencyByCode($currencyCode);
+			assert($currency instanceof Currency);
+
+			if (strpos($transactionRecord->actionType ?? '', 'dividend') !== false) {
+				$dividend = new Dividend(
+					asset: $asset,
+					broker: $broker,
+					paidDate: $transactionRecord->created ?? new DateTimeImmutable(),
+					priceGross: $transactionRecord->total ?? 0,
+					priceNet: $transactionRecord->total ?? 0,
+					tax: 0,
+					currency: $currency,
+					exchangeRate: 1 / $transactionRecord->exchangeRate,
+				);
+				$this->dividendRepository->persist($dividend);
+
+				if ($firstDate === null || $dividend->getPaidDate()->getTimestamp() < $firstDate->getTimestamp()) {
+					$firstDate = $dividend->getPaidDate();
+				}
+
+				continue;
+			}
+
+			$actionType = TransactionActionTypeEnum::Undefined;
+			if (strpos($transactionRecord->actionType ?? '', 'buy') !== false) {
+				$actionType = TransactionActionTypeEnum::Buy;
+			} elseif (strpos($transactionRecord->actionType ?? '', 'sell') !== false) {
+				$actionType = TransactionActionTypeEnum::Sell;
+			}
+
+			$units = $transactionRecord->units ?? 0;
+			if ($actionType === TransactionActionTypeEnum::Sell) {
+				$units = -$units;
+			}
+
+			$transaction = new Transaction(
+				user: $user,
+				asset: $asset,
+				broker: $broker,
+				actionType: $actionType->value,
+				created: $transactionRecord->created ?? new DateTimeImmutable(),
+				units: $units,
+				priceUnit: $transactionRecord->priceUnit ?? 0,
+				currency: $currency,
+				exchangeRate: 1 / $transactionRecord->exchangeRate,
+				feeConversion: $transactionRecord->feeConversion ?? 0,
+				notes: $transactionRecord->notes,
+				importIdentifier: $transactionRecord->importIdentifier,
+			);
+			$this->transactionRepository->persist($transaction);
+
+			if ($firstDate === null || $transaction->getCreated()->getTimestamp() < $firstDate->getTimestamp()) {
+				$firstDate = $transaction->getCreated();
+			}
+		}
+
+		if ($firstDate === null) {
+			//todo: delete portfoliodata
 		}
 	}
 
 	/** @param array<string, string> $csvRecord */
 	private function mapTransactionRecord(MapperInterface $mapper, array $csvRecord): TransactionRecord
 	{
-		$transactionRecord = new TransactionRecord();
+		$mappedRecord = [];
 
 		foreach ($mapper->getMapping() as $attribute => $recordKey) {
-			$value = $csvRecord[$recordKey] ?? null;
-
-			if ($attribute === 'created' && $value !== null) {
-				$value = new DateTime($value);
-			}
-
-			$transactionRecord->{$attribute} = $value;
+			$mappedRecord[$attribute] = $csvRecord[$recordKey] ?? null;
 		}
 
-		return $transactionRecord;
+		return new TransactionRecord(
+			ticker: $mappedRecord['ticker'],
+			actionType: strtolower($mappedRecord['actionType'] ?? ''),
+			created: new DateTimeImmutable($mappedRecord['created'] ?? ''),
+			units: (float) $mappedRecord['ticker'],
+			priceUnit: (float) $mappedRecord['priceUnit'],
+			currency: $mappedRecord['currency'],
+			exchangeRate: (float) $mappedRecord['exchangeRate'],
+			feeConversion: (float) $mappedRecord['feeConversion'],
+			notes: $mappedRecord['notes'],
+			importIdentifier: $mappedRecord['importIdentifier'],
+		);
 	}
 
 	private function getImportMapper(BrokerImportTypeEnum $importType): MapperInterface

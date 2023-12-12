@@ -29,7 +29,7 @@ class TransactionRepository extends ARepository
 	{
 		return $this->findOne([
 			'broker_id' => $brokerId,
-			'transaction_identifier' => $identifier,
+			'import_identifier' => $identifier,
 		]);
 	}
 }
