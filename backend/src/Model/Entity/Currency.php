@@ -13,7 +13,7 @@ class Currency extends AEntity
 {
 	public function __construct(
 		#[Column(type: 'string(3)')]
-		private int $code,
+		private string $code,
 		#[Column(type: 'string(50)')]
 		private string $name,
 		#[Column(type: 'string(5)')]
@@ -21,12 +21,12 @@ class Currency extends AEntity
 	) {
 	}
 
-	public function getCode(): int
+	public function getCode(): string
 	{
 		return $this->code;
 	}
 
-	public function setCode(int $code): void
+	public function setCode(string $code): void
 	{
 		$this->code = $code;
 	}

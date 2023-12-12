@@ -18,7 +18,7 @@ class Split extends AEntity
 		private Ticker $ticker,
 		#[Column(type: 'timestamp')]
 		private DateTime $date,
-		#[Column(type: 'decimal(10,10)')]
+		#[Column(type: 'decimal(20,10)')]
 		private float $factor,
 	) {
 	}

@@ -18,7 +18,7 @@ COPY ./ /app/
 WORKDIR /app/
 
 RUN rm -rf /app/vendor \
-    && COMPOSER_ALLOW_SUPERUSER=1 composer install  --no-progress --classmap-authoritative -d /app/
+    && COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --no-progress --classmap-authoritative -d /app/
 
 CMD rr serve -w /app/ -c /app/.rr.yaml
 

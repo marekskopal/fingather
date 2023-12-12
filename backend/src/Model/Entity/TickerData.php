@@ -18,15 +18,15 @@ final class TickerData extends AEntity
 		private Ticker $ticker,
 		#[Column(type: 'timestamp')]
 		private DateTime $date,
-		#[Column(type: 'decimal(10,10)')]
+		#[Column(type: 'decimal(20,10)')]
 		private float $open,
-		#[Column(type: 'decimal(10,10)')]
+		#[Column(type: 'decimal(20,10)')]
 		private float $close,
-		#[Column(type: 'decimal(10,10)')]
+		#[Column(type: 'decimal(20,10)')]
 		private float $high,
-		#[Column(type: 'decimal(10,10)')]
+		#[Column(type: 'decimal(20,10)')]
 		private float $low,
-		#[Column(type: 'decimal(10,10)')]
+		#[Column(type: 'decimal(20,10)')]
 		private float $volume,
 		#[Column(type: 'double')]
 		private float $performance,

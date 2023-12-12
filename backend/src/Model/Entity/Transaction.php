@@ -24,19 +24,19 @@ final class Transaction extends AEntity
 		private string $actionType,
 		#[Column(type: 'timestamp')]
 		private DateTimeImmutable $created,
-		#[Column(type: 'decimal(10,10)')]
+		#[Column(type: 'decimal(20,10)')]
 		private float $units,
-		#[Column(type: 'decimal(10,10)')]
+		#[Column(type: 'decimal(20,10)')]
 		private float $priceUnit,
 		#[RefersTo(target: Currency::class)]
 		private Currency $currency,
-		#[Column(type: 'decimal(10,10)')]
+		#[Column(type: 'decimal(20,10)')]
 		private float $exchangeRate,
-		#[Column(type: 'decimal(10,10)')]
+		#[Column(type: 'decimal(20,10)')]
 		private float $feeConversion,
-		#[Column(type: 'tinyText')]
+		#[Column(type: 'tinyText', nullable: true)]
 		private ?string $notes,
-		#[Column(type: 'string')]
+		#[Column(type: 'string', nullable: true)]
 		private ?string $importIdentifier,
 	) {
 	}

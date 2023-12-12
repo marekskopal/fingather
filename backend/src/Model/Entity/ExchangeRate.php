@@ -18,7 +18,7 @@ class ExchangeRate extends AEntity
 		private Currency $currency,
 		#[Column(type: 'timestamp')]
 		private DateTime $date,
-		#[Column(type: 'decimal(10,10)')]
+		#[Column(type: 'decimal(20,10)')]
 		private float $rate,
 	) {
 	}

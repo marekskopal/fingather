@@ -20,15 +20,15 @@ class Dividend extends AEntity
 		private Broker $broker,
 		#[Column(type: 'timestamp')]
 		private DateTimeImmutable $paidDate,
-		#[Column(type: 'decimal(10,10)')]
+		#[Column(type: 'decimal(20,10)')]
 		private float $priceGross,
-		#[Column(type: 'decimal(10,10)')]
+		#[Column(type: 'decimal(20,10)')]
 		private float $priceNet,
-		#[Column(type: 'decimal(10,10)')]
+		#[Column(type: 'decimal(20,10)')]
 		private float $tax,
 		#[RefersTo(target: Currency::class)]
 		private Currency $currency,
-		#[Column(type: 'decimal(10,10)')]
+		#[Column(type: 'decimal(20,10)')]
 		private float $exchangeRate,
 	) {
 	}

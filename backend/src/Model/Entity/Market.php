@@ -14,7 +14,7 @@ class Market extends AEntity
 {
 	public function __construct(
 		#[Column(type: 'string')]
-		private int $name,
+		private string $name,
 		#[Column(type: 'string(20)')]
 		private string $acronym,
 		#[Column(type: 'string(4)')]
@@ -30,12 +30,12 @@ class Market extends AEntity
 	) {
 	}
 
-	public function getName(): int
+	public function getName(): string
 	{
 		return $this->name;
 	}
 
-	public function setName(int $name): void
+	public function setName(string $name): void
 	{
 		$this->name = $name;
 	}
