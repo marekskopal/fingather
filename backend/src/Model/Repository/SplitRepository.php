@@ -7,7 +7,13 @@ namespace FinGather\Model\Repository;
 use Cycle\ORM\Select\Repository;
 use FinGather\Model\Entity\Split;
 
-/** @extends Repository<Split> */
-class SplitRepository extends Repository
+/** @extends ARepository<Split> */
+class SplitRepository extends ARepository
 {
+	public function findSplits(int $tickerId)
+	{
+		return $this->findAll([
+			'ticker_id' => $tickerId
+		]);
+	}
 }

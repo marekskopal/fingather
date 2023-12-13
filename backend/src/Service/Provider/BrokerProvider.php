@@ -16,16 +16,10 @@ class BrokerProvider
 	{
 	}
 
-	/** @return list<BrokerDto> */
-	public function getBrokers(User $user): array
+	/** @return iterable<Broker> */
+	public function getBrokers(User $user): iterable
 	{
-		$brokers = [];
-
-		foreach ($this->brokerRepository->findBrokers($user->getId()) as $broker) {
-			$brokers[] = BrokerDto::fromEntity($broker);
-		}
-
-		return $brokers;
+		return $this->brokerRepository->findBrokers($user->getId());
 	}
 
 	public function getBroker(User $user, int $brokerId): ?Broker

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Controller;
 
 use FinGather\Dto\BrokerDto;
+use FinGather\Model\Entity\Broker;
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Response\OkResponse;
@@ -23,7 +24,12 @@ class BrokerController
 
 	public function actionGetBrokers(ServerRequestInterface $request): ResponseInterface
 	{
-		return new JsonResponse($this->brokerProvider->getBrokers($this->requestService->getUser($request)));
+		$brokers = array_map(
+			fn (Broker $broker): BrokerDto => BrokerDto::fromEntity($broker),
+			iterator_to_array($this->brokerProvider->getBrokers($this->requestService->getUser($request)))
+		);
+
+		return new JsonResponse($brokers);
 	}
 
 	/** @param array{brokerId: string} $args */

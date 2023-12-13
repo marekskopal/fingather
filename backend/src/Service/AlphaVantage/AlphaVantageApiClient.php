@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Service\AlphaVantage;
 
+use AlphaVantage\Api\TimeSeries;
 use AlphaVantage\Client;
 use AlphaVantage\Options;
 use FinGather\Service\AlphaVantage\Dto\TickerSearchDto;
@@ -42,6 +43,11 @@ final class AlphaVantageApiClient
 		}
 
 		return null;
+	}
+
+	public function getDailyTimeSeries(string $ticker): array
+	{
+		return $this->client->timeSeries()->dailyAdjusted($ticker, TimeSeries::OUTPUT_TYPE_FULL);
 	}
 
 	private function sanitizeTicker(string $ticker): string
