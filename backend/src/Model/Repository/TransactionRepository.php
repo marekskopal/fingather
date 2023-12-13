@@ -25,8 +25,8 @@ class TransactionRepository extends ARepository
 			->fetchAll();
 	}
 
-	/** @return iterable<Transaction> */
-	public function findAssetTransactions(int $assetId, DateTime $dateTime): iterable
+	/** @return array<int,Transaction> */
+	public function findAssetTransactions(int $assetId, DateTime $dateTime): array
 	{
 		return $this->findAll([
 			'asset_id' => $assetId,

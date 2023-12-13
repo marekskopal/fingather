@@ -14,7 +14,7 @@ use FinGather\Model\Repository\TickerDataRepository;
 final class TickerData extends AEntity
 {
 	public function __construct(
-		#[RefersTo(target: Currency::class)]
+		#[RefersTo(target: Ticker::class)]
 		private Ticker $ticker,
 		#[Column(type: 'timestamp')]
 		private DateTime $date,

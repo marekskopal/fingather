@@ -1,8 +1,8 @@
 <?php
 
-namespace FinGather\Service\Provider\Dto;
+declare(strict_types=1);
 
-use FinGather\Dto\TickerDto;
+namespace FinGather\Service\Provider\Dto;
 
 readonly class AssetPropertiesDto
 {
@@ -21,7 +21,6 @@ readonly class AssetPropertiesDto
 		public float $fxImpactPercentage,
 		public float $return,
 		public float $returnPercentage,
-		public float $percentageValueFromAll,
 	) {
 	}
 }

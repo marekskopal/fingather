@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Provider;
 
-use FinGather\Dto\BrokerDto;
 use FinGather\Model\Entity\Broker;
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Model\Entity\User;

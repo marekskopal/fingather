@@ -7,7 +7,10 @@ namespace FinGather\Service\AlphaVantage;
 use AlphaVantage\Api\TimeSeries;
 use AlphaVantage\Client;
 use AlphaVantage\Options;
+use FinGather\Service\AlphaVantage\Dto\FxDailyDto;
 use FinGather\Service\AlphaVantage\Dto\TickerSearchDto;
+use FinGather\Service\AlphaVantage\Dto\TimeSerieDailyDto;
+use Safe\DateTime;
 
 final class AlphaVantageApiClient
 {
@@ -37,7 +40,7 @@ final class AlphaVantageApiClient
 					marketClose: $searchResult['6. marketClose'],
 					timezone: $searchResult['7. timezone'],
 					currency: $searchResult['8. currency'],
-					matchScore: (float)$searchResult['9. matchScore'],
+					matchScore: (float) $searchResult['9. matchScore'],
 				);
 			}
 		}
@@ -45,9 +48,46 @@ final class AlphaVantageApiClient
 		return null;
 	}
 
-	public function getDailyTimeSeries(string $ticker): array
+	/** @return list<TimeSerieDailyDto> */
+	public function getTimeSeriesDaily(string $ticker): array
 	{
-		return $this->client->timeSeries()->dailyAdjusted($ticker, TimeSeries::OUTPUT_TYPE_FULL);
+		$timeSeriesDaily = [];
+
+		$results = $this->client->timeSeries()->dailyAdjusted($ticker, TimeSeries::OUTPUT_TYPE_FULL);
+		foreach ($results['Time Series (Daily)'] as $date => $result) {
+			$timeSeriesDaily[] = new TimeSerieDailyDto(
+				date: new DateTime($date),
+				open: (float) $result['1. open'],
+				high: (float) $result['2. high'],
+				low: (float) $result['3. low'],
+				close: (float) $result['4. close'],
+				adjustedClose: (float) $result['5. adjusted close'],
+				volume: (float) $result['6. volume'],
+				dividendAmount: (float) $result['7. dividend amount'],
+				splitCoefficient: $result['8. split coefficient'] !== null ? (float) $result['8. split coefficient'] : 1.0,
+			);
+		}
+
+		return $timeSeriesDaily;
+	}
+
+	/** @return list<FxDailyDto> */
+	public function getFxDaily(string $toSymbol): array
+	{
+		$fxDaily = [];
+
+		$results = $this->client->foreignExchange()->daily('USD', $toSymbol, TimeSeries::OUTPUT_TYPE_FULL);
+		foreach ($results['Time Series FX (Daily)'] as $date => $result) {
+			$fxDaily[] = new FxDailyDto(
+				date: new DateTime($date),
+				open: (float) $result['1. open'],
+				high: (float) $result['2. high'],
+				low: (float) $result['3. low'],
+				close: (float) $result['4. close'],
+			);
+		}
+
+		return $fxDaily;
 	}
 
 	private function sanitizeTicker(string $ticker): string

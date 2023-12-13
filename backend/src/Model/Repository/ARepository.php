@@ -12,6 +12,7 @@ use Cycle\ORM\Select\Repository;
 /**
  * @template TEntity of object
  * @extends Repository<TEntity>
+ * @method array<int, TEntity> findAll(array $scope = [], array $orderBy = [])
  */
 abstract class ARepository extends Repository
 {

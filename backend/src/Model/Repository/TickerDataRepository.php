@@ -4,18 +4,25 @@ declare(strict_types=1);
 
 namespace FinGather\Model\Repository;
 
-use Cycle\ORM\Select\Repository;
 use FinGather\Model\Entity\TickerData;
 use Safe\DateTime;
 
-/** @extends Repository<TickerData> */
-class TickerDataRepository extends Repository
+/** @extends ARepository<TickerData> */
+class TickerDataRepository extends ARepository
 {
-	public function findLastTickerData(int $tickerId, DateTime $beforeDate): ?TickerData
+	public function findLastTickerData(int $tickerId, ?DateTime $beforeDate = null): ?TickerData
 	{
-		return $this->select()->where([
+		$where = [
 			'ticker_id' => $tickerId,
-			'date <= ?' => $beforeDate
-		])->orderBy('date DESC')->fetchOne();
+		];
+
+		if ($beforeDate !== null) {
+			$where['date <= ?'] = $beforeDate;
+		}
+
+		return $this->select()
+			->where($where)
+			->orderBy('date DESC')
+			->fetchOne();
 	}
 }

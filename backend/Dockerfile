@@ -23,4 +23,4 @@ RUN rm -rf /app/vendor \
 CMD rr serve -w /app/ -c /app/.rr.yaml
 
 HEALTHCHECK --interval=10s --timeout=5s --start-period=10s\
- 	CMD curl -f http://localhost/health || exit 1
+ 	CMD curl -f http://localhost/api/health || exit 1
