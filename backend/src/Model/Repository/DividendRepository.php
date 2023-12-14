@@ -10,12 +10,12 @@ use Safe\DateTime;
 /** @extends ARepository<Dividend> */
 class DividendRepository extends ARepository
 {
-	/** @return iterable<Dividend> */
-	public function findDividends(int $assetId, DateTime $paidDateTo): iterable
+	/** @return array<int, Dividend> */
+	public function findDividends(int $assetId, DateTime $paidDateTo): array
 	{
-		return $this->findAll([
-			'asset_id' => $assetId,
-			'paid_date <= ?' => $paidDateTo,
-		]);
+		return $this->select()
+			->where('asset_id', $assetId)
+			->where('paid_date', '<=', $paidDateTo)
+			->fetchAll();
 	}
 }

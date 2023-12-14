@@ -18,7 +18,14 @@ class MigrationRunCommand extends Command
 
 	protected function execute(InputInterface $input, OutputInterface $output): int
 	{
-		$dbContext = new DbContext(dsn: 'mysql:host=db;dbname=fingather', user: 'fingather', password: 'fingather');
+		$host = (string) getenv('MYSQL_HOST');
+		$database = (string) getenv('MYSQL_DATABASE');
+		/** @var non-empty-string $user */
+		$user = (string) getenv('MYSQL_USER');
+		/** @var non-empty-string $password */
+		$password = (string) getenv('MYSQL_PASSWORD');
+
+		$dbContext = new DbContext(dsn: 'mysql:host=' . $host . ';dbname=' . $database, user: $user, password: $password);
 
 		$migrator = $dbContext->getMigrator();
 

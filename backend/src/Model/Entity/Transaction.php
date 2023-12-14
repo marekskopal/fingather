@@ -11,7 +11,7 @@ use DateTimeImmutable;
 use FinGather\Model\Repository\TransactionRepository;
 
 #[Entity(repository: TransactionRepository::class)]
-final class Transaction extends AEntity
+class Transaction extends AEntity
 {
 	public function __construct(
 		#[RefersTo(target: User::class)]

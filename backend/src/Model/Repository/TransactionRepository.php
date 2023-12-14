@@ -10,28 +10,13 @@ use Safe\DateTime;
 /** @extends ARepository<Transaction> */
 class TransactionRepository extends ARepository
 {
-	/** @return array<Transaction> */
-	public function findOpenTransactions(int $userId, DateTime $dateTime): array
-	{
-		return $this->orm->getSource(Transaction::class)
-			->getDatabase()
-			->select()
-			->where([
-				'user_id' => $userId,
-				'created <= ?' => $dateTime->getTimestamp(),
-			])
-			->groupBy('asset_id')
-			->having('SUM(units)>0')
-			->fetchAll();
-	}
-
 	/** @return array<int,Transaction> */
 	public function findAssetTransactions(int $assetId, DateTime $dateTime): array
 	{
-		return $this->findAll([
-			'asset_id' => $assetId,
-			'created <= ?' => $dateTime->getTimestamp(),
-		]);
+		return $this->select()
+			->where('asset_id', $assetId)
+			->where('created', '<=', $dateTime)
+			->fetchAll();
 	}
 
 	public function findTransactionByIdentifier(int $brokerId, string $identifier): ?Transaction

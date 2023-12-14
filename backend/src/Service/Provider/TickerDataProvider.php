@@ -49,12 +49,12 @@ class TickerDataProvider
 		$dayOfWeek = (int) $actualDate->format('w');
 
 		if ($dayOfWeek === 6) {
-			$actualDate->sub(new DateInterval('2 days'));
+			$actualDate->sub(DateInterval::createFromDateString('2 days'));
 		} elseif ($dayOfWeek === 5) {
-			$actualDate->sub(new DateInterval('1 day'));
+			$actualDate->sub(DateInterval::createFromDateString('1 day'));
 		}
 
-		$firstDate = (new DateTime('today'))->sub(new DateInterval('3 years'));
+		$firstDate = (new DateTime('today'))->sub(DateInterval::createFromDateString('3 years'));
 
 		$lastTickerData = $this->tickerDataRepository->findLastTickerData($ticker->getId());
 		if ($lastTickerData !== null && ($actualDate->getTimestamp() - $lastTickerData->getDate()->getTimestamp() < 86400))	{

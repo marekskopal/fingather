@@ -34,7 +34,6 @@ class AssetProvider
 	public function getAssetProperties(Asset $asset, DateTime $dateTime): ?AssetPropertiesDto
 	{
 		$transactions = $this->transactionRepository->findAssetTransactions($asset->getId(), $dateTime);
-
 		if (count($transactions) === 0) {
 			return null;
 		}
@@ -60,7 +59,7 @@ class AssetProvider
 			$units += $transactionUnits;
 
 			//if close position, start from zero
-			if ($units === 0) {
+			if ($units == 0) {
 				$transactionValue = 0;
 				$transactionTotal = 0;
 

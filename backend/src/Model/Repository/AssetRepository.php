@@ -5,42 +5,53 @@ declare(strict_types=1);
 namespace FinGather\Model\Repository;
 
 use FinGather\Model\Entity\Asset;
-use FinGather\Model\Entity\Transaction;
 use Safe\DateTime;
 
 /** @extends ARepository<Asset> */
 class AssetRepository extends ARepository
 {
-	/** @return iterable<Asset> */
-	public function findOpenAssets(int $userId, DateTime $dateTime): iterable
+	/** @return array<int, Asset> */
+	public function findOpenAssets(int $userId, DateTime $dateTime): array
 	{
-		$transactionRepository = $this->orm->getRepository(Transaction::class);
-		assert($transactionRepository instanceof TransactionRepository);
+		$openAssetSelect = $this->orm->getSource(Asset::class)
+			->getDatabase()
+			->select('asset_id')
+			->from('transactions')
+			->where('user_id', $userId)
+			->where('created', '<=', $dateTime)
+			->groupBy('asset_id')
+			->having('SUM(units)', '>', 0);
 
-		$transactionIds = [];
-		foreach ($transactionRepository->findOpenTransactions($userId, $dateTime) as $transaction) {
-			$transactionIds[] = $transaction->getId();
-		}
-
-		return $this->findAll([
-			'user.id' => $userId,
-			'transaction.id' => $transactionIds,
-		]);
+		return $this->select()
+			->where('user_id', $userId)
+			->where('id', 'in', $openAssetSelect)
+			->fetchAll();
 	}
 
-	/** @return iterable<Asset> */
-	public function findOpenAssetsByGroup(int $userId, int $groupId): iterable
+	/** @return array<int, Asset> */
+	public function findOpenAssetsByGroup(int $userId, int $groupId, DateTime $dateTime): array
 	{
-		return $this->findAll([
-			'user.id' => $userId,
-		]);
+		$openAssetSelect = $this->orm->getSource(Asset::class)
+			->getDatabase()
+			->select('asset_id')
+			->from('transactions')
+			->where('user_id', $userId)
+			->where('created', '<=', $dateTime)
+			->groupBy('asset_id')
+			->having('SUM(units)', '>', 0);
+
+		return $this->select()
+			->where('user_id', $userId)
+			->where('group_id', $groupId)
+			->where('id', 'in', $openAssetSelect)
+			->fetchAll();
 	}
 
 	public function findAsset(int $assetId, int $userId): ?Asset
 	{
 		return $this->findOne([
 			'id' => $assetId,
-			'user.id' => $userId,
+			'user_id' => $userId,
 		]);
 	}
 

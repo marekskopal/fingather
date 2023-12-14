@@ -44,7 +44,7 @@ class TickerProvider
 			return null;
 		}
 
-		$ticker = new Ticker(ticker: $apiTicker->symbol, name: $apiTicker->name, market: $market, currency: $currency);
+		$ticker = new Ticker(ticker: $ticker, name: $apiTicker->name, market: $market, currency: $currency);
 		$this->tickerRepository->persist($ticker);
 
 		return $ticker;

@@ -12,17 +12,15 @@ class TickerDataRepository extends ARepository
 {
 	public function findLastTickerData(int $tickerId, ?DateTime $beforeDate = null): ?TickerData
 	{
-		$where = [
-			'ticker_id' => $tickerId,
-		];
+		$select = $this->select()
+			->where('ticker_id', $tickerId);
 
 		if ($beforeDate !== null) {
-			$where['date <= ?'] = $beforeDate;
+			$select->where('date', '<=', $beforeDate);
 		}
 
-		return $this->select()
-			->where($where)
-			->orderBy('date DESC')
-			->fetchOne();
+		$select->orderBy('date', 'DESC');
+
+		return $select->fetchOne();
 	}
 }
