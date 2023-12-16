@@ -1,6 +1,6 @@
-﻿export class AssetTickerData {
+﻿export class tickerData {
     id: string;
-    assetTickerId: string;
+    tickerId: string;
     date: Date;
     open: number;
     close: number;

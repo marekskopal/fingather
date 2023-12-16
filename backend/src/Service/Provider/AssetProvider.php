@@ -117,7 +117,7 @@ class AssetProvider
 			fxImpact: $fxImpact,
 			fxImpactPercentage: $fxImpactPercentage,
 			return: $gainDefaultCurrency + $dividendGainDefaultCurrency + $fxImpact,
-			returnPercentage: $gainPercentage + $dividendGainPercentage + $fxImpactPercentage,
+			returnPercentage: round($gainPercentage + $dividendGainPercentage + $fxImpactPercentage, 2),
 		);
 	}
 }

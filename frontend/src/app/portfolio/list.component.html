@@ -19,7 +19,7 @@
         </thead>
         <tbody>
             <tr *ngFor="let asset of group.assets">
-                <td><strong>{{asset.assetTicker.ticker}}</strong> {{asset.assetTicker.name}}</td>
+                <td><strong>{{asset.ticker.ticker}}</strong> {{asset.ticker.name}}</td>
                 <td class="text-right">{{asset.price | number:'1.2-2' }}</td>
                 <td>{{asset.units}}</td>
                 <td class="text-right">{{asset.value | number:'1.2-2'}}</td>

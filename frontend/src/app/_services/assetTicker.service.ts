@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { environment } from '@environments/environment';
-import { AssetTicker } from '@app/_models';
+import { ticker } from '@app/_models';
 
 @Injectable({ providedIn: 'root' })
 export class AssetTickerService {
@@ -17,6 +17,6 @@ export class AssetTickerService {
     getByTicker(ticker: string) {
         let params = new HttpParams().set('ticker', ticker);
 
-        return this.http.get<AssetTicker>(`${environment.apiUrl}/assetticker`, {params});
+        return this.http.get<ticker>(`${environment.apiUrl}/assetticker`, {params});
     }
 }

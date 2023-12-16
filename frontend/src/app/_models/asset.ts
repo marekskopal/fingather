@@ -1,8 +1,8 @@
-﻿import {AssetTicker} from "@app/_models/assetTicker";
+﻿import {ticker} from "@app/_models/ticker";
 
 export class Asset {
     id: string;
-    assetTickerId: string;
+    tickerId: string;
     groupId: string|null
     price: number;
     units: number;
@@ -18,5 +18,5 @@ export class Asset {
     return: number;
     returnPercentage: number;
 
-    assetTicker: AssetTicker;
+    ticker: ticker;
 }

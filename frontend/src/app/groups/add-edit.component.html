@@ -16,7 +16,7 @@
             <label for="assetIds" class="form-label">Assets</label>
             <select multiple id="assetIds" formControlName="assetIds" class="form-control">
                 <option *ngFor="let asset of assets" [ngValue]="asset.id" [disabled]="asset.groupId != null && asset.groupId != id">
-                    {{ asset.assetTicker.name }}
+                    {{ asset.ticker.name }}
                 </option>
             </select>
             <div *ngIf="submitted && f.assetIds.errors" class="invalid-feedback">

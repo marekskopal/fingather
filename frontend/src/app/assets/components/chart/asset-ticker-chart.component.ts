@@ -1,7 +1,7 @@
 ﻿import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { first } from 'rxjs/operators';
 import { AssetTickerDataService } from '../../../_services/asset-ticker-data.service';
-import { AssetTickerData } from '../../../_models';
+import { tickerData } from '../../../_models';
 import { ApexAxisChartSeries, ApexChart, ApexTitleSubtitle, ApexXAxis, ApexYAxis, ChartComponent } from 'ng-apexcharts';
 
 export type ChartOptions = {
@@ -19,7 +19,7 @@ export type ChartOptions = {
 export class AssetTickerChartComponent implements OnInit {
     @ViewChild("chart", { static: false }) chart: ChartComponent;
     @Input() public assetTickerId: string;
-    public assetTickerDatas: AssetTickerData[]|null = null;
+    public assetTickerDatas: tickerData[]|null = null;
     public chartOptions: Partial<ChartOptions>;
 
     constructor(
@@ -64,9 +64,9 @@ export class AssetTickerChartComponent implements OnInit {
         };
     }
 
-    private mapAssetTickerData(assetTickerDatas: AssetTickerData[])
+    private mapAssetTickerData(assetTickerDatas: tickerData[])
     {
-        let chartData = [];    
+        let chartData = [];
 
         for (let assetTickerData of assetTickerDatas) {
 

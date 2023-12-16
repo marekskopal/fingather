@@ -4,7 +4,7 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
 import { first } from 'rxjs/operators';
 
 import { AssetService, AssetTickerService, AlertService, BrokerService } from '@app/_services';
-import {Asset, AssetTicker, Broker} from "../../_models";
+import {Asset, ticker, Broker} from "../../_models";
 
 @Component({ templateUrl: 'add-edit.component.html' })
 export class AddEditComponent implements OnInit {
@@ -13,7 +13,7 @@ export class AddEditComponent implements OnInit {
     public isAddMode: boolean;
     public loading = false;
     public submitted = false;
-    public assetTicker: AssetTicker;
+    public assetTicker: ticker;
 
     constructor(
         private formBuilder: UntypedFormBuilder,
@@ -66,11 +66,11 @@ export class AddEditComponent implements OnInit {
 
         this.assetTickerService.getByTicker(formValues.ticker)
             .subscribe(
-              (data: AssetTicker) => {
+              (data: ticker) => {
                   this.assetTicker = { ...data }
 
                   const asset = new Asset();
-                  asset.assetTickerId = this.assetTicker.id;
+                  asset.tickerId = this.assetTicker.id;
 
                   this.assetService.create(asset)
                       .pipe(first())

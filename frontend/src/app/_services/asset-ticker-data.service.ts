@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { environment } from '@environments/environment';
-import { AssetTickerData } from '@app/_models';
+import { tickerData } from '@app/_models';
 
 @Injectable({ providedIn: 'root' })
 export class AssetTickerDataService {
@@ -15,6 +15,6 @@ export class AssetTickerDataService {
     ) {}
 
     findLastYear(assetTickerId: string) {
-        return this.http.get<AssetTickerData[]>(`${environment.apiUrl}/assettickerdata/${assetTickerId}`);
+        return this.http.get<tickerData[]>(`${environment.apiUrl}/assettickerdata/${assetTickerId}`);
     }
 }
