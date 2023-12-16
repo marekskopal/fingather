@@ -11,7 +11,7 @@
       }
     ],
     "require": {
-		"php": ">=8.3",
+		"php": ">=8.2",
         "league/route": "^5.1",
         "tracy/tracy": "^2.10",
         "thecodingmachine/safe": "^2.5",
@@ -29,7 +29,7 @@
         "cycle/schema-migrations-generator": "^2.2",
         "league/csv": "^9.12",
         "kokspflanze/alpha-vantage-api": "^0.11.0",
-        "brick/math": "^0.11.0"
+        "php-decimal/php-decimal": "^1.1"
 	},
     "require-dev": {
 		"phpstan/phpstan": "^1.10",
@@ -45,6 +45,9 @@
 		}
     },
     "config": {
+        "platform": {
+            "php": "8.2"
+        },
         "allow-plugins": {
             "phpstan/extension-installer": true,
             "php-http/discovery": true,

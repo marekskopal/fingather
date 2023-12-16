@@ -8,6 +8,7 @@ use AlphaVantage\Api\TimeSeries;
 use AlphaVantage\Client;
 use AlphaVantage\Options;
 use Brick\Math\BigDecimal;
+use Decimal\Decimal;
 use FinGather\Service\AlphaVantage\Dto\FxDailyDto;
 use FinGather\Service\AlphaVantage\Dto\TickerSearchDto;
 use FinGather\Service\AlphaVantage\Dto\TimeSerieDailyDto;
@@ -60,14 +61,14 @@ final class AlphaVantageApiClient
 		foreach ($results['Time Series (Daily)'] as $date => $result) {
 			$timeSeriesDaily[] = new TimeSerieDailyDto(
 				date: new DateTimeImmutable($date),
-				open: BigDecimal::of($result['1. open']),
-				high: BigDecimal::of($result['2. high']),
-				low: BigDecimal::of($result['3. low']),
-				close: BigDecimal::of($result['4. close']),
-				adjustedClose: BigDecimal::of($result['5. adjusted close']),
+				open: new Decimal($result['1. open']),
+				high: new Decimal($result['2. high']),
+				low: new Decimal($result['3. low']),
+				close: new Decimal($result['4. close']),
+				adjustedClose: new Decimal($result['5. adjusted close']),
 				volume: (int) $result['6. volume'],
-				dividendAmount: BigDecimal::of($result['7. dividend amount']),
-				splitCoefficient: $result['8. split coefficient'] !== null ? BigDecimal::of($result['8. split coefficient']) : BigDecimal::of(1.0),
+				dividendAmount: new Decimal($result['7. dividend amount']),
+				splitCoefficient: $result['8. split coefficient'] !== null ? new Decimal($result['8. split coefficient']) : new Decimal('1.0'),
 			);
 		}
 
@@ -83,10 +84,10 @@ final class AlphaVantageApiClient
 		foreach ($results['Time Series FX (Daily)'] as $date => $result) {
 			$fxDaily[] = new FxDailyDto(
 				date: new DateTimeImmutable($date),
-				open: BigDecimal::of($result['1. open']),
-				high: BigDecimal::of($result['2. high']),
-				low: BigDecimal::of($result['3. low']),
-				close: BigDecimal::of($result['4. close']),
+				open: new Decimal($result['1. open']),
+				high: new Decimal($result['2. high']),
+				low: new Decimal($result['3. low']),
+				close: new Decimal($result['4. close']),
 			);
 		}
 

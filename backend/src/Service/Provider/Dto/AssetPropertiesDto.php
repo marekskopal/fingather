@@ -4,24 +4,24 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Provider\Dto;
 
-use Brick\Math\BigDecimal;
+use Decimal\Decimal;
 
 readonly class AssetPropertiesDto
 {
 	public function __construct(
-		public BigDecimal $price,
-		public BigDecimal $units,
-		public BigDecimal $value,
-		public BigDecimal $transactionValue,
-		public BigDecimal $gain,
-		public BigDecimal $gainDefaultCurrency,
+		public Decimal $price,
+		public Decimal $units,
+		public Decimal $value,
+		public Decimal $transactionValue,
+		public Decimal $gain,
+		public Decimal $gainDefaultCurrency,
 		public float $gainPercentage,
-		public BigDecimal $dividendGain,
-		public BigDecimal $dividendGainDefaultCurrency,
+		public Decimal $dividendGain,
+		public Decimal $dividendGainDefaultCurrency,
 		public float $dividendGainPercentage,
-		public BigDecimal $fxImpact,
+		public Decimal $fxImpact,
 		public float $fxImpactPercentage,
-		public BigDecimal $return,
+		public Decimal $return,
 		public float $returnPercentage,
 	) {
 	}

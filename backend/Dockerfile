@@ -1,6 +1,6 @@
 FROM spiralscout/roadrunner:2023.3.6 AS roadrunner
 FROM composer:2.6.5 AS composer
-FROM php:8.3.0-cli-alpine AS php
+FROM php:8.2.13-cli-alpine AS php
 
 ENV DOCKER_PHP_EXT_INSTALLER_VERSION 2.1.60
 
@@ -9,8 +9,7 @@ RUN chmod +x /usr/local/bin/install-php-extensions && install-php-extensions \
     pdo_mysql \
     zip \
     sockets \
-    bcmath \
-    gmp
+    decimal
 
 COPY --from=roadrunner /usr/bin/rr /usr/local/bin/rr
 COPY --from=composer /usr/bin/composer /usr/local/bin/composer

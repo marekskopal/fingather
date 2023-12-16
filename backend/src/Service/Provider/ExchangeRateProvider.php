@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Provider;
 
-use Brick\Math\BigDecimal;
 use DateInterval;
+use Decimal\Decimal;
 use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\ExchangeRate;
 use FinGather\Model\Repository\ExchangeRateRepository;
@@ -33,7 +33,7 @@ class ExchangeRateProvider
 		return new ExchangeRate(
 			currency: $currencyTo,
 			date: $date,
-			rate: (string)BigDecimal::of($exchangeRateFromUsd->getRate())->dividedBy(BigDecimal::of($exchangeRateToUsd->getRate()))
+			rate: (string)((new Decimal($exchangeRateFromUsd->getRate()))->div(new Decimal($exchangeRateToUsd->getRate())))
 		);
 	}
 
@@ -68,7 +68,7 @@ class ExchangeRateProvider
 				continue;
 			}
 
-			$exchangeRate = new ExchangeRate(currency: $currencyTo, date: $dailyResult->date, rate: (string)$dailyResult->close->multipliedBy($multiplier));
+			$exchangeRate = new ExchangeRate(currency: $currencyTo, date: $dailyResult->date, rate: (string)$dailyResult->close->mul($multiplier));
 			$this->exchangeRateRepository->persist($exchangeRate);
 		}
 

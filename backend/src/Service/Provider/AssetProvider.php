@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Provider;
 
-use Brick\Math\BigDecimal;
-use Brick\Math\RoundingMode;
+use Decimal\Decimal;
 use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\AssetRepository;
@@ -43,49 +42,47 @@ class AssetProvider
 
 		$splits = $this->splitRepository->findSplits($asset->getTicker()->getId());
 
-		$transactionValue = BigDecimal::of(0);
-		$transactionTotal = BigDecimal::of(0);
-		$units = BigDecimal::of(0);
+		$transactionValue = new Decimal(0);
+		$transactionTotal = new Decimal(0);
+		$units = new Decimal(0);
 
 		foreach ($transactions as $transaction) {
-			$splitFactor = BigDecimal::of(1);
+			$splitFactor = new Decimal(1);
 
 			foreach ($splits as $split) {
 				if ($split->getDate() >= $transaction->getCreated() && $split->getDate() <= $dateTime) {
-					$splitFactor = $splitFactor->multipliedBy(BigDecimal::of($split->getFactor()));
+					$splitFactor = $splitFactor->mul(new Decimal($split->getFactor()));
 				}
 			}
 
-			$transactionUnits = BigDecimal::of($transaction->getUnits())->multipliedBy($splitFactor);
-			$transactionPriceUnit = BigDecimal::of($transaction->getPriceUnit())->dividedBy($splitFactor);
-			\ray($transactionUnits);
-			\ray($transactionPriceUnit);
+			$transactionUnits = (new Decimal($transaction->getUnits()))->mul($splitFactor);
+			$transactionPriceUnit = (new Decimal($transaction->getPriceUnit()))->mul($splitFactor);
 
-			$units = $units->plus($transactionUnits);
+			$units = $units->add($transactionUnits);
 
 			//if close position, start from zero
 			if ($units->toFloat() === 0.0) {
-				$transactionValue = BigDecimal::of(0);
-				$transactionTotal = BigDecimal::of(0);
+				$transactionValue = new Decimal(0);
+				$transactionTotal = new Decimal(0);
 
 				continue;
 			}
 
-			$transactionValue = $transactionValue->plus($transactionUnits->multipliedBy($transactionPriceUnit));
-			$transactionTotal = $transactionTotal->plus($transactionUnits->multipliedBy($transactionPriceUnit)->multipliedBy(BigDecimal::of($transaction->getExchangeRate())));
+			$transactionValue = $transactionValue->add($transactionUnits->mul($transactionPriceUnit));
+			$transactionTotal = $transactionTotal->add($transactionUnits->mul($transactionPriceUnit )->mul(new Decimal($transaction->getExchangeRate())));
 		}
 
-		$dividendTotal = BigDecimal::of(0);
+		$dividendTotal = new Decimal(0);
 		$dividends = $this->dividendRepository->findDividends($asset->getId(), $dateTime);
 		foreach ($dividends as $dividend) {
-			$dividendTotal = $dividendTotal->plus(BigDecimal::of($dividend->getPriceNet()));
+			$dividendTotal = $dividendTotal->add(new Decimal($dividend->getPriceNet()));
 		}
 
-		$price = BigDecimal::of(0);
+		$price = new Decimal(0);
 
 		$lastTickerData = $this->tickerDataProvider->getLastTickerData($asset->getTicker(), $dateTime);
 		if ($lastTickerData !== null) {
-			$price = BigDecimal::of($lastTickerData->getClose());
+			$price = new Decimal($lastTickerData->getClose());
 		}
 
 		$currencyTo = $asset->getTicker()->getCurrency();
@@ -98,21 +95,21 @@ class AssetProvider
 			$currencyTo
 		);
 
-		$exchangeRateDecimal = BigDecimal::of($exchangeRate->getRate());
+		$exchangeRateDecimal = new Decimal($exchangeRate->getRate());
 
-		$value = $units->multipliedBy($price);
-		$gain = $value->minus($transactionValue);
-		$gainDefaultCurrency = $gain->multipliedBy($exchangeRateDecimal);
-		$gainPercentage = round($gain->dividedBy($transactionValue, roundingMode: RoundingMode::HALF_EVEN)->multipliedBy(100)->toFloat(), 2);
-		$dividendGainDefaultCurrency = $dividendTotal->multipliedBy($exchangeRateDecimal);
-		$dividendGainPercentage = round($dividendTotal->dividedBy($value, roundingMode: RoundingMode::HALF_EVEN)->multipliedBy(100)->toFloat(), 2);
-		$fxImpact = $transactionValue->multipliedBy($exchangeRateDecimal)->minus($transactionTotal);
-		$fxImpactPercentage = round($fxImpact->dividedBy($transactionTotal, roundingMode: RoundingMode::HALF_EVEN)->multipliedBy(100)->toFloat(), 2);
+		$value = $units->mul($price);
+		$gain = $value->sub($transactionValue);
+		$gainDefaultCurrency = $gain->mul($exchangeRateDecimal);
+		$gainPercentage = round(($gain->div($transactionValue)->mul(100))->toFloat(), 2);
+		$dividendGainDefaultCurrency = $dividendTotal->mul($exchangeRateDecimal);
+		$dividendGainPercentage = round(($dividendTotal->div($value)->mul(100))->toFloat(), 2);
+		$fxImpact = $transactionValue->mul($exchangeRateDecimal)->sub($transactionTotal);
+		$fxImpactPercentage = round(($fxImpact->div($transactionTotal)->mul(100))->toFloat(), 2);
 
 		return new AssetPropertiesDto(
 			price: $price,
 			units: $units,
-			value: $value->multipliedBy($exchangeRateDecimal),
+			value: $value->mul($exchangeRateDecimal),
 			transactionValue: $transactionTotal,
 			gain: $gain,
 			gainDefaultCurrency: $gainDefaultCurrency,
@@ -122,7 +119,7 @@ class AssetProvider
 			dividendGainPercentage: $dividendGainPercentage,
 			fxImpact: $fxImpact,
 			fxImpactPercentage: $fxImpactPercentage,
-			return: $gainDefaultCurrency->plus($dividendGainDefaultCurrency)->plus($fxImpact),
+			return: $gainDefaultCurrency->add($dividendGainDefaultCurrency)->add($fxImpact),
 			returnPercentage: round($gainPercentage + $dividendGainPercentage + $fxImpactPercentage, 2),
 		);
 	}

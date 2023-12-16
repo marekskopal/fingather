@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Provider;
 
-use Brick\Math\BigDecimal;
 use DateInterval;
+use Decimal\Decimal;
 use FinGather\Model\Entity\Split;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\TickerData;
@@ -74,9 +74,9 @@ class TickerDataProvider
 				continue;
 			}
 
-			$performance = BigDecimal::of(0.0);
+			$performance = new Decimal('0.0');
 			if ($previousTickerData !== null) {
-				$performance = ($dailyTimeSerie->adjustedClose->dividedBy(BigDecimal::of($previousTickerData->getClose())->dividedBy(100)))->minus(100);
+				$performance = ($dailyTimeSerie->adjustedClose->div((new Decimal($previousTickerData->getClose()))->div(100)))->sub(100);
 			}
 
 			$tickerData = new TickerData(

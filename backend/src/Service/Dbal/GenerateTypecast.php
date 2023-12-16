@@ -9,11 +9,7 @@ use Cycle\Schema\Registry;
 
 final class GenerateTypecast implements GeneratorInterface
 {
-	/**
-	 * @param Registry $registry
-	 *
-	 * @return Registry
-	 */
+
 	public function run(Registry $registry): Registry
 	{
 		foreach ($registry as $entity) {
@@ -23,12 +19,6 @@ final class GenerateTypecast implements GeneratorInterface
 		return $registry;
 	}
 
-	/**
-	 * Automatically clarify column types based on table column types.
-	 *
-	 * @param Registry $registry
-	 * @param Entity   $entity
-	 */
 	protected function compute(Registry $registry, Entity $entity): void
 	{
 		if (!$registry->hasTable($entity)) {
@@ -48,12 +38,7 @@ final class GenerateTypecast implements GeneratorInterface
 		}
 	}
 
-	/**
-	 * @param AbstractColumn $column
-	 *
-	 * @return callable-array|string|null
-	 */
-	private function typecast(AbstractColumn $column)
+	private function typecast(AbstractColumn $column): ?string
 	{
 		if ($column->getAbstractType() === 'decimal') {
 			return 'string';
