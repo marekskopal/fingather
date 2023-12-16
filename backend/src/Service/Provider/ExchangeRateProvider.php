@@ -9,7 +9,7 @@ use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\ExchangeRate;
 use FinGather\Model\Repository\ExchangeRateRepository;
 use FinGather\Service\AlphaVantage\AlphaVantageApiClient;
-use Safe\DateTime;
+use Safe\DateTimeImmutable;
 
 class ExchangeRateProvider
 {
@@ -20,7 +20,7 @@ class ExchangeRateProvider
 	{
 	}
 
-	public function getExchangeRate(DateTime $date, Currency $currencyFrom, Currency $currencyTo): ExchangeRate
+	public function getExchangeRate(DateTimeImmutable $date, Currency $currencyFrom, Currency $currencyTo): ExchangeRate
 	{
 		if ($currencyFrom->getCode() === 'USD') {
 			return $this->getExchangeRateUsd($date, $currencyTo);
@@ -36,15 +36,15 @@ class ExchangeRateProvider
 		);
 	}
 
-	public function getExchangeRateUsd(DateTime $date, Currency $currencyTo): ExchangeRate
+	public function getExchangeRateUsd(DateTimeImmutable $date, Currency $currencyTo): ExchangeRate
 	{
 		if ($currencyTo->getCode() === 'USD') {
 			return new ExchangeRate(currency: $currencyTo, date: $date, rate: 1);
 		}
 
-		$today = new DateTime('today');
+		$today = new DateTimeImmutable('today');
 		if ($date->getTimestamp() === $today->getTimestamp()) {
-			$date->sub(new DateInterval('1 day'));
+			$date = $date->sub(new DateInterval('1 day'));
 		}
 
 		$exchangeRate = $this->exchangeRateRepository->findExchangeRate($date, $currencyTo->getId());
@@ -59,8 +59,14 @@ class ExchangeRateProvider
 			$multiplier = 100;
 		}
 
+		$lastExchangeRate = $this->exchangeRateRepository->findLastExchangeRate($currencyTo->getId());
+
 		$fxDailyResults = $this->alphaVantageApiClient->getFxDaily($code);
 		foreach ($fxDailyResults as $dailyResult) {
+			if ($lastExchangeRate !== null && $dailyResult->date <= $lastExchangeRate->getDate()) {
+				continue;
+			}
+
 			$exchangeRate = new ExchangeRate(currency: $currencyTo, date: $dailyResult->date, rate: $dailyResult->close * $multiplier);
 			$this->exchangeRateRepository->persist($exchangeRate);
 		}

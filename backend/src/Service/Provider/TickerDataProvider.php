@@ -27,9 +27,9 @@ class TickerDataProvider
 		$dayOfWeek = (int) $beforeDate->format('w');
 
 		if ($dayOfWeek === 6) {
-			$beforeDate->sub(new DateInterval('2 days'));
+			$beforeDate->sub(DateInterval::createFromDateString('2 days'));
 		} elseif ($dayOfWeek === 5) {
-			$beforeDate->sub(new DateInterval('1 day'));
+			$beforeDate->sub(DateInterval::createFromDateString('1 day'));
 		}
 
 		$lastTickerData = $this->tickerDataRepository->findLastTickerData($ticker->getId(), $beforeDate);

@@ -136,11 +136,11 @@ class InitMigration extends Migration
         ->addColumn('close', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 10, 'precision' => 20])
         ->addColumn('high', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 10, 'precision' => 20])
         ->addColumn('low', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 10, 'precision' => 20])
-        ->addColumn('volume', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 10, 'precision' => 20])
+        ->addColumn('volume', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
         ->addColumn('performance', 'double', ['nullable' => false, 'default' => null])
         ->addColumn('ticker_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
         ->addIndex(['ticker_id'], ['name' => 'ticker_datas_index_ticker_id_657179dd4f527', 'unique' => false])
-        ->addForeignKey(['ticker_id'], 'currencies', ['id'], [
+        ->addForeignKey(['ticker_id'], 'tickers', ['id'], [
             'name' => 'ticker_datas_foreign_ticker_id_657179dd4f52a',
             'delete' => 'CASCADE',
             'update' => 'CASCADE',
@@ -165,7 +165,7 @@ class InitMigration extends Migration
         $this->table('exchange_rates')
         ->addColumn('id', 'primary', ['nullable' => false, 'default' => null, 'size' => 11])
         ->addColumn('date', 'timestamp', ['nullable' => false, 'default' => null])
-        ->addColumn('rate', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 10, 'precision' => 20])
+        ->addColumn('rate', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 4, 'precision' => 10])
         ->addColumn('currency_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
         ->addIndex(['currency_id'], ['name' => 'exchange_rates_index_currency_id_657179dd4f539', 'unique' => false])
         ->addForeignKey(['currency_id'], 'currencies', ['id'], [

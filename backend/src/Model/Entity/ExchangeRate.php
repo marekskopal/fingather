@@ -7,7 +7,7 @@ namespace FinGather\Model\Entity;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\RefersTo;
-use DateTime;
+use DateTimeImmutable;
 use FinGather\Model\Repository\ExchangeRateRepository;
 
 #[Entity(repository: ExchangeRateRepository::class)]
@@ -17,8 +17,8 @@ class ExchangeRate extends AEntity
 		#[RefersTo(target: Currency::class)]
 		private Currency $currency,
 		#[Column(type: 'timestamp')]
-		private DateTime $date,
-		#[Column(type: 'decimal(20,10)')]
+		private DateTimeImmutable $date,
+		#[Column(type: 'decimal(10,4)')]
 		private float $rate,
 	) {
 	}
@@ -33,12 +33,12 @@ class ExchangeRate extends AEntity
 		$this->currency = $currency;
 	}
 
-	public function getDate(): DateTime
+	public function getDate(): DateTimeImmutable
 	{
 		return $this->date;
 	}
 
-	public function setDate(DateTime $date): void
+	public function setDate(DateTimeImmutable $date): void
 	{
 		$this->date = $date;
 	}

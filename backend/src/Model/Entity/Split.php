@@ -7,7 +7,7 @@ namespace FinGather\Model\Entity;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\RefersTo;
-use DateTime;
+use DateTimeImmutable;
 use FinGather\Model\Repository\SplitRepository;
 
 #[Entity(repository: SplitRepository::class)]
@@ -17,7 +17,7 @@ class Split extends AEntity
 		#[RefersTo(target: Ticker::class)]
 		private Ticker $ticker,
 		#[Column(type: 'timestamp')]
-		private DateTime $date,
+		private DateTimeImmutable $date,
 		#[Column(type: 'decimal(20,10)')]
 		private float $factor,
 	) {
@@ -33,12 +33,12 @@ class Split extends AEntity
 		$this->ticker = $ticker;
 	}
 
-	public function getDate(): DateTime
+	public function getDate(): DateTimeImmutable
 	{
 		return $this->date;
 	}
 
-	public function setDate(DateTime $date): void
+	public function setDate(DateTimeImmutable $date): void
 	{
 		$this->date = $date;
 	}

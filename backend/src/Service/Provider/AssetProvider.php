@@ -12,6 +12,7 @@ use FinGather\Model\Repository\SplitRepository;
 use FinGather\Model\Repository\TransactionRepository;
 use FinGather\Service\Provider\Dto\AssetPropertiesDto;
 use Safe\DateTime;
+use Safe\DateTimeImmutable;
 
 class AssetProvider
 {
@@ -59,7 +60,7 @@ class AssetProvider
 			$units += $transactionUnits;
 
 			//if close position, start from zero
-			if ($units == 0) {
+			if ($units === 0) {
 				$transactionValue = 0;
 				$transactionTotal = 0;
 
@@ -84,7 +85,14 @@ class AssetProvider
 		}
 
 		$currencyTo = $asset->getTicker()->getCurrency();
-		$exchangeRate = $this->exchangeRateProvider->getExchangeRate($dateTime, $asset->getUser()->getDefaultCurrency(), $currencyTo);
+
+		$exchangeRateDateTime = DateTimeImmutable::createFromMutable($dateTime);
+		$exchangeRateDateTime = $exchangeRateDateTime->setTime(0, 0);
+		$exchangeRate = $this->exchangeRateProvider->getExchangeRate(
+			$exchangeRateDateTime,
+			$asset->getUser()->getDefaultCurrency(),
+			$currencyTo
+		);
 
 		$value = $units * $price;
 		$gain = $value - $transactionValue;

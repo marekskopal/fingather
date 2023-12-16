@@ -10,7 +10,7 @@ use AlphaVantage\Options;
 use FinGather\Service\AlphaVantage\Dto\FxDailyDto;
 use FinGather\Service\AlphaVantage\Dto\TickerSearchDto;
 use FinGather\Service\AlphaVantage\Dto\TimeSerieDailyDto;
-use Safe\DateTime;
+use Safe\DateTimeImmutable;
 
 final class AlphaVantageApiClient
 {
@@ -51,18 +51,20 @@ final class AlphaVantageApiClient
 	/** @return list<TimeSerieDailyDto> */
 	public function getTimeSeriesDaily(string $ticker): array
 	{
+		$ticker = $this->sanitizeTicker($ticker);
+
 		$timeSeriesDaily = [];
 
 		$results = $this->client->timeSeries()->dailyAdjusted($ticker, TimeSeries::OUTPUT_TYPE_FULL);
 		foreach ($results['Time Series (Daily)'] as $date => $result) {
 			$timeSeriesDaily[] = new TimeSerieDailyDto(
-				date: new DateTime($date),
+				date: new DateTimeImmutable($date),
 				open: (float) $result['1. open'],
 				high: (float) $result['2. high'],
 				low: (float) $result['3. low'],
 				close: (float) $result['4. close'],
 				adjustedClose: (float) $result['5. adjusted close'],
-				volume: (float) $result['6. volume'],
+				volume: (int) $result['6. volume'],
 				dividendAmount: (float) $result['7. dividend amount'],
 				splitCoefficient: $result['8. split coefficient'] !== null ? (float) $result['8. split coefficient'] : 1.0,
 			);
@@ -79,7 +81,7 @@ final class AlphaVantageApiClient
 		$results = $this->client->foreignExchange()->daily('USD', $toSymbol, TimeSeries::OUTPUT_TYPE_FULL);
 		foreach ($results['Time Series FX (Daily)'] as $date => $result) {
 			$fxDaily[] = new FxDailyDto(
-				date: new DateTime($date),
+				date: new DateTimeImmutable($date),
 				open: (float) $result['1. open'],
 				high: (float) $result['2. high'],
 				low: (float) $result['3. low'],

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Model\Repository;
 
 use FinGather\Model\Entity\Split;
-use Safe\DateTime;
+use Safe\DateTimeImmutable;
 
 /** @extends ARepository<Split> */
 class SplitRepository extends ARepository
@@ -18,7 +18,7 @@ class SplitRepository extends ARepository
 		]);
 	}
 
-	public function findSplit(int $tickerId, ?DateTime $date = null): ?Split
+	public function findSplit(int $tickerId, ?DateTimeImmutable $date = null): ?Split
 	{
 		$where = [
 			'ticker_id' => $tickerId,
