@@ -19,7 +19,7 @@ class Split extends AEntity
 		#[Column(type: 'timestamp')]
 		private DateTimeImmutable $date,
 		#[Column(type: 'decimal(20,10)')]
-		private float $factor,
+		private string $factor,
 	) {
 	}
 
@@ -43,12 +43,12 @@ class Split extends AEntity
 		$this->date = $date;
 	}
 
-	public function getFactor(): float
+	public function getFactor(): string
 	{
 		return $this->factor;
 	}
 
-	public function setFactor(float $factor): void
+	public function setFactor(string $factor): void
 	{
 		$this->factor = $factor;
 	}

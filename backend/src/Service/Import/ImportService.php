@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Import;
 
+use Brick\Math\BigDecimal;
+use Brick\Math\BigInteger;
 use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Broker;
 use FinGather\Model\Entity\Currency;
@@ -89,11 +91,11 @@ final class ImportService
 					asset: $asset,
 					broker: $broker,
 					paidDate: $transactionRecord->created ?? new DateTimeImmutable(),
-					priceGross: $transactionRecord->total ?? 0,
-					priceNet: $transactionRecord->total ?? 0,
-					tax: 0,
+					priceGross: $transactionRecord->total ? (string)$transactionRecord->total : '0',
+					priceNet: $transactionRecord->total ? (string)$transactionRecord->total : '0',
+					tax: '0',
 					currency: $currency,
-					exchangeRate: 1 / $transactionRecord->exchangeRate,
+					exchangeRate: (string)BigInteger::of(1)->dividedBy($transactionRecord->exchangeRate ?? 1),
 				);
 				$this->dividendRepository->persist($dividend);
 
@@ -111,9 +113,9 @@ final class ImportService
 				$actionType = TransactionActionTypeEnum::Sell;
 			}
 
-			$units = $transactionRecord->units ?? 0;
+			$units = $transactionRecord->units ?? BigDecimal::of(0);
 			if ($actionType === TransactionActionTypeEnum::Sell) {
-				$units = -$units;
+				$units = $units->negated();
 			}
 
 			$transaction = new Transaction(
@@ -122,11 +124,11 @@ final class ImportService
 				broker: $broker,
 				actionType: $actionType->value,
 				created: $transactionRecord->created ?? new DateTimeImmutable(),
-				units: $units,
-				priceUnit: $transactionRecord->priceUnit ?? 0,
+				units: (string)$units,
+				priceUnit: $transactionRecord->priceUnit ? (string)$transactionRecord->priceUnit : '0',
 				currency: $currency,
-				exchangeRate: 1 / $transactionRecord->exchangeRate,
-				feeConversion: $transactionRecord->feeConversion ?? 0,
+				exchangeRate: (string)BigInteger::of(1)->dividedBy($transactionRecord->exchangeRate ?? 1),
+				feeConversion: $transactionRecord->feeConversion ? (string)$transactionRecord->feeConversion : '0',
 				notes: $transactionRecord->notes,
 				importIdentifier: $transactionRecord->importIdentifier,
 			);
@@ -155,11 +157,11 @@ final class ImportService
 			ticker: $mappedRecord['ticker'],
 			actionType: strtolower($mappedRecord['actionType'] ?? ''),
 			created: new DateTimeImmutable($mappedRecord['created'] ?? ''),
-			units: (float) $mappedRecord['ticker'],
-			priceUnit: (float) $mappedRecord['priceUnit'],
+			units: $mappedRecord['ticker'] ? BigDecimal::of($mappedRecord['ticker']) : null,
+			priceUnit: $mappedRecord['priceUnit'] ? BigDecimal::of($mappedRecord['priceUnit']) : null,
 			currency: $mappedRecord['currency'],
-			exchangeRate: (float) $mappedRecord['exchangeRate'],
-			feeConversion: (float) $mappedRecord['feeConversion'],
+			exchangeRate: $mappedRecord['exchangeRate'] ? BigDecimal::of($mappedRecord['exchangeRate']) : null,
+			feeConversion: $mappedRecord['feeConversion'] ? BigDecimal::of($mappedRecord['feeConversion']) : null,
 			notes: $mappedRecord['notes'],
 			importIdentifier: $mappedRecord['importIdentifier'],
 		);

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Provider;
 
+use Brick\Math\BigDecimal;
 use DateInterval;
 use FinGather\Model\Entity\Split;
 use FinGather\Model\Entity\Ticker;
@@ -73,26 +74,26 @@ class TickerDataProvider
 				continue;
 			}
 
-			$performance = 0.0;
+			$performance = BigDecimal::of(0.0);
 			if ($previousTickerData !== null) {
-				$performance = ($dailyTimeSerie->adjustedClose / $previousTickerData->getClose() / 100) - 100;
+				$performance = ($dailyTimeSerie->adjustedClose->dividedBy(BigDecimal::of($previousTickerData->getClose())->dividedBy(100)))->minus(100);
 			}
 
 			$tickerData = new TickerData(
 				ticker: $ticker,
 				date: $dailyTimeSerie->date,
-				open: $dailyTimeSerie->open,
-				close: $dailyTimeSerie->adjustedClose,
-				high: $dailyTimeSerie->high,
-				low: $dailyTimeSerie->low,
+				open: (string)$dailyTimeSerie->open,
+				close: (string)$dailyTimeSerie->adjustedClose,
+				high: (string)$dailyTimeSerie->high,
+				low: (string)$dailyTimeSerie->low,
 				volume: $dailyTimeSerie->volume,
-				performance: $performance,
+				performance: $performance->toFloat(),
 			);
 
 			$this->tickerDataRepository->persist($tickerData);
 			$previousTickerData = $tickerData;
 
-			if ($dailyTimeSerie->splitCoefficient === 1.0) {
+			if ($dailyTimeSerie->splitCoefficient->toFloat() === 1.0) {
 				continue;
 			}
 
@@ -101,7 +102,7 @@ class TickerDataProvider
 				continue;
 			}
 
-			$split = new Split(ticker: $ticker, date: $dailyTimeSerie->date, factor: $dailyTimeSerie->splitCoefficient);
+			$split = new Split(ticker: $ticker, date: $dailyTimeSerie->date, factor: (string)$dailyTimeSerie->splitCoefficient);
 			$this->splitRepository->persist($split);
 		}
 	}

@@ -21,15 +21,15 @@ class Dividend extends AEntity
 		#[Column(type: 'timestamp')]
 		private DateTimeImmutable $paidDate,
 		#[Column(type: 'decimal(20,10)')]
-		private float $priceGross,
+		private string $priceGross,
 		#[Column(type: 'decimal(20,10)')]
-		private float $priceNet,
+		private string $priceNet,
 		#[Column(type: 'decimal(20,10)')]
-		private float $tax,
+		private string $tax,
 		#[RefersTo(target: Currency::class)]
 		private Currency $currency,
 		#[Column(type: 'decimal(20,10)')]
-		private float $exchangeRate,
+		private string $exchangeRate,
 	) {
 	}
 
@@ -63,32 +63,32 @@ class Dividend extends AEntity
 		$this->paidDate = $paidDate;
 	}
 
-	public function getPriceGross(): float
+	public function getPriceGross(): string
 	{
 		return $this->priceGross;
 	}
 
-	public function setPriceGross(float $priceGross): void
+	public function setPriceGross(string $priceGross): void
 	{
 		$this->priceGross = $priceGross;
 	}
 
-	public function getPriceNet(): float
+	public function getPriceNet(): string
 	{
 		return $this->priceNet;
 	}
 
-	public function setPriceNet(float $priceNet): void
+	public function setPriceNet(string $priceNet): void
 	{
 		$this->priceNet = $priceNet;
 	}
 
-	public function getTax(): float
+	public function getTax(): string
 	{
 		return $this->tax;
 	}
 
-	public function setTax(float $tax): void
+	public function setTax(string $tax): void
 	{
 		$this->tax = $tax;
 	}
@@ -103,12 +103,12 @@ class Dividend extends AEntity
 		$this->currency = $currency;
 	}
 
-	public function getExchangeRate(): float
+	public function getExchangeRate(): string
 	{
 		return $this->exchangeRate;
 	}
 
-	public function setExchangeRate(float $exchangeRate): void
+	public function setExchangeRate(string $exchangeRate): void
 	{
 		$this->exchangeRate = $exchangeRate;
 	}

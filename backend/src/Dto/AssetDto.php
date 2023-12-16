@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Dto;
 
+use Brick\Math\BigDecimal;
 use FinGather\Model\Entity\Asset;
 use FinGather\Service\Provider\Dto\AssetPropertiesDto;
 
@@ -14,19 +15,19 @@ final readonly class AssetDto
 		public int $tickerId,
 		public TickerDto $ticker,
 		public ?int $groupId,
-		public float $price,
-		public float $units,
-		public float $value,
-		public float $transactionValue,
-		public float $gain,
-		public float $gainDefaultCurrency,
+		public BigDecimal $price,
+		public BigDecimal $units,
+		public BigDecimal $value,
+		public BigDecimal $transactionValue,
+		public BigDecimal $gain,
+		public BigDecimal $gainDefaultCurrency,
 		public float $gainPercentage,
-		public float $dividendGain,
-		public float $dividendGainDefaultCurrency,
+		public BigDecimal $dividendGain,
+		public BigDecimal $dividendGainDefaultCurrency,
 		public float $dividendGainPercentage,
-		public float $fxImpact,
+		public BigDecimal $fxImpact,
 		public float $fxImpactPercentage,
-		public float $return,
+		public BigDecimal $return,
 		public float $returnPercentage,
 	) {
 	}

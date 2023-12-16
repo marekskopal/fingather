@@ -8,7 +8,9 @@ ADD https://github.com/mlocati/docker-php-extension-installer/releases/download/
 RUN chmod +x /usr/local/bin/install-php-extensions && install-php-extensions \
     pdo_mysql \
     zip \
-    sockets
+    sockets \
+    bcmath \
+    gmp
 
 COPY --from=roadrunner /usr/bin/rr /usr/local/bin/rr
 COPY --from=composer /usr/bin/composer /usr/local/bin/composer

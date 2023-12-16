@@ -19,7 +19,7 @@ class ExchangeRate extends AEntity
 		#[Column(type: 'timestamp')]
 		private DateTimeImmutable $date,
 		#[Column(type: 'decimal(10,4)')]
-		private float $rate,
+		private string $rate,
 	) {
 	}
 
@@ -43,12 +43,12 @@ class ExchangeRate extends AEntity
 		$this->date = $date;
 	}
 
-	public function getRate(): float
+	public function getRate(): string
 	{
 		return $this->rate;
 	}
 
-	public function setRate(float $rate): void
+	public function setRate(string $rate): void
 	{
 		$this->rate = $rate;
 	}

@@ -25,15 +25,15 @@ class Transaction extends AEntity
 		#[Column(type: 'timestamp')]
 		private DateTimeImmutable $created,
 		#[Column(type: 'decimal(20,10)')]
-		private float $units,
+		private string $units,
 		#[Column(type: 'decimal(20,10)')]
-		private float $priceUnit,
+		private string $priceUnit,
 		#[RefersTo(target: Currency::class)]
 		private Currency $currency,
 		#[Column(type: 'decimal(20,10)')]
-		private float $exchangeRate,
+		private string $exchangeRate,
 		#[Column(type: 'decimal(20,10)')]
-		private float $feeConversion,
+		private string $feeConversion,
 		#[Column(type: 'tinyText', nullable: true)]
 		private ?string $notes,
 		#[Column(type: 'string', nullable: true)]
@@ -91,22 +91,22 @@ class Transaction extends AEntity
 		$this->created = $created;
 	}
 
-	public function getUnits(): float
+	public function getUnits(): string
 	{
 		return $this->units;
 	}
 
-	public function setUnits(float $units): void
+	public function setUnits(string $units): void
 	{
 		$this->units = $units;
 	}
 
-	public function getPriceUnit(): float
+	public function getPriceUnit(): string
 	{
 		return $this->priceUnit;
 	}
 
-	public function setPriceUnit(float $priceUnit): void
+	public function setPriceUnit(string $priceUnit): void
 	{
 		$this->priceUnit = $priceUnit;
 	}
@@ -121,22 +121,22 @@ class Transaction extends AEntity
 		$this->currency = $currency;
 	}
 
-	public function getExchangeRate(): float
+	public function getExchangeRate(): string
 	{
 		return $this->exchangeRate;
 	}
 
-	public function setExchangeRate(float $exchangeRate): void
+	public function setExchangeRate(string $exchangeRate): void
 	{
 		$this->exchangeRate = $exchangeRate;
 	}
 
-	public function getFeeConversion(): float
+	public function getFeeConversion(): string
 	{
 		return $this->feeConversion;
 	}
 
-	public function setFeeConversion(float $feeConversion): void
+	public function setFeeConversion(string $feeConversion): void
 	{
 		$this->feeConversion = $feeConversion;
 	}

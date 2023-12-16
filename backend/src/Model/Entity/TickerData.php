@@ -19,13 +19,13 @@ class TickerData extends AEntity
 		#[Column(type: 'timestamp')]
 		private DateTimeImmutable $date,
 		#[Column(type: 'decimal(20,10)')]
-		private float $open,
+		private string $open,
 		#[Column(type: 'decimal(20,10)')]
-		private float $close,
+		private string $close,
 		#[Column(type: 'decimal(20,10)')]
-		private float $high,
+		private string $high,
 		#[Column(type: 'decimal(20,10)')]
-		private float $low,
+		private string $low,
 		#[Column(type: 'integer')]
 		private int $volume,
 		#[Column(type: 'double')]
@@ -53,42 +53,42 @@ class TickerData extends AEntity
 		$this->date = $date;
 	}
 
-	public function getOpen(): float
+	public function getOpen(): string
 	{
 		return $this->open;
 	}
 
-	public function setOpen(float $open): void
+	public function setOpen(string $open): void
 	{
 		$this->open = $open;
 	}
 
-	public function getClose(): float
+	public function getClose(): string
 	{
 		return $this->close;
 	}
 
-	public function setClose(float $close): void
+	public function setClose(string $close): void
 	{
 		$this->close = $close;
 	}
 
-	public function getHigh(): float
+	public function getHigh(): string
 	{
 		return $this->high;
 	}
 
-	public function setHigh(float $high): void
+	public function setHigh(string $high): void
 	{
 		$this->high = $high;
 	}
 
-	public function getLow(): float
+	public function getLow(): string
 	{
 		return $this->low;
 	}
 
-	public function setLow(float $low): void
+	public function setLow(string $low): void
 	{
 		$this->low = $low;
 	}

@@ -7,6 +7,7 @@ namespace FinGather\Service\AlphaVantage;
 use AlphaVantage\Api\TimeSeries;
 use AlphaVantage\Client;
 use AlphaVantage\Options;
+use Brick\Math\BigDecimal;
 use FinGather\Service\AlphaVantage\Dto\FxDailyDto;
 use FinGather\Service\AlphaVantage\Dto\TickerSearchDto;
 use FinGather\Service\AlphaVantage\Dto\TimeSerieDailyDto;
@@ -59,14 +60,14 @@ final class AlphaVantageApiClient
 		foreach ($results['Time Series (Daily)'] as $date => $result) {
 			$timeSeriesDaily[] = new TimeSerieDailyDto(
 				date: new DateTimeImmutable($date),
-				open: (float) $result['1. open'],
-				high: (float) $result['2. high'],
-				low: (float) $result['3. low'],
-				close: (float) $result['4. close'],
-				adjustedClose: (float) $result['5. adjusted close'],
+				open: BigDecimal::of($result['1. open']),
+				high: BigDecimal::of($result['2. high']),
+				low: BigDecimal::of($result['3. low']),
+				close: BigDecimal::of($result['4. close']),
+				adjustedClose: BigDecimal::of($result['5. adjusted close']),
 				volume: (int) $result['6. volume'],
-				dividendAmount: (float) $result['7. dividend amount'],
-				splitCoefficient: $result['8. split coefficient'] !== null ? (float) $result['8. split coefficient'] : 1.0,
+				dividendAmount: BigDecimal::of($result['7. dividend amount']),
+				splitCoefficient: $result['8. split coefficient'] !== null ? BigDecimal::of($result['8. split coefficient']) : BigDecimal::of(1.0),
 			);
 		}
 
@@ -82,10 +83,10 @@ final class AlphaVantageApiClient
 		foreach ($results['Time Series FX (Daily)'] as $date => $result) {
 			$fxDaily[] = new FxDailyDto(
 				date: new DateTimeImmutable($date),
-				open: (float) $result['1. open'],
-				high: (float) $result['2. high'],
-				low: (float) $result['3. low'],
-				close: (float) $result['4. close'],
+				open: BigDecimal::of($result['1. open']),
+				high: BigDecimal::of($result['2. high']),
+				low: BigDecimal::of($result['3. low']),
+				close: BigDecimal::of($result['4. close']),
 			);
 		}
 

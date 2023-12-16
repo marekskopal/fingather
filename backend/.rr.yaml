@@ -16,5 +16,5 @@ http:
             ttl: 1200s
             idle_ttl: 300s
             max_worker_memory: 256
-        num_workers: ${ACL__RR_WORKERS:-5}
-        debug: ${ACL__RR_DEBUG:-0}
+        num_workers: ${BACKEND_ROADRUNNER_WORKERS:-5}
+        debug: ${BACKEND_ROADRUNNER_DEBUG:-0}

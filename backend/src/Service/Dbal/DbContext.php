@@ -23,7 +23,6 @@ use Cycle\Schema\Compiler;
 use Cycle\Schema\Generator\ForeignKeys;
 use Cycle\Schema\Generator\GenerateModifiers;
 use Cycle\Schema\Generator\GenerateRelations;
-use Cycle\Schema\Generator\GenerateTypecast;
 use Cycle\Schema\Generator\RenderModifiers;
 use Cycle\Schema\Generator\RenderRelations;
 use Cycle\Schema\Generator\RenderTables;
