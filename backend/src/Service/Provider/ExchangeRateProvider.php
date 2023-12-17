@@ -22,6 +22,20 @@ class ExchangeRateProvider
 
 	public function getExchangeRate(DateTimeImmutable $date, Currency $currencyFrom, Currency $currencyTo): ExchangeRate
 	{
+		$today = new DateTimeImmutable('today');
+		if ($date->getTimestamp() === $today->getTimestamp()) {
+			$date = $date->sub(DateInterval::createFromDateString('1 day'));
+		}
+
+		//TODO: AlphaVantage has not forex data for saturday and sunday. Find better source.
+		$dayOfWeek = (int) $date->format('w');
+
+		if ($dayOfWeek === 6) {
+			$date = $date->sub(DateInterval::createFromDateString('2 days'));
+		} elseif ($dayOfWeek === 5) {
+			$date = $date->sub(DateInterval::createFromDateString('1 day'));
+		}
+
 		if ($currencyFrom->getCode() === 'USD') {
 			return $this->getExchangeRateUsd($date, $currencyTo);
 		}
@@ -36,15 +50,10 @@ class ExchangeRateProvider
 		);
 	}
 
-	public function getExchangeRateUsd(DateTimeImmutable $date, Currency $currencyTo): ExchangeRate
+	private function getExchangeRateUsd(DateTimeImmutable $date, Currency $currencyTo): ExchangeRate
 	{
 		if ($currencyTo->getCode() === 'USD') {
 			return new ExchangeRate(currency: $currencyTo, date: $date, rate: 1);
-		}
-
-		$today = new DateTimeImmutable('today');
-		if ($date->getTimestamp() === $today->getTimestamp()) {
-			$date = $date->sub(DateInterval::createFromDateString('1 day'));
 		}
 
 		$exchangeRate = $this->exchangeRateRepository->findExchangeRate($date, $currencyTo->getId());

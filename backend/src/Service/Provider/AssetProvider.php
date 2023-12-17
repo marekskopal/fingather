@@ -32,7 +32,7 @@ class AssetProvider
 		return $this->assetRepository->findOpenAssets($user->getId(), $dateTime);
 	}
 
-	public function getAssetProperties(Asset $asset, DateTime $dateTime): ?AssetPropertiesDto
+	public function getAssetProperties(User $user, Asset $asset, DateTime $dateTime): ?AssetPropertiesDto
 	{
 		$transactions = $this->transactionRepository->findAssetTransactions($asset->getId(), $dateTime);
 		if (count($transactions) === 0) {
@@ -90,7 +90,7 @@ class AssetProvider
 		$exchangeRateDateTime = $exchangeRateDateTime->setTime(0, 0);
 		$exchangeRate = $this->exchangeRateProvider->getExchangeRate(
 			$exchangeRateDateTime,
-			$asset->getUser()->getDefaultCurrency(),
+			$user->getDefaultCurrency(),
 			$currencyTo
 		);
 
