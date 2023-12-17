@@ -45,7 +45,7 @@ class ExchangeRateProvider
 
 		$today = new DateTimeImmutable('today');
 		if ($date->getTimestamp() === $today->getTimestamp()) {
-			$date = $date->sub(new DateInterval('1 day'));
+			$date = $date->sub(DateInterval::createFromDateString('1 day'));
 		}
 
 		$exchangeRate = $this->exchangeRateRepository->findExchangeRate($date, $currencyTo->getId());
