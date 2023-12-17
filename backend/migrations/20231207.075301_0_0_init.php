@@ -17,8 +17,10 @@ class InitMigration extends Migration
         ->addColumn('code', 'string', ['nullable' => false, 'default' => null, 'size' => 3])
         ->addColumn('name', 'string', ['nullable' => false, 'default' => null, 'size' => 50])
         ->addColumn('symbol', 'string', ['nullable' => false, 'default' => null, 'size' => 5])
+		->addIndex(['code'], ['name' => 'currencies_index_code', 'unique' => false])
         ->setPrimaryKeys(['id'])
         ->create();
+
         $this->table('users')
         ->addColumn('id', 'primary', ['nullable' => false, 'default' => null, 'size' => 11])
         ->addColumn('email', 'string', ['nullable' => false, 'default' => null, 'size' => 255])
@@ -32,8 +34,10 @@ class InitMigration extends Migration
             'update' => 'CASCADE',
             'indexCreate' => true,
         ])
+		->addIndex(['email'], ['name' => 'users_index_email', 'unique' => false])
         ->setPrimaryKeys(['id'])
         ->create();
+
         $this->table('groups')
         ->addColumn('id', 'primary', ['nullable' => false, 'default' => null, 'size' => 11])
         ->addColumn('name', 'string', ['nullable' => false, 'default' => null, 'size' => 255])
@@ -47,6 +51,7 @@ class InitMigration extends Migration
         ])
         ->setPrimaryKeys(['id'])
         ->create();
+
         $this->table('markets')
         ->addColumn('id', 'primary', ['nullable' => false, 'default' => null, 'size' => 11])
         ->addColumn('name', 'string', ['nullable' => false, 'default' => null, 'size' => 255])
@@ -65,6 +70,7 @@ class InitMigration extends Migration
         ])
         ->setPrimaryKeys(['id'])
         ->create();
+
         $this->table('tickers')
         ->addColumn('id', 'primary', ['nullable' => false, 'default' => null, 'size' => 11])
         ->addColumn('ticker', 'string', ['nullable' => false, 'default' => null, 'size' => 20])
@@ -85,8 +91,10 @@ class InitMigration extends Migration
             'update' => 'CASCADE',
             'indexCreate' => true,
         ])
+		->addIndex(['ticker'], ['name' => 'tickers_index_ticker', 'unique' => false])
         ->setPrimaryKeys(['id'])
         ->create();
+
         $this->table('assets')
         ->addColumn('id', 'primary', ['nullable' => false, 'default' => null, 'size' => 11])
         ->addColumn('user_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
@@ -115,6 +123,7 @@ class InitMigration extends Migration
         ])
         ->setPrimaryKeys(['id'])
         ->create();
+
         $this->table('splits')
         ->addColumn('id', 'primary', ['nullable' => false, 'default' => null, 'size' => 11])
         ->addColumn('date', 'timestamp', ['nullable' => false, 'default' => null])
@@ -127,8 +136,10 @@ class InitMigration extends Migration
             'update' => 'CASCADE',
             'indexCreate' => true,
         ])
-        ->setPrimaryKeys(['id'])
+		->addIndex(['date'], ['name' => 'splits_index_date', 'unique' => false])
+		->setPrimaryKeys(['id'])
         ->create();
+
         $this->table('ticker_datas')
         ->addColumn('id', 'primary', ['nullable' => false, 'default' => null, 'size' => 11])
         ->addColumn('date', 'timestamp', ['nullable' => false, 'default' => null])
@@ -146,8 +157,10 @@ class InitMigration extends Migration
             'update' => 'CASCADE',
             'indexCreate' => true,
         ])
+		->addIndex(['date'], ['name' => 'ticker_datas_index_date', 'unique' => false])
         ->setPrimaryKeys(['id'])
         ->create();
+
         $this->table('brokers')
         ->addColumn('id', 'primary', ['nullable' => false, 'default' => null, 'size' => 11])
         ->addColumn('user_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
@@ -162,6 +175,7 @@ class InitMigration extends Migration
 		])
         ->setPrimaryKeys(['id'])
         ->create();
+
         $this->table('exchange_rates')
         ->addColumn('id', 'primary', ['nullable' => false, 'default' => null, 'size' => 11])
         ->addColumn('date', 'timestamp', ['nullable' => false, 'default' => null])
@@ -174,8 +188,10 @@ class InitMigration extends Migration
             'update' => 'CASCADE',
             'indexCreate' => true,
         ])
+		->addIndex(['date'], ['name' => 'exchange_rates_index_date', 'unique' => false])
         ->setPrimaryKeys(['id'])
         ->create();
+
         $this->table('dividends')
         ->addColumn('id', 'primary', ['nullable' => false, 'default' => null, 'size' => 11])
         ->addColumn('paid_date', 'timestamp', ['nullable' => false, 'default' => null])
@@ -207,8 +223,10 @@ class InitMigration extends Migration
             'update' => 'CASCADE',
             'indexCreate' => true,
         ])
+		->addIndex(['paid_date'], ['name' => 'dividends_index_paid_date', 'unique' => false])
         ->setPrimaryKeys(['id'])
         ->create();
+
         $this->table('transactions')
         ->addColumn('id', 'primary', ['nullable' => false, 'default' => null, 'size' => 11])
         ->addColumn('action_type', 'enum', ['nullable' => false, 'default' => null, 'values' => ['Undefined', 'Buy', 'Sell']])
@@ -251,6 +269,7 @@ class InitMigration extends Migration
             'update' => 'CASCADE',
             'indexCreate' => true,
         ])
+		->addIndex(['created'], ['name' => 'transactions_index_created', 'unique' => false])
         ->setPrimaryKeys(['id'])
         ->create();
     }
