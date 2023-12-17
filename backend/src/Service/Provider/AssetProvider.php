@@ -56,7 +56,7 @@ class AssetProvider
 			}
 
 			$transactionUnits = (new Decimal($transaction->getUnits()))->mul($splitFactor);
-			$transactionPriceUnit = (new Decimal($transaction->getPriceUnit()))->mul($splitFactor);
+			$transactionPriceUnit = (new Decimal($transaction->getPriceUnit()))->div($splitFactor);
 
 			$units = $units->add($transactionUnits);
 
