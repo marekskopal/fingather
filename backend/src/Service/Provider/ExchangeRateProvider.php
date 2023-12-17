@@ -71,7 +71,7 @@ class ExchangeRateProvider
 			$this->exchangeRateRepository->persist($exchangeRate);
 		}
 
-		$exchangeRate = $this->exchangeRateRepository->findExchangeRate($date, $currencyTo->getId());
+		$exchangeRate = $this->exchangeRateRepository->findLastExchangeRate($currencyTo->getId());
 		assert($exchangeRate instanceof ExchangeRate);
 		return $exchangeRate;
 	}
