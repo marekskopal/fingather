@@ -69,7 +69,9 @@ class AssetProvider
 			}
 
 			$transactionValue = $transactionValue->add($transactionUnits->mul($transactionPriceUnit));
-			$transactionTotal = $transactionTotal->add($transactionUnits->mul($transactionPriceUnit )->mul(new Decimal($transaction->getExchangeRate())));
+			$transactionTotal = $transactionTotal->add(
+				$transactionUnits->mul($transactionPriceUnit)->mul(new Decimal($transaction->getExchangeRate()))
+			);
 		}
 
 		$dividendTotal = new Decimal(0);

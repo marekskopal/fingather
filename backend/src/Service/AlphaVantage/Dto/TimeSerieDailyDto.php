@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace FinGather\Service\AlphaVantage\Dto;
 
-use Brick\Math\BigDecimal;
 use Decimal\Decimal;
 use Safe\DateTimeImmutable;
 

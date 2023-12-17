@@ -7,7 +7,6 @@ namespace FinGather\Service\AlphaVantage;
 use AlphaVantage\Api\TimeSeries;
 use AlphaVantage\Client;
 use AlphaVantage\Options;
-use Brick\Math\BigDecimal;
 use Decimal\Decimal;
 use FinGather\Service\AlphaVantage\Dto\FxDailyDto;
 use FinGather\Service\AlphaVantage\Dto\TickerSearchDto;
@@ -68,7 +67,9 @@ final class AlphaVantageApiClient
 				adjustedClose: new Decimal($result['5. adjusted close']),
 				volume: (int) $result['6. volume'],
 				dividendAmount: new Decimal($result['7. dividend amount']),
-				splitCoefficient: $result['8. split coefficient'] !== null ? new Decimal($result['8. split coefficient']) : new Decimal('1.0'),
+				splitCoefficient: $result['8. split coefficient'] !== null ? new Decimal($result['8. split coefficient']) : new Decimal(
+					'1.0'
+				),
 			);
 		}
 

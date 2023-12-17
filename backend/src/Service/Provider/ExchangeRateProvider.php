@@ -17,8 +17,7 @@ class ExchangeRateProvider
 	public function __construct(
 		private readonly ExchangeRateRepository $exchangeRateRepository,
 		private readonly AlphaVantageApiClient $alphaVantageApiClient
-	)
-	{
+	) {
 	}
 
 	public function getExchangeRate(DateTimeImmutable $date, Currency $currencyFrom, Currency $currencyTo): ExchangeRate
@@ -47,7 +46,7 @@ class ExchangeRateProvider
 		return new ExchangeRate(
 			currency: $currencyTo,
 			date: $date,
-			rate: (string)((new Decimal($exchangeRateFromUsd->getRate()))->div(new Decimal($exchangeRateToUsd->getRate())))
+			rate: (string) ((new Decimal($exchangeRateFromUsd->getRate()))->div(new Decimal($exchangeRateToUsd->getRate())))
 		);
 	}
 
@@ -77,7 +76,11 @@ class ExchangeRateProvider
 				continue;
 			}
 
-			$exchangeRate = new ExchangeRate(currency: $currencyTo, date: $dailyResult->date, rate: (string)$dailyResult->close->mul($multiplier));
+			$exchangeRate = new ExchangeRate(
+				currency: $currencyTo,
+				date: $dailyResult->date,
+				rate: (string) $dailyResult->close->mul($multiplier)
+			);
 			$this->exchangeRateRepository->persist($exchangeRate);
 		}
 

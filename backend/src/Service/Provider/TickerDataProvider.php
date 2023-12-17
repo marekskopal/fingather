@@ -76,16 +76,16 @@ class TickerDataProvider
 
 			$performance = new Decimal('0.0');
 			if ($previousTickerData !== null) {
-				$performance = ($dailyTimeSerie->adjustedClose->div((new Decimal($previousTickerData->getClose()))->div(100)))->sub(100);
+				$performance = $dailyTimeSerie->adjustedClose->div((new Decimal($previousTickerData->getClose()))->div(100))->sub(100);
 			}
 
 			$tickerData = new TickerData(
 				ticker: $ticker,
 				date: $dailyTimeSerie->date,
-				open: (string)$dailyTimeSerie->open,
-				close: (string)$dailyTimeSerie->adjustedClose,
-				high: (string)$dailyTimeSerie->high,
-				low: (string)$dailyTimeSerie->low,
+				open: (string) $dailyTimeSerie->open,
+				close: (string) $dailyTimeSerie->adjustedClose,
+				high: (string) $dailyTimeSerie->high,
+				low: (string) $dailyTimeSerie->low,
 				volume: $dailyTimeSerie->volume,
 				performance: $performance->toFloat(),
 			);
@@ -102,7 +102,7 @@ class TickerDataProvider
 				continue;
 			}
 
-			$split = new Split(ticker: $ticker, date: $dailyTimeSerie->date, factor: (string)$dailyTimeSerie->splitCoefficient);
+			$split = new Split(ticker: $ticker, date: $dailyTimeSerie->date, factor: (string) $dailyTimeSerie->splitCoefficient);
 			$this->splitRepository->persist($split);
 		}
 	}

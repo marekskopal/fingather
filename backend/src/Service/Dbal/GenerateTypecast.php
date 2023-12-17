@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace FinGather\Service\Dbal;
 
 use Cycle\Database\Schema\AbstractColumn;
@@ -9,7 +11,6 @@ use Cycle\Schema\Registry;
 
 final class GenerateTypecast implements GeneratorInterface
 {
-
 	public function run(Registry $registry): Registry
 	{
 		foreach ($registry as $entity) {
