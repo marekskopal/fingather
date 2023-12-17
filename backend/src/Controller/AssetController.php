@@ -20,13 +20,15 @@ class AssetController
 
 	public function actionGetAssets(ServerRequestInterface $request): ResponseInterface
 	{
+		$user = $this->requestService->getUser($request);
+
 		$dateTime = new DateTime();
 		$assets = $this->assetProvider->getAssets($this->requestService->getUser($request), $dateTime);
 
 		$assetDtos = [];
 
 		foreach ($assets as $asset) {
-			$assetProperties = $this->assetProvider->getAssetProperties($asset, $dateTime);
+			$assetProperties = $this->assetProvider->getAssetProperties($user, $asset, $dateTime);
 			if ($assetProperties === null) {
 				continue;
 			}

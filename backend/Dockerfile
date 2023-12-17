@@ -9,11 +9,14 @@ RUN chmod +x /usr/local/bin/install-php-extensions && install-php-extensions \
     pdo_mysql \
     zip \
     sockets \
+    opcache \
+    bcmath \
     decimal
 
 COPY --from=roadrunner /usr/bin/rr /usr/local/bin/rr
 COPY --from=composer /usr/bin/composer /usr/local/bin/composer
 
+COPY ./docker/docker-php.ini /usr/local/etc/php/conf.d/docker-php.ini
 COPY ./ /app/
 
 WORKDIR /app/
