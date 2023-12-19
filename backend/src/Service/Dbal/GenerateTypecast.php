@@ -20,6 +20,7 @@ final class GenerateTypecast implements GeneratorInterface
 		return $registry;
 	}
 
+	/** @phpstan-ignore-next-line */
 	protected function compute(Registry $registry, Entity $entity): void
 	{
 		if (!$registry->hasTable($entity)) {
@@ -56,7 +57,7 @@ final class GenerateTypecast implements GeneratorInterface
 				return 'string';
 		}
 
-		if (in_array($column->getAbstractType(), ['datetime', 'date', 'time', 'timestamp'])) {
+		if (in_array($column->getAbstractType(), ['datetime', 'date', 'time', 'timestamp'], strict: true)) {
 			return 'datetime';
 		}
 
