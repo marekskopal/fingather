@@ -12,6 +12,6 @@ export class PortfolioDataService {
     ) {}
 
     getPortfolioData() {
-        return this.http.get<PortfolioData>(`${environment.apiUrl}/portfoliodata`);
+        return this.http.get<PortfolioData>(`${environment.apiUrl}/portfolio-data`);
     }
 }

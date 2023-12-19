@@ -13,6 +13,7 @@ use FinGather\Model\Repository\SplitRepository;
 use FinGather\Model\Repository\TickerDataRepository;
 use FinGather\Service\AlphaVantage\AlphaVantageApiClient;
 use Safe\DateTime;
+use Safe\DateTimeImmutable;
 
 class TickerDataProvider
 {
@@ -23,14 +24,14 @@ class TickerDataProvider
 	) {
 	}
 
-	public function getLastTickerData(Ticker $ticker, DateTime $beforeDate): ?TickerData
+	public function getLastTickerData(Ticker $ticker, DateTimeImmutable $beforeDate): ?TickerData
 	{
 		$dayOfWeek = (int) $beforeDate->format('w');
 
 		if ($dayOfWeek === 6) {
-			$beforeDate->sub(DateInterval::createFromDateString('2 days'));
+			$beforeDate = $beforeDate->sub(DateInterval::createFromDateString('2 days'));
 		} elseif ($dayOfWeek === 5) {
-			$beforeDate->sub(DateInterval::createFromDateString('1 day'));
+			$beforeDate = $beforeDate->sub(DateInterval::createFromDateString('1 day'));
 		}
 
 		$lastTickerData = $this->tickerDataRepository->findLastTickerData($ticker->getId(), $beforeDate);

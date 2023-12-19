@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace FinGather\Model\Repository;
 
 use FinGather\Model\Entity\Asset;
-use Safe\DateTime;
+use Safe\DateTimeImmutable;
 
 /** @extends ARepository<Asset> */
 class AssetRepository extends ARepository
 {
 	/** @return array<int, Asset> */
-	public function findOpenAssets(int $userId, DateTime $dateTime): array
+	public function findOpenAssets(int $userId, DateTimeImmutable $dateTime): array
 	{
 		$openAssetSelect = $this->orm->getSource(Asset::class)
 			->getDatabase()
@@ -29,7 +29,7 @@ class AssetRepository extends ARepository
 	}
 
 	/** @return array<int, Asset> */
-	public function findOpenAssetsByGroup(int $userId, int $groupId, DateTime $dateTime): array
+	public function findOpenAssetsByGroup(int $userId, int $groupId, DateTimeImmutable $dateTime): array
 	{
 		$openAssetSelect = $this->orm->getSource(Asset::class)
 			->getDatabase()

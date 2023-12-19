@@ -10,7 +10,7 @@ use FinGather\Service\Request\RequestService;
 use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Safe\DateTime;
+use Safe\DateTimeImmutable;
 
 class AssetController
 {
@@ -22,7 +22,7 @@ class AssetController
 	{
 		$user = $this->requestService->getUser($request);
 
-		$dateTime = new DateTime();
+		$dateTime = new DateTimeImmutable();
 		$assets = $this->assetProvider->getAssets($this->requestService->getUser($request), $dateTime);
 
 		$assetDtos = [];

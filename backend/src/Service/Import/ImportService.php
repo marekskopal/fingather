@@ -15,6 +15,8 @@ use FinGather\Model\Entity\Transaction;
 use FinGather\Model\Repository\AssetRepository;
 use FinGather\Model\Repository\CurrencyRepository;
 use FinGather\Model\Repository\DividendRepository;
+use FinGather\Model\Repository\GroupDataRepository;
+use FinGather\Model\Repository\PortfolioDataRepository;
 use FinGather\Model\Repository\TransactionRepository;
 use FinGather\Service\Import\Entity\TransactionRecord;
 use FinGather\Service\Import\Mapper\MapperInterface;
@@ -32,6 +34,8 @@ final class ImportService
 		private readonly AssetRepository $assetRepository,
 		private readonly CurrencyRepository $currencyRepository,
 		private readonly DividendRepository $dividendRepository,
+		private readonly PortfolioDataRepository $portfolioDataRepository,
+		private readonly GroupDataRepository $groupDataRepository,
 	) {
 	}
 
@@ -139,8 +143,11 @@ final class ImportService
 		}
 
 		if ($firstDate === null) {
-			//todo: delete portfoliodata
+			return;
 		}
+
+		$this->portfolioDataRepository->deletePortfolioData($user->getId(), $firstDate);
+		$this->groupDataRepository->deleteGroupData($user->getId(), $firstDate);
 	}
 
 	/** @param array<string, string> $csvRecord */

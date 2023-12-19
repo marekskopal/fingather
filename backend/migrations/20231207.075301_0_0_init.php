@@ -272,6 +272,66 @@ class InitMigration extends Migration
 		->addIndex(['created'], ['name' => 'transactions_index_created', 'unique' => false])
         ->setPrimaryKeys(['id'])
         ->create();
+
+		$this->table('group_datas')
+			->addColumn('id', 'primary', ['nullable' => false, 'default' => null, 'size' => 11])
+			->addColumn('group_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
+			->addColumn('user_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
+			->addColumn('date', 'timestamp', ['nullable' => false, 'default' => null])
+			->addColumn('value', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 2, 'precision' => 11])
+			->addColumn('transaction_value', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 2, 'precision' => 11])
+			->addColumn('gain', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 2, 'precision' => 11])
+			->addColumn('gain_percentage', 'float', ['nullable' => false, 'default' => null])
+			->addColumn('dividend_gain', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 2, 'precision' => 11])
+			->addColumn('dividend_gain_percentage', 'float', ['nullable' => false, 'default' => null])
+			->addColumn('fx_impact', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 2, 'precision' => 11])
+			->addColumn('fx_impact_percentage', 'float', ['nullable' => false, 'default' => null])
+			->addColumn('return', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 2, 'precision' => 11])
+			->addColumn('return_percentage', 'float', ['nullable' => false, 'default' => null])
+			->addColumn('performance', 'float', ['nullable' => false, 'default' => null])
+			->addIndex(['group_id'], ['name' => 'group_datas_index_group_id_6580626872321', 'unique' => false])
+			->addIndex(['user_id'], ['name' => 'group_datas_index_user_id_658062687233a', 'unique' => false])
+			->addForeignKey(['group_id'], 'groups', ['id'], [
+				'name' => 'group_datas_foreign_group_id_658062687232a',
+				'delete' => 'CASCADE',
+				'update' => 'CASCADE',
+				'indexCreate' => true,
+			])
+			->addForeignKey(['user_id'], 'users', ['id'], [
+				'name' => 'group_datas_foreign_user_id_658062687233e',
+				'delete' => 'CASCADE',
+				'update' => 'CASCADE',
+				'indexCreate' => true,
+			])
+			->addIndex(['date'], ['name' => 'group_datas_index_date', 'unique' => false])
+			->setPrimaryKeys(['id'])
+			->create();
+
+		$this->table('portfolio_datas')
+			->addColumn('id', 'primary', ['nullable' => false, 'default' => null, 'size' => 11])
+			->addColumn('user_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
+			->addColumn('date', 'timestamp', ['nullable' => false, 'default' => null])
+			->addColumn('value', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 2, 'precision' => 11])
+			->addColumn('transaction_value', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 2, 'precision' => 11])
+			->addColumn('gain', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 2, 'precision' => 11])
+			->addColumn('gain_percentage', 'float', ['nullable' => false, 'default' => null])
+			->addColumn('dividend_gain', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 2, 'precision' => 11])
+			->addColumn('dividend_gain_percentage', 'float', ['nullable' => false, 'default' => null])
+			->addColumn('fx_impact', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 2, 'precision' => 11])
+			->addColumn('fx_impact_percentage', 'float', ['nullable' => false, 'default' => null])
+			->addColumn('return', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 2, 'precision' => 11])
+			->addColumn('return_percentage', 'float', ['nullable' => false, 'default' => null])
+			->addColumn('performance', 'float', ['nullable' => false, 'default' => null])
+			->addIndex(['user_id'], ['name' => 'portfolio_datas_index_user_id_658062687238c', 'unique' => false])
+			->addForeignKey(['user_id'], 'users', ['id'], [
+				'name' => 'portfolio_datas_foreign_user_id_6580626872392',
+				'delete' => 'CASCADE',
+				'update' => 'CASCADE',
+				'indexCreate' => true,
+			])
+			->addIndex(['date'], ['name' => 'portfolio_datas_index_date', 'unique' => false])
+			->setPrimaryKeys(['id'])
+			->create();
     }
 
     public function down(): void
@@ -288,5 +348,7 @@ class InitMigration extends Migration
         $this->table('groups')->drop();
         $this->table('users')->drop();
         $this->table('currencies')->drop();
+		$this->table('portfolio_datas')->drop();
+		$this->table('group_datas')->drop();
     }
 }

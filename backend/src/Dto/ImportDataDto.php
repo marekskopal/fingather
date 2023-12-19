@@ -18,7 +18,7 @@ readonly class ImportDataDto
 	{
 		return new self(
 			brokerId: $data['brokerId'],
-			data: base64_decode(substr($data['data'], (int) strpos($data['data'], 'base64,') + 7)),
+			data: base64_decode(substr($data['data'], (int) strpos($data['data'], 'base64,') + 7), strict: true),
 		);
 	}
 

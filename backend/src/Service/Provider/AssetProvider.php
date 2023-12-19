@@ -12,7 +12,6 @@ use FinGather\Model\Repository\DividendRepository;
 use FinGather\Model\Repository\SplitRepository;
 use FinGather\Model\Repository\TransactionRepository;
 use FinGather\Service\Provider\Dto\AssetPropertiesDto;
-use Safe\DateTime;
 use Safe\DateTimeImmutable;
 
 class AssetProvider
@@ -27,13 +26,13 @@ class AssetProvider
 	) {
 	}
 
-	/** @return iterable<Asset> */
-	public function getAssets(User $user, DateTime $dateTime): iterable
+	/** @return array<int, Asset> */
+	public function getAssets(User $user, DateTimeImmutable $dateTime): array
 	{
 		return $this->assetRepository->findOpenAssets($user->getId(), $dateTime);
 	}
 
-	public function getAssetProperties(User $user, Asset $asset, DateTime $dateTime): ?AssetPropertiesDto
+	public function getAssetProperties(User $user, Asset $asset, DateTimeImmutable $dateTime): ?AssetPropertiesDto
 	{
 		$transactions = $this->transactionRepository->findAssetTransactions($asset->getId(), $dateTime);
 		if (count($transactions) === 0) {
@@ -89,7 +88,7 @@ class AssetProvider
 
 		$currencyTo = $asset->getTicker()->getCurrency();
 
-		$exchangeRateDateTime = DateTimeImmutable::createFromMutable($dateTime);
+		$exchangeRateDateTime = DateTimeImmutable::createFromRegular($dateTime);
 		$exchangeRateDateTime = $exchangeRateDateTime->setTime(0, 0);
 		$exchangeRate = $this->exchangeRateProvider->getExchangeRate(
 			$exchangeRateDateTime,
