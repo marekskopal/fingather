@@ -156,7 +156,7 @@ final class ImportService
 			ticker: $mappedRecord['ticker'],
 			actionType: strtolower($mappedRecord['actionType'] ?? ''),
 			created: new DateTimeImmutable($mappedRecord['created'] ?? ''),
-			units: $mappedRecord['ticker'] ? new Decimal($mappedRecord['ticker']) : null,
+			units: $mappedRecord['units'] ? new Decimal($mappedRecord['units']) : null,
 			priceUnit: $mappedRecord['priceUnit'] ? new Decimal($mappedRecord['priceUnit']) : null,
 			currency: $mappedRecord['currency'],
 			exchangeRate: $mappedRecord['exchangeRate'] ? new Decimal($mappedRecord['exchangeRate']) : null,
