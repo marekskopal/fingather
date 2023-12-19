@@ -38,7 +38,7 @@ final readonly class AssetDto
 			id: $asset->getId(),
 			tickerId: $asset->getTicker()->getId(),
 			ticker: TickerDto::fromEntity($asset->getTicker()),
-			groupId: $asset->getGroup()?->getId(),
+			groupId: $asset->getGroup()->getId(),
 			price: $assetProperties->price,
 			units: $assetProperties->units,
 			value: $assetProperties->value,

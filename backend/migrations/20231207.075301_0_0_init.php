@@ -42,6 +42,7 @@ class InitMigration extends Migration
         ->addColumn('id', 'primary', ['nullable' => false, 'default' => null, 'size' => 11])
         ->addColumn('name', 'string', ['nullable' => false, 'default' => null, 'size' => 255])
         ->addColumn('user_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
+		->addColumn('is_others', 'boolean', ['nullable' => false, 'default' => false])
         ->addIndex(['user_id'], ['name' => 'groups_index_user_id_657179dd4f473', 'unique' => false])
         ->addForeignKey(['user_id'], 'users', ['id'], [
             'name' => 'groups_foreign_user_id_657179dd4f47d',
@@ -99,7 +100,7 @@ class InitMigration extends Migration
         ->addColumn('id', 'primary', ['nullable' => false, 'default' => null, 'size' => 11])
         ->addColumn('user_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
         ->addColumn('ticker_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
-        ->addColumn('group_id', 'integer', ['nullable' => true, 'default' => null, 'size' => 11])
+        ->addColumn('group_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
         ->addIndex(['user_id'], ['name' => 'assets_index_user_id_657179dd4f4c5', 'unique' => false])
         ->addIndex(['ticker_id'], ['name' => 'assets_index_ticker_id_657179dd4f4d9', 'unique' => false])
         ->addIndex(['group_id'], ['name' => 'assets_index_group_id_657179dd4f4eb', 'unique' => false])

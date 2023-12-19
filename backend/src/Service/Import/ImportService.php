@@ -16,6 +16,7 @@ use FinGather\Model\Repository\AssetRepository;
 use FinGather\Model\Repository\CurrencyRepository;
 use FinGather\Model\Repository\DividendRepository;
 use FinGather\Model\Repository\GroupDataRepository;
+use FinGather\Model\Repository\GroupRepository;
 use FinGather\Model\Repository\PortfolioDataRepository;
 use FinGather\Model\Repository\TransactionRepository;
 use FinGather\Service\Import\Entity\TransactionRecord;
@@ -36,6 +37,7 @@ final class ImportService
 		private readonly DividendRepository $dividendRepository,
 		private readonly PortfolioDataRepository $portfolioDataRepository,
 		private readonly GroupDataRepository $groupDataRepository,
+		private readonly GroupRepository $groupRepository,
 	) {
 	}
 
@@ -47,6 +49,7 @@ final class ImportService
 		$importMapper = $this->getImportMapper(BrokerImportTypeEnum::from($broker->getImportType()));
 
 		$user = $broker->getUser();
+		$othersGroup = $this->groupRepository->findOthersGroup($user->getId());
 
 		$firstDate = null;
 
@@ -79,7 +82,7 @@ final class ImportService
 				$asset = new Asset(
 					user: $user,
 					ticker: $ticker,
-					group: null,
+					group: $othersGroup,
 					transactions: [],
 				);
 				$this->assetRepository->persist($asset);

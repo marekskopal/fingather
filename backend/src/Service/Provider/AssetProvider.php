@@ -6,6 +6,7 @@ namespace FinGather\Service\Provider;
 
 use Decimal\Decimal;
 use FinGather\Model\Entity\Asset;
+use FinGather\Model\Entity\Group;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\AssetRepository;
 use FinGather\Model\Repository\DividendRepository;
@@ -30,6 +31,12 @@ class AssetProvider
 	public function getAssets(User $user, DateTimeImmutable $dateTime): array
 	{
 		return $this->assetRepository->findOpenAssets($user->getId(), $dateTime);
+	}
+
+	/** @return array<int, Asset> */
+	public function getAssetsByGroup(Group $group, User $user, DateTimeImmutable $dateTime): array
+	{
+		return $this->assetRepository->findOpenAssetsByGroup($user->getId(), $group->getId(), $dateTime);
 	}
 
 	public function getAssetProperties(User $user, Asset $asset, DateTimeImmutable $dateTime): ?AssetPropertiesDto

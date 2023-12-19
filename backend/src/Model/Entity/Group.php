@@ -12,8 +12,14 @@ use FinGather\Model\Repository\GroupRepository;
 #[Entity(repository: GroupRepository::class)]
 class Group extends AEntity
 {
-	public function __construct(#[RefersTo(target: User::class)] private User $user, #[Column(type: 'string')] private string $name,)
-	{
+	public function __construct(
+		#[RefersTo(target: User::class)]
+		private User $user,
+		#[Column(type: 'string')]
+		private string $name,
+		#[Column(type: 'boolean')]
+		private bool $isOthers,
+	) {
 	}
 
 	public function getUser(): User
@@ -34,5 +40,15 @@ class Group extends AEntity
 	public function setName(string $name): void
 	{
 		$this->name = $name;
+	}
+
+	public function isOthers(): bool
+	{
+		return $this->isOthers;
+	}
+
+	public function setIsOthers(bool $isOthers): void
+	{
+		$this->isOthers = $isOthers;
 	}
 }

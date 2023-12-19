@@ -43,10 +43,15 @@ class InitDataMigration extends Migration
 			['id' => 1, 'ticker' => 'VUSA.XLON', 'name' => 'Vanguard S&P 500 UCITS ETF', 'market_id' => 3, 'currency_id' => 3],
 			['id' => 2, 'ticker' => 'NVDA.XNAS', 'name' => 'NVIDIA Corp', 'market_id' => 1, 'currency_id' => 1],
 		])->run();
+
+		$this->database()->insert('groups')->values([
+			['id' => 1, 'user_id' => 1, 'name' => 'Others', 'is_others' => true],
+		])->run();
     }
 
     public function down(): void
     {
+		$this->database()->query('TRUNCATE ?', ['groups']);
 		$this->database()->query('TRUNCATE ?', ['tickers']);
 		$this->database()->query('TRUNCATE ?', ['brokers']);
 		$this->database()->query('TRUNCATE ?', ['markets']);

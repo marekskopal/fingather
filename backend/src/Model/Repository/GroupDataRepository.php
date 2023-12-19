@@ -10,6 +10,14 @@ use FinGather\Model\Entity\GroupData;
 /** @extends ARepository<GroupData> */
 class GroupDataRepository extends ARepository
 {
+	public function findGroupData(int $userId, DateTimeImmutable $date): ?GroupData
+	{
+		return $this->findOne([
+			'user_id' => $userId,
+			'date' => $date,
+		]);
+	}
+
 	public function deleteGroupData(int $userId, DateTimeImmutable $date): void
 	{
 		$this->orm->getSource(GroupData::class)

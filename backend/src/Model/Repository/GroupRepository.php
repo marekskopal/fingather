@@ -9,4 +9,13 @@ use FinGather\Model\Entity\Group;
 /** @extends ARepository<Group> */
 class GroupRepository extends ARepository
 {
+	public function findOthersGroup(int $userId): Group
+	{
+		$othersGroup = $this->findOne([
+			'user_id' => $userId,
+			'is_others' => true,
+		]);
+		assert($othersGroup instanceof Group);
+		return $othersGroup;
+	}
 }

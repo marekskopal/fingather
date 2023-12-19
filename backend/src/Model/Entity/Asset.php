@@ -18,8 +18,8 @@ class Asset extends AEntity
 		private User $user,
 		#[RefersTo(target: Ticker::class)]
 		private Ticker $ticker,
-		#[RefersTo(target: Group::class, nullable: true)]
-		private ?Group $group,
+		#[RefersTo(target: Group::class)]
+		private Group $group,
 		#[HasMany(target: Transaction::class)]
 		private array $transactions,
 	) {
@@ -45,12 +45,12 @@ class Asset extends AEntity
 		$this->ticker = $ticker;
 	}
 
-	public function getGroup(): ?Group
+	public function getGroup(): Group
 	{
 		return $this->group;
 	}
 
-	public function setGroup(?Group $group): void
+	public function setGroup(Group $group): void
 	{
 		$this->group = $group;
 	}
