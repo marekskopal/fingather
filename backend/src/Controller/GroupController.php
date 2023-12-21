@@ -7,6 +7,7 @@ namespace FinGather\Controller;
 use FinGather\Dto\GroupDto;
 use FinGather\Model\Entity\Group;
 use FinGather\Response\NotFoundResponse;
+use FinGather\Response\OkResponse;
 use FinGather\Service\Provider\GroupProvider;
 use FinGather\Service\Request\RequestService;
 use Laminas\Diactoros\Response\JsonResponse;
@@ -66,5 +67,52 @@ class GroupController
 			name: $requestBody['name'],
 			assetIds: $requestBody['assetIds'],
 		)));
+	}
+
+	/** @param array{groupId: string} $args */
+	public function actionPutGroup(ServerRequestInterface $request, array $args): ResponseInterface
+	{
+		$groupId = (int) $args['groupId'];
+		if ($groupId < 1) {
+			return new NotFoundResponse('Group id is required.');
+		}
+
+		$group = $this->groupProvider->getGroup(
+			user: $this->requestService->getUser($request),
+			groupId: $groupId,
+		);
+		if ($group === null) {
+			return new NotFoundResponse('Group with id "' . $groupId . '" was not found.');
+		}
+
+		/** @var array{name: string, assetIds: list<int>} $requestBody */
+		$requestBody = json_decode($request->getBody()->getContents(), assoc: true);
+
+		return new JsonResponse(GroupDto::fromEntity($this->groupProvider->updateGroup(
+			group: $group,
+			name: $requestBody['name'],
+			assetIds: $requestBody['assetIds'],
+		)));
+	}
+
+	/** @param array{groupId: string} $args */
+	public function actionDeleteGroup(ServerRequestInterface $request, array $args): ResponseInterface
+	{
+		$groupId = (int) $args['groupId'];
+		if ($groupId < 1) {
+			return new NotFoundResponse('Group id is required.');
+		}
+
+		$group = $this->groupProvider->getGroup(
+			user: $this->requestService->getUser($request),
+			groupId: $groupId,
+		);
+		if ($group === null) {
+			return new NotFoundResponse('Group with id "' . $groupId . '" was not found.');
+		}
+
+		$this->groupProvider->deleteGroup($group);
+
+		return new OkResponse();
 	}
 }

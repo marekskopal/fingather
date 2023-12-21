@@ -49,4 +49,43 @@ class GroupProvider
 
 		return $group;
 	}
+
+	/** @param list<int> $assetIds */
+	public function updateGroup(Group $group, string $name, array $assetIds): Group
+	{
+		$group->setName($name);
+		$this->groupRepository->persist($group);
+
+		$user = $group->getUser();
+		$othersGroup = $this->getOthersGroup($user);
+
+		foreach ($group->getAssets() as $asset) {
+			$asset->setGroup($othersGroup);
+			$this->assetRepository->persist($asset);
+		}
+
+		foreach ($assetIds as $assetId) {
+			$asset = $this->assetRepository->findAsset($assetId, $user->getId());
+			if ($asset === null) {
+				continue;
+			}
+
+			$asset->setGroup($group);
+			$this->assetRepository->persist($asset);
+		}
+
+		return $group;
+	}
+
+	public function deleteGroup(Group $group): void
+	{
+		$othersGroup = $this->getOthersGroup($group->getUser());
+
+		foreach ($group->getAssets() as $asset) {
+			$asset->setGroup($othersGroup);
+			$this->assetRepository->persist($asset);
+		}
+
+		$this->groupRepository->delete($group);
+	}
 }

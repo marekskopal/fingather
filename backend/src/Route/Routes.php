@@ -53,6 +53,8 @@ enum Routes: string
 		$routeList->get(self::Group->value, [GroupController::class, 'actionGetGroup']);
 		$routeList->get(self::GroupOthers->value, [GroupController::class, 'actionGetOthersGroup']);
 		$routeList->post(self::Groups->value, [GroupController::class, 'actionPostGroup']);
+		$routeList->put(self::Group->value, [GroupController::class, 'actionPutGroup']);
+		$routeList->delete(self::Group->value, [GroupController::class, 'actionDeleteGroup']);
 
 		$routeList->post(self::ImportData->value, [ImportDataController::class, 'actionImportData']);
 
