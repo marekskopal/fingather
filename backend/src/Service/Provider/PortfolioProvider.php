@@ -58,6 +58,7 @@ class PortfolioProvider
 				id: $groupId,
 				userId: $user->getId(),
 				name: $group->getName(),
+				assetIds: array_map(fn (AssetDto $asset): int => $asset->id, $groupAssets[$groupId]),
 				assets: $groupAssets[$groupId],
 				percentage: ((new Decimal($groupData->getValue()))->div(new Decimal($portfolioData->getValue())))->toFloat() * 100,
 				groupData: GroupDataDto::fromEntity($groupData),

@@ -6,12 +6,14 @@ namespace FinGather\Model\Entity;
 
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
+use Cycle\Annotated\Annotation\Relation\HasMany;
 use Cycle\Annotated\Annotation\Relation\RefersTo;
 use FinGather\Model\Repository\GroupRepository;
 
 #[Entity(repository: GroupRepository::class)]
 class Group extends AEntity
 {
+	/** @param array<int, Asset> $assets */
 	public function __construct(
 		#[RefersTo(target: User::class)]
 		private User $user,
@@ -19,6 +21,8 @@ class Group extends AEntity
 		private string $name,
 		#[Column(type: 'boolean')]
 		private bool $isOthers,
+		#[HasMany(target: Asset::class)]
+		private array $assets,
 	) {
 	}
 
@@ -50,5 +54,17 @@ class Group extends AEntity
 	public function setIsOthers(bool $isOthers): void
 	{
 		$this->isOthers = $isOthers;
+	}
+
+	/** @return array<int, Asset> */
+	public function getAssets(): array
+	{
+		return $this->assets;
+	}
+
+	/** @param array<int, Asset> $assets */
+	public function setAssets(array $assets): void
+	{
+		$this->assets = $assets;
 	}
 }

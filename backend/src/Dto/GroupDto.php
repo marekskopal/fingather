@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace FinGather\Dto;
 
+use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Group;
 
 readonly class GroupDto
 {
-	public function __construct(public int $id, public int $userId, public string $name,)
+	/** @param list<int> $assetIds */
+	public function __construct(public int $id, public int $userId, public string $name, public array $assetIds)
 	{
 	}
 
@@ -18,6 +20,7 @@ readonly class GroupDto
 			id: $entity->getId(),
 			userId: $entity->getUser()->getId(),
 			name: $entity->getName(),
+			assetIds: array_map(fn (Asset $asset): int => $asset->getId(), $entity->getAssets()),
 		);
 	}
 }

@@ -6,11 +6,13 @@ namespace FinGather\Controller;
 
 use FinGather\Dto\GroupDto;
 use FinGather\Model\Entity\Group;
+use FinGather\Response\NotFoundResponse;
 use FinGather\Service\Provider\GroupProvider;
 use FinGather\Service\Request\RequestService;
 use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use function Safe\json_decode;
 
 class GroupController
 {
@@ -28,10 +30,41 @@ class GroupController
 		return new JsonResponse($brokers);
 	}
 
+	/** @param array{groupId: string} $args */
+	public function actionGetGroup(ServerRequestInterface $request, array $args): ResponseInterface
+	{
+		$groupId = (int) $args['groupId'];
+		if ($groupId < 1) {
+			return new NotFoundResponse('Group id is required.');
+		}
+
+		$group = $this->groupProvider->getGroup(
+			user: $this->requestService->getUser($request),
+			groupId: $groupId,
+		);
+		if ($group === null) {
+			return new NotFoundResponse('Group with id "' . $groupId . '" was not found.');
+		}
+
+		return new JsonResponse(GroupDto::fromEntity($group));
+	}
+
 	public function actionGetOthersGroup(ServerRequestInterface $request): ResponseInterface
 	{
 		$othersGroup = $this->groupProvider->getOthersGroup($this->requestService->getUser($request));
 
 		return new JsonResponse(GroupDto::fromEntity($othersGroup));
+	}
+
+	public function actionPostGroup(ServerRequestInterface $request): ResponseInterface
+	{
+		/** @var array{name: string, assetIds: list<int>} $requestBody */
+		$requestBody = json_decode($request->getBody()->getContents(), assoc: true);
+
+		return new JsonResponse(GroupDto::fromEntity($this->groupProvider->createGroup(
+			user: $this->requestService->getUser($request),
+			name: $requestBody['name'],
+			assetIds: $requestBody['assetIds'],
+		)));
 	}
 }

@@ -18,6 +18,14 @@ class GroupRepository extends ARepository
 		]);
 	}
 
+	public function findGroup(int $userId, int $groupId): ?Group
+	{
+		return $this->findOne([
+			'user_id' => $userId,
+			'id' => $groupId,
+		]);
+	}
+
 	public function findOthersGroup(int $userId): Group
 	{
 		$othersGroup = $this->findOne([
