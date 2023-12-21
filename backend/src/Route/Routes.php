@@ -24,6 +24,7 @@ enum Routes: string
 	case Broker = '/api/broker/{brokerId:number}';
 
 	case Groups = '/api/group';
+	case GroupOthers = '/api/group/others';
 
 	case ImportData = '/api/import-data';
 
@@ -48,6 +49,7 @@ enum Routes: string
 		$routeList->delete(self::Broker->value, [BrokerController::class, 'actionDeleteBroker']);
 
 		$routeList->get(self::Groups->value, [GroupController::class, 'actionGetGroups']);
+		$routeList->get(self::GroupOthers->value, [GroupController::class, 'actionGetOthersGroup']);
 
 		$routeList->post(self::ImportData->value, [ImportDataController::class, 'actionImportData']);
 

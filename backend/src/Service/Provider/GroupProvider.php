@@ -19,4 +19,9 @@ class GroupProvider
 	{
 		return $this->groupRepository->findGroups($user->getId());
 	}
+
+	public function getOthersGroup(User $user): Group
+	{
+		return $this->groupRepository->findOthersGroup($user->getId());
+	}
 }

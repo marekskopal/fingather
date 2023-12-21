@@ -15,7 +15,7 @@
         <div class="mb-3">
             <label for="assetIds" class="form-label">Assets</label>
             <select multiple id="assetIds" formControlName="assetIds" class="form-control">
-                <option *ngFor="let asset of assets" [ngValue]="asset.id" [disabled]="asset.groupId != null && asset.groupId != id">
+                <option *ngFor="let asset of assets" [ngValue]="asset.id" [disabled]="asset.groupId != othersGroup.id && asset.groupId != id">
                     {{ asset.ticker.name }}
                 </option>
             </select>

@@ -4,7 +4,7 @@ import {first} from 'rxjs/operators';
 
 import {AlertService, AssetService, GroupService} from '@app/_services';
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
-import {Asset} from "../_models";
+import {Asset, Group} from "../_models";
 
 @Component({ templateUrl: 'add-edit.component.html' })
 export class AddEditComponent implements OnInit {
@@ -14,6 +14,7 @@ export class AddEditComponent implements OnInit {
     public loading = false;
     public submitted = false;
     public assets: Asset[];
+    public othersGroup: Group;
 
     constructor(
         private formBuilder: UntypedFormBuilder,
@@ -36,8 +37,13 @@ export class AddEditComponent implements OnInit {
                 this.assets = assets;
             });
 
+        this.groupService.getOthersGroup()
+            .subscribe((group) => {
+                this.othersGroup = group;
+            });
+
         if (!this.isAddMode) {
-            this.groupService.getByUuid(this.id)
+            this.groupService.getById(this.id)
                 .pipe(first())
                 .subscribe(x => this.form.patchValue(x));
         }

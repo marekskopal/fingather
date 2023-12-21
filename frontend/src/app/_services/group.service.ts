@@ -26,8 +26,12 @@ export class GroupService extends ANotifyService {
         return this.http.get<Group[]>(`${environment.apiUrl}/group`);
     }
 
-    public getByUuid(id: string) {
+    public getById(id: string) {
         return this.http.get<Group>(`${environment.apiUrl}/group/${id}`);
+    }
+
+    public getOthersGroup() {
+        return this.http.get<Group>(`${environment.apiUrl}/group/others`);
     }
 
     public update(id, params) {

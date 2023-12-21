@@ -27,4 +27,11 @@ class GroupController
 
 		return new JsonResponse($brokers);
 	}
+
+	public function actionGetOthersGroup(ServerRequestInterface $request): ResponseInterface
+	{
+		$othersGroup = $this->groupProvider->getOthersGroup($this->requestService->getUser($request));
+
+		return new JsonResponse(GroupDto::fromEntity($othersGroup));
+	}
 }
