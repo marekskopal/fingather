@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace FinGather\Dto;
 
-use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Model\Entity\TickerData;
 
@@ -13,7 +12,7 @@ final readonly class TickerDataDto
 	public function __construct(
 		public int $id,
 		public int $tickerId,
-		public DateTimeImmutable $date,
+		public string $date,
 		public Decimal $open,
 		public Decimal $close,
 		public Decimal $high,
@@ -28,7 +27,7 @@ final readonly class TickerDataDto
 		return new self(
 			id: $tickerData->getId(),
 			tickerId: $tickerData->getTicker()->getId(),
-			date: $tickerData->getDate(),
+			date: $tickerData->getDate()->format('Y-m-d\TH:i:sp'),
 			open: new Decimal($tickerData->getOpen()),
 			close: new Decimal($tickerData->getClose()),
 			high: new Decimal($tickerData->getHigh()),

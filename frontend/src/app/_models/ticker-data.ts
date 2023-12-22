@@ -1,11 +1,11 @@
 ﻿export class tickerData {
     id: number;
     tickerId: number;
-    date: Date;
-    open: number;
-    close: number;
-    high: number;
-    low: number;
+    date: string;
+    open: string;
+    close: string;
+    high: string;
+    low: string;
     volume: number;
     performance: number;
 }

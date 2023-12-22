@@ -73,10 +73,10 @@ export class AssetTickerChartComponent implements OnInit {
             chartData.push({
                 x: new Date(assetTickerData.date),
                 y: [
-                    assetTickerData.open,
-                    assetTickerData.high,
-                    assetTickerData.low,
-                    assetTickerData.close,
+                    parseFloat(assetTickerData.open),
+                    parseFloat(assetTickerData.high),
+                    parseFloat(assetTickerData.low),
+                    parseFloat(assetTickerData.close),
                 ]
             });
         }
