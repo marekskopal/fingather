@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Provider;
 
+use Cycle\Database\Exception\StatementException\ConstrainException;
 use DateInterval;
 use Decimal\Decimal;
 use FinGather\Model\Entity\Split;
@@ -97,7 +98,11 @@ class TickerDataProvider
 				performance: $performance->toFloat(),
 			);
 
-			$this->tickerDataRepository->persist($tickerData);
+			try {
+				$this->tickerDataRepository->persist($tickerData);
+			} catch (ConstrainException) {
+			}
+
 			$previousTickerData = $tickerData;
 
 			if ($dailyTimeSerie->splitCoefficient->toFloat() === 1.0) {
