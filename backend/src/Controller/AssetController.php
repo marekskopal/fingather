@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Controller;
 
 use FinGather\Dto\AssetDto;
+use FinGather\Response\NotFoundResponse;
 use FinGather\Service\Provider\AssetProvider;
 use FinGather\Service\Request\RequestService;
 use Laminas\Diactoros\Response\JsonResponse;
@@ -37,5 +38,33 @@ class AssetController
 		}
 
 		return new JsonResponse($assetDtos);
+	}
+
+	/** @param array{assetId: string} $args */
+	public function actionGetAsset(ServerRequestInterface $request, array $args): ResponseInterface
+	{
+		$assetId = (int) $args['assetId'];
+		if ($assetId < 1) {
+			return new NotFoundResponse('Asset id is required.');
+		}
+
+		$user = $this->requestService->getUser($request);
+
+		$asset = $this->assetProvider->getAsset(
+			user: $user,
+			assetId: $assetId,
+		);
+		if ($asset === null) {
+			return new NotFoundResponse('Asset with id "' . $assetId . '" was not found.');
+		}
+
+		$dateTime = new DateTimeImmutable();
+
+		$assetProperties = $this->assetProvider->getAssetProperties($user, $asset, $dateTime);
+		if ($assetProperties === null) {
+			return new NotFoundResponse('Asset with id "' . $assetId . '" was not found.');
+		}
+
+		return new JsonResponse(AssetDto::fromEntity($asset, $assetProperties));
 	}
 }

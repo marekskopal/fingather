@@ -39,6 +39,11 @@ class AssetProvider
 		return $this->assetRepository->findOpenAssetsByGroup($user->getId(), $group->getId(), $dateTime);
 	}
 
+	public function getAsset(User $user, int $assetId): ?Asset
+	{
+		return $this->assetRepository->findAsset($assetId, $user->getId());
+	}
+
 	public function getAssetProperties(User $user, Asset $asset, DateTimeImmutable $dateTime): ?AssetPropertiesDto
 	{
 		$transactions = $this->transactionRepository->findAssetTransactions($asset->getId(), $dateTime);
