@@ -25,7 +25,7 @@ class GroupDataProvider
 	{
 		$dateTime = $dateTime->setTime(0, 0);
 
-		$groupData = $this->groupDataRepository->findGroupData($user->getId(), $dateTime);
+		$groupData = $this->groupDataRepository->findGroupData($group->getId(), $dateTime);
 		if ($groupData !== null) {
 			return $groupData;
 		}

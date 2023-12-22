@@ -7,12 +7,16 @@ namespace FinGather\Service\Provider;
 use FinGather\Model\Entity\Group;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\AssetRepository;
+use FinGather\Model\Repository\GroupDataRepository;
 use FinGather\Model\Repository\GroupRepository;
 
 class GroupProvider
 {
-	public function __construct(private readonly GroupRepository $groupRepository, private readonly AssetRepository $assetRepository)
-	{
+	public function __construct(
+		private readonly GroupRepository $groupRepository,
+		private readonly AssetRepository $assetRepository,
+		private readonly GroupDataRepository $groupDataRepository,
+	) {
 	}
 
 	/** @return iterable<Group> */
@@ -47,6 +51,9 @@ class GroupProvider
 			$this->assetRepository->persist($asset);
 		}
 
+		$othersGroup = $this->getOthersGroup($user);
+		$this->groupDataRepository->deleteGroupData($othersGroup->getId());
+
 		return $group;
 	}
 
@@ -74,6 +81,9 @@ class GroupProvider
 			$this->assetRepository->persist($asset);
 		}
 
+		$this->groupDataRepository->deleteGroupData($othersGroup->getId());
+		$this->groupDataRepository->deleteGroupData($group->getId());
+
 		return $group;
 	}
 
@@ -85,6 +95,8 @@ class GroupProvider
 			$asset->setGroup($othersGroup);
 			$this->assetRepository->persist($asset);
 		}
+
+		$this->groupDataRepository->deleteGroupData($othersGroup->getId());
 
 		$this->groupRepository->delete($group);
 	}

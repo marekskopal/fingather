@@ -150,7 +150,7 @@ final class ImportService
 		}
 
 		$this->portfolioDataRepository->deletePortfolioData($user->getId(), $firstDate);
-		$this->groupDataRepository->deleteGroupData($user->getId(), $firstDate);
+		$this->groupDataRepository->deleteUserGroupData($user->getId(), $firstDate);
 	}
 
 	/** @param array<string, string> $csvRecord */
