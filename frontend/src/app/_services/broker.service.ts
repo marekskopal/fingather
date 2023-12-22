@@ -24,18 +24,18 @@ export class BrokerService {
         return this.http.get<Broker[]>(`${environment.apiUrl}/broker`);
     }
 
-    getByUuid(id: string) {
+    getByUuid(id: number) {
         return this.http.get<Broker>(`${environment.apiUrl}/broker/${id}`);
     }
 
-    update(id, params) {
+    update(id: number, params) {
         return this.http.put(`${environment.apiUrl}/broker/${id}`, params)
             .pipe(map(x => {
                 return x;
             }));
     }
 
-    delete(id: string) {
+    delete(id: number) {
         return this.http.delete(`${environment.apiUrl}/broker/${id}`)
             .pipe(map(x => {
                 return x;

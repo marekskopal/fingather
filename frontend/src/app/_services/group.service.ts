@@ -26,7 +26,7 @@ export class GroupService extends ANotifyService {
         return this.http.get<Group[]>(`${environment.apiUrl}/group`);
     }
 
-    public getById(id: string) {
+    public getById(id: number) {
         return this.http.get<Group>(`${environment.apiUrl}/group/${id}`);
     }
 
@@ -34,14 +34,14 @@ export class GroupService extends ANotifyService {
         return this.http.get<Group>(`${environment.apiUrl}/group/others`);
     }
 
-    public update(id, params) {
+    public update(id: number, params) {
         return this.http.put(`${environment.apiUrl}/group/${id}`, params)
             .pipe(map(x => {
                 return x;
             }));
     }
 
-    public delete(id: string) {
+    public delete(id: number) {
         return this.http.delete(`${environment.apiUrl}/group/${id}`)
             .pipe(map(x => {
                 return x;

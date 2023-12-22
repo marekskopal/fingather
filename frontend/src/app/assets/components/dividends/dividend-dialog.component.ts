@@ -10,8 +10,8 @@ import { ABaseDialog } from '../../../shared/components/dialog/base-dialog';
 
 @Component({ templateUrl: 'dividend-dialog.component.html' })
 export class DividendDialogComponent extends ABaseDialog implements OnInit {
-    @Input() id: string;
-    @Input() assetId: string;
+    @Input() id: number;
+    @Input() assetId: number;
     public brokers: Broker[];
     public currencies: Currency[];
 

@@ -21,24 +21,24 @@ export class TransactionService {
         return this.http.get<Transaction[]>(`${environment.apiUrl}/transaction`);
     }
 
-    findByAssetId(assetId: string) {
+    findByAssetId(assetId: number) {
         const params = new HttpParams().set('assetId', assetId);
 
         return this.http.get<Transaction[]>(`${environment.apiUrl}/transaction`, {params});
     }
 
-    getByUuid(id: string) {
+    getByUuid(id: number) {
         return this.http.get<Transaction>(`${environment.apiUrl}/transaction/${id}`);
     }
 
-    update(id, params) {
+    update(id: number, params) {
         return this.http.put(`${environment.apiUrl}/transaction/${id}`, params)
             .pipe(map(x => {
                 return x;
             }));
     }
 
-    delete(id: string) {
+    delete(id: number) {
         return this.http.delete(`${environment.apiUrl}/transaction/${id}`)
             .pipe(map(x => {
                 return x;

@@ -24,13 +24,13 @@ export class DividendService extends ANotifyService {
         return this.http.get<Dividend[]>(`${environment.apiUrl}/dividend`);
     }
 
-    public findByAssetId(assetId: string) {
+    public findByAssetId(assetId: number) {
         const params = new HttpParams().set('assetId', assetId);
 
         return this.http.get<Dividend[]>(`${environment.apiUrl}/dividend`, {params});
     }
 
-    public getById(id: string) {
+    public getById(id: number) {
         return this.http.get<Dividend>(`${environment.apiUrl}/dividend/${id}`)
             .pipe(map(dividend => {
                 dividend.paidDate = new Date(String(dividend.paidDate));
@@ -39,14 +39,14 @@ export class DividendService extends ANotifyService {
             ))
     }
 
-    public update(id: string, params) {
+    public update(id: number, params) {
         return this.http.put(`${environment.apiUrl}/dividend/${id}`, params)
             .pipe(map(x => {
                 return x;
             }));
     }
 
-    public delete(id: string) {
+    public delete(id: number) {
         return this.http.delete(`${environment.apiUrl}/dividend/${id}`)
             .pipe(map(x => {
                 return x;

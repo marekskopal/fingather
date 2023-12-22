@@ -8,7 +8,7 @@ import {ActivatedRoute} from "@angular/router";
 @Component({ templateUrl: 'detail.component.html' })
 export class DetailComponent implements OnInit {
     public asset: Asset|null = null;
-    public id: string;
+    public id: number;
 
     constructor(
       private assetService: AssetService,

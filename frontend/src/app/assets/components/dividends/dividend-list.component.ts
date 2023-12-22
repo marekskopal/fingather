@@ -13,7 +13,7 @@ import { DividendDialogComponent } from './dividend-dialog.component';
 })
 export class DividendListComponent implements OnInit, OnDestroy {
     public dividends: Dividend[]|null = null;
-    public assetId: string;
+    public assetId: number;
 
     constructor(
         private dividendService: DividendService,
@@ -27,7 +27,7 @@ export class DividendListComponent implements OnInit, OnDestroy {
         this.dividendService.findByAssetId(this.assetId)
             .pipe(first())
             .subscribe(dividends => this.dividends = dividends);
-       
+
         this.dividendService.eventEmitter.subscribe(notified => {
             this.ngOnInit();
         });
@@ -47,7 +47,7 @@ export class DividendListComponent implements OnInit, OnDestroy {
         dividendDialogComponent.componentInstance.id = id;
     }
 
-    public deleteDividend(id: string): void {
+    public deleteDividend(id: number): void {
         const dividend = this.dividends.find(x => x.id === id);
         dividend.isDeleting = true;
         this.dividendService.delete(id)

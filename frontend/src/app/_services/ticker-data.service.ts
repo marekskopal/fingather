@@ -8,13 +8,13 @@ import { environment } from '@environments/environment';
 import { tickerData } from '@app/_models';
 
 @Injectable({ providedIn: 'root' })
-export class AssetTickerDataService {
+export class TickerDataService {
     constructor(
         private router: Router,
         private http: HttpClient
     ) {}
 
-    findLastYear(assetTickerId: string) {
-        return this.http.get<tickerData[]>(`${environment.apiUrl}/assettickerdata/${assetTickerId}`);
+    findLastYear(assetTickerId: number) {
+        return this.http.get<tickerData[]>(`${environment.apiUrl}/ticker-data/${assetTickerId}`);
     }
 }

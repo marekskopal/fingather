@@ -1,7 +1,6 @@
 ﻿import { AEntity } from ".";
 
 export class Transaction extends AEntity {
-    id: string;
     assetId: string;
     brokerId: string;
     actionType: string

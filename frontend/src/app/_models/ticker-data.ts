@@ -1,6 +1,6 @@
 ﻿export class tickerData {
-    id: string;
-    tickerId: string;
+    id: number;
+    tickerId: number;
     date: Date;
     open: number;
     close: number;

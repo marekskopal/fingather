@@ -1,8 +1,8 @@
 ﻿import { AEntity } from ".";
 
 export class Dividend extends AEntity {
-    assetId: string;
-    brokerId: string;
+    assetId: number;
+    brokerId: number;
     paidDate: Date;
     priceGross: number;
     priceNet: number;

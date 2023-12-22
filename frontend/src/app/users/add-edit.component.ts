@@ -8,7 +8,7 @@ import { AccountService, AlertService } from '@app/_services';
 @Component({ templateUrl: 'add-edit.component.html' })
 export class AddEditComponent implements OnInit {
     form: UntypedFormGroup;
-    id: string;
+    id: number;
     isAddMode: boolean;
     loading = false;
     submitted = false;
@@ -24,7 +24,7 @@ export class AddEditComponent implements OnInit {
     ngOnInit() {
         this.id = this.route.snapshot.params['id'];
         this.isAddMode = !this.id;
-        
+
         // password not required in edit mode
         const passwordValidators = [Validators.minLength(6)];
         if (this.isAddMode) {

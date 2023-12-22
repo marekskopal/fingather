@@ -22,18 +22,18 @@ export class AssetService {
         return this.http.get<Asset[]>(`${environment.apiUrl}/asset`);
     }
 
-    getById(id: string) {
+    getById(id: number) {
         return this.http.get<Asset>(`${environment.apiUrl}/asset/${id}`);
     }
 
-    update(id, params) {
+    update(id: number, params) {
         return this.http.put(`${environment.apiUrl}/asset/${id}`, params)
             .pipe(map(x => {
                 return x;
             }));
     }
 
-    delete(id: string) {
+    delete(id: number) {
         return this.http.delete(`${environment.apiUrl}/asset/${id}`)
             .pipe(map(x => {
                 return x;

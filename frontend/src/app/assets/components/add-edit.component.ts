@@ -9,7 +9,7 @@ import {Asset, ticker, Broker} from "../../_models";
 @Component({ templateUrl: 'add-edit.component.html' })
 export class AddEditComponent implements OnInit {
     public form: UntypedFormGroup;
-    public id: string;
+    public id: number;
     public isAddMode: boolean;
     public loading = false;
     public submitted = false;

@@ -1,5 +1,5 @@
 ﻿export class Broker {
-    id: string;
+    id: number;
     userId: number;
     name: string;
     importType: BrokerImportTypes;

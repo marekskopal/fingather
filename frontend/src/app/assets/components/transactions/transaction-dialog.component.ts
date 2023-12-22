@@ -11,9 +11,9 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({ templateUrl: 'transaction-dialog.component.html' })
 export class TransactionDialogComponent implements OnInit {
     public form: UntypedFormGroup;
-    public assetId: string;
+    public assetId: number;
     public asset: Asset;
-    public id: string;
+    public id: number;
     public isAddMode: boolean;
     public loading = false;
     public submitted = false;

@@ -9,7 +9,7 @@ import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 @Component({ templateUrl: 'add-edit.component.html' })
 export class AddEditComponent implements OnInit {
     public form: UntypedFormGroup;
-    @Input() id: string;
+    @Input() id: number;
     public isAddMode: boolean;
     public loading = false;
     public submitted = false;

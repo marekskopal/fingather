@@ -1,5 +1,5 @@
 ﻿export class ticker {
-    id: string;
+    id: number;
     ticker: string;
     name: string;
 }

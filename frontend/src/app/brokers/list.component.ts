@@ -33,12 +33,12 @@ export class ListComponent implements OnInit, OnDestroy {
         this.modalService.open(AddEditComponent, {ariaLabelledBy: 'modal-basic-title'});
     }
 
-    editBroker(id: string) {
+    editBroker(id: number) {
         const addEditComponent = this.modalService.open(AddEditComponent, {ariaLabelledBy: 'modal-basic-title'});
         addEditComponent.componentInstance.id = id;
     }
 
-    deleteBroker(id: string) {
+    deleteBroker(id: number) {
         const broker = this.brokers.find(x => x.id === id);
         //asset.isDeleting = true;
         this.brokerService.delete(id)

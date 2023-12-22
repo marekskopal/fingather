@@ -13,7 +13,7 @@ import { TransactionDialogComponent } from './transaction-dialog.component';
 })
 export class TransactionListComponent implements OnInit {
     public transactions: Transaction[]|null = null;
-    public assetId: string;
+    public assetId: number;
 
     constructor(
         private transactionService: TransactionService,
@@ -33,7 +33,7 @@ export class TransactionListComponent implements OnInit {
         this.modalService.open(TransactionDialogComponent);
     }
 
-    deleteTransaction(id: string) {
+    deleteTransaction(id: number) {
         const transaction = this.transactions.find(x => x.id === id);
         transaction.isDeleting = true;
         this.transactionService.delete(id)

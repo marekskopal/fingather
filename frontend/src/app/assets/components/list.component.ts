@@ -25,7 +25,7 @@ export class ListComponent implements OnInit {
         this.modalService.open(AddEditComponent);
     }
 
-    deleteAsset(id: string) {
+    deleteAsset(id: number) {
         const asset = this.assets.find(x => x.id === id);
         //asset.isDeleting = true;
         this.assetService.delete(id)

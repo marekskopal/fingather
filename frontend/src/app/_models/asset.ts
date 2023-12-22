@@ -1,9 +1,9 @@
 ﻿import {ticker} from "@app/_models/ticker";
 
 export class Asset {
-    id: string;
-    tickerId: string;
-    groupId: string|null
+    id: number;
+    tickerId: number;
+    groupId: number
     price: number;
     units: number;
     value: number;

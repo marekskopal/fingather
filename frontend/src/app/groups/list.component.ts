@@ -33,12 +33,12 @@ export class ListComponent implements OnInit, OnDestroy {
         this.modalService.open(AddEditComponent);
     }
 
-    editGroup(id: string) {
+    editGroup(id: number) {
         const addEditComponent = this.modalService.open(AddEditComponent);
         addEditComponent.componentInstance.id = id;
     }
 
-    deleteGroup(id: string) {
+    deleteGroup(id: number) {
         const group = this.groups.find(x => x.id === id);
         group.isDeleting = true;
         this.groupService.delete(id)
