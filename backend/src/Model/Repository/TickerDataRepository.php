@@ -10,6 +10,17 @@ use Safe\DateTimeImmutable;
 /** @extends ARepository<TickerData> */
 class TickerDataRepository extends ARepository
 {
+	/** @return array<TickerData> */
+	public function findTickerDatas(int $tickerId, DateTimeImmutable $fromDate, DateTimeImmutable $toDate): array
+	{
+		return $this->select()
+			->where('ticker_id', $tickerId)
+			->where('date', '>=', $fromDate)
+			->where('date', '<=', $toDate)
+			->orderBy('date', 'DESC')
+			->fetchAll();
+	}
+
 	public function findLastTickerData(int $tickerId, ?DateTimeImmutable $beforeDate = null): ?TickerData
 	{
 		$select = $this->select()

@@ -159,6 +159,7 @@ class InitMigration extends Migration
             'indexCreate' => true,
         ])
 		->addIndex(['date'], ['name' => 'ticker_datas_index_date', 'unique' => false])
+		->addIndex(['date', 'ticker_id'], ['name' => 'ticker_datas_index_date_ticker_id', 'unique' => true])
         ->setPrimaryKeys(['id'])
         ->create();
 

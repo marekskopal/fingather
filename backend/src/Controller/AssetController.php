@@ -50,10 +50,7 @@ class AssetController
 
 		$user = $this->requestService->getUser($request);
 
-		$asset = $this->assetProvider->getAsset(
-			user: $user,
-			assetId: $assetId,
-		);
+		$asset = $this->assetProvider->getAsset(user: $user, assetId: $assetId);
 		if ($asset === null) {
 			return new NotFoundResponse('Asset with id "' . $assetId . '" was not found.');
 		}

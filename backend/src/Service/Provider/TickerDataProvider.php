@@ -24,6 +24,12 @@ class TickerDataProvider
 	) {
 	}
 
+	/** @return array<TickerData> */
+	public function getTickerDatas(Ticker $ticker, DateTimeImmutable $fromDate, DateTimeImmutable $toDate): array
+	{
+		return $this->tickerDataRepository->findTickerDatas($ticker->getId(), $fromDate, $toDate);
+	}
+
 	public function getLastTickerData(Ticker $ticker, DateTimeImmutable $beforeDate): ?TickerData
 	{
 		$dayOfWeek = (int) $beforeDate->format('w');

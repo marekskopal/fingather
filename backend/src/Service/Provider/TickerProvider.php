@@ -20,6 +20,11 @@ class TickerProvider
 	) {
 	}
 
+	public function getTicker(int $tickerId): ?Ticker
+	{
+		return $this->tickerRepository->findTicker($tickerId);
+	}
+
 	public function getOrCreateTicker(string $ticker): ?Ticker
 	{
 		$tickerEntity = $this->tickerRepository->findTickerByTicker($ticker);
