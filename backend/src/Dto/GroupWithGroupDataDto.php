@@ -14,7 +14,7 @@ final readonly class GroupWithGroupDataDto extends GroupWithAssetsDto
 		int $id,
 		int $userId,
 		string $name,
-		public array $assetIds,
+		array $assetIds,
 		array $assets,
 		public float $percentage,
 		public GroupDataDto $groupData
