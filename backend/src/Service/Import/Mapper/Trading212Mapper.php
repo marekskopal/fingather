@@ -70,7 +70,6 @@ class Trading212Mapper implements MapperInterface
 			'GOOGL.XNAS' => 'GOOGL',
 			'VZ.XNYS' => 'VZ',
 			'CVX.XNYS' => 'CVX',
-			'STOR.XNYS' => 'STOR',
 			'GLE.XPAR' => 'GLE',
 			'WPC.XNYS' => 'WPC',
 			'PLTR.XNYS' => 'PLTR',

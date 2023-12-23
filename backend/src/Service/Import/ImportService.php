@@ -25,6 +25,7 @@ use FinGather\Service\Import\Mapper\RevolutMapper;
 use FinGather\Service\Import\Mapper\Trading212Mapper;
 use FinGather\Service\Provider\TickerProvider;
 use League\Csv\Reader;
+use Psr\Log\LoggerInterface;
 use Safe\DateTimeImmutable;
 
 final class ImportService
@@ -38,6 +39,7 @@ final class ImportService
 		private readonly PortfolioDataRepository $portfolioDataRepository,
 		private readonly GroupDataRepository $groupDataRepository,
 		private readonly GroupRepository $groupRepository,
+		private readonly LoggerInterface $logger,
 	) {
 	}
 
@@ -66,10 +68,12 @@ final class ImportService
 					$transactionRecord->importIdentifier
 				) !== null
 			) {
+				$this->logger->log('import', 'Skipped transaction: ' . implode(',', $record));
 				continue;
 			}
 
 			if (!isset($transactionRecord->ticker)) {
+				$this->logger->log('import', 'Ticker not found: ' . implode(',', $record));
 				continue;
 			}
 
@@ -80,6 +84,7 @@ final class ImportService
 
 			$ticker = $this->tickerProvider->getOrCreateTicker($transactionRecordTicker);
 			if ($ticker === null) {
+				$this->logger->log('import', 'Ticker not created: ' . implode(',', $record));
 				continue;
 			}
 
@@ -175,8 +180,10 @@ final class ImportService
 			$exchangeRate = null;
 		}
 
+		$ticker = ($mappedRecord['ticker'] ?? '') !== '' ? ($mappedRecord['ticker'] ?? null) : null;
+
 		return new TransactionRecord(
-			ticker: $mappedRecord['ticker'],
+			ticker: $ticker,
 			actionType: strtolower($mappedRecord['actionType'] ?? ''),
 			created: new DateTimeImmutable($mappedRecord['created'] ?? ''),
 			units: $mappedRecord['units'] ? new Decimal($mappedRecord['units']) : null,
@@ -184,8 +191,8 @@ final class ImportService
 			currency: $mappedRecord['currency'],
 			exchangeRate: $exchangeRate,
 			feeConversion: $mappedRecord['feeConversion'] ? new Decimal($mappedRecord['feeConversion']) : null,
-			notes: $mappedRecord['notes'],
-			importIdentifier: $mappedRecord['importIdentifier'],
+			notes: $mappedRecord['notes'] ?? null,
+			importIdentifier: $mappedRecord['importIdentifier'] ?? null,
 		);
 	}
 
