@@ -14,6 +14,9 @@ use Safe\DateTimeImmutable;
 
 class ExchangeRateProvider
 {
+	/** @var array<string, ExchangeRate> */
+	private array $exchangeRates = [];
+
 	public function __construct(
 		private readonly ExchangeRateRepository $exchangeRateRepository,
 		private readonly AlphaVantageApiClient $alphaVantageApiClient
@@ -22,6 +25,11 @@ class ExchangeRateProvider
 
 	public function getExchangeRate(DateTimeImmutable $date, Currency $currencyFrom, Currency $currencyTo): ExchangeRate
 	{
+		$key = $date->getTimestamp() . '_' . $currencyFrom->getCode() . '_' . $currencyTo->getCode();
+		if (isset($this->exchangeRates[$key])) {
+			return $this->exchangeRates[$key];
+		}
+
 		$today = new DateTimeImmutable('today');
 		if ($date->getTimestamp() === $today->getTimestamp()) {
 			$date = $date->sub(DateInterval::createFromDateString('1 day'));
@@ -43,11 +51,15 @@ class ExchangeRateProvider
 		$exchangeRateFromUsd = $this->getExchangeRateUsd($date, $currencyFrom);
 		$exchangeRateToUsd = $this->getExchangeRateUsd($date, $currencyTo);
 
-		return new ExchangeRate(
+		$exchangeRate = new ExchangeRate(
 			currency: $currencyTo,
 			date: $date,
-			rate: (string) ((new Decimal($exchangeRateFromUsd->getRate()))->div(new Decimal($exchangeRateToUsd->getRate())))
+			rate: (string) ((new Decimal($exchangeRateToUsd->getRate()))->div(new Decimal($exchangeRateFromUsd->getRate())))
 		);
+
+		$this->exchangeRates[$key] = $exchangeRate;
+
+		return $exchangeRate;
 	}
 
 	private function getExchangeRateUsd(DateTimeImmutable $date, Currency $currencyTo): ExchangeRate

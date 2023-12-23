@@ -53,6 +53,7 @@ final class ImportService
 
 		$user = $broker->getUser();
 		$othersGroup = $this->groupRepository->findOthersGroup($user->getId());
+		$defaultCurrency = $user->getDefaultCurrency();
 
 		$firstDate = null;
 
@@ -104,15 +105,19 @@ final class ImportService
 			assert($currency instanceof Currency);
 
 			if (strpos($transactionRecord->actionType ?? '', 'dividend') !== false) {
+				if ($transactionRecord->dividendCurrency !== null) {
+					$dividendCurrency = $this->currencyRepository->findCurrencyByCode($transactionRecord->dividendCurrency);
+				}
+
 				$dividend = new Dividend(
 					user: $user,
 					asset: $asset,
 					broker: $broker,
 					paidDate: $transactionRecord->created ?? new DateTimeImmutable(),
-					priceGross: $transactionRecord->total ? (string) $transactionRecord->total : '0',
-					priceNet: $transactionRecord->total ? (string) $transactionRecord->total : '0',
+					priceGross: $transactionRecord->dividendPrice ? (string) $transactionRecord->dividendPrice : '0',
+					priceNet: $transactionRecord->dividendPrice ? (string) $transactionRecord->dividendPrice : '0',
 					tax: '0',
-					currency: $currency,
+					currency: $dividendCurrency ?? $defaultCurrency,
 					exchangeRate: (string) ((new Decimal(1))->div($transactionRecord->exchangeRate ?? 1)),
 				);
 				$this->dividendRepository->persist($dividend);
@@ -193,6 +198,8 @@ final class ImportService
 			feeConversion: $mappedRecord['feeConversion'] ? new Decimal($mappedRecord['feeConversion']) : null,
 			notes: $mappedRecord['notes'] ?? null,
 			importIdentifier: $mappedRecord['importIdentifier'] ?? null,
+			dividendPrice: $mappedRecord['dividendPrice'] ? new Decimal($mappedRecord['dividendPrice']) : null,
+			dividendCurrency: $mappedRecord['dividendCurrency'] ?? null,
 		);
 	}
 

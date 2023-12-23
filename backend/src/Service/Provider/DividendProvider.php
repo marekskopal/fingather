@@ -25,6 +25,6 @@ class DividendProvider
 	/** @return array<Dividend> */
 	public function getAssetDividends(User $user, Asset $asset, ?DateTimeImmutable $dateTime = null): array
 	{
-		return $this->dividendRepository->findAssetDividends($asset->getId(), $asset->getId(), $dateTime);
+		return $this->dividendRepository->findAssetDividends($user->getId(), $asset->getId(), $dateTime);
 	}
 }

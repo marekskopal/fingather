@@ -20,7 +20,8 @@ readonly class TransactionRecord
 		public ?Decimal $feeConversion = null,
 		public ?string $notes = null,
 		public ?string $importIdentifier = null,
-		public ?Decimal $total = null,
+		public ?Decimal $dividendPrice = null,
+		public ?string $dividendCurrency = null,
 	) {
 	}
 }

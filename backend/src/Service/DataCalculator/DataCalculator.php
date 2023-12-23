@@ -23,7 +23,7 @@ class DataCalculator
 		foreach ($assets as $asset) {
 			$sumAssetValue = $sumAssetValue->add($asset->value);
 			$sumAssetTransactionValue = $sumAssetTransactionValue->add($asset->transactionValue);
-			$sumDividendGain = $sumDividendGain->add($asset->dividendGainDefaultCurrency);
+			$sumDividendGain = $sumDividendGain->add($asset->dividendGain);
 			$sumFxImpact = $sumFxImpact->add($asset->fxImpact);
 		}
 
@@ -32,17 +32,17 @@ class DataCalculator
 		$gain = $sumAssetValue->sub($sumAssetTransactionValue);
 
 		$gainPercentage = 0.0;
+		$dividendGainPercentage = 0.0;
 		$fxImpactPercentage = 0.0;
 		//is greater then 0
 		if ($sumAssetTransactionValue->compareTo(0) === 1) {
 			$gainPercentage = round($gain->div($sumAssetTransactionValue)->mul(100)->toFloat(), 2);
 			$fxImpactPercentage = round($sumFxImpact->div($sumAssetTransactionValue)->mul(100)->toFloat(), 2);
-		}
 
-		$dividendGainPercentage = 0.0;
-		//is greater then 0
-		if ($sumDividendGain->compareTo(0) === 1) {
-			$dividendGainPercentage = round($sumDividendGain->sub($sumAssetValue)->mul(100)->toFloat(), 2);
+			//is greater then 0
+			if ($sumDividendGain->compareTo(0) === 1) {
+				$dividendGainPercentage = round($sumDividendGain->div($sumAssetTransactionValue)->mul(100)->toFloat(), 2);
+			}
 		}
 
 		return new CalculatedDataDto(

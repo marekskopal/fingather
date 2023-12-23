@@ -19,7 +19,8 @@ class Trading212Mapper implements MapperInterface
 			'exchangeRate' => 'Exchange rate',
 			'feeConversion' => 'Currency conversion fee',
 			'importIdentifier' => 'ID',
-			'total' => 'Total',
+			'dividendPrice' => 'Total',
+			'dividendCurrency' => 'Currency (Total)',
 		];
 	}
 
