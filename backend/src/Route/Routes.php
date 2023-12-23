@@ -60,7 +60,7 @@ enum Routes: string
 		$routeList->put(self::Broker->value, [BrokerController::class, 'actionUpdateBroker']);
 		$routeList->delete(self::Broker->value, [BrokerController::class, 'actionDeleteBroker']);
 
-		$routeList->delete(self::Dividends->value, [DividendController::class, 'actionGetDividends']);
+		$routeList->get(self::Dividends->value, [DividendController::class, 'actionGetDividends']);
 
 		$routeList->get(self::Groups->value, [GroupController::class, 'actionGetGroups']);
 		$routeList->get(self::Group->value, [GroupController::class, 'actionGetGroup']);
