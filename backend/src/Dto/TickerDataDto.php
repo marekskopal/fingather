@@ -6,6 +6,7 @@ namespace FinGather\Dto;
 
 use Decimal\Decimal;
 use FinGather\Model\Entity\TickerData;
+use FinGather\Utils\DateTimeUtils;
 
 final readonly class TickerDataDto
 {
@@ -27,7 +28,7 @@ final readonly class TickerDataDto
 		return new self(
 			id: $tickerData->getId(),
 			tickerId: $tickerData->getTicker()->getId(),
-			date: $tickerData->getDate()->format('Y-m-d\TH:i:sp'),
+			date: DateTimeUtils::formatZulu($tickerData->getDate()),
 			open: new Decimal($tickerData->getOpen()),
 			close: new Decimal($tickerData->getClose()),
 			high: new Decimal($tickerData->getHigh()),

@@ -11,12 +11,30 @@ use Safe\DateTimeImmutable;
 class TransactionRepository extends ARepository
 {
 	/** @return array<int,Transaction> */
-	public function findAssetTransactions(int $assetId, DateTimeImmutable $dateTime): array
+	public function findTransactions(int $userId, ?DateTimeImmutable $dateTime = null): array
 	{
-		return $this->select()
-			->where('asset_id', $assetId)
-			->where('created', '<=', $dateTime)
-			->fetchAll();
+		$assetTransactions = $this->select()
+			->where('user_id', $userId);
+
+		if ($dateTime !== null) {
+			$assetTransactions->where('created', '<=', $dateTime);
+		}
+
+		return $assetTransactions->fetchAll();
+	}
+
+	/** @return array<int,Transaction> */
+	public function findAssetTransactions(int $userId, int $assetId, ?DateTimeImmutable $dateTime = null): array
+	{
+		$assetTransactions = $this->select()
+			->where('user_id', $userId)
+			->where('asset_id', $assetId);
+
+		if ($dateTime !== null) {
+			$assetTransactions->where('created', '<=', $dateTime);
+		}
+
+		return $assetTransactions->fetchAll();
 	}
 
 	public function findTransactionByIdentifier(int $brokerId, string $identifier): ?Transaction

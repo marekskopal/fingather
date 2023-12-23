@@ -12,6 +12,7 @@ use FinGather\Controller\ImportDataController;
 use FinGather\Controller\PortfolioController;
 use FinGather\Controller\PortfolioDataController;
 use FinGather\Controller\TickerDataController;
+use FinGather\Controller\TransactionController;
 
 enum Routes: string
 {
@@ -36,6 +37,8 @@ enum Routes: string
 	case PortfolioData = '/api/portfolio-data';
 
 	case TickerData = '/api/ticker-data/{tickerId:number}';
+
+	case Transactions = '/api/transaction';
 
 	public static function getRouteList(): RouteList
 	{
@@ -68,6 +71,8 @@ enum Routes: string
 		$routeList->get(self::PortfolioData->value, [PortfolioDataController::class, 'actionGetPortfolioData']);
 
 		$routeList->get(self::TickerData->value, [TickerDataController::class, 'actionGetTickerData']);
+
+		$routeList->get(self::Transactions->value, [TransactionController::class, 'actionGetTransactions']);
 
 		return $routeList;
 	}
