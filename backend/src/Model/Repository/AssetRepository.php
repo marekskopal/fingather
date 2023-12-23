@@ -25,6 +25,7 @@ class AssetRepository extends ARepository
 		return $this->select()
 			->where('user_id', $userId)
 			->where('id', 'in', $openAssetSelect)
+			->orderBy('ticker.name')
 			->fetchAll();
 	}
 
