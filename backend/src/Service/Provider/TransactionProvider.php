@@ -25,6 +25,6 @@ class TransactionProvider
 	/** @return array<Transaction> */
 	public function getAssetTransactions(User $user, Asset $asset, ?DateTimeImmutable $dateTime = null): array
 	{
-		return $this->transactionRepository->findAssetTransactions($asset->getId(), $asset->getId(), $dateTime);
+		return $this->transactionRepository->findAssetTransactions($user->getId(), $asset->getId(), $dateTime);
 	}
 }
