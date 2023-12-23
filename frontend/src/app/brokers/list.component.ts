@@ -1,8 +1,8 @@
 ﻿import {Component, OnDestroy, OnInit} from '@angular/core';
 import { first } from 'rxjs/operators';
 
-import { BrokerService } from '@app/_services';
-import { Broker } from "../_models/broker";
+import { BrokerService } from '@app/services';
+import { Broker } from "../models/broker";
 import {AddEditComponent} from "./add-edit.component";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 

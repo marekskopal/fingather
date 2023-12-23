@@ -1,4 +1,4 @@
-﻿import {Group, GroupData} from "@app/_models";
+﻿import {Group, GroupData} from "@app/models";
 
 export class GroupWithGroupData extends Group {
     percentage: number;

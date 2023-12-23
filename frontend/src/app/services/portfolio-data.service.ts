@@ -2,7 +2,7 @@
 import { Router } from '@angular/router';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import { environment } from '@environments/environment';
-import { PortfolioData } from '@app/_models';
+import { PortfolioData } from '@app/models';
 
 @Injectable({ providedIn: 'root' })
 export class PortfolioDataService {

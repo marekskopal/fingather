@@ -1,8 +1,8 @@
 ﻿import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { first } from 'rxjs/operators';
-import { TickerDataService } from '../../../_services/ticker-data.service';
-import { tickerData } from '../../../_models';
 import { ApexAxisChartSeries, ApexChart, ApexTitleSubtitle, ApexXAxis, ApexYAxis, ChartComponent } from 'ng-apexcharts';
+import {tickerData} from "@app/models";
+import {TickerDataService} from "@app/services";
 
 export type ChartOptions = {
     series: ApexAxisChartSeries;

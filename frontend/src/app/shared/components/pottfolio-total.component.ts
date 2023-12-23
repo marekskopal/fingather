@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
-import { PortfolioData } from '@app/_models';
-import { PortfolioDataService } from '@app/_services';
+
 import {first} from "rxjs/operators";
+import {PortfolioData} from "@app/models";
+import {PortfolioDataService} from "@app/services";
 
 @Component({ selector: 'portfolio-total', templateUrl: 'portfolio-total.component.html' })
 export class PortfolioTotalComponent implements OnInit {

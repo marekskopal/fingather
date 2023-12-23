@@ -1,4 +1,4 @@
-﻿import {Asset, AEntity} from "@app/_models";
+﻿import {Asset, AEntity} from "@app/models";
 
 export class Group extends AEntity {
     name: string;

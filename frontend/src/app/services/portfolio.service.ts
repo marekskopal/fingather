@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
 import { environment } from '@environments/environment';
-import { Portfolio } from '@app/_models';
+import { Portfolio } from '@app/models';
 
 @Injectable({ providedIn: 'root' })
 export class PortfolioService {

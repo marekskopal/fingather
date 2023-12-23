@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { environment } from '@environments/environment';
-import { Broker } from '@app/_models';
+import { Broker } from '@app/models';
 
 @Injectable({ providedIn: 'root' })
 export class BrokerService {

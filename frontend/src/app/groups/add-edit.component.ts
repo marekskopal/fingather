@@ -2,9 +2,9 @@
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {first} from 'rxjs/operators';
 
-import {AlertService, AssetService, GroupService} from '@app/_services';
+import {AlertService, AssetService, GroupService} from '@app/services';
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
-import {Asset, Group} from "../_models";
+import {Asset, Group} from "../models";
 
 @Component({ templateUrl: 'add-edit.component.html' })
 export class AddEditComponent implements OnInit {

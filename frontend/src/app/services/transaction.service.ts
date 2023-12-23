@@ -4,7 +4,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
 import { environment } from '@environments/environment';
-import { Transaction } from '@app/_models';
+import { Transaction } from '@app/models';
 
 @Injectable({ providedIn: 'root' })
 export class TransactionService {

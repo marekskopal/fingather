@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import {AuthGuard} from "@app/core/guards/auth.guard";
 
-import { AuthGuard } from './_helpers';
 
 const portfolioModule = () => import('./portfolio/portfolio.module').then(x => x.PortfolioModule);
 const accountModule = () => import('./account/account.module').then(x => x.AccountModule);

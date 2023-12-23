@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
 import { environment } from '@environments/environment';
-import { Group } from '@app/_models';
+import { Group } from '@app/models';
 import { ANotifyService } from '.';
 
 @Injectable({ providedIn: 'root' })

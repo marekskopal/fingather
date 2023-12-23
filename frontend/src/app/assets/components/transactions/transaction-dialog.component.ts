@@ -3,10 +3,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
-import {AlertService, AssetService, BrokerService, TransactionService} from '@app/_services';
-import {Asset, Broker} from "../../../_models";
 import * as moment from "moment";
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import {Asset, Broker} from "@app/models";
+import {AlertService, AssetService, BrokerService, TransactionService} from "@app/services";
 
 @Component({ templateUrl: 'transaction-dialog.component.html' })
 export class TransactionDialogComponent implements OnInit {

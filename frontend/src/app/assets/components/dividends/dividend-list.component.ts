@@ -1,11 +1,10 @@
 ﻿import { Component, OnDestroy, OnInit } from '@angular/core';
 import { first } from 'rxjs/operators';
-
-import { DividendService } from '@app/_services';
-import { Dividend } from "../../../_models";
 import { ActivatedRoute } from "@angular/router";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DividendDialogComponent } from './dividend-dialog.component';
+import {Dividend} from "@app/models";
+import {DividendService} from "@app/services";
 
 @Component({
     templateUrl: 'dividend-list.component.html',

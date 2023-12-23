@@ -1,9 +1,8 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { first } from 'rxjs/operators';
-
-import { AssetService } from '@app/_services';
-import { Asset } from "../../_models";
 import {ActivatedRoute} from "@angular/router";
+import {Asset} from "@app/models";
+import {AssetService} from "@app/services";
 
 @Component({ templateUrl: 'detail.component.html' })
 export class DetailComponent implements OnInit {

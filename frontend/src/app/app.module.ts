@@ -3,10 +3,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
-import { JwtInterceptor, ErrorInterceptor } from './_helpers';
 import { AppComponent } from './app.component';
-import { AlertComponent } from '@app/_components';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {AlertComponent} from "@app/shared/components/alert/alert.component";
+import {JwtInterceptor} from "@app/core/interceptors/jwt.interceptor";
+import {ErrorInterceptor} from "@app/core/interceptors/error.interceptor";
 
 @NgModule({
     imports: [

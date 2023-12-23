@@ -1,10 +1,10 @@
 ﻿import {Component, OnDestroy, OnInit} from '@angular/core';
 import { first } from 'rxjs/operators';
 
-import { GroupService } from '@app/_services';
-import { Group } from "../_models";
 import {AddEditComponent} from "./add-edit.component";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {Group} from "@app/models";
+import {GroupService} from "@app/services";
 
 @Component({ templateUrl: 'list.component.html' })
 export class ListComponent implements OnInit, OnDestroy {

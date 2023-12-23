@@ -2,11 +2,11 @@
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
-import { AlertService, BrokerService, CurrencyService, DividendService } from '@app/_services';
-import { Broker, Currency } from "../../../_models";
 import * as moment from "moment";
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ABaseDialog } from '../../../shared/components/dialog/base-dialog';
+import {Broker, Currency} from "@app/models";
+import {AlertService, BrokerService, CurrencyService, DividendService} from "@app/services";
 
 @Component({ templateUrl: 'dividend-dialog.component.html' })
 export class DividendDialogComponent extends ABaseDialog implements OnInit {

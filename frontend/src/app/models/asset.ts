@@ -1,4 +1,4 @@
-﻿import {ticker} from "@app/_models/ticker";
+﻿import {Ticker} from "@app/models/ticker";
 
 export class Asset {
     id: number;
@@ -18,5 +18,5 @@ export class Asset {
     return: number;
     returnPercentage: number;
 
-    ticker: ticker;
+    ticker: Ticker;
 }

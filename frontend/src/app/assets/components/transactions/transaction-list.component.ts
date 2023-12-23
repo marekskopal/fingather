@@ -1,11 +1,11 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { first } from 'rxjs/operators';
 
-import { TransactionService } from '@app/_services';
-import { Transaction } from "../../../_models";
 import {ActivatedRoute} from "@angular/router";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TransactionDialogComponent } from './transaction-dialog.component';
+import {Transaction} from "@app/models";
+import {TransactionService} from "@app/services";
 
 @Component({
     templateUrl: 'transaction-list.component.html',

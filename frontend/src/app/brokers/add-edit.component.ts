@@ -2,8 +2,8 @@
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {first} from 'rxjs/operators';
 
-import {AlertService, BrokerService} from '@app/_services';
-import {BrokerImportTypes} from "../_models";
+import {AlertService, BrokerService} from '@app/services';
+import {BrokerImportTypes} from "../models";
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({ templateUrl: 'add-edit.component.html' })

@@ -1,5 +1,5 @@
 import { UntypedFormBuilder, UntypedFormGroup } from "@angular/forms";
-import { AlertService } from "@app/_services";
+import { AlertService } from "@app/services";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 
 export abstract class ABaseDialog
@@ -15,7 +15,7 @@ export abstract class ABaseDialog
         protected alertService: AlertService,
     ) {}
 
-    get f() { 
+    get f() {
         return this.form.controls;
     }
 

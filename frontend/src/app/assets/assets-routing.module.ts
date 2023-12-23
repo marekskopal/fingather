@@ -5,7 +5,7 @@ import { LayoutComponent } from './components/layout.component';
 import { ListComponent } from './components/list.component';
 import { AddEditComponent } from './components/add-edit.component';
 import { DetailComponent } from './components/detail.component';
-import { AuthGuard } from "../_helpers";
+import {AuthGuard} from "@app/core/guards/auth.guard";
 
 const importModule = () => import('./import/import.module').then(x => x.ImportModule);
 

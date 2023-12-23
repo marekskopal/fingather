@@ -4,7 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
 import { environment } from '@environments/environment';
-import { Currency } from '@app/_models';
+import { Currency } from '@app/models';
 
 @Injectable({ providedIn: 'root' })
 export class CurrencyService {

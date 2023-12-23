@@ -1,10 +1,10 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { first } from 'rxjs/operators';
 
-import { AssetService } from '@app/_services';
-import { Asset } from "../../_models/asset";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {AddEditComponent} from "./add-edit.component";
+import {Asset} from "@app/models";
+import {AssetService} from "@app/services";
 
 @Component({ templateUrl: 'list.component.html' })
 export class ListComponent implements OnInit {
