@@ -14,6 +14,8 @@ use FinGather\Model\Repository\DividendRepository;
 class Dividend extends AEntity
 {
 	public function __construct(
+		#[RefersTo(target: User::class)]
+		private User $user,
 		#[RefersTo(target: Asset::class)]
 		private Asset $asset,
 		#[RefersTo(target: Broker::class)]
@@ -31,6 +33,16 @@ class Dividend extends AEntity
 		#[Column(type: 'decimal(9,4)')]
 		private string $exchangeRate,
 	) {
+	}
+
+	public function getUser(): User
+	{
+		return $this->user;
+	}
+
+	public function setUser(User $user): void
+	{
+		$this->user = $user;
 	}
 
 	public function getAsset(): Asset

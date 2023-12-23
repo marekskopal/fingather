@@ -86,7 +86,7 @@ class AssetProvider
 		}
 
 		$dividendTotal = new Decimal(0);
-		$dividends = $this->dividendRepository->findDividends($asset->getId(), $dateTime);
+		$dividends = $this->dividendRepository->findAssetDividends($user->getId(), $asset->getId(), $dateTime);
 		foreach ($dividends as $dividend) {
 			$dividendTotal = $dividendTotal->add(new Decimal($dividend->getPriceNet()));
 		}

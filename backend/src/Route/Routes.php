@@ -7,6 +7,7 @@ namespace FinGather\Route;
 use FinGather\Controller\AssetController;
 use FinGather\Controller\AuthenticationController;
 use FinGather\Controller\BrokerController;
+use FinGather\Controller\DividendController;
 use FinGather\Controller\GroupController;
 use FinGather\Controller\ImportDataController;
 use FinGather\Controller\PortfolioController;
@@ -25,6 +26,8 @@ enum Routes: string
 
 	case Brokers = '/api/broker';
 	case Broker = '/api/broker/{brokerId:number}';
+
+	case Dividends = '/api/dividend';
 
 	case Groups = '/api/group';
 	case Group = '/api/group/{groupId:number}';
@@ -56,6 +59,8 @@ enum Routes: string
 		$routeList->post(self::Brokers->value, [BrokerController::class, 'actionCreateBroker']);
 		$routeList->put(self::Broker->value, [BrokerController::class, 'actionUpdateBroker']);
 		$routeList->delete(self::Broker->value, [BrokerController::class, 'actionDeleteBroker']);
+
+		$routeList->delete(self::Dividends->value, [DividendController::class, 'actionGetDividends']);
 
 		$routeList->get(self::Groups->value, [GroupController::class, 'actionGetGroups']);
 		$routeList->get(self::Group->value, [GroupController::class, 'actionGetGroup']);
