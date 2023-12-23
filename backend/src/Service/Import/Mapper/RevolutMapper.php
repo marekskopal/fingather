@@ -7,7 +7,7 @@ namespace FinGather\Service\Import\Mapper;
 class RevolutMapper implements MapperInterface
 {
 	/** @return array<string, string> */
-	public function getMapping(): array
+	public function getCsvMapping(): array
 	{
 		return [
 			'actionType' => 'Type',
@@ -19,5 +19,10 @@ class RevolutMapper implements MapperInterface
 			'exchangeRate' => 'FX Rate',
 			'total' => 'Total Amount',
 		];
+	}
+
+	public function getTickerMapping(): array
+	{
+		return [];
 	}
 }

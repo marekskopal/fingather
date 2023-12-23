@@ -7,5 +7,8 @@ namespace FinGather\Service\Import\Mapper;
 interface MapperInterface
 {
 	/** @return array<string, string> */
-	public function getMapping(): array;
+	public function getCsvMapping(): array;
+
+	/** @return array<string, string> */
+	public function getTickerMapping(): array;
 }

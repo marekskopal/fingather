@@ -47,6 +47,7 @@ final class ImportService
 		$csv->setHeaderOffset(0);
 
 		$importMapper = $this->getImportMapper(BrokerImportTypeEnum::from($broker->getImportType()));
+		$tickerMapping = $importMapper->getTickerMapping();
 
 		$user = $broker->getUser();
 		$othersGroup = $this->groupRepository->findOthersGroup($user->getId());
@@ -72,7 +73,12 @@ final class ImportService
 				continue;
 			}
 
-			$ticker = $this->tickerProvider->getOrCreateTicker($transactionRecord->ticker);
+			$transactionRecordTicker = array_search($transactionRecord->ticker, $tickerMapping);
+			if ($transactionRecordTicker === false) {
+				$transactionRecordTicker = $transactionRecord->ticker;
+			}
+
+			$ticker = $this->tickerProvider->getOrCreateTicker($transactionRecordTicker);
 			if ($ticker === null) {
 				continue;
 			}
@@ -94,6 +100,7 @@ final class ImportService
 
 			if (strpos($transactionRecord->actionType ?? '', 'dividend') !== false) {
 				$dividend = new Dividend(
+					user: $user,
 					asset: $asset,
 					broker: $broker,
 					paidDate: $transactionRecord->created ?? new DateTimeImmutable(),
@@ -158,8 +165,14 @@ final class ImportService
 	{
 		$mappedRecord = [];
 
-		foreach ($mapper->getMapping() as $attribute => $recordKey) {
+		foreach ($mapper->getCsvMapping() as $attribute => $recordKey) {
 			$mappedRecord[$attribute] = $csvRecord[$recordKey] ?? null;
+		}
+
+		try {
+			$exchangeRate = $mappedRecord['exchangeRate'] ? new Decimal($mappedRecord['exchangeRate']) : null;
+		} catch (\DomainException) {
+			$exchangeRate = null;
 		}
 
 		return new TransactionRecord(
@@ -169,7 +182,7 @@ final class ImportService
 			units: $mappedRecord['units'] ? new Decimal($mappedRecord['units']) : null,
 			priceUnit: $mappedRecord['priceUnit'] ? new Decimal($mappedRecord['priceUnit']) : null,
 			currency: $mappedRecord['currency'],
-			exchangeRate: $mappedRecord['exchangeRate'] ? new Decimal($mappedRecord['exchangeRate']) : null,
+			exchangeRate: $exchangeRate,
 			feeConversion: $mappedRecord['feeConversion'] ? new Decimal($mappedRecord['feeConversion']) : null,
 			notes: $mappedRecord['notes'],
 			importIdentifier: $mappedRecord['importIdentifier'],
