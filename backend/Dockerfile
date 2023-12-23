@@ -1,6 +1,6 @@
 FROM spiralscout/roadrunner:2023.3.8 AS roadrunner
 FROM composer:2.6.6 AS composer
-FROM php:8.2.14-cli-alpine AS php
+FROM php:8.2.13-cli-alpine AS php
 
 ENV DOCKER_PHP_EXT_INSTALLER_VERSION 2.1.60
 
