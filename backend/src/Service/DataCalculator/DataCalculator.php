@@ -57,7 +57,7 @@ class DataCalculator
 			fxImpact: $sumFxImpact,
 			fxImpactPercentage: $fxImpactPercentage,
 			return: $gain->add($sumDividendGain)->add($sumFxImpact),
-			returnPercentage: $gainPercentage + $dividendGainPercentage + $fxImpactPercentage,
+			returnPercentage: round($gainPercentage + $dividendGainPercentage + $fxImpactPercentage, 2),
 			performance: 0.0,
 		);
 	}
