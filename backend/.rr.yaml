@@ -7,7 +7,8 @@ server:
         - XDEBUG_CONFIG: "remote_host=host.docker.internal"
         - PHP_IDE_CONFIG: "serverName=PHPSTORM"
 http:
-    address: 0.0.0.0:80
+    fcgi:
+        address: tcp://0.0.0.0:9000
     middleware:
         - gzip
     pool:
