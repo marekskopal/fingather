@@ -115,7 +115,11 @@ class TickerDataProvider
 			}
 
 			$split = new Split(ticker: $ticker, date: $dailyTimeSerie->date, factor: (string) $dailyTimeSerie->splitCoefficient);
-			$this->splitRepository->persist($split);
+
+			try {
+				$this->splitRepository->persist($split);
+			} catch (ConstrainException) {
+			}
 		}
 	}
 }
