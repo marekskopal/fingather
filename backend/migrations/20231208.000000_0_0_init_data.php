@@ -8,10 +8,10 @@ use Cycle\Migrations\Migration;
 
 class InitDataMigration extends Migration
 {
-    protected const DATABASE = 'default';
+	protected const DATABASE = 'default';
 
-    public function up(): void
-    {
+	public function up(): void
+	{
 		$this->database()->insert('currencies')->values([
 			['id' => 1, 'code' => 'USD', 'name' => 'US Dollar', 'symbol' => '$'],
 			['id' => 2, 'code' => 'EUR', 'name' => 'Euro', 'symbol' => '€'],
@@ -47,15 +47,15 @@ class InitDataMigration extends Migration
 		$this->database()->insert('groups')->values([
 			['id' => 1, 'user_id' => 1, 'name' => 'Others', 'is_others' => true],
 		])->run();
-    }
+	}
 
-    public function down(): void
-    {
+	public function down(): void
+	{
 		$this->database()->query('TRUNCATE ?', ['groups']);
 		$this->database()->query('TRUNCATE ?', ['tickers']);
 		$this->database()->query('TRUNCATE ?', ['brokers']);
 		$this->database()->query('TRUNCATE ?', ['markets']);
 		$this->database()->query('TRUNCATE ?', ['users']);
 		$this->database()->query('TRUNCATE ?', ['currencies']);
-    }
+	}
 }
