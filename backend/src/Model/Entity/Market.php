@@ -13,6 +13,8 @@ use FinGather\Model\Repository\MarketRepository;
 class Market extends AEntity
 {
 	public function __construct(
+		#[Column(type: 'enum(Stock,Crypto)')]
+		private string $type,
 		#[Column(type: 'string')]
 		private string $name,
 		#[Column(type: 'string(20)')]
@@ -28,6 +30,16 @@ class Market extends AEntity
 		#[RefersTo(target: Currency::class)]
 		private Currency $currency,
 	) {
+	}
+
+	public function getType(): string
+	{
+		return $this->type;
+	}
+
+	public function setType(string $type): void
+	{
+		$this->type = $type;
 	}
 
 	public function getName(): string

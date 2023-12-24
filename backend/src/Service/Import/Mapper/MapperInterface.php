@@ -6,7 +6,7 @@ namespace FinGather\Service\Import\Mapper;
 
 interface MapperInterface
 {
-	/** @return array<string, string> */
+	/** @return array<string, string|callable> */
 	public function getCsvMapping(): array;
 
 	/** @return array<string, string> */

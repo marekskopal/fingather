@@ -26,8 +26,8 @@ class TickerData extends AEntity
 		private string $high,
 		#[Column(type: 'decimal(20,10)')]
 		private string $low,
-		#[Column(type: 'integer')]
-		private int $volume,
+		#[Column(type: 'decimal(20,10)')]
+		private string $volume,
 		#[Column(type: 'double')]
 		private float $performance,
 	) {
@@ -93,12 +93,12 @@ class TickerData extends AEntity
 		$this->low = $low;
 	}
 
-	public function getVolume(): int
+	public function getVolume(): string
 	{
 		return $this->volume;
 	}
 
-	public function setVolume(int $volume): void
+	public function setVolume(string $volume): void
 	{
 		$this->volume = $volume;
 	}

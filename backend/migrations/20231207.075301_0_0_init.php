@@ -55,6 +55,7 @@ class InitMigration extends Migration
 
 		$this->table('markets')
 			->addColumn('id', 'primary', ['nullable' => false, 'default' => null, 'size' => 11])
+			->addColumn('type', 'enum', ['nullable' => false, 'default' => 'Stock', 'values' => ['Stock', 'Crypto']])
 			->addColumn('name', 'string', ['nullable' => false, 'default' => null, 'size' => 255])
 			->addColumn('acronym', 'string', ['nullable' => false, 'default' => null, 'size' => 20])
 			->addColumn('mic', 'string', ['nullable' => false, 'default' => null, 'size' => 4])
@@ -150,7 +151,7 @@ class InitMigration extends Migration
 			->addColumn('close', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 10, 'precision' => 20])
 			->addColumn('high', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 10, 'precision' => 20])
 			->addColumn('low', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 10, 'precision' => 20])
-			->addColumn('volume', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
+			->addColumn('volume', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 10, 'precision' => 20])
 			->addColumn('performance', 'double', ['nullable' => false, 'default' => null])
 			->addIndex(['ticker_id'], ['name' => 'ticker_datas_index_ticker_id_657179dd4f527', 'unique' => false])
 			->addForeignKey(['ticker_id'], 'tickers', ['id'], [
@@ -168,7 +169,7 @@ class InitMigration extends Migration
 			->addColumn('id', 'primary', ['nullable' => false, 'default' => null, 'size' => 11])
 			->addColumn('user_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
 			->addColumn('name', 'string', ['nullable' => false, 'default' => null, 'size' => 255])
-			->addColumn('import_type', 'enum', ['nullable' => false, 'default' => null, 'values' => ['Trading212', 'Revolut']])
+			->addColumn('import_type', 'enum', ['nullable' => false, 'default' => null, 'values' => ['Trading212', 'Revolut', 'Anycoin']])
 			->addIndex(['user_id'], ['name' => 'brokers_index_user_id_657179dd4f4c5', 'unique' => false])
 			->addForeignKey(['user_id'], 'users', ['id'], [
 				'name' => 'brokers_foreign_user_id_657179dd4f4c9',

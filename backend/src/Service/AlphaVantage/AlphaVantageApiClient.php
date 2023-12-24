@@ -8,6 +8,7 @@ use AlphaVantage\Api\TimeSeries;
 use AlphaVantage\Client;
 use AlphaVantage\Options;
 use Decimal\Decimal;
+use FinGather\Service\AlphaVantage\Dto\CryptoDailyDto;
 use FinGather\Service\AlphaVantage\Dto\FxDailyDto;
 use FinGather\Service\AlphaVantage\Dto\TickerSearchDto;
 use FinGather\Service\AlphaVantage\Dto\TimeSerieDailyDto;
@@ -97,6 +98,27 @@ final class AlphaVantageApiClient
 		}
 
 		return $fxDaily;
+	}
+
+	/** @return list<CryptoDailyDto> */
+	public function getCryptoDaily(string $symbol): array
+	{
+		$cryptoDaily = [];
+
+		$results = $this->client->digitalCurrency()->digitalCurrencyDaily($symbol, 'USD');
+		foreach ($results['Time Series (Digital Currency Daily)'] as $date => $result) {
+			$cryptoDaily[] = new CryptoDailyDto(
+				date: new DateTimeImmutable($date),
+				open: new Decimal($result['1a. open (USD)']),
+				high: new Decimal($result['2a. high (USD)']),
+				low: new Decimal($result['3a. low (USD)']),
+				close: new Decimal($result['4a. close (USD)']),
+				volume: new Decimal($result['5. volume']),
+				marketCap: new Decimal($result['6. market cap (USD)']),
+			);
+		}
+
+		return $cryptoDaily;
 	}
 
 	private function sanitizeTicker(string $ticker): string

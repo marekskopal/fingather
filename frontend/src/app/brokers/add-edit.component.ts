@@ -16,6 +16,7 @@ export class AddEditComponent implements OnInit {
     public importTypes = [
         {name: 'Trading212', key: BrokerImportTypes.Trading212},
         {name: 'Revolut', key: BrokerImportTypes.Revolut},
+        {name: 'Anycoin', key: BrokerImportTypes.Anycoin},
     ]
 
     constructor(

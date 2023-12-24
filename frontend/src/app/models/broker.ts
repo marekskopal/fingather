@@ -8,4 +8,5 @@
 export enum BrokerImportTypes {
     Trading212 = 'Trading212',
     Revolut = 'Revolut',
+    Anycoin = 'Anycoin',
 }

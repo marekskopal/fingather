@@ -20,6 +20,7 @@ use FinGather\Model\Repository\GroupRepository;
 use FinGather\Model\Repository\PortfolioDataRepository;
 use FinGather\Model\Repository\TransactionRepository;
 use FinGather\Service\Import\Entity\TransactionRecord;
+use FinGather\Service\Import\Mapper\AnycoinMapper;
 use FinGather\Service\Import\Mapper\MapperInterface;
 use FinGather\Service\Import\Mapper\RevolutMapper;
 use FinGather\Service\Import\Mapper\Trading212Mapper;
@@ -176,6 +177,11 @@ final class ImportService
 		$mappedRecord = [];
 
 		foreach ($mapper->getCsvMapping() as $attribute => $recordKey) {
+			if (!is_string($recordKey)) {
+				$mappedRecord[$attribute] = $recordKey($csvRecord);
+				continue;
+			}
+
 			$mappedRecord[$attribute] = $csvRecord[$recordKey] ?? null;
 		}
 
@@ -208,6 +214,7 @@ final class ImportService
 		return match ($importType) {
 			BrokerImportTypeEnum::Revolut => new RevolutMapper(),
 			BrokerImportTypeEnum::Trading212 => new Trading212Mapper(),
+			BrokerImportTypeEnum::Anycoin => new AnycoinMapper(),
 		};
 	}
 }
