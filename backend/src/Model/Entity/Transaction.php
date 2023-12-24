@@ -30,8 +30,6 @@ class Transaction extends AEntity
 		private string $priceUnit,
 		#[RefersTo(target: Currency::class)]
 		private Currency $currency,
-		#[Column(type: 'decimal(9,4)')]
-		private string $exchangeRate,
 		#[Column(type: 'decimal(9,2)')]
 		private string $feeConversion,
 		#[Column(type: 'tinyText', nullable: true)]
@@ -119,16 +117,6 @@ class Transaction extends AEntity
 	public function setCurrency(Currency $currency): void
 	{
 		$this->currency = $currency;
-	}
-
-	public function getExchangeRate(): string
-	{
-		return $this->exchangeRate;
-	}
-
-	public function setExchangeRate(string $exchangeRate): void
-	{
-		$this->exchangeRate = $exchangeRate;
 	}
 
 	public function getFeeConversion(): string

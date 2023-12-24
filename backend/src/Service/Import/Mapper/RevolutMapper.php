@@ -16,7 +16,6 @@ class RevolutMapper implements MapperInterface
 			'units' => 'Quantity',
 			'priceUnit' => 'Price per share',
 			'currency' => 'Currency',
-			'exchangeRate' => 'FX Rate',
 			'total' => 'Total Amount',
 		];
 	}

@@ -36,9 +36,9 @@ class TickerDataProvider
 	{
 		$dayOfWeek = (int) $beforeDate->format('w');
 
-		if ($dayOfWeek === 6) {
+		if ($dayOfWeek === 0) {
 			$beforeDate = $beforeDate->sub(DateInterval::createFromDateString('2 days'));
-		} elseif ($dayOfWeek === 5) {
+		} elseif ($dayOfWeek === 6) {
 			$beforeDate = $beforeDate->sub(DateInterval::createFromDateString('1 day'));
 		}
 
@@ -58,9 +58,9 @@ class TickerDataProvider
 
 		$dayOfWeek = (int) $actualDate->format('w');
 
-		if ($dayOfWeek === 6) {
+		if ($dayOfWeek === 0) {
 			$actualDate->sub(DateInterval::createFromDateString('2 days'));
-		} elseif ($dayOfWeek === 5) {
+		} elseif ($dayOfWeek === 6) {
 			$actualDate->sub(DateInterval::createFromDateString('1 day'));
 		}
 

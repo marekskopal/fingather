@@ -16,7 +16,6 @@ class Trading212Mapper implements MapperInterface
 			'units' => 'No. of shares',
 			'priceUnit' => 'Price / share',
 			'currency' => 'Currency (Price / share)',
-			'exchangeRate' => 'Exchange rate',
 			'feeConversion' => 'Currency conversion fee',
 			'importIdentifier' => 'ID',
 			'dividendPrice' => 'Total',

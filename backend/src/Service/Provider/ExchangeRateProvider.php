@@ -38,9 +38,9 @@ class ExchangeRateProvider
 		//TODO: AlphaVantage has not forex data for saturday and sunday. Find better source.
 		$dayOfWeek = (int) $date->format('w');
 
-		if ($dayOfWeek === 6) {
+		if ($dayOfWeek === 0) {
 			$date = $date->sub(DateInterval::createFromDateString('2 days'));
-		} elseif ($dayOfWeek === 5) {
+		} elseif ($dayOfWeek === 6) {
 			$date = $date->sub(DateInterval::createFromDateString('1 day'));
 		}
 

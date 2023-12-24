@@ -151,7 +151,6 @@ final class ImportService
 				units: (string) $units,
 				priceUnit: $transactionRecord->priceUnit ? (string) $transactionRecord->priceUnit : '0',
 				currency: $currency,
-				exchangeRate: (string) ((new Decimal(1))->div($transactionRecord->exchangeRate ?? 1)),
 				feeConversion: $transactionRecord->feeConversion ? (string) $transactionRecord->feeConversion : '0',
 				notes: $transactionRecord->notes,
 				importIdentifier: $transactionRecord->importIdentifier,
@@ -185,12 +184,6 @@ final class ImportService
 			$mappedRecord[$attribute] = $csvRecord[$recordKey] ?? null;
 		}
 
-		try {
-			$exchangeRate = $mappedRecord['exchangeRate'] ? new Decimal($mappedRecord['exchangeRate']) : null;
-		} catch (\DomainException) {
-			$exchangeRate = null;
-		}
-
 		$ticker = ($mappedRecord['ticker'] ?? '') !== '' ? ($mappedRecord['ticker'] ?? null) : null;
 
 		return new TransactionRecord(
@@ -200,7 +193,6 @@ final class ImportService
 			units: $mappedRecord['units'] ? new Decimal($mappedRecord['units']) : null,
 			priceUnit: $mappedRecord['priceUnit'] ? new Decimal($mappedRecord['priceUnit']) : null,
 			currency: $mappedRecord['currency'],
-			exchangeRate: $exchangeRate,
 			feeConversion: $mappedRecord['feeConversion'] ? new Decimal($mappedRecord['feeConversion']) : null,
 			notes: $mappedRecord['notes'] ?? null,
 			importIdentifier: $mappedRecord['importIdentifier'] ?? null,

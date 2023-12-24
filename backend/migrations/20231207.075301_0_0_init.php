@@ -243,7 +243,6 @@ class InitMigration extends Migration
 			->addColumn('units', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 8, 'precision' => 18])
 			->addColumn('price_unit', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 2, 'precision' => 9])
 			->addColumn('currency_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
-			->addColumn('exchange_rate', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 4, 'precision' => 9])
 			->addColumn('fee_conversion', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 2, 'precision' => 9])
 			->addColumn('notes', 'tinyText', ['nullable' => true, 'default' => null])
 			->addColumn('import_identifier', 'string', ['nullable' => true, 'default' => null, 'size' => 255])
