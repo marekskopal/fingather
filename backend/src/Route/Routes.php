@@ -10,6 +10,7 @@ use FinGather\Controller\BrokerController;
 use FinGather\Controller\DividendController;
 use FinGather\Controller\GroupController;
 use FinGather\Controller\ImportDataController;
+use FinGather\Controller\OverviewController;
 use FinGather\Controller\PortfolioController;
 use FinGather\Controller\PortfolioDataController;
 use FinGather\Controller\TickerDataController;
@@ -34,6 +35,8 @@ enum Routes: string
 	case GroupOthers = '/api/group/others';
 
 	case ImportData = '/api/import-data';
+
+	case OverviewYearOverview = '/api/overview/year-overview';
 
 	case Portfolio = '/api/portfolio';
 
@@ -70,6 +73,8 @@ enum Routes: string
 		$routeList->delete(self::Group->value, [GroupController::class, 'actionDeleteGroup']);
 
 		$routeList->post(self::ImportData->value, [ImportDataController::class, 'actionImportData']);
+
+		$routeList->get(self::OverviewYearOverview->value, [OverviewController::class, 'actionGetYearOverview']);
 
 		$routeList->get(self::Portfolio->value, [PortfolioController::class, 'actionGetPortfolio']);
 

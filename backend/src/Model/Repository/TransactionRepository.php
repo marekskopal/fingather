@@ -44,4 +44,12 @@ class TransactionRepository extends ARepository
 			'import_identifier' => $identifier,
 		]);
 	}
+
+	public function findFirstTransaction(int $userId,): ?Transaction
+	{
+		return $this->select()
+			->where('user_id', $userId)
+			->orderBy('created')
+			->fetchOne();
+	}
 }

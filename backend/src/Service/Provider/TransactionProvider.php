@@ -27,4 +27,9 @@ class TransactionProvider
 	{
 		return $this->transactionRepository->findAssetTransactions($user->getId(), $asset->getId(), $dateTime);
 	}
+
+	public function getFirstTransaction(User $user): ?Transaction
+	{
+		return $this->transactionRepository->findFirstTransaction($user->getId());
+	}
 }

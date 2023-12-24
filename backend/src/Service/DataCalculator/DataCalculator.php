@@ -46,8 +46,6 @@ class DataCalculator
 		}
 
 		return new CalculatedDataDto(
-			user: $user,
-			date: $dateTime,
 			value: $sumAssetValue,
 			transactionValue: $sumAssetTransactionValue,
 			gain: $sumAssetValue->sub($sumAssetTransactionValue),
