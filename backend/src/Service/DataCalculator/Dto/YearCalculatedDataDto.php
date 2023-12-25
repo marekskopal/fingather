@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-namespace FinGather\Dto;
+namespace FinGather\Service\DataCalculator\Dto;
 
 use Decimal\Decimal;
-use FinGather\Service\DataCalculator\Dto\CalculatedDataDto;
 
-final readonly class OverviewYearDto extends CalculatedDataDto
+final readonly class YearCalculatedDataDto extends CalculatedDataDto
 {
 	public function __construct(
 		public int $year,
