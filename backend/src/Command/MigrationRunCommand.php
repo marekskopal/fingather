@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Command;
 
-use FinGather\Service\Dbal\DbContext;
+use FinGather\App\ApplicationFactory;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -18,16 +18,9 @@ class MigrationRunCommand extends Command
 
 	protected function execute(InputInterface $input, OutputInterface $output): int
 	{
-		$host = (string) getenv('MYSQL_HOST');
-		$database = (string) getenv('MYSQL_DATABASE');
-		/** @var non-empty-string $user */
-		$user = (string) getenv('MYSQL_USER');
-		/** @var non-empty-string $password */
-		$password = (string) getenv('MYSQL_PASSWORD');
+		$application = ApplicationFactory::create();
 
-		$dbContext = new DbContext(dsn: 'mysql:host=' . $host . ';dbname=' . $database, user: $user, password: $password);
-
-		$migrator = $dbContext->getMigrator();
+		$migrator = $application->dbContext->getMigrator();
 
 		while ($migrator->run() !== null) { //phpcs:ignore
 		}
