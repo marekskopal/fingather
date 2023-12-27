@@ -79,7 +79,7 @@ final class ImportService
 				continue;
 			}
 
-			$transactionRecordTicker = array_search($transactionRecord->ticker, $tickerMapping);
+			$transactionRecordTicker = array_search($transactionRecord->ticker, $tickerMapping, strict: true);
 			if ($transactionRecordTicker === false) {
 				$transactionRecordTicker = $transactionRecord->ticker;
 			}

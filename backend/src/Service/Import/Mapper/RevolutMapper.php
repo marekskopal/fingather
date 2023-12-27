@@ -20,6 +20,7 @@ class RevolutMapper implements MapperInterface
 		];
 	}
 
+	/** @return array<string, string> */
 	public function getTickerMapping(): array
 	{
 		return [];

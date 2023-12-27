@@ -111,6 +111,7 @@ class TickerDataProvider
 			try {
 				$this->tickerDataRepository->persist($tickerData);
 			} catch (ConstrainException) {
+				//ignore duplicate tickers
 			}
 
 			$previousTickerData = $tickerData;
@@ -129,6 +130,7 @@ class TickerDataProvider
 			try {
 				$this->splitRepository->persist($split);
 			} catch (ConstrainException) {
+				//ignore duplicate splits
 			}
 		}
 	}
@@ -161,6 +163,7 @@ class TickerDataProvider
 			try {
 				$this->tickerDataRepository->persist($tickerData);
 			} catch (ConstrainException) {
+				//ignore duplicate ticker data
 			}
 
 			$previousTickerData = $tickerData;

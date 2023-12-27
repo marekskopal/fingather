@@ -6,6 +6,7 @@ namespace Migration;
 
 use Cycle\Migrations\Migration;
 
+// phpcs:ignore
 class InitMigration extends Migration
 {
 	protected const DATABASE = 'default';

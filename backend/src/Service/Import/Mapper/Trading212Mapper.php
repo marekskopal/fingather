@@ -23,6 +23,7 @@ class Trading212Mapper implements MapperInterface
 		];
 	}
 
+	/** @return array<string, string> */
 	public function getTickerMapping(): array
 	{
 		return [
