@@ -57,9 +57,6 @@ final class RoadRunnerProcessor
 			// Failsafe in case the logger is not initialized yet
 			file_put_contents('php://stderr', __METHOD__ . ': ' . (string) $e, FILE_APPEND);
 		} else {
-			/** @see Application::initLogger() */
-
-			// Warning: do not add context: here, it will totally flood the log
 			switch ($e::class) {
 				case NotAuthorizedException::class:
 					$logger->warning($e);

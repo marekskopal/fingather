@@ -27,7 +27,6 @@ class RoadRunnerLogger
 		Debugger::setLogger(new class ($directory) extends Logger {
 			public static function formatLogLine(mixed $message, ?string $exceptionFile = null): string
 			{
-				// Legito: remove date() from log line and append Stack trace
 				return implode(' ', [
 					preg_replace('#\s*\r?\n\s*#', ' ', static::formatMessage($message)),
 					' @  ' . Helpers::getSource(),
