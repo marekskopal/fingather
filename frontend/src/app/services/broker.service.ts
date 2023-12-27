@@ -12,7 +12,6 @@ export class BrokerService {
     public eventEmitter: EventEmitter<null> = new EventEmitter();
 
     constructor(
-        private router: Router,
         private http: HttpClient,
     ) {}
 

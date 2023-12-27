@@ -21,6 +21,8 @@ class User extends AEntity
 		private string $name,
 		#[RefersTo(target: Currency::class, innerKey:'default_currency_id')]
 		private Currency $defaultCurrency,
+		#[Column(type: 'enum(User,Admin)')]
+		private string $role,
 	) {
 	}
 
@@ -62,5 +64,15 @@ class User extends AEntity
 	public function setDefaultCurrency(Currency $defaultCurrency): void
 	{
 		$this->defaultCurrency = $defaultCurrency;
+	}
+
+	public function getRole(): string
+	{
+		return $this->role;
+	}
+
+	public function setRole(string $role): void
+	{
+		$this->role = $role;
 	}
 }

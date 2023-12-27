@@ -10,7 +10,6 @@ import { Ticker } from '@app/models';
 @Injectable({ providedIn: 'root' })
 export class AssetTickerService {
     constructor(
-        private router: Router,
         private http: HttpClient
     ) {}
 

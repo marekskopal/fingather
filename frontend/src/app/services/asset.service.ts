@@ -10,7 +10,6 @@ import { Asset } from '@app/models';
 @Injectable({ providedIn: 'root' })
 export class AssetService {
     constructor(
-        private router: Router,
         private http: HttpClient
     ) {}
 

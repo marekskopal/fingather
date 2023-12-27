@@ -7,7 +7,6 @@ import { PortfolioData } from '@app/models';
 @Injectable({ providedIn: 'root' })
 export class PortfolioDataService {
     constructor(
-        private router: Router,
         private http: HttpClient
     ) {}
 

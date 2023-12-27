@@ -3,7 +3,7 @@
     <div class="form-row">
         <div class="form-group col">
             <label for="brokerId">Broker</label>
-            <select id="brokerId" formControlName="brokerId" class="form-control">
+            <select id="brokerId" formControlName="brokerId" class="form-select">
                 <option *ngFor="let broker of brokers" [ngValue]="broker.id">
                     {{ broker.name }}
                 </option>

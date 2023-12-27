@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace FinGather\Middleware;
 
 use FinGather\Middleware\Exception\NotAuthorizedException;
-use FinGather\Model\Repository\UserRepository;
 use FinGather\Route\Routes;
-use FinGather\Service\Authorization\AuthorizationService;
+use FinGather\Service\Authentication\AuthenticationService;
+use FinGather\Service\Provider\UserProvider;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Psr\Http\Message\ResponseInterface;
@@ -23,7 +23,7 @@ final class AuthorizationMiddleware implements MiddlewareInterface
 	private const AuthHeader = 'Authorization';
 	private const AuthHeaderType = 'Bearer ';
 
-	public function __construct(private readonly UserRepository $userRepository)
+	public function __construct(private readonly UserProvider $userProvider)
 	{
 	}
 
@@ -46,12 +46,12 @@ final class AuthorizationMiddleware implements MiddlewareInterface
 		$jwtToken = substr($authorizationHeader, strlen(self::AuthHeaderType));
 
 		try {
-			$token = JWT::decode($jwtToken, new Key((string) getenv('AUTHORIZATION_TOKEN_KEY'), AuthorizationService::TokenAlgorithm));
+			$token = JWT::decode($jwtToken, new Key((string) getenv('AUTHORIZATION_TOKEN_KEY'), AuthenticationService::TokenAlgorithm));
 		} catch (\Throwable $exception) {
 			throw new NotAuthorizedException($exception->getMessage(), $request, 401, $exception);
 		}
 
-		$user = $this->userRepository->findUserById($token->id);
+		$user = $this->userProvider->getUser($token->id);
 		if ($user === null) {
 			throw new NotAuthorizedException('User is not authorized.', $request);
 		}

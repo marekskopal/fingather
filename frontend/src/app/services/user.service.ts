@@ -11,32 +11,31 @@ import { User } from '@app/models';
 export class UserService {
 
     constructor(
-        private router: Router,
         private http: HttpClient
     ) {
     }
 
-    register(user: User) {
-        return this.http.post(`${environment.apiUrl}/users/register`, user);
+    create(user: User) {
+        return this.http.post(`${environment.apiUrl}/admin/user`, user);
     }
 
     getAll() {
-        return this.http.get<User[]>(`${environment.apiUrl}/users`);
+        return this.http.get<User[]>(`${environment.apiUrl}/admin/user`);
     }
 
     getById(id: number) {
-        return this.http.get<User>(`${environment.apiUrl}/users/${id}`);
+        return this.http.get<User>(`${environment.apiUrl}/admin/user/${id}`);
     }
 
     update(id: number, params) {
-        return this.http.put(`${environment.apiUrl}/users/${id}`, params)
+        return this.http.put(`${environment.apiUrl}/admin/user/${id}`, params)
             .pipe(map(x => {
                 return x;
             }));
     }
 
     delete(id: number) {
-        return this.http.delete(`${environment.apiUrl}/users/${id}`)
+        return this.http.delete(`${environment.apiUrl}/admin/user/${id}`)
             .pipe(map(x => {
                 // auto logout if the logged in user deleted their own record
                 //if (id == this.userValue.id) {

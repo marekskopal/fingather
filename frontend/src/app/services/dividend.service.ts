@@ -10,7 +10,6 @@ import { ANotifyService } from '.';
 @Injectable({ providedIn: 'root' })
 export class DividendService extends ANotifyService {
     constructor(
-        private router: Router,
         private http: HttpClient
     ) {
         super();

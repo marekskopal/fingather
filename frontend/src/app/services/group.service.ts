@@ -12,7 +12,6 @@ export class GroupService extends ANotifyService {
     public eventEmitter: EventEmitter<null> = new EventEmitter();
 
     constructor(
-        private router: Router,
         private http: HttpClient,
     ) {
         super();

@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace FinGather\Route;
 
+use FinGather\Controller\Admin\UserController;
 use FinGather\Controller\AssetController;
 use FinGather\Controller\AuthenticationController;
 use FinGather\Controller\BrokerController;
+use FinGather\Controller\CurrencyController;
 use FinGather\Controller\DividendController;
 use FinGather\Controller\GroupController;
 use FinGather\Controller\ImportDataController;
@@ -20,6 +22,9 @@ enum Routes: string
 {
 	case Health = '/api/health';
 
+	case AdminUsers = '/api/admin/user';
+	case AdminUser = '/api/admin/user/{userId:number}';
+
 	case Assets = '/api/asset';
 	case Asset = '/api/asset/{assetId:number}';
 
@@ -27,6 +32,8 @@ enum Routes: string
 
 	case Brokers = '/api/broker';
 	case Broker = '/api/broker/{brokerId:number}';
+
+	case Currencies = '/api/currency';
 
 	case Dividends = '/api/dividend';
 
@@ -52,6 +59,12 @@ enum Routes: string
 
 		$routeList->get(self::Health->value, fn (): array => ['status' => 200, 'message' => 'OK']);
 
+		$routeList->get(self::AdminUsers->value, [UserController::class, 'actionGetUsers']);
+		$routeList->get(self::AdminUser->value, [UserController::class, 'actionGetUser']);
+		$routeList->post(self::AdminUsers->value, [UserController::class, 'actionCreateUser']);
+		$routeList->put(self::AdminUser->value, [UserController::class, 'actionUpdateUser']);
+		$routeList->delete(self::AdminUser->value, [UserController::class, 'actionDeleteUser']);
+
 		$routeList->post(self::AuthenticationLogin->value, [AuthenticationController::class, 'actionPostLogin']);
 
 		$routeList->get(self::Assets->value, [AssetController::class, 'actionGetAssets']);
@@ -62,6 +75,8 @@ enum Routes: string
 		$routeList->post(self::Brokers->value, [BrokerController::class, 'actionCreateBroker']);
 		$routeList->put(self::Broker->value, [BrokerController::class, 'actionUpdateBroker']);
 		$routeList->delete(self::Broker->value, [BrokerController::class, 'actionDeleteBroker']);
+
+		$routeList->get(self::Currencies->value, [CurrencyController::class, 'actionGetCurrencies']);
 
 		$routeList->get(self::Dividends->value, [DividendController::class, 'actionGetDividends']);
 

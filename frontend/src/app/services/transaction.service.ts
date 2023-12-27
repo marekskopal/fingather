@@ -9,7 +9,6 @@ import { Transaction } from '@app/models';
 @Injectable({ providedIn: 'root' })
 export class TransactionService {
     constructor(
-        private router: Router,
         private http: HttpClient
     ) {}
 

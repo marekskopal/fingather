@@ -9,7 +9,7 @@
         <div class="form-row">
             <div class="form-group col">
                 <label for="actionType">Action Type</label>
-                <select id="actionType" formControlName="actionType" class="form-control">
+                <select id="actionType" formControlName="actionType" class="form-select">
                     <option *ngFor="let actionType of actionTypes" [ngValue]="actionType.key">
                         {{ actionType.name }}
                     </option>
@@ -22,7 +22,7 @@
         <div class="form-row">
             <div class="form-group col">
                 <label for="brokerId">Broker</label>
-                <select id="brokerId" formControlName="brokerId">
+                <select id="brokerId" formControlName="brokerId" class="form-select">
                     <option *ngFor="let broker of brokers" [ngValue]="broker.id">
                         {{ broker.name }}
                     </option>

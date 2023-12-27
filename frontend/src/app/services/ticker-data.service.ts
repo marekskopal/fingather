@@ -10,7 +10,6 @@ import { tickerData } from '@app/models';
 @Injectable({ providedIn: 'root' })
 export class TickerDataService {
     constructor(
-        private router: Router,
         private http: HttpClient
     ) {}
 

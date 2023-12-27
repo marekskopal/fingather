@@ -8,7 +8,6 @@ import { ImportData } from '@app/models';
 @Injectable({ providedIn: 'root' })
 export class ImportDataService {
     constructor(
-        private router: Router,
         private http: HttpClient
     ) {}
 

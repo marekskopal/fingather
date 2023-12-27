@@ -14,7 +14,7 @@
         </div>
         <div class="mb-3">
             <label for="importType" class="form-label">Import Type</label>
-            <select id="importType" formControlName="importType" class="form-control">
+            <select id="importType" formControlName="importType" class="form-select">
                 <option *ngFor="let importType of importTypes" [ngValue]="importType.key">
                     {{ importType.name }}
                 </option>

@@ -27,6 +27,7 @@ class InitMigration extends Migration
 			->addColumn('password', 'string', ['nullable' => false, 'default' => null, 'size' => 255])
 			->addColumn('name', 'string', ['nullable' => false, 'default' => null, 'size' => 255])
 			->addColumn('default_currency_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
+			->addColumn('role', 'enum', ['nullable' => false, 'default' => 'User', 'values' => ['User', 'Admin']])
 			->addIndex(['default_currency_id'], ['name' => 'users_index_default_currency_id_657179dd4f5a5', 'unique' => false])
 			->addForeignKey(['default_currency_id'], 'currencies', ['id'], [
 				'name' => 'users_foreign_default_currency_id_657179dd4f5a8',

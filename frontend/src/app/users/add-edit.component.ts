@@ -3,7 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
-import { UserService, AlertService } from '@app/services';
+import {UserService, AlertService, CurrencyService} from '@app/services';
+import {BrokerImportTypes, Currency, UserRoleEnum} from "@app/models";
 
 @Component({ templateUrl: 'add-edit.component.html' })
 export class AddEditComponent implements OnInit {
@@ -12,30 +13,47 @@ export class AddEditComponent implements OnInit {
     isAddMode: boolean;
     loading = false;
     submitted = false;
+    public currencies: Currency[];
+    public roles = [
+        {name: 'User', key: UserRoleEnum.User},
+        {name: 'Admin', key: UserRoleEnum.Admin},
+    ]
 
     constructor(
         private formBuilder: UntypedFormBuilder,
         private route: ActivatedRoute,
         private router: Router,
         private userService: UserService,
-        private alertService: AlertService
+        private alertService: AlertService,
+        private currencyService: CurrencyService,
     ) {}
 
     ngOnInit() {
         this.id = this.route.snapshot.params['id'];
         this.isAddMode = !this.id;
 
-        // password not required in edit mode
+        this.currencyService.findAll()
+            .pipe(first())
+            .subscribe(currencies => {
+                this.currencies = currencies;
+                if (this.isAddMode) {
+                    this.f.defaultCurrencyId.patchValue(currencies[0].id);
+                }
+            });
+
+        const emailValidators = [Validators.email]
         const passwordValidators = [Validators.minLength(6)];
         if (this.isAddMode) {
+            emailValidators.push(Validators.required);
             passwordValidators.push(Validators.required);
         }
 
         this.form = this.formBuilder.group({
-            firstName: ['', Validators.required],
-            lastName: ['', Validators.required],
-            username: ['', Validators.required],
-            password: ['', passwordValidators]
+            email: ['', emailValidators],
+            name: ['', Validators.required],
+            password: ['', passwordValidators],
+            defaultCurrencyId: ['', Validators.required],
+            role: ['User', Validators.required],
         });
 
         if (!this.isAddMode) {
@@ -68,7 +86,7 @@ export class AddEditComponent implements OnInit {
     }
 
     private createUser() {
-        this.userService.register(this.form.value)
+        this.userService.create(this.form.value)
             .pipe(first())
             .subscribe({
                 next: () => {
