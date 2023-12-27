@@ -72,8 +72,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "sslKey": "/Users/marek/web/www/legito/public_html/docker/ssl/server.key",
-            "sslCert": "/Users/marek/web/www/legito/public_html/docker/ssl/server.crt",
+            "sslKey": "/Users/marek/web/www/legito/public_html/dev_ssl/server.key",
+            "sslCert": "/Users/marek/web/www/legito/public_html/dev_ssl/server.crt",
             "buildTarget": "fingather:build"
           },
           "configurations": {
@@ -119,5 +119,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

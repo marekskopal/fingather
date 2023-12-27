@@ -3,10 +3,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
-import { AccountService, AlertService } from '@app/services';
+import { UserService, AlertService } from '@app/services';
 
-@Component({ templateUrl: 'register.component.html' })
-export class RegisterComponent implements OnInit {
+@Component({ templateUrl: 'sign-up.component.html' })
+export class SignUpComponent implements OnInit {
     form: UntypedFormGroup;
     loading = false;
     submitted = false;
@@ -15,7 +15,7 @@ export class RegisterComponent implements OnInit {
         private formBuilder: UntypedFormBuilder,
         private route: ActivatedRoute,
         private router: Router,
-        private accountService: AccountService,
+        private userService: UserService,
         private alertService: AlertService
     ) { }
 
@@ -43,7 +43,7 @@ export class RegisterComponent implements OnInit {
         }
 
         this.loading = true;
-        this.accountService.register(this.form.value)
+        this.userService.register(this.form.value)
             .pipe(first())
             .subscribe({
                 next: () => {

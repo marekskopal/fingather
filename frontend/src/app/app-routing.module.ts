@@ -4,7 +4,7 @@ import {AuthGuard} from "@app/core/guards/auth.guard";
 
 
 const portfolioModule = () => import('./portfolio/portfolio.module').then(x => x.PortfolioModule);
-const accountModule = () => import('./account/account.module').then(x => x.AccountModule);
+const authenticationModule = () => import('./authentication/authentication.module').then(x => x.AuthenticationModule);
 const assetsModule = () => import('./assets/assets.module').then(x => x.AssetsModule);
 const groupsModule = () => import('./groups/groups.module').then(x => x.GroupsModule);
 const brokersModule = () => import('./brokers/brokers.module').then(x => x.BrokersModule);
@@ -16,7 +16,7 @@ const routes: Routes = [
     { path: 'groups', loadChildren: groupsModule, canActivate: [AuthGuard] },
     { path: 'brokers', loadChildren: brokersModule, canActivate: [AuthGuard] },
     { path: 'users', loadChildren: usersModule, canActivate: [AuthGuard] },
-    { path: 'account', loadChildren: accountModule },
+    { path: 'authentication', loadChildren: authenticationModule },
 
     // otherwise redirect to home
     { path: '**', redirectTo: '' }

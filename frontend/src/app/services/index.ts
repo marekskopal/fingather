@@ -1,5 +1,5 @@
 ﻿export * from './ANotifyService';
-export * from './account.service';
+export * from './user.service';
 export * from './asset.service';
 export * from './ticker-data.service';
 export * from './asset-ticker.service';
