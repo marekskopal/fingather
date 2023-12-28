@@ -35,8 +35,6 @@ class ADataEntity extends AEntity
 		protected string $return,
 		#[Column(type: 'float(4,2')]
 		protected float $returnPercentage,
-		#[Column(type: 'float')]
-		protected float $performance,
 	) {
 	}
 
@@ -158,15 +156,5 @@ class ADataEntity extends AEntity
 	public function setReturnPercentage(float $returnPercentage): void
 	{
 		$this->returnPercentage = $returnPercentage;
-	}
-
-	public function getPerformance(): float
-	{
-		return $this->performance;
-	}
-
-	public function setPerformance(float $performance): void
-	{
-		$this->performance = $performance;
 	}
 }

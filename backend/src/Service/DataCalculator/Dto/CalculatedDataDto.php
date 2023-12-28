@@ -19,7 +19,6 @@ readonly class CalculatedDataDto
 		public float $fxImpactPercentage,
 		public Decimal $return,
 		public float $returnPercentage,
-		public float $performance,
 	) {
 	}
 }

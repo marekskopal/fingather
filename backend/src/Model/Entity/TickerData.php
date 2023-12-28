@@ -28,8 +28,6 @@ class TickerData extends AEntity
 		private string $low,
 		#[Column(type: 'decimal(20,10)')]
 		private string $volume,
-		#[Column(type: 'double')]
-		private float $performance,
 	) {
 	}
 
@@ -101,15 +99,5 @@ class TickerData extends AEntity
 	public function setVolume(string $volume): void
 	{
 		$this->volume = $volume;
-	}
-
-	public function getPerformance(): float
-	{
-		return $this->performance;
-	}
-
-	public function setPerformance(float $performance): void
-	{
-		$this->performance = $performance;
 	}
 }

@@ -6,7 +6,6 @@ namespace FinGather\Service\Provider;
 
 use Cycle\Database\Exception\StatementException\ConstrainException;
 use DateInterval;
-use Decimal\Decimal;
 use FinGather\Model\Entity\Enum\MarketTypeEnum;
 use FinGather\Model\Entity\Split;
 use FinGather\Model\Entity\Ticker;
@@ -78,28 +77,17 @@ class TickerDataProvider
 
 		$marketType = MarketTypeEnum::from($ticker->getMarket()->getType());
 		match ($marketType) {
-			MarketTypeEnum::Stock => $this->createTickerDataFromStock($ticker, $lastTickerData, $fromDate, $fullHistory),
-			MarketTypeEnum::Crypto => $this->createTickerDataFromCrypto($ticker, $lastTickerData, $fromDate),
+			MarketTypeEnum::Stock => $this->createTickerDataFromStock($ticker, $fromDate, $fullHistory),
+			MarketTypeEnum::Crypto => $this->createTickerDataFromCrypto($ticker, $fromDate),
 		};
 	}
 
-	private function createTickerDataFromStock(
-		Ticker $ticker,
-		?TickerData $lastTickerData,
-		DateTime|DateTimeImmutable $fromDate,
-		bool $fullHistory = false
-	): void
+	private function createTickerDataFromStock(Ticker $ticker, DateTime|DateTimeImmutable $fromDate, bool $fullHistory = false): void
 	{
 		$dailyTimeSeries = $this->alphaVantageApiClient->getTimeSeriesDaily($ticker->getTicker(), $fullHistory);
-		$previousTickerData = $lastTickerData;
 		foreach ($dailyTimeSeries as $dailyTimeSerie) {
 			if ($dailyTimeSerie->date < $fromDate) {
 				continue;
-			}
-
-			$performance = new Decimal('0.0');
-			if ($previousTickerData !== null) {
-				$performance = $dailyTimeSerie->adjustedClose->div((new Decimal($previousTickerData->getClose()))->div(100))->sub(100);
 			}
 
 			$tickerData = new TickerData(
@@ -110,7 +98,6 @@ class TickerDataProvider
 				high: (string) $dailyTimeSerie->high,
 				low: (string) $dailyTimeSerie->low,
 				volume: (string) $dailyTimeSerie->volume,
-				performance: $performance->toFloat(),
 			);
 
 			try {
@@ -118,8 +105,6 @@ class TickerDataProvider
 			} catch (ConstrainException) {
 				//ignore duplicate tickers
 			}
-
-			$previousTickerData = $tickerData;
 
 			if ($dailyTimeSerie->splitCoefficient->toFloat() === 1.0) {
 				continue;
@@ -140,18 +125,12 @@ class TickerDataProvider
 		}
 	}
 
-	private function createTickerDataFromCrypto(Ticker $ticker, ?TickerData $lastTickerData, DateTime|DateTimeImmutable $fromDate): void
+	private function createTickerDataFromCrypto(Ticker $ticker, DateTime|DateTimeImmutable $fromDate): void
 	{
 		$cryptoDailies = $this->alphaVantageApiClient->getCryptoDaily($ticker->getTicker());
-		$previousTickerData = $lastTickerData;
 		foreach ($cryptoDailies as $cryptoDaily) {
 			if ($cryptoDaily->date < $fromDate) {
 				continue;
-			}
-
-			$performance = new Decimal('0.0');
-			if ($previousTickerData !== null) {
-				$performance = $cryptoDaily->close->div((new Decimal($previousTickerData->getClose()))->div(100))->sub(100);
 			}
 
 			$tickerData = new TickerData(
@@ -162,7 +141,6 @@ class TickerDataProvider
 				high: (string) $cryptoDaily->high,
 				low: (string) $cryptoDaily->low,
 				volume: (string) $cryptoDaily->volume,
-				performance: $performance->toFloat(),
 			);
 
 			try {
@@ -170,8 +148,6 @@ class TickerDataProvider
 			} catch (ConstrainException) {
 				//ignore duplicate ticker data
 			}
-
-			$previousTickerData = $tickerData;
 		}
 	}
 }

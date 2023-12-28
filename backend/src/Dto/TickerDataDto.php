@@ -19,7 +19,6 @@ final readonly class TickerDataDto
 		public Decimal $high,
 		public Decimal $low,
 		public Decimal $volume,
-		public float $performance,
 	) {
 	}
 
@@ -34,7 +33,6 @@ final readonly class TickerDataDto
 			high: new Decimal($tickerData->getHigh()),
 			low: new Decimal($tickerData->getLow()),
 			volume: new Decimal($tickerData->getVolume()),
-			performance: $tickerData->getPerformance(),
 		);
 	}
 }

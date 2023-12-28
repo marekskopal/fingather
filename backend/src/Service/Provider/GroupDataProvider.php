@@ -58,7 +58,6 @@ class GroupDataProvider
 			fxImpactPercentage: $calculatedData->fxImpactPercentage,
 			return: (string) $calculatedData->return,
 			returnPercentage: $calculatedData->returnPercentage,
-			performance: $calculatedData->performance,
 		);
 
 		$this->groupDataRepository->persist($groupData);

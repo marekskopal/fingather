@@ -20,7 +20,6 @@ final readonly class YearCalculatedDataDto extends CalculatedDataDto
 		float $fxImpactPercentage,
 		Decimal $return,
 		float $returnPercentage,
-		float $performance
 	) {
 		parent::__construct(
 			$value,
@@ -33,7 +32,6 @@ final readonly class YearCalculatedDataDto extends CalculatedDataDto
 			$fxImpactPercentage,
 			$return,
 			$returnPercentage,
-			$performance
 		);
 	}
 }

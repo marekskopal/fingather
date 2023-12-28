@@ -27,8 +27,6 @@ class DataCalculator
 			$sumFxImpact = $sumFxImpact->add($asset->fxImpact);
 		}
 
-		//TODO: count performance
-
 		$gain = $sumAssetValue->sub($sumAssetTransactionValue);
 
 		$gainPercentage = 0.0;
@@ -56,7 +54,6 @@ class DataCalculator
 			fxImpactPercentage: $fxImpactPercentage,
 			return: $gain->add($sumDividendGain)->add($sumFxImpact),
 			returnPercentage: round($gainPercentage + $dividendGainPercentage + $fxImpactPercentage, 2),
-			performance: 0.0,
 		);
 	}
 }

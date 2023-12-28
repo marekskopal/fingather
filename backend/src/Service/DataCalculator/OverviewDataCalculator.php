@@ -55,7 +55,6 @@ class OverviewDataCalculator
 					fxImpactPercentage: $portfolioDataToDate->fxImpactPercentage,
 					return: $portfolioDataToDate->return,
 					returnPercentage: $portfolioDataToDate->returnPercentage,
-					performance: 0.0,
 				);
 				continue;
 			}
@@ -86,7 +85,6 @@ class OverviewDataCalculator
 				fxImpactPercentage: $fxImpactPercentage,
 				return: $return,
 				returnPercentage: round($gainPercentage + $dividendGainPercentage + $fxImpactPercentage, 2),
-				performance: 0.0,
 			);
 		}
 

@@ -154,7 +154,6 @@ class InitMigration extends Migration
 			->addColumn('high', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 10, 'precision' => 20])
 			->addColumn('low', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 10, 'precision' => 20])
 			->addColumn('volume', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 10, 'precision' => 20])
-			->addColumn('performance', 'double', ['nullable' => false, 'default' => null])
 			->addIndex(['ticker_id'], ['name' => 'ticker_datas_index_ticker_id_657179dd4f527', 'unique' => false])
 			->addForeignKey(['ticker_id'], 'tickers', ['id'], [
 				'name' => 'ticker_datas_foreign_ticker_id_657179dd4f52a',
@@ -295,7 +294,6 @@ class InitMigration extends Migration
 			->addColumn('fx_impact_percentage', 'float', ['nullable' => false, 'default' => null])
 			->addColumn('return', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 2, 'precision' => 11])
 			->addColumn('return_percentage', 'float', ['nullable' => false, 'default' => null])
-			->addColumn('performance', 'float', ['nullable' => false, 'default' => null])
 			->addIndex(['group_id'], ['name' => 'group_datas_index_group_id_6580626872321', 'unique' => false])
 			->addIndex(['user_id'], ['name' => 'group_datas_index_user_id_658062687233a', 'unique' => false])
 			->addForeignKey(['group_id'], 'groups', ['id'], [
@@ -328,7 +326,6 @@ class InitMigration extends Migration
 			->addColumn('fx_impact_percentage', 'float', ['nullable' => false, 'default' => null])
 			->addColumn('return', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 2, 'precision' => 11])
 			->addColumn('return_percentage', 'float', ['nullable' => false, 'default' => null])
-			->addColumn('performance', 'float', ['nullable' => false, 'default' => null])
 			->addIndex(['user_id'], ['name' => 'portfolio_datas_index_user_id_658062687238c', 'unique' => false])
 			->addForeignKey(['user_id'], 'users', ['id'], [
 				'name' => 'portfolio_datas_foreign_user_id_6580626872392',

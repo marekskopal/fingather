@@ -27,7 +27,6 @@ class GroupData extends ADataEntity
 		float $fxImpactPercentage,
 		string $return,
 		float $returnPercentage,
-		float $performance,
 	) {
 		parent::__construct(
 			$user,
@@ -42,7 +41,6 @@ class GroupData extends ADataEntity
 			$fxImpactPercentage,
 			$return,
 			$returnPercentage,
-			$performance
 		);
 	}
 
