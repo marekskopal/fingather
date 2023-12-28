@@ -62,7 +62,7 @@ class ExchangeRateProvider
 		return $exchangeRate;
 	}
 
-	public function updateExchangeRates(Currency $currencyTo): void
+	public function updateExchangeRates(Currency $currencyTo, bool $fullHistory = false): void
 	{
 		$code = $currencyTo->getCode();
 		$multiplier = 1;
@@ -73,7 +73,7 @@ class ExchangeRateProvider
 
 		$lastExchangeRate = $this->exchangeRateRepository->findLastExchangeRate($currencyTo->getId());
 
-		$fxDailyResults = $this->alphaVantageApiClient->getFxDaily($code);
+		$fxDailyResults = $this->alphaVantageApiClient->getFxDaily($code, $fullHistory);
 		foreach ($fxDailyResults as $dailyResult) {
 			if ($lastExchangeRate !== null && $dailyResult->date <= $lastExchangeRate->getDate()) {
 				continue;
@@ -99,7 +99,7 @@ class ExchangeRateProvider
 			return $exchangeRate;
 		}
 
-		$this->updateExchangeRates($currencyTo);
+		$this->updateExchangeRates($currencyTo, true);
 
 		$exchangeRate = $this->exchangeRateRepository->findLastExchangeRate($currencyTo->getId());
 		assert($exchangeRate instanceof ExchangeRate);

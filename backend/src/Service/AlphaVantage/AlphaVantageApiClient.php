@@ -82,11 +82,11 @@ final class AlphaVantageApiClient
 	}
 
 	/** @return list<FxDailyDto> */
-	public function getFxDaily(string $toSymbol): array
+	public function getFxDaily(string $toSymbol, bool $fullHistory = false): array
 	{
 		$fxDaily = [];
 
-		$results = $this->client->foreignExchange()->daily('USD', $toSymbol, TimeSeries::OUTPUT_TYPE_FULL);
+		$results = $this->client->foreignExchange()->daily('USD', $toSymbol, $fullHistory ? TimeSeries::OUTPUT_TYPE_FULL : TimeSeries::OUTPUT_TYPE_COMPACT);
 		foreach ($results['Time Series FX (Daily)'] as $date => $result) {
 			$fxDaily[] = new FxDailyDto(
 				date: new DateTimeImmutable($date),
