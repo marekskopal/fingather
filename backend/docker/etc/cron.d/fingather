@@ -1,0 +1,2 @@
+0 1 * * *   root  /app/bin/console exchangeRate:update
+30 1 * * *  root  /app/bin/console tickerData:update

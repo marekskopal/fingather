@@ -5,7 +5,7 @@ FROM phusion/baseimage:jammy-1.0.1 AS php
 RUN LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php && \
     apt-get update && \
     apt-get upgrade -y && \
-    apt-get install -y \
+    apt-get install -y --no-install-recommends \
         php8.2 \
         php8.2-curl \
         php8.2-mysql \
@@ -24,6 +24,7 @@ RUN LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php && \
 COPY --from=roadrunner /usr/bin/rr /usr/local/bin/rr
 COPY --from=composer /usr/bin/composer /usr/local/bin/composer
 
+COPY ./docker/etc/cron.d /etc/cron.d
 COPY ./docker/etc/service /etc/service
 COPY ./docker/etc/php /etc/php
 
