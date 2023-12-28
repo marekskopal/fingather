@@ -62,17 +62,8 @@ class ExchangeRateProvider
 		return $exchangeRate;
 	}
 
-	private function getExchangeRateUsd(DateTimeImmutable $date, Currency $currencyTo): ExchangeRate
+	public function updateExchangeRates(Currency $currencyTo): void
 	{
-		if ($currencyTo->getCode() === 'USD') {
-			return new ExchangeRate(currency: $currencyTo, date: $date, rate: '1');
-		}
-
-		$exchangeRate = $this->exchangeRateRepository->findExchangeRate($date, $currencyTo->getId());
-		if ($exchangeRate !== null) {
-			return $exchangeRate;
-		}
-
 		$code = $currencyTo->getCode();
 		$multiplier = 1;
 		if ($code === 'GBX') {
@@ -95,6 +86,20 @@ class ExchangeRateProvider
 			);
 			$this->exchangeRateRepository->persist($exchangeRate);
 		}
+	}
+
+	private function getExchangeRateUsd(DateTimeImmutable $date, Currency $currencyTo): ExchangeRate
+	{
+		if ($currencyTo->getCode() === 'USD') {
+			return new ExchangeRate(currency: $currencyTo, date: $date, rate: '1');
+		}
+
+		$exchangeRate = $this->exchangeRateRepository->findExchangeRate($date, $currencyTo->getId());
+		if ($exchangeRate !== null) {
+			return $exchangeRate;
+		}
+
+		$this->updateExchangeRates($currencyTo);
 
 		$exchangeRate = $this->exchangeRateRepository->findLastExchangeRate($currencyTo->getId());
 		assert($exchangeRate instanceof ExchangeRate);
