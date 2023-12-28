@@ -1,30 +1,39 @@
 FROM spiralscout/roadrunner:2023.3.8 AS roadrunner
 FROM composer:2.6.6 AS composer
-FROM php:8.2.13-cli-alpine AS php
+FROM phusion/baseimage:jammy-1.0.1 AS php
 
-ENV DOCKER_PHP_EXT_INSTALLER_VERSION 2.1.60
-
-ADD https://github.com/mlocati/docker-php-extension-installer/releases/download/$DOCKER_PHP_EXT_INSTALLER_VERSION/install-php-extensions /usr/local/bin/
-RUN chmod +x /usr/local/bin/install-php-extensions && install-php-extensions \
-    pdo_mysql \
-    zip \
-    sockets \
-    opcache \
-    bcmath \
-    decimal
+RUN LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php && \
+    apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y \
+        php8.2 \
+        php8.2-curl \
+        php8.2-mysql \
+        php8.2-opcache \
+        php8.2-bcmath \
+        php8.2-sockets \
+        php8.2-mbstring \
+        php8.2-zip \
+        php8.2-decimal \
+        curl \
+        tzdata && \
+    apt-get autoremove -y && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 COPY --from=roadrunner /usr/bin/rr /usr/local/bin/rr
 COPY --from=composer /usr/bin/composer /usr/local/bin/composer
 
-COPY ./docker/docker-php.ini /usr/local/etc/php/conf.d/docker-php.ini
-COPY ./ /app/
+COPY ./docker/etc/service /etc/service
+COPY ./docker/etc/php /etc/php
+
+COPY ./bin /app/bin
+COPY ./log /app/log
+COPY ./migrations /app/migrations
+COPY ./src /app/src
+COPY ./.rr.yaml ./composer.json ./composer.lock /app/
 
 WORKDIR /app/
 
 RUN rm -rf /app/vendor \
     && COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --no-progress --classmap-authoritative -d /app/
-
-CMD rr serve -w /app/ -c /app/.rr.yaml
-
-HEALTHCHECK --interval=10s --timeout=5s --start-period=10s\
- 	CMD curl -f http://localhost/api/health || exit 1
