@@ -26,12 +26,4 @@ class OkResponse extends JsonResponse
 			$encodingOptions,
 		);
 	}
-
-	public static function fromException(\Throwable $exception): self
-	{
-		$code = $exception->getCode() >= 100 && $exception->getCode() <= 999 ? $exception->getCode() : 500;
-		$message = $exception->getMessage() ?: 'Internal Server Error';
-
-		return new self($message, $code);
-	}
 }

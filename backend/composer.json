@@ -37,7 +37,8 @@
 		"phpunit/phpunit": "^10.2",
 		"spatie/ray": "^1.39",
         "thecodingmachine/phpstan-safe-rule": "^1.2",
-        "slevomat/coding-standard": "^8.14"
+        "slevomat/coding-standard": "^8.14",
+        "phpstan/phpstan-strict-rules": "^1.5"
 	},
     "autoload": {
         "psr-4": {

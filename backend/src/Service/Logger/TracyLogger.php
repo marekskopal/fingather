@@ -20,7 +20,7 @@ final class TracyLogger extends Logger
 		return implode(' ', [
 			preg_replace('#\s*\r?\n\s*#', ' ', self::formatMessage($message)),
 			' @  ' . Helpers::getSource(),
-			$exceptionFile ? ' @@  ' . basename($exceptionFile) : null,
+			$exceptionFile !== null ? ' @@  ' . basename($exceptionFile) : null,
 		]) . ($message instanceof \Throwable ? PHP_EOL . strstr((string) $message, 'Stack trace:') : '');
 	}
 
