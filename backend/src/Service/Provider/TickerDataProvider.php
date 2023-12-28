@@ -47,12 +47,12 @@ class TickerDataProvider
 			return $lastTickerData;
 		}
 
-		$this->createTickerData($ticker);
+		$this->updateTickerData($ticker, true);
 
 		return $this->tickerDataRepository->findLastTickerData($ticker->getId(), $beforeDate);
 	}
 
-	public function createTickerData(Ticker $ticker): void
+	public function updateTickerData(Ticker $ticker, bool $fullHistory = false): void
 	{
 		$actualDate = new DateTime('today');
 
@@ -78,14 +78,19 @@ class TickerDataProvider
 
 		$marketType = MarketTypeEnum::from($ticker->getMarket()->getType());
 		match ($marketType) {
-			MarketTypeEnum::Stock => $this->createTickerDataFromStock($ticker, $lastTickerData, $fromDate),
+			MarketTypeEnum::Stock => $this->createTickerDataFromStock($ticker, $lastTickerData, $fromDate, $fullHistory),
 			MarketTypeEnum::Crypto => $this->createTickerDataFromCrypto($ticker, $lastTickerData, $fromDate),
 		};
 	}
 
-	private function createTickerDataFromStock(Ticker $ticker, ?TickerData $lastTickerData, DateTime|DateTimeImmutable $fromDate): void
+	private function createTickerDataFromStock(
+		Ticker $ticker,
+		?TickerData $lastTickerData,
+		DateTime|DateTimeImmutable $fromDate,
+		bool $fullHistory = false
+	): void
 	{
-		$dailyTimeSeries = $this->alphaVantageApiClient->getTimeSeriesDaily($ticker->getTicker());
+		$dailyTimeSeries = $this->alphaVantageApiClient->getTimeSeriesDaily($ticker->getTicker(), $fullHistory);
 		$previousTickerData = $lastTickerData;
 		foreach ($dailyTimeSeries as $dailyTimeSerie) {
 			if ($dailyTimeSerie->date < $fromDate) {

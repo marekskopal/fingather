@@ -55,13 +55,16 @@ final class AlphaVantageApiClient
 	}
 
 	/** @return list<TimeSerieDailyDto> */
-	public function getTimeSeriesDaily(string $ticker): array
+	public function getTimeSeriesDaily(string $ticker, bool $fullHistory = false): array
 	{
 		$ticker = $this->sanitizeTicker($ticker);
 
 		$timeSeriesDaily = [];
 
-		$results = $this->client->timeSeries()->dailyAdjusted($ticker, TimeSeries::OUTPUT_TYPE_FULL);
+		$results = $this->client->timeSeries()->dailyAdjusted(
+			$ticker,
+			$fullHistory ? TimeSeries::OUTPUT_TYPE_FULL : TimeSeries::OUTPUT_TYPE_COMPACT
+		);
 		foreach ($results['Time Series (Daily)'] as $date => $result) {
 			$timeSeriesDaily[] = new TimeSerieDailyDto(
 				date: new DateTimeImmutable($date),
@@ -86,7 +89,11 @@ final class AlphaVantageApiClient
 	{
 		$fxDaily = [];
 
-		$results = $this->client->foreignExchange()->daily('USD', $toSymbol, $fullHistory ? TimeSeries::OUTPUT_TYPE_FULL : TimeSeries::OUTPUT_TYPE_COMPACT);
+		$results = $this->client->foreignExchange()->daily(
+			'USD',
+			$toSymbol,
+			$fullHistory ? TimeSeries::OUTPUT_TYPE_FULL : TimeSeries::OUTPUT_TYPE_COMPACT
+		);
 		foreach ($results['Time Series FX (Daily)'] as $date => $result) {
 			$fxDaily[] = new FxDailyDto(
 				date: new DateTimeImmutable($date),

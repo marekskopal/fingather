@@ -22,6 +22,12 @@ class TickerProvider
 	) {
 	}
 
+	/** @return iterable<Ticker> */
+	public function getTickers(): iterable
+	{
+		return $this->tickerRepository->findTickers();
+	}
+
 	public function getTicker(int $tickerId): ?Ticker
 	{
 		return $this->tickerRepository->findTicker($tickerId);
