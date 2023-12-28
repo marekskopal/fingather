@@ -82,7 +82,7 @@ class AssetProvider
 
 			$transactionSum = $transactionUnits->mul($transactionPriceUnit);
 
-			if ($tickerCurrency->getId() !== $transaction->getCurrency()) {
+			if ($tickerCurrency->getId() !== $transaction->getCurrency()->getId()) {
 				$transactionExchangeRate = $this->exchangeRateProvider->getExchangeRate(
 					DateTimeImmutable::createFromRegular($transaction->getCreated())->setTime(0, 0),
 					$transaction->getCurrency(),
