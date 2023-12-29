@@ -3,7 +3,7 @@
     "type": "project",
     "description": "FinGather",
     "homepage": "https://www.fingather.com",
-    "license": "proprietary",
+    "license": "MIT",
     "authors": [
       {
         "name": "Marek Skopal",
