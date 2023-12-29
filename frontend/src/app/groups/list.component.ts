@@ -8,7 +8,7 @@ import {GroupService} from "@app/services";
 
 @Component({ templateUrl: 'list.component.html' })
 export class ListComponent implements OnInit, OnDestroy {
-    public groups: Group[] = [];
+    public groups: Group[]|null = null;
 
     constructor(
         private groupService: GroupService,
@@ -39,13 +39,13 @@ export class ListComponent implements OnInit, OnDestroy {
     }
 
     deleteGroup(id: number) {
-        const group = this.groups.find(x => x.id === id);
+        const group = this.groups?.find(x => x.id === id);
         if (group === undefined) {
             return
         }
         group.isDeleting = true;
         this.groupService.delete(id)
             .pipe(first())
-            .subscribe(() => this.groups = this.groups.filter(x => x.id !== id));
+            .subscribe(() => this.groups = this.groups !== null ? this.groups.filter(x => x.id !== id) : null);
     }
 }

@@ -8,7 +8,7 @@ import {OverviewService} from "@app/services";
     templateUrl: './list.component.html'
 })
 export class ListComponent implements OnInit {
-    public yearCalculatedDatas: YearCalculatedData[] = [];
+    public yearCalculatedDatas: YearCalculatedData[]|null = null;
 
     constructor(
         private overviewService: OverviewService,

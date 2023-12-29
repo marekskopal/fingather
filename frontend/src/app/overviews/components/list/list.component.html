@@ -34,7 +34,7 @@
                 <div><strong>{{yearCalculatedData.returnPercentage}}%</strong></div>
             </td>
         </tr>
-        <tr *ngIf="yearCalculatedDatas.length === 0">
+        <tr *ngIf="yearCalculatedDatas === null">
             <td colspan="7" class="text-center">
                 <span class="spinner-border spinner-border-lg align-center"></span>
             </td>

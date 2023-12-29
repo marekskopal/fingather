@@ -8,7 +8,7 @@ import {AssetService} from "@app/services";
 
 @Component({ templateUrl: 'list.component.html' })
 export class ListComponent implements OnInit {
-    public assets: Asset[] = [];
+    public assets: Asset[]|null = null;
 
     constructor(
         private assetService: AssetService,
@@ -28,6 +28,6 @@ export class ListComponent implements OnInit {
     deleteAsset(id: number) {
         this.assetService.delete(id)
             .pipe(first())
-            .subscribe(() => this.assets = this.assets.filter(x => x.id !== id));
+            .subscribe(() => this.assets = this.assets !== null ? this.assets.filter(x => x.id !== id) : null);
     }
 }

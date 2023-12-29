@@ -11,7 +11,7 @@ import {DividendService} from "@app/services";
     selector: 'app-dividend-list',
 })
 export class DividendListComponent implements OnInit, OnDestroy {
-    public dividends: Dividend[] = [];
+    public dividends: Dividend[]|null = null;
     public assetId: number;
 
     constructor(
@@ -47,13 +47,13 @@ export class DividendListComponent implements OnInit, OnDestroy {
     }
 
     public deleteDividend(id: number): void {
-        const dividend = this.dividends.find(x => x.id === id);
+        const dividend = this.dividends?.find(x => x.id === id);
         if (dividend === undefined) {
             return;
         }
         dividend.isDeleting = true;
         this.dividendService.delete(id)
             .pipe(first())
-            .subscribe(() => this.dividends = this.dividends.filter(x => x.id !== id));
+            .subscribe(() => this.dividends = this.dividends !== null ? this.dividends.filter(x => x.id !== id) : null);
     }
 }
