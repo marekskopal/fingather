@@ -54,6 +54,7 @@ export class ImportComponent implements OnInit {
         this.createImport();
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onFileChange(event: any) {
         const reader = new FileReader();
 

@@ -8,6 +8,7 @@ import {AuthenticationService} from "@app/services/authentication.service";
 export class ErrorInterceptor implements HttpInterceptor {
     constructor(private authorizationService: AuthenticationService) {}
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request).pipe(catchError(err => {
             if ([401, 403].includes(err.status) && this.authorizationService.authenticationValue) {

@@ -1,4 +1,4 @@
-﻿import {EventEmitter, Injectable} from '@angular/core';
+﻿import {Injectable} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
@@ -30,8 +30,8 @@ export class GroupService extends ANotifyService {
         return this.http.get<Group>(`${environment.apiUrl}/group/others`);
     }
 
-    public update(id: number, params: any) {
-        return this.http.put(`${environment.apiUrl}/group/${id}`, params)
+    public update(id: number, group: Group) {
+        return this.http.put(`${environment.apiUrl}/group/${id}`, group)
             .pipe(map(x => {
                 return x;
             }));

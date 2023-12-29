@@ -29,8 +29,8 @@ export class TransactionService {
         return this.http.get<Transaction>(`${environment.apiUrl}/transaction/${id}`);
     }
 
-    update(id: number, params: any) {
-        return this.http.put(`${environment.apiUrl}/transaction/${id}`, params)
+    update(id: number, transaction: Transaction) {
+        return this.http.put(`${environment.apiUrl}/transaction/${id}`, transaction)
             .pipe(map(x => {
                 return x;
             }));
