@@ -36,7 +36,7 @@ export class DividendDialogComponent extends ABaseDialog implements OnInit {
             .subscribe(brokers => {
                 this.brokers = brokers;
                 if (this.isAddMode) {
-                    this.f.brokerId.patchValue(brokers[0].id);
+                    this.f['brokerId'].patchValue(brokers[0].id);
                 }
             });
 
@@ -45,7 +45,7 @@ export class DividendDialogComponent extends ABaseDialog implements OnInit {
             .subscribe(currencies => {
                 this.currencies = currencies;
                 if (this.isAddMode) {
-                    this.f.currencyId.patchValue(currencies[0].id);
+                    this.f['currencyId'].patchValue(currencies[0].id);
                 }
             });
 
@@ -65,7 +65,7 @@ export class DividendDialogComponent extends ABaseDialog implements OnInit {
                 .pipe(first())
                 .subscribe(dividend => {
                     this.form.patchValue(dividend);
-                    this.f.paidDate.patchValue(moment(dividend.paidDate).format('YYYY-MM-DDTHH:mm'));
+                    this.f['paidDate'].patchValue(moment(dividend.paidDate).format('YYYY-MM-DDTHH:mm'));
                 });
         }
     }

@@ -7,9 +7,9 @@
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <div class="mb-3">
             <label for="name" class="form-label">Name</label>
-            <input id="name" type="text" formControlName="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
-            <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
-                <div *ngIf="f.name.errors.required">Name is required</div>
+            <input id="name" type="text" formControlName="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['name'].errors }" />
+            <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+                <div *ngIf="f['name'].errors['required']">Name is required</div>
             </div>
         </div>
         <div class="mb-3">
@@ -19,8 +19,8 @@
                     {{ asset.ticker.name }}
                 </option>
             </select>
-            <div *ngIf="submitted && f.assetIds.errors" class="invalid-feedback">
-                <div *ngIf="f.assetIds.errors.required">Assets is required</div>
+            <div *ngIf="submitted && f['assetIds'].errors" class="invalid-feedback">
+                <div *ngIf="f['assetIds'].errors['required']">Assets is required</div>
             </div>
         </div>
         <div>

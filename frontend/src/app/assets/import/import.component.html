@@ -8,8 +8,8 @@
                     {{ broker.name }}
                 </option>
             </select>
-            <div *ngIf="submitted && f.brokerId.errors" class="invalid-feedback">
-                <div *ngIf="f.brokerId.errors.required">Broker is required</div>
+            <div *ngIf="submitted && f['brokerId'].errors" class="invalid-feedback">
+                <div *ngIf="f['brokerId'].errors['required']">Broker is required</div>
             </div>
         </div>
     </div>

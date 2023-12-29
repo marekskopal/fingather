@@ -8,7 +8,7 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({ templateUrl: 'list.component.html' })
 export class ListComponent implements OnInit, OnDestroy {
-    public brokers: Broker[]|null = null;
+    public brokers: Broker[] = [];
 
     constructor(
         private brokerService: BrokerService,

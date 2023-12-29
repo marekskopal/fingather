@@ -8,7 +8,7 @@ import {AssetService} from "@app/services";
 
 @Component({ templateUrl: 'list.component.html' })
 export class ListComponent implements OnInit {
-    public assets: Asset[]|null = null;
+    public assets: Asset[] = [];
 
     constructor(
         private assetService: AssetService,

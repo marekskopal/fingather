@@ -11,7 +11,7 @@ import {DividendService} from "@app/services";
     selector: 'app-dividend-list',
 })
 export class DividendListComponent implements OnInit, OnDestroy {
-    public dividends: Dividend[]|null = null;
+    public dividends: Dividend[] = [];
     public assetId: number;
 
     constructor(
@@ -41,13 +41,16 @@ export class DividendListComponent implements OnInit, OnDestroy {
         dividendDialogComponent.componentInstance.assetId = this.assetId;
     }
 
-    public editDividend(id: string): void {
+    public editDividend(id: number): void {
         const dividendDialogComponent = this.modalService.open(DividendDialogComponent);
         dividendDialogComponent.componentInstance.id = id;
     }
 
     public deleteDividend(id: number): void {
         const dividend = this.dividends.find(x => x.id === id);
+        if (dividend === undefined) {
+            return;
+        }
         dividend.isDeleting = true;
         this.dividendService.delete(id)
             .pipe(first())

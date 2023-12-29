@@ -23,7 +23,7 @@ export class AssetService {
         return this.http.get<Asset>(`${environment.apiUrl}/asset/${id}`);
     }
 
-    update(id: number, params) {
+    update(id: number, params: any) {
         return this.http.put(`${environment.apiUrl}/asset/${id}`, params)
             .pipe(map(x => {
                 return x;

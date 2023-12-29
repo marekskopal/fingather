@@ -4,9 +4,9 @@
     <div class="form-row">
         <div class="form-group col">
             <label for="ticker">Ticker</label>
-            <input id="ticker" type="text" formControlName="ticker" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.ticker.errors }" />
-            <div *ngIf="submitted && f.ticker.errors" class="invalid-feedback">
-                <div *ngIf="f.ticker.errors.required">Ticker is required</div>
+            <input id="ticker" type="text" formControlName="ticker" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['ticker'].errors }" />
+            <div *ngIf="submitted && f['ticker'].errors" class="invalid-feedback">
+                <div *ngIf="f['ticker'].errors['required']">Ticker is required</div>
             </div>
         </div>
     </div>

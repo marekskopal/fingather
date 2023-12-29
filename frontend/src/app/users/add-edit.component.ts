@@ -37,7 +37,7 @@ export class AddEditComponent implements OnInit {
             .subscribe(currencies => {
                 this.currencies = currencies;
                 if (this.isAddMode) {
-                    this.f.defaultCurrencyId.patchValue(currencies[0].id);
+                    this.f['defaultCurrencyId'].patchValue(currencies[0].id);
                 }
             });
 

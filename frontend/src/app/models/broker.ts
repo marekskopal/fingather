@@ -1,5 +1,6 @@
-﻿export class Broker {
-    id: number;
+﻿import {AEntity} from "@app/models/AEntity";
+
+export class Broker extends AEntity {
     userId: number;
     name: string;
     importType: BrokerImportTypes;

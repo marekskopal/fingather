@@ -13,36 +13,36 @@
                     {{ broker.name }}
                 </option>
             </select>
-            <div *ngIf="submitted && f.brokerId.errors" class="invalid-feedback">
-                <div *ngIf="f.brokerId.errors.required">Broker is required</div>
+            <div *ngIf="submitted && f['brokerId'].errors" class="invalid-feedback">
+                <div *ngIf="f['brokerId'].errors['required']">Broker is required</div>
             </div>
         </div>
         <div class="mb-3">
             <label for="created" class="form-label">Paid Date</label>
-            <input type="datetime-local" id="paidDate" formControlName="paidDate" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.paidDate.errors }" />
-            <div *ngIf="submitted && f.paidDate.errors" class="invalid-feedback">
-                <div *ngIf="f.paidDate.errors.required">Paid Date is required</div>
+            <input type="datetime-local" id="paidDate" formControlName="paidDate" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['paidDate'].errors }" />
+            <div *ngIf="submitted && f['paidDate'].errors" class="invalid-feedback">
+                <div *ngIf="f['paidDate'].errors['required']">Paid Date is required</div>
             </div>
         </div>
         <div class="mb-3">
             <label for="priceGross" class="form-label">Price Gross</label>
-            <input type="number" step="0.01" min="0" id="priceGross" formControlName="priceGross" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.priceGross.errors }" [defaultValue]="0.00" />
-            <div *ngIf="submitted && f.priceGross.errors" class="invalid-feedback">
-                <div *ngIf="f.priceGross.errors.required">Date is required</div>
+            <input type="number" step="0.01" min="0" id="priceGross" formControlName="priceGross" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['priceGross'].errors }" [defaultValue]="0.00" />
+            <div *ngIf="submitted && f['priceGross'].errors" class="invalid-feedback">
+                <div *ngIf="f['priceGross'].errors['required']">Date is required</div>
             </div>
         </div>
         <div class="mb-3">
             <label for="tax" class="form-label">Tax</label>
-            <input type="number" step="0.01" min="0" id="tax" formControlName="tax" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.tax.errors }" [defaultValue]="0.00" />
-            <div *ngIf="submitted && f.priceGross.errors" class="invalid-feedback">
-                <div *ngIf="f.tax.errors.required">Tax is required</div>
+            <input type="number" step="0.01" min="0" id="tax" formControlName="tax" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['tax'].errors }" [defaultValue]="0.00" />
+            <div *ngIf="submitted && f['tax'].errors" class="invalid-feedback">
+                <div *ngIf="f['tax'].errors['required']">Tax is required</div>
             </div>
         </div>
         <div class="mb-3">
             <label for="priceNet" class="form-label">Price Net</label>
-            <input type="number" step="0.01" min="0" id="priceNet" formControlName="priceNet" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.priceNet.errors }" [defaultValue]="0.00" />
-            <div *ngIf="submitted && f.priceNet.errors" class="invalid-feedback">
-                <div *ngIf="f.priceNet.errors.required">Price Net is required</div>
+            <input type="number" step="0.01" min="0" id="priceNet" formControlName="priceNet" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['priceNet'].errors }" [defaultValue]="0.00" />
+            <div *ngIf="submitted && f['priceNet'].errors" class="invalid-feedback">
+                <div *ngIf="f['priceNet'].errors['required']">Price Net is required</div>
             </div>
         </div>
         <div class="mb-3">
@@ -52,15 +52,15 @@
                     {{ currency.code }}
                 </option>
             </select>
-            <div *ngIf="submitted && f.currencyId.errors" class="invalid-feedback">
-                <div *ngIf="f.currencyId.errors.required">Currency is required</div>
+            <div *ngIf="submitted && f['currencyId'].errors" class="invalid-feedback">
+                <div *ngIf="f['currencyId'].errors['required']">Currency is required</div>
             </div>
         </div>
         <div class="mb-3">
             <label for="exchangeRate" class="form-label">Exchange Rate</label>
-            <input type="number" step="0.01" min="0" id="exchangeRate" formControlName="exchangeRate" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.exchangeRate.errors }" [defaultValue]="1.00" />
-            <div *ngIf="submitted && f.exchangeRate.errors" class="invalid-feedback">
-                <div *ngIf="f.exchangeRate.errors.required">Exchange Rate is required</div>
+            <input type="number" step="0.01" min="0" id="exchangeRate" formControlName="exchangeRate" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['exchangeRate'].errors }" [defaultValue]="1.00" />
+            <div *ngIf="submitted && f['exchangeRate'].errors" class="invalid-feedback">
+                <div *ngIf="f['exchangeRate'].errors['required']">Exchange Rate is required</div>
             </div>
         </div>
         <div class="mb-3">

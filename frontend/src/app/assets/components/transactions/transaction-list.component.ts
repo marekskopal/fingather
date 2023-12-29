@@ -12,7 +12,7 @@ import {TransactionService} from "@app/services";
     selector: 'app-transaction-list',
 })
 export class TransactionListComponent implements OnInit {
-    public transactions: Transaction[]|null = null;
+    public transactions: Transaction[] = [];
     public assetId: number;
 
     constructor(
@@ -35,6 +35,9 @@ export class TransactionListComponent implements OnInit {
 
     deleteTransaction(id: number) {
         const transaction = this.transactions.find(x => x.id === id);
+        if (transaction === undefined) {
+            return;
+        }
         transaction.isDeleting = true;
         this.transactionService.delete(id)
             .pipe(first())

@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
         }
 
         this.loading = true;
-        this.authorizationService.login(this.f.username.value, this.f.password.value)
+        this.authorizationService.login(this.f['username'].value, this.f['password'].value)
             .pipe(first())
             .subscribe({
                 next: () => {

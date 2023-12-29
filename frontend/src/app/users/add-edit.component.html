@@ -4,18 +4,18 @@
     <div class="form-row">
         <div class="form-group col">
             <label for="email">Email</label>
-            <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
-            <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-                <div *ngIf="f.email.errors.required">Email is required</div>
+            <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['email'].errors }" />
+            <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+                <div *ngIf="f['email'].errors['required']">Email is required</div>
             </div>
         </div>
     </div>
     <div class="form-row">
         <div class="form-group col">
             <label for="name">Name</label>
-            <input type="text" formControlName="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
-            <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
-                <div *ngIf="f.name.errors.required">Name is required</div>
+            <input type="text" formControlName="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['name'].errors }" />
+            <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+                <div *ngIf="f['name'].errors['required']">Name is required</div>
             </div>
         </div>
     </div>
@@ -25,10 +25,10 @@
                 Password
                 <em *ngIf="!isAddMode">(Leave blank to keep the same password)</em>
             </label>
-            <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
-            <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-                <div *ngIf="f.password.errors.required">Password is required</div>
-                <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+            <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['password'].errors }" />
+            <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
+                <div *ngIf="f['password'].errors['required']">Password is required</div>
+                <div *ngIf="f['password'].errors['minlength']">Password must be at least 6 characters</div>
             </div>
         </div>
     </div>
@@ -40,8 +40,8 @@
                     {{ currency.code }}
                 </option>
             </select>
-            <div *ngIf="submitted && f.defaultCurrencyId.errors" class="invalid-feedback">
-                <div *ngIf="f.defaultCurrencyId.errors.required">Default Currency is required</div>
+            <div *ngIf="submitted && f['defaultCurrencyId'].errors" class="invalid-feedback">
+                <div *ngIf="f['defaultCurrencyId'].errors['required']">Default Currency is required</div>
             </div>
         </div>
     </div>
@@ -53,8 +53,8 @@
                     {{ role.name }}
                 </option>
             </select>
-            <div *ngIf="submitted && f.role.errors" class="invalid-feedback">
-                <div *ngIf="f.role.errors.required">Role is required</div>
+            <div *ngIf="submitted && f['role'].errors" class="invalid-feedback">
+                <div *ngIf="f['role'].errors['required']">Role is required</div>
             </div>
         </div>
     </div>

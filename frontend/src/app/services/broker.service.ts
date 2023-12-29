@@ -25,7 +25,7 @@ export class BrokerService {
         return this.http.get<Broker>(`${environment.apiUrl}/broker/${id}`);
     }
 
-    update(id: number, params) {
+    update(id: number, params: any) {
         return this.http.put(`${environment.apiUrl}/broker/${id}`, params)
             .pipe(map(x => {
                 return x;
