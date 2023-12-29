@@ -1,15 +1,15 @@
 ﻿<div *ngIf="asset">
     <h1>{{asset.ticker.name}}</h1>
 
-    <app-asset-ticker-chart assetTickerId="{{asset.ticker.id}}"></app-asset-ticker-chart>
+    <fingather-asset-ticker-chart assetTickerId="{{asset.ticker.id}}"></fingather-asset-ticker-chart>
 
     <div class="row">
         <div class="col-lg-6">
-            <app-transaction-list></app-transaction-list>
+            <fingather-transaction-list></fingather-transaction-list>
 
         </div>
         <div class="col-lg-6">
-            <app-dividend-list></app-dividend-list>
+            <fingather-dividend-list></fingather-dividend-list>
 
         </div>
     </div>

@@ -5,7 +5,7 @@ import {first} from "rxjs/operators";
 import {PortfolioData} from "@app/models";
 import {PortfolioDataService} from "@app/services";
 
-@Component({ selector: 'app-portfolio-total', templateUrl: 'portfolio-total.component.html' })
+@Component({ selector: 'fingather-portfolio-total', templateUrl: 'portfolio-total.component.html' })
 export class PortfolioTotalComponent implements OnInit {
     portfolioData: PortfolioData;
 

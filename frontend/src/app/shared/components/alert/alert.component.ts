@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { Alert, AlertType } from '@app/models';
 import { AlertService } from '@app/services';
 
-@Component({ selector: 'app-alert', templateUrl: 'alert.component.html' })
+@Component({ selector: 'fingather-alert', templateUrl: 'alert.component.html' })
 export class AlertComponent implements OnInit, OnDestroy {
     @Input() id = 'default-alert';
     @Input() fade = true;
