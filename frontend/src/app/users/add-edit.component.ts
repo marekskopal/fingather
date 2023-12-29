@@ -4,7 +4,7 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
 import { first } from 'rxjs/operators';
 
 import {UserService, AlertService, CurrencyService} from '@app/services';
-import {BrokerImportTypes, Currency, UserRoleEnum} from "@app/models";
+import {Currency, UserRoleEnum} from "@app/models";
 
 @Component({ templateUrl: 'add-edit.component.html' })
 export class AddEditComponent implements OnInit {

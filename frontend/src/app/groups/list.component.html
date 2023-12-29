@@ -1,5 +1,5 @@
 ﻿<h1>Groups</h1>
-<a (click)="addGroup()" class="btn btn-sm btn-success mb-2">Add Group</a>
+<a (click)="addGroup()" class="btn btn-sm btn-success mb-2" tabindex="0">Add Group</a>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -11,7 +11,7 @@
         <tr *ngFor="let group of groups">
             <td>{{group.name}}</td>
             <td style="white-space: nowrap">
-                <a (click)="editGroup(group.id)" class="btn btn-sm btn-primary mr-1">Edit</a>
+                <a (click)="editGroup(group.id)" class="btn btn-sm btn-primary mr-1" tabindex="0">Edit</a>
                 <button (click)="deleteGroup(group.id)" class="btn btn-sm btn-danger btn-delete-user" [disabled]="group.isDeleting">
                   <span *ngIf="group.isDeleting" class="spinner-border spinner-border-sm"></span>
                   <span *ngIf="!group.isDeleting">Delete</span>

@@ -20,7 +20,7 @@ export class ListComponent implements OnInit, OnDestroy {
             .pipe(first())
             .subscribe(groups => this.groups = groups);
 
-        this.groupService.eventEmitter.subscribe(notified => {
+        this.groupService.eventEmitter.subscribe(() => {
             this.ngOnInit();
         });
     }

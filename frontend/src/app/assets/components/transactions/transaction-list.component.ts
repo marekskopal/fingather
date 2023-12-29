@@ -9,7 +9,7 @@ import {TransactionService} from "@app/services";
 
 @Component({
     templateUrl: 'transaction-list.component.html',
-    selector: 'transaction-list',
+    selector: 'app-transaction-list',
 })
 export class TransactionListComponent implements OnInit {
     public transactions: Transaction[]|null = null;

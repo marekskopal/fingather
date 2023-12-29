@@ -3,7 +3,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
-import * as moment from "moment";
 import {Broker} from "@app/models";
 import {AlertService, BrokerService, ImportDataService, TransactionService} from "@app/services";
 
@@ -26,8 +25,6 @@ export class ImportComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        const currentDate = moment().format('YYYY-MM-DDTHH:mm');
-
         this.brokerService.findAll()
             .pipe(first())
             .subscribe(brokers => this.brokers = brokers);

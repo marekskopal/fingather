@@ -15,7 +15,7 @@
         <div class="mb-3">
             <label for="assetIds" class="form-label">Assets</label>
             <select multiple id="assetIds" formControlName="assetIds" class="form-select">
-                <option *ngFor="let asset of assets" [ngValue]="asset.id" [disabled]="asset.groupId != othersGroup.id && asset.groupId != id">
+                <option *ngFor="let asset of assets" [ngValue]="asset.id" [disabled]="asset.groupId !== othersGroup.id && asset.groupId !== id">
                     {{ asset.ticker.name }}
                 </option>
             </select>
@@ -28,7 +28,7 @@
                 <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
                 Save
             </button>
-            <a class="btn btn-link" (click)="activeModal.dismiss()">Cancel</a>
+            <a class="btn btn-link" (click)="activeModal.dismiss()" tabindex="0">Cancel</a>
         </div>
     </form>
 </div>

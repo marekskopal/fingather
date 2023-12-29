@@ -8,7 +8,7 @@ import {DividendService} from "@app/services";
 
 @Component({
     templateUrl: 'dividend-list.component.html',
-    selector: 'dividend-list',
+    selector: 'app-dividend-list',
 })
 export class DividendListComponent implements OnInit, OnDestroy {
     public dividends: Dividend[]|null = null;
@@ -27,7 +27,7 @@ export class DividendListComponent implements OnInit, OnDestroy {
             .pipe(first())
             .subscribe(dividends => this.dividends = dividends);
 
-        this.dividendService.eventEmitter.subscribe(notified => {
+        this.dividendService.eventEmitter.subscribe(() => {
             this.ngOnInit();
         });
     }
