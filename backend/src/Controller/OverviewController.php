@@ -22,6 +22,6 @@ class OverviewController
 	{
 		$user = $this->requestService->getUser($request);
 
-		return new JsonResponse($this->overviewDataCalculator->yearCalculate($user));
+		return new JsonResponse(array_values($this->overviewDataCalculator->yearCalculate($user)));
 	}
 }

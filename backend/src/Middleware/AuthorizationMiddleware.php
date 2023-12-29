@@ -33,6 +33,10 @@ final class AuthorizationMiddleware implements MiddlewareInterface
 			return $handler->handle($request);
 		}
 
+		if ($request->getMethod() === 'OPTIONS') {
+			return $handler->handle($request);
+		}
+
 		$authorizationHeader = $request->getHeader(self::AuthHeader)[0] ?? null;
 
 		if ($authorizationHeader === null) {

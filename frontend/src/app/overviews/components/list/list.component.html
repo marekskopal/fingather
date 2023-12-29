@@ -1,0 +1,43 @@
+<h1>Overviews</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th style="width: 16%">Year</th>
+            <th style="width: 14%">Value</th>
+            <th style="width: 14%">Transaction Value</th>
+            <th style="width: 14%">Gain/Loss</th>
+            <th style="width: 14%">Dividend</th>
+            <th style="width: 14%">FX Impact</th>
+            <th style="width: 14%"><strong>Return</strong></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let yearCalculatedData of yearCalculatedDatas">
+            <td>{{yearCalculatedData.year}}</td>
+            <td class="text-end">{{yearCalculatedData.value | number:'1.2-2'}}</td>
+            <td class="text-end">{{yearCalculatedData.transactionValue | number:'1.2-2'}}</td>
+            <td class="text-end" style="color:{{yearCalculatedData.gain > 0 ? 'green' : (yearCalculatedData.gain < 0 ? 'red' : '')}}">
+                <div class="small">{{yearCalculatedData.gain | number:'1.2-2'}}</div>
+                <div>{{yearCalculatedData.gainPercentage}}%</div>
+            </td>
+            <td class="text-end" style="color:{{yearCalculatedData.dividendGain > 0 ? 'green' : (yearCalculatedData.dividendGain < 0 ? 'red' : '')}}">
+                <div class="small">{{yearCalculatedData.dividendGain | number:'1.2-2'}}</div>
+                <div>{{yearCalculatedData.dividendGainPercentage}}%</div>
+            </td>
+            <td class="text-end" style="color:{{yearCalculatedData.fxImpact > 0 ? 'green' : (yearCalculatedData.fxImpact < 0 ? 'red' : '')}}">
+                <div class="small">{{yearCalculatedData.fxImpact | number:'1.2-2'}}</div>
+                <div>{{yearCalculatedData.fxImpactPercentage}}%</div>
+            </td>
+            <td class="text-end" style="color:{{yearCalculatedData.return > 0 ? 'green' : (yearCalculatedData.return < 0 ? 'red' : '')}}">
+                <div class="small"><strong>{{yearCalculatedData.return | number:'1.2-2'}}</strong></div>
+                <div><strong>{{yearCalculatedData.returnPercentage}}%</strong></div>
+            </td>
+        </tr>
+        <tr *ngIf="yearCalculatedDatas.length === 0">
+            <td colspan="7" class="text-center">
+                <span class="spinner-border spinner-border-lg align-center"></span>
+            </td>
+        </tr>
+    </tbody>
+</table>

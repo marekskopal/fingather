@@ -9,6 +9,7 @@ export * from './currency.service';
 export * from './dividend.service';
 export * from './group.service';
 export * from './import-data.service';
+export * from './overview.service';
 export * from './portfolio.service';
 export * from './portfolio-data.service';
 export * from './transaction.service';

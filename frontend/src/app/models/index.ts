@@ -14,3 +14,4 @@ export * from './portfolio';
 export * from './portfolio-data';
 export * from './transaction';
 export * from './user';
+export * from './year-calculated-data';

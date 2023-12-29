@@ -11,6 +11,13 @@ http:
         address: tcp://0.0.0.0:9000
     middleware:
         - gzip
+        - headers
+    headers:
+        cors:
+            allowed_origin: ${BACKEND_CORS_ALLOWED_ORIGIN:-*}
+            allowed_headers: ${BACKEND_CORS_ALLOWED_HEADERS:-*}
+            allowed_methods: ${BACKEND_CORS_ALLOWED_METHODS:-GET,POST,PUT,DELETE,OPTIONS}
+
     pool:
         supervisor:
             watch_tick: 1s
