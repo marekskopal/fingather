@@ -26,8 +26,6 @@ export class ListComponent implements OnInit {
     }
 
     deleteAsset(id: number) {
-        const asset = this.assets.find(x => x.id === id);
-        //asset.isDeleting = true;
         this.assetService.delete(id)
             .pipe(first())
             .subscribe(() => this.assets = this.assets.filter(x => x.id !== id));

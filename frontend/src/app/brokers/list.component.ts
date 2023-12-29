@@ -20,7 +20,7 @@ export class ListComponent implements OnInit, OnDestroy {
             .pipe(first())
             .subscribe(brokers => this.brokers = brokers);
 
-        this.brokerService.eventEmitter.subscribe(notified => {
+        this.brokerService.eventEmitter.subscribe(() => {
             this.ngOnInit();
         });
     }
@@ -39,8 +39,6 @@ export class ListComponent implements OnInit, OnDestroy {
     }
 
     deleteBroker(id: number) {
-        const broker = this.brokers.find(x => x.id === id);
-        //asset.isDeleting = true;
         this.brokerService.delete(id)
             .pipe(first())
             .subscribe(() => this.brokers = this.brokers.filter(x => x.id !== id));

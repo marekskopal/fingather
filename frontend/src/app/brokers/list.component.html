@@ -1,5 +1,5 @@
 ﻿<h1>Brokers</h1>
-<a (click)="addBroker()" class="btn btn-sm btn-success mb-2">Add Broker</a>
+<a (click)="addBroker()" class="btn btn-sm btn-success mb-2" tabindex="0">Add Broker</a>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -11,7 +11,7 @@
         <tr *ngFor="let broker of brokers">
             <td>{{broker.name}}</td>
             <td style="white-space: nowrap">
-                <a (click)="editBroker(broker.id)" class="btn btn-sm btn-primary mr-1">Edit</a>
+                <a (click)="editBroker(broker.id)" class="btn btn-sm btn-primary mr-1" tabindex="0">Edit</a>
                 <button (click)="deleteBroker(broker.id)" class="btn btn-sm btn-danger btn-delete-user" [disabled]="broker.isDeleting">
                   <span *ngIf="broker.isDeleting" class="spinner-border spinner-border-sm"></span>
                   <span *ngIf="!broker.isDeleting">Delete</span>

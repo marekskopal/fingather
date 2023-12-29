@@ -14,7 +14,7 @@ export type ChartOptions = {
 
 @Component({
     templateUrl: 'asset-ticker-chart.component.html',
-    selector: 'chart',
+    selector: 'app-asset-ticker-chart',
 })
 export class AssetTickerChartComponent implements OnInit {
     @ViewChild("chart", { static: false }) chart: ChartComponent;
@@ -66,9 +66,9 @@ export class AssetTickerChartComponent implements OnInit {
 
     private mapAssetTickerData(assetTickerDatas: tickerData[])
     {
-        let chartData = [];
+        const chartData = [];
 
-        for (let assetTickerData of assetTickerDatas) {
+        for (const assetTickerData of assetTickerDatas) {
 
             chartData.push({
                 x: new Date(assetTickerData.date),
