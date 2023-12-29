@@ -25,8 +25,8 @@ export class UserService {
         return this.http.get<User>(`${environment.apiUrl}/admin/user/${id}`);
     }
 
-    update(id: number, params: any) {
-        return this.http.put(`${environment.apiUrl}/admin/user/${id}`, params)
+    update(id: number, user: User) {
+        return this.http.put(`${environment.apiUrl}/admin/user/${id}`, user)
             .pipe(map(x => {
                 return x;
             }));

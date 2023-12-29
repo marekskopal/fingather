@@ -9,6 +9,7 @@ import {AuthenticationService} from "@app/services/authentication.service";
 export class JwtInterceptor implements HttpInterceptor {
     constructor(private authorizationService: AuthenticationService) { }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // add auth header with jwt if user is logged in and request is to the api url
         const user = this.authorizationService.authenticationValue;

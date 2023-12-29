@@ -65,13 +65,13 @@ export class AddEditComponent implements OnInit {
 
         this.loading = true;
         if (this.isAddMode) {
-            this.createBroker();
+            this.createGroup();
         } else {
-            this.updateBroker();
+            this.updateGroup();
         }
     }
 
-    private createBroker() {
+    private createGroup() {
         this.groupService.create(this.form.value)
             .pipe(first())
             .subscribe({
@@ -87,7 +87,7 @@ export class AddEditComponent implements OnInit {
             });
     }
 
-    private updateBroker() {
+    private updateGroup() {
         this.groupService.update(this.id, this.form.value)
             .pipe(first())
             .subscribe({

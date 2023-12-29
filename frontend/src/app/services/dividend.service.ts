@@ -37,8 +37,8 @@ export class DividendService extends ANotifyService {
             ))
     }
 
-    public update(id: number, params: any) {
-        return this.http.put(`${environment.apiUrl}/dividend/${id}`, params)
+    public update(id: number, dividend: Dividend) {
+        return this.http.put(`${environment.apiUrl}/dividend/${id}`, dividend)
             .pipe(map(x => {
                 return x;
             }));
