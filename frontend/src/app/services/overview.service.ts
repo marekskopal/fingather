@@ -1,0 +1,16 @@
+﻿import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '@environments/environment';
+import {YearCalculatedData} from "@app/models/year-calculated-data";
+import {Observable} from "rxjs";
+
+@Injectable({ providedIn: 'root' })
+export class OverviewService {
+    constructor(
+        private http: HttpClient
+    ) {}
+
+    public getYearCalculatedData(): Observable<YearCalculatedData[]> {
+        return this.http.get<YearCalculatedData[]>(`${environment.apiUrl}/overview/year-overview`);
+    }
+}
