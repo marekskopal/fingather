@@ -8,7 +8,7 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({ templateUrl: 'list.component.html' })
 export class ListComponent implements OnInit, OnDestroy {
-    public brokers: Broker[] = [];
+    public brokers: Broker[]|null = null;
 
     constructor(
         private brokerService: BrokerService,
@@ -41,6 +41,6 @@ export class ListComponent implements OnInit, OnDestroy {
     deleteBroker(id: number) {
         this.brokerService.delete(id)
             .pipe(first())
-            .subscribe(() => this.brokers = this.brokers.filter(x => x.id !== id));
+            .subscribe(() => this.brokers = this.brokers !== null ? this.brokers.filter(x => x.id !== id) : null);
     }
 }

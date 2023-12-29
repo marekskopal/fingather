@@ -44,7 +44,7 @@
                 <a routerLink="{{asset.id}}" class="btn btn-sm btn-primary mr-1">Detail</a>
             </td>
         </tr>
-        <tr *ngIf="assets.length === 0">
+        <tr *ngIf="assets === null">
             <td colspan="9" class="text-center">
                 <span class="spinner-border spinner-border-lg align-center"></span>
             </td>
