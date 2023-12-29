@@ -14,7 +14,7 @@ export type ChartOptions = {
 
 @Component({
     templateUrl: 'asset-ticker-chart.component.html',
-    selector: 'app-asset-ticker-chart',
+    selector: 'fingather-asset-ticker-chart',
 })
 export class AssetTickerChartComponent implements OnInit {
     @ViewChild("chart", { static: false }) chart: ChartComponent;

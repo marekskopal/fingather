@@ -3,7 +3,7 @@ import {AuthenticationService} from "@app/services/authentication.service";
 import {Authentication} from "@app/models/authentication";
 
 
-@Component({ selector: 'app-fingather', templateUrl: 'app.component.html' })
+@Component({ selector: 'fingather-app', templateUrl: 'app.component.html' })
 export class AppComponent {
     authentication: Authentication|null;
 

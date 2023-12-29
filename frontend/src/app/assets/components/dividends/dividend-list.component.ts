@@ -8,7 +8,7 @@ import {DividendService} from "@app/services";
 
 @Component({
     templateUrl: 'dividend-list.component.html',
-    selector: 'app-dividend-list',
+    selector: 'fingather-dividend-list',
 })
 export class DividendListComponent implements OnInit, OnDestroy {
     public dividends: Dividend[]|null = null;
