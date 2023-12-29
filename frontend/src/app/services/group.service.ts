@@ -8,8 +8,6 @@ import { ANotifyService } from '.';
 
 @Injectable({ providedIn: 'root' })
 export class GroupService extends ANotifyService {
-    public eventEmitter: EventEmitter<null> = new EventEmitter();
-
     constructor(
         private http: HttpClient,
     ) {
@@ -32,7 +30,7 @@ export class GroupService extends ANotifyService {
         return this.http.get<Group>(`${environment.apiUrl}/group/others`);
     }
 
-    public update(id: number, params) {
+    public update(id: number, params: any) {
         return this.http.put(`${environment.apiUrl}/group/${id}`, params)
             .pipe(map(x => {
                 return x;

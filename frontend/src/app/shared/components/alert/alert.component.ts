@@ -26,7 +26,7 @@ export class AlertComponent implements OnInit, OnDestroy {
                     this.alerts = this.alerts.filter(x => x.keepAfterRouteChange);
 
                     // remove 'keepAfterRouteChange' flag on the rest
-                    this.alerts.forEach(x => delete x.keepAfterRouteChange);
+                    this.alerts.forEach(x => x.keepAfterRouteChange = false);
                     return;
                 }
 

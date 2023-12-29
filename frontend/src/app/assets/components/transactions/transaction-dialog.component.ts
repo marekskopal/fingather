@@ -35,7 +35,12 @@ export class TransactionDialogComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.assetId = this.route.parent.snapshot.params['assetId'];
+        const routeParent = this.route.parent;
+        if (routeParent === null) {
+            return;
+        }
+
+        this.assetId = routeParent.snapshot.params['assetId'];
 
         this.id = this.route.snapshot.params['id'];
         this.isAddMode = !this.id;

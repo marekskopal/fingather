@@ -1,6 +1,6 @@
 ﻿<h1>Assets</h1>
 
-<portfolio-total></portfolio-total>
+<app-portfolio-total></app-portfolio-total>
 
 <a (click)="addAsset()" class="btn btn-sm btn-success mb-2" tabindex="0">Add Asset</a>
 <a routerLink="import" class="btn btn-sm mb-2">Import</a>
@@ -44,7 +44,7 @@
                 <a routerLink="{{asset.id}}" class="btn btn-sm btn-primary mr-1">Detail</a>
             </td>
         </tr>
-        <tr *ngIf="!assets">
+        <tr *ngIf="assets.length === 0">
             <td colspan="9" class="text-center">
                 <span class="spinner-border spinner-border-lg align-center"></span>
             </td>

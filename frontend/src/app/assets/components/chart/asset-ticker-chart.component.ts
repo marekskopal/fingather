@@ -18,9 +18,9 @@ export type ChartOptions = {
 })
 export class AssetTickerChartComponent implements OnInit {
     @ViewChild("chart", { static: false }) chart: ChartComponent;
-    @Input() public assetTickerId: number;
+    @Input() public assetTickerId: string;
     public assetTickerDatas: tickerData[]|null = null;
-    public chartOptions: Partial<ChartOptions>;
+    public chartOptions: ChartOptions;
 
     constructor(
         private assetTickerDataService: TickerDataService,
@@ -29,7 +29,7 @@ export class AssetTickerChartComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.assetTickerDataService.findLastYear(this.assetTickerId)
+        this.assetTickerDataService.findLastYear(parseInt(this.assetTickerId))
             .pipe(first())
             .subscribe(assetTickerDatas => {
                 this.chartOptions.series = [{

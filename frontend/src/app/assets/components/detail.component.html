@@ -1,15 +1,15 @@
 ﻿<div *ngIf="asset">
     <h1>{{asset.ticker.name}}</h1>
 
-    <chart assetTickerId="{{asset.ticker.id}}"></chart>
+    <app-asset-ticker-chart assetTickerId="{{asset.ticker.id}}"></app-asset-ticker-chart>
 
     <div class="row">
         <div class="col-lg-6">
-            <transaction-list></transaction-list>
+            <app-transaction-list></app-transaction-list>
 
         </div>
         <div class="col-lg-6">
-            <dividend-list></dividend-list>
+            <app-dividend-list></app-dividend-list>
 
         </div>
     </div>

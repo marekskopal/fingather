@@ -54,7 +54,7 @@ export class ImportComponent implements OnInit {
         this.createImport();
     }
 
-    onFileChange(event) {
+    onFileChange(event: any) {
         const reader = new FileReader();
 
         if(event.target.files && event.target.files.length) {

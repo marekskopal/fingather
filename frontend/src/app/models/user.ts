@@ -1,5 +1,6 @@
-﻿export class User {
-    id: number;
+﻿import {AEntity} from "@app/models/AEntity";
+
+export class User extends AEntity {
     email: string
     password: string;
     name: string;
