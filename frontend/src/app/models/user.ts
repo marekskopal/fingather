@@ -4,6 +4,7 @@ export class User extends AEntity {
     email: string
     password: string;
     name: string;
+    defaultCurrencyId: number;
     role: UserRoleEnum;
 }
 

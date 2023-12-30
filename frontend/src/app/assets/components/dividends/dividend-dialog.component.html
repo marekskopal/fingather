@@ -48,7 +48,7 @@
         <div class="mb-3">
             <label for="currencyId" class="form-label">Currency</label>
             <select id="currencyId" formControlName="currencyId" class="form-select">
-                <option *ngFor="let currency of currencies" [ngValue]="currency.id">
+                <option *ngFor="let currency of currencies.values()" [ngValue]="currency.id">
                     {{ currency.code }}
                 </option>
             </select>
