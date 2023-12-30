@@ -15,22 +15,22 @@
     <tbody>
         <tr *ngFor="let yearCalculatedData of yearCalculatedDatas">
             <td>{{yearCalculatedData.year}}</td>
-            <td class="text-end">{{yearCalculatedData.value | number:'1.2-2'}}</td>
-            <td class="text-end">{{yearCalculatedData.transactionValue | number:'1.2-2'}}</td>
+            <td class="text-end">{{yearCalculatedData.value | number:'1.2-2' | currency: defaultCurrency.id | async}}</td>
+            <td class="text-end">{{yearCalculatedData.transactionValue | number:'1.2-2' | currency: defaultCurrency.id | async}}</td>
             <td class="text-end" style="color:{{yearCalculatedData.gain > 0 ? 'green' : (yearCalculatedData.gain < 0 ? 'red' : '')}}">
-                <div class="small">{{yearCalculatedData.gain | number:'1.2-2'}}</div>
+                <div class="small">{{yearCalculatedData.gain | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
                 <div>{{yearCalculatedData.gainPercentage}}%</div>
             </td>
             <td class="text-end" style="color:{{yearCalculatedData.dividendGain > 0 ? 'green' : (yearCalculatedData.dividendGain < 0 ? 'red' : '')}}">
-                <div class="small">{{yearCalculatedData.dividendGain | number:'1.2-2'}}</div>
+                <div class="small">{{yearCalculatedData.dividendGain | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
                 <div>{{yearCalculatedData.dividendGainPercentage}}%</div>
             </td>
             <td class="text-end" style="color:{{yearCalculatedData.fxImpact > 0 ? 'green' : (yearCalculatedData.fxImpact < 0 ? 'red' : '')}}">
-                <div class="small">{{yearCalculatedData.fxImpact | number:'1.2-2'}}</div>
+                <div class="small">{{yearCalculatedData.fxImpact | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
                 <div>{{yearCalculatedData.fxImpactPercentage}}%</div>
             </td>
             <td class="text-end" style="color:{{yearCalculatedData.return > 0 ? 'green' : (yearCalculatedData.return < 0 ? 'red' : '')}}">
-                <div class="small"><strong>{{yearCalculatedData.return | number:'1.2-2'}}</strong></div>
+                <div class="small"><strong>{{yearCalculatedData.return | number:'1.2-2' | currency: defaultCurrency.id | async}}</strong></div>
                 <div><strong>{{yearCalculatedData.returnPercentage}}%</strong></div>
             </td>
         </tr>

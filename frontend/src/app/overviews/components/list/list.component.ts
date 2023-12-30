@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {first} from "rxjs/operators";
-import {YearCalculatedData} from "@app/models";
-import {OverviewService} from "@app/services";
+import {Currency, YearCalculatedData} from "@app/models";
+import {CurrencyService, OverviewService} from "@app/services";
 
 
 @Component({
@@ -9,13 +9,17 @@ import {OverviewService} from "@app/services";
 })
 export class ListComponent implements OnInit {
     public yearCalculatedDatas: YearCalculatedData[]|null = null;
+    public defaultCurrency: Currency;
 
     constructor(
         private overviewService: OverviewService,
+        private currencyService: CurrencyService,
     ) {
     }
 
-    ngOnInit() {
+    public async ngOnInit() {
+        this.defaultCurrency = await this.currencyService.getDefaultCurrency();
+
         this.overviewService.getYearCalculatedData()
             .pipe(first())
             .subscribe(yearCalculatedDatas => this.yearCalculatedDatas = yearCalculatedDatas);
