@@ -19,9 +19,9 @@ export class CurrencyService {
             return this.currencies;
         }
 
-        this.currencies = new Map();
-
         const currencies = await this.http.get<Currency[]>(`${environment.apiUrl}/currency`).toPromise();
+
+        this.currencies = new Map();
         for (const currency of currencies) {
             this.currencies.set(currency.id, currency);
         }

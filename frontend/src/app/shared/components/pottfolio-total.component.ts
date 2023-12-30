@@ -17,7 +17,6 @@ export class PortfolioTotalComponent implements OnInit {
     ) { }
 
     public async ngOnInit() {
-        //TODO: fix currency race condition
         this.currencies = await this.currencyService.getCurrencies();
         this.defaultCurrency = await this.currencyService.getDefaultCurrency();
 
