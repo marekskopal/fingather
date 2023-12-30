@@ -13,7 +13,7 @@ export class AddEditComponent implements OnInit {
     isAddMode: boolean;
     loading = false;
     submitted = false;
-    public currencies: Currency[];
+    public currencies: Map<number, Currency>;
     public roles = [
         {name: 'User', key: UserRoleEnum.User},
         {name: 'Admin', key: UserRoleEnum.Admin},
@@ -28,18 +28,14 @@ export class AddEditComponent implements OnInit {
         private currencyService: CurrencyService,
     ) {}
 
-    ngOnInit() {
+    public async ngOnInit(): Promise<void> {
         this.id = this.route.snapshot.params['id'];
         this.isAddMode = !this.id;
 
-        this.currencyService.findAll()
-            .pipe(first())
-            .subscribe(currencies => {
-                this.currencies = currencies;
-                if (this.isAddMode) {
-                    this.f['defaultCurrencyId'].patchValue(currencies[0].id);
-                }
-            });
+        this.currencies = await this.currencyService.getCurrencies();
+        if (this.isAddMode) {
+            this.f['defaultCurrencyId'].patchValue(this.currencies.get(1)?.id);
+        }
 
         const emailValidators = [Validators.email]
         const passwordValidators = [Validators.minLength(6)];

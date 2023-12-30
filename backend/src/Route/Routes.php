@@ -9,6 +9,7 @@ use FinGather\Controller\AssetController;
 use FinGather\Controller\AuthenticationController;
 use FinGather\Controller\BrokerController;
 use FinGather\Controller\CurrencyController;
+use FinGather\Controller\CurrentUserController;
 use FinGather\Controller\DividendController;
 use FinGather\Controller\GroupController;
 use FinGather\Controller\ImportDataController;
@@ -34,6 +35,8 @@ enum Routes: string
 	case Broker = '/api/broker/{brokerId:number}';
 
 	case Currencies = '/api/currency';
+
+	case CurrentUser = '/api/current-user';
 
 	case Dividends = '/api/dividend';
 
@@ -77,6 +80,8 @@ enum Routes: string
 		$routeList->delete(self::Broker->value, [BrokerController::class, 'actionDeleteBroker']);
 
 		$routeList->get(self::Currencies->value, [CurrencyController::class, 'actionGetCurrencies']);
+
+		$routeList->get(self::CurrentUser->value, [CurrentUserController::class, 'actionGetCurrentUser']);
 
 		$routeList->get(self::Dividends->value, [DividendController::class, 'actionGetDividends']);
 

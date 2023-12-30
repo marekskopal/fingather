@@ -7,11 +7,11 @@
         <th><strong>Return</strong></th>
     </tr>
     <tr>
-        <td><strong>{{portfolioData.value | number:'1.2-2'}}</strong></td>
-        <td>{{portfolioData.gain | number:'1.2-2'}}</td>
-        <td>{{portfolioData.dividendGain | number:'1.2-2'}}</td>
-        <td>{{portfolioData.fxImpact | number:'1.2-2'}}</td>
-        <td><strong><strong>{{portfolioData.return | number:'1.2-2'}}</strong></strong></td>
+        <td><strong>{{portfolioData.value | number:'1.2-2' | currency: defaultCurrency.id:currencies}}</strong></td>
+        <td>{{portfolioData.gain | number:'1.2-2' | currency: defaultCurrency.id:currencies}}</td>
+        <td>{{portfolioData.dividendGain | number:'1.2-2' | currency: defaultCurrency.id:currencies}}</td>
+        <td>{{portfolioData.fxImpact | number:'1.2-2' | currency: defaultCurrency.id:currencies}}</td>
+        <td><strong><strong>{{portfolioData.return | number:'1.2-2' | currency: defaultCurrency.id:currencies}}</strong></strong></td>
     </tr>
     <tr>
         <td></td>

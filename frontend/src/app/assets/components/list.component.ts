@@ -3,19 +3,25 @@ import { first } from 'rxjs/operators';
 
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {AddEditComponent} from "./add-edit.component";
-import {Asset} from "@app/models";
-import {AssetService} from "@app/services";
+import {Asset, Currency} from "@app/models";
+import {AssetService, CurrencyService} from "@app/services";
 
 @Component({ templateUrl: 'list.component.html' })
 export class ListComponent implements OnInit {
     public assets: Asset[]|null = null;
+    public currencies: Map<number, Currency>;
+    public defaultCurrency: Currency;
 
     constructor(
         private assetService: AssetService,
         private modalService: NgbModal,
+        private currencyService: CurrencyService,
     ) {}
 
-    ngOnInit() {
+    public async ngOnInit() {
+        this.currencies = await this.currencyService.getCurrencies();
+        this.defaultCurrency = await this.currencyService.getDefaultCurrency();
+
         this.assetService.findAll()
             .pipe(first())
             .subscribe(assets => this.assets = assets);

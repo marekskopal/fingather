@@ -13,7 +13,7 @@ export class DividendDialogComponent extends ABaseDialog implements OnInit {
     @Input() id: number;
     @Input() assetId: number;
     public brokers: Broker[];
-    public currencies: Currency[];
+    public currencies: Map<number, Currency>;
 
     constructor(
         private dividendService: DividendService,
@@ -26,7 +26,7 @@ export class DividendDialogComponent extends ABaseDialog implements OnInit {
         super(formBuilder, activeModal, alertService);
     }
 
-    public ngOnInit(): void {
+    public async ngOnInit(): Promise<void> {
         this.isAddMode = !this.id;
 
         const currentDate = moment().format('YYYY-MM-DDTHH:mm');
@@ -40,14 +40,10 @@ export class DividendDialogComponent extends ABaseDialog implements OnInit {
                 }
             });
 
-        this.currencyService.findAll()
-            .pipe(first())
-            .subscribe(currencies => {
-                this.currencies = currencies;
-                if (this.isAddMode) {
-                    this.f['currencyId'].patchValue(currencies[0].id);
-                }
-            });
+        this.currencies = await this.currencyService.getCurrencies();
+        if (this.isAddMode) {
+            this.f['currencyId'].patchValue(this.currencies.get(1)?.id);
+        }
 
         this.form = this.formBuilder.group({
             assetId: [this.assetId, Validators.required],
