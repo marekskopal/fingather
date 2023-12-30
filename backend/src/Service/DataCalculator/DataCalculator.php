@@ -46,7 +46,7 @@ class DataCalculator
 		return new CalculatedDataDto(
 			value: $sumAssetValue,
 			transactionValue: $sumAssetTransactionValue,
-			gain: $sumAssetValue->sub($sumAssetTransactionValue),
+			gain: $gain,
 			gainPercentage: $gainPercentage,
 			dividendGain: $sumDividendGain,
 			dividendGainPercentage: $dividendGainPercentage,

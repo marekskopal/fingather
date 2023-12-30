@@ -25,11 +25,11 @@
             <td>{{asset.units | number:'1.0-8'}}</td>
             <td class="text-end">{{asset.value | number:'1.2-2' | currency: defaultCurrency.id | async}}</td>
             <td class="text-end" style="color:{{asset.gain > 0 ? 'green' : (asset.gain < 0 ? 'red' : '')}}">
-                <div class="small">{{asset.gain | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
+                <div class="small">{{asset.gainDefaultCurrency | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
                 <div>{{asset.gainPercentage}}%</div>
             </td>
             <td class="text-end" style="color:{{asset.dividendGain > 0 ? 'green' : (asset.dividendGain < 0 ? 'red' : '')}}">
-                <div class="small">{{asset.dividendGain | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
+                <div class="small">{{asset.dividendGainDefaultCurrency | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
                 <div>{{asset.dividendGainPercentage}}%</div>
             </td>
             <td class="text-end" style="color:{{asset.fxImpact > 0 ? 'green' : (asset.fxImpact < 0 ? 'red' : '')}}">
