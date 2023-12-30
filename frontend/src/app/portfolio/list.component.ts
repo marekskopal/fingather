@@ -7,7 +7,6 @@ import {Currency, Portfolio} from "../models";
 @Component({ templateUrl: 'list.component.html' })
 export class ListComponent implements OnInit {
     public portfolio: Portfolio|null = null;
-    public currencies: Map<number, Currency>;
     public defaultCurrency: Currency;
 
     constructor(
@@ -16,7 +15,6 @@ export class ListComponent implements OnInit {
     ) {}
 
     async ngOnInit() {
-        this.currencies = await this.currencyService.getCurrencies();
         this.defaultCurrency = await this.currencyService.getDefaultCurrency();
 
         this.portfolioService.get()
