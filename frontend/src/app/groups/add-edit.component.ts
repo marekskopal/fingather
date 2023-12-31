@@ -9,14 +9,14 @@ import {Asset, Group} from "../models";
 @Component({ templateUrl: 'add-edit.component.html' })
 export class AddEditComponent implements OnInit {
     public form: UntypedFormGroup;
-    @Input() id: number;
+    @Input() public id: number;
     public isAddMode: boolean;
     public loading = false;
     public submitted = false;
     public assets: Asset[];
     public othersGroup: Group;
 
-    constructor(
+    public constructor(
         private formBuilder: UntypedFormBuilder,
         private assetService: AssetService,
         private groupService: GroupService,
@@ -24,7 +24,7 @@ export class AddEditComponent implements OnInit {
         public activeModal: NgbActiveModal,
     ) {}
 
-    ngOnInit() {
+    public ngOnInit(): void {
         this.isAddMode = !this.id;
 
         this.form = this.formBuilder.group({
@@ -50,9 +50,9 @@ export class AddEditComponent implements OnInit {
     }
 
     // convenience getter for easy access to form fields
-    get f() { return this.form.controls; }
+    public get f() { return this.form.controls; }
 
-    onSubmit() {
+    public onSubmit(): void {
         this.submitted = true;
 
         // reset alerts on submit
@@ -71,7 +71,7 @@ export class AddEditComponent implements OnInit {
         }
     }
 
-    private createGroup() {
+    private createGroup(): void {
         this.groupService.create(this.form.value)
             .pipe(first())
             .subscribe({
@@ -87,7 +87,7 @@ export class AddEditComponent implements OnInit {
             });
     }
 
-    private updateGroup() {
+    private updateGroup(): void {
         this.groupService.update(this.id, this.form.value)
             .pipe(first())
             .subscribe({

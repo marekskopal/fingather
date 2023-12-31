@@ -9,15 +9,15 @@ export abstract class ABaseDialog
     public loading = false;
     public submitted = false;
 
-    constructor(
+    public constructor(
         protected formBuilder: UntypedFormBuilder,
         public activeModal: NgbActiveModal,
         protected alertService: AlertService,
     ) {}
 
-    get f() {
+    public get f() {
         return this.form.controls;
     }
 
-    abstract onSubmit(): void;
+    public abstract onSubmit(): void;
 }

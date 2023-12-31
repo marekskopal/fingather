@@ -1,11 +1,11 @@
 ﻿import {AEntity} from "@app/models/AEntity";
 
 export class User extends AEntity {
-    email: string
-    password: string;
-    name: string;
-    defaultCurrencyId: number;
-    role: UserRoleEnum;
+    public email: string
+    public password: string;
+    public name: string;
+    public defaultCurrencyId: number;
+    public role: UserRoleEnum;
 }
 
 export enum UserRoleEnum {

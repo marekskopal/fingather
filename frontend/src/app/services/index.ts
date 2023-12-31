@@ -1,4 +1,4 @@
-﻿export * from './ANotifyService';
+﻿export * from './notify-service';
 export * from './user.service';
 export * from './asset.service';
 export * from './ticker-data.service';

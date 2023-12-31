@@ -8,7 +8,7 @@ import { User } from '@app/models';
 export class CurrentUserService {
     private currentUser: User|null = null;
 
-    constructor(
+    public constructor(
         private http: HttpClient
     ) {
     }

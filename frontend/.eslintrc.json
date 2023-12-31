@@ -30,7 +30,8 @@
             "prefix": "fingather",
             "style": "kebab-case"
           }
-        ]
+        ],
+        "@typescript-eslint/explicit-member-accessibility": "error"
       }
     },
     {

@@ -8,31 +8,31 @@ import { User } from '@app/models';
 @Injectable({ providedIn: 'root' })
 export class UserService {
 
-    constructor(
+    public constructor(
         private http: HttpClient
     ) {
     }
 
-    create(user: User) {
+    public create(user: User) {
         return this.http.post(`${environment.apiUrl}/admin/user`, user);
     }
 
-    getAll() {
+    public getAll() {
         return this.http.get<User[]>(`${environment.apiUrl}/admin/user`);
     }
 
-    getById(id: number) {
+    public getById(id: number) {
         return this.http.get<User>(`${environment.apiUrl}/admin/user/${id}`);
     }
 
-    update(id: number, user: User) {
+    public update(id: number, user: User) {
         return this.http.put(`${environment.apiUrl}/admin/user/${id}`, user)
             .pipe(map(x => {
                 return x;
             }));
     }
 
-    delete(id: number) {
+    public delete(id: number) {
         return this.http.delete(`${environment.apiUrl}/admin/user/${id}`)
             .pipe(map(x => {
                 // auto logout if the logged in user deleted their own record

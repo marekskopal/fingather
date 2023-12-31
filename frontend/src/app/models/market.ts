@@ -1,10 +1,10 @@
 ﻿export class Market {
-    id: number;
-    name: string;
-    acronym: string;
-    mic: string;
-    country: string;
-    city: string;
-    web: string;
-    currencyId: number;
+    public id: number;
+    public name: string;
+    public acronym: string;
+    public mic: string;
+    public country: string;
+    public city: string;
+    public web: string;
+    public currencyId: number;
 }

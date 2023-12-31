@@ -14,7 +14,7 @@ export class ImportComponent implements OnInit {
     public submitted = false;
     public brokers: Broker[];
 
-    constructor(
+    public constructor(
         private formBuilder: UntypedFormBuilder,
         private route: ActivatedRoute,
         private router: Router,
@@ -24,7 +24,7 @@ export class ImportComponent implements OnInit {
         private importDataService: ImportDataService,
     ) {}
 
-    ngOnInit() {
+    public ngOnInit(): void {
         this.brokerService.findAll()
             .pipe(first())
             .subscribe(brokers => this.brokers = brokers);
@@ -36,9 +36,9 @@ export class ImportComponent implements OnInit {
     }
 
     // convenience getter for easy access to form fields
-    get f() { return this.form.controls; }
+    public get f() { return this.form.controls; }
 
-    onSubmit() {
+    public onSubmit(): void {
         this.submitted = true;
 
         // reset alerts on submit
@@ -55,7 +55,7 @@ export class ImportComponent implements OnInit {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    onFileChange(event: any) {
+    public onFileChange(event: any): void {
         const reader = new FileReader();
 
         if(event.target.files && event.target.files.length) {

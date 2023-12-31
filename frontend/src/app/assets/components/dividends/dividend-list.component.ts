@@ -14,7 +14,7 @@ export class DividendListComponent implements OnInit, OnDestroy {
     public dividends: Dividend[]|null = null;
     public assetId: number;
 
-    constructor(
+    public constructor(
         private dividendService: DividendService,
         private route: ActivatedRoute,
         private modalService: NgbModal,

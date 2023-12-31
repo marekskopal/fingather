@@ -6,11 +6,11 @@ import { Portfolio } from '@app/models';
 
 @Injectable({ providedIn: 'root' })
 export class PortfolioService {
-    constructor(
+    public constructor(
         private http: HttpClient
     ) {}
 
-    get() {
+    public get() {
         return this.http.get<Portfolio>(`${environment.apiUrl}/portfolio`);
     }
 }

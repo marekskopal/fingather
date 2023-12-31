@@ -8,18 +8,18 @@ import {Currency, UserRoleEnum} from "@app/models";
 
 @Component({ templateUrl: 'add-edit.component.html' })
 export class AddEditComponent implements OnInit {
-    form: UntypedFormGroup;
-    id: number;
-    isAddMode: boolean;
-    loading = false;
-    submitted = false;
+    public form: UntypedFormGroup;
+    public id: number;
+    public isAddMode: boolean;
+    public loading = false;
+    public submitted = false;
     public currencies: Map<number, Currency>;
     public roles = [
         {name: 'User', key: UserRoleEnum.User},
         {name: 'Admin', key: UserRoleEnum.Admin},
     ]
 
-    constructor(
+    public constructor(
         private formBuilder: UntypedFormBuilder,
         private route: ActivatedRoute,
         private router: Router,
@@ -60,9 +60,9 @@ export class AddEditComponent implements OnInit {
     }
 
     // convenience getter for easy access to form fields
-    get f() { return this.form.controls; }
+    public get f() { return this.form.controls; }
 
-    onSubmit() {
+    public onSubmit() {
         this.submitted = true;
 
         // reset alerts on submit

@@ -1,45 +1,42 @@
-﻿import {EventEmitter, Injectable} from '@angular/core';
+﻿import {Injectable} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
 import { environment } from '@environments/environment';
 import { Broker } from '@app/models';
+import {NotifyService} from "@app/services/notify-service";
 
 @Injectable({ providedIn: 'root' })
-export class BrokerService {
-    public eventEmitter: EventEmitter<null> = new EventEmitter();
-
-    constructor(
+export class BrokerService extends NotifyService {
+    public constructor(
         private http: HttpClient,
-    ) {}
+    ) {
+        super();
+    }
 
-    create(broker: Broker) {
+    public create(broker: Broker) {
         return this.http.post(`${environment.apiUrl}/broker`, broker);
     }
 
-    findAll() {
+    public findAll() {
         return this.http.get<Broker[]>(`${environment.apiUrl}/broker`);
     }
 
-    getByUuid(id: number) {
+    public getByUuid(id: number) {
         return this.http.get<Broker>(`${environment.apiUrl}/broker/${id}`);
     }
 
-    update(id: number, broker: Broker) {
+    public update(id: number, broker: Broker) {
         return this.http.put(`${environment.apiUrl}/broker/${id}`, broker)
             .pipe(map(x => {
                 return x;
             }));
     }
 
-    delete(id: number) {
+    public delete(id: number) {
         return this.http.delete(`${environment.apiUrl}/broker/${id}`)
             .pipe(map(x => {
                 return x;
             }));
-    }
-
-    notify() {
-        this.eventEmitter.emit();
     }
 }

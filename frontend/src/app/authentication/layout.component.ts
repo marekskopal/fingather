@@ -5,7 +5,7 @@ import {AuthenticationService} from "@app/services/authentication.service";
 
 @Component({ templateUrl: 'layout.component.html' })
 export class LayoutComponent {
-    constructor(
+    public constructor(
         private router: Router,
         private authenticationService: AuthenticationService
     ) {

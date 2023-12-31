@@ -6,11 +6,11 @@ import { ImportData } from '@app/models';
 
 @Injectable({ providedIn: 'root' })
 export class ImportDataService {
-    constructor(
+    public constructor(
         private http: HttpClient
     ) {}
 
-    create(importData: ImportData) {
+    public create(importData: ImportData) {
         return this.http.post(`${environment.apiUrl}/import-data`, importData);
     }
 }

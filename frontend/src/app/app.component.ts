@@ -5,13 +5,13 @@ import {Authentication} from "@app/models/authentication";
 
 @Component({ selector: 'fingather-app', templateUrl: 'app.component.html' })
 export class AppComponent {
-    authentication: Authentication|null;
+    public authentication: Authentication|null;
 
-    constructor(private authenticationService: AuthenticationService) {
+    public constructor(private authenticationService: AuthenticationService) {
         this.authenticationService.authentication.subscribe(x => this.authentication = x);
     }
 
-    logout() {
+    public logout() {
         this.authenticationService.logout();
     }
 }

@@ -1,14 +1,14 @@
 ﻿import { AEntity } from ".";
 
 export class Transaction extends AEntity {
-    assetId: string;
-    brokerId: string;
-    actionType: string
-    created: Date;
-    units: number;
-    priceUnit: number;
-    currency: string;
-    exchangeRate: number;
-    feeConversion: number;
-    notes: string;
+    public assetId: string;
+    public brokerId: string;
+    public actionType: string
+    public created: Date;
+    public units: number;
+    public priceUnit: number;
+    public currency: string;
+    public exchangeRate: number;
+    public feeConversion: number;
+    public notes: string;
 }

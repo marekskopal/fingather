@@ -6,11 +6,11 @@ import { Ticker } from '@app/models';
 
 @Injectable({ providedIn: 'root' })
 export class AssetTickerService {
-    constructor(
+    public constructor(
         private http: HttpClient
     ) {}
 
-    getByTicker(ticker: string) {
+    public getByTicker(ticker: string) {
         const params = new HttpParams().set('ticker', ticker);
 
         return this.http.get<Ticker>(`${environment.apiUrl}/assetticker`, {params});

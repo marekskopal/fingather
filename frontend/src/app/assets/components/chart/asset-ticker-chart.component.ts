@@ -17,18 +17,18 @@ export type ChartOptions = {
     selector: 'fingather-asset-ticker-chart',
 })
 export class AssetTickerChartComponent implements OnInit {
-    @ViewChild("chart", { static: false }) chart: ChartComponent;
+    @ViewChild("chart", { static: false }) public chart: ChartComponent;
     @Input() public assetTickerId: string;
     public assetTickerDatas: tickerData[]|null = null;
     public chartOptions: ChartOptions;
 
-    constructor(
+    public constructor(
         private assetTickerDataService: TickerDataService,
     ) {
         this.initializeChartOptions();
     }
 
-    ngOnInit() {
+    public ngOnInit(): void {
         this.assetTickerDataService.findLastYear(parseInt(this.assetTickerId))
             .pipe(first())
             .subscribe(assetTickerDatas => {

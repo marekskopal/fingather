@@ -1,4 +1,4 @@
 ﻿export class ImportData {
-    brokerId: number;
-    data: string;
+    public brokerId: number;
+    public data: string;
 }

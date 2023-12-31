@@ -12,7 +12,7 @@ export class AuthenticationService {
     private authenticationSubject: BehaviorSubject<Authentication|null>;
     public authentication: Observable<Authentication|null>;
 
-    constructor(
+    public constructor(
         private router: Router,
         private http: HttpClient
     ) {
@@ -27,7 +27,7 @@ export class AuthenticationService {
         return this.authenticationSubject.value;
     }
 
-    login(username: string, password: string) {
+    public login(username: string, password: string) {
         return this.http.post<Authentication>(`${environment.apiUrl}/authentication/login`, {
           email: username,
           password,
@@ -40,7 +40,7 @@ export class AuthenticationService {
             }));
     }
 
-    logout() {
+    public logout() {
         // remove authentication from local storage and set current authentication to null
         localStorage.removeItem('authentication');
         this.authenticationSubject.next(null);

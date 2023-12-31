@@ -5,11 +5,11 @@ import { PortfolioData } from '@app/models';
 
 @Injectable({ providedIn: 'root' })
 export class PortfolioDataService {
-    constructor(
+    public constructor(
         private http: HttpClient
     ) {}
 
-    getPortfolioData() {
+    public getPortfolioData() {
         return this.http.get<PortfolioData>(`${environment.apiUrl}/portfolio-data`);
     }
 }
