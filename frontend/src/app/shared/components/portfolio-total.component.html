@@ -1,23 +1,50 @@
-﻿<table *ngIf="portfolioData">
-    <tr>
-        <th>Portfolio Value</th>
-        <th>Gain/Loss</th>
-        <th>Dividend</th>
-        <th>FX Impact</th>
-        <th><strong>Return</strong></th>
-    </tr>
-    <tr>
-        <td><strong>{{portfolioData.value | number:'1.2-2' | currency: defaultCurrency.id | async}}</strong></td>
-        <td>{{portfolioData.gain | number:'1.2-2' | currency: defaultCurrency.id | async}}</td>
-        <td>{{portfolioData.dividendGain | number:'1.2-2' | currency: defaultCurrency.id | async}}</td>
-        <td>{{portfolioData.fxImpact | number:'1.2-2' | currency: defaultCurrency.id | async}}</td>
-        <td><strong><strong>{{portfolioData.return | number:'1.2-2' | currency: defaultCurrency.id | async}}</strong></strong></td>
-    </tr>
-    <tr>
-        <td></td>
-        <td>{{portfolioData.gainPercentage | number:'1.2-2'}}%</td>
-        <td>{{portfolioData.dividendGainPercentage | number:'1.2-2'}}%</td>
-        <td>{{portfolioData.fxImpactPercentage | number:'1.2-2'}}%</td>
-        <td><strong>{{portfolioData.returnPercentage | number:'1.2-2'}}%</strong></td>
-    </tr>
+﻿<table *ngIf="portfolioData" class="table">
+    <thead>
+        <tr>
+            <th>Portfolio Value</th>
+            <th>Gain/Loss</th>
+            <th>Dividend</th>
+            <th>FX Impact</th>
+            <th><strong>Return</strong></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <strong>{{portfolioData.value | number:'1.2-2' | currency: defaultCurrency.id | async}}</strong>
+            </td>
+            <td class="text-end {{portfolioData.gain > 0 ? 'green' : (portfolioData.gain < 0 ? 'red' : '')}}">
+                <div>
+                    {{portfolioData.gain | number:'1.2-2' | currency: defaultCurrency.id | async}}
+                </div>
+                <div>
+                    {{portfolioData.gainPercentage | number:'1.2-2'}}%
+                </div>
+            </td>
+            <td class="text-end {{portfolioData.dividendGain > 0 ? 'green' : (portfolioData.dividendGain < 0 ? 'red' : '')}}">
+                <div>
+                    {{portfolioData.dividendGain | number:'1.2-2' | currency: defaultCurrency.id | async}}
+                </div>
+                <div>
+                    {{portfolioData.dividendGainPercentage | number:'1.2-2'}}%
+                </div>
+            </td>
+            <td class="text-end {{portfolioData.fxImpact > 0 ? 'green' : (portfolioData.fxImpact < 0 ? 'red' : '')}}">
+                <div>
+                    {{portfolioData.fxImpact | number:'1.2-2' | currency: defaultCurrency.id | async}}
+                </div>
+                <div>
+                    {{portfolioData.fxImpactPercentage | number:'1.2-2'}}%
+                </div>
+            </td>
+            <td class="text-end {{portfolioData.return > 0 ? 'green' : (portfolioData.return < 0 ? 'red' : '')}}">
+                <div>
+                    <strong>{{portfolioData.return | number:'1.2-2' | currency: defaultCurrency.id | async}}</strong>
+                </div>
+                <div>
+                    <strong>{{portfolioData.returnPercentage | number:'1.2-2'}}%</strong>
+                </div>
+            </td>
+        </tr>
+    </tbody>
 </table>
