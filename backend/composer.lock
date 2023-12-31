@@ -1250,16 +1250,16 @@
         },
         {
             "name": "league/csv",
-            "version": "9.13.0",
+            "version": "9.14.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/csv.git",
-                "reference": "3690cc71bfe8dc3b6daeef356939fac95348f0a8"
+                "reference": "34bf0df7340b60824b9449b5c526fcc3325070d5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/csv/zipball/3690cc71bfe8dc3b6daeef356939fac95348f0a8",
-                "reference": "3690cc71bfe8dc3b6daeef356939fac95348f0a8",
+                "url": "https://api.github.com/repos/thephpleague/csv/zipball/34bf0df7340b60824b9449b5c526fcc3325070d5",
+                "reference": "34bf0df7340b60824b9449b5c526fcc3325070d5",
                 "shasum": ""
             },
             "require": {
@@ -1335,7 +1335,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-12-16T11:03:20+00:00"
+            "time": "2023-12-29T07:34:53+00:00"
         },
         {
             "name": "league/route",
@@ -2550,16 +2550,16 @@
         },
         {
             "name": "spiral/core",
-            "version": "3.11.0",
+            "version": "3.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spiral/core.git",
-                "reference": "a0a6e1d61f6753b69e00602bf271b0dc728386b5"
+                "reference": "8147d305a2a1e06fa498fe2d8ab32097451a6b34"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/core/zipball/a0a6e1d61f6753b69e00602bf271b0dc728386b5",
-                "reference": "a0a6e1d61f6753b69e00602bf271b0dc728386b5",
+                "url": "https://api.github.com/repos/spiral/core/zipball/8147d305a2a1e06fa498fe2d8ab32097451a6b34",
+                "reference": "8147d305a2a1e06fa498fe2d8ab32097451a6b34",
                 "shasum": ""
             },
             "require": {
@@ -2577,7 +2577,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.11.x-dev"
+                    "dev-master": "3.12.x-dev"
                 }
             },
             "autoload": {
@@ -2613,20 +2613,20 @@
                 "issues": "https://github.com/spiral/framework/issues",
                 "source": "https://github.com/spiral/core"
             },
-            "time": "2023-12-21T14:16:41+00:00"
+            "time": "2023-12-21T14:43:04+00:00"
         },
         {
             "name": "spiral/files",
-            "version": "3.11.0",
+            "version": "3.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spiral/files.git",
-                "reference": "a7df4c04ccf80f8f02171a2c45d7c98d18fb8b82"
+                "reference": "ce70003b4f0b5e6b3820c31f1128986556fbcb9a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/files/zipball/a7df4c04ccf80f8f02171a2c45d7c98d18fb8b82",
-                "reference": "a7df4c04ccf80f8f02171a2c45d7c98d18fb8b82",
+                "url": "https://api.github.com/repos/spiral/files/zipball/ce70003b4f0b5e6b3820c31f1128986556fbcb9a",
+                "reference": "ce70003b4f0b5e6b3820c31f1128986556fbcb9a",
                 "shasum": ""
             },
             "require": {
@@ -2640,7 +2640,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.11.x-dev"
+                    "dev-master": "3.12.x-dev"
                 }
             },
             "autoload": {
@@ -2676,7 +2676,7 @@
                 "issues": "https://github.com/spiral/framework/issues",
                 "source": "https://github.com/spiral/files"
             },
-            "time": "2023-12-15T04:21:35+00:00"
+            "time": "2023-12-21T14:43:11+00:00"
         },
         {
             "name": "spiral/goridge",
@@ -2767,22 +2767,22 @@
         },
         {
             "name": "spiral/logger",
-            "version": "3.11.0",
+            "version": "3.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spiral/logger.git",
-                "reference": "2f120b25df0b0c404f5404854ab39ab4456444ab"
+                "reference": "c88f6b2286487347e6dcdaca1eaa510f68b2da20"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/logger/zipball/2f120b25df0b0c404f5404854ab39ab4456444ab",
-                "reference": "2f120b25df0b0c404f5404854ab39ab4456444ab",
+                "url": "https://api.github.com/repos/spiral/logger/zipball/c88f6b2286487347e6dcdaca1eaa510f68b2da20",
+                "reference": "c88f6b2286487347e6dcdaca1eaa510f68b2da20",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.1",
                 "psr/log": "1 - 3",
-                "spiral/core": "^3.11"
+                "spiral/core": "^3.11.1"
             },
             "require-dev": {
                 "mockery/mockery": "^1.5",
@@ -2792,7 +2792,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.11.x-dev"
+                    "dev-master": "3.12.x-dev"
                 }
             },
             "autoload": {
@@ -2828,20 +2828,20 @@
                 "issues": "https://github.com/spiral/framework/issues",
                 "source": "https://github.com/spiral/logger"
             },
-            "time": "2023-12-12T11:47:46+00:00"
+            "time": "2023-12-29T10:41:05+00:00"
         },
         {
             "name": "spiral/pagination",
-            "version": "3.11.0",
+            "version": "3.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spiral/pagination.git",
-                "reference": "29808d0a62053a1aa1a69d1e9bba43ec026c4904"
+                "reference": "71fdc75ff5801d8794fb3aeb19af5edf734b07b1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/pagination/zipball/29808d0a62053a1aa1a69d1e9bba43ec026c4904",
-                "reference": "29808d0a62053a1aa1a69d1e9bba43ec026c4904",
+                "url": "https://api.github.com/repos/spiral/pagination/zipball/71fdc75ff5801d8794fb3aeb19af5edf734b07b1",
+                "reference": "71fdc75ff5801d8794fb3aeb19af5edf734b07b1",
                 "shasum": ""
             },
             "require": {
@@ -2855,7 +2855,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.11.x-dev"
+                    "dev-master": "3.12.x-dev"
                 }
             },
             "autoload": {
@@ -2891,27 +2891,27 @@
                 "issues": "https://github.com/spiral/framework/issues",
                 "source": "https://github.com/spiral/pagination"
             },
-            "time": "2023-11-24T08:28:31+00:00"
+            "time": "2023-12-21T14:43:25+00:00"
         },
         {
             "name": "spiral/reactor",
-            "version": "3.11.0",
+            "version": "3.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spiral/reactor.git",
-                "reference": "75364ecfc5a6e64107e41fa3a5dba51243e1f5db"
+                "reference": "fe634a6059db04800c99b58fcdb7f1aec059d2bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/reactor/zipball/75364ecfc5a6e64107e41fa3a5dba51243e1f5db",
-                "reference": "75364ecfc5a6e64107e41fa3a5dba51243e1f5db",
+                "url": "https://api.github.com/repos/spiral/reactor/zipball/fe634a6059db04800c99b58fcdb7f1aec059d2bf",
+                "reference": "fe634a6059db04800c99b58fcdb7f1aec059d2bf",
                 "shasum": ""
             },
             "require": {
                 "doctrine/inflector": "^1.4|^2.0",
                 "nette/php-generator": "^4.1.2",
                 "php": ">=8.1",
-                "spiral/files": "^3.11"
+                "spiral/files": "^3.11.1"
             },
             "require-dev": {
                 "mockery/mockery": "^1.5",
@@ -2922,7 +2922,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.11.x-dev"
+                    "dev-master": "3.12.x-dev"
                 }
             },
             "autoload": {
@@ -2958,7 +2958,7 @@
                 "issues": "https://github.com/spiral/framework/issues",
                 "source": "https://github.com/spiral/reactor"
             },
-            "time": "2023-12-12T11:52:15+00:00"
+            "time": "2023-12-29T10:41:12+00:00"
         },
         {
             "name": "spiral/roadrunner",
@@ -3183,36 +3183,36 @@
         },
         {
             "name": "spiral/tokenizer",
-            "version": "3.11.0",
+            "version": "3.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spiral/tokenizer.git",
-                "reference": "f51b847300253a371123464bb2d918ede6ee91dc"
+                "reference": "67be0d5e6493740008a2cee2cc26bea30a4a513b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/tokenizer/zipball/f51b847300253a371123464bb2d918ede6ee91dc",
-                "reference": "f51b847300253a371123464bb2d918ede6ee91dc",
+                "url": "https://api.github.com/repos/spiral/tokenizer/zipball/67be0d5e6493740008a2cee2cc26bea30a4a513b",
+                "reference": "67be0d5e6493740008a2cee2cc26bea30a4a513b",
                 "shasum": ""
             },
             "require": {
                 "ext-tokenizer": "*",
                 "php": ">=8.1",
-                "spiral/core": "^3.11",
-                "spiral/logger": "^3.11",
+                "spiral/core": "^3.11.1",
+                "spiral/logger": "^3.11.1",
                 "symfony/finder": "^5.3.7 || ^6.0 || ^7.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "^10.1",
                 "spiral/attributes": "^2.8|^3.0",
-                "spiral/boot": "^3.11",
-                "spiral/files": "^3.11",
+                "spiral/boot": "^3.11.1",
+                "spiral/files": "^3.11.1",
                 "vimeo/psalm": "^5.9"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.11.x-dev"
+                    "dev-master": "3.12.x-dev"
                 }
             },
             "autoload": {
@@ -3248,20 +3248,20 @@
                 "issues": "https://github.com/spiral/framework/issues",
                 "source": "https://github.com/spiral/tokenizer"
             },
-            "time": "2023-12-21T13:10:18+00:00"
+            "time": "2023-12-29T10:41:21+00:00"
         },
         {
             "name": "symfony/console",
-            "version": "v7.0.1",
+            "version": "v7.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "cdce5c684b2f920bb1343deecdfba356ffad83d5"
+                "reference": "f8587c4cdc5acad67af71c37db34ef03af91e59c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/cdce5c684b2f920bb1343deecdfba356ffad83d5",
-                "reference": "cdce5c684b2f920bb1343deecdfba356ffad83d5",
+                "url": "https://api.github.com/repos/symfony/console/zipball/f8587c4cdc5acad67af71c37db34ef03af91e59c",
+                "reference": "f8587c4cdc5acad67af71c37db34ef03af91e59c",
                 "shasum": ""
             },
             "require": {
@@ -3325,7 +3325,7 @@
                 "terminal"
             ],
             "support": {
-                "source": "https://github.com/symfony/console/tree/v7.0.1"
+                "source": "https://github.com/symfony/console/tree/v7.0.2"
             },
             "funding": [
                 {
@@ -3341,7 +3341,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-12-01T15:10:06+00:00"
+            "time": "2023-12-10T16:54:46+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -4051,16 +4051,16 @@
         },
         {
             "name": "symfony/string",
-            "version": "v7.0.0",
+            "version": "v7.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/string.git",
-                "reference": "92bd2bfbba476d4a1838e5e12168bef2fd1e6620"
+                "reference": "cc78f14f91f5e53b42044d0620961c48028ff9f5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/string/zipball/92bd2bfbba476d4a1838e5e12168bef2fd1e6620",
-                "reference": "92bd2bfbba476d4a1838e5e12168bef2fd1e6620",
+                "url": "https://api.github.com/repos/symfony/string/zipball/cc78f14f91f5e53b42044d0620961c48028ff9f5",
+                "reference": "cc78f14f91f5e53b42044d0620961c48028ff9f5",
                 "shasum": ""
             },
             "require": {
@@ -4117,7 +4117,7 @@
                 "utf8"
             ],
             "support": {
-                "source": "https://github.com/symfony/string/tree/v7.0.0"
+                "source": "https://github.com/symfony/string/tree/v7.0.2"
             },
             "funding": [
                 {
@@ -4133,7 +4133,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-11-29T08:40:23+00:00"
+            "time": "2023-12-10T16:54:46+00:00"
         },
         {
             "name": "thecodingmachine/safe",
@@ -6887,16 +6887,16 @@
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v6.4.0",
+            "version": "v6.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "c40f7d17e91d8b407582ed51a2bbf83c52c367f6"
+                "reference": "68d6573ec98715ddcae5a0a85bee3c1c27a4c33f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/c40f7d17e91d8b407582ed51a2bbf83c52c367f6",
-                "reference": "c40f7d17e91d8b407582ed51a2bbf83c52c367f6",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/68d6573ec98715ddcae5a0a85bee3c1c27a4c33f",
+                "reference": "68d6573ec98715ddcae5a0a85bee3c1c27a4c33f",
                 "shasum": ""
             },
             "require": {
@@ -6952,7 +6952,7 @@
                 "dump"
             ],
             "support": {
-                "source": "https://github.com/symfony/var-dumper/tree/v6.4.0"
+                "source": "https://github.com/symfony/var-dumper/tree/v6.4.2"
             },
             "funding": [
                 {
@@ -6968,7 +6968,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-11-09T08:28:32+00:00"
+            "time": "2023-12-28T19:16:56+00:00"
         },
         {
             "name": "thecodingmachine/phpstan-safe-rule",
