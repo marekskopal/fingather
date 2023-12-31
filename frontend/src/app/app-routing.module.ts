@@ -2,23 +2,14 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {AuthGuard} from "@app/core/guards/auth.guard";
 
-
-const portfolioModule = () => import('./portfolio/portfolio.module').then(x => x.PortfolioModule);
-const authenticationModule = () => import('./authentication/authentication.module').then(x => x.AuthenticationModule);
-const assetsModule = () => import('./assets/assets.module').then(x => x.AssetsModule);
-const overviewsModule = () => import('./overviews/overviews.module').then(x => x.OverviewsModule);
-const groupsModule = () => import('./groups/groups.module').then(x => x.GroupsModule);
-const brokersModule = () => import('./brokers/brokers.module').then(x => x.BrokersModule);
-const usersModule = () => import('./users/users.module').then(x => x.UsersModule);
-
 const routes: Routes = [
-    { path: '', loadChildren: portfolioModule, canActivate: [AuthGuard] },
-    { path: 'assets', loadChildren: assetsModule, canActivate: [AuthGuard] },
-    { path: 'overviews', loadChildren: overviewsModule, canActivate: [AuthGuard] },
-    { path: 'groups', loadChildren: groupsModule, canActivate: [AuthGuard] },
-    { path: 'brokers', loadChildren: brokersModule, canActivate: [AuthGuard] },
-    { path: 'users', loadChildren: usersModule, canActivate: [AuthGuard] },
-    { path: 'authentication', loadChildren: authenticationModule },
+    { path: '', loadChildren: () => import('./portfolio/portfolio.module').then(x => x.PortfolioModule), canActivate: [AuthGuard] },
+    { path: 'assets', loadChildren: () => import('./assets/assets.module').then(x => x.AssetsModule), canActivate: [AuthGuard] },
+    { path: 'overviews', loadChildren: () => import('./overviews/overviews.module').then(x => x.OverviewsModule), canActivate: [AuthGuard] },
+    { path: 'groups', loadChildren: () => import('./groups/groups.module').then(x => x.GroupsModule), canActivate: [AuthGuard] },
+    { path: 'brokers', loadChildren: () => import('./brokers/brokers.module').then(x => x.BrokersModule), canActivate: [AuthGuard] },
+    { path: 'users', loadChildren: () => import('./users/users.module').then(x => x.UsersModule), canActivate: [AuthGuard] },
+    { path: 'authentication', loadChildren: () => import('./authentication/authentication.module').then(x => x.AuthenticationModule) },
 
     // otherwise redirect to home
     { path: '**', redirectTo: '' }

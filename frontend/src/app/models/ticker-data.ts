@@ -1,4 +1,4 @@
-﻿export class tickerData {
+﻿export class TickerData {
     public id: number;
     public tickerId: number;
     public date: string;

@@ -5,6 +5,8 @@ import { map } from 'rxjs/operators';
 import { environment } from '@environments/environment';
 import { Broker } from '@app/models';
 import {NotifyService} from "@app/services/notify-service";
+import {Observable} from "rxjs";
+import {OkResponse} from "@app/models/ok-response";
 
 @Injectable({ providedIn: 'root' })
 export class BrokerService extends NotifyService {
@@ -14,27 +16,27 @@ export class BrokerService extends NotifyService {
         super();
     }
 
-    public create(broker: Broker) {
-        return this.http.post(`${environment.apiUrl}/broker`, broker);
+    public create(broker: Broker): Observable<Broker> {
+        return this.http.post<Broker>(`${environment.apiUrl}/broker`, broker);
     }
 
-    public findAll() {
+    public findAll(): Observable<Broker[]> {
         return this.http.get<Broker[]>(`${environment.apiUrl}/broker`);
     }
 
-    public getByUuid(id: number) {
+    public getByUuid(id: number): Observable<Broker> {
         return this.http.get<Broker>(`${environment.apiUrl}/broker/${id}`);
     }
 
-    public update(id: number, broker: Broker) {
-        return this.http.put(`${environment.apiUrl}/broker/${id}`, broker)
+    public update(id: number, broker: Broker): Observable<Broker> {
+        return this.http.put<Broker>(`${environment.apiUrl}/broker/${id}`, broker)
             .pipe(map(x => {
                 return x;
             }));
     }
 
-    public delete(id: number) {
-        return this.http.delete(`${environment.apiUrl}/broker/${id}`)
+    public delete(id: number): Observable<OkResponse> {
+        return this.http.delete<OkResponse>(`${environment.apiUrl}/broker/${id}`)
             .pipe(map(x => {
                 return x;
             }));

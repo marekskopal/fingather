@@ -15,30 +15,30 @@ export class AlertService {
     }
 
     // convenience methods
-    public success(message: string, options?: Partial<Alert>) {
+    public success(message: string, options?: Partial<Alert>): void {
         this.alert(new Alert({ ...options, type: AlertType.Success, message }));
     }
 
-    public error(message: string, options?: Partial<Alert>) {
+    public error(message: string, options?: Partial<Alert>): void {
         this.alert(new Alert({ ...options, type: AlertType.Error, message }));
     }
 
-    public info(message: string, options?: Partial<Alert>) {
+    public info(message: string, options?: Partial<Alert>): void {
         this.alert(new Alert({ ...options, type: AlertType.Info, message }));
     }
 
-    public warning(message: string, options?: Partial<Alert>) {
+    public warning(message: string, options?: Partial<Alert>): void {
         this.alert(new Alert({ ...options, type: AlertType.Warning, message }));
     }
 
     // main alert method
-    private alert(alert: Alert) {
+    private alert(alert: Alert): void {
         alert.id = alert.id || this.defaultId;
         this.subject.next(alert);
     }
 
     // clear alerts
-    public clear(id = this.defaultId) {
+    public clear(id = this.defaultId): void {
         this.subject.next(new Alert({ id }));
     }
 }

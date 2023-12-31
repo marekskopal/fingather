@@ -1,22 +1,20 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
 import * as moment from "moment";
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {Asset, Broker} from "@app/models";
-import {AlertService, AssetService, BrokerService, TransactionService} from "@app/services";
+import {AlertService, BrokerService, TransactionService} from "@app/services";
+import {BaseForm} from "@app/shared/components/form/base-form";
 
 @Component({ templateUrl: 'transaction-dialog.component.html' })
-export class TransactionDialogComponent implements OnInit {
-    public form: UntypedFormGroup;
+export class TransactionDialogComponent extends BaseForm implements OnInit {
     public assetId: number;
     public asset: Asset;
     public id: number;
     public isAddMode: boolean;
-    public loading = false;
-    public submitted = false;
     public actionTypes = [
        {name: 'Buy', key: 'buy'},
        {name: 'Sell', key: 'sell'},
@@ -24,15 +22,16 @@ export class TransactionDialogComponent implements OnInit {
     public brokers: Broker[];
 
     public constructor(
-        private formBuilder: UntypedFormBuilder,
         private route: ActivatedRoute,
         private router: Router,
         private transactionService: TransactionService,
-        private alertService: AlertService,
-        private assetService: AssetService,
         private brokerService: BrokerService,
         public activeModal: NgbActiveModal,
-    ) {}
+        formBuilder: UntypedFormBuilder,
+        alertService: AlertService,
+    ) {
+        super(formBuilder, alertService)
+    }
 
     public ngOnInit(): void {
         const routeParent = this.route.parent;
@@ -66,9 +65,6 @@ export class TransactionDialogComponent implements OnInit {
                 .subscribe(x => this.form.patchValue(x));
         }
     }
-
-    // convenience getter for easy access to form fields
-    public get f() { return this.form.controls; }
 
     public onSubmit(): void {
         this.submitted = true;

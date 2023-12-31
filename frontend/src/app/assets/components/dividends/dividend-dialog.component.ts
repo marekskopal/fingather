@@ -4,12 +4,12 @@ import { first } from 'rxjs/operators';
 
 import * as moment from "moment";
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { ABaseDialog } from '../../../shared/components/dialog/base-dialog';
+import { BaseDialog } from '../../../shared/components/dialog/base-dialog';
 import {Broker, Currency} from "@app/models";
 import {AlertService, BrokerService, CurrencyService, DividendService} from "@app/services";
 
 @Component({ templateUrl: 'dividend-dialog.component.html' })
-export class DividendDialogComponent extends ABaseDialog implements OnInit {
+export class DividendDialogComponent extends BaseDialog implements OnInit {
     @Input() public id: number;
     @Input() public assetId: number;
     public brokers: Broker[];
@@ -23,7 +23,7 @@ export class DividendDialogComponent extends ABaseDialog implements OnInit {
         activeModal: NgbActiveModal,
         alertService: AlertService
     ) {
-        super(formBuilder, activeModal, alertService);
+        super(activeModal, formBuilder, alertService);
     }
 
     public async ngOnInit(): Promise<void> {

@@ -4,6 +4,8 @@ import { map } from 'rxjs/operators';
 
 import { environment } from '@environments/environment';
 import { Asset } from '@app/models';
+import {Observable} from "rxjs";
+import {OkResponse} from "@app/models/ok-response";
 
 @Injectable({ providedIn: 'root' })
 export class AssetService {
@@ -11,27 +13,27 @@ export class AssetService {
         private http: HttpClient
     ) {}
 
-    public create(asset: Asset) {
-        return this.http.post(`${environment.apiUrl}/asset`, asset);
+    public create(asset: Asset): Observable<Asset> {
+        return this.http.post<Asset>(`${environment.apiUrl}/asset`, asset);
     }
 
-    public findAll() {
+    public findAll(): Observable<Asset[]> {
         return this.http.get<Asset[]>(`${environment.apiUrl}/asset`);
     }
 
-    public getById(id: number) {
+    public getById(id: number): Observable<Asset> {
         return this.http.get<Asset>(`${environment.apiUrl}/asset/${id}`);
     }
 
-    public update(id: number, asset: Asset) {
-        return this.http.put(`${environment.apiUrl}/asset/${id}`, asset)
+    public update(id: number, asset: Asset): Observable<Asset> {
+        return this.http.put<Asset>(`${environment.apiUrl}/asset/${id}`, asset)
             .pipe(map(x => {
                 return x;
             }));
     }
 
-    public delete(id: number) {
-        return this.http.delete(`${environment.apiUrl}/asset/${id}`)
+    public delete(id: number): Observable<OkResponse> {
+        return this.http.delete<OkResponse>(`${environment.apiUrl}/asset/${id}`)
             .pipe(map(x => {
                 return x;
             }));

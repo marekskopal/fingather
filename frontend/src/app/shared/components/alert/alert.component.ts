@@ -16,7 +16,7 @@ export class AlertComponent implements OnInit, OnDestroy {
 
     public constructor(private router: Router, private alertService: AlertService) { }
 
-    public ngOnInit() {
+    public ngOnInit(): void {
         // subscribe to new alert notifications
         this.alertSubscription = this.alertService.onAlert(this.id)
             .subscribe(alert => {
@@ -47,13 +47,13 @@ export class AlertComponent implements OnInit, OnDestroy {
         });
     }
 
-    public ngOnDestroy() {
+    public ngOnDestroy(): void {
         // unsubscribe to avoid memory leaks
         this.alertSubscription.unsubscribe();
         this.routeSubscription.unsubscribe();
     }
 
-    public removeAlert(alert: Alert) {
+    public removeAlert(alert: Alert): void {
         // check if already removed to prevent error on auto close
         if (!this.alerts.includes(alert)) return;
 
@@ -71,9 +71,7 @@ export class AlertComponent implements OnInit, OnDestroy {
         }
     }
 
-    public cssClass(alert: Alert) {
-        if (!alert) return;
-
+    public cssClass(alert: Alert): string {
         const classes = ['alert', 'alert-dismissible', 'mt-4', 'container'];
 
         const alertTypeClass = {

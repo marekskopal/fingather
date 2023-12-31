@@ -5,6 +5,8 @@ import { map } from 'rxjs/operators';
 import { environment } from '@environments/environment';
 import { Group } from '@app/models';
 import { NotifyService } from '.';
+import {Observable} from "rxjs";
+import {OkResponse} from "@app/models/ok-response";
 
 @Injectable({ providedIn: 'root' })
 export class GroupService extends NotifyService {
@@ -14,31 +16,31 @@ export class GroupService extends NotifyService {
         super();
     }
 
-    public create(group: Group) {
-        return this.http.post(`${environment.apiUrl}/group`, group);
+    public create(group: Group): Observable<Group> {
+        return this.http.post<Group>(`${environment.apiUrl}/group`, group);
     }
 
-    public findAll() {
+    public findAll(): Observable<Group[]> {
         return this.http.get<Group[]>(`${environment.apiUrl}/group`);
     }
 
-    public getById(id: number) {
+    public getById(id: number): Observable<Group> {
         return this.http.get<Group>(`${environment.apiUrl}/group/${id}`);
     }
 
-    public getOthersGroup() {
+    public getOthersGroup(): Observable<Group> {
         return this.http.get<Group>(`${environment.apiUrl}/group/others`);
     }
 
-    public update(id: number, group: Group) {
-        return this.http.put(`${environment.apiUrl}/group/${id}`, group)
+    public update(id: number, group: Group): Observable<Group> {
+        return this.http.put<Group>(`${environment.apiUrl}/group/${id}`, group)
             .pipe(map(x => {
                 return x;
             }));
     }
 
-    public delete(id: number) {
-        return this.http.delete(`${environment.apiUrl}/group/${id}`)
+    public delete(id: number): Observable<OkResponse> {
+        return this.http.delete<OkResponse>(`${environment.apiUrl}/group/${id}`)
             .pipe(map(x => {
                 return x;
             }));
