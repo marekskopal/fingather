@@ -7,16 +7,16 @@ import { AlertService } from '@app/services';
 
 @Component({ selector: 'fingather-alert', templateUrl: 'alert.component.html' })
 export class AlertComponent implements OnInit, OnDestroy {
-    @Input() id = 'default-alert';
-    @Input() fade = true;
+    @Input() public id = 'default-alert';
+    @Input() public fade = true;
 
-    alerts: Alert[] = [];
-    alertSubscription: Subscription;
-    routeSubscription: Subscription;
+    public alerts: Alert[] = [];
+    public alertSubscription: Subscription;
+    public routeSubscription: Subscription;
 
-    constructor(private router: Router, private alertService: AlertService) { }
+    public constructor(private router: Router, private alertService: AlertService) { }
 
-    ngOnInit() {
+    public ngOnInit() {
         // subscribe to new alert notifications
         this.alertSubscription = this.alertService.onAlert(this.id)
             .subscribe(alert => {
@@ -47,13 +47,13 @@ export class AlertComponent implements OnInit, OnDestroy {
         });
     }
 
-    ngOnDestroy() {
+    public ngOnDestroy() {
         // unsubscribe to avoid memory leaks
         this.alertSubscription.unsubscribe();
         this.routeSubscription.unsubscribe();
     }
 
-    removeAlert(alert: Alert) {
+    public removeAlert(alert: Alert) {
         // check if already removed to prevent error on auto close
         if (!this.alerts.includes(alert)) return;
 
@@ -71,7 +71,7 @@ export class AlertComponent implements OnInit, OnDestroy {
         }
     }
 
-    cssClass(alert: Alert) {
+    public cssClass(alert: Alert) {
         if (!alert) return;
 
         const classes = ['alert', 'alert-dismissible', 'mt-4', 'container'];

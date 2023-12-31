@@ -7,11 +7,11 @@ import { UserService, AlertService } from '@app/services';
 
 @Component({ templateUrl: 'sign-up.component.html' })
 export class SignUpComponent implements OnInit {
-    form: UntypedFormGroup;
-    loading = false;
-    submitted = false;
+    public form: UntypedFormGroup;
+    public loading = false;
+    public submitted = false;
 
-    constructor(
+    public constructor(
         private formBuilder: UntypedFormBuilder,
         private route: ActivatedRoute,
         private router: Router,
@@ -19,7 +19,7 @@ export class SignUpComponent implements OnInit {
         private alertService: AlertService
     ) { }
 
-    ngOnInit() {
+    public ngOnInit(): void {
         this.form = this.formBuilder.group({
             firstName: ['', Validators.required],
             lastName: ['', Validators.required],
@@ -29,9 +29,9 @@ export class SignUpComponent implements OnInit {
     }
 
     // convenience getter for easy access to form fields
-    get f() { return this.form.controls; }
+    public get f() { return this.form.controls; }
 
-    onSubmit() {
+    public onSubmit(): void {
         this.submitted = true;
 
         // reset alerts on submit

@@ -4,11 +4,11 @@ import { map } from 'rxjs/operators';
 
 import { environment } from '@environments/environment';
 import { Group } from '@app/models';
-import { ANotifyService } from '.';
+import { NotifyService } from '.';
 
 @Injectable({ providedIn: 'root' })
-export class GroupService extends ANotifyService {
-    constructor(
+export class GroupService extends NotifyService {
+    public constructor(
         private http: HttpClient,
     ) {
         super();

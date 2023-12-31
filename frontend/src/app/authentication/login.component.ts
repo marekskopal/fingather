@@ -8,11 +8,11 @@ import {AuthenticationService} from "../services/authentication.service";
 
 @Component({ templateUrl: 'login.component.html' })
 export class LoginComponent implements OnInit {
-    form: UntypedFormGroup;
-    loading = false;
-    submitted = false;
+    public form: UntypedFormGroup;
+    public loading = false;
+    public submitted = false;
 
-    constructor(
+    public constructor(
         private formBuilder: UntypedFormBuilder,
         private route: ActivatedRoute,
         private router: Router,
@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
         private alertService: AlertService
     ) { }
 
-    ngOnInit() {
+    public ngOnInit(): void {
         this.form = this.formBuilder.group({
             username: ['', Validators.required],
             password: ['', Validators.required]
@@ -28,9 +28,9 @@ export class LoginComponent implements OnInit {
     }
 
     // convenience getter for easy access to form fields
-    get f() { return this.form.controls; }
+    public get f() { return this.form.controls; }
 
-    onSubmit() {
+    public onSubmit(): void {
         this.submitted = true;
 
         // reset alerts on submit

@@ -1,22 +1,22 @@
 ﻿import {Ticker} from "@app/models/ticker";
 
 export class Asset {
-    id: number;
-    tickerId: number;
-    groupId: number
-    price: number;
-    units: number;
-    value: number;
-    gain: number;
-    gainDefaultCurrency: number;
-    gainPercentage: number;
-    dividendGain: number;
-    dividendGainDefaultCurrency: number;
-    dividendGainPercentage: number;
-    fxImpact: number;
-    fxImpactPercentage: number;
-    return: number;
-    returnPercentage: number;
+    public id: number;
+    public tickerId: number;
+    public groupId: number
+    public price: number;
+    public units: number;
+    public value: number;
+    public gain: number;
+    public gainDefaultCurrency: number;
+    public gainPercentage: number;
+    public dividendGain: number;
+    public dividendGainDefaultCurrency: number;
+    public dividendGainPercentage: number;
+    public fxImpact: number;
+    public fxImpactPercentage: number;
+    public return: number;
+    public returnPercentage: number;
 
-    ticker: Ticker;
+    public ticker: Ticker;
 }

@@ -9,12 +9,12 @@ export class DetailComponent implements OnInit {
     public asset: Asset|null = null;
     public id: number;
 
-    constructor(
+    public constructor(
       private assetService: AssetService,
       private route: ActivatedRoute,
     ) {}
 
-    ngOnInit() {
+    public ngOnInit(): void {
         this.id = this.route.snapshot.params['id'];
 
         this.assetService.getById(this.id)

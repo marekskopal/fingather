@@ -1,10 +1,10 @@
 ﻿import {Market} from "@app/models/market";
 
 export class Ticker {
-    id: number;
-    ticker: string;
-    name: string;
-    marketId: number;
+    public id: number;
+    public ticker: string;
+    public name: string;
+    public marketId: number;
 
-    market: Market
+    public market: Market
 }

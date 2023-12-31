@@ -15,7 +15,7 @@ export class AddEditComponent implements OnInit {
     public submitted = false;
     public assetTicker: Ticker;
 
-    constructor(
+    public constructor(
         private formBuilder: UntypedFormBuilder,
         private route: ActivatedRoute,
         private router: Router,
@@ -24,7 +24,7 @@ export class AddEditComponent implements OnInit {
         private assetTickerService: AssetTickerService,
     ) {}
 
-    ngOnInit() {
+    public ngOnInit(): void {
         this.id = this.route.snapshot.params['id'];
         this.isAddMode = !this.id;
 
@@ -40,9 +40,9 @@ export class AddEditComponent implements OnInit {
     }
 
     // convenience getter for easy access to form fields
-    get f() { return this.form.controls; }
+    public get f() { return this.form.controls; }
 
-    onSubmit() {
+    public onSubmit(): void {
         this.submitted = true;
 
         // reset alerts on submit
@@ -61,7 +61,7 @@ export class AddEditComponent implements OnInit {
         }
     }
 
-    private createAsset() {
+    private createAsset(): void {
         const formValues = this.form.value;
 
         this.assetTickerService.getByTicker(formValues.ticker)
@@ -89,7 +89,7 @@ export class AddEditComponent implements OnInit {
 
     }
 
-    private updateAsset() {
+    private updateAsset(): void {
         this.assetService.update(this.id, this.form.value)
             .pipe(first())
             .subscribe({

@@ -15,13 +15,13 @@ export class TransactionListComponent implements OnInit {
     public transactions: Transaction[]|null = null;
     public assetId: number;
 
-    constructor(
+    public constructor(
         private transactionService: TransactionService,
         private route: ActivatedRoute,
         private modalService: NgbModal,
     ) {}
 
-    ngOnInit() {
+    public ngOnInit(): void {
         this.assetId = this.route.snapshot.params['id'];
 
         this.transactionService.findByAssetId(this.assetId)
@@ -29,11 +29,11 @@ export class TransactionListComponent implements OnInit {
             .subscribe(transactions => this.transactions = transactions);
     }
 
-    addTransaction() {
+    public addTransaction(): void {
         this.modalService.open(TransactionDialogComponent);
     }
 
-    deleteTransaction(id: number) {
+    public deleteTransaction(id: number): void {
         const transaction = this.transactions?.find(x => x.id === id);
         if (transaction === undefined) {
             return;

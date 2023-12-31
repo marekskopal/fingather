@@ -10,12 +10,12 @@ import {AlertService, BrokerService, CurrencyService, DividendService} from "@ap
 
 @Component({ templateUrl: 'dividend-dialog.component.html' })
 export class DividendDialogComponent extends ABaseDialog implements OnInit {
-    @Input() id: number;
-    @Input() assetId: number;
+    @Input() public id: number;
+    @Input() public assetId: number;
     public brokers: Broker[];
     public currencies: Map<number, Currency>;
 
-    constructor(
+    public constructor(
         private dividendService: DividendService,
         private brokerService: BrokerService,
         private currencyService: CurrencyService,

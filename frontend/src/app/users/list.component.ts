@@ -8,15 +8,15 @@ import {User} from "@app/models";
 export class ListComponent implements OnInit {
     public users: User[] = [];
 
-    constructor(private userService: UserService) {}
+    public constructor(private userService: UserService) {}
 
-    ngOnInit() {
+    public ngOnInit() {
         this.userService.getAll()
             .pipe(first())
             .subscribe(users => this.users = users);
     }
 
-    deleteUser(id: number) {
+    public deleteUser(id: number) {
         const user = this.users.find(x => x.id === id);
         if (user === undefined) {
             return;

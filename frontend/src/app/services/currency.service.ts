@@ -9,7 +9,7 @@ import {CurrentUserService} from "@app/services/current-user.service";
 export class CurrencyService {
     private currencies: Map<number,Currency>|null = null;
 
-    constructor(
+    public constructor(
         private http: HttpClient,
         private currentUserService: CurrentUserService,
     ) {}
@@ -37,9 +37,5 @@ export class CurrencyService {
             throw "Default currency not exists."
         }
         return defaultCurrency;
-    }
-
-    getById(id: string) {
-        return this.http.get<Currency>(`${environment.apiUrl}/currency/${id}`);
     }
 }

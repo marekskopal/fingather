@@ -10,12 +10,12 @@ import {GroupService} from "@app/services";
 export class ListComponent implements OnInit, OnDestroy {
     public groups: Group[]|null = null;
 
-    constructor(
+    public constructor(
         private groupService: GroupService,
         private modalService: NgbModal,
     ) {}
 
-    ngOnInit() {
+    public ngOnInit(): void {
         this.groupService.findAll()
             .pipe(first())
             .subscribe(groups => this.groups = groups);
@@ -25,20 +25,20 @@ export class ListComponent implements OnInit, OnDestroy {
         });
     }
 
-    ngOnDestroy() {
+    public ngOnDestroy(): void {
         this.groupService.eventEmitter.unsubscribe();
     }
 
-    addGroup() {
+    public addGroup(): void {
         this.modalService.open(AddEditComponent);
     }
 
-    editGroup(id: number) {
+    public editGroup(id: number): void {
         const addEditComponent = this.modalService.open(AddEditComponent);
         addEditComponent.componentInstance.id = id;
     }
 
-    deleteGroup(id: number) {
+    public deleteGroup(id: number): void {
         const group = this.groups?.find(x => x.id === id);
         if (group === undefined) {
             return

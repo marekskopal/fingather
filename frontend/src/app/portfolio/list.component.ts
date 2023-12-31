@@ -9,12 +9,12 @@ export class ListComponent implements OnInit {
     public portfolio: Portfolio|null = null;
     public defaultCurrency: Currency;
 
-    constructor(
+    public constructor(
         private portfolioService: PortfolioService,
         private currencyService: CurrencyService,
     ) {}
 
-    async ngOnInit() {
+    public async ngOnInit() {
         this.defaultCurrency = await this.currencyService.getDefaultCurrency();
 
         this.portfolioService.get()

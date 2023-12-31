@@ -9,7 +9,7 @@ import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 @Component({ templateUrl: 'add-edit.component.html' })
 export class AddEditComponent implements OnInit {
     public form: UntypedFormGroup;
-    @Input() id: number;
+    @Input() public id: number;
     public isAddMode: boolean;
     public loading = false;
     public submitted = false;
@@ -19,14 +19,14 @@ export class AddEditComponent implements OnInit {
         {name: 'Anycoin', key: BrokerImportTypes.Anycoin},
     ]
 
-    constructor(
+    public constructor(
         private formBuilder: UntypedFormBuilder,
         private brokerService: BrokerService,
         private alertService: AlertService,
         public activeModal: NgbActiveModal,
     ) {}
 
-    ngOnInit() {
+    public ngOnInit() {
         this.isAddMode = !this.id;
 
         this.form = this.formBuilder.group({
@@ -42,9 +42,9 @@ export class AddEditComponent implements OnInit {
     }
 
     // convenience getter for easy access to form fields
-    get f() { return this.form.controls; }
+    public get f() { return this.form.controls; }
 
-    onSubmit() {
+    public onSubmit(): void {
         this.submitted = true;
 
         // reset alerts on submit
@@ -63,7 +63,7 @@ export class AddEditComponent implements OnInit {
         }
     }
 
-    private createBroker() {
+    private createBroker(): void {
         this.brokerService.create(this.form.value)
             .pipe(first())
             .subscribe({
@@ -79,7 +79,7 @@ export class AddEditComponent implements OnInit {
             });
     }
 
-    private updateBroker() {
+    private updateBroker(): void {
         this.brokerService.update(this.id, this.form.value)
             .pipe(first())
             .subscribe({

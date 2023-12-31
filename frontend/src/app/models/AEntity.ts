@@ -1,5 +1,5 @@
 export abstract class AEntity
 {
-    id: number;
-    isDeleting: boolean = false;
+    public id: number;
+    public isDeleting: boolean = false;
 }

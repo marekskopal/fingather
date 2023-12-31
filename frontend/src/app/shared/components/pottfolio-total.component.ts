@@ -11,7 +11,7 @@ export class PortfolioTotalComponent implements OnInit {
     public currencies: Map<number, Currency>;
     public defaultCurrency: Currency;
 
-    constructor(
+    public constructor(
         private portfolioDataService: PortfolioDataService,
         private currencyService: CurrencyService,
     ) { }

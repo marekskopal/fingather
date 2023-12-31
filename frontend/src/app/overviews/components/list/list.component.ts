@@ -11,7 +11,7 @@ export class ListComponent implements OnInit {
     public yearCalculatedDatas: YearCalculatedData[]|null = null;
     public defaultCurrency: Currency;
 
-    constructor(
+    public constructor(
         private overviewService: OverviewService,
         private currencyService: CurrencyService,
     ) {

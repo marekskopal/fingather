@@ -23,7 +23,7 @@ export class TransactionDialogComponent implements OnInit {
     ]
     public brokers: Broker[];
 
-    constructor(
+    public constructor(
         private formBuilder: UntypedFormBuilder,
         private route: ActivatedRoute,
         private router: Router,
@@ -34,7 +34,7 @@ export class TransactionDialogComponent implements OnInit {
         public activeModal: NgbActiveModal,
     ) {}
 
-    ngOnInit() {
+    public ngOnInit(): void {
         const routeParent = this.route.parent;
         if (routeParent === null) {
             return;
@@ -68,9 +68,9 @@ export class TransactionDialogComponent implements OnInit {
     }
 
     // convenience getter for easy access to form fields
-    get f() { return this.form.controls; }
+    public get f() { return this.form.controls; }
 
-    onSubmit() {
+    public onSubmit(): void {
         this.submitted = true;
 
         // reset alerts on submit
@@ -89,7 +89,7 @@ export class TransactionDialogComponent implements OnInit {
         }
     }
 
-    private createTransaction() {
+    private createTransaction(): void {
         this.transactionService.create(this.form.value)
             .pipe(first())
             .subscribe({
@@ -104,7 +104,7 @@ export class TransactionDialogComponent implements OnInit {
             });
     }
 
-    private updateTransaction() {
+    private updateTransaction(): void {
         this.transactionService.update(this.id, this.form.value)
             .pipe(first())
             .subscribe({

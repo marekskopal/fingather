@@ -7,30 +7,30 @@ import { Asset } from '@app/models';
 
 @Injectable({ providedIn: 'root' })
 export class AssetService {
-    constructor(
+    public constructor(
         private http: HttpClient
     ) {}
 
-    create(asset: Asset) {
+    public create(asset: Asset) {
         return this.http.post(`${environment.apiUrl}/asset`, asset);
     }
 
-    findAll() {
+    public findAll() {
         return this.http.get<Asset[]>(`${environment.apiUrl}/asset`);
     }
 
-    getById(id: number) {
+    public getById(id: number) {
         return this.http.get<Asset>(`${environment.apiUrl}/asset/${id}`);
     }
 
-    update(id: number, asset: Asset) {
+    public update(id: number, asset: Asset) {
         return this.http.put(`${environment.apiUrl}/asset/${id}`, asset)
             .pipe(map(x => {
                 return x;
             }));
     }
 
-    delete(id: number) {
+    public delete(id: number) {
         return this.http.delete(`${environment.apiUrl}/asset/${id}`)
             .pipe(map(x => {
                 return x;

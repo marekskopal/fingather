@@ -4,11 +4,11 @@ import { map } from 'rxjs/operators';
 
 import { environment } from '@environments/environment';
 import { Dividend } from '@app/models';
-import { ANotifyService } from '.';
+import { NotifyService } from '.';
 
 @Injectable({ providedIn: 'root' })
-export class DividendService extends ANotifyService {
-    constructor(
+export class DividendService extends NotifyService {
+    public constructor(
         private http: HttpClient
     ) {
         super();

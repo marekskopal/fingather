@@ -5,7 +5,7 @@ import {CurrencyService} from "@app/services";
     name: 'currency'
 })
 export class CurrencyPipe implements PipeTransform {
-    constructor(
+    public constructor(
         private currencyService: CurrencyService,
     ) {
     }

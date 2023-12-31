@@ -10,12 +10,12 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 export class ListComponent implements OnInit, OnDestroy {
     public brokers: Broker[]|null = null;
 
-    constructor(
+    public constructor(
         private brokerService: BrokerService,
         private modalService: NgbModal,
     ) {}
 
-    ngOnInit() {
+    public ngOnInit(): void {
         this.brokerService.findAll()
             .pipe(first())
             .subscribe(brokers => this.brokers = brokers);
@@ -25,20 +25,20 @@ export class ListComponent implements OnInit, OnDestroy {
         });
     }
 
-    ngOnDestroy() {
+    public ngOnDestroy(): void {
         this.brokerService.eventEmitter.unsubscribe();
     }
 
-    addBroker() {
+    public addBroker(): void {
         this.modalService.open(AddEditComponent, {ariaLabelledBy: 'modal-basic-title'});
     }
 
-    editBroker(id: number) {
+    public editBroker(id: number): void {
         const addEditComponent = this.modalService.open(AddEditComponent, {ariaLabelledBy: 'modal-basic-title'});
         addEditComponent.componentInstance.id = id;
     }
 
-    deleteBroker(id: number) {
+    public deleteBroker(id: number): void {
         this.brokerService.delete(id)
             .pipe(first())
             .subscribe(() => this.brokers = this.brokers !== null ? this.brokers.filter(x => x.id !== id) : null);

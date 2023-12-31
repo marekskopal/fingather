@@ -6,11 +6,11 @@ import { tickerData } from '@app/models';
 
 @Injectable({ providedIn: 'root' })
 export class TickerDataService {
-    constructor(
+    public constructor(
         private http: HttpClient
     ) {}
 
-    findLastYear(assetTickerId: number) {
+    public findLastYear(assetTickerId: number) {
         return this.http.get<tickerData[]>(`${environment.apiUrl}/ticker-data/${assetTickerId}`);
     }
 }

@@ -1,6 +1,6 @@
 import { EventEmitter } from "@angular/core";
 
-export abstract class ANotifyService {
+export abstract class NotifyService {
     public eventEmitter: EventEmitter<null> = new EventEmitter();
 
     public notify(): void {

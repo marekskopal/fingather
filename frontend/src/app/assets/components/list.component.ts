@@ -11,7 +11,7 @@ export class ListComponent implements OnInit {
     public assets: Asset[]|null = null;
     public defaultCurrency: Currency;
 
-    constructor(
+    public constructor(
         private assetService: AssetService,
         private modalService: NgbModal,
         private currencyService: CurrencyService,
@@ -25,11 +25,11 @@ export class ListComponent implements OnInit {
             .subscribe(assets => this.assets = assets);
     }
 
-    addAsset() {
+    public addAsset(): void {
         this.modalService.open(AddEditComponent);
     }
 
-    deleteAsset(id: number) {
+    public deleteAsset(id: number): void {
         this.assetService.delete(id)
             .pipe(first())
             .subscribe(() => this.assets = this.assets !== null ? this.assets.filter(x => x.id !== id) : null);
