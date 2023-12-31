@@ -1,28 +1,28 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import {Asset, Ticker} from "@app/models";
 import {AlertService, AssetService, AssetTickerService} from "@app/services";
+import {BaseForm} from "@app/shared/components/form/base-form";
 
 
 @Component({ templateUrl: 'add-edit.component.html' })
-export class AddEditComponent implements OnInit {
-    public form: UntypedFormGroup;
+export class AddEditComponent extends BaseForm implements OnInit {
     public id: number;
     public isAddMode: boolean;
-    public loading = false;
-    public submitted = false;
     public assetTicker: Ticker;
 
     public constructor(
-        private formBuilder: UntypedFormBuilder,
         private route: ActivatedRoute,
         private router: Router,
         private assetService: AssetService,
-        private alertService: AlertService,
         private assetTickerService: AssetTickerService,
-    ) {}
+        formBuilder: UntypedFormBuilder,
+        alertService: AlertService,
+    ) {
+        super(formBuilder, alertService)
+    }
 
     public ngOnInit(): void {
         this.id = this.route.snapshot.params['id'];
@@ -38,9 +38,6 @@ export class AddEditComponent implements OnInit {
                 .subscribe(x => this.form.patchValue(x));
         }
     }
-
-    // convenience getter for easy access to form fields
-    public get f() { return this.form.controls; }
 
     public onSubmit(): void {
         this.submitted = true;

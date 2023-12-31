@@ -1,28 +1,27 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
 import {Broker} from "@app/models";
-import {AlertService, BrokerService, ImportDataService, TransactionService} from "@app/services";
+import {AlertService, BrokerService, ImportDataService} from "@app/services";
+import {BaseForm} from "@app/shared/components/form/base-form";
 
 @Component({ templateUrl: 'import.component.html' })
-export class ImportComponent implements OnInit {
-    public form: UntypedFormGroup;
+export class ImportComponent extends BaseForm implements OnInit {
     public brokerId: string;
-    public loading = false;
-    public submitted = false;
     public brokers: Broker[];
 
     public constructor(
-        private formBuilder: UntypedFormBuilder,
         private route: ActivatedRoute,
         private router: Router,
-        private transactionService: TransactionService,
-        private alertService: AlertService,
         private brokerService: BrokerService,
         private importDataService: ImportDataService,
-    ) {}
+        formBuilder: UntypedFormBuilder,
+        alertService: AlertService,
+    ) {
+        super(formBuilder, alertService)
+    }
 
     public ngOnInit(): void {
         this.brokerService.findAll()
@@ -34,9 +33,6 @@ export class ImportComponent implements OnInit {
             data: [null, Validators.required],
         });
     }
-
-    // convenience getter for easy access to form fields
-    public get f() { return this.form.controls; }
 
     public onSubmit(): void {
         this.submitted = true;
@@ -62,7 +58,7 @@ export class ImportComponent implements OnInit {
             const [file] = event.target.files;
             reader.readAsDataURL(file);
 
-            reader.onload = () => {
+            reader.onload = (): void => {
                 this.form.patchValue({
                     data: reader.result
                 });
@@ -70,7 +66,7 @@ export class ImportComponent implements OnInit {
         }
     }
 
-    private createImport() {
+    private createImport(): void {
         this.importDataService.create(this.form.value)
             .pipe(first())
             .subscribe({

@@ -10,13 +10,13 @@ export class ListComponent implements OnInit {
 
     public constructor(private userService: UserService) {}
 
-    public ngOnInit() {
+    public ngOnInit(): void {
         this.userService.getAll()
             .pipe(first())
             .subscribe(users => this.users = users);
     }
 
-    public deleteUser(id: number) {
+    public deleteUser(id: number): void {
         const user = this.users.find(x => x.id === id);
         if (user === undefined) {
             return;

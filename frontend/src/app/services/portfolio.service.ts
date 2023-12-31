@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { environment } from '@environments/environment';
 import { Portfolio } from '@app/models';
+import {Observable} from "rxjs";
 
 @Injectable({ providedIn: 'root' })
 export class PortfolioService {
@@ -10,7 +11,7 @@ export class PortfolioService {
         private http: HttpClient
     ) {}
 
-    public get() {
+    public get(): Observable<Portfolio> {
         return this.http.get<Portfolio>(`${environment.apiUrl}/portfolio`);
     }
 }

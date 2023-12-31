@@ -4,6 +4,8 @@ import { map } from 'rxjs/operators';
 
 import { environment } from '@environments/environment';
 import { Transaction } from '@app/models';
+import {Observable} from "rxjs";
+import {OkResponse} from "@app/models/ok-response";
 
 @Injectable({ providedIn: 'root' })
 export class TransactionService {
@@ -11,33 +13,33 @@ export class TransactionService {
         private http: HttpClient
     ) {}
 
-    public create(transaction: Transaction) {
-        return this.http.post(`${environment.apiUrl}/transaction`, transaction);
+    public create(transaction: Transaction): Observable<Transaction> {
+        return this.http.post<Transaction>(`${environment.apiUrl}/transaction`, transaction);
     }
 
-    public findAll() {
+    public findAll(): Observable<Transaction[]> {
         return this.http.get<Transaction[]>(`${environment.apiUrl}/transaction`);
     }
 
-    public findByAssetId(assetId: number) {
+    public findByAssetId(assetId: number): Observable<Transaction[]> {
         const params = new HttpParams().set('assetId', assetId);
 
         return this.http.get<Transaction[]>(`${environment.apiUrl}/transaction`, {params});
     }
 
-    public getByUuid(id: number) {
+    public getByUuid(id: number): Observable<Transaction> {
         return this.http.get<Transaction>(`${environment.apiUrl}/transaction/${id}`);
     }
 
-    public update(id: number, transaction: Transaction) {
-        return this.http.put(`${environment.apiUrl}/transaction/${id}`, transaction)
+    public update(id: number, transaction: Transaction): Observable<Transaction> {
+        return this.http.put<Transaction>(`${environment.apiUrl}/transaction/${id}`, transaction)
             .pipe(map(x => {
                 return x;
             }));
     }
 
-    public delete(id: number) {
-        return this.http.delete(`${environment.apiUrl}/transaction/${id}`)
+    public delete(id: number): Observable<OkResponse> {
+        return this.http.delete<OkResponse>(`${environment.apiUrl}/transaction/${id}`)
             .pipe(map(x => {
                 return x;
             }));

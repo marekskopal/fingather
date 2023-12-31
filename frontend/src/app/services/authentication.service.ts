@@ -27,7 +27,7 @@ export class AuthenticationService {
         return this.authenticationSubject.value;
     }
 
-    public login(username: string, password: string) {
+    public login(username: string, password: string): Observable<Authentication> {
         return this.http.post<Authentication>(`${environment.apiUrl}/authentication/login`, {
           email: username,
           password,
@@ -40,7 +40,7 @@ export class AuthenticationService {
             }));
     }
 
-    public logout() {
+    public logout(): void {
         // remove authentication from local storage and set current authentication to null
         localStorage.removeItem('authentication');
         this.authenticationSubject.next(null);

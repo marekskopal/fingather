@@ -11,7 +11,7 @@ export class AppComponent {
         this.authenticationService.authentication.subscribe(x => this.authentication = x);
     }
 
-    public logout() {
+    public logout(): void {
         this.authenticationService.logout();
     }
 }

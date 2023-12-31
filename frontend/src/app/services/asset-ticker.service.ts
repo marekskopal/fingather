@@ -3,6 +3,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 
 import { environment } from '@environments/environment';
 import { Ticker } from '@app/models';
+import {Observable} from "rxjs";
 
 @Injectable({ providedIn: 'root' })
 export class AssetTickerService {
@@ -10,7 +11,7 @@ export class AssetTickerService {
         private http: HttpClient
     ) {}
 
-    public getByTicker(ticker: string) {
+    public getByTicker(ticker: string): Observable<Ticker> {
         const params = new HttpParams().set('ticker', ticker);
 
         return this.http.get<Ticker>(`${environment.apiUrl}/assetticker`, {params});

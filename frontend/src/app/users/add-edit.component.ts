@@ -1,18 +1,16 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators} from '@angular/forms';
 import { first } from 'rxjs/operators';
 
 import {UserService, AlertService, CurrencyService} from '@app/services';
 import {Currency, UserRoleEnum} from "@app/models";
+import {BaseForm} from "@app/shared/components/form/base-form";
 
 @Component({ templateUrl: 'add-edit.component.html' })
-export class AddEditComponent implements OnInit {
-    public form: UntypedFormGroup;
+export class AddEditComponent extends BaseForm implements OnInit {
     public id: number;
     public isAddMode: boolean;
-    public loading = false;
-    public submitted = false;
     public currencies: Map<number, Currency>;
     public roles = [
         {name: 'User', key: UserRoleEnum.User},
@@ -20,13 +18,15 @@ export class AddEditComponent implements OnInit {
     ]
 
     public constructor(
-        private formBuilder: UntypedFormBuilder,
         private route: ActivatedRoute,
         private router: Router,
         private userService: UserService,
-        private alertService: AlertService,
         private currencyService: CurrencyService,
-    ) {}
+        formBuilder: UntypedFormBuilder,
+        alertService: AlertService,
+    ) {
+        super(formBuilder, alertService);
+    }
 
     public async ngOnInit(): Promise<void> {
         this.id = this.route.snapshot.params['id'];
@@ -59,10 +59,7 @@ export class AddEditComponent implements OnInit {
         }
     }
 
-    // convenience getter for easy access to form fields
-    public get f() { return this.form.controls; }
-
-    public onSubmit() {
+    public onSubmit(): void {
         this.submitted = true;
 
         // reset alerts on submit
@@ -81,7 +78,7 @@ export class AddEditComponent implements OnInit {
         }
     }
 
-    private createUser() {
+    private createUser(): void {
         this.userService.create(this.form.value)
             .pipe(first())
             .subscribe({
@@ -96,7 +93,7 @@ export class AddEditComponent implements OnInit {
             });
     }
 
-    private updateUser() {
+    private updateUser(): void {
         this.userService.update(this.id, this.form.value)
             .pipe(first())
             .subscribe({

@@ -1,23 +1,17 @@
-import { UntypedFormBuilder, UntypedFormGroup } from "@angular/forms";
+import { UntypedFormBuilder} from "@angular/forms";
 import { AlertService } from "@app/services";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { BaseForm } from "@app/shared/components/form/base-form";
 
-export abstract class ABaseDialog
+export abstract class BaseDialog extends BaseForm
 {
-    public form: UntypedFormGroup;
     public isAddMode: boolean;
-    public loading = false;
-    public submitted = false;
 
     public constructor(
-        protected formBuilder: UntypedFormBuilder,
         public activeModal: NgbActiveModal,
-        protected alertService: AlertService,
-    ) {}
-
-    public get f() {
-        return this.form.controls;
+        formBuilder: UntypedFormBuilder,
+        alertService: AlertService,
+    ) {
+        super(formBuilder, alertService)
     }
-
-    public abstract onSubmit(): void;
 }

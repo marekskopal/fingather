@@ -2,7 +2,8 @@
 import { HttpClient } from '@angular/common/http';
 
 import { environment } from '@environments/environment';
-import { tickerData } from '@app/models';
+import { TickerData } from '@app/models';
+import {Observable} from "rxjs";
 
 @Injectable({ providedIn: 'root' })
 export class TickerDataService {
@@ -10,7 +11,7 @@ export class TickerDataService {
         private http: HttpClient
     ) {}
 
-    public findLastYear(assetTickerId: number) {
-        return this.http.get<tickerData[]>(`${environment.apiUrl}/ticker-data/${assetTickerId}`);
+    public findLastYear(assetTickerId: number): Observable<TickerData[]> {
+        return this.http.get<TickerData[]>(`${environment.apiUrl}/ticker-data/${assetTickerId}`);
     }
 }

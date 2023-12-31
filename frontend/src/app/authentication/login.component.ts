@@ -1,24 +1,23 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
 import { AlertService } from '@app/services';
 import {AuthenticationService} from "../services/authentication.service";
+import {BaseForm} from "@app/shared/components/form/base-form";
 
 @Component({ templateUrl: 'login.component.html' })
-export class LoginComponent implements OnInit {
-    public form: UntypedFormGroup;
-    public loading = false;
-    public submitted = false;
-
+export class LoginComponent extends BaseForm implements OnInit {
     public constructor(
-        private formBuilder: UntypedFormBuilder,
         private route: ActivatedRoute,
         private router: Router,
         private authorizationService: AuthenticationService,
-        private alertService: AlertService
-    ) { }
+        formBuilder: UntypedFormBuilder,
+        alertService: AlertService,
+    ) {
+        super(formBuilder, alertService)
+    }
 
     public ngOnInit(): void {
         this.form = this.formBuilder.group({
@@ -26,9 +25,6 @@ export class LoginComponent implements OnInit {
             password: ['', Validators.required]
         });
     }
-
-    // convenience getter for easy access to form fields
-    public get f() { return this.form.controls; }
 
     public onSubmit(): void {
         this.submitted = true;

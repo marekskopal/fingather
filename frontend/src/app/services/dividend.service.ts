@@ -5,6 +5,8 @@ import { map } from 'rxjs/operators';
 import { environment } from '@environments/environment';
 import { Dividend } from '@app/models';
 import { NotifyService } from '.';
+import {Observable} from "rxjs";
+import {OkResponse} from "@app/models/ok-response";
 
 @Injectable({ providedIn: 'root' })
 export class DividendService extends NotifyService {
@@ -14,21 +16,21 @@ export class DividendService extends NotifyService {
         super();
     }
 
-    public create(dividend: Dividend) {
-        return this.http.post(`${environment.apiUrl}/dividend`, dividend);
+    public create(dividend: Dividend): Observable<Dividend> {
+        return this.http.post<Dividend>(`${environment.apiUrl}/dividend`, dividend);
     }
 
-    public findAll() {
+    public findAll(): Observable<Dividend[]> {
         return this.http.get<Dividend[]>(`${environment.apiUrl}/dividend`);
     }
 
-    public findByAssetId(assetId: number) {
+    public findByAssetId(assetId: number): Observable<Dividend[]> {
         const params = new HttpParams().set('assetId', assetId);
 
         return this.http.get<Dividend[]>(`${environment.apiUrl}/dividend`, {params});
     }
 
-    public getById(id: number) {
+    public getById(id: number): Observable<Dividend> {
         return this.http.get<Dividend>(`${environment.apiUrl}/dividend/${id}`)
             .pipe(map(dividend => {
                 dividend.paidDate = new Date(String(dividend.paidDate));
@@ -37,15 +39,15 @@ export class DividendService extends NotifyService {
             ))
     }
 
-    public update(id: number, dividend: Dividend) {
-        return this.http.put(`${environment.apiUrl}/dividend/${id}`, dividend)
+    public update(id: number, dividend: Dividend): Observable<Dividend> {
+        return this.http.put<Dividend>(`${environment.apiUrl}/dividend/${id}`, dividend)
             .pipe(map(x => {
                 return x;
             }));
     }
 
-    public delete(id: number) {
-        return this.http.delete(`${environment.apiUrl}/dividend/${id}`)
+    public delete(id: number): Observable<OkResponse> {
+        return this.http.delete<OkResponse>(`${environment.apiUrl}/dividend/${id}`)
             .pipe(map(x => {
                 return x;
             }));

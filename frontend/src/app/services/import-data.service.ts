@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 
 import { environment } from '@environments/environment';
 import { ImportData } from '@app/models';
+import {Observable} from "rxjs";
+import {OkResponse} from "@app/models/ok-response";
 
 @Injectable({ providedIn: 'root' })
 export class ImportDataService {
@@ -10,7 +12,7 @@ export class ImportDataService {
         private http: HttpClient
     ) {}
 
-    public create(importData: ImportData) {
-        return this.http.post(`${environment.apiUrl}/import-data`, importData);
+    public create(importData: ImportData): Observable<OkResponse> {
+        return this.http.post<OkResponse>(`${environment.apiUrl}/import-data`, importData);
     }
 }

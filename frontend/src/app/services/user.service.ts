@@ -4,6 +4,8 @@ import { map } from 'rxjs/operators';
 
 import { environment } from '@environments/environment';
 import { User } from '@app/models';
+import {Observable} from "rxjs";
+import {OkResponse} from "@app/models/ok-response";
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -13,27 +15,27 @@ export class UserService {
     ) {
     }
 
-    public create(user: User) {
-        return this.http.post(`${environment.apiUrl}/admin/user`, user);
+    public create(user: User): Observable<User> {
+        return this.http.post<User>(`${environment.apiUrl}/admin/user`, user);
     }
 
-    public getAll() {
+    public getAll(): Observable<User[]> {
         return this.http.get<User[]>(`${environment.apiUrl}/admin/user`);
     }
 
-    public getById(id: number) {
+    public getById(id: number): Observable<User> {
         return this.http.get<User>(`${environment.apiUrl}/admin/user/${id}`);
     }
 
-    public update(id: number, user: User) {
-        return this.http.put(`${environment.apiUrl}/admin/user/${id}`, user)
+    public update(id: number, user: User): Observable<User> {
+        return this.http.put<User>(`${environment.apiUrl}/admin/user/${id}`, user)
             .pipe(map(x => {
                 return x;
             }));
     }
 
-    public delete(id: number) {
-        return this.http.delete(`${environment.apiUrl}/admin/user/${id}`)
+    public delete(id: number): Observable<OkResponse> {
+        return this.http.delete<OkResponse>(`${environment.apiUrl}/admin/user/${id}`)
             .pipe(map(x => {
                 // auto logout if the logged in user deleted their own record
                 //if (id == this.userValue.id) {
