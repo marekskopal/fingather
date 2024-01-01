@@ -16,7 +16,7 @@ export class ListComponent implements OnInit, OnDestroy {
     ) {}
 
     public ngOnInit(): void {
-        this.brokerService.findAll()
+        this.brokerService.getBrokers()
             .pipe(first())
             .subscribe(brokers => this.brokers = brokers);
 
@@ -39,7 +39,7 @@ export class ListComponent implements OnInit, OnDestroy {
     }
 
     public deleteBroker(id: number): void {
-        this.brokerService.delete(id)
+        this.brokerService.deleteBroker(id)
             .pipe(first())
             .subscribe(() => this.brokers = this.brokers !== null ? this.brokers.filter(x => x.id !== id) : null);
     }

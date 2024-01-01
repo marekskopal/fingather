@@ -35,7 +35,7 @@ export class AddEditComponent extends BaseForm implements OnInit {
         });
 
         if (!this.isAddMode) {
-            this.brokerService.getByUuid(this.id)
+            this.brokerService.getBroker(this.id)
                 .pipe(first())
                 .subscribe(x => this.form.patchValue(x));
         }
@@ -61,7 +61,7 @@ export class AddEditComponent extends BaseForm implements OnInit {
     }
 
     private createBroker(): void {
-        this.brokerService.create(this.form.value)
+        this.brokerService.createBroker(this.form.value)
             .pipe(first())
             .subscribe({
                 next: () => {
@@ -77,7 +77,7 @@ export class AddEditComponent extends BaseForm implements OnInit {
     }
 
     private updateBroker(): void {
-        this.brokerService.update(this.id, this.form.value)
+        this.brokerService.updateBroker(this.id, this.form.value)
             .pipe(first())
             .subscribe({
                 next: () => {

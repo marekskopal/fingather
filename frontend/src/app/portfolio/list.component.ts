@@ -17,7 +17,7 @@ export class ListComponent implements OnInit {
     public async ngOnInit(): Promise<void> {
         this.defaultCurrency = await this.currencyService.getDefaultCurrency();
 
-        this.portfolioService.get()
+        this.portfolioService.getPortfolio()
             .pipe(first())
             .subscribe(portfolio => this.portfolio = portfolio);
     }

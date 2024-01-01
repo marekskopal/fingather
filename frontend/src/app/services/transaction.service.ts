@@ -13,32 +13,28 @@ export class TransactionService {
         private http: HttpClient
     ) {}
 
-    public create(transaction: Transaction): Observable<Transaction> {
+    public createTransaction(transaction: Transaction): Observable<Transaction> {
         return this.http.post<Transaction>(`${environment.apiUrl}/transaction`, transaction);
     }
 
-    public findAll(): Observable<Transaction[]> {
-        return this.http.get<Transaction[]>(`${environment.apiUrl}/transaction`);
-    }
-
-    public findByAssetId(assetId: number): Observable<Transaction[]> {
+    public getTransactions(assetId: number): Observable<Transaction[]> {
         const params = new HttpParams().set('assetId', assetId);
 
         return this.http.get<Transaction[]>(`${environment.apiUrl}/transaction`, {params});
     }
 
-    public getByUuid(id: number): Observable<Transaction> {
+    public getTransaction(id: number): Observable<Transaction> {
         return this.http.get<Transaction>(`${environment.apiUrl}/transaction/${id}`);
     }
 
-    public update(id: number, transaction: Transaction): Observable<Transaction> {
+    public updateTransaction(id: number, transaction: Transaction): Observable<Transaction> {
         return this.http.put<Transaction>(`${environment.apiUrl}/transaction/${id}`, transaction)
             .pipe(map(x => {
                 return x;
             }));
     }
 
-    public delete(id: number): Observable<OkResponse> {
+    public deleteTransaction(id: number): Observable<OkResponse> {
         return this.http.delete<OkResponse>(`${environment.apiUrl}/transaction/${id}`)
             .pipe(map(x => {
                 return x;

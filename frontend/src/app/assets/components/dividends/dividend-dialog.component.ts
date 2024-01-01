@@ -31,7 +31,7 @@ export class DividendDialogComponent extends BaseDialog implements OnInit {
 
         const currentDate = moment().format('YYYY-MM-DDTHH:mm');
 
-        this.brokerService.findAll()
+        this.brokerService.getBrokers()
             .pipe(first())
             .subscribe(brokers => {
                 this.brokers = brokers;
@@ -57,7 +57,7 @@ export class DividendDialogComponent extends BaseDialog implements OnInit {
         });
 
         if (!this.isAddMode) {
-            this.dividendService.getById(this.id)
+            this.dividendService.getDividend(this.id)
                 .pipe(first())
                 .subscribe(dividend => {
                     this.form.patchValue(dividend);
@@ -86,7 +86,7 @@ export class DividendDialogComponent extends BaseDialog implements OnInit {
     }
 
     private createDividend(): void {
-        this.dividendService.create(this.form.value)
+        this.dividendService.createDividend(this.form.value)
             .pipe(first())
             .subscribe({
                 next: () => {
@@ -102,7 +102,7 @@ export class DividendDialogComponent extends BaseDialog implements OnInit {
     }
 
     private updateDividend(): void {
-        this.dividendService.update(this.id, this.form.value)
+        this.dividendService.updateDividend(this.id, this.form.value)
             .pipe(first())
             .subscribe({
                 next: () => {

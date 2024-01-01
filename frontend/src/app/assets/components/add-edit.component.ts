@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import {Asset, Ticker} from "@app/models";
-import {AlertService, AssetService, AssetTickerService} from "@app/services";
+import {AlertService, AssetService, TickerService} from "@app/services";
 import {BaseForm} from "@app/shared/components/form/base-form";
 
 
@@ -17,7 +17,7 @@ export class AddEditComponent extends BaseForm implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private assetService: AssetService,
-        private assetTickerService: AssetTickerService,
+        private assetTickerService: TickerService,
         formBuilder: UntypedFormBuilder,
         alertService: AlertService,
     ) {
@@ -33,7 +33,7 @@ export class AddEditComponent extends BaseForm implements OnInit {
         });
 
         if (!this.isAddMode) {
-            this.assetService.getById(this.id)
+            this.assetService.getAsset(this.id)
                 .pipe(first())
                 .subscribe(x => this.form.patchValue(x));
         }
@@ -61,7 +61,7 @@ export class AddEditComponent extends BaseForm implements OnInit {
     private createAsset(): void {
         const formValues = this.form.value;
 
-        this.assetTickerService.getByTicker(formValues.ticker)
+        this.assetTickerService.getTicker(formValues.ticker)
             .subscribe(
               (data: Ticker) => {
                   this.assetTicker = { ...data }
@@ -69,7 +69,7 @@ export class AddEditComponent extends BaseForm implements OnInit {
                   const asset = new Asset();
                   asset.tickerId = this.assetTicker.id;
 
-                  this.assetService.create(asset)
+                  this.assetService.createAsset(asset)
                       .pipe(first())
                       .subscribe({
                           next: () => {
@@ -87,7 +87,7 @@ export class AddEditComponent extends BaseForm implements OnInit {
     }
 
     private updateAsset(): void {
-        this.assetService.update(this.id, this.form.value)
+        this.assetService.updateAsset(this.id, this.form.value)
             .pipe(first())
             .subscribe({
                 next: () => {

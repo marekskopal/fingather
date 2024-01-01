@@ -32,7 +32,7 @@ export class AddEditComponent extends BaseForm implements OnInit {
             assetIds: ['', Validators.required],
         });
 
-        this.assetService.findAll()
+        this.assetService.getAssets()
             .subscribe((assets) => {
                 this.assets = assets;
             });
@@ -43,7 +43,7 @@ export class AddEditComponent extends BaseForm implements OnInit {
             });
 
         if (!this.isAddMode) {
-            this.groupService.getById(this.id)
+            this.groupService.getGroup(this.id)
                 .pipe(first())
                 .subscribe(x => this.form.patchValue(x));
         }
@@ -69,7 +69,7 @@ export class AddEditComponent extends BaseForm implements OnInit {
     }
 
     private createGroup(): void {
-        this.groupService.create(this.form.value)
+        this.groupService.createGroup(this.form.value)
             .pipe(first())
             .subscribe({
                 next: () => {
@@ -85,7 +85,7 @@ export class AddEditComponent extends BaseForm implements OnInit {
     }
 
     private updateGroup(): void {
-        this.groupService.update(this.id, this.form.value)
+        this.groupService.updateGroup(this.id, this.form.value)
             .pipe(first())
             .subscribe({
                 next: () => {

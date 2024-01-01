@@ -24,7 +24,7 @@ export class ImportComponent extends BaseForm implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.brokerService.findAll()
+        this.brokerService.getBrokers()
             .pipe(first())
             .subscribe(brokers => this.brokers = brokers);
 
@@ -67,7 +67,7 @@ export class ImportComponent extends BaseForm implements OnInit {
     }
 
     private createImport(): void {
-        this.importDataService.create(this.form.value)
+        this.importDataService.createImportData(this.form.value)
             .pipe(first())
             .subscribe({
                 next: () => {

@@ -16,26 +16,26 @@ export class BrokerService extends NotifyService {
         super();
     }
 
-    public create(broker: Broker): Observable<Broker> {
+    public createBroker(broker: Broker): Observable<Broker> {
         return this.http.post<Broker>(`${environment.apiUrl}/broker`, broker);
     }
 
-    public findAll(): Observable<Broker[]> {
+    public getBrokers(): Observable<Broker[]> {
         return this.http.get<Broker[]>(`${environment.apiUrl}/broker`);
     }
 
-    public getByUuid(id: number): Observable<Broker> {
+    public getBroker(id: number): Observable<Broker> {
         return this.http.get<Broker>(`${environment.apiUrl}/broker/${id}`);
     }
 
-    public update(id: number, broker: Broker): Observable<Broker> {
+    public updateBroker(id: number, broker: Broker): Observable<Broker> {
         return this.http.put<Broker>(`${environment.apiUrl}/broker/${id}`, broker)
             .pipe(map(x => {
                 return x;
             }));
     }
 
-    public delete(id: number): Observable<OkResponse> {
+    public deleteBroker(id: number): Observable<OkResponse> {
         return this.http.delete<OkResponse>(`${environment.apiUrl}/broker/${id}`)
             .pipe(map(x => {
                 return x;

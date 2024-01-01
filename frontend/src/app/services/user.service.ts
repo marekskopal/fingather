@@ -15,26 +15,26 @@ export class UserService {
     ) {
     }
 
-    public create(user: User): Observable<User> {
+    public createUser(user: User): Observable<User> {
         return this.http.post<User>(`${environment.apiUrl}/admin/user`, user);
     }
 
-    public getAll(): Observable<User[]> {
+    public getUsers(): Observable<User[]> {
         return this.http.get<User[]>(`${environment.apiUrl}/admin/user`);
     }
 
-    public getById(id: number): Observable<User> {
+    public getUser(id: number): Observable<User> {
         return this.http.get<User>(`${environment.apiUrl}/admin/user/${id}`);
     }
 
-    public update(id: number, user: User): Observable<User> {
+    public updateUser(id: number, user: User): Observable<User> {
         return this.http.put<User>(`${environment.apiUrl}/admin/user/${id}`, user)
             .pipe(map(x => {
                 return x;
             }));
     }
 
-    public delete(id: number): Observable<OkResponse> {
+    public deleteUser(id: number): Observable<OkResponse> {
         return this.http.delete<OkResponse>(`${environment.apiUrl}/admin/user/${id}`)
             .pipe(map(x => {
                 // auto logout if the logged in user deleted their own record
