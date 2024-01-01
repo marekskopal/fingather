@@ -17,7 +17,7 @@ export class DetailComponent implements OnInit {
     public ngOnInit(): void {
         this.id = this.route.snapshot.params['id'];
 
-        this.assetService.getById(this.id)
+        this.assetService.getAsset(this.id)
             .pipe(first())
             .subscribe(asset => this.asset = asset);
     }

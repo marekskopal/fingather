@@ -53,7 +53,7 @@ export class AddEditComponent extends BaseForm implements OnInit {
         });
 
         if (!this.isAddMode) {
-            this.userService.getById(this.id)
+            this.userService.getUser(this.id)
                 .pipe(first())
                 .subscribe(x => this.form.patchValue(x));
         }
@@ -79,7 +79,7 @@ export class AddEditComponent extends BaseForm implements OnInit {
     }
 
     private createUser(): void {
-        this.userService.create(this.form.value)
+        this.userService.createUser(this.form.value)
             .pipe(first())
             .subscribe({
                 next: () => {
@@ -94,7 +94,7 @@ export class AddEditComponent extends BaseForm implements OnInit {
     }
 
     private updateUser(): void {
-        this.userService.update(this.id, this.form.value)
+        this.userService.updateUser(this.id, this.form.value)
             .pipe(first())
             .subscribe({
                 next: () => {

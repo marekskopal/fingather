@@ -16,21 +16,17 @@ export class DividendService extends NotifyService {
         super();
     }
 
-    public create(dividend: Dividend): Observable<Dividend> {
+    public createDividend(dividend: Dividend): Observable<Dividend> {
         return this.http.post<Dividend>(`${environment.apiUrl}/dividend`, dividend);
     }
 
-    public findAll(): Observable<Dividend[]> {
-        return this.http.get<Dividend[]>(`${environment.apiUrl}/dividend`);
-    }
-
-    public findByAssetId(assetId: number): Observable<Dividend[]> {
+    public getDividends(assetId: number): Observable<Dividend[]> {
         const params = new HttpParams().set('assetId', assetId);
 
         return this.http.get<Dividend[]>(`${environment.apiUrl}/dividend`, {params});
     }
 
-    public getById(id: number): Observable<Dividend> {
+    public getDividend(id: number): Observable<Dividend> {
         return this.http.get<Dividend>(`${environment.apiUrl}/dividend/${id}`)
             .pipe(map(dividend => {
                 dividend.paidDate = new Date(String(dividend.paidDate));
@@ -39,14 +35,14 @@ export class DividendService extends NotifyService {
             ))
     }
 
-    public update(id: number, dividend: Dividend): Observable<Dividend> {
+    public updateDividend(id: number, dividend: Dividend): Observable<Dividend> {
         return this.http.put<Dividend>(`${environment.apiUrl}/dividend/${id}`, dividend)
             .pipe(map(x => {
                 return x;
             }));
     }
 
-    public delete(id: number): Observable<OkResponse> {
+    public deleteDividend(id: number): Observable<OkResponse> {
         return this.http.delete<OkResponse>(`${environment.apiUrl}/dividend/${id}`)
             .pipe(map(x => {
                 return x;

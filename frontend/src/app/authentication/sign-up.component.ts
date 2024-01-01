@@ -39,7 +39,7 @@ export class SignUpComponent extends BaseForm implements OnInit {
         }
 
         this.loading = true;
-        this.userService.create(this.form.value)
+        this.userService.createUser(this.form.value)
             .pipe(first())
             .subscribe({
                 next: () => {

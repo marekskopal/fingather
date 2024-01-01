@@ -20,7 +20,7 @@ export class ListComponent implements OnInit {
     public async ngOnInit(): Promise<void> {
         this.defaultCurrency = await this.currencyService.getDefaultCurrency();
 
-        this.assetService.findAll()
+        this.assetService.getAssets()
             .pipe(first())
             .subscribe(assets => this.assets = assets);
     }
@@ -30,7 +30,7 @@ export class ListComponent implements OnInit {
     }
 
     public deleteAsset(id: number): void {
-        this.assetService.delete(id)
+        this.assetService.deleteAsset(id)
             .pipe(first())
             .subscribe(() => this.assets = this.assets !== null ? this.assets.filter(x => x.id !== id) : null);
     }

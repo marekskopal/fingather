@@ -12,7 +12,7 @@ export class ImportDataService {
         private http: HttpClient
     ) {}
 
-    public create(importData: ImportData): Observable<OkResponse> {
+    public createImportData(importData: ImportData): Observable<OkResponse> {
         return this.http.post<OkResponse>(`${environment.apiUrl}/import-data`, importData);
     }
 }

@@ -13,26 +13,26 @@ export class AssetService {
         private http: HttpClient
     ) {}
 
-    public create(asset: Asset): Observable<Asset> {
+    public createAsset(asset: Asset): Observable<Asset> {
         return this.http.post<Asset>(`${environment.apiUrl}/asset`, asset);
     }
 
-    public findAll(): Observable<Asset[]> {
+    public getAssets(): Observable<Asset[]> {
         return this.http.get<Asset[]>(`${environment.apiUrl}/asset`);
     }
 
-    public getById(id: number): Observable<Asset> {
+    public getAsset(id: number): Observable<Asset> {
         return this.http.get<Asset>(`${environment.apiUrl}/asset/${id}`);
     }
 
-    public update(id: number, asset: Asset): Observable<Asset> {
+    public updateAsset(id: number, asset: Asset): Observable<Asset> {
         return this.http.put<Asset>(`${environment.apiUrl}/asset/${id}`, asset)
             .pipe(map(x => {
                 return x;
             }));
     }
 
-    public delete(id: number): Observable<OkResponse> {
+    public deleteAsset(id: number): Observable<OkResponse> {
         return this.http.delete<OkResponse>(`${environment.apiUrl}/asset/${id}`)
             .pipe(map(x => {
                 return x;

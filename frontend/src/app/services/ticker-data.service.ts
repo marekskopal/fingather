@@ -11,7 +11,7 @@ export class TickerDataService {
         private http: HttpClient
     ) {}
 
-    public findLastYear(assetTickerId: number): Observable<TickerData[]> {
+    public getTickerDatas(assetTickerId: number): Observable<TickerData[]> {
         return this.http.get<TickerData[]>(`${environment.apiUrl}/ticker-data/${assetTickerId}`);
     }
 }

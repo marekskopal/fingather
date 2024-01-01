@@ -11,7 +11,7 @@ export class ListComponent implements OnInit {
     public constructor(private userService: UserService) {}
 
     public ngOnInit(): void {
-        this.userService.getAll()
+        this.userService.getUsers()
             .pipe(first())
             .subscribe(users => this.users = users);
     }
@@ -22,7 +22,7 @@ export class ListComponent implements OnInit {
             return;
         }
         user.isDeleting = true;
-        this.userService.delete(id)
+        this.userService.deleteUser(id)
             .pipe(first())
             .subscribe(() => this.users = this.users.filter(x => x.id !== id));
     }

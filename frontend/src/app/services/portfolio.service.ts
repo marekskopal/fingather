@@ -11,7 +11,7 @@ export class PortfolioService {
         private http: HttpClient
     ) {}
 
-    public get(): Observable<Portfolio> {
+    public getPortfolio(): Observable<Portfolio> {
         return this.http.get<Portfolio>(`${environment.apiUrl}/portfolio`);
     }
 }

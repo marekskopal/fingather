@@ -46,7 +46,7 @@ export class TransactionDialogComponent extends BaseForm implements OnInit {
 
         const currentDate = moment().format('YYYY-MM-DDTHH:mm');
 
-        this.brokerService.findAll()
+        this.brokerService.getBrokers()
             .pipe(first())
             .subscribe(brokers => this.brokers = brokers);
 
@@ -60,7 +60,7 @@ export class TransactionDialogComponent extends BaseForm implements OnInit {
         });
 
         if (!this.isAddMode) {
-            this.transactionService.getByUuid(this.id)
+            this.transactionService.getTransaction(this.id)
                 .pipe(first())
                 .subscribe(x => this.form.patchValue(x));
         }
@@ -86,7 +86,7 @@ export class TransactionDialogComponent extends BaseForm implements OnInit {
     }
 
     private createTransaction(): void {
-        this.transactionService.create(this.form.value)
+        this.transactionService.createTransaction(this.form.value)
             .pipe(first())
             .subscribe({
                 next: () => {
@@ -101,7 +101,7 @@ export class TransactionDialogComponent extends BaseForm implements OnInit {
     }
 
     private updateTransaction(): void {
-        this.transactionService.update(this.id, this.form.value)
+        this.transactionService.updateTransaction(this.id, this.form.value)
             .pipe(first())
             .subscribe({
                 next: () => {

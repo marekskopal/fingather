@@ -29,7 +29,7 @@ export class AssetTickerChartComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.assetTickerDataService.findLastYear(parseInt(this.assetTickerId))
+        this.assetTickerDataService.getTickerDatas(parseInt(this.assetTickerId))
             .pipe(first())
             .subscribe(assetTickerDatas => {
                 this.chartOptions.series = [{

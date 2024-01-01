@@ -16,15 +16,15 @@ export class GroupService extends NotifyService {
         super();
     }
 
-    public create(group: Group): Observable<Group> {
+    public createGroup(group: Group): Observable<Group> {
         return this.http.post<Group>(`${environment.apiUrl}/group`, group);
     }
 
-    public findAll(): Observable<Group[]> {
+    public getGroups(): Observable<Group[]> {
         return this.http.get<Group[]>(`${environment.apiUrl}/group`);
     }
 
-    public getById(id: number): Observable<Group> {
+    public getGroup(id: number): Observable<Group> {
         return this.http.get<Group>(`${environment.apiUrl}/group/${id}`);
     }
 
@@ -32,14 +32,14 @@ export class GroupService extends NotifyService {
         return this.http.get<Group>(`${environment.apiUrl}/group/others`);
     }
 
-    public update(id: number, group: Group): Observable<Group> {
+    public updateGroup(id: number, group: Group): Observable<Group> {
         return this.http.put<Group>(`${environment.apiUrl}/group/${id}`, group)
             .pipe(map(x => {
                 return x;
             }));
     }
 
-    public delete(id: number): Observable<OkResponse> {
+    public deleteGroup(id: number): Observable<OkResponse> {
         return this.http.delete<OkResponse>(`${environment.apiUrl}/group/${id}`)
             .pipe(map(x => {
                 return x;

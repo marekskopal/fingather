@@ -23,7 +23,7 @@ export class DividendListComponent implements OnInit, OnDestroy {
     public ngOnInit(): void {
         this.assetId = this.route.snapshot.params['id'];
 
-        this.dividendService.findByAssetId(this.assetId)
+        this.dividendService.getDividends(this.assetId)
             .pipe(first())
             .subscribe(dividends => this.dividends = dividends);
 
@@ -52,7 +52,7 @@ export class DividendListComponent implements OnInit, OnDestroy {
             return;
         }
         dividend.isDeleting = true;
-        this.dividendService.delete(id)
+        this.dividendService.deleteDividend(id)
             .pipe(first())
             .subscribe(() => this.dividends = this.dividends !== null ? this.dividends.filter(x => x.id !== id) : null);
     }

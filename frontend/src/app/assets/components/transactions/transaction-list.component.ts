@@ -24,7 +24,7 @@ export class TransactionListComponent implements OnInit {
     public ngOnInit(): void {
         this.assetId = this.route.snapshot.params['id'];
 
-        this.transactionService.findByAssetId(this.assetId)
+        this.transactionService.getTransactions(this.assetId)
             .pipe(first())
             .subscribe(transactions => this.transactions = transactions);
     }
@@ -39,7 +39,7 @@ export class TransactionListComponent implements OnInit {
             return;
         }
         transaction.isDeleting = true;
-        this.transactionService.delete(id)
+        this.transactionService.deleteTransaction(id)
             .pipe(first())
             .subscribe(() => this.transactions = this.transactions !== null ? this.transactions.filter(x => x.id !== id) : null);
     }

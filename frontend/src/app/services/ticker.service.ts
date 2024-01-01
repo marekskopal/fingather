@@ -6,14 +6,14 @@ import { Ticker } from '@app/models';
 import {Observable} from "rxjs";
 
 @Injectable({ providedIn: 'root' })
-export class AssetTickerService {
+export class TickerService {
     public constructor(
         private http: HttpClient
     ) {}
 
-    public getByTicker(ticker: string): Observable<Ticker> {
+    public getTicker(ticker: string): Observable<Ticker> {
         const params = new HttpParams().set('ticker', ticker);
 
-        return this.http.get<Ticker>(`${environment.apiUrl}/assetticker`, {params});
+        return this.http.get<Ticker>(`${environment.apiUrl}/ticker`, {params});
     }
 }

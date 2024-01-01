@@ -16,7 +16,7 @@ export class ListComponent implements OnInit, OnDestroy {
     ) {}
 
     public ngOnInit(): void {
-        this.groupService.findAll()
+        this.groupService.getGroups()
             .pipe(first())
             .subscribe(groups => this.groups = groups);
 
@@ -44,7 +44,7 @@ export class ListComponent implements OnInit, OnDestroy {
             return
         }
         group.isDeleting = true;
-        this.groupService.delete(id)
+        this.groupService.deleteGroup(id)
             .pipe(first())
             .subscribe(() => this.groups = this.groups !== null ? this.groups.filter(x => x.id !== id) : null);
     }
