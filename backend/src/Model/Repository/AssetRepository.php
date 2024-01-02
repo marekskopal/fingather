@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Model\Repository;
 
 use FinGather\Model\Entity\Asset;
+use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use Safe\DateTimeImmutable;
 
 /** @extends ARepository<Asset> */
@@ -18,7 +19,8 @@ class AssetRepository extends ARepository
 			->select('asset_id')
 			->from('transactions')
 			->where('user_id', $userId)
-			->where('created', '<=', $dateTime)
+			->where('action_created', '<=', $dateTime)
+			->where('action_type', 'in', [TransactionActionTypeEnum::Buy->value, TransactionActionTypeEnum::Sell->value])
 			->groupBy('asset_id')
 			->having('SUM(units)', '>', 0);
 
@@ -37,7 +39,8 @@ class AssetRepository extends ARepository
 			->select('asset_id')
 			->from('transactions')
 			->where('user_id', $userId)
-			->where('created', '<=', $dateTime)
+			->where('action_created', '<=', $dateTime)
+			->where('action_type', 'in', [TransactionActionTypeEnum::Buy->value, TransactionActionTypeEnum::Sell->value])
 			->groupBy('asset_id')
 			->having('SUM(units)', '>', 0);
 

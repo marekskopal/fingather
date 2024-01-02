@@ -20,18 +20,24 @@ class Transaction extends AEntity
 		private Asset $asset,
 		#[RefersTo(target: Broker::class)]
 		private Broker $broker,
-		#[Column(type: 'enum(Undefined,Buy,Sell)')]
+		#[Column(type: 'enum(Undefined,Buy,Sell,Dividend)')]
 		private string $actionType,
 		#[Column(type: 'timestamp')]
+		private DateTimeImmutable $actionCreated,
+		#[Column(type: 'enum(Manual,Import)', default: 'Manual')]
+		private string $createType,
+		#[Column(type: 'timestamp')]
 		private DateTimeImmutable $created,
+		#[Column(type: 'timestamp')]
+		private DateTimeImmutable $modified,
 		#[Column(type: 'decimal(18,8)')]
 		private string $units,
 		#[Column(type: 'decimal(9,2)')]
-		private string $priceUnit,
+		private string $price,
 		#[RefersTo(target: Currency::class)]
 		private Currency $currency,
 		#[Column(type: 'decimal(9,2)')]
-		private string $feeConversion,
+		private string $tax,
 		#[Column(type: 'tinyText', nullable: true)]
 		private ?string $notes,
 		#[Column(type: 'string', nullable: true)]
@@ -79,6 +85,26 @@ class Transaction extends AEntity
 		$this->actionType = $actionType;
 	}
 
+	public function getActionCreated(): DateTimeImmutable
+	{
+		return $this->actionCreated;
+	}
+
+	public function setActionCreated(DateTimeImmutable $actionCreated): void
+	{
+		$this->actionCreated = $actionCreated;
+	}
+
+	public function getCreateType(): string
+	{
+		return $this->createType;
+	}
+
+	public function setCreateType(string $createType): void
+	{
+		$this->createType = $createType;
+	}
+
 	public function getCreated(): DateTimeImmutable
 	{
 		return $this->created;
@@ -87,6 +113,16 @@ class Transaction extends AEntity
 	public function setCreated(DateTimeImmutable $created): void
 	{
 		$this->created = $created;
+	}
+
+	public function getModified(): DateTimeImmutable
+	{
+		return $this->modified;
+	}
+
+	public function setModified(DateTimeImmutable $modified): void
+	{
+		$this->modified = $modified;
 	}
 
 	public function getUnits(): string
@@ -99,14 +135,14 @@ class Transaction extends AEntity
 		$this->units = $units;
 	}
 
-	public function getPriceUnit(): string
+	public function getPrice(): string
 	{
-		return $this->priceUnit;
+		return $this->price;
 	}
 
-	public function setPriceUnit(string $priceUnit): void
+	public function setPrice(string $price): void
 	{
-		$this->priceUnit = $priceUnit;
+		$this->price = $price;
 	}
 
 	public function getCurrency(): Currency
@@ -119,14 +155,14 @@ class Transaction extends AEntity
 		$this->currency = $currency;
 	}
 
-	public function getFeeConversion(): string
+	public function getTax(): string
 	{
-		return $this->feeConversion;
+		return $this->tax;
 	}
 
-	public function setFeeConversion(string $feeConversion): void
+	public function setTax(string $tax): void
 	{
-		$this->feeConversion = $feeConversion;
+		$this->tax = $tax;
 	}
 
 	public function getNotes(): ?string

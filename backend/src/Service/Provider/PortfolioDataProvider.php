@@ -10,6 +10,7 @@ use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\PortfolioDataRepository;
 use FinGather\Service\DataCalculator\DataCalculator;
 use Safe\DateTimeImmutable;
+use function ray;
 
 class PortfolioDataProvider
 {
@@ -40,7 +41,7 @@ class PortfolioDataProvider
 
 			$assetDtos[] = AssetDto::fromEntity($asset, $assetProperties);
 		}
-
+		ray($assetDtos);
 		$calculatedData = $this->dataCalculator->calculate($user, $dateTime, $assetDtos);
 
 		$portfolioData = new PortfolioData(

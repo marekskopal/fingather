@@ -6,11 +6,11 @@ namespace FinGather\Service\Provider;
 
 use Decimal\Decimal;
 use FinGather\Model\Entity\Asset;
+use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Group;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\AssetRepository;
 use FinGather\Model\Repository\SplitRepository;
-use FinGather\Model\Repository\TransactionRepository;
 use FinGather\Service\Provider\Dto\AssetPropertiesDto;
 use Safe\DateTimeImmutable;
 
@@ -18,11 +18,10 @@ class AssetProvider
 {
 	public function __construct(
 		private readonly AssetRepository $assetRepository,
-		private readonly TransactionRepository $transactionRepository,
+		private readonly TransactionProvider $transactionProvider,
 		private readonly SplitRepository $splitRepository,
 		private readonly TickerDataProvider $tickerDataProvider,
 		private readonly ExchangeRateProvider $exchangeRateProvider,
-		private readonly DividendProvider $dividendProvider,
 	) {
 	}
 
@@ -45,7 +44,7 @@ class AssetProvider
 
 	public function getAssetProperties(User $user, Asset $asset, DateTimeImmutable $dateTime): ?AssetPropertiesDto
 	{
-		$transactions = $this->transactionRepository->findAssetTransactions($user->getId(), $asset->getId(), $dateTime);
+		$transactions = $this->transactionProvider->getAssetTransactions($user, $asset, $dateTime);
 		if (count($transactions) === 0) {
 			return null;
 		}
@@ -55,20 +54,33 @@ class AssetProvider
 		$transactionValue = new Decimal(0);
 		$transactionValueDefaultCurrency = new Decimal(0);
 		$units = new Decimal(0);
+		$dividendTotal = new Decimal(0);
 
 		$tickerCurrency = $asset->getTicker()->getCurrency();
 
 		foreach ($transactions as $transaction) {
+			if (TransactionActionTypeEnum::from($transaction->getActionType()) === TransactionActionTypeEnum::Dividend) {
+				$dividendExchangeRate = $this->exchangeRateProvider->getExchangeRate(
+					DateTimeImmutable::createFromRegular($transaction->getActionCreated())->setTime(0, 0),
+					$transaction->getCurrency(),
+					$tickerCurrency,
+				);
+
+				$dividendTotal = $dividendTotal->add((new Decimal($transaction->getPrice()))->mul($dividendExchangeRate->getRate()));
+
+				continue;
+			}
+
 			$splitFactor = new Decimal(1);
 
 			foreach ($splits as $split) {
-				if ($split->getDate() >= $transaction->getCreated() && $split->getDate() <= $dateTime) {
+				if ($split->getDate() >= $transaction->getActionCreated() && $split->getDate() <= $dateTime) {
 					$splitFactor = $splitFactor->mul(new Decimal($split->getFactor()));
 				}
 			}
 
 			$transactionUnits = (new Decimal($transaction->getUnits()))->mul($splitFactor);
-			$transactionPriceUnit = (new Decimal($transaction->getPriceUnit()))->div($splitFactor);
+			$transactionPriceUnit = (new Decimal($transaction->getPrice()))->div($splitFactor);
 
 			$units = $units->add($transactionUnits);
 
@@ -84,7 +96,7 @@ class AssetProvider
 
 			if ($tickerCurrency->getId() !== $transaction->getCurrency()->getId()) {
 				$transactionExchangeRate = $this->exchangeRateProvider->getExchangeRate(
-					DateTimeImmutable::createFromRegular($transaction->getCreated())->setTime(0, 0),
+					DateTimeImmutable::createFromRegular($transaction->getActionCreated())->setTime(0, 0),
 					$transaction->getCurrency(),
 					$tickerCurrency,
 				);
@@ -95,7 +107,7 @@ class AssetProvider
 			$transactionValue = $transactionValue->add($transactionSum);
 
 			$transactionExchangeRateDefaultCurrency = $this->exchangeRateProvider->getExchangeRate(
-				DateTimeImmutable::createFromRegular($transaction->getCreated())->setTime(0, 0),
+				DateTimeImmutable::createFromRegular($transaction->getActionCreated())->setTime(0, 0),
 				$tickerCurrency,
 				$user->getDefaultCurrency(),
 			);
@@ -103,18 +115,6 @@ class AssetProvider
 			$transactionValueDefaultCurrency = $transactionValueDefaultCurrency->add(
 				$transactionSum->mul($transactionExchangeRateDefaultCurrency->getRate())
 			);
-		}
-
-		$dividendTotal = new Decimal(0);
-		$dividends = $this->dividendProvider->getAssetDividends($user, $asset, $dateTime);
-		foreach ($dividends as $dividend) {
-			$dividendExchangeRate = $this->exchangeRateProvider->getExchangeRate(
-				DateTimeImmutable::createFromRegular($dividend->getPaidDate())->setTime(0, 0),
-				$dividend->getCurrency(),
-				$tickerCurrency,
-			);
-
-			$dividendTotal = $dividendTotal->add((new Decimal($dividend->getPriceNet()))->mul($dividendExchangeRate->getRate()));
 		}
 
 		$price = new Decimal(0);
@@ -135,11 +135,18 @@ class AssetProvider
 		$value = $units->mul($price);
 		$gain = $value->sub($transactionValue);
 		$gainDefaultCurrency = $gain->mul($exchangeRateDecimal);
-		$gainPercentage = round(($gain->div($transactionValue)->mul(100))->toFloat(), 2);
 		$dividendGainDefaultCurrency = $dividendTotal->mul($exchangeRateDecimal);
-		$dividendGainPercentage = round(($dividendTotal->div($transactionValue)->mul(100))->toFloat(), 2);
 		$fxImpact = $transactionValue->mul($exchangeRateDecimal)->sub($transactionValueDefaultCurrency);
-		$fxImpactPercentage = round(($fxImpact->div($transactionValueDefaultCurrency)->mul(100))->toFloat(), 2);
+
+		if ($transactionValue->compareTo(0) === 0) {
+			$gainPercentage = 0.0;
+			$dividendGainPercentage = 0.0;
+			$fxImpactPercentage = 0.0;
+		} else {
+			$gainPercentage = round(($gain->div($transactionValue)->mul(100))->toFloat(), 2);
+			$dividendGainPercentage = round(($dividendTotal->div($transactionValue)->mul(100))->toFloat(), 2);
+			$fxImpactPercentage = round(($fxImpact->div($transactionValueDefaultCurrency)->mul(100))->toFloat(), 2);
+		}
 
 		return new AssetPropertiesDto(
 			price: $price,

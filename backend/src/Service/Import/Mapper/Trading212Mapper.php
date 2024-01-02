@@ -6,7 +6,7 @@ namespace FinGather\Service\Import\Mapper;
 
 class Trading212Mapper implements MapperInterface
 {
-	/** @return array<string, string> */
+	/** @return array<string, string|callable> */
 	public function getCsvMapping(): array
 	{
 		return [
@@ -14,12 +14,15 @@ class Trading212Mapper implements MapperInterface
 			'created' => 'Time',
 			'ticker' => 'Ticker',
 			'units' => 'No. of shares',
-			'priceUnit' => 'Price / share',
-			'currency' => 'Currency (Price / share)',
-			'feeConversion' => 'Currency conversion fee',
-			'importIdentifier' => 'ID',
-			'dividendPrice' => 'Total',
-			'dividendCurrency' => 'Currency (Total)',
+			'price' => fn (array $record): string => str_starts_with(
+				$record['Action'],
+				'Dividend'
+			) ? $record['Total'] : $record['Price / share'],
+			'currency' => fn (array $record): string => str_starts_with(
+				$record['Action'],
+				'Dividend'
+			) ? $record['Currency (Total)'] : $record['Currency (Price / share)'],
+			'tax' => 'Currency conversion fee',
 		];
 	}
 

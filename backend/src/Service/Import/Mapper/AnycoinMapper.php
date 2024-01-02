@@ -19,7 +19,7 @@ class AnycoinMapper implements MapperInterface
 			),
 			'ticker' => fn (array $record): string => substr($record['SYMBOL'], 0, 3),
 			'units' => 'QUANTY',
-			'priceUnit' => 'PRICE',
+			'price' => 'PRICE',
 			'currency' => fn (array $record): string => substr($record['SYMBOL'], 4, 3),
 			'importIdentifier' => 'UID',
 		];

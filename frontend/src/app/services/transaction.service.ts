@@ -3,22 +3,42 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
 import { environment } from '@environments/environment';
-import { Transaction } from '@app/models';
+import {Transaction, TransactionActionType} from '@app/models';
 import {Observable} from "rxjs";
 import {OkResponse} from "@app/models/ok-response";
+import {NotifyService} from "@app/services/notify-service";
 
 @Injectable({ providedIn: 'root' })
-export class TransactionService {
+export class TransactionService extends NotifyService {
     public constructor(
         private http: HttpClient
-    ) {}
+    ) {
+        super();
+    }
 
     public createTransaction(transaction: Transaction): Observable<Transaction> {
         return this.http.post<Transaction>(`${environment.apiUrl}/transaction`, transaction);
     }
 
-    public getTransactions(assetId: number): Observable<Transaction[]> {
+    public getTransactions(
+        assetId: number,
+        actionTypes: TransactionActionType[]|null,
+        limit: number|null = null,
+        offset: number|null = null,
+    ): Observable<Transaction[]> {
         const params = new HttpParams().set('assetId', assetId);
+
+        if (actionTypes !== null) {
+            params.set('actionTypes', actionTypes.join('|'));
+        }
+
+        if (limit !== null) {
+            params.set('limit', limit);
+        }
+
+        if (offset !== null) {
+            params.set('offset', offset);
+        }
 
         return this.http.get<Transaction[]>(`${environment.apiUrl}/transaction`, {params});
     }

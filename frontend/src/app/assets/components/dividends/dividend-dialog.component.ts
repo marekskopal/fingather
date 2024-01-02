@@ -6,7 +6,7 @@ import * as moment from "moment";
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { BaseDialog } from '../../../shared/components/dialog/base-dialog';
 import {Broker, Currency} from "@app/models";
-import {AlertService, BrokerService, CurrencyService, DividendService} from "@app/services";
+import {AlertService, BrokerService, CurrencyService, TransactionService} from "@app/services";
 
 @Component({ templateUrl: 'dividend-dialog.component.html' })
 export class DividendDialogComponent extends BaseDialog implements OnInit {
@@ -16,7 +16,7 @@ export class DividendDialogComponent extends BaseDialog implements OnInit {
     public currencies: Map<number, Currency>;
 
     public constructor(
-        private dividendService: DividendService,
+        private transactionService: TransactionService,
         private brokerService: BrokerService,
         private currencyService: CurrencyService,
         formBuilder: UntypedFormBuilder,
@@ -57,11 +57,11 @@ export class DividendDialogComponent extends BaseDialog implements OnInit {
         });
 
         if (!this.isAddMode) {
-            this.dividendService.getDividend(this.id)
+            this.transactionService.getTransaction(this.id)
                 .pipe(first())
                 .subscribe(dividend => {
                     this.form.patchValue(dividend);
-                    this.f['paidDate'].patchValue(moment(dividend.paidDate).format('YYYY-MM-DDTHH:mm'));
+                    this.f['paidDate'].patchValue(moment(dividend.actionCreated).format('YYYY-MM-DDTHH:mm'));
                 });
         }
     }
@@ -86,13 +86,13 @@ export class DividendDialogComponent extends BaseDialog implements OnInit {
     }
 
     private createDividend(): void {
-        this.dividendService.createDividend(this.form.value)
+        this.transactionService.createTransaction(this.form.value)
             .pipe(first())
             .subscribe({
                 next: () => {
                     this.alertService.success('Asset added successfully', { keepAfterRouteChange: true });
                     this.activeModal.dismiss();
-                    this.dividendService.notify();
+                    this.transactionService.notify();
                 },
                 error: error => {
                     this.alertService.error(error);
@@ -102,13 +102,13 @@ export class DividendDialogComponent extends BaseDialog implements OnInit {
     }
 
     private updateDividend(): void {
-        this.dividendService.updateDividend(this.id, this.form.value)
+        this.transactionService.updateTransaction(this.id, this.form.value)
             .pipe(first())
             .subscribe({
                 next: () => {
                     this.alertService.success('Update successful', { keepAfterRouteChange: true });
                     this.activeModal.dismiss();
-                    this.dividendService.notify();
+                    this.transactionService.notify();
                 },
                 error: error => {
                     this.alertService.error(error);

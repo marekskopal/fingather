@@ -14,13 +14,11 @@ readonly class TransactionRecord
 		public ?string $actionType = null,
 		public ?DateTimeImmutable $created = null,
 		public ?Decimal $units = null,
-		public ?Decimal $priceUnit = null,
+		public ?Decimal $price = null,
 		public ?string $currency = null,
-		public ?Decimal $feeConversion = null,
+		public ?Decimal $tax = null,
 		public ?string $notes = null,
 		public ?string $importIdentifier = null,
-		public ?Decimal $dividendPrice = null,
-		public ?string $dividendCurrency = null,
 	) {
 	}
 }

@@ -4,7 +4,7 @@ import { first } from 'rxjs/operators';
 import {ActivatedRoute} from "@angular/router";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TransactionDialogComponent } from './transaction-dialog.component';
-import {Transaction} from "@app/models";
+import {Transaction, TransactionActionType} from "@app/models";
 import {TransactionService} from "@app/services";
 
 @Component({
@@ -24,7 +24,7 @@ export class TransactionListComponent implements OnInit {
     public ngOnInit(): void {
         this.assetId = this.route.snapshot.params['id'];
 
-        this.transactionService.getTransactions(this.assetId)
+        this.transactionService.getTransactions(this.assetId, [TransactionActionType.Dividend])
             .pipe(first())
             .subscribe(transactions => this.transactions = transactions);
     }
