@@ -11,16 +11,24 @@ use Safe\DateTimeImmutable;
 class TransactionRepository extends ARepository
 {
 	/** @return array<int,Transaction> */
-	public function findTransactions(int $userId, ?DateTimeImmutable $dateTime = null): array
+	public function findTransactions(int $userId, ?DateTimeImmutable $dateTime = null, ?int $limit = null, ?int $offset = null): array
 	{
-		$assetTransactions = $this->select()
+		$transactions = $this->select()
 			->where('user_id', $userId);
 
 		if ($dateTime !== null) {
-			$assetTransactions->where('created', '<=', $dateTime);
+			$transactions->where('created', '<=', $dateTime);
 		}
 
-		return $assetTransactions->fetchAll();
+		if ($limit !== null) {
+			$transactions->limit($limit);
+		}
+
+		if ($offset !== null) {
+			$transactions->offset($offset);
+		}
+
+		return $transactions->fetchAll();
 	}
 
 	/** @return array<int,Transaction> */

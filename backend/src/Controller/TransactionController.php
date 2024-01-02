@@ -19,24 +19,27 @@ class TransactionController
 		private readonly TransactionProvider $transactionProvider,
 		private readonly AssetProvider $assetProvider,
 		private readonly RequestService $requestService
-	)
-	{
+	) {
 	}
 
 	public function actionGetTransactions(ServerRequestInterface $request): ResponseInterface
 	{
+		/** @var array{assetId?: string, limit?: string, offset?: string} */
 		$queryParams = $request->getQueryParams();
 
 		$user = $this->requestService->getUser($request);
 
-		$assetId = $queryParams['assetId'] ?? null ? (int) $queryParams['assetId'] : null;
+		$assetId = ($queryParams['assetId'] ?? null) !== null ? (int) $queryParams['assetId'] : null;
 		$asset = $assetId !== null ?
 			$this->assetProvider->getAsset($user, $assetId) :
 			null;
 
+		$limit = ($queryParams['limit'] ?? null) !== null ? (int) $queryParams['limit'] : null;
+		$offset = ($queryParams['offset'] ?? null) !== null ? (int) $queryParams['offset'] : null;
+
 		$transactions = $asset !== null ?
 			$this->transactionProvider->getAssetTransactions($user, $asset) :
-			$this->transactionProvider->getTransactions($user);
+			$this->transactionProvider->getTransactions($user, null, $limit, $offset);
 
 		$transactionDtos = array_map(
 			fn (Transaction $transaction): TransactionDto => TransactionDto::fromEntity($transaction),

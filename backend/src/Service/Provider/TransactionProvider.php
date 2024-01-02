@@ -17,9 +17,9 @@ class TransactionProvider
 	}
 
 	/** @return array<Transaction> */
-	public function getTransactions(User $user, ?DateTimeImmutable $dateTime = null): array
+	public function getTransactions(User $user, ?DateTimeImmutable $dateTime = null, ?int $limit = null, ?int $offset = null): array
 	{
-		return $this->transactionRepository->findTransactions($user->getId(), $dateTime);
+		return $this->transactionRepository->findTransactions($user->getId(), $dateTime, $limit, $offset);
 	}
 
 	/** @return array<Transaction> */
