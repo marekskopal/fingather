@@ -14,7 +14,7 @@ class RevolutMapper implements MapperInterface
 			'created' => 'Date',
 			'ticker' => 'Ticker',
 			'units' => 'Quantity',
-			'priceUnit' => 'Price per share',
+			'price' => 'Price per share',
 			'currency' => 'Currency',
 			'total' => 'Total Amount',
 		];

@@ -8,13 +8,12 @@ use Decimal\Decimal;
 use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Broker;
 use FinGather\Model\Entity\Currency;
-use FinGather\Model\Entity\Dividend;
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
+use FinGather\Model\Entity\Enum\TransactionCreateTypeEnum;
 use FinGather\Model\Entity\Transaction;
 use FinGather\Model\Repository\AssetRepository;
 use FinGather\Model\Repository\CurrencyRepository;
-use FinGather\Model\Repository\DividendRepository;
 use FinGather\Model\Repository\GroupDataRepository;
 use FinGather\Model\Repository\GroupRepository;
 use FinGather\Model\Repository\PortfolioDataRepository;
@@ -36,7 +35,6 @@ final class ImportService
 		private readonly TickerProvider $tickerProvider,
 		private readonly AssetRepository $assetRepository,
 		private readonly CurrencyRepository $currencyRepository,
-		private readonly DividendRepository $dividendRepository,
 		private readonly PortfolioDataRepository $portfolioDataRepository,
 		private readonly GroupDataRepository $groupDataRepository,
 		private readonly GroupRepository $groupRepository,
@@ -54,7 +52,6 @@ final class ImportService
 
 		$user = $broker->getUser();
 		$othersGroup = $this->groupRepository->findOthersGroup($user->getId());
-		$defaultCurrency = $user->getDefaultCurrency();
 
 		$firstDate = null;
 
@@ -105,60 +102,35 @@ final class ImportService
 			$currency = $this->currencyRepository->findCurrencyByCode($currencyCode);
 			assert($currency instanceof Currency);
 
-			if (strpos($transactionRecord->actionType ?? '', 'dividend') !== false) {
-				if ($transactionRecord->dividendCurrency !== null) {
-					$dividendCurrency = $this->currencyRepository->findCurrencyByCode($transactionRecord->dividendCurrency);
-				}
-
-				$dividend = new Dividend(
-					user: $user,
-					asset: $asset,
-					broker: $broker,
-					paidDate: $transactionRecord->created ?? new DateTimeImmutable(),
-					priceGross: $transactionRecord->dividendPrice !== null ? (string) $transactionRecord->dividendPrice : '0',
-					priceNet: $transactionRecord->dividendPrice !== null ? (string) $transactionRecord->dividendPrice : '0',
-					tax: '0',
-					currency: $dividendCurrency ?? $defaultCurrency,
-					exchangeRate: (string) ((new Decimal(1))->div($transactionRecord->exchangeRate ?? 1)),
-				);
-				$this->dividendRepository->persist($dividend);
-
-				if ($firstDate === null || $dividend->getPaidDate()->getTimestamp() < $firstDate->getTimestamp()) {
-					$firstDate = $dividend->getPaidDate();
-				}
-
-				continue;
-			}
-
-			$actionType = TransactionActionTypeEnum::Undefined;
-			if (strpos($transactionRecord->actionType ?? '', 'buy') !== false) {
-				$actionType = TransactionActionTypeEnum::Buy;
-			} elseif (strpos($transactionRecord->actionType ?? '', 'sell') !== false) {
-				$actionType = TransactionActionTypeEnum::Sell;
-			}
+			$actionType = TransactionActionTypeEnum::fromString($transactionRecord->actionType ?? '');
 
 			$units = $transactionRecord->units ?? new Decimal(0);
 			if ($actionType === TransactionActionTypeEnum::Sell) {
 				$units = $units->negate();
 			}
 
+			$created = new DateTimeImmutable();
+
 			$transaction = new Transaction(
 				user: $user,
 				asset: $asset,
 				broker: $broker,
 				actionType: $actionType->value,
-				created: $transactionRecord->created ?? new DateTimeImmutable(),
+				actionCreated: $transactionRecord->created ?? new DateTimeImmutable(),
+				createType: TransactionCreateTypeEnum::Import->value,
+				created: $created,
+				modified: $created,
 				units: (string) $units,
-				priceUnit: $transactionRecord->priceUnit !== null ? (string) $transactionRecord->priceUnit : '0',
+				price: $transactionRecord->price !== null ? (string) $transactionRecord->price : '0',
 				currency: $currency,
-				feeConversion: $transactionRecord->feeConversion !== null ? (string) $transactionRecord->feeConversion : '0',
+				tax: $transactionRecord->tax !== null ? (string) $transactionRecord->tax : '0',
 				notes: $transactionRecord->notes,
 				importIdentifier: $transactionRecord->importIdentifier,
 			);
 			$this->transactionRepository->persist($transaction);
 
-			if ($firstDate === null || $transaction->getCreated()->getTimestamp() < $firstDate->getTimestamp()) {
-				$firstDate = $transaction->getCreated();
+			if ($firstDate === null || $transaction->getActionCreated()->getTimestamp() < $firstDate->getTimestamp()) {
+				$firstDate = $transaction->getActionCreated();
 			}
 		}
 
@@ -191,13 +163,11 @@ final class ImportService
 			actionType: strtolower($mappedRecord['actionType'] ?? ''),
 			created: new DateTimeImmutable($mappedRecord['created'] ?? ''),
 			units: $mappedRecord['units'] ? new Decimal($mappedRecord['units']) : null,
-			priceUnit: $mappedRecord['priceUnit'] ? new Decimal($mappedRecord['priceUnit']) : null,
+			price: $mappedRecord['price'] ? new Decimal($mappedRecord['price']) : null,
 			currency: $mappedRecord['currency'],
-			feeConversion: $mappedRecord['feeConversion'] ? new Decimal($mappedRecord['feeConversion']) : null,
+			tax: $mappedRecord['tax'] ? new Decimal($mappedRecord['tax']) : null,
 			notes: $mappedRecord['notes'] ?? null,
 			importIdentifier: $mappedRecord['importIdentifier'] ?? null,
-			dividendPrice: $mappedRecord['dividendPrice'] ? new Decimal($mappedRecord['dividendPrice']) : null,
-			dividendCurrency: $mappedRecord['dividendCurrency'] ?? null,
 		);
 	}
 

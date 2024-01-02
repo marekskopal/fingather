@@ -3,19 +3,19 @@ import { first } from 'rxjs/operators';
 import { ActivatedRoute } from "@angular/router";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DividendDialogComponent } from './dividend-dialog.component';
-import {Dividend} from "@app/models";
-import {DividendService} from "@app/services";
+import {TransactionService} from "@app/services";
+import {Transaction, TransactionActionType} from "@app/models";
 
 @Component({
     templateUrl: 'dividend-list.component.html',
     selector: 'fingather-dividend-list',
 })
 export class DividendListComponent implements OnInit, OnDestroy {
-    public dividends: Dividend[]|null = null;
+    public dividends: Transaction[]|null = null;
     public assetId: number;
 
     public constructor(
-        private dividendService: DividendService,
+        private transactionService: TransactionService,
         private route: ActivatedRoute,
         private modalService: NgbModal,
     ) {}
@@ -23,17 +23,17 @@ export class DividendListComponent implements OnInit, OnDestroy {
     public ngOnInit(): void {
         this.assetId = this.route.snapshot.params['id'];
 
-        this.dividendService.getDividends(this.assetId)
+        this.transactionService.getTransactions(this.assetId, [TransactionActionType.Buy, TransactionActionType.Sell])
             .pipe(first())
             .subscribe(dividends => this.dividends = dividends);
 
-        this.dividendService.eventEmitter.subscribe(() => {
+        this.transactionService.eventEmitter.subscribe(() => {
             this.ngOnInit();
         });
     }
 
     public ngOnDestroy(): void {
-        this.dividendService.eventEmitter.unsubscribe();
+        this.transactionService.eventEmitter.unsubscribe();
     }
 
     public addDividend(): void {
@@ -52,7 +52,7 @@ export class DividendListComponent implements OnInit, OnDestroy {
             return;
         }
         dividend.isDeleting = true;
-        this.dividendService.deleteDividend(id)
+        this.transactionService.deleteTransaction(id)
             .pipe(first())
             .subscribe(() => this.dividends = this.dividends !== null ? this.dividends.filter(x => x.id !== id) : null);
     }

@@ -5,7 +5,6 @@ export * from './ticker';
 export * from './ticker-data';
 export * from './broker';
 export * from './currency';
-export * from './dividend';
 export * from './group';
 export * from './group-with-group-data';
 export * from './group-data';

@@ -197,54 +197,24 @@ class InitMigration extends Migration
 			->setPrimaryKeys(['id'])
 			->create();
 
-		$this->table('dividends')
-			->addColumn('id', 'primary', ['nullable' => false, 'default' => null, 'size' => 11])
-			->addColumn('user_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
-			->addColumn('asset_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
-			->addColumn('broker_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
-			->addColumn('paid_date', 'timestamp', ['nullable' => false, 'default' => null])
-			->addColumn('price_gross', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 2, 'precision' => 9])
-			->addColumn('price_net', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 2, 'precision' => 9])
-			->addColumn('tax', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 2, 'precision' => 9])
-			->addColumn('currency_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
-			->addColumn('exchange_rate', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 4, 'precision' => 9])
-			->addIndex(['user_id'], ['name' => 'dividends_index_user_id_657179dd4f5be', 'unique' => false])
-			->addIndex(['asset_id'], ['name' => 'dividends_index_asset_id_657179dd4f572', 'unique' => false])
-			->addIndex(['broker_id'], ['name' => 'dividends_index_broker_id_657179dd4f585', 'unique' => false])
-			->addIndex(['currency_id'], ['name' => 'dividends_index_currency_id_657179dd4f598', 'unique' => false])
-			->addForeignKey(['asset_id'], 'assets', ['id'], [
-				'name' => 'dividends_foreign_asset_id_657179dd4f576',
-				'delete' => 'CASCADE',
-				'update' => 'CASCADE',
-				'indexCreate' => true,
-			])
-			->addForeignKey(['broker_id'], 'brokers', ['id'], [
-				'name' => 'dividends_foreign_broker_id_657179dd4f588',
-				'delete' => 'CASCADE',
-				'update' => 'CASCADE',
-				'indexCreate' => true,
-			])
-			->addForeignKey(['currency_id'], 'currencies', ['id'], [
-				'name' => 'dividends_foreign_currency_id_657179dd4f59b',
-				'delete' => 'CASCADE',
-				'update' => 'CASCADE',
-				'indexCreate' => true,
-			])
-			->addIndex(['paid_date'], ['name' => 'dividends_index_paid_date', 'unique' => false])
-			->setPrimaryKeys(['id'])
-			->create();
-
 		$this->table('transactions')
 			->addColumn('id', 'primary', ['nullable' => false, 'default' => null, 'size' => 11])
 			->addColumn('user_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
 			->addColumn('asset_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
 			->addColumn('broker_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
-			->addColumn('action_type', 'enum', ['nullable' => false, 'default' => null, 'values' => ['Undefined', 'Buy', 'Sell']])
+			->addColumn(
+				'action_type',
+				'enum',
+				['nullable' => false, 'default' => null, 'values' => ['Undefined', 'Buy', 'Sell', 'Dividend']]
+			)
+			->addColumn('action_created', 'timestamp', ['nullable' => false, 'default' => null])
+			->addColumn('create_type', 'enum', ['nullable' => false, 'default' => 'Manual', 'values' => ['Manual', 'Import']])
 			->addColumn('created', 'timestamp', ['nullable' => false, 'default' => null])
+			->addColumn('modified', 'timestamp', ['nullable' => false, 'default' => null])
 			->addColumn('units', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 8, 'precision' => 18])
-			->addColumn('price_unit', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 2, 'precision' => 9])
+			->addColumn('price', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 2, 'precision' => 9])
 			->addColumn('currency_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
-			->addColumn('fee_conversion', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 2, 'precision' => 9])
+			->addColumn('tax', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 2, 'precision' => 9])
 			->addColumn('notes', 'tinyText', ['nullable' => true, 'default' => null])
 			->addColumn('import_identifier', 'string', ['nullable' => true, 'default' => null, 'size' => 255])
 			->addIndex(['user_id'], ['name' => 'transactions_index_user_id_657179dd4f5bc', 'unique' => false])
@@ -275,7 +245,10 @@ class InitMigration extends Migration
 				'update' => 'CASCADE',
 				'indexCreate' => true,
 			])
+			->addIndex(['action_type'], ['name' => 'transactions_index_action_type', 'unique' => false])
+			->addIndex(['action_created'], ['name' => 'transactions_index_action_created', 'unique' => false])
 			->addIndex(['created'], ['name' => 'transactions_index_created', 'unique' => false])
+			->addIndex(['modified'], ['name' => 'transactions_index_modified', 'unique' => false])
 			->setPrimaryKeys(['id'])
 			->create();
 

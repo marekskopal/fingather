@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Controller;
 
 use FinGather\Dto\TransactionDto;
+use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Transaction;
 use FinGather\Service\Provider\AssetProvider;
 use FinGather\Service\Provider\TransactionProvider;
@@ -24,7 +25,7 @@ class TransactionController
 
 	public function actionGetTransactions(ServerRequestInterface $request): ResponseInterface
 	{
-		/** @var array{assetId?: string, limit?: string, offset?: string} */
+		/** @var array{assetId?: string, limit?: string, offset?: string, actionTypes?: string} $queryParams */
 		$queryParams = $request->getQueryParams();
 
 		$user = $this->requestService->getUser($request);
@@ -37,9 +38,13 @@ class TransactionController
 		$limit = ($queryParams['limit'] ?? null) !== null ? (int) $queryParams['limit'] : null;
 		$offset = ($queryParams['offset'] ?? null) !== null ? (int) $queryParams['offset'] : null;
 
+		$actionTypes = ($queryParams['actionTypes'] ?? null) !== null ?
+			array_map(fn (string $item) => TransactionActionTypeEnum::from($item), explode('|', $queryParams['actionTypes'])) :
+			null;
+
 		$transactions = $asset !== null ?
-			$this->transactionProvider->getAssetTransactions($user, $asset) :
-			$this->transactionProvider->getTransactions($user, null, $limit, $offset);
+			$this->transactionProvider->getAssetTransactions($user, $asset, null, $actionTypes) :
+			$this->transactionProvider->getTransactions($user, null, $actionTypes, $limit, $offset);
 
 		$transactionDtos = array_map(
 			fn (Transaction $transaction): TransactionDto => TransactionDto::fromEntity($transaction),

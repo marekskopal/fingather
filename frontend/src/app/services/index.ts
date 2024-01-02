@@ -6,7 +6,6 @@ export * from './ticker.service';
 export * from './alert.service';
 export * from './broker.service';
 export * from './currency.service';
-export * from './dividend.service';
 export * from './group.service';
 export * from './import-data.service';
 export * from './overview.service';

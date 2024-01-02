@@ -27,7 +27,7 @@ class OverviewDataCalculator
 			return [];
 		}
 
-		$fromDate = $firstTransaction->getCreated();
+		$fromDate = $firstTransaction->getActionCreated();
 		$toDate = new DateTimeImmutable('today');
 
 		$fromDateYear = (int) $fromDate->format('Y');
