@@ -61,7 +61,7 @@ class AssetProvider
 		foreach ($transactions as $transaction) {
 			if (TransactionActionTypeEnum::from($transaction->getActionType()) === TransactionActionTypeEnum::Dividend) {
 				$dividendExchangeRate = $this->exchangeRateProvider->getExchangeRate(
-					DateTimeImmutable::createFromRegular($transaction->getActionCreated())->setTime(0, 0),
+					DateTimeImmutable::createFromRegular($transaction->getActionCreated()),
 					$transaction->getCurrency(),
 					$tickerCurrency,
 				);
@@ -96,7 +96,7 @@ class AssetProvider
 
 			if ($tickerCurrency->getId() !== $transaction->getCurrency()->getId()) {
 				$transactionExchangeRate = $this->exchangeRateProvider->getExchangeRate(
-					DateTimeImmutable::createFromRegular($transaction->getActionCreated())->setTime(0, 0),
+					DateTimeImmutable::createFromRegular($transaction->getActionCreated()),
 					$transaction->getCurrency(),
 					$tickerCurrency,
 				);
@@ -107,7 +107,7 @@ class AssetProvider
 			$transactionValue = $transactionValue->add($transactionSum);
 
 			$transactionExchangeRateDefaultCurrency = $this->exchangeRateProvider->getExchangeRate(
-				DateTimeImmutable::createFromRegular($transaction->getActionCreated())->setTime(0, 0),
+				DateTimeImmutable::createFromRegular($transaction->getActionCreated()),
 				$tickerCurrency,
 				$user->getDefaultCurrency(),
 			);
@@ -125,7 +125,7 @@ class AssetProvider
 		}
 
 		$exchangeRate = $this->exchangeRateProvider->getExchangeRate(
-			DateTimeImmutable::createFromRegular($dateTime)->setTime(0, 0),
+			DateTimeImmutable::createFromRegular($dateTime),
 			$tickerCurrency,
 			$user->getDefaultCurrency(),
 		);

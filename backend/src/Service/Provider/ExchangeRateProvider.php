@@ -25,6 +25,8 @@ class ExchangeRateProvider
 
 	public function getExchangeRate(DateTimeImmutable $date, Currency $currencyFrom, Currency $currencyTo): ExchangeRate
 	{
+		$date = $date->setTime(0, 0);
+
 		$key = $date->getTimestamp() . '_' . $currencyFrom->getCode() . '_' . $currencyTo->getCode();
 		if (isset($this->exchangeRates[$key])) {
 			return $this->exchangeRates[$key];
@@ -97,6 +99,14 @@ class ExchangeRateProvider
 		$exchangeRate = $this->exchangeRateRepository->findExchangeRate($date, $currencyTo->getId());
 		if ($exchangeRate !== null) {
 			return $exchangeRate;
+		}
+
+		$lastExchangeRate = $this->exchangeRateRepository->findLastExchangeRate($currencyTo->getId());
+		if ($lastExchangeRate !== null && $date < $lastExchangeRate->getDate()) {
+			$exchangeRate = $this->exchangeRateRepository->findNearestExchangeRate($date, $currencyTo->getId());
+			if ($exchangeRate !== null) {
+				return $exchangeRate;
+			}
 		}
 
 		$this->updateExchangeRates($currencyTo, true);
