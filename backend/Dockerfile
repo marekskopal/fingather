@@ -6,15 +6,15 @@ RUN LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php && \
     apt-get update && \
     apt-get upgrade -y && \
     apt-get install -y --no-install-recommends \
-        php8.2 \
-        php8.2-curl \
-        php8.2-mysql \
-        php8.2-opcache \
-        php8.2-bcmath \
-        php8.2-sockets \
-        php8.2-mbstring \
-        php8.2-zip \
-        php8.2-decimal \
+        php8.3 \
+        php8.3-curl \
+        php8.3-mysql \
+        php8.3-opcache \
+        php8.3-bcmath \
+        php8.3-sockets \
+        php8.3-mbstring \
+        php8.3-zip \
+        php8.3-decimal \
         curl \
         tzdata && \
     apt-get autoremove -y && \
