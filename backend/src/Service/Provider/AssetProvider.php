@@ -44,7 +44,7 @@ class AssetProvider
 
 	public function getAssetProperties(User $user, Asset $asset, DateTimeImmutable $dateTime): ?AssetPropertiesDto
 	{
-		$transactions = $this->transactionProvider->getAssetTransactions($user, $asset, $dateTime);
+		$transactions = $this->transactionProvider->getTransactions($user, $asset, $dateTime);
 		if (count($transactions) === 0) {
 			return null;
 		}

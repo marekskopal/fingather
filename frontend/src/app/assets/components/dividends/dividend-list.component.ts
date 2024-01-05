@@ -25,7 +25,7 @@ export class DividendListComponent implements OnInit, OnDestroy {
 
         this.transactionService.getTransactions(this.assetId, [TransactionActionType.Buy, TransactionActionType.Sell])
             .pipe(first())
-            .subscribe(dividends => this.dividends = dividends);
+            .subscribe(dividends => this.dividends = dividends.transactions);
 
         this.transactionService.eventEmitter.subscribe(() => {
             this.ngOnInit();

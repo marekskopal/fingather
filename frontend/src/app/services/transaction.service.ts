@@ -7,6 +7,7 @@ import {Transaction, TransactionActionType} from '@app/models';
 import {Observable} from "rxjs";
 import {OkResponse} from "@app/models/ok-response";
 import {NotifyService} from "@app/services/notify-service";
+import {TransactionList} from "@app/models/TransactionList";
 
 @Injectable({ providedIn: 'root' })
 export class TransactionService extends NotifyService {
@@ -21,26 +22,30 @@ export class TransactionService extends NotifyService {
     }
 
     public getTransactions(
-        assetId: number,
-        actionTypes: TransactionActionType[]|null,
+        assetId: number|null = null,
+        actionTypes: TransactionActionType[]|null = null,
         limit: number|null = null,
         offset: number|null = null,
-    ): Observable<Transaction[]> {
-        const params = new HttpParams().set('assetId', assetId);
+    ): Observable<TransactionList> {
+        let params = new HttpParams();
+
+        if (assetId !== null) {
+            params = params.set('assetId', assetId);
+        }
 
         if (actionTypes !== null) {
-            params.set('actionTypes', actionTypes.join('|'));
+            params = params.set('actionTypes', actionTypes.join('|'));
         }
 
         if (limit !== null) {
-            params.set('limit', limit);
+            params = params.set('limit', limit);
         }
 
         if (offset !== null) {
-            params.set('offset', offset);
+            params = params.set('offset', offset);
         }
 
-        return this.http.get<Transaction[]>(`${environment.apiUrl}/transaction`, {params});
+        return this.http.get<TransactionList>(`${environment.apiUrl}/transaction`, {params});
     }
 
     public getTransaction(id: number): Observable<Transaction> {

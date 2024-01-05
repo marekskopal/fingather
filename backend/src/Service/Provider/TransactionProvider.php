@@ -23,21 +23,23 @@ class TransactionProvider
 	 */
 	public function getTransactions(
 		User $user,
+		?Asset $asset = null,
 		?DateTimeImmutable $dateTime = null,
 		?array $actionTypes = null,
 		?int $limit = null,
 		?int $offset = null,
 	): array {
-		return $this->transactionRepository->findTransactions($user->getId(), $dateTime, $actionTypes, $limit, $offset);
+		return $this->transactionRepository->findTransactions($user->getId(), $asset?->getId(), $dateTime, $actionTypes, $limit, $offset);
 	}
 
-	/**
-	 * @param list<TransactionActionTypeEnum> $actionTypes
-	 * @return array<Transaction>
-	 */
-	public function getAssetTransactions(User $user, Asset $asset, ?DateTimeImmutable $dateTime = null, ?array $actionTypes = null): array
-	{
-		return $this->transactionRepository->findAssetTransactions($user->getId(), $asset->getId(), $dateTime, $actionTypes);
+	/** @param list<TransactionActionTypeEnum> $actionTypes */
+	public function countTransactions(
+		User $user,
+		?Asset $asset = null,
+		?DateTimeImmutable $dateTime = null,
+		?array $actionTypes = null,
+	): int {
+		return $this->transactionRepository->countTransactions($user->getId(), $asset?->getId(), $dateTime, $actionTypes);
 	}
 
 	public function getFirstTransaction(User $user): ?Transaction

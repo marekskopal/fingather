@@ -1,0 +1,39 @@
+<h1>Overviews</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th style="width: 16%">Date</th>
+            <th style="width: 14%">Created</th>
+            <th style="width: 14%">Type</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let transaction of transactionList?.transactions">
+            <td>{{transaction.actionCreated}}</td>
+            <td>{{transaction.created}}</td>
+            <td>{{transaction.actionType}}</td>
+        </tr>
+        <tr *ngIf="transactionList === null">
+            <td colspan="7" class="text-center">
+                <span class="spinner-border spinner-border-lg align-center"></span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="d-flex justify-content-between p-2">
+    <ngb-pagination
+        [collectionSize]="transactionList !== null ? transactionList.count : 0"
+        [(page)]="page"
+        [pageSize]="pageSize"
+        (pageChange)="refreshTransactions()"
+    >
+    </ngb-pagination>
+
+    <select class="form-select" style="width: auto" [(ngModel)]="pageSize" (ngModelChange)="refreshTransactions()">
+        <option [ngValue]="50">50 items per page</option>
+        <option [ngValue]="100">100 items per page</option>
+        <option [ngValue]="200">200 items per page</option>
+    </select>
+</div>
