@@ -5,6 +5,7 @@ import {AuthGuard} from "@app/core/guards/auth.guard";
 const routes: Routes = [
     { path: '', loadChildren: () => import('./portfolio/portfolio.module').then(x => x.PortfolioModule), canActivate: [AuthGuard] },
     { path: 'assets', loadChildren: () => import('./assets/assets.module').then(x => x.AssetsModule), canActivate: [AuthGuard] },
+    { path: 'transactions', loadChildren: () => import('./transactions/transactions.module').then(x => x.TransactionsModule), canActivate: [AuthGuard] },
     { path: 'overviews', loadChildren: () => import('./overviews/overviews.module').then(x => x.OverviewsModule), canActivate: [AuthGuard] },
     { path: 'groups', loadChildren: () => import('./groups/groups.module').then(x => x.GroupsModule), canActivate: [AuthGuard] },
     { path: 'brokers', loadChildren: () => import('./brokers/brokers.module').then(x => x.BrokersModule), canActivate: [AuthGuard] },

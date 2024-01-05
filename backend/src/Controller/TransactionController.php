@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Controller;
 
 use FinGather\Dto\TransactionDto;
+use FinGather\Dto\TransactionListDto;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Transaction;
 use FinGather\Service\Provider\AssetProvider;
@@ -42,15 +43,14 @@ class TransactionController
 			array_map(fn (string $item) => TransactionActionTypeEnum::from($item), explode('|', $queryParams['actionTypes'])) :
 			null;
 
-		$transactions = $asset !== null ?
-			$this->transactionProvider->getAssetTransactions($user, $asset, null, $actionTypes) :
-			$this->transactionProvider->getTransactions($user, null, $actionTypes, $limit, $offset);
+		$transactions = $this->transactionProvider->getTransactions($user, $asset, null, $actionTypes, $limit, $offset);
+		$count = $this->transactionProvider->countTransactions($user, $asset, null, $actionTypes);
 
 		$transactionDtos = array_map(
 			fn (Transaction $transaction): TransactionDto => TransactionDto::fromEntity($transaction),
 			$transactions
 		);
 
-		return new JsonResponse($transactionDtos);
+		return new JsonResponse(new TransactionListDto($transactionDtos, $count));
 	}
 }

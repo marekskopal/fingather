@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Model\Repository;
 
+use Cycle\ORM\Select;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Transaction;
 use Safe\DateTimeImmutable;
@@ -17,14 +18,43 @@ class TransactionRepository extends ARepository
 	 */
 	public function findTransactions(
 		int $userId,
+		?int $assetId = null,
 		?DateTimeImmutable $actionCreatedBefore = null,
 		?array $actionTypes = null,
 		?int $limit = null,
 		?int $offset = null
-	): array
-	{
+	): array {
+		return $this->getTransactionsSelect($userId, $assetId, $actionCreatedBefore, $actionTypes, $limit, $offset)->fetchAll();
+	}
+
+	/** @param list<TransactionActionTypeEnum> $actionTypes */
+	public function countTransactions(
+		int $userId,
+		?int $assetId = null,
+		?DateTimeImmutable $actionCreatedBefore = null,
+		?array $actionTypes = null,
+	): int {
+		return $this->getTransactionsSelect($userId, $assetId, $actionCreatedBefore, $actionTypes)->count();
+	}
+
+	/**
+	 * @param list<TransactionActionTypeEnum> $actionTypes
+	 * @return Select<Transaction>
+	 */
+	private function getTransactionsSelect(
+		int $userId,
+		?int $assetId = null,
+		?DateTimeImmutable $actionCreatedBefore = null,
+		?array $actionTypes = null,
+		?int $limit = null,
+		?int $offset = null
+	): Select {
 		$transactions = $this->select()
 			->where('user_id', $userId);
+
+		if ($assetId !== null) {
+			$transactions->where('asset_id', $assetId);
+		}
 
 		if ($actionCreatedBefore !== null) {
 			$transactions->where('action_created', '<=', $actionCreatedBefore);
@@ -42,33 +72,9 @@ class TransactionRepository extends ARepository
 			$transactions->offset($offset);
 		}
 
-		return $transactions->fetchAll();
-	}
+		$transactions->orderBy('action_created', 'DESC');
 
-	/**
-	 * @param list<TransactionActionTypeEnum> $actionTypes
-	 * @return array<int,Transaction>
-	 */
-	public function findAssetTransactions(
-		int $userId,
-		int $assetId,
-		?DateTimeImmutable $actionCreatedBefore = null,
-		?array $actionTypes = null
-	): array
-	{
-		$assetTransactions = $this->select()
-			->where('user_id', $userId)
-			->where('asset_id', $assetId);
-
-		if ($actionCreatedBefore !== null) {
-			$assetTransactions->where('action_created', '<=', $actionCreatedBefore);
-		}
-
-		if ($actionTypes !== null) {
-			$assetTransactions->where('action_type', 'in', array_map(fn (TransactionActionTypeEnum $item) => $item->value, $actionTypes));
-		}
-
-		return $assetTransactions->fetchAll();
+		return $transactions;
 	}
 
 	public function findTransactionByIdentifier(int $brokerId, string $identifier): ?Transaction

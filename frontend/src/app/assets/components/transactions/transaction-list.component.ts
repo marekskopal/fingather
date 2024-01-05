@@ -26,7 +26,7 @@ export class TransactionListComponent implements OnInit {
 
         this.transactionService.getTransactions(this.assetId, [TransactionActionType.Dividend])
             .pipe(first())
-            .subscribe(transactions => this.transactions = transactions);
+            .subscribe(transactions => this.transactions = transactions.transactions);
     }
 
     public addTransaction(): void {
