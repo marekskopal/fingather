@@ -23,7 +23,7 @@ class InitDataMigration extends Migration
 		])->run();
 
 		$this->database()->insert('users')->values([
-			['id' => 1, 'email' => 'skopal.marek@gmail.com', 'password' => '$2y$10$Gv6vVjtQsz2n/1zk.wbyKOOON7ThrnpzJ0U7xJAUNHSE.4dJSyvSS', 'name' => 'Marek Skopal', 'default_currency_id' => 5],
+			['id' => 1, 'email' => 'admin@fingather.com', 'password' => '$2y$10$Gv6vVjtQsz2n/1zk.wbyKOOON7ThrnpzJ0U7xJAUNHSE.4dJSyvSS', 'name' => 'FinGather Admin', 'default_currency_id' => 5, 'role' => 'Admin'],
 		])->run();
 
 		$this->database()->insert('markets')->values([
