@@ -46,6 +46,11 @@ class TransactionProvider
 		return $this->transactionRepository->countTransactions($user->getId(), $asset?->getId(), $dateTime, $actionTypes);
 	}
 
+	public function getTransaction(User $user, int $transactionId): ?Transaction
+	{
+		return $this->transactionRepository->findTransaction($transactionId, $user->getId());
+	}
+
 	public function getFirstTransaction(User $user): ?Transaction
 	{
 		return $this->transactionRepository->findFirstTransaction($user->getId());
@@ -87,5 +92,42 @@ class TransactionProvider
 		$this->transactionRepository->persist($transaction);
 
 		return $transaction;
+	}
+
+	public function updateTransaction(
+		Transaction $transaction,
+		Asset $asset,
+		Broker $broker,
+		TransactionActionTypeEnum $actionType,
+		DateTimeImmutable $actionCreated,
+		Decimal $units,
+		?Decimal $price,
+		Currency $currency,
+		?Decimal $tax,
+		?string $notes,
+		?string $importIdentifier,
+	): Transaction {
+		$modified = new DateTimeImmutable();
+
+		$transaction->setAsset($asset);
+		$transaction->setBroker($broker);
+		$transaction->setActionType($actionType->value);
+		$transaction->setActionCreated($actionCreated);
+		$transaction->setModified($modified);
+		$transaction->setUnits((string) $units);
+		$transaction->setPrice($price !== null ? (string) $price : '0');
+		$transaction->setCurrency($currency);
+		$transaction->setTax($tax !== null ? (string) $tax : '0');
+		$transaction->setNotes($notes);
+		$transaction->setImportIdentifier($importIdentifier);
+
+		$this->transactionRepository->persist($transaction);
+
+		return $transaction;
+	}
+
+	public function deleteTransaction(Transaction $transaction): void
+	{
+		$this->transactionRepository->delete($transaction);
 	}
 }

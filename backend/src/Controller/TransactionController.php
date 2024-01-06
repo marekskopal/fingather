@@ -11,6 +11,7 @@ use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Enum\TransactionCreateTypeEnum;
 use FinGather\Model\Entity\Transaction;
 use FinGather\Response\NotFoundResponse;
+use FinGather\Response\OkResponse;
 use FinGather\Service\Provider\AssetProvider;
 use FinGather\Service\Provider\BrokerProvider;
 use FinGather\Service\Provider\CurrencyProvider;
@@ -20,6 +21,7 @@ use FinGather\Service\Request\RequestService;
 use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Safe\DateTimeImmutable;
 
 class TransactionController
 {
@@ -63,44 +65,143 @@ class TransactionController
 		return new JsonResponse(new TransactionListDto($transactionDtos, $count));
 	}
 
-	public function actionPostTransaction(ServerRequestInterface $request): ResponseInterface
+	/** @param array{transactionId: string} $args */
+	public function actionGetTransaction(ServerRequestInterface $request, array $args): ResponseInterface
 	{
-		$transactionCreate = TransactionCreateDto::fromJson($request->getBody()->getContents());
+		$transactionId = (int) $args['transactionId'];
+		if ($transactionId < 1) {
+			return new NotFoundResponse('Transaction id is required.');
+		}
+
+		$transaction = $this->transactionProvider->getTransaction(
+			user: $this->requestService->getUser($request),
+			transactionId: $transactionId,
+		);
+		if ($transaction === null) {
+			return new NotFoundResponse('Transaction with id "' . $transactionId . '" was not found.');
+		}
+
+		return new JsonResponse(TransactionDto::fromEntity($transaction));
+	}
+
+	public function actionCreateTransaction(ServerRequestInterface $request): ResponseInterface
+	{
+		$transactionDto = TransactionCreateDto::fromJson($request->getBody()->getContents());
 
 		$user = $this->requestService->getUser($request);
 
-		$asset = $this->assetProvider->getAsset($user, $transactionCreate->assetId);
+		$asset = $this->assetProvider->getAsset($user, $transactionDto->assetId);
 		if ($asset === null) {
-			return new NotFoundResponse('Asset with id "' . $transactionCreate->assetId . '" was not found.');
+			return new NotFoundResponse('Asset with id "' . $transactionDto->assetId . '" was not found.');
 		}
 
-		$broker = $this->brokerProvider->getBroker($user, $transactionCreate->brokerId);
+		$broker = $this->brokerProvider->getBroker($user, $transactionDto->brokerId);
 		if ($broker === null) {
-			return new NotFoundResponse('Broker with id "' . $transactionCreate->brokerId . '" was not found.');
+			return new NotFoundResponse('Broker with id "' . $transactionDto->brokerId . '" was not found.');
 		}
 
-		$currency = $this->currencyProvider->getCurrency($transactionCreate->currencyId);
+		$currency = $this->currencyProvider->getCurrency($transactionDto->currencyId);
 		if ($currency === null) {
-			return new NotFoundResponse('Currency with id "' . $transactionCreate->currencyId . '" was not found.');
+			return new NotFoundResponse('Currency with id "' . $transactionDto->currencyId . '" was not found.');
 		}
 
 		$transaction = $this->transactionProvider->createTransaction(
 			user: $user,
 			asset: $asset,
 			broker: $broker,
-			actionType: $transactionCreate->actionType,
-			actionCreated: $transactionCreate->actionCreated,
+			actionType: $transactionDto->actionType,
+			actionCreated: $transactionDto->actionCreated,
 			createType: TransactionCreateTypeEnum::Manual,
-			units: $transactionCreate->units,
-			price: $transactionCreate->price,
+			units: $transactionDto->units,
+			price: $transactionDto->price,
 			currency: $currency,
-			tax: $transactionCreate->tax,
-			notes: $transactionCreate->notes,
-			importIdentifier: $transactionCreate->importIdentifier,
+			tax: $transactionDto->tax,
+			notes: $transactionDto->notes,
+			importIdentifier: $transactionDto->importIdentifier,
 		);
 
-		$this->dataProvider->deleteUserData($user, $transactionCreate->actionCreated);
+		$this->dataProvider->deleteUserData($user, $transactionDto->actionCreated);
 
 		return new JsonResponse(TransactionDto::fromEntity($transaction));
+	}
+
+	/** @param array{transactionId: string} $args */
+	public function actionUpdateTransaction(ServerRequestInterface $request, array $args): ResponseInterface
+	{
+		$transactionId = (int) $args['transactionId'];
+		if ($transactionId < 1) {
+			return new NotFoundResponse('Transaction id is required.');
+		}
+
+		$transaction = $this->transactionProvider->getTransaction(
+			user: $this->requestService->getUser($request),
+			transactionId: $transactionId,
+		);
+		if ($transaction === null) {
+			return new NotFoundResponse('Transaction with id "' . $transactionId . '" was not found.');
+		}
+
+		$transactionDto = TransactionCreateDto::fromJson($request->getBody()->getContents());
+
+		$user = $this->requestService->getUser($request);
+
+		$asset = $this->assetProvider->getAsset($user, $transactionDto->assetId);
+		if ($asset === null) {
+			return new NotFoundResponse('Asset with id "' . $transactionDto->assetId . '" was not found.');
+		}
+
+		$broker = $this->brokerProvider->getBroker($user, $transactionDto->brokerId);
+		if ($broker === null) {
+			return new NotFoundResponse('Broker with id "' . $transactionDto->brokerId . '" was not found.');
+		}
+
+		$currency = $this->currencyProvider->getCurrency($transactionDto->currencyId);
+		if ($currency === null) {
+			return new NotFoundResponse('Currency with id "' . $transactionDto->currencyId . '" was not found.');
+		}
+
+		$transaction = $this->transactionProvider->updateTransaction(
+			transaction: $transaction,
+			asset: $asset,
+			broker: $broker,
+			actionType: $transactionDto->actionType,
+			actionCreated: $transactionDto->actionCreated,
+			units: $transactionDto->units,
+			price: $transactionDto->price,
+			currency: $currency,
+			tax: $transactionDto->tax,
+			notes: $transactionDto->notes,
+			importIdentifier: $transactionDto->importIdentifier,
+		);
+
+		$this->dataProvider->deleteUserData($user, $transactionDto->actionCreated);
+
+		return new JsonResponse(TransactionDto::fromEntity($transaction));
+	}
+
+	/** @param array{transactionId: string} $args */
+	public function actionDeleteTransaction(ServerRequestInterface $request, array $args): ResponseInterface
+	{
+		$transactionId = (int) $args['transactionId'];
+		if ($transactionId < 1) {
+			return new NotFoundResponse('Transaction id is required.');
+		}
+
+		$transaction = $this->transactionProvider->getTransaction(
+			user: $this->requestService->getUser($request),
+			transactionId: $transactionId,
+		);
+		if ($transaction === null) {
+			return new NotFoundResponse('Transaction with id "' . $transactionId . '" was not found.');
+		}
+
+		$this->transactionProvider->deleteTransaction($transaction);
+
+		$this->dataProvider->deleteUserData(
+			$transaction->getUser(),
+			DateTimeImmutable::createFromRegular($transaction->getActionCreated())
+		);
+
+		return new OkResponse();
 	}
 }

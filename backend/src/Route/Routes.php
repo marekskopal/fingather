@@ -52,6 +52,7 @@ enum Routes: string
 	case TickerData = '/api/ticker-data/{tickerId:number}';
 
 	case Transactions = '/api/transaction';
+	case Transaction = '/api/transaction/{transactionId:number}';
 
 	public static function getRouteList(): RouteList
 	{
@@ -98,7 +99,10 @@ enum Routes: string
 		$routeList->get(self::TickerData->value, [TickerDataController::class, 'actionGetTickerData']);
 
 		$routeList->get(self::Transactions->value, [TransactionController::class, 'actionGetTransactions']);
-		$routeList->post(self::Transactions->value, [TransactionController::class, 'actionPostTransaction']);
+		$routeList->get(self::Transaction->value, [TransactionController::class, 'actionGetTransaction']);
+		$routeList->post(self::Transactions->value, [TransactionController::class, 'actionCreateTransaction']);
+		$routeList->put(self::Transaction->value, [TransactionController::class, 'actionUpdateTransaction']);
+		$routeList->delete(self::Transaction->value, [TransactionController::class, 'actionDeleteTransaction']);
 
 		return $routeList;
 	}

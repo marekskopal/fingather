@@ -77,6 +77,14 @@ class TransactionRepository extends ARepository
 		return $transactions;
 	}
 
+	public function findTransaction(int $transactionId, int $userId): ?Transaction
+	{
+		return $this->findOne([
+			'id' => $transactionId,
+			'user_id' => $userId,
+		]);
+	}
+
 	public function findTransactionByIdentifier(int $brokerId, string $identifier): ?Transaction
 	{
 		return $this->findOne([
