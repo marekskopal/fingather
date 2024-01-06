@@ -4,7 +4,7 @@ export class Transaction extends AEntity {
     public assetId: string;
     public brokerId: string;
     public actionType: TransactionActionType;
-    public actionCreated: Date;
+    public actionCreated: string;
     public createType: TransactionCreateType
     public created: Date;
     public modified: Date;

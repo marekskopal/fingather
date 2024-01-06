@@ -8,6 +8,7 @@
             <th style="width: 16%">Date</th>
             <th style="width: 14%">Created</th>
             <th style="width: 14%">Type</th>
+            <th style="width: 20%"></th>
         </tr>
     </thead>
     <tbody>
@@ -15,6 +16,16 @@
             <td>{{transaction.actionCreated}}</td>
             <td>{{transaction.created}}</td>
             <td>{{transaction.actionType}}</td>
+            <td style="white-space: nowrap">
+                <a (click)="editTransaction(transaction.id)" class="btn btn-sm btn-primary mr-1" tabindex="0">Edit</a>
+                <button (click)="deleteTransaction(transaction.id)" class="btn btn-sm btn-danger btn-delete-user" [disabled]="transaction.isDeleting">
+                    @if (transaction.isDeleting) {
+                        <span class="spinner-border spinner-border-sm"></span>
+                    } @else {
+                        <span>Delete</span>
+                    }
+                </button>
+            </td>
         </tr>
         <tr *ngIf="transactionList === null">
             <td colspan="7" class="text-center">

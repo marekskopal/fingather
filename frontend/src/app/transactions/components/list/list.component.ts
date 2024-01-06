@@ -40,4 +40,20 @@ export class ListComponent implements OnInit, OnDestroy {
     public addTransaction(): void {
         this.modalService.open(TransactionDialogComponent);
     }
+
+    public editTransaction(id: number): void {
+        const transactionDialogComponent = this.modalService.open(TransactionDialogComponent);
+        transactionDialogComponent.componentInstance.id = id;
+    }
+
+    public deleteTransaction(id: number): void {
+        const transaction = this.transactionList?.transactions?.find(x => x.id === id);
+        if (transaction === undefined) {
+            return;
+        }
+        transaction.isDeleting = true;
+        this.transactionService.deleteTransaction(id)
+            .pipe(first())
+            .subscribe(() => this.refreshTransactions());
+    }
 }

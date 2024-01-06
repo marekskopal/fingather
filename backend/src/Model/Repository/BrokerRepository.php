@@ -13,7 +13,7 @@ class BrokerRepository extends ARepository
 	public function findBrokers(int $userId): iterable
 	{
 		return $this->findAll([
-			'user.id' => $userId,
+			'user_id' => $userId,
 		]);
 	}
 
@@ -21,7 +21,7 @@ class BrokerRepository extends ARepository
 	{
 		return $this->findOne([
 			'id' => $brokerId,
-			'user.id' => $userId,
+			'user_id' => $userId,
 		]);
 	}
 }

@@ -7,7 +7,7 @@
 
     <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
 </div>
-<div class="modal-body">
+<div class="modal-body" *ngIf="form">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <input type="hidden" formControlName="assetId">
         <div class="form-row">

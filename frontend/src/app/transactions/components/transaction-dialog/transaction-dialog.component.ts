@@ -1,11 +1,11 @@
 ﻿import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
 import * as moment from "moment";
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import {Asset, Broker, Currency, TransactionActionType} from "@app/models";
+import {Asset, Broker, Currency, Transaction, TransactionActionType} from "@app/models";
 import {AlertService, AssetService, BrokerService, CurrencyService, TransactionService} from "@app/services";
 import {BaseForm} from "@app/shared/components/form/base-form";
 
@@ -22,7 +22,6 @@ export class TransactionDialogComponent extends BaseForm implements OnInit {
 
     public constructor(
         private route: ActivatedRoute,
-        private router: Router,
         private transactionService: TransactionService,
         private assetService: AssetService,
         private brokerService: BrokerService,
@@ -65,7 +64,10 @@ export class TransactionDialogComponent extends BaseForm implements OnInit {
         if (this.id !== null) {
             this.transactionService.getTransaction(this.id)
                 .pipe(first())
-                .subscribe(x => this.form.patchValue(x));
+                .subscribe((transaction: Transaction) => {
+                    transaction.actionCreated = moment(transaction.actionCreated).format('YYYY-MM-DDTHH:mm');
+                    this.form.patchValue(transaction)
+                });
         }
     }
 
@@ -105,6 +107,9 @@ export class TransactionDialogComponent extends BaseForm implements OnInit {
     }
 
     private updateTransaction(id: number): void {
+        const transaction = this.form.value;
+        transaction.actionCreated = (new Date(transaction.actionCreated)).toJSON();
+
         this.transactionService.updateTransaction(id, this.form.value)
             .pipe(first())
             .subscribe({
