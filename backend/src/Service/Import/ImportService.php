@@ -11,19 +11,18 @@ use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Enum\TransactionCreateTypeEnum;
-use FinGather\Model\Entity\Transaction;
 use FinGather\Model\Repository\AssetRepository;
 use FinGather\Model\Repository\CurrencyRepository;
-use FinGather\Model\Repository\GroupDataRepository;
 use FinGather\Model\Repository\GroupRepository;
-use FinGather\Model\Repository\PortfolioDataRepository;
 use FinGather\Model\Repository\TransactionRepository;
 use FinGather\Service\Import\Entity\TransactionRecord;
 use FinGather\Service\Import\Mapper\AnycoinMapper;
 use FinGather\Service\Import\Mapper\MapperInterface;
 use FinGather\Service\Import\Mapper\RevolutMapper;
 use FinGather\Service\Import\Mapper\Trading212Mapper;
+use FinGather\Service\Provider\DataProvider;
 use FinGather\Service\Provider\TickerProvider;
+use FinGather\Service\Provider\TransactionProvider;
 use League\Csv\Reader;
 use Psr\Log\LoggerInterface;
 use Safe\DateTimeImmutable;
@@ -32,12 +31,12 @@ final class ImportService
 {
 	public function __construct(
 		private readonly TransactionRepository $transactionRepository,
+		private readonly TransactionProvider $transactionProvider,
 		private readonly TickerProvider $tickerProvider,
 		private readonly AssetRepository $assetRepository,
 		private readonly CurrencyRepository $currencyRepository,
-		private readonly PortfolioDataRepository $portfolioDataRepository,
-		private readonly GroupDataRepository $groupDataRepository,
 		private readonly GroupRepository $groupRepository,
+		private readonly DataProvider $dataProvider,
 		private readonly LoggerInterface $logger,
 	) {
 	}
@@ -109,25 +108,20 @@ final class ImportService
 				$units = $units->negate();
 			}
 
-			$created = new DateTimeImmutable();
-
-			$transaction = new Transaction(
+			$transaction = $this->transactionProvider->createTransaction(
 				user: $user,
 				asset: $asset,
 				broker: $broker,
-				actionType: $actionType->value,
+				actionType: $actionType,
 				actionCreated: $transactionRecord->created ?? new DateTimeImmutable(),
-				createType: TransactionCreateTypeEnum::Import->value,
-				created: $created,
-				modified: $created,
-				units: (string) $units,
-				price: $transactionRecord->price !== null ? (string) $transactionRecord->price : '0',
+				createType: TransactionCreateTypeEnum::Import,
+				units: $units,
+				price: $transactionRecord->price,
 				currency: $currency,
-				tax: $transactionRecord->tax !== null ? (string) $transactionRecord->tax : '0',
+				tax: $transactionRecord->tax,
 				notes: $transactionRecord->notes,
 				importIdentifier: $transactionRecord->importIdentifier,
 			);
-			$this->transactionRepository->persist($transaction);
 
 			if ($firstDate === null || $transaction->getActionCreated()->getTimestamp() < $firstDate->getTimestamp()) {
 				$firstDate = $transaction->getActionCreated();
@@ -138,8 +132,7 @@ final class ImportService
 			return;
 		}
 
-		$this->portfolioDataRepository->deletePortfolioData($user->getId(), $firstDate);
-		$this->groupDataRepository->deleteUserGroupData($user->getId(), $firstDate);
+		$this->dataProvider->deleteUserData($user, DateTimeImmutable::createFromRegular($firstDate));
 	}
 
 	/** @param array<string, string> $csvRecord */

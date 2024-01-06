@@ -5,13 +5,15 @@ import {LayoutComponent} from "@app/transactions/components/layout/layout.compon
 import {TransactionsRoutingModule} from "@app/transactions/transactions-routing.module";
 import {SharedModule} from "@app/shared/shared.module";
 import {NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {TransactionDialogComponent} from "@app/transactions/components/transaction-dialog/transaction-dialog.component";
 
 
 @NgModule({
     declarations: [
         LayoutComponent,
         ListComponent,
+        TransactionDialogComponent
     ],
     imports: [
         CommonModule,
@@ -19,6 +21,7 @@ import {FormsModule} from "@angular/forms";
         SharedModule,
         NgbPaginationModule,
         FormsModule,
+        ReactiveFormsModule,
     ]
 })
 export class TransactionsModule { }

@@ -62,4 +62,9 @@ class PortfolioDataProvider
 
 		return $portfolioData;
 	}
+
+	public function deletePortfolioData(User $user, DateTimeImmutable $date): void
+	{
+		$this->portfolioDataRepository->deletePortfolioData($user->getId(), $date);
+	}
 }

@@ -64,4 +64,9 @@ class GroupDataProvider
 
 		return $groupData;
 	}
+
+	public function deleteUserGroupData(User $user, DateTimeImmutable $date): void
+	{
+		$this->groupDataRepository->deleteUserGroupData($user->getId(), $date);
+	}
 }
