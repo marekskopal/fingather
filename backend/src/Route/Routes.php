@@ -98,6 +98,7 @@ enum Routes: string
 		$routeList->get(self::TickerData->value, [TickerDataController::class, 'actionGetTickerData']);
 
 		$routeList->get(self::Transactions->value, [TransactionController::class, 'actionGetTransactions']);
+		$routeList->post(self::Transactions->value, [TransactionController::class, 'actionPostTransaction']);
 
 		return $routeList;
 	}
