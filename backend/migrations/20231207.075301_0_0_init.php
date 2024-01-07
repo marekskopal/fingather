@@ -205,7 +205,7 @@ class InitMigration extends Migration
 			->addColumn(
 				'action_type',
 				'enum',
-				['nullable' => false, 'default' => null, 'values' => ['Undefined', 'Buy', 'Sell', 'Dividend']]
+				['nullable' => false, 'default' => null, 'values' => ['Undefined', 'Buy', 'Sell', 'Dividend']],
 			)
 			->addColumn('action_created', 'timestamp', ['nullable' => false, 'default' => null])
 			->addColumn('create_type', 'enum', ['nullable' => false, 'default' => 'Manual', 'values' => ['Manual', 'Import']])

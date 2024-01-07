@@ -26,7 +26,7 @@ class BrokerController
 	{
 		$brokers = array_map(
 			fn (Broker $broker): BrokerDto => BrokerDto::fromEntity($broker),
-			iterator_to_array($this->brokerProvider->getBrokers($this->requestService->getUser($request)))
+			iterator_to_array($this->brokerProvider->getBrokers($this->requestService->getUser($request))),
 		);
 
 		return new JsonResponse($brokers);

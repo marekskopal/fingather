@@ -21,7 +21,7 @@ class AssetController
 	public function __construct(
 		private readonly AssetProvider $assetProvider,
 		private readonly TickerDataProvider $tickerDataProvider,
-		private readonly RequestService $requestService
+		private readonly RequestService $requestService,
 	)
 	{
 	}

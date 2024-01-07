@@ -63,7 +63,7 @@ final class AlphaVantageApiClient
 
 		$results = $this->client->timeSeries()->dailyAdjusted(
 			$ticker,
-			$fullHistory ? TimeSeries::OUTPUT_TYPE_FULL : TimeSeries::OUTPUT_TYPE_COMPACT
+			$fullHistory ? TimeSeries::OUTPUT_TYPE_FULL : TimeSeries::OUTPUT_TYPE_COMPACT,
 		);
 		foreach ($results['Time Series (Daily)'] as $date => $result) {
 			$timeSeriesDaily[] = new TimeSerieDailyDto(
@@ -76,7 +76,7 @@ final class AlphaVantageApiClient
 				volume: (int) $result['6. volume'],
 				dividendAmount: new Decimal($result['7. dividend amount']),
 				splitCoefficient: $result['8. split coefficient'] !== null ? new Decimal($result['8. split coefficient']) : new Decimal(
-					'1.0'
+					'1.0',
 				),
 			);
 		}
@@ -92,7 +92,7 @@ final class AlphaVantageApiClient
 		$results = $this->client->foreignExchange()->daily(
 			'USD',
 			$toSymbol,
-			$fullHistory ? TimeSeries::OUTPUT_TYPE_FULL : TimeSeries::OUTPUT_TYPE_COMPACT
+			$fullHistory ? TimeSeries::OUTPUT_TYPE_FULL : TimeSeries::OUTPUT_TYPE_COMPACT,
 		);
 		foreach ($results['Time Series FX (Daily)'] as $date => $result) {
 			$fxDaily[] = new FxDailyDto(

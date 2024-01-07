@@ -25,7 +25,7 @@ class GroupController
 	{
 		$brokers = array_map(
 			fn (Group $group): GroupDto => GroupDto::fromEntity($group),
-			iterator_to_array($this->groupProvider->getGroups($this->requestService->getUser($request)))
+			iterator_to_array($this->groupProvider->getGroups($this->requestService->getUser($request))),
 		);
 
 		return new JsonResponse($brokers);

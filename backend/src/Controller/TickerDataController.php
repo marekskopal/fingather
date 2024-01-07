@@ -39,7 +39,7 @@ class TickerDataController
 
 		$tickerDatas = array_map(
 			fn (TickerData $tickerData): TickerDataDto => TickerDataDto::fromEntity($tickerData),
-			$this->tickerDataProvider->getTickerDatas($ticker, $fromDate, $toDate)
+			$this->tickerDataProvider->getTickerDatas($ticker, $fromDate, $toDate),
 		);
 
 		return new JsonResponse($tickerDatas);

@@ -31,7 +31,7 @@ class TransactionController
 		private readonly BrokerProvider $brokerProvider,
 		private readonly CurrencyProvider $currencyProvider,
 		private readonly DataProvider $dataProvider,
-		private readonly RequestService $requestService
+		private readonly RequestService $requestService,
 	) {
 	}
 
@@ -59,7 +59,7 @@ class TransactionController
 
 		$transactionDtos = array_map(
 			fn (Transaction $transaction): TransactionDto => TransactionDto::fromEntity($transaction),
-			$transactions
+			$transactions,
 		);
 
 		return new JsonResponse(new TransactionListDto($transactionDtos, $count));
@@ -199,7 +199,7 @@ class TransactionController
 
 		$this->dataProvider->deleteUserData(
 			$transaction->getUser(),
-			DateTimeImmutable::createFromRegular($transaction->getActionCreated())
+			DateTimeImmutable::createFromRegular($transaction->getActionCreated()),
 		);
 
 		return new OkResponse();

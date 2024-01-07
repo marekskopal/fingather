@@ -63,7 +63,7 @@ final class ImportService
 				isset($transactionRecord->importIdentifier)
 				&& $this->transactionRepository->findTransactionByIdentifier(
 					$broker->getId(),
-					$transactionRecord->importIdentifier
+					$transactionRecord->importIdentifier,
 				) !== null
 			) {
 				$this->logger->log('import', 'Skipped transaction: ' . implode(',', $record));

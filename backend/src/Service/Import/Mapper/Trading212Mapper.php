@@ -16,11 +16,11 @@ class Trading212Mapper implements MapperInterface
 			'units' => 'No. of shares',
 			'price' => fn (array $record): string => str_starts_with(
 				$record['Action'],
-				'Dividend'
+				'Dividend',
 			) ? $record['Total'] : $record['Price / share'],
 			'currency' => fn (array $record): string => str_starts_with(
 				$record['Action'],
-				'Dividend'
+				'Dividend',
 			) ? $record['Currency (Total)'] : $record['Currency (Price / share)'],
 			'tax' => 'Currency conversion fee',
 		];

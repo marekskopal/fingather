@@ -14,7 +14,7 @@ final readonly class UserDto
 		public string $email,
 		public string $name,
 		public int $defaultCurrencyId,
-		public UserRoleEnum $role
+		public UserRoleEnum $role,
 	)
 	{
 	}
