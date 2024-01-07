@@ -38,7 +38,7 @@ class UserProvider
 		#[SensitiveParameter] string $password,
 		string $name,
 		Currency $defaultCurrency,
-		UserRoleEnum $role
+		UserRoleEnum $role,
 	): User {
 		$hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
@@ -53,7 +53,7 @@ class UserProvider
 		#[SensitiveParameter] string $password,
 		string $name,
 		Currency $defaultCurrency,
-		UserRoleEnum $role
+		UserRoleEnum $role,
 	): User {
 		if ($password !== '') {
 			$hashedPassword = password_hash($password, PASSWORD_BCRYPT);

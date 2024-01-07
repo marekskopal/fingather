@@ -21,7 +21,7 @@ class TickerDataProvider
 	public function __construct(
 		private readonly TickerDataRepository $tickerDataRepository,
 		private readonly SplitRepository $splitRepository,
-		private readonly AlphaVantageApiClient $alphaVantageApiClient
+		private readonly AlphaVantageApiClient $alphaVantageApiClient,
 	) {
 	}
 

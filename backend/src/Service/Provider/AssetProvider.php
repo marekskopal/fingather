@@ -131,7 +131,7 @@ class AssetProvider
 			);
 
 			$transactionValueDefaultCurrency = $transactionValueDefaultCurrency->add(
-				$transactionSum->mul($transactionExchangeRateDefaultCurrency->getRate())
+				$transactionSum->mul($transactionExchangeRateDefaultCurrency->getRate()),
 			);
 		}
 

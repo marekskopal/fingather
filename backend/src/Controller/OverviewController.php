@@ -14,7 +14,7 @@ class OverviewController
 {
 	public function __construct(
 		private readonly OverviewDataCalculator $overviewDataCalculator,
-		private readonly RequestService $requestService
+		private readonly RequestService $requestService,
 	) {
 	}
 

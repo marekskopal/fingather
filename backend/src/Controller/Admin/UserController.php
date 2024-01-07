@@ -22,7 +22,7 @@ class UserController extends AdminController
 	public function __construct(
 		RequestService $requestService,
 		private readonly UserProvider $userProvider,
-		private readonly CurrencyProvider $currencyProvider
+		private readonly CurrencyProvider $currencyProvider,
 	)
 	{
 		parent::__construct($requestService);
@@ -34,7 +34,7 @@ class UserController extends AdminController
 
 		$brokers = array_map(
 			fn (User $user): UserDto => UserDto::fromEntity($user),
-			iterator_to_array($this->userProvider->getUsers())
+			iterator_to_array($this->userProvider->getUsers()),
 		);
 
 		return new JsonResponse($brokers);

@@ -22,7 +22,7 @@ class TransactionRepository extends ARepository
 		?DateTimeImmutable $actionCreatedBefore = null,
 		?array $actionTypes = null,
 		?int $limit = null,
-		?int $offset = null
+		?int $offset = null,
 	): array {
 		return $this->getTransactionsSelect($userId, $assetId, $actionCreatedBefore, $actionTypes, $limit, $offset)->fetchAll();
 	}
@@ -47,7 +47,7 @@ class TransactionRepository extends ARepository
 		?DateTimeImmutable $actionCreatedBefore = null,
 		?array $actionTypes = null,
 		?int $limit = null,
-		?int $offset = null
+		?int $offset = null,
 	): Select {
 		$transactions = $this->select()
 			->where('user_id', $userId);

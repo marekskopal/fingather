@@ -15,7 +15,7 @@ class AnycoinMapper implements MapperInterface
 		return [
 			'actionType' => 'ACTION',
 			'created' => fn (array $record): string => DateTimeUtils::formatZulu(
-				DateTimeImmutable::createFromFormat('j. n. Y H:i:s', $record['DATE'])
+				DateTimeImmutable::createFromFormat('j. n. Y H:i:s', $record['DATE']),
 			),
 			'ticker' => fn (array $record): string => substr($record['SYMBOL'], 0, 3),
 			'units' => 'QUANTY',

@@ -18,7 +18,7 @@ class ImportDataController
 	public function __construct(
 		private readonly ImportService $importService,
 		private readonly BrokerProvider $brokerProvider,
-		private readonly RequestService $requestService
+		private readonly RequestService $requestService,
 	) {
 	}
 

@@ -16,7 +16,7 @@ class PortfolioDataController
 {
 	public function __construct(
 		private readonly PortfolioDataProvider $portfolioDataProvider,
-		private readonly RequestService $requestService
+		private readonly RequestService $requestService,
 	)
 	{
 	}

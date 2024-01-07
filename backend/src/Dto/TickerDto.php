@@ -19,7 +19,7 @@ final readonly class TickerDto
 			ticker: $ticker->getTicker(),
 			name: $ticker->getName(),
 			marketId: $ticker->getMarket()->getId(),
-			market: MarketDto::fromEntity($ticker->getMarket())
+			market: MarketDto::fromEntity($ticker->getMarket()),
 		);
 	}
 }

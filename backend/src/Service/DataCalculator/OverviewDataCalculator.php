@@ -60,7 +60,7 @@ class OverviewDataCalculator
 			}
 
 			$investSum = $portfolioDataFromDate->value->add(
-				$portfolioDataToDate->transactionValue->sub($portfolioDataFromDate->transactionValue)
+				$portfolioDataToDate->transactionValue->sub($portfolioDataFromDate->transactionValue),
 			);
 
 			$transactionValue = $portfolioDataToDate->transactionValue->sub($portfolioDataFromDate->transactionValue);

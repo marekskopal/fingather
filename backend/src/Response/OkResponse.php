@@ -13,7 +13,7 @@ class OkResponse extends JsonResponse
 		string $data = 'Ok',
 		int $status = 200,
 		array $headers = [],
-		int $encodingOptions = self::DEFAULT_JSON_FLAGS
+		int $encodingOptions = self::DEFAULT_JSON_FLAGS,
 	)
 	{
 		parent::__construct(
