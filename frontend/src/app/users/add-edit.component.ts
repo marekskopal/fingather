@@ -32,7 +32,7 @@ export class AddEditComponent extends BaseForm implements OnInit {
         this.id = this.route.snapshot.params['id'];
         this.isAddMode = !this.id;
 
-        this.currencies = await this.currencyService.getCurrencies();
+        this.currencies = await this.currencyService.getCurrenciesMap();
         if (this.isAddMode) {
             this.f['defaultCurrencyId'].patchValue(this.currencies.get(1)?.id);
         }

@@ -18,7 +18,7 @@ export class TransactionDialogComponent extends BaseForm implements OnInit {
     ]
     public assets: Asset[];
     public brokers: Broker[];
-    public currencies: Map<number, Currency>;
+    public currencies: Currency[];
 
     public constructor(
         private route: ActivatedRoute,
@@ -48,7 +48,9 @@ export class TransactionDialogComponent extends BaseForm implements OnInit {
             .pipe(first())
             .subscribe((brokers: Broker[]) => this.brokers = brokers);
 
-        this.currencies = await this.currencyService.getCurrencies();
+        this.currencyService.getCurrencies()
+            .pipe(first())
+            .subscribe((currencies: Currency[]) => this.currencies = currencies);
 
         this.form = this.formBuilder.group({
             assetId: ['', Validators.required],

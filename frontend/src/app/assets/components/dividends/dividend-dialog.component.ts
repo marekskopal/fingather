@@ -40,7 +40,7 @@ export class DividendDialogComponent extends BaseDialog implements OnInit {
                 }
             });
 
-        this.currencies = await this.currencyService.getCurrencies();
+        this.currencies = await this.currencyService.getCurrenciesMap();
         if (this.isAddMode) {
             this.f['currencyId'].patchValue(this.currencies.get(1)?.id);
         }

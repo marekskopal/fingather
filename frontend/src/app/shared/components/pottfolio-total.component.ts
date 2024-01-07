@@ -17,7 +17,7 @@ export class PortfolioTotalComponent implements OnInit {
     ) { }
 
     public async ngOnInit(): Promise<void> {
-        this.currencies = await this.currencyService.getCurrencies();
+        this.currencies = await this.currencyService.getCurrenciesMap();
         this.defaultCurrency = await this.currencyService.getDefaultCurrency();
 
         this.portfolioDataService.getPortfolioData()
