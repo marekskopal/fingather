@@ -1,53 +1,124 @@
-﻿<h1>Assets</h1>
+﻿<div class="row">
+    <div class="col-md-8">
+        <h1>Assets</h1>
+    </div>
+    <div class="col-md-4 text-end">
+        <a (click)="addAsset()" class="btn btn-sm btn-success mb-2" tabindex="0">Add Asset</a>
+        <a routerLink="import" class="btn btn-sm mb-2">Import</a>
+    </div>
+</div>
 
 <fingather-portfolio-total></fingather-portfolio-total>
 
-<a (click)="addAsset()" class="btn btn-sm btn-success mb-2" tabindex="0">Add Asset</a>
-<a routerLink="import" class="btn btn-sm mb-2">Import</a>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th style="width: 24%">Name</th>
-            <th style="width: 9.5%">Price</th>
-            <th style="width: 9.5%">Units</th>
-            <th style="width: 9.5%">Value</th>
-            <th style="width: 9.5%">Gain/Loss</th>
-            <th style="width: 9.5%">Dividend</th>
-            <th style="width: 9.5%">FX Impact</th>
-            <th style="width: 9.5%"><strong>Return</strong></th>
-            <th style="width: 9.5%"></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let asset of assets">
-            <td><strong>{{asset.ticker.ticker}}</strong> {{asset.ticker.name}}</td>
-            <td class="text-end">{{asset.price | number:'1.2-2' | currency: asset.ticker.market.currencyId | async}}</td>
-            <td>{{asset.units | number:'1.0-8'}}</td>
-            <td class="text-end">{{asset.value | number:'1.2-2' | currency: defaultCurrency.id | async}}</td>
-            <td class="text-end {{asset.gain > 0 ? 'green' : (asset.gain < 0 ? 'red' : '')}}">
-                <div class="small">{{asset.gainDefaultCurrency | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
-                <div>{{asset.gainPercentage}}%</div>
-            </td>
-            <td class="text-end {{asset.dividendGain > 0 ? 'green' : (asset.dividendGain < 0 ? 'red' : '')}}">
-                <div class="small">{{asset.dividendGainDefaultCurrency | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
-                <div>{{asset.dividendGainPercentage}}%</div>
-            </td>
-            <td class="text-end {{asset.fxImpact > 0 ? 'green' : (asset.fxImpact < 0 ? 'red' : '')}}">
-                <div class="small">{{asset.fxImpact | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
-                <div>{{asset.fxImpactPercentage}}%</div>
-            </td>
-            <td class="text-end {{asset.return > 0 ? 'green' : (asset.return < 0 ? 'red' : '')}}">
-                <div class="small"><strong>{{asset.return | number:'1.2-2' | currency: defaultCurrency.id | async}}</strong></div>
-                <div><strong>{{asset.returnPercentage}}%</strong></div>
-            </td>
-            <td style="white-space: nowrap">
-                <a routerLink="{{asset.id}}" class="btn btn-sm btn-primary mr-1">Detail</a>
-            </td>
-        </tr>
-        <tr *ngIf="assets === null">
-            <td colspan="9" class="text-center">
-                <span class="spinner-border spinner-border-lg align-center"></span>
-            </td>
-        </tr>
-    </tbody>
-</table>
+<ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav nav-tabs" role="tablist">
+    <li [ngbNavItem]="'open-positions'">
+        <button ngbNavLink><span class="h4">Open positions</span></button>
+        <ng-template ngbNavContent>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th style="width: 24%">Name</th>
+                        <th style="width: 9.5%">Price</th>
+                        <th style="width: 9.5%">Units</th>
+                        <th style="width: 9.5%">Value</th>
+                        <th style="width: 9.5%">Gain/Loss</th>
+                        <th style="width: 9.5%">Dividend</th>
+                        <th style="width: 9.5%">FX Impact</th>
+                        <th style="width: 9.5%"><strong>Return</strong></th>
+                        <th style="width: 9.5%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let asset of openedAssets">
+                        <td><strong>{{asset.ticker.ticker}}</strong> {{asset.ticker.name}}</td>
+                        <td class="text-end">{{asset.price | number:'1.2-2' | currency: asset.ticker.market.currencyId | async}}</td>
+                        <td>{{asset.units | number:'1.0-8'}}</td>
+                        <td class="text-end">{{asset.value | number:'1.2-2' | currency: defaultCurrency.id | async}}</td>
+                        <td class="text-end {{asset.gain > 0 ? 'green' : (asset.gain < 0 ? 'red' : '')}}">
+                            <div class="small">{{asset.gainDefaultCurrency | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
+                            <div>{{asset.gainPercentage}}%</div>
+                        </td>
+                        <td class="text-end {{asset.dividendGain > 0 ? 'green' : (asset.dividendGain < 0 ? 'red' : '')}}">
+                            <div class="small">{{asset.dividendGainDefaultCurrency | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
+                            <div>{{asset.dividendGainPercentage}}%</div>
+                        </td>
+                        <td class="text-end {{asset.fxImpact > 0 ? 'green' : (asset.fxImpact < 0 ? 'red' : '')}}">
+                            <div class="small">{{asset.fxImpact | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
+                            <div>{{asset.fxImpactPercentage}}%</div>
+                        </td>
+                        <td class="text-end {{asset.return > 0 ? 'green' : (asset.return < 0 ? 'red' : '')}}">
+                            <div class="small"><strong>{{asset.return | number:'1.2-2' | currency: defaultCurrency.id | async}}</strong></div>
+                            <div><strong>{{asset.returnPercentage}}%</strong></div>
+                        </td>
+                        <td style="white-space: nowrap">
+                            <a routerLink="{{asset.id}}" class="btn btn-sm btn-primary mr-1">Detail</a>
+                        </td>
+                    </tr>
+                    <tr *ngIf="openedAssets === null">
+                        <td colspan="9" class="text-center">
+                            <span class="spinner-border spinner-border-lg align-center"></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </ng-template>
+    </li>
+    <li [ngbNavItem]="'closed-positions'">
+        <button ngbNavLink><span class="h4">Closed positions</span></button>
+        <ng-template ngbNavContent>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th style="width: 50%">Name</th>
+                        <th style="width: 30%">Price</th>
+                        <th style="width: 20%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let asset of closedAssets">
+                        <td><strong>{{asset.ticker.ticker}}</strong> {{asset.ticker.name}}</td>
+                        <td class="text-end">{{asset.price | number:'1.2-2' | currency: asset.ticker.market.currencyId | async}}</td>
+                        <td style="white-space: nowrap">
+                            <a routerLink="{{asset.id}}" class="btn btn-sm btn-primary mr-1">Detail</a>
+                        </td>
+                    </tr>
+                    <tr *ngIf="closedAssets === null">
+                        <td colspan="9" class="text-center">
+                            <span class="spinner-border spinner-border-lg align-center"></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </ng-template>
+    </li>
+    <li [ngbNavItem]="'watch-list'">
+        <button ngbNavLink><span class="h4">Watch list</span></button>
+        <ng-template ngbNavContent>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th style="width: 50%">Name</th>
+                        <th style="width: 30%">Price</th>
+                        <th style="width: 20%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let asset of watchedAssets">
+                        <td><strong>{{asset.ticker.ticker}}</strong> {{asset.ticker.name}}</td>
+                        <td class="text-end">{{asset.price | number:'1.2-2' | currency: asset.ticker.market.currencyId | async}}</td>
+                        <td style="white-space: nowrap">
+                            <a routerLink="{{asset.id}}" class="btn btn-sm btn-primary mr-1">Detail</a>
+                        </td>
+                    </tr>
+                    <tr *ngIf="watchedAssets === null">
+                        <td colspan="9" class="text-center">
+                            <span class="spinner-border spinner-border-lg align-center"></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </ng-template>
+    </li>
+</ul>
+
+<div [ngbNavOutlet]="nav" class="mt-2"></div>

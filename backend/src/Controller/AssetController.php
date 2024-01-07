@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace FinGather\Controller;
 
+use Decimal\Decimal;
 use FinGather\Dto\AssetDto;
+use FinGather\Dto\AssetWithPropertiesDto;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Service\Provider\AssetProvider;
+use FinGather\Service\Provider\TickerDataProvider;
 use FinGather\Service\Request\RequestService;
 use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
@@ -15,7 +18,11 @@ use Safe\DateTimeImmutable;
 
 class AssetController
 {
-	public function __construct(private readonly AssetProvider $assetProvider, private readonly RequestService $requestService)
+	public function __construct(
+		private readonly AssetProvider $assetProvider,
+		private readonly TickerDataProvider $tickerDataProvider,
+		private readonly RequestService $requestService
+	)
 	{
 	}
 
@@ -24,7 +31,28 @@ class AssetController
 		$user = $this->requestService->getUser($request);
 
 		$dateTime = new DateTimeImmutable();
-		$assets = $this->assetProvider->getAssets($this->requestService->getUser($request), $dateTime);
+		$assets = $this->assetProvider->getAssets($user);
+
+		$assetDtos = [];
+
+		foreach ($assets as $asset) {
+			$lastTickerData = $this->tickerDataProvider->getLastTickerData($asset->getTicker(), $dateTime);
+			if ($lastTickerData === null) {
+				continue;
+			}
+
+			$assetDtos[] = AssetDto::fromEntity($asset, new Decimal($lastTickerData->getClose()));
+		}
+
+		return new JsonResponse($assetDtos);
+	}
+
+	public function actionGetAssetsOpened(ServerRequestInterface $request): ResponseInterface
+	{
+		$user = $this->requestService->getUser($request);
+
+		$dateTime = new DateTimeImmutable();
+		$assets = $this->assetProvider->getOpenAssets($user, $dateTime);
 
 		$assetDtos = [];
 
@@ -34,7 +62,49 @@ class AssetController
 				continue;
 			}
 
-			$assetDtos[] = AssetDto::fromEntity($asset, $assetProperties);
+			$assetDtos[] = AssetWithPropertiesDto::fromEntity($asset, $assetProperties);
+		}
+
+		return new JsonResponse($assetDtos);
+	}
+
+	public function actionGetAssetsClosed(ServerRequestInterface $request): ResponseInterface
+	{
+		$user = $this->requestService->getUser($request);
+
+		$dateTime = new DateTimeImmutable();
+		$assets = $this->assetProvider->getClosedAssets($user, $dateTime);
+
+		$assetDtos = [];
+
+		foreach ($assets as $asset) {
+			$lastTickerData = $this->tickerDataProvider->getLastTickerData($asset->getTicker(), $dateTime);
+			if ($lastTickerData === null) {
+				continue;
+			}
+
+			$assetDtos[] = AssetDto::fromEntity($asset, new Decimal($lastTickerData->getClose()));
+		}
+
+		return new JsonResponse($assetDtos);
+	}
+
+	public function actionGetAssetsWatched(ServerRequestInterface $request): ResponseInterface
+	{
+		$user = $this->requestService->getUser($request);
+
+		$dateTime = new DateTimeImmutable();
+		$assets = $this->assetProvider->getWatchedAssets($user);
+
+		$assetDtos = [];
+
+		foreach ($assets as $asset) {
+			$lastTickerData = $this->tickerDataProvider->getLastTickerData($asset->getTicker(), $dateTime);
+			if ($lastTickerData === null) {
+				continue;
+			}
+
+			$assetDtos[] = AssetDto::fromEntity($asset, new Decimal($lastTickerData->getClose()));
 		}
 
 		return new JsonResponse($assetDtos);
@@ -62,6 +132,6 @@ class AssetController
 			return new NotFoundResponse('Asset with id "' . $assetId . '" was not found.');
 		}
 
-		return new JsonResponse(AssetDto::fromEntity($asset, $assetProperties));
+		return new JsonResponse(AssetWithPropertiesDto::fromEntity($asset, $assetProperties));
 	}
 }

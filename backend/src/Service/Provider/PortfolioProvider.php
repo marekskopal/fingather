@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Service\Provider;
 
 use Decimal\Decimal;
-use FinGather\Dto\AssetDto;
+use FinGather\Dto\AssetWithPropertiesDto;
 use FinGather\Dto\GroupDataDto;
 use FinGather\Dto\GroupWithGroupDataDto;
 use FinGather\Dto\PortfolioDataDto;
@@ -29,14 +29,14 @@ class PortfolioProvider
 		$groups = [];
 		$groupAssets = [];
 
-		$assets = $this->assetProvider->getAssets($user, $dateTime);
+		$assets = $this->assetProvider->getOpenAssets($user, $dateTime);
 		foreach ($assets as $asset) {
 			$assetProperties = $this->assetProvider->getAssetProperties($user, $asset, $dateTime);
 			if ($assetProperties === null) {
 				continue;
 			}
 
-			$assetDto = AssetDto::fromEntity($asset, $assetProperties);
+			$assetDto = AssetWithPropertiesDto::fromEntity($asset, $assetProperties);
 
 			$group = $asset->getGroup();
 
@@ -58,7 +58,7 @@ class PortfolioProvider
 				id: $groupId,
 				userId: $user->getId(),
 				name: $group->getName(),
-				assetIds: array_map(fn (AssetDto $asset): int => $asset->id, $groupAssets[$groupId]),
+				assetIds: array_map(fn (AssetWithPropertiesDto $asset): int => $asset->id, $groupAssets[$groupId]),
 				assets: $groupAssets[$groupId],
 				percentage: ((new Decimal($groupData->getValue()))->div(new Decimal($portfolioData->getValue())))->toFloat() * 100,
 				groupData: GroupDataDto::fromEntity($groupData),

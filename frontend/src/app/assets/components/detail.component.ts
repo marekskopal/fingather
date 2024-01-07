@@ -1,12 +1,12 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { first } from 'rxjs/operators';
 import {ActivatedRoute} from "@angular/router";
-import {Asset} from "@app/models";
+import {AssetWithProperties} from "@app/models";
 import {AssetService} from "@app/services";
 
 @Component({ templateUrl: 'detail.component.html' })
 export class DetailComponent implements OnInit {
-    public asset: Asset|null = null;
+    public asset: AssetWithProperties|null = null;
     public id: number;
 
     public constructor(

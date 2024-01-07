@@ -5,14 +5,14 @@ import { first } from 'rxjs/operators';
 
 import * as moment from "moment";
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import {Asset, Broker} from "@app/models";
+import {AssetWithProperties, Broker} from "@app/models";
 import {AlertService, BrokerService, TransactionService} from "@app/services";
 import {BaseForm} from "@app/shared/components/form/base-form";
 
 @Component({ templateUrl: 'transaction-dialog.component.html' })
 export class TransactionDialogComponent extends BaseForm implements OnInit {
     public assetId: number;
-    public asset: Asset;
+    public asset: AssetWithProperties;
     public id: number;
     public isAddMode: boolean;
     public actionTypes = [
