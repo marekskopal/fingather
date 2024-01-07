@@ -2,9 +2,9 @@
 import { first } from 'rxjs/operators';
 
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {AddEditComponent} from "./add-edit.component";
 import {Asset, Currency} from "@app/models";
 import {AssetService, CurrencyService} from "@app/services";
+import {AddAssetComponent} from "@app/assets/components/add-asset/add-asset.component";
 
 @Component({ templateUrl: 'list.component.html' })
 export class ListComponent implements OnInit {
@@ -26,7 +26,7 @@ export class ListComponent implements OnInit {
     }
 
     public addAsset(): void {
-        this.modalService.open(AddEditComponent);
+        this.modalService.open(AddAssetComponent);
     }
 
     public deleteAsset(id: number): void {

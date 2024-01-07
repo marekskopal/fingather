@@ -11,6 +11,24 @@ export class TickerService {
         private http: HttpClient
     ) {}
 
+    public getTickers(search: string|null = null, limit: number|null = null, offset: number|null = null): Observable<Ticker[]> {
+        let params = new HttpParams();
+
+        if (search !== null) {
+            params = params.set('search', search);
+        }
+
+        if (limit !== null) {
+            params = params.set('limit', limit);
+        }
+
+        if (offset !== null) {
+            params = params.set('offset', offset);
+        }
+
+        return this.http.get<Ticker[]>(`${environment.apiUrl}/ticker`, {params});
+    }
+
     public getTicker(ticker: string): Observable<Ticker> {
         const params = new HttpParams().set('ticker', ticker);
 

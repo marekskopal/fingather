@@ -9,10 +9,26 @@ use FinGather\Model\Entity\Ticker;
 /** @extends ARepository<Ticker> */
 class TickerRepository extends ARepository
 {
-	/** @return iterable<Ticker> */
-	public function findTickers(): iterable
+	/** @return array<Ticker> */
+	public function findTickers(?string $search = null, ?int $limit = null, ?int $offset = null,): array
 	{
-		return $this->findAll();
+		$tickers = $this->select();
+
+		if ($search !== null) {
+			$tickers->where('ticker', 'like', $search . '%');
+		}
+
+		if ($limit !== null) {
+			$tickers->limit($limit);
+		}
+
+		if ($offset !== null) {
+			$tickers->offset($offset);
+		}
+
+		$tickers->orderBy('ticker', 'DESC');
+
+		return $tickers->fetchAll();
 	}
 
 	public function findTicker(int $tickerId): ?Ticker
