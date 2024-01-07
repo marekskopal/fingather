@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Provider;
 
-use FinGather\Dto\AssetDto;
+use FinGather\Dto\AssetWithPropertiesDto;
 use FinGather\Model\Entity\Group;
 use FinGather\Model\Entity\GroupData;
 use FinGather\Model\Entity\User;
@@ -32,14 +32,14 @@ class GroupDataProvider
 
 		$assetDtos = [];
 
-		$assets = $this->assetProvider->getAssetsByGroup($group, $user, $dateTime);
+		$assets = $this->assetProvider->getOpenAssetsByGroup($group, $user, $dateTime);
 		foreach ($assets as $asset) {
 			$assetProperties = $this->assetProvider->getAssetProperties($user, $asset, $dateTime);
 			if ($assetProperties === null) {
 				continue;
 			}
 
-			$assetDtos[] = AssetDto::fromEntity($asset, $assetProperties);
+			$assetDtos[] = AssetWithPropertiesDto::fromEntity($asset, $assetProperties);
 		}
 
 		$calculatedData = $this->dataCalculator->calculate($user, $dateTime, $assetDtos);

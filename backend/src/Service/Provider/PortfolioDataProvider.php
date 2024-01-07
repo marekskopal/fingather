@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Provider;
 
-use FinGather\Dto\AssetDto;
+use FinGather\Dto\AssetWithPropertiesDto;
 use FinGather\Model\Entity\PortfolioData;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\PortfolioDataRepository;
@@ -31,14 +31,14 @@ class PortfolioDataProvider
 
 		$assetDtos = [];
 
-		$assets = $this->assetProvider->getAssets($user, $dateTime);
+		$assets = $this->assetProvider->getOpenAssets($user, $dateTime);
 		foreach ($assets as $asset) {
 			$assetProperties = $this->assetProvider->getAssetProperties($user, $asset, $dateTime);
 			if ($assetProperties === null) {
 				continue;
 			}
 
-			$assetDtos[] = AssetDto::fromEntity($asset, $assetProperties);
+			$assetDtos[] = AssetWithPropertiesDto::fromEntity($asset, $assetProperties);
 		}
 
 		$calculatedData = $this->dataCalculator->calculate($user, $dateTime, $assetDtos);

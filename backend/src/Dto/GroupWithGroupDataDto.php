@@ -8,7 +8,7 @@ final readonly class GroupWithGroupDataDto extends GroupWithAssetsDto
 {
 	/**
 	 * @param list<int> $assetIds
-	 * @param list<AssetDto> $assets
+	 * @param list<AssetWithPropertiesDto> $assets
 	 */
 	public function __construct(
 		int $id,

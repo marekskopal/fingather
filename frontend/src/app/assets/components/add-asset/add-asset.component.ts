@@ -2,7 +2,7 @@
 import { Router, ActivatedRoute } from '@angular/router';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, first, map, switchMap, tap} from 'rxjs/operators';
-import {Asset, Ticker} from "@app/models";
+import {AssetWithProperties, Ticker} from "@app/models";
 import {AlertService, AssetService, TickerService} from "@app/services";
 import {BaseForm} from "@app/shared/components/form/base-form";
 import {Observable, of, OperatorFunction} from "rxjs";

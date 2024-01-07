@@ -2,14 +2,19 @@
 import { first } from 'rxjs/operators';
 
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {Asset, Currency} from "@app/models";
+import {Asset, AssetWithProperties, Currency} from "@app/models";
 import {AssetService, CurrencyService} from "@app/services";
 import {AddAssetComponent} from "@app/assets/components/add-asset/add-asset.component";
 
 @Component({ templateUrl: 'list.component.html' })
 export class ListComponent implements OnInit {
-    public assets: Asset[]|null = null;
+    public openedAssets: AssetWithProperties[]|null = null;
+    public closedAssets: Asset[]|null = null;
+    public watchedAssets: Asset[]|null = null;
+
     public defaultCurrency: Currency;
+
+    public activeTab = 'open-positions';
 
     public constructor(
         private assetService: AssetService,
@@ -20,18 +25,20 @@ export class ListComponent implements OnInit {
     public async ngOnInit(): Promise<void> {
         this.defaultCurrency = await this.currencyService.getDefaultCurrency();
 
-        this.assetService.getAssets()
+        this.assetService.getOpenedAssets()
             .pipe(first())
-            .subscribe(assets => this.assets = assets);
+            .subscribe((openedAssets: AssetWithProperties[]) => this.openedAssets = openedAssets);
+
+        this.assetService.getClosedAssets()
+            .pipe(first())
+            .subscribe((closedAssets: Asset[]) => this.closedAssets = closedAssets);
+
+        this.assetService.getWatchedAssets()
+            .pipe(first())
+            .subscribe((watchedAssets: Asset[]) => this.watchedAssets = watchedAssets);
     }
 
     public addAsset(): void {
         this.modalService.open(AddAssetComponent);
-    }
-
-    public deleteAsset(id: number): void {
-        this.assetService.deleteAsset(id)
-            .pipe(first())
-            .subscribe(() => this.assets = this.assets !== null ? this.assets.filter(x => x.id !== id) : null);
     }
 }

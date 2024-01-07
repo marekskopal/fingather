@@ -4,14 +4,14 @@ import {first} from 'rxjs/operators';
 
 import {AlertService, AssetService, GroupService} from '@app/services';
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
-import {Asset, Group} from "../models";
+import {AssetWithProperties, Group} from "../models";
 import {BaseForm} from "@app/shared/components/form/base-form";
 
 @Component({ templateUrl: 'add-edit.component.html' })
 export class AddEditComponent extends BaseForm implements OnInit {
     @Input() public id: number;
     public isAddMode: boolean;
-    public assets: Asset[];
+    public assets: AssetWithProperties[];
     public othersGroup: Group;
 
     public constructor(
@@ -32,7 +32,7 @@ export class AddEditComponent extends BaseForm implements OnInit {
             assetIds: ['', Validators.required],
         });
 
-        this.assetService.getAssets()
+        this.assetService.getOpenedAssets()
             .subscribe((assets) => {
                 this.assets = assets;
             });

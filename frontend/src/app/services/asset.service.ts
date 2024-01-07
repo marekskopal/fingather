@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
 import { environment } from '@environments/environment';
-import { Asset } from '@app/models';
+import {Asset, AssetWithProperties} from '@app/models';
 import {Observable} from "rxjs";
 import {OkResponse} from "@app/models/ok-response";
 
@@ -13,7 +13,7 @@ export class AssetService {
         private http: HttpClient
     ) {}
 
-    public createAsset(asset: Asset): Observable<Asset> {
+    public createAsset(asset: AssetWithProperties): Observable<Asset> {
         return this.http.post<Asset>(`${environment.apiUrl}/asset`, asset);
     }
 
@@ -21,12 +21,24 @@ export class AssetService {
         return this.http.get<Asset[]>(`${environment.apiUrl}/asset`);
     }
 
-    public getAsset(id: number): Observable<Asset> {
-        return this.http.get<Asset>(`${environment.apiUrl}/asset/${id}`);
+    public getOpenedAssets(): Observable<AssetWithProperties[]> {
+        return this.http.get<AssetWithProperties[]>(`${environment.apiUrl}/asset/opened`);
     }
 
-    public updateAsset(id: number, asset: Asset): Observable<Asset> {
-        return this.http.put<Asset>(`${environment.apiUrl}/asset/${id}`, asset)
+    public getClosedAssets(): Observable<Asset[]> {
+        return this.http.get<Asset[]>(`${environment.apiUrl}/asset/closed`);
+    }
+
+    public getWatchedAssets(): Observable<Asset[]> {
+        return this.http.get<Asset[]>(`${environment.apiUrl}/asset/watched`);
+    }
+
+    public getAsset(id: number): Observable<AssetWithProperties> {
+        return this.http.get<AssetWithProperties>(`${environment.apiUrl}/asset/${id}`);
+    }
+
+    public updateAsset(id: number, asset: AssetWithProperties): Observable<AssetWithProperties> {
+        return this.http.put<AssetWithProperties>(`${environment.apiUrl}/asset/${id}`, asset)
             .pipe(map(x => {
                 return x;
             }));

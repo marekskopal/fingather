@@ -12,6 +12,15 @@ use Safe\DateTimeImmutable;
 class AssetRepository extends ARepository
 {
 	/** @return array<int, Asset> */
+	public function findAssets(int $userId): array
+	{
+		return $this->select()
+			->where('user_id', $userId)
+			->orderBy('ticker.name')
+			->fetchAll();
+	}
+
+	/** @return array<int, Asset> */
 	public function findOpenAssets(int $userId, DateTimeImmutable $dateTime): array
 	{
 		$openAssetSelect = $this->orm->getSource(Asset::class)
@@ -48,6 +57,44 @@ class AssetRepository extends ARepository
 			->where('user_id', $userId)
 			->where('group_id', $groupId)
 			->where('id', 'in', $openAssetSelect)
+			->fetchAll();
+	}
+
+	/** @return array<int, Asset> */
+	public function findClosedAssets(int $userId, DateTimeImmutable $dateTime): array
+	{
+		$closedAssetSelect = $this->orm->getSource(Asset::class)
+			->getDatabase()
+			->select('asset_id')
+			->from('transactions')
+			->where('user_id', $userId)
+			->where('action_created', '<=', $dateTime)
+			->where('action_type', 'in', [TransactionActionTypeEnum::Buy->value, TransactionActionTypeEnum::Sell->value])
+			->groupBy('asset_id')
+			->having('SUM(units)', '<=', 0);
+
+		return $this->select()
+			->where('user_id', $userId)
+			->where('id', 'in', $closedAssetSelect)
+			->orderBy('ticker.name')
+			->fetchAll();
+	}
+
+	/** @return array<int, Asset> */
+	public function findWatchedAssets(int $userId): array
+	{
+		$watchedAssetSelect = $this->orm->getSource(Asset::class)
+			->getDatabase()
+			->select('asset_id')
+			->from('transactions')
+			->where('user_id', $userId)
+			->where('action_type', 'in', [TransactionActionTypeEnum::Buy->value, TransactionActionTypeEnum::Sell->value])
+			->groupBy('asset_id');
+
+		return $this->select()
+			->where('user_id', $userId)
+			->where('id', 'not in', $watchedAssetSelect)
+			->orderBy('ticker.name')
 			->fetchAll();
 	}
 

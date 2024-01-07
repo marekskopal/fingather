@@ -5,7 +5,7 @@ import { first } from 'rxjs/operators';
 
 import * as moment from "moment";
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import {Asset, Broker, Currency, Transaction, TransactionActionType} from "@app/models";
+import {AssetWithProperties, Broker, Currency, Transaction, TransactionActionType} from "@app/models";
 import {AlertService, AssetService, BrokerService, CurrencyService, TransactionService} from "@app/services";
 import {BaseForm} from "@app/shared/components/form/base-form";
 
@@ -16,7 +16,7 @@ export class TransactionDialogComponent extends BaseForm implements OnInit {
         TransactionActionType.Buy,
         TransactionActionType.Sell,
     ]
-    public assets: Asset[];
+    public assets: AssetWithProperties[];
     public brokers: Broker[];
     public currencies: Currency[];
 
@@ -40,9 +40,9 @@ export class TransactionDialogComponent extends BaseForm implements OnInit {
 
         const currentDate = moment().format('YYYY-MM-DDTHH:mm');
 
-        this.assetService.getAssets()
+        this.assetService.getOpenedAssets()
             .pipe(first())
-            .subscribe((assets: Asset[]) => this.assets = assets);
+            .subscribe((assets: AssetWithProperties[]) => this.assets = assets);
 
         this.brokerService.getBrokers()
             .pipe(first())

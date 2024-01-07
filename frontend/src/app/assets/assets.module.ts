@@ -15,7 +15,7 @@ import { DividendDialogComponent } from './components/dividends/dividend-dialog.
 import { AssetTickerChartComponent } from './components/chart/asset-ticker-chart.component';
 import { SharedModule } from '../shared/shared.module';
 import {AddAssetComponent} from "@app/assets/components/add-asset/add-asset.component";
-import {NgbTypeaheadModule} from "@ng-bootstrap/ng-bootstrap";
+import {NgbNavModule, NgbTypeaheadModule} from "@ng-bootstrap/ng-bootstrap";
 
 @NgModule({
     imports: [
@@ -27,6 +27,7 @@ import {NgbTypeaheadModule} from "@ng-bootstrap/ng-bootstrap";
         NgApexchartsModule,
         NgbTypeaheadModule,
         FormsModule,
+        NgbNavModule,
     ],
     declarations: [
         LayoutComponent,
