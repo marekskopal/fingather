@@ -11,7 +11,7 @@
       }
     ],
     "require": {
-		"php": ">=8.2",
+		"php": ">=8.3",
         "league/route": "^5.1",
         "tracy/tracy": "^2.10",
         "thecodingmachine/safe": "^2.5",
@@ -47,7 +47,7 @@
     },
     "config": {
         "platform": {
-            "php": "8.2"
+            "php": "8.3"
         },
         "allow-plugins": {
             "phpstan/extension-installer": true,
