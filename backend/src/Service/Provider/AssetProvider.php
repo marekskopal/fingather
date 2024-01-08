@@ -8,6 +8,7 @@ use Decimal\Decimal;
 use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Group;
+use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\AssetRepository;
 use FinGather\Model\Repository\SplitRepository;
@@ -22,6 +23,7 @@ class AssetProvider
 		private readonly SplitRepository $splitRepository,
 		private readonly TickerDataProvider $tickerDataProvider,
 		private readonly ExchangeRateProvider $exchangeRateProvider,
+		private readonly GroupProvider $groupProvider,
 	) {
 	}
 
@@ -182,5 +184,21 @@ class AssetProvider
 			return: $gainDefaultCurrency->add($dividendGainDefaultCurrency)->add($fxImpact),
 			returnPercentage: round($gainPercentage + $dividendGainPercentage + $fxImpactPercentage, 2),
 		);
+	}
+
+	public function createAsset(User $user, Ticker $ticker): Asset
+	{
+		$group = $this->groupProvider->getOthersGroup($user);
+
+		$aaset = new Asset(
+			user: $user,
+			ticker: $ticker,
+			group: $group,
+			transactions: [],
+		);
+
+		$this->assetRepository->persist($aaset);
+
+		return $aaset;
 	}
 }

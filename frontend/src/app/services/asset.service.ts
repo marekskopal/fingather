@@ -1,19 +1,20 @@
 ﻿import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
-
 import { environment } from '@environments/environment';
 import {Asset, AssetWithProperties} from '@app/models';
 import {Observable} from "rxjs";
-import {OkResponse} from "@app/models/ok-response";
+import {AssetCreate} from "@app/models/asset-create";
+import {NotifyService} from "@app/services/notify-service";
 
 @Injectable({ providedIn: 'root' })
-export class AssetService {
+export class AssetService extends NotifyService {
     public constructor(
         private http: HttpClient
-    ) {}
+    ) {
+        super();
+    }
 
-    public createAsset(asset: AssetWithProperties): Observable<Asset> {
+    public createAsset(asset: AssetCreate): Observable<Asset> {
         return this.http.post<Asset>(`${environment.apiUrl}/asset`, asset);
     }
 
@@ -35,19 +36,5 @@ export class AssetService {
 
     public getAsset(id: number): Observable<AssetWithProperties> {
         return this.http.get<AssetWithProperties>(`${environment.apiUrl}/asset/${id}`);
-    }
-
-    public updateAsset(id: number, asset: AssetWithProperties): Observable<AssetWithProperties> {
-        return this.http.put<AssetWithProperties>(`${environment.apiUrl}/asset/${id}`, asset)
-            .pipe(map(x => {
-                return x;
-            }));
-    }
-
-    public deleteAsset(id: number): Observable<OkResponse> {
-        return this.http.delete<OkResponse>(`${environment.apiUrl}/asset/${id}`)
-            .pipe(map(x => {
-                return x;
-            }));
     }
 }

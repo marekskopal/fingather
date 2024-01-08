@@ -1,30 +1,33 @@
 ﻿import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, first, map, switchMap, tap} from 'rxjs/operators';
-import {AssetWithProperties, Ticker} from "@app/models";
 import {AlertService, AssetService, TickerService} from "@app/services";
-import {BaseForm} from "@app/shared/components/form/base-form";
 import {Observable, of, OperatorFunction} from "rxjs";
+import {BaseDialog} from "@app/shared/components/dialog/base-dialog";
+import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 
 
 @Component({ templateUrl: 'add-asset.component.html' })
-export class AddAssetComponent {
-    public id: number;
-    public isAddMode: boolean;
-    public assetTicker: Ticker;
+export class AddAssetComponent extends BaseDialog implements OnInit {
     public searching: boolean = false;
     public searchFailed: boolean = false;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     public model: any;
 
     public constructor(
-        private route: ActivatedRoute,
-        private router: Router,
         private tickerService: TickerService,
+        private assetService: AssetService,
         formBuilder: UntypedFormBuilder,
+        activeModal: NgbActiveModal,
         alertService: AlertService,
     ) {
+        super(activeModal, formBuilder, alertService);
+    }
 
+    public ngOnInit(): void {
+        this.form = this.formBuilder.group({
+            ticker: ['', Validators.required],
+        });
     }
 
     public search: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) =>
@@ -44,4 +47,32 @@ export class AddAssetComponent {
             ),
             tap(() => (this.searching = false)),
         );
+
+    public override onSubmit(): void {
+        this.submitted = true;
+
+        this.alertService.clear();
+
+        if (this.form.invalid) {
+            return;
+        }
+
+        this.createAsset();
+    }
+
+    private createAsset(): void {
+        this.assetService.createAsset(this.form.value)
+            .pipe(first())
+            .subscribe({
+                next: () => {
+                    this.alertService.success('Asset added successfully', { keepAfterRouteChange: true });
+                    this.activeModal.dismiss();
+                    this.assetService.notify();
+                },
+                error: error => {
+                    this.alertService.error(error);
+                    this.loading = false;
+                }
+            });
+    }
 }
