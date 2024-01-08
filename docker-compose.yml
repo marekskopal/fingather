@@ -5,7 +5,9 @@ services:
         build: 
             context: ./Proxy
             dockerfile: Dockerfile
-        ports: 
+        environment:
+            PROXY_HOST: ${PROXY_HOST}
+        ports:
             - "${PROXY_PORT}:80"
             - "${PROXY_PORT_SSL}:443"
         restart: always
@@ -31,6 +33,7 @@ services:
             context: ./backend
             dockerfile: Dockerfile
         environment:
+            PROXY_HOST: ${PROXY_HOST}
             MYSQL_HOST: ${MYSQL_HOST}
             MYSQL_DATABASE: ${MYSQL_DATABASE}
             MYSQL_USER: ${MYSQL_USER}
@@ -40,8 +43,13 @@ services:
             BACKEND_CORS_ALLOWED_ORIGIN: ${BACKEND_CORS_ALLOWED_ORIGIN}
             BACKEND_CORS_ALLOWED_HEADERS: ${BACKEND_CORS_ALLOWED_HEADERS}
             BACKEND_CORS_ALLOWED_METHODS: ${BACKEND_CORS_ALLOWED_METHODS}
+            RABBITMQ_HOST: ${RABBITMQ_HOST}
+            RABBITMQ_PORT: ${RABBITMQ_PORT}
+            RABBITMQ_USER: ${RABBITMQ_USER}
+            RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
             AUTHORIZATION_TOKEN_KEY: ${AUTHORIZATION_TOKEN_KEY}
             ALPHAVANTAGE_API_KEY: ${ALPHAVANTAGE_API_KEY}
+            EMAIL_FROM: ${EMAIL_FROM}
         depends_on:
             - proxy
             - db
@@ -62,9 +70,20 @@ services:
             MYSQL_USER: ${MYSQL_USER}
             MYSQL_PASSWORD: ${MYSQL_PASSWORD}
         networks:
-            - backend    
+            - backend
         volumes:
             - ./fingather_data:/var/lib/mysql
+
+    rabbitmq:
+        image: rabbitmq:3.12.12-alpine
+        restart: always
+        environment:
+            RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+            RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+        networks:
+            - backend
+        volumes:
+            - rabbitmq_volume:/var/lib/rabbitmq
 
 networks:
     frontend:
@@ -75,3 +94,5 @@ networks:
 volumes:
     fingather_data:
         name: fingather_data
+    rabbitmq_volume:
+        name: rabbitmq_volume

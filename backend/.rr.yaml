@@ -26,3 +26,17 @@ http:
             max_worker_memory: 256
         num_workers: ${BACKEND_ROADRUNNER_WORKERS:-5}
         debug: ${BACKEND_ROADRUNNER_DEBUG:-0}
+
+
+amqp:
+    addr: amqp://${RABBITMQ_USER}:${RABBITMQ_PASSWORD}@${RABBITMQ_HOST}:${RABBITMQ_PORT}
+
+jobs:
+    pipelines:
+        email-verify:
+            driver: amqp
+            config:
+                prefetch: 10
+                priority: 1
+                durable: true
+                queue: email-verify

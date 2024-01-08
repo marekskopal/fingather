@@ -39,10 +39,18 @@ class UserProvider
 		string $name,
 		Currency $defaultCurrency,
 		UserRoleEnum $role,
+		bool $isEmailVerified,
 	): User {
 		$hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
-		$user = new User(email: $email, password: $hashedPassword, name: $name, defaultCurrency: $defaultCurrency, role: $role->value);
+		$user = new User(
+			email: $email,
+			password: $hashedPassword,
+			name: $name,
+			defaultCurrency: $defaultCurrency,
+			role: $role->value,
+			isEmailVerified: $isEmailVerified,
+		);
 		$this->userRepository->persist($user);
 
 		return $user;
