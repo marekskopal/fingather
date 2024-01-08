@@ -1,23 +1,44 @@
 ﻿<div class="modal-header">
-    <h4 *ngIf="isAddMode">Add Asset</h4>
+    <h4>Add Asset</h4>
 </div>
 <div class="modal-body" >
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+            <label for="ticker" class="form-label">Select Asset</label>
+            <input
+                id="ticker"
+                type="text"
+                formControlName="ticker"
+                class="form-control"
+                [ngClass]="{ 'is-invalid': searchFailed || (submitted && f['ticker'].errors) }"
+                [(ngModel)]="model"
+                [ngbTypeahead]="search"
+                placeholder="Ticker search"
+            />
+            @if (searching) {
+                <small class="form-text text-muted">searching...</small>
+            }
+            @if (searchFailed) {
+                <div class="invalid-feedback">Sorry, suggestions could not be loaded.</div>
+            }
 
-    <input
-        id="typeahead-http"
-        type="text"
-        class="form-control"
-        [class.is-invalid]="searchFailed"
-        [(ngModel)]="model"
-        [ngbTypeahead]="search"
-        placeholder="Wikipedia search"
-    />
-    @if (searching) {
-        <small class="form-text text-muted">searching...</small>
-    }
-    @if (searchFailed) {
-        <div class="invalid-feedback">Sorry, suggestions could not be loaded.</div>
-    }
+            <div *ngIf="submitted && f['ticker'].errors" class="invalid-feedback">
+                <div *ngIf="f['ticker'].errors['ticker']">Asset is required</div>
+            </div>
+        </div>
+        @if (searching) {
+            <small class="form-text text-muted">searching...</small>
+        }
+        @if (searchFailed) {
+            <div class="invalid-feedback">Sorry, suggestions could not be loaded.</div>
+        }
 
-
+        <div class="mb-3">
+            <button [disabled]="loading" class="btn btn-primary">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                Save
+            </button>
+            <a (click)="activeModal.dismiss()" class="btn btn-link" tabindex="0">Cancel</a>
+        </div>
+    </form>
 </div>

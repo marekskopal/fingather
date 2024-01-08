@@ -79,6 +79,7 @@ enum Routes: string
 		$routeList->get(self::AssetsClosed->value, [AssetController::class, 'actionGetAssetsClosed']);
 		$routeList->get(self::AssetsWatched->value, [AssetController::class, 'actionGetAssetsWatched']);
 		$routeList->get(self::Asset->value, [AssetController::class, 'actionGetAsset']);
+		$routeList->post(self::Assets->value, [AssetController::class, 'actionCreateAsset']);
 
 		$routeList->get(self::Brokers->value, [BrokerController::class, 'actionGetBrokers']);
 		$routeList->get(self::Broker->value, [BrokerController::class, 'actionGetBroker']);

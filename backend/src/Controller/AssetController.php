@@ -10,20 +10,22 @@ use FinGather\Dto\AssetWithPropertiesDto;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Service\Provider\AssetProvider;
 use FinGather\Service\Provider\TickerDataProvider;
+use FinGather\Service\Provider\TickerProvider;
 use FinGather\Service\Request\RequestService;
 use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Safe\DateTimeImmutable;
+use function Safe\json_decode;
 
 class AssetController
 {
 	public function __construct(
 		private readonly AssetProvider $assetProvider,
+		private readonly TickerProvider $tickerProvider,
 		private readonly TickerDataProvider $tickerDataProvider,
 		private readonly RequestService $requestService,
-	)
-	{
+	) {
 	}
 
 	public function actionGetAssets(ServerRequestInterface $request): ResponseInterface
@@ -129,9 +131,36 @@ class AssetController
 
 		$assetProperties = $this->assetProvider->getAssetProperties($user, $asset, $dateTime);
 		if ($assetProperties === null) {
-			return new NotFoundResponse('Asset with id "' . $assetId . '" was not found.');
+			$lastTickerData = $this->tickerDataProvider->getLastTickerData($asset->getTicker(), $dateTime);
+			if ($lastTickerData === null) {
+				return new NotFoundResponse('Asset with id "' . $assetId . '" was not found.');
+			}
+
+			return new JsonResponse(AssetDto::fromEntity($asset, new Decimal($lastTickerData->getClose())));
 		}
 
 		return new JsonResponse(AssetWithPropertiesDto::fromEntity($asset, $assetProperties));
+	}
+
+	public function actionCreateAsset(ServerRequestInterface $request): ResponseInterface
+	{
+		/** @var array{ticker: string} $requestBody */
+		$requestBody = json_decode($request->getBody()->getContents(), assoc: true);
+
+		$ticker = $this->tickerProvider->getOrCreateTicker($requestBody['ticker']);
+		if ($ticker === null) {
+			return new NotFoundResponse('Ticker "' . $requestBody['ticker'] . '" was not found.');
+		}
+
+		$dateTime = new DateTimeImmutable();
+		$lastTickerData = $this->tickerDataProvider->getLastTickerData($ticker, $dateTime);
+		if ($lastTickerData === null) {
+			return new NotFoundResponse('Ticker Data for ticker "' . $requestBody['ticker'] . '" was not found.');
+		}
+
+		return new JsonResponse(AssetDto::fromEntity($this->assetProvider->createAsset(
+			user: $this->requestService->getUser($request),
+			ticker: $ticker,
+		), new Decimal($lastTickerData->getClose())));
 	}
 }
