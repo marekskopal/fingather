@@ -4,12 +4,17 @@ declare(strict_types=1);
 
 namespace FinGather\App;
 
+use FinGather\Jobs\Handler\EmailVerifyHandler;
+use FinGather\Jobs\Handler\JobHandler;
 use FinGather\Middleware\Exception\NotAuthorizedException;
 use FinGather\Response\ErrorResponse;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
+use Spiral\RoadRunner\Environment;
+use Spiral\RoadRunner\Environment\Mode;
 use Spiral\RoadRunner\Http\PSR7Worker;
+use Spiral\RoadRunner\Jobs\Consumer;
 use Spiral\RoadRunner\Worker;
 use Throwable;
 use function Safe\file_put_contents;
@@ -17,17 +22,31 @@ use const FILE_APPEND;
 
 final class RoadRunnerWorker
 {
-	private readonly PSR7Worker $psr7;
+	private PSR7Worker $psr7;
+
+	private readonly string $mode;
 
 	public function __construct()
 	{
-		$worker = Worker::create();
-		$factory = new Psr17Factory();
-		$this->psr7 = new PSR7Worker($worker, $factory, $factory, $factory);
+		$env = Environment::fromGlobals();
+		$this->mode = $env->getMode();
 	}
 
 	public function run(): void
 	{
+		if ($this->mode === Mode::MODE_JOBS) {
+			$this->runJobs();
+		}
+
+		$this->runHttp();
+	}
+
+	private function runHttp(): void
+	{
+		$worker = Worker::create();
+		$factory = new Psr17Factory();
+		$this->psr7 = new PSR7Worker($worker, $factory, $factory, $factory);
+
 		$application = ApplicationFactory::create();
 
 		$logger = $application->container->get(LoggerInterface::class);
@@ -51,6 +70,32 @@ final class RoadRunnerWorker
 			}
 		} catch (Throwable $e) {
 			$this->handleException($e, $logger, $request ?? null);
+		}
+	}
+
+	private function runJobs(): void
+	{
+		$consumer = new Consumer();
+
+		$application = ApplicationFactory::create();
+
+		while ($task = $consumer->waitTask()) {
+			try {
+				$handlerClass = match ($task->getQueue()) {
+					'email-verify' => EmailVerifyHandler::class,
+					default => throw new \InvalidArgumentException('Unprocessable queue [' . $task->getQueue() . ']'),
+				};
+
+				/** @var JobHandler $handler */
+				$handler = $application->container->get($handlerClass);
+				$handler->handle($task);
+
+				$task->complete();
+
+				gc_collect_cycles();
+			} catch (\Throwable $e) {
+				$task->fail($e);
+			}
 		}
 	}
 

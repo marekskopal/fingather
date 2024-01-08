@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Controller\Admin;
 
+use FinGather\Dto\UserCreateDto;
 use FinGather\Dto\UserDto;
 use FinGather\Model\Entity\Enum\UserRoleEnum;
 use FinGather\Model\Entity\User;
@@ -65,17 +66,20 @@ class UserController extends AdminController
 		/** @var array{email: string, name: string, password: string, defaultCurrencyId: int, role: value-of<UserRoleEnum>} $requestBody */
 		$requestBody = json_decode($request->getBody()->getContents(), assoc: true);
 
-		$defaultCurrency = $this->currencyProvider->getCurrency($requestBody['defaultCurrencyId']);
+		$userCreateDto = UserCreateDto::fromArray($requestBody);
+
+		$defaultCurrency = $this->currencyProvider->getCurrency($userCreateDto->defaultCurrencyId);
 		if ($defaultCurrency === null) {
-			return new NotFoundResponse('Currency with id "' . $requestBody['defaultCurrencyId'] . '" was not found.');
+			return new NotFoundResponse('Currency with id "' . $userCreateDto->defaultCurrencyId . '" was not found.');
 		}
 
 		return new JsonResponse(UserDto::fromEntity($this->userProvider->createUser(
-			email: $requestBody['email'],
-			password: $requestBody['password'],
-			name: $requestBody['name'],
+			email: $userCreateDto->email,
+			password: $userCreateDto->password,
+			name: $userCreateDto->name,
 			defaultCurrency: $defaultCurrency,
-			role: UserRoleEnum::from($requestBody['role']),
+			role: $userCreateDto->role,
+			isEmailVerified: true,
 		)));
 	}
 

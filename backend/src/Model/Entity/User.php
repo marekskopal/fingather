@@ -23,6 +23,8 @@ class User extends AEntity
 		private Currency $defaultCurrency,
 		#[Column(type: 'enum(User,Admin)')]
 		private string $role,
+		#[Column(type: 'boolean')]
+		private bool $isEmailVerified,
 	) {
 	}
 
@@ -74,5 +76,15 @@ class User extends AEntity
 	public function setRole(string $role): void
 	{
 		$this->role = $role;
+	}
+
+	public function isEmailVerified(): bool
+	{
+		return $this->isEmailVerified;
+	}
+
+	public function setIsEmailVerified(bool $isEmailVerified): void
+	{
+		$this->isEmailVerified = $isEmailVerified;
 	}
 }
