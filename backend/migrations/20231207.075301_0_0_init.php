@@ -37,7 +37,7 @@ class InitMigration extends Migration
 				'update' => 'CASCADE',
 				'indexCreate' => true,
 			])
-			->addIndex(['email'], ['name' => 'users_index_email', 'unique' => false])
+			->addIndex(['email'], ['name' => 'users_index_email', 'unique' => true])
 			->setPrimaryKeys(['id'])
 			->create();
 
@@ -312,7 +312,7 @@ class InitMigration extends Migration
 			->create();
 
 		$this->table('email_verifies')
-			->addColumn('token', 'char', ['nullable' => false, 'default' => null, 'size' => 0])
+			->addColumn('token', 'uuid', ['nullable' => false, 'default' => null, 'size' => 36])
 			->addColumn('id', 'primary', ['nullable' => false, 'default' => null, 'size' => 11])
 			->addColumn('user_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
 			->addIndex(['user_id'], ['name' => 'email_verifies_index_user_id_659d35383d89f', 'unique' => false])
@@ -322,6 +322,7 @@ class InitMigration extends Migration
 				'update' => 'CASCADE',
 				'indexCreate' => true,
 			])
+			->addIndex(['token'], ['name' => 'email_verifies_index_token', 'unique' => false])
 			->setPrimaryKeys(['id'])
 			->create();
 	}

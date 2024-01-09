@@ -7,6 +7,7 @@ namespace FinGather\Controller;
 use FinGather\Dto\CredentialsDto;
 use FinGather\Dto\SignUpDto;
 use FinGather\Model\Entity\Enum\UserRoleEnum;
+use FinGather\Response\ConflictResponse;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Response\OkResponse;
 use FinGather\Service\Authentication\AuthenticationService;
@@ -54,6 +55,11 @@ class AuthenticationController
 		$requestBody = json_decode($request->getBody()->getContents(), assoc: true);
 
 		$signUp = SignUpDto::fromArray($requestBody);
+
+		$existsUser = $this->userProvider->getUserByEmail($signUp->email);
+		if ($existsUser !== null) {
+			return new ConflictResponse('User with email "' . $signUp->email . '" already exists.');
+		}
 
 		$defaultCurrency = $this->currencyProvider->getCurrency($signUp->defaultCurrencyId);
 		if ($defaultCurrency === null) {
