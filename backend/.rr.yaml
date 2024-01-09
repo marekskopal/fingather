@@ -27,11 +27,15 @@ http:
         num_workers: ${BACKEND_ROADRUNNER_WORKERS:-5}
         debug: ${BACKEND_ROADRUNNER_DEBUG:-0}
 
-
 amqp:
     addr: amqp://${RABBITMQ_USER}:${RABBITMQ_PASSWORD}@${RABBITMQ_HOST}:${RABBITMQ_PORT}
 
 jobs:
+    consume: [ "email-verify" ]
+    pool:
+        num_workers: 1
+        supervisor:
+            max_worker_memory: 256
     pipelines:
         email-verify:
             driver: amqp
@@ -40,3 +44,7 @@ jobs:
                 priority: 1
                 durable: true
                 queue: email-verify
+                routing_key: email-verify
+
+rpc:
+    listen: tcp://127.0.0.1:6001

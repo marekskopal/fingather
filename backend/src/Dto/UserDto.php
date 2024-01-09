@@ -15,8 +15,7 @@ final readonly class UserDto
 		public string $name,
 		public int $defaultCurrencyId,
 		public UserRoleEnum $role,
-	)
-	{
+	) {
 	}
 
 	public static function fromEntity(User $entity): self
@@ -27,6 +26,26 @@ final readonly class UserDto
 			name: $entity->getName(),
 			defaultCurrencyId: $entity->getDefaultCurrency()->getId(),
 			role: UserRoleEnum::from($entity->getRole()),
+		);
+	}
+
+	/**
+	 * @param array{
+	 *     id: int,
+	 *     email: string,
+	 *     name: string,
+	 *     defaultCurrencyId: int,
+	 *     role: value-of<UserRoleEnum>,
+	 * } $data
+	 */
+	public static function fromArray(array $data): self
+	{
+		return new self(
+			id: $data['id'],
+			email: $data['email'],
+			name: $data['name'],
+			defaultCurrencyId: $data['defaultCurrencyId'],
+			role: UserRoleEnum::from($data['role']),
 		);
 	}
 }

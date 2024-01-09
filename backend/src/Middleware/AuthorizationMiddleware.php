@@ -29,7 +29,11 @@ final class AuthorizationMiddleware implements MiddlewareInterface
 
 	public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
 	{
-		if (in_array($request->getUri()->getPath(), [Routes::Health->value, Routes::AuthenticationLogin->value], strict: true)) {
+		if (in_array(
+			$request->getUri()->getPath(),
+			[Routes::Health->value, Routes::AuthenticationLogin->value, Routes::AuthenticationSignUp->value],
+			strict: true,
+		)) {
 			return $handler->handle($request);
 		}
 
