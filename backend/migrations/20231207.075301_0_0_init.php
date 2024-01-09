@@ -310,12 +310,28 @@ class InitMigration extends Migration
 			->addIndex(['date'], ['name' => 'portfolio_datas_index_date', 'unique' => false])
 			->setPrimaryKeys(['id'])
 			->create();
+
+		$this->table('email_verifies')
+			->addColumn('token', 'char', ['nullable' => false, 'default' => null, 'size' => 0])
+			->addColumn('id', 'primary', ['nullable' => false, 'default' => null, 'size' => 11])
+			->addColumn('user_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
+			->addIndex(['user_id'], ['name' => 'email_verifies_index_user_id_659d35383d89f', 'unique' => false])
+			->addForeignKey(['user_id'], 'users', ['id'], [
+				'name' => 'email_verifies_foreign_user_id_659d35383d8a6',
+				'delete' => 'CASCADE',
+				'update' => 'CASCADE',
+				'indexCreate' => true,
+			])
+			->setPrimaryKeys(['id'])
+			->create();
 	}
 
 	public function down(): void
 	{
+		$this->table('email_verifies')->drop();
+		$this->table('portfolio_datas')->drop();
+		$this->table('group_datas')->drop();
 		$this->table('transactions')->drop();
-		$this->table('dividends')->drop();
 		$this->table('exchange_rates')->drop();
 		$this->table('brokers')->drop();
 		$this->table('ticker_datas')->drop();
@@ -326,7 +342,5 @@ class InitMigration extends Migration
 		$this->table('groups')->drop();
 		$this->table('users')->drop();
 		$this->table('currencies')->drop();
-		$this->table('portfolio_datas')->drop();
-		$this->table('group_datas')->drop();
 	}
 }

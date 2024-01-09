@@ -1,0 +1,35 @@
+<?php
+
+declare(strict_types=1);
+
+namespace FinGather\Service\Provider;
+
+use FinGather\Dto\EmailVerifyDto;
+use FinGather\Model\Entity\EmailVerify;
+use FinGather\Model\Entity\User;
+use FinGather\Model\Repository\EmailVerifyRepository;
+use FinGather\Service\Queue\QueuePublisher;
+use Ramsey\Uuid\Uuid;
+
+class EmailVerifyProvider
+{
+	public function __construct(
+		private readonly EmailVerifyRepository $emailVerifyRepository,
+		private readonly QueuePublisher $queuePublisher,
+	)
+	{
+	}
+
+	public function createEmailVerify(User $user,): EmailVerify
+	{
+		$emailVerify = new EmailVerify(
+			user: $user,
+			token: (string) Uuid::uuid4(),
+		);
+		$this->emailVerifyRepository->persist($emailVerify);
+
+		$this->queuePublisher->publishMessage(EmailVerifyDto::fromEntity($emailVerify), 'email-verify');
+
+		return $emailVerify;
+	}
+}
