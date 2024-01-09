@@ -16,8 +16,12 @@ class EmailVerifyProvider
 	public function __construct(
 		private readonly EmailVerifyRepository $emailVerifyRepository,
 		private readonly QueuePublisher $queuePublisher,
-	)
+	) {
+	}
+
+	public function getEmailVerify(string $token): ?EmailVerify
 	{
+		return $this->emailVerifyRepository->findEmailVerifyByToken($token);
 	}
 
 	public function createEmailVerify(User $user,): EmailVerify

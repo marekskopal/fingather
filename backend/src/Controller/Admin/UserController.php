@@ -8,6 +8,7 @@ use FinGather\Dto\UserCreateDto;
 use FinGather\Dto\UserDto;
 use FinGather\Model\Entity\Enum\UserRoleEnum;
 use FinGather\Model\Entity\User;
+use FinGather\Response\ConflictResponse;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Response\OkResponse;
 use FinGather\Service\Provider\CurrencyProvider;
@@ -67,6 +68,11 @@ class UserController extends AdminController
 		$requestBody = json_decode($request->getBody()->getContents(), assoc: true);
 
 		$userCreateDto = UserCreateDto::fromArray($requestBody);
+
+		$existsUser = $this->userProvider->getUserByEmail($userCreateDto->email);
+		if ($existsUser !== null) {
+			return new ConflictResponse('User with email "' . $userCreateDto->email . '" already exists.');
+		}
 
 		$defaultCurrency = $this->currencyProvider->getCurrency($userCreateDto->defaultCurrencyId);
 		if ($defaultCurrency === null) {

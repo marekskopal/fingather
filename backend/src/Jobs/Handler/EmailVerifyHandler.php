@@ -44,7 +44,7 @@ class EmailVerifyHandler implements JobHandler
 			->from($from)
 			->to($emailVerify->user->email)
 			->subject('FinGather - Verify your email.')
-			->html($this->getEmailText());
+			->html($this->getEmailText($emailVerify));
 
 		$mailer->send($email);
 	}
@@ -52,8 +52,9 @@ class EmailVerifyHandler implements JobHandler
 	private function getEmailText(EmailVerifyDto $emailVerify): string
 	{
 		$host = (string) getenv('PROXY_HOST');
+		$port = (int) getenv('PROXY_PORT_SSL');
 
-		$verifyUrl = 'https://' . $host . '/email-verify/' . $emailVerify->token;
+		$verifyUrl = 'https://' . $host . ($port !== 443 ? ':' . $port : '') . '/email-verify/' . $emailVerify->token;
 
 		return '
 			<h1>FinGather - Verify your email</h1>

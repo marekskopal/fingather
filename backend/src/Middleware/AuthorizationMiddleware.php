@@ -31,7 +31,12 @@ final class AuthorizationMiddleware implements MiddlewareInterface
 	{
 		if (in_array(
 			$request->getUri()->getPath(),
-			[Routes::Health->value, Routes::AuthenticationLogin->value, Routes::AuthenticationSignUp->value],
+			[
+				Routes::Health->value,
+				Routes::AuthenticationLogin->value,
+				Routes::AuthenticationSignUp->value,
+				Routes::EmailVerify->value,
+			],
 			strict: true,
 		)) {
 			return $handler->handle($request);

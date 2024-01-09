@@ -34,6 +34,7 @@ services:
             dockerfile: Dockerfile
         environment:
             PROXY_HOST: ${PROXY_HOST}
+            PROXY_PORT_SSL: ${PROXY_PORT_SSL}
             MYSQL_HOST: ${MYSQL_HOST}
             MYSQL_DATABASE: ${MYSQL_DATABASE}
             MYSQL_USER: ${MYSQL_USER}

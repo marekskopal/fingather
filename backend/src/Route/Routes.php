@@ -10,6 +10,7 @@ use FinGather\Controller\AuthenticationController;
 use FinGather\Controller\BrokerController;
 use FinGather\Controller\CurrencyController;
 use FinGather\Controller\CurrentUserController;
+use FinGather\Controller\EmailVerifyController;
 use FinGather\Controller\GroupController;
 use FinGather\Controller\ImportDataController;
 use FinGather\Controller\OverviewController;
@@ -41,6 +42,8 @@ enum Routes: string
 	case Currencies = '/api/currency';
 
 	case CurrentUser = '/api/current-user';
+
+	case EmailVerify = '/api/email-verify';
 
 	case Groups = '/api/group';
 	case Group = '/api/group/{groupId:number}';
@@ -92,6 +95,8 @@ enum Routes: string
 		$routeList->get(self::Currencies->value, [CurrencyController::class, 'actionGetCurrencies']);
 
 		$routeList->get(self::CurrentUser->value, [CurrentUserController::class, 'actionGetCurrentUser']);
+
+		$routeList->post(self::EmailVerify->value, [EmailVerifyController::class, 'actionPostEmailVerify']);
 
 		$routeList->get(self::Groups->value, [GroupController::class, 'actionGetGroups']);
 		$routeList->get(self::Group->value, [GroupController::class, 'actionGetGroup']);

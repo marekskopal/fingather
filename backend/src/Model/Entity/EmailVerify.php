@@ -12,7 +12,7 @@ use FinGather\Model\Repository\EmailVerifyRepository;
 #[Entity(repository: EmailVerifyRepository::class)]
 class EmailVerify extends AEntity
 {
-	public function __construct(#[RefersTo(target: User::class)] private User $user, #[Column(type: 'char(36)')] private string $token,)
+	public function __construct(#[RefersTo(target: User::class)] private User $user, #[Column(type: 'uuid')] private string $token,)
 	{
 	}
 

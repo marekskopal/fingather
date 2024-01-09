@@ -80,6 +80,15 @@ class UserProvider
 		return $user;
 	}
 
+	public function emailVerifyUser(User $user): User
+	{
+		$user->setIsEmailVerified(true);
+
+		$this->userRepository->persist($user);
+
+		return $user;
+	}
+
 	public function deleteUser(User $user): void
 	{
 		$this->userRepository->delete($user);

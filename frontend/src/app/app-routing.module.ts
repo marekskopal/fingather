@@ -10,6 +10,7 @@ const routes: Routes = [
     { path: 'groups', loadChildren: () => import('./groups/groups.module').then(x => x.GroupsModule), canActivate: [AuthGuard] },
     { path: 'brokers', loadChildren: () => import('./brokers/brokers.module').then(x => x.BrokersModule), canActivate: [AuthGuard] },
     { path: 'users', loadChildren: () => import('./users/users.module').then(x => x.UsersModule), canActivate: [AuthGuard] },
+    { path: 'email-verify', loadChildren: () => import('./email-verify/email-verify.module').then(x => x.EmailVerifyModule) },
     { path: 'authentication', loadChildren: () => import('./authentication/authentication.module').then(x => x.AuthenticationModule) },
 
     // otherwise redirect to home
