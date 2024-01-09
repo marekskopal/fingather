@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Service\Queue;
 
 use Spiral\Goridge\RPC\RPC;
+use Spiral\RoadRunner\Environment;
 use Spiral\RoadRunner\Jobs\Jobs;
 use Spiral\RoadRunner\Jobs\Options;
 use Spiral\RoadRunner\Jobs\Task\QueuedTaskInterface;
@@ -16,8 +17,10 @@ class QueuePublisher
 
 	public function __construct()
 	{
+		/** @var non-empty-string $address */
+		$address = Environment::fromGlobals()->getRPCAddress();
 		$this->jobs = new Jobs(
-			RPC::create('tcp://127.0.0.1:6001'),
+			RPC::create($address),
 		);
 	}
 

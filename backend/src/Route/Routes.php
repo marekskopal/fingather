@@ -33,6 +33,7 @@ enum Routes: string
 	case Asset = '/api/asset/{assetId:number}';
 
 	case AuthenticationLogin = '/api/authentication/login';
+	case AuthenticationSignUp = '/api/authentication/sign-up';
 
 	case Brokers = '/api/broker';
 	case Broker = '/api/broker/{brokerId:number}';
@@ -73,6 +74,7 @@ enum Routes: string
 		$routeList->delete(self::AdminUser->value, [UserController::class, 'actionDeleteUser']);
 
 		$routeList->post(self::AuthenticationLogin->value, [AuthenticationController::class, 'actionPostLogin']);
+		$routeList->post(self::AuthenticationSignUp->value, [AuthenticationController::class, 'actionPostSignUp']);
 
 		$routeList->get(self::Assets->value, [AssetController::class, 'actionGetAssets']);
 		$routeList->get(self::AssetsOpened->value, [AssetController::class, 'actionGetAssetsOpened']);
