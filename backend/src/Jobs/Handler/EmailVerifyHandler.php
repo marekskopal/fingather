@@ -17,14 +17,17 @@ class EmailVerifyHandler implements JobHandler
 		/** @var EmailVerifyDto $emailVerify */
 		$emailVerify = $task->getPayload();
 
-		$transport = Transport::fromDsn('smtp://localhost');
+		$host = (string) getenv('SMTP_HOST');
+		$port = (string) getenv('SMTP_PORT');
+
+		$transport = Transport::fromDsn('smtp://' . $host . ':' . $port);
 		$mailer = new Mailer($transport);
 
 		$from = (string) getenv('EMAIL_FROM');
 
 		$email = (new Email())
 			->from($from)
-			->to($emailVerify->email)
+			->to($emailVerify->user->email)
 			->subject('FinGather - Verify your email.')
 			->html($this->getEmailText());
 
@@ -33,7 +36,7 @@ class EmailVerifyHandler implements JobHandler
 
 	private function getEmailText(): string
 	{
-		$host = getenv('PROXY_HOST');
+		$host = (string) getenv('PROXY_HOST');
 
 		return '
 			<h1>FinGther - Verify your email</h1>
