@@ -2,10 +2,13 @@
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {catchError, map} from 'rxjs/operators';
 
 import { environment } from '@environments/environment';
 import {Authentication} from "@app/models/authentication";
+import {OkResponse} from "@app/models/ok-response";
+import {BoolResponse} from "@app/models/bool-response";
+import {SignUp} from "@app/models";
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -27,9 +30,9 @@ export class AuthenticationService {
         return this.authenticationSubject.value;
     }
 
-    public login(username: string, password: string): Observable<Authentication> {
+    public login(email: string, password: string): Observable<Authentication> {
         return this.http.post<Authentication>(`${environment.apiUrl}/authentication/login`, {
-          email: username,
+          email: email,
           password,
         })
             .pipe(map(authentication => {
@@ -45,5 +48,18 @@ export class AuthenticationService {
         localStorage.removeItem('authentication');
         this.authenticationSubject.next(null);
         this.router.navigate(['/authentication/login']);
+    }
+
+    public signUp(signUp: SignUp): Observable<OkResponse> {
+        return this.http.post<OkResponse>(`${environment.apiUrl}/authentication/sign-up`, signUp)
+    }
+
+    public isEmailExists(email: string): Observable<boolean>
+    {
+        return this.http.post<BoolResponse>(`${environment.apiUrl}/authentication/email-exists`, {
+            email: email,
+        }).pipe(
+            map(response => response.value)
+        );
     }
 }

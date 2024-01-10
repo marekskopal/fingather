@@ -35,6 +35,7 @@ enum Routes: string
 
 	case AuthenticationLogin = '/api/authentication/login';
 	case AuthenticationSignUp = '/api/authentication/sign-up';
+	case AuthenticationEmailExists = '/api/authentication/email-exists';
 
 	case Brokers = '/api/broker';
 	case Broker = '/api/broker/{brokerId:number}';
@@ -78,6 +79,7 @@ enum Routes: string
 
 		$routeList->post(self::AuthenticationLogin->value, [AuthenticationController::class, 'actionPostLogin']);
 		$routeList->post(self::AuthenticationSignUp->value, [AuthenticationController::class, 'actionPostSignUp']);
+		$routeList->post(self::AuthenticationEmailExists->value, [AuthenticationController::class, 'actionPostEmailExists']);
 
 		$routeList->get(self::Assets->value, [AssetController::class, 'actionGetAssets']);
 		$routeList->get(self::AssetsOpened->value, [AssetController::class, 'actionGetAssetsOpened']);
