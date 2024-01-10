@@ -35,7 +35,9 @@ final class AuthorizationMiddleware implements MiddlewareInterface
 				Routes::Health->value,
 				Routes::AuthenticationLogin->value,
 				Routes::AuthenticationSignUp->value,
+				Routes::AuthenticationEmailExists->value,
 				Routes::EmailVerify->value,
+				Routes::Currencies->value,
 			],
 			strict: true,
 		)) {

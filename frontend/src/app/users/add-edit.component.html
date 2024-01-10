@@ -36,7 +36,7 @@
         <div class="form-group col">
             <label for="defaultCurrencyId" class="form-label">Default Currency</label>
             <select id="defaultCurrencyId" formControlName="defaultCurrencyId" class="form-select">
-                <option *ngFor="let currency of currencies.values()" [ngValue]="currency.id">
+                <option *ngFor="let currency of currencies" [ngValue]="currency.id">
                     {{ currency.code }}
                 </option>
             </select>

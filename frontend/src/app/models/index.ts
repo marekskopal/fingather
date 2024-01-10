@@ -13,6 +13,7 @@ export * from './import-data';
 export * from './market';
 export * from './portfolio';
 export * from './portfolio-data';
+export * from './sign-up';
 export * from './transaction';
 export * from './user';
 export * from './year-calculated-data';

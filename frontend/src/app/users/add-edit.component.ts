@@ -11,7 +11,7 @@ import {BaseForm} from "@app/shared/components/form/base-form";
 export class AddEditComponent extends BaseForm implements OnInit {
     public id: number;
     public isAddMode: boolean;
-    public currencies: Map<number, Currency>;
+    public currencies: Currency[];
     public roles = [
         {name: 'User', key: UserRoleEnum.User},
         {name: 'Admin', key: UserRoleEnum.Admin},
@@ -32,11 +32,6 @@ export class AddEditComponent extends BaseForm implements OnInit {
         this.id = this.route.snapshot.params['id'];
         this.isAddMode = !this.id;
 
-        this.currencies = await this.currencyService.getCurrenciesMap();
-        if (this.isAddMode) {
-            this.f['defaultCurrencyId'].patchValue(this.currencies.get(1)?.id);
-        }
-
         const emailValidators = [Validators.email]
         const passwordValidators = [Validators.minLength(6)];
         if (this.isAddMode) {
@@ -51,6 +46,13 @@ export class AddEditComponent extends BaseForm implements OnInit {
             defaultCurrencyId: ['', Validators.required],
             role: ['User', Validators.required],
         });
+
+        this.currencyService.getCurrencies()
+            .pipe(first())
+            .subscribe((currencies: Currency[]) => {
+                this.currencies = currencies;
+                this.f['defaultCurrencyId'].patchValue(currencies[0].id);
+            });
 
         if (!this.isAddMode) {
             this.userService.getUser(this.id)

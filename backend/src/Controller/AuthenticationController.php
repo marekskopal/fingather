@@ -7,6 +7,7 @@ namespace FinGather\Controller;
 use FinGather\Dto\CredentialsDto;
 use FinGather\Dto\SignUpDto;
 use FinGather\Model\Entity\Enum\UserRoleEnum;
+use FinGather\Response\BoolResponse;
 use FinGather\Response\ConflictResponse;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Response\OkResponse;
@@ -76,5 +77,19 @@ class AuthenticationController
 		);
 
 		return new OkResponse();
+	}
+
+	public function actionPostEmailExists(ServerRequestInterface $request): ResponseInterface
+	{
+		/**
+		 * @var array{
+		 *     email: string,
+		 * } $requestBody
+		 */
+		$requestBody = json_decode($request->getBody()->getContents(), assoc: true);
+
+		$existsUser = $this->userProvider->getUserByEmail($requestBody['email']);
+
+		return new BoolResponse($existsUser !== null);
 	}
 }
