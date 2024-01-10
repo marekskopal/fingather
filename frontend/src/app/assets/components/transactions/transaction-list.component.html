@@ -10,7 +10,7 @@
     </thead>
     <tbody>
         <tr *ngFor="let transaction of transactions">
-            <td>{{transaction.created | amFromUtc | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm'}}</td>
+            <td>{{transaction.actionCreated | amFromUtc | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm'}}</td>
             <td>{{transaction.actionType}}</td>
             <td style="white-space: nowrap">
             </td>

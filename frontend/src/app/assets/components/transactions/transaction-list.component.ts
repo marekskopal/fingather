@@ -24,7 +24,7 @@ export class TransactionListComponent implements OnInit {
     public ngOnInit(): void {
         this.assetId = this.route.snapshot.params['id'];
 
-        this.transactionService.getTransactions(this.assetId, [TransactionActionType.Dividend])
+        this.transactionService.getTransactions(this.assetId, [TransactionActionType.Buy, TransactionActionType.Sell])
             .pipe(first())
             .subscribe(transactions => this.transactions = transactions.transactions);
     }
