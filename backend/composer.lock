@@ -389,16 +389,16 @@
         },
         {
             "name": "cycle/schema-builder",
-            "version": "v2.6.2",
+            "version": "v2.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cycle/schema-builder.git",
-                "reference": "6cbdc76e11a945ea3bd23b5febc9b8bb24594156"
+                "reference": "67da7e79f6e7638f3d1f1068ade394461a1516aa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cycle/schema-builder/zipball/6cbdc76e11a945ea3bd23b5febc9b8bb24594156",
-                "reference": "6cbdc76e11a945ea3bd23b5febc9b8bb24594156",
+                "url": "https://api.github.com/repos/cycle/schema-builder/zipball/67da7e79f6e7638f3d1f1068ade394461a1516aa",
+                "reference": "67da7e79f6e7638f3d1f1068ade394461a1516aa",
                 "shasum": ""
             },
             "require": {
@@ -410,6 +410,7 @@
             "require-dev": {
                 "phpunit/phpunit": "^9.5",
                 "spiral/tokenizer": "^2.8",
+                "symfony/console": "^6.0 || ^7.0",
                 "vimeo/psalm": "^5.12"
             },
             "type": "library",
@@ -425,9 +426,9 @@
             "description": "Cycle ORM Schema Builder",
             "support": {
                 "issues": "https://github.com/cycle/schema-builder/issues",
-                "source": "https://github.com/cycle/schema-builder/tree/v2.6.2"
+                "source": "https://github.com/cycle/schema-builder/tree/v2.7.0"
             },
-            "time": "2023-12-22T11:11:52+00:00"
+            "time": "2024-01-10T09:48:52+00:00"
         },
         {
             "name": "cycle/schema-migrations-generator",
