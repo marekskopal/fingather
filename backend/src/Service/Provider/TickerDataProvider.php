@@ -94,7 +94,7 @@ class TickerDataProvider
 				ticker: $ticker,
 				date: $dailyTimeSerie->date,
 				open: (string) $dailyTimeSerie->open,
-				close: (string) $dailyTimeSerie->adjustedClose,
+				close: (string) $dailyTimeSerie->close,
 				high: (string) $dailyTimeSerie->high,
 				low: (string) $dailyTimeSerie->low,
 				volume: (string) $dailyTimeSerie->volume,
