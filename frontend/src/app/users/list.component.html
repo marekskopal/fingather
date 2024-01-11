@@ -1,5 +1,11 @@
-﻿<h1>Users</h1>
-<a routerLink="add" class="btn btn-sm btn-success mb-2">Add User</a>
+﻿<div class="row">
+    <div class="col-md-8">
+        <h1>Users</h1>
+    </div>
+    <div class="col-md-4 text-end">
+        <a routerLink="add" class="btn btn-sm btn-success mb-2"><fa-icon icon="plus"></fa-icon> Add User</a>
+    </div>
+</div>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -12,11 +18,14 @@
         <tr *ngFor="let user of users">
             <td>{{user.email}}</td>
             <td>{{user.name}}</td>
-            <td style="white-space: nowrap">
-                <a routerLink="edit/{{user.id}}" class="btn btn-sm btn-primary mr-1">Edit</a>
+            <td class="text-end" style="white-space: nowrap">
+                <a routerLink="edit/{{user.id}}" class="btn btn-sm btn-primary me-2"><fa-icon icon="edit"></fa-icon> Edit</a>
                 <button (click)="deleteUser(user.id)" class="btn btn-sm btn-danger btn-delete-user" [disabled]="user.isDeleting">
-                    <span *ngIf="user.isDeleting" class="spinner-border spinner-border-sm"></span>
-                    <span *ngIf="!user.isDeleting">Delete</span>
+                    @if (user.isDeleting) {
+                        <span class="spinner-border spinner-border-sm"></span>
+                    } @else {
+                        <span><fa-icon icon="trash"></fa-icon> Delete</span>
+                    }
                 </button>
             </td>
         </tr>

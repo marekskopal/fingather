@@ -6,6 +6,8 @@ import {TransactionsRoutingModule} from "@app/transactions/transactions-routing.
 import {SharedModule} from "@app/shared/shared.module";
 import {NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {FaIconLibrary, FontAwesomeModule} from "@fortawesome/angular-fontawesome";
+import {faEdit, faPlus, faTrash} from "@fortawesome/free-solid-svg-icons";
 
 
 @NgModule({
@@ -20,6 +22,13 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
         NgbPaginationModule,
         FormsModule,
         ReactiveFormsModule,
+        FontAwesomeModule,
     ]
 })
-export class TransactionsModule { }
+export class TransactionsModule {
+    constructor(
+        private faIconLibrary: FaIconLibrary
+    ) {
+        faIconLibrary.addIcons(faPlus, faEdit, faTrash)
+    }
+}

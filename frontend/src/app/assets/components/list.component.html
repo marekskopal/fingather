@@ -3,8 +3,8 @@
         <h1>Assets</h1>
     </div>
     <div class="col-md-4 text-end">
-        <a (click)="addAsset()" class="btn btn-sm btn-success mb-2" tabindex="0">Add Asset</a>
-        <a routerLink="import" class="btn btn-sm mb-2">Import</a>
+        <a (click)="addAsset()" class="btn btn-sm btn-success me-2" tabindex="0"><fa-icon icon="plus"></fa-icon> Add Asset</a>
+        <a routerLink="import" class="btn btn-sm btn-info"><fa-icon icon="file-import"></fa-icon> Import</a>
     </div>
 </div>
 
@@ -30,10 +30,10 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let asset of openedAssets">
-                        <td><strong>{{asset.ticker.ticker}}</strong> {{asset.ticker.name}}</td>
-                        <td class="text-end">{{asset.price | number:'1.2-2' | currency: asset.ticker.market.currencyId | async}}</td>
-                        <td>{{asset.units | number:'1.0-8'}}</td>
-                        <td class="text-end">{{asset.value | number:'1.2-2' | currency: defaultCurrency.id | async}}</td>
+                        <td class="align-middle"><strong>{{asset.ticker.ticker}}</strong> {{asset.ticker.name}}</td>
+                        <td class="align-middle text-end">{{asset.price | number:'1.2-2' | currency: asset.ticker.market.currencyId | async}}</td>
+                        <td class="align-middle">{{asset.units | number:'1.0-8'}}</td>
+                        <td class="align-middle text-end">{{asset.value | number:'1.2-2' | currency: defaultCurrency.id | async}}</td>
                         <td class="text-end {{asset.gain > 0 ? 'green' : (asset.gain < 0 ? 'red' : '')}}">
                             <div class="small">{{asset.gainDefaultCurrency | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
                             <div>{{asset.gainPercentage}}%</div>
@@ -50,8 +50,8 @@
                             <div class="small"><strong>{{asset.return | number:'1.2-2' | currency: defaultCurrency.id | async}}</strong></div>
                             <div><strong>{{asset.returnPercentage}}%</strong></div>
                         </td>
-                        <td style="white-space: nowrap">
-                            <a routerLink="{{asset.id}}" class="btn btn-sm btn-primary mr-1">Detail</a>
+                        <td class="align-middle text-end" style="white-space: nowrap">
+                            <a routerLink="{{asset.id}}" class="btn btn-sm btn-primary mr-1"><fa-icon icon="expand"></fa-icon> Detail</a>
                         </td>
                     </tr>
                     <tr *ngIf="openedAssets === null">
@@ -76,10 +76,10 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let asset of closedAssets">
-                        <td><strong>{{asset.ticker.ticker}}</strong> {{asset.ticker.name}}</td>
-                        <td class="text-end">{{asset.price | number:'1.2-2' | currency: asset.ticker.market.currencyId | async}}</td>
-                        <td style="white-space: nowrap">
-                            <a routerLink="{{asset.id}}" class="btn btn-sm btn-primary mr-1">Detail</a>
+                        <td class="align-middle"><strong>{{asset.ticker.ticker}}</strong> {{asset.ticker.name}}</td>
+                        <td class="align-middle text-end">{{asset.price | number:'1.2-2' | currency: asset.ticker.market.currencyId | async}}</td>
+                        <td class="text-end" style="white-space: nowrap">
+                            <a routerLink="{{asset.id}}" class="btn btn-sm btn-primary mr-1"><fa-icon icon="expand"></fa-icon> Detail</a>
                         </td>
                     </tr>
                     <tr *ngIf="closedAssets === null">
@@ -104,10 +104,10 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let asset of watchedAssets">
-                        <td><strong>{{asset.ticker.ticker}}</strong> {{asset.ticker.name}}</td>
-                        <td class="text-end">{{asset.price | number:'1.2-2' | currency: asset.ticker.market.currencyId | async}}</td>
-                        <td style="white-space: nowrap">
-                            <a routerLink="{{asset.id}}" class="btn btn-sm btn-primary mr-1">Detail</a>
+                        <td class="align-middle"><strong>{{asset.ticker.ticker}}</strong> {{asset.ticker.name}}</td>
+                        <td class="align-middle text-end">{{asset.price | number:'1.2-2' | currency: asset.ticker.market.currencyId | async}}</td>
+                        <td class="text-end" style="white-space: nowrap">
+                            <a routerLink="{{asset.id}}" class="btn btn-sm btn-primary mr-1"><fa-icon icon="expand"></fa-icon> Detail</a>
                         </td>
                     </tr>
                     <tr *ngIf="watchedAssets === null">

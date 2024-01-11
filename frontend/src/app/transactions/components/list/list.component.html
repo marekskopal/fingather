@@ -3,8 +3,8 @@
         <h1>Transactions</h1>
     </div>
     <div class="col-md-4 text-end">
-        <a (click)="addTransaction()" class="btn btn-sm btn-success me-2" tabindex="0">Add Transaction</a>
-        <a (click)="addDividend()" class="btn btn-sm btn-success" tabindex="0">Add Dividend</a>
+        <a (click)="addTransaction()" class="btn btn-sm btn-success me-2" tabindex="0"><fa-icon icon="plus"></fa-icon> Add Transaction</a>
+        <a (click)="addDividend()" class="btn btn-sm btn-success" tabindex="0"><fa-icon icon="plus"></fa-icon> Add Dividend</a>
     </div>
 </div>
 <table class="table table-striped">
@@ -21,13 +21,13 @@
             <td>{{transaction.actionCreated}}</td>
             <td>{{transaction.created}}</td>
             <td>{{transaction.actionType}}</td>
-            <td style="white-space: nowrap">
-                <a (click)="editTransaction(transaction.id)" class="btn btn-sm btn-primary mr-1" tabindex="0">Edit</a>
+            <td class="text-end" style="white-space: nowrap">
+                <a (click)="editTransaction(transaction.id)" class="btn btn-sm btn-primary me-2" tabindex="0"><fa-icon icon="edit"></fa-icon> Edit</a>
                 <button (click)="deleteTransaction(transaction.id)" class="btn btn-sm btn-danger btn-delete-user" [disabled]="transaction.isDeleting">
                     @if (transaction.isDeleting) {
                         <span class="spinner-border spinner-border-sm"></span>
                     } @else {
-                        <span>Delete</span>
+                        <span><fa-icon icon="trash"></fa-icon> Delete</span>
                     }
                 </button>
             </td>

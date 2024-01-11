@@ -6,12 +6,15 @@ import { UsersRoutingModule } from './users-routing.module';
 import { LayoutComponent } from './layout.component';
 import { ListComponent } from './list.component';
 import { AddEditComponent } from './add-edit.component';
+import {FaIconComponent, FaIconLibrary} from "@fortawesome/angular-fontawesome";
+import {faEdit, faPlus, faTrash} from "@fortawesome/free-solid-svg-icons";
 
 @NgModule({
     imports: [
         CommonModule,
         ReactiveFormsModule,
-        UsersRoutingModule
+        UsersRoutingModule,
+        FaIconComponent
     ],
     declarations: [
         LayoutComponent,
@@ -19,4 +22,10 @@ import { AddEditComponent } from './add-edit.component';
         AddEditComponent
     ]
 })
-export class UsersModule { }
+export class UsersModule {
+    constructor(
+        private faIconLibrary: FaIconLibrary
+    ) {
+        faIconLibrary.addIcons(faPlus, faEdit, faTrash)
+    }
+}
