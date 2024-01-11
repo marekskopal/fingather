@@ -1,5 +1,11 @@
-﻿<h2>Transactions</h2>
-<a (click)="addTransaction(assetId)" class="btn btn-sm btn-success mb-2" tabindex="0">Add Transaction</a>
+﻿<div class="row">
+    <div class="col-md-8">
+        <h2>Transactions</h2>
+    </div>
+    <div class="col-md-4 text-end">
+        <a (click)="addTransaction(assetId)" class="btn btn-sm btn-success mb-2" tabindex="0">Add Transaction</a>
+    </div>
+</div>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -13,6 +19,14 @@
             <td>{{transaction.actionCreated | amFromUtc | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm'}}</td>
             <td>{{transaction.actionType}}</td>
             <td style="white-space: nowrap">
+                <a (click)="editTransaction(transaction.id)" class="btn btn-sm btn-primary mr-1" tabindex="0">Edit</a>
+                <button (click)="deleteTransaction(transaction.id)" class="btn btn-sm btn-danger btn-delete-user" [disabled]="transaction.isDeleting">
+                    @if (transaction.isDeleting) {
+                        <span class="spinner-border spinner-border-sm"></span>
+                    } @else {
+                        <span>Delete</span>
+                    }
+                </button>
             </td>
         </tr>
         <tr *ngIf="transactions === null">

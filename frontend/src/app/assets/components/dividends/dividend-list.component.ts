@@ -2,9 +2,10 @@
 import { first } from 'rxjs/operators';
 import { ActivatedRoute } from "@angular/router";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { DividendDialogComponent } from './dividend-dialog.component';
 import {TransactionService} from "@app/services";
 import {Transaction, TransactionActionType} from "@app/models";
+import {DividendDialogComponent} from "@app/shared/components/dividend-dialog/dividend-dialog.component";
+import {TransactionDialogComponent} from "@app/shared/components/transaction-dialog/transaction-dialog.component";
 
 @Component({
     templateUrl: 'dividend-list.component.html',
@@ -23,17 +24,21 @@ export class DividendListComponent implements OnInit, OnDestroy {
     public ngOnInit(): void {
         this.assetId = this.route.snapshot.params['id'];
 
-        this.transactionService.getTransactions(this.assetId, [TransactionActionType.Dividend])
-            .pipe(first())
-            .subscribe(dividends => this.dividends = dividends.transactions);
+        this.refreshTransactions();
 
         this.transactionService.eventEmitter.subscribe(() => {
-            this.ngOnInit();
+            this.refreshTransactions();
         });
     }
 
     public ngOnDestroy(): void {
         this.transactionService.eventEmitter.unsubscribe();
+    }
+
+    public refreshTransactions(): void {
+        this.transactionService.getTransactions(this.assetId, [TransactionActionType.Dividend])
+            .pipe(first())
+            .subscribe(dividends => this.dividends = dividends.transactions);
     }
 
     public addDividend(): void {
@@ -47,13 +52,13 @@ export class DividendListComponent implements OnInit, OnDestroy {
     }
 
     public deleteDividend(id: number): void {
-        const dividend = this.dividends?.find(x => x.id === id);
-        if (dividend === undefined) {
+        const transaction = this.dividends?.find(x => x.id === id);
+        if (transaction === undefined) {
             return;
         }
-        dividend.isDeleting = true;
+        transaction.isDeleting = true;
         this.transactionService.deleteTransaction(id)
             .pipe(first())
-            .subscribe(() => this.dividends = this.dividends !== null ? this.dividends.filter(x => x.id !== id) : null);
+            .subscribe(() => this.refreshTransactions());
     }
 }
