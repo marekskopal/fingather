@@ -9,20 +9,23 @@
 </div>
 <div class="modal-body" *ngIf="form">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        <input type="hidden" formControlName="assetId">
-        <div class="form-row">
-            <div class="form-group col">
-                <label for="assetId">Asset</label>
-                <select id="assetId" formControlName="assetId" class="form-select">
-                    <option *ngFor="let asset of assets" [ngValue]="asset.id">
-                        {{ asset.ticker.name }}
-                    </option>
-                </select>
-                <div *ngIf="submitted && f['assetId'].errors" class="invalid-feedback">
-                    <div *ngIf="f['assetId'].errors['required']">Asset is required</div>
+        @if (assetId !== null) {
+            <input type="hidden" formControlName="assetId">
+        } @else {
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="assetId">Asset</label>
+                    <select id="assetId" formControlName="assetId" class="form-select">
+                        <option *ngFor="let asset of assets" [ngValue]="asset.id">
+                            {{ asset.ticker.name }}
+                        </option>
+                    </select>
+                    <div *ngIf="submitted && f['assetId'].errors" class="invalid-feedback">
+                        <div *ngIf="f['assetId'].errors['required']">Asset is required</div>
+                    </div>
                 </div>
             </div>
-        </div>
+        }
         <div class="form-row">
             <div class="form-group col">
                 <label for="brokerId">Broker</label>

@@ -16,7 +16,8 @@ export class TransactionDialogComponent extends BaseForm implements OnInit {
         TransactionActionType.Buy,
         TransactionActionType.Sell,
     ]
-    public assets: AssetWithProperties[];
+    public assets: AssetWithProperties[]|null;
+    public assetId: number|null = null
     public brokers: Broker[];
     public currencies: Currency[];
 
@@ -53,9 +54,9 @@ export class TransactionDialogComponent extends BaseForm implements OnInit {
             .subscribe((currencies: Currency[]) => this.currencies = currencies);
 
         this.form = this.formBuilder.group({
-            assetId: ['', Validators.required],
+            assetId: [this.assetId !== null ? this.assetId : '', Validators.required],
             brokerId: ['', Validators.required],
-            actionType: ['buy', Validators.required],
+            actionType: [TransactionActionType.Buy.toString(), Validators.required],
             actionCreated: [currentDate, Validators.required],
             units: ['0.00', Validators.required],
             price: ['0.00', Validators.required],
@@ -93,6 +94,9 @@ export class TransactionDialogComponent extends BaseForm implements OnInit {
     }
 
     private createTransaction(): void {
+        const values = this.form.value;
+        values.assetId = parseInt(values.assetId);
+
         this.transactionService.createTransaction(this.form.value)
             .pipe(first())
             .subscribe({

@@ -6,14 +6,12 @@ import {TransactionsRoutingModule} from "@app/transactions/transactions-routing.
 import {SharedModule} from "@app/shared/shared.module";
 import {NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {TransactionDialogComponent} from "@app/transactions/components/transaction-dialog/transaction-dialog.component";
 
 
 @NgModule({
     declarations: [
         LayoutComponent,
         ListComponent,
-        TransactionDialogComponent
     ],
     imports: [
         CommonModule,
