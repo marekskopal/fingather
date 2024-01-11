@@ -16,17 +16,21 @@ export class ListComponent implements OnInit, OnDestroy {
     ) {}
 
     public ngOnInit(): void {
-        this.brokerService.getBrokers()
-            .pipe(first())
-            .subscribe(brokers => this.brokers = brokers);
+        this.refreshBrokers();
 
         this.brokerService.eventEmitter.subscribe(() => {
-            this.ngOnInit();
+            this.refreshBrokers();
         });
     }
 
     public ngOnDestroy(): void {
         this.brokerService.eventEmitter.unsubscribe();
+    }
+
+    public refreshBrokers(): void {
+        this.brokerService.getBrokers()
+            .pipe(first())
+            .subscribe(brokers => this.brokers = brokers);
     }
 
     public addBroker(): void {

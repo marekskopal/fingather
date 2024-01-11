@@ -1,4 +1,4 @@
-﻿import { Component, OnInit } from '@angular/core';
+﻿import {Component, Input, OnInit} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UntypedFormBuilder, Validators} from '@angular/forms';
 import { first } from 'rxjs/operators';
@@ -6,10 +6,11 @@ import { first } from 'rxjs/operators';
 import {UserService, AlertService, CurrencyService} from '@app/services';
 import {Currency, UserRoleEnum} from "@app/models";
 import {BaseForm} from "@app/shared/components/form/base-form";
+import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({ templateUrl: 'add-edit.component.html' })
 export class AddEditComponent extends BaseForm implements OnInit {
-    public id: number;
+    @Input() public id: number;
     public isAddMode: boolean;
     public currencies: Currency[];
     public roles = [
@@ -22,6 +23,7 @@ export class AddEditComponent extends BaseForm implements OnInit {
         private router: Router,
         private userService: UserService,
         private currencyService: CurrencyService,
+        public activeModal: NgbActiveModal,
         formBuilder: UntypedFormBuilder,
         alertService: AlertService,
     ) {
@@ -29,7 +31,6 @@ export class AddEditComponent extends BaseForm implements OnInit {
     }
 
     public async ngOnInit(): Promise<void> {
-        this.id = this.route.snapshot.params['id'];
         this.isAddMode = !this.id;
 
         const emailValidators = [Validators.email]
@@ -86,7 +87,8 @@ export class AddEditComponent extends BaseForm implements OnInit {
             .subscribe({
                 next: () => {
                     this.alertService.success('User added successfully', { keepAfterRouteChange: true });
-                    this.router.navigate(['../'], { relativeTo: this.route });
+                    this.activeModal.dismiss();
+                    this.userService.notify();
                 },
                 error: error => {
                     this.alertService.error(error);
@@ -101,7 +103,8 @@ export class AddEditComponent extends BaseForm implements OnInit {
             .subscribe({
                 next: () => {
                     this.alertService.success('Update successful', { keepAfterRouteChange: true });
-                    this.router.navigate(['../../'], { relativeTo: this.route });
+                    this.activeModal.dismiss();
+                    this.userService.notify();
                 },
                 error: error => {
                     this.alertService.error(error);

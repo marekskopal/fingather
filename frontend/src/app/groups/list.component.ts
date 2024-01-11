@@ -11,22 +11,26 @@ export class ListComponent implements OnInit, OnDestroy {
     public groups: Group[]|null = null;
 
     public constructor(
-        private groupService: GroupService,
-        private modalService: NgbModal,
+        private readonly groupService: GroupService,
+        private readonly modalService: NgbModal,
     ) {}
 
     public ngOnInit(): void {
-        this.groupService.getGroups()
-            .pipe(first())
-            .subscribe(groups => this.groups = groups);
+        this.refreshGroups();
 
         this.groupService.eventEmitter.subscribe(() => {
-            this.ngOnInit();
+            this.refreshGroups();
         });
     }
 
     public ngOnDestroy(): void {
         this.groupService.eventEmitter.unsubscribe();
+    }
+
+    public refreshGroups(): void {
+        this.groupService.getGroups()
+            .pipe(first())
+            .subscribe(groups => this.groups = groups);
     }
 
     public addGroup(): void {

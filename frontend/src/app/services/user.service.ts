@@ -6,13 +6,15 @@ import { environment } from '@environments/environment';
 import { User } from '@app/models';
 import {Observable} from "rxjs";
 import {OkResponse} from "@app/models/ok-response";
+import {NotifyService} from "@app/services/notify-service";
 
 @Injectable({ providedIn: 'root' })
-export class UserService {
+export class UserService extends NotifyService {
 
     public constructor(
         private http: HttpClient
     ) {
+        super();
     }
 
     public createUser(user: User): Observable<User> {
