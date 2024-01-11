@@ -1,6 +1,9 @@
 ﻿<div class="modal-header">
-    <h4 class="modal-title" *ngIf="isAddMode">Add Group</h4>
-    <h4 class="modal-title" *ngIf="!isAddMode">Edit Group</h4>
+    @if (isAddMode) {
+        <h4 class="modal-title">Add Group</h4>
+    } @else {
+        <h4 class="modal-title">Edit Group</h4>
+    }
     <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
 </div>
 <div class="modal-body">
