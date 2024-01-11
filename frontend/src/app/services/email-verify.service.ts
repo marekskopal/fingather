@@ -1,9 +1,7 @@
 ﻿import {Injectable} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
 
 import { environment } from '@environments/environment';
-import { Group } from '@app/models';
 import { NotifyService } from '.';
 import {Observable} from "rxjs";
 import {OkResponse} from "@app/models/ok-response";

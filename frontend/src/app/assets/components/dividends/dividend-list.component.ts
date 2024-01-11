@@ -5,7 +5,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {TransactionService} from "@app/services";
 import {Transaction, TransactionActionType} from "@app/models";
 import {DividendDialogComponent} from "@app/shared/components/dividend-dialog/dividend-dialog.component";
-import {TransactionDialogComponent} from "@app/shared/components/transaction-dialog/transaction-dialog.component";
 
 @Component({
     templateUrl: 'dividend-list.component.html',

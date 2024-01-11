@@ -6,11 +6,11 @@ import {catchError, map} from "rxjs/operators";
 
 @Injectable({ providedIn: 'root' })
 export class UniqueEmailValidator implements AsyncValidator {
-    constructor(
-        private authenticationService: AuthenticationService
+    public constructor(
+        private readonly authenticationService: AuthenticationService
     ) {}
 
-    validate(control: AbstractControl): Observable<ValidationErrors | null> {
+    public validate(control: AbstractControl): Observable<ValidationErrors | null> {
         return this.authenticationService.isEmailExists(control.value).pipe(
             map((isEmailExists: boolean) => (isEmailExists ? { uniqueEmail: true } : null)),
             catchError(() => of(null)),

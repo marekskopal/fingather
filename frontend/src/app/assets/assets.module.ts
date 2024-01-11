@@ -40,8 +40,8 @@ import {faEdit, faExpand, faPlus, faTrash, faFileImport} from "@fortawesome/free
     ]
 })
 export class AssetsModule {
-    constructor(
-        private faIconLibrary: FaIconLibrary
+    public constructor(
+        private readonly faIconLibrary: FaIconLibrary
     ) {
         faIconLibrary.addIcons(faPlus, faEdit, faTrash, faExpand, faFileImport)
     }

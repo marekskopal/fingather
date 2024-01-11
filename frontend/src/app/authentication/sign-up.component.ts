@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
-import {UserService, AlertService, CurrencyService} from '@app/services';
+import {AlertService, CurrencyService} from '@app/services';
 import {BaseForm} from "@app/shared/components/form/base-form";
 import {UniqueEmailValidator} from "@app/authentication/validator/UniqueEmailValidator";
 import {Currency} from "@app/models";

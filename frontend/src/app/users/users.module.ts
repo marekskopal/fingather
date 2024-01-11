@@ -23,8 +23,8 @@ import {faEdit, faPlus, faTrash} from "@fortawesome/free-solid-svg-icons";
     ]
 })
 export class UsersModule {
-    constructor(
-        private faIconLibrary: FaIconLibrary
+    public constructor(
+        private readonly faIconLibrary: FaIconLibrary
     ) {
         faIconLibrary.addIcons(faPlus, faEdit, faTrash)
     }
