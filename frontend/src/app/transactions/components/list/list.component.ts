@@ -3,7 +3,7 @@ import {first} from "rxjs/operators";
 import {TransactionService} from "@app/services";
 import {TransactionList} from "@app/models/TransactionList";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {TransactionDialogComponent} from "@app/transactions/components/transaction-dialog/transaction-dialog.component";
+import {TransactionDialogComponent} from "@app/shared/components/transaction-dialog/transaction-dialog.component";
 
 @Component({
     templateUrl: './list.component.html',
@@ -23,7 +23,7 @@ export class ListComponent implements OnInit, OnDestroy {
         this.refreshTransactions();
 
         this.transactionService.eventEmitter.subscribe(() => {
-            this.ngOnInit();
+            this.refreshTransactions();
         });
     }
 

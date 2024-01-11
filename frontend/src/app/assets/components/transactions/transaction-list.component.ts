@@ -3,9 +3,9 @@ import { first } from 'rxjs/operators';
 
 import {ActivatedRoute} from "@angular/router";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { TransactionDialogComponent } from './transaction-dialog.component';
 import {Transaction, TransactionActionType} from "@app/models";
 import {TransactionService} from "@app/services";
+import {TransactionDialogComponent} from "@app/shared/components/transaction-dialog/transaction-dialog.component";
 
 @Component({
     templateUrl: 'transaction-list.component.html',
@@ -24,13 +24,22 @@ export class TransactionListComponent implements OnInit {
     public ngOnInit(): void {
         this.assetId = this.route.snapshot.params['id'];
 
+        this.refreshTransactions();
+
+        this.transactionService.eventEmitter.subscribe(() => {
+            this.refreshTransactions();
+        });
+    }
+
+    public refreshTransactions(): void {
         this.transactionService.getTransactions(this.assetId, [TransactionActionType.Buy, TransactionActionType.Sell])
             .pipe(first())
             .subscribe(transactions => this.transactions = transactions.transactions);
     }
 
-    public addTransaction(): void {
-        this.modalService.open(TransactionDialogComponent);
+    public addTransaction(assetId: number): void {
+        const dialog = this.modalService.open(TransactionDialogComponent);
+        dialog.componentInstance.assetId = assetId;
     }
 
     public deleteTransaction(id: number): void {

@@ -9,7 +9,6 @@ import { LayoutComponent } from './components/layout.component';
 import { ListComponent } from './components/list.component';
 import { DetailComponent } from './components/detail.component';
 import { TransactionListComponent } from './components/transactions/transaction-list.component';
-import { TransactionDialogComponent } from './components/transactions/transaction-dialog.component';
 import { DividendListComponent } from './components/dividends/dividend-list.component';
 import { DividendDialogComponent } from './components/dividends/dividend-dialog.component';
 import { AssetTickerChartComponent } from './components/chart/asset-ticker-chart.component';
@@ -35,7 +34,6 @@ import {NgbNavModule, NgbTypeaheadModule} from "@ng-bootstrap/ng-bootstrap";
         AddAssetComponent,
         DetailComponent,
         TransactionListComponent,
-        TransactionDialogComponent,
         DividendListComponent,
         DividendDialogComponent,
         AssetTickerChartComponent,
