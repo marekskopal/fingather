@@ -1,7 +1,12 @@
-<h1>Transactions</h1>
-
-<a (click)="addTransaction()" class="btn btn-sm btn-success mb-2" tabindex="0">Add Transaction</a>
-
+<div class="row">
+    <div class="col-md-8">
+        <h1>Transactions</h1>
+    </div>
+    <div class="col-md-4 text-end">
+        <a (click)="addTransaction()" class="btn btn-sm btn-success me-2" tabindex="0">Add Transaction</a>
+        <a (click)="addDividend()" class="btn btn-sm btn-success" tabindex="0">Add Dividend</a>
+    </div>
+</div>
 <table class="table table-striped">
     <thead>
         <tr>

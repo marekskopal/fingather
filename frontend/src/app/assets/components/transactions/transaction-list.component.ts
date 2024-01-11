@@ -1,4 +1,4 @@
-﻿import { Component, OnInit } from '@angular/core';
+﻿import {Component, OnDestroy, OnInit} from '@angular/core';
 import { first } from 'rxjs/operators';
 
 import {ActivatedRoute} from "@angular/router";
@@ -11,7 +11,7 @@ import {TransactionDialogComponent} from "@app/shared/components/transaction-dia
     templateUrl: 'transaction-list.component.html',
     selector: 'fingather-transaction-list',
 })
-export class TransactionListComponent implements OnInit {
+export class TransactionListComponent implements OnInit, OnDestroy {
     public transactions: Transaction[]|null = null;
     public assetId: number;
 
@@ -31,6 +31,10 @@ export class TransactionListComponent implements OnInit {
         });
     }
 
+    public ngOnDestroy(): void {
+        this.transactionService.eventEmitter.unsubscribe();
+    }
+
     public refreshTransactions(): void {
         this.transactionService.getTransactions(this.assetId, [TransactionActionType.Buy, TransactionActionType.Sell])
             .pipe(first())
@@ -38,8 +42,13 @@ export class TransactionListComponent implements OnInit {
     }
 
     public addTransaction(assetId: number): void {
-        const dialog = this.modalService.open(TransactionDialogComponent);
-        dialog.componentInstance.assetId = assetId;
+        const transactionDialogComponent = this.modalService.open(TransactionDialogComponent);
+        transactionDialogComponent.componentInstance.assetId = assetId;
+    }
+
+    public editTransaction(id: number): void {
+        const transactionDialogComponent = this.modalService.open(TransactionDialogComponent);
+        transactionDialogComponent.componentInstance.id = id;
     }
 
     public deleteTransaction(id: number): void {
@@ -50,6 +59,6 @@ export class TransactionListComponent implements OnInit {
         transaction.isDeleting = true;
         this.transactionService.deleteTransaction(id)
             .pipe(first())
-            .subscribe(() => this.transactions = this.transactions !== null ? this.transactions.filter(x => x.id !== id) : null);
+            .subscribe(() => this.refreshTransactions());
     }
 }

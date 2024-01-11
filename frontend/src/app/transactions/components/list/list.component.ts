@@ -4,6 +4,7 @@ import {TransactionService} from "@app/services";
 import {TransactionList} from "@app/models/TransactionList";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {TransactionDialogComponent} from "@app/shared/components/transaction-dialog/transaction-dialog.component";
+import {DividendDialogComponent} from "@app/shared/components/dividend-dialog/dividend-dialog.component";
 
 @Component({
     templateUrl: './list.component.html',
@@ -39,6 +40,10 @@ export class ListComponent implements OnInit, OnDestroy {
 
     public addTransaction(): void {
         this.modalService.open(TransactionDialogComponent);
+    }
+
+    public addDividend(): void {
+        this.modalService.open(DividendDialogComponent);
     }
 
     public editTransaction(id: number): void {

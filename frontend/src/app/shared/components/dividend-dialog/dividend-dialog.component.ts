@@ -9,13 +9,9 @@ import {AssetWithProperties, Broker, Currency, Transaction, TransactionActionTyp
 import {AlertService, AssetService, BrokerService, CurrencyService, TransactionService} from "@app/services";
 import {BaseForm} from "@app/shared/components/form/base-form";
 
-@Component({ templateUrl: 'transaction-dialog.component.html' })
-export class TransactionDialogComponent extends BaseForm implements OnInit {
+@Component({ templateUrl: 'dividend-dialog.component.html' })
+export class DividendDialogComponent extends BaseForm implements OnInit {
     public id: number|null = null;
-    public actionTypes: TransactionActionType[] = [
-        TransactionActionType.Buy,
-        TransactionActionType.Sell,
-    ]
     public assets: AssetWithProperties[]|null;
     public assetId: number|null = null
     public brokers: Broker[];
@@ -56,9 +52,7 @@ export class TransactionDialogComponent extends BaseForm implements OnInit {
         this.form = this.formBuilder.group({
             assetId: [this.assetId !== null ? this.assetId : '', Validators.required],
             brokerId: ['', Validators.required],
-            actionType: [TransactionActionType.Buy.toString(), Validators.required],
             actionCreated: [currentDate, Validators.required],
-            units: ['0.00', Validators.required],
             price: ['0.00', Validators.required],
             tax: ['0.00', Validators.required],
             currencyId: ['', Validators.required],
@@ -96,12 +90,14 @@ export class TransactionDialogComponent extends BaseForm implements OnInit {
     private createTransaction(): void {
         const values = this.form.value;
         values.assetId = parseInt(values.assetId);
+        values.units = 0;
+        values.actionType = TransactionActionType.Dividend;
 
         this.transactionService.createTransaction(values)
             .pipe(first())
             .subscribe({
                 next: () => {
-                    this.alertService.success('Transaction added successfully');
+                    this.alertService.success('Dividend added successfully');
                     this.activeModal.dismiss()
                     this.transactionService.notify();
                 },
@@ -115,6 +111,8 @@ export class TransactionDialogComponent extends BaseForm implements OnInit {
     private updateTransaction(id: number): void {
         const values = this.form.value;
         values.actionCreated = (new Date(values.actionCreated)).toJSON();
+        values.units = 0;
+        values.actionType = TransactionActionType.Dividend;
 
         this.transactionService.updateTransaction(id, values)
             .pipe(first())
