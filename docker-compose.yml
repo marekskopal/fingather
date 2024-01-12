@@ -60,8 +60,8 @@ services:
             - backend
         volumes:
             - ./log:/app/log
-            - ./backend/migrations:/app/migrations
-            - ./backend:/app
+            #- ./backend/migrations:/app/migrations
+            #- ./backend:/app
 
     db:
         image: mariadb:11.2
