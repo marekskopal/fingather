@@ -3,7 +3,7 @@ version: '3.4'
 services:
     proxy:
         build: 
-            context: ./Proxy
+            context: ./proxy
             dockerfile: Dockerfile
         environment:
             PROXY_HOST: ${PROXY_HOST}
