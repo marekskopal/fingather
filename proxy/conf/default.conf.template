@@ -31,6 +31,13 @@ server {
         return  301 $scheme://www.$host$request_uri;
     }
 
+    gzip on;
+    gzip_min_length   256;
+    gzip_vary         on;
+    gzip_proxied      expired no-cache no-store private auth;
+    gzip_types        text/plain text/css application/json application/javascript application/x-javascript text/xml application/xml application/xml+rss text/javascript;
+    gzip_comp_level   9;
+
     location / {
         proxy_pass http://frontend;
     }
