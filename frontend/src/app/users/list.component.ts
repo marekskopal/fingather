@@ -1,7 +1,7 @@
 ﻿import {Component, OnDestroy, OnInit} from '@angular/core';
 import { first } from 'rxjs/operators';
 
-import { UserService } from '@app/services';
+import {CurrentUserService, UserService} from '@app/services';
 import {User} from "@app/models";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {AddEditComponent} from "@app/users/add-edit.component";
@@ -9,14 +9,18 @@ import {AddEditComponent} from "@app/users/add-edit.component";
 @Component({ templateUrl: 'list.component.html' })
 export class ListComponent implements OnInit, OnDestroy {
     public users: User[] = [];
+    public currentUser: User;
 
     public constructor(
         private readonly userService: UserService,
+        private readonly currentUserService: CurrentUserService,
         private readonly modalService: NgbModal,
     ) {}
 
-    public ngOnInit(): void {
+    public async ngOnInit(): Promise<void> {
         this.refreshUsers();
+
+        this.currentUser = await this.currentUserService.getCurrentUser();
 
         this.userService.eventEmitter.subscribe(() => {
             this.refreshUsers();

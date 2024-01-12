@@ -20,13 +20,15 @@
             <td>{{user.name}}</td>
             <td class="text-end" style="white-space: nowrap">
                 <a (click)="editUser(user.id)" class="btn btn-sm btn-primary me-2" tabindex="0"><fa-icon icon="edit"></fa-icon> Edit</a>
-                <button (click)="deleteUser(user.id)" class="btn btn-sm btn-danger btn-delete-user" [disabled]="user.isDeleting">
-                    @if (user.isDeleting) {
-                        <span class="spinner-border spinner-border-sm"></span>
-                    } @else {
-                        <span><fa-icon icon="trash"></fa-icon> Delete</span>
-                    }
-                </button>
+                @if (user.id != currentUser.id) {
+                    <button (click)="deleteUser(user.id)" class="btn btn-sm btn-danger btn-delete-user" [disabled]="user.isDeleting">
+                        @if (user.isDeleting) {
+                            <span class="spinner-border spinner-border-sm"></span>
+                        } @else {
+                            <span><fa-icon icon="trash"></fa-icon> Delete</span>
+                        }
+                    </button>
+                }
             </td>
         </tr>
         <tr *ngIf="users.length === 0">
