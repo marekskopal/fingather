@@ -13,8 +13,11 @@ use const PASSWORD_BCRYPT;
 
 class UserProvider
 {
-	public function __construct(private readonly UserRepository $userRepository, private readonly EmailVerifyProvider $emailVerifyProvider)
-	{
+	public function __construct(
+		private readonly UserRepository $userRepository,
+		private readonly EmailVerifyProvider $emailVerifyProvider,
+		private readonly GroupProvider $groupProvider,
+	) {
 	}
 
 	/** @return iterable<User> */
@@ -52,6 +55,8 @@ class UserProvider
 			isEmailVerified: $isEmailVerified,
 		);
 		$this->userRepository->persist($user);
+
+		$this->groupProvider->createOthersGroup($user);
 
 		if (!$isEmailVerified) {
 			$this->emailVerifyProvider->createEmailVerify($user);
