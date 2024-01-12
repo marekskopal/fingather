@@ -57,6 +57,14 @@ class GroupProvider
 		return $group;
 	}
 
+	public function createOthersGroup(User $user): Group
+	{
+		$group = new Group(user: $user, name: 'Others', isOthers: true, assets: []);
+		$this->groupRepository->persist($group);
+
+		return $group;
+	}
+
 	/** @param list<int> $assetIds */
 	public function updateGroup(Group $group, string $name, array $assetIds): Group
 	{
