@@ -29,7 +29,6 @@ COPY ./docker/etc/service /etc/service
 COPY ./docker/etc/php /etc/php
 
 COPY ./bin /app/bin
-COPY ./log /app/log
 COPY ./migrations /app/migrations
 COPY ./src /app/src
 COPY ./.rr.yaml ./composer.json ./composer.lock /app/
