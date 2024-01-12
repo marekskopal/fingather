@@ -55,7 +55,6 @@ services:
             EMAIL_FROM: ${EMAIL_FROM}
         depends_on:
             - proxy
-            - db
         restart: unless-stopped
         networks:
             - backend
@@ -76,6 +75,8 @@ services:
             - backend
         volumes:
             - ./fingather_data:/var/lib/mysql
+        profiles:
+            - dev
 
     rabbitmq:
         image: rabbitmq:3.12.12-alpine
@@ -95,6 +96,8 @@ services:
             MAILDEV_BASE_PATHNAME: /maildev
         networks:
             - backend
+        profiles:
+            - dev
 
 networks:
     frontend:
