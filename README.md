@@ -1,4 +1,4 @@
-# FinGather - stock and crypto portfolio manager
+# FinGather - stock and crypto portfolio tracker
 
 Currently in development.
 
