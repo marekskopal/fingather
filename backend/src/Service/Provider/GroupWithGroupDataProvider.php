@@ -8,12 +8,10 @@ use Decimal\Decimal;
 use FinGather\Dto\AssetWithPropertiesDto;
 use FinGather\Dto\GroupDataDto;
 use FinGather\Dto\GroupWithGroupDataDto;
-use FinGather\Dto\PortfolioDataDto;
-use FinGather\Dto\PortfolioDto;
 use FinGather\Model\Entity\User;
 use Safe\DateTimeImmutable;
 
-class PortfolioProvider
+class GroupWithGroupDataProvider
 {
 	public function __construct(
 		private readonly PortfolioDataProvider $portfolioDataProvider,
@@ -22,7 +20,8 @@ class PortfolioProvider
 	) {
 	}
 
-	public function getPortfolio(User $user, DateTimeImmutable $dateTime): PortfolioDto
+	/** @return list<GroupWithGroupDataDto> */
+	public function getGroupsWithGroupData(User $user, DateTimeImmutable $dateTime): array
 	{
 		$portfolioData = $this->portfolioDataProvider->getPortfolioData($user, $dateTime);
 
@@ -65,6 +64,6 @@ class PortfolioProvider
 			);
 		}
 
-		return new PortfolioDto($groupsWithGroupData, PortfolioDataDto::fromEntity($portfolioData));
+		return $groupsWithGroupData;
 	}
 }

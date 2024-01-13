@@ -1,0 +1,60 @@
+﻿<h1>Dashboard</h1>
+
+<div class="row">
+    <div class="col-12">
+        <h4>Portfolio Overview</h4>
+        <fingather-portfolio-total></fingather-portfolio-total>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-5">
+
+    </div>
+
+    <div class="col-md-7">
+        @if (groupsWithGroupData !== null) {
+            <table class="table table-striped caption-top">
+                <caption>Groups Allocation</caption>
+                <thead>
+                    <tr>
+                        <th style="width: 22%">Group</th>
+                        <th style="width: 13%">Allocation</th>
+                        <th style="width: 13%">Value</th>
+                        <th style="width: 13%">Gain/Loss</th>
+                        <th style="width: 13%">Dividend</th>
+                        <th style="width: 13%">FX Impact</th>
+                        <th style="width: 13%"><strong>Return</strong></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (group of groupsWithGroupData; track group.id) {
+                        <tr>
+                            <td>{{group.name}}</td>
+                            <td><strong>{{group.percentage | number:'1.2-2'}}%</strong></td>
+                            <td class="text-end">{{group.groupData.value | number:'1.2-2' | currency: defaultCurrency.id | async}}</td>
+                            <td class="text-end {{group.groupData.gain > 0 ? 'green' : (group.groupData.gain < 0 ? 'red' : '')}}">
+                                <div class="small">{{group.groupData.gain | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
+                                <div>{{group.groupData.gainPercentage}}%</div>
+                            </td>
+                            <td class="text-end {{group.groupData.dividendGain > 0 ? 'green' : (group.groupData.dividendGain < 0 ? 'red' : '')}}">
+                                <div class="small">{{group.groupData.dividendGain | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
+                                <div>{{group.groupData.dividendGainPercentage}}%</div>
+                            </td>
+                            <td class="text-end {{group.groupData.fxImpact > 0 ? 'green' : (group.groupData.fxImpact < 0 ? 'red' : '')}}">
+                                <div class="small">{{group.groupData.fxImpact | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
+                                <div>{{group.groupData.fxImpactPercentage}}%</div>
+                            </td>
+                            <td class="text-end {{group.groupData.return > 0 ? 'green' : (group.groupData.return < 0 ? 'red' : '')}}">
+                                <div class="small"><strong>{{group.groupData.return | number:'1.2-2' | currency: defaultCurrency.id | async}}</strong></div>
+                                <div><strong>{{group.groupData.returnPercentage}}%</strong></div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        } @else {
+            <span class="spinner-border spinner-border-lg align-center"></span>
+        }
+    </div>
+</div>
