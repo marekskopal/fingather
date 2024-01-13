@@ -2,21 +2,21 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
-import { PortfolioRoutingModule } from './portfolio-routing.module';
-import { LayoutComponent } from './layout.component';
-import { ListComponent } from './list.component';
+import { DashboardRoutingModule } from './dashboard-routing.module';
 import { SharedModule } from '../shared/shared.module';
+import {LayoutComponent} from "@app/dashboard/components/layout/layout.component";
+import {DashboardComponent} from "@app/dashboard/components/dashboard/dashboard.component";
 
 @NgModule({
     imports: [
         CommonModule,
         ReactiveFormsModule,
         SharedModule,
-        PortfolioRoutingModule,
+        DashboardRoutingModule,
     ],
     declarations: [
         LayoutComponent,
-        ListComponent,
+        DashboardComponent,
     ]
 })
-export class PortfolioModule { }
+export class DashboardModule { }

@@ -12,9 +12,9 @@ use FinGather\Controller\CurrencyController;
 use FinGather\Controller\CurrentUserController;
 use FinGather\Controller\EmailVerifyController;
 use FinGather\Controller\GroupController;
+use FinGather\Controller\GroupWithGroupDataController;
 use FinGather\Controller\ImportDataController;
 use FinGather\Controller\OverviewController;
-use FinGather\Controller\PortfolioController;
 use FinGather\Controller\PortfolioDataController;
 use FinGather\Controller\TickerController;
 use FinGather\Controller\TickerDataController;
@@ -50,11 +50,11 @@ enum Routes: string
 	case Group = '/api/group/{groupId:number}';
 	case GroupOthers = '/api/group/others';
 
+	case GroupsWithGroupData = '/api/group-with-group-data';
+
 	case ImportData = '/api/import-data';
 
 	case OverviewYearOverview = '/api/overview/year-overview';
-
-	case Portfolio = '/api/portfolio';
 
 	case PortfolioData = '/api/portfolio-data';
 
@@ -107,11 +107,11 @@ enum Routes: string
 		$routeList->put(self::Group->value, [GroupController::class, 'actionPutGroup']);
 		$routeList->delete(self::Group->value, [GroupController::class, 'actionDeleteGroup']);
 
+		$routeList->get(self::GroupsWithGroupData->value, [GroupWithGroupDataController::class, 'actionGetGroupsWithGroupData']);
+
 		$routeList->post(self::ImportData->value, [ImportDataController::class, 'actionImportData']);
 
 		$routeList->get(self::OverviewYearOverview->value, [OverviewController::class, 'actionGetYearOverview']);
-
-		$routeList->get(self::Portfolio->value, [PortfolioController::class, 'actionGetPortfolio']);
 
 		$routeList->get(self::PortfolioData->value, [PortfolioDataController::class, 'actionGetPortfolioData']);
 

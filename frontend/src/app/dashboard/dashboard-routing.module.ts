@@ -1,14 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
-import { LayoutComponent } from './layout.component';
-import { ListComponent } from './list.component';
+import {LayoutComponent} from "@app/dashboard/components/layout/layout.component";
+import {DashboardComponent} from "@app/dashboard/components/dashboard/dashboard.component";
 
 const routes: Routes = [
     {
         path: '', component: LayoutComponent,
         children: [
-            { path: '', component: ListComponent },
+            { path: '', component: DashboardComponent },
         ]
     }
 ];
@@ -17,4 +16,4 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]
 })
-export class PortfolioRoutingModule { }
+export class DashboardRoutingModule { }

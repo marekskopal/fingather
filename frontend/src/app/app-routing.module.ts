@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import {AuthGuard} from "@app/core/guards/auth.guard";
 
 const routes: Routes = [
-    { path: '', loadChildren: () => import('./portfolio/portfolio.module').then(x => x.PortfolioModule), canActivate: [AuthGuard] },
+    { path: '', loadChildren: () => import('./dashboard/dashboard.module').then(x => x.DashboardModule), canActivate: [AuthGuard] },
     { path: 'assets', loadChildren: () => import('./assets/assets.module').then(x => x.AssetsModule), canActivate: [AuthGuard] },
     { path: 'transactions', loadChildren: () => import('./transactions/transactions.module').then(x => x.TransactionsModule), canActivate: [AuthGuard] },
     { path: 'overviews', loadChildren: () => import('./overviews/overviews.module').then(x => x.OverviewsModule), canActivate: [AuthGuard] },

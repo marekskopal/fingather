@@ -2,16 +2,16 @@
 import { HttpClient } from '@angular/common/http';
 
 import { environment } from '@environments/environment';
-import { Portfolio } from '@app/models';
+import {GroupWithGroupData} from '@app/models';
 import {Observable} from "rxjs";
 
 @Injectable({ providedIn: 'root' })
-export class PortfolioService {
+export class GroupWithGroupDataService {
     public constructor(
         private http: HttpClient
     ) {}
 
-    public getPortfolio(): Observable<Portfolio> {
-        return this.http.get<Portfolio>(`${environment.apiUrl}/portfolio`);
+    public getGroupWithGroupData(): Observable<GroupWithGroupData[]> {
+        return this.http.get<GroupWithGroupData[]>(`${environment.apiUrl}/group-with-group-data`);
     }
 }
