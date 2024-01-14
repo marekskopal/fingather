@@ -18,8 +18,8 @@
     </thead>
     <tbody>
         <tr *ngFor="let transaction of transactionList?.transactions">
-            <td>{{transaction.actionCreated}}</td>
-            <td>{{transaction.created}}</td>
+            <td>{{transaction.actionCreated | amFromUtc | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm'}}</td>
+            <td>{{transaction.created | amFromUtc | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm'}}</td>
             <td>{{transaction.actionType}}</td>
             <td class="text-end" style="white-space: nowrap">
                 <a (click)="editTransaction(transaction.id)" class="btn btn-sm btn-primary me-2" tabindex="0"><fa-icon icon="edit"></fa-icon> Edit</a>
