@@ -18,7 +18,7 @@ export type ChartOptions = {
 
 @Component({
     templateUrl: 'group-chart.component.html',
-    selector: 'fingather-dashobard-group-chart',
+    selector: 'fingather-dashboard-group-chart',
 })
 export class GroupChartComponent implements OnInit {
     @ViewChild("chart", { static: false }) public chart: ChartComponent;
