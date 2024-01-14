@@ -17,7 +17,9 @@ use Cycle\Migrations\Config\MigrationConfig;
 use Cycle\Migrations\FileRepository;
 use Cycle\Migrations\Migrator;
 use Cycle\ORM\Factory;
+use Cycle\ORM\Heap\Heap;
 use Cycle\ORM\ORM;
+use Cycle\ORM\ORMInterface;
 use Cycle\ORM\Schema;
 use Cycle\Schema\Compiler;
 use Cycle\Schema\Generator\ForeignKeys;
@@ -34,7 +36,7 @@ use Symfony\Component\Finder\Finder;
 
 class DbContext
 {
-	private readonly ORM $orm;
+	private ORMInterface $orm;
 
 	private readonly Migrator $migrator;
 
@@ -122,7 +124,7 @@ class DbContext
 		$this->orm = new ORM(new Factory($dbal), new Schema($schema));
 	}
 
-	public function getOrm(): ORM
+	public function getOrm(): ORMInterface
 	{
 		return $this->orm;
 	}
@@ -135,5 +137,12 @@ class DbContext
 	public function getRegistry(): Registry
 	{
 		return $this->registry;
+	}
+
+	public function cloneOrm(): ORMInterface
+	{
+		$this->orm = $this->orm->with(heap: new Heap());
+
+		return $this->getOrm();
 	}
 }
