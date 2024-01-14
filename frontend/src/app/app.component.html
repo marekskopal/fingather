@@ -1,26 +1,28 @@
 ﻿<!-- nav -->
-<nav class="navbar navbar-expand" *ngIf="authentication">
-    <div class="container-fluid">
-        <a class="navbar-brand" routerLink="/" routerLinkActive="active">
-            <img src="/assets/fingather.svg" alt="FinGather" width="240" height="60">
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-                <a class="nav-item nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Dashboard</a>
-                <a class="nav-item nav-link" routerLink="/assets" routerLinkActive="active">Assets</a>
-                <a class="nav-item nav-link" routerLink="/transactions" routerLinkActive="active">Transactions</a>
-                <a class="nav-item nav-link" routerLink="/overviews" routerLinkActive="active">Overviews</a>
-                <a class="nav-item nav-link" routerLink="/groups" routerLinkActive="active">Groups</a>
-                <a class="nav-item nav-link" routerLink="/brokers" routerLinkActive="active">Brokers</a>
-                <a class="nav-item nav-link" routerLink="/users" routerLinkActive="active">Users</a>
-                <a class="nav-item nav-link" (click)="logout()" tabindex="0">Logout</a>
+@if (authentication) {
+    <nav class="navbar navbar-expand-lg fixed-top bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" routerLink="/" routerLinkActive="active">
+                <img src="/assets/fingather.svg" alt="FinGather" width="240" height="60">
+            </a>
+            <button (click)="toggleNavigation()" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navigation" [ngbCollapse]="isNavigationCollapsed">
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link" (click)="toggleNavigation()" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Dashboard</a>
+                    <a class="nav-item nav-link" (click)="toggleNavigation()" routerLink="/assets" routerLinkActive="active">Assets</a>
+                    <a class="nav-item nav-link" (click)="toggleNavigation()" routerLink="/transactions" routerLinkActive="active">Transactions</a>
+                    <a class="nav-item nav-link" (click)="toggleNavigation()" routerLink="/overviews" routerLinkActive="active">Overviews</a>
+                    <a class="nav-item nav-link" (click)="toggleNavigation()" routerLink="/groups" routerLinkActive="active">Groups</a>
+                    <a class="nav-item nav-link" (click)="toggleNavigation()" routerLink="/brokers" routerLinkActive="active">Brokers</a>
+                    <a class="nav-item nav-link" (click)="toggleNavigation()" routerLink="/users" routerLinkActive="active">Users</a>
+                    <a class="nav-item nav-link" (click)="logout();toggleNavigation()" tabindex="0">Logout</a>
+                </div>
             </div>
         </div>
-    </div>
-</nav>
+    </nav>
+}
 
 <!-- main app container -->
 <div class="app-container">
