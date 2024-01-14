@@ -47,6 +47,9 @@ class HttpDispatcher implements Dispatcher
 					return;
 				}
 
+				//fix SQL cache for each request
+				$application->dbContext->cloneOrm();
+
 				$response = $application->handler->handle($request);
 				$this->psr7->respond($response);
 
