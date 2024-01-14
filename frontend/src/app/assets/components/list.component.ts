@@ -2,7 +2,7 @@
 import { first } from 'rxjs/operators';
 
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {Asset, AssetWithProperties, Currency, GroupWithGroupData, TransactionActionType} from "@app/models";
+import {Asset, AssetWithProperties, Currency, GroupWithGroupData} from "@app/models";
 import {AssetService, CurrencyService, GroupWithGroupDataService} from "@app/services";
 import {AddAssetComponent} from "@app/assets/components/add-asset/add-asset.component";
 

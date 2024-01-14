@@ -7,7 +7,7 @@ import {GroupWithGroupDataService} from "@app/services";
 export type ChartOptions = {
     series: ApexNonAxisChartSeries;
     chart: ApexChart;
-    labels: any;
+    labels: string[];
     theme: ApexTheme;
     fill: ApexFill,
     yaxis: ApexYAxis,
