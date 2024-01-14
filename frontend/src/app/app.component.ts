@@ -7,11 +7,17 @@ import {Authentication} from "@app/models/authentication";
 export class AppComponent {
     public authentication: Authentication|null;
 
-    public constructor(private authenticationService: AuthenticationService) {
+    public isNavigationCollapsed: boolean = true;
+
+    public constructor(private readonly authenticationService: AuthenticationService) {
         this.authenticationService.authentication.subscribe(x => this.authentication = x);
     }
 
     public logout(): void {
         this.authenticationService.logout();
+    }
+
+    public toggleNavigation(): void {
+        this.isNavigationCollapsed = !this.isNavigationCollapsed;
     }
 }
