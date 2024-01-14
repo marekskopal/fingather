@@ -20,4 +20,8 @@ export class AppComponent {
     public toggleNavigation(): void {
         this.isNavigationCollapsed = !this.isNavigationCollapsed;
     }
+
+    public collapseNavigation(): void {
+        this.isNavigationCollapsed = true;
+    }
 }
