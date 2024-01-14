@@ -10,14 +10,14 @@
             </button>
             <div class="collapse navbar-collapse" id="navigation" [ngbCollapse]="isNavigationCollapsed">
                 <div class="navbar-nav">
-                    <a class="nav-item nav-link" (click)="toggleNavigation()" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Dashboard</a>
-                    <a class="nav-item nav-link" (click)="toggleNavigation()" routerLink="/assets" routerLinkActive="active">Assets</a>
-                    <a class="nav-item nav-link" (click)="toggleNavigation()" routerLink="/transactions" routerLinkActive="active">Transactions</a>
-                    <a class="nav-item nav-link" (click)="toggleNavigation()" routerLink="/overviews" routerLinkActive="active">Overviews</a>
-                    <a class="nav-item nav-link" (click)="toggleNavigation()" routerLink="/groups" routerLinkActive="active">Groups</a>
-                    <a class="nav-item nav-link" (click)="toggleNavigation()" routerLink="/brokers" routerLinkActive="active">Brokers</a>
-                    <a class="nav-item nav-link" (click)="toggleNavigation()" routerLink="/users" routerLinkActive="active">Users</a>
-                    <a class="nav-item nav-link" (click)="logout();toggleNavigation()" tabindex="0">Logout</a>
+                    <a class="nav-item nav-link" (click)="collapseNavigation()" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Dashboard</a>
+                    <a class="nav-item nav-link" (click)="collapseNavigation()" routerLink="/assets" routerLinkActive="active">Assets</a>
+                    <a class="nav-item nav-link" (click)="collapseNavigation()" routerLink="/transactions" routerLinkActive="active">Transactions</a>
+                    <a class="nav-item nav-link" (click)="collapseNavigation()" routerLink="/overviews" routerLinkActive="active">Overviews</a>
+                    <a class="nav-item nav-link" (click)="collapseNavigation()" routerLink="/groups" routerLinkActive="active">Groups</a>
+                    <a class="nav-item nav-link" (click)="collapseNavigation()" routerLink="/brokers" routerLinkActive="active">Brokers</a>
+                    <a class="nav-item nav-link" (click)="collapseNavigation()" routerLink="/users" routerLinkActive="active">Users</a>
+                    <a class="nav-item nav-link" (click)="logout();collapseNavigation()" tabindex="0">Logout</a>
                 </div>
             </div>
         </div>
