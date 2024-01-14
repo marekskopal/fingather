@@ -16,7 +16,7 @@ export class AlertService {
 
     // convenience methods
     public success(message: string, options?: Partial<Alert>): void {
-        this.alert(new Alert({ ...options, type: AlertType.Success, message }));
+        this.alert(new Alert({ ...options, type: AlertType.Success, autoClose: true, message }));
     }
 
     public error(message: string, options?: Partial<Alert>): void {
@@ -24,7 +24,7 @@ export class AlertService {
     }
 
     public info(message: string, options?: Partial<Alert>): void {
-        this.alert(new Alert({ ...options, type: AlertType.Info, message }));
+        this.alert(new Alert({ ...options, type: AlertType.Info, autoClose: true, message }));
     }
 
     public warning(message: string, options?: Partial<Alert>): void {
