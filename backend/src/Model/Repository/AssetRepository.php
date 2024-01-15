@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Model\Repository;
 
+use Cycle\ORM\Select;
 use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use Safe\DateTimeImmutable;
@@ -14,10 +15,20 @@ class AssetRepository extends ARepository
 	/** @return array<int, Asset> */
 	public function findAssets(int $userId): array
 	{
+		return $this->getAssetsSelect($userId)->fetchAll();
+	}
+
+	public function countAssets(int $userId): int
+	{
+		return $this->getAssetsSelect($userId)->count();
+	}
+
+	/** @return Select<Asset> */
+	private function getAssetsSelect(int $userId): Select
+	{
 		return $this->select()
 			->where('user_id', $userId)
-			->orderBy('ticker.name')
-			->fetchAll();
+			->orderBy('ticker.name');
 	}
 
 	/** @return array<int, Asset> */

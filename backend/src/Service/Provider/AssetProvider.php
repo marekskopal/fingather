@@ -33,6 +33,11 @@ class AssetProvider
 		return $this->assetRepository->findAssets($user->getId());
 	}
 
+	public function countAssets(User $user): int
+	{
+		return $this->assetRepository->countAssets($user->getId());
+	}
+
 	/** @return array<int, Asset> */
 	public function getOpenAssets(User $user, DateTimeImmutable $dateTime): array
 	{

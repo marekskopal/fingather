@@ -11,6 +11,8 @@
         <tr>
             <th style="width: 30%">Email</th>
             <th style="width: 30%">Name</th>
+            <th style="width: 30%">Assets</th>
+            <th style="width: 30%">Transactions</th>
             <th style="width: 10%"></th>
         </tr>
     </thead>
@@ -18,6 +20,8 @@
         <tr *ngFor="let user of users">
             <td>{{user.email}}</td>
             <td>{{user.name}}</td>
+            <td>{{user.assetCount}}</td>
+            <td>{{user.transactionCount}}</td>
             <td class="text-end" style="white-space: nowrap">
                 <a (click)="editUser(user.id)" class="btn btn-sm btn-primary me-2" tabindex="0"><fa-icon icon="edit"></fa-icon> Edit</a>
                 @if (user.id != currentUser.id) {
