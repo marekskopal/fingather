@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
 import { environment } from '@environments/environment';
-import { User } from '@app/models';
+import {User, UserWithStatistic} from '@app/models';
 import {Observable} from "rxjs";
 import {OkResponse} from "@app/models/ok-response";
 import {NotifyService} from "@app/services/notify-service";
@@ -21,8 +21,8 @@ export class UserService extends NotifyService {
         return this.http.post<User>(`${environment.apiUrl}/admin/user`, user);
     }
 
-    public getUsers(): Observable<User[]> {
-        return this.http.get<User[]>(`${environment.apiUrl}/admin/user`);
+    public getUsers(): Observable<UserWithStatistic[]> {
+        return this.http.get<UserWithStatistic[]>(`${environment.apiUrl}/admin/user`);
     }
 
     public getUser(id: number): Observable<User> {

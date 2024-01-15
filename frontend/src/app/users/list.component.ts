@@ -2,13 +2,13 @@
 import { first } from 'rxjs/operators';
 
 import {CurrentUserService, UserService} from '@app/services';
-import {User} from "@app/models";
+import {User, UserWithStatistic} from "@app/models";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {AddEditComponent} from "@app/users/add-edit.component";
 
 @Component({ templateUrl: 'list.component.html' })
 export class ListComponent implements OnInit, OnDestroy {
-    public users: User[] = [];
+    public users: UserWithStatistic[] = [];
     public currentUser: User;
 
     public constructor(

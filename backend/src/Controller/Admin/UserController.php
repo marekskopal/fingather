@@ -6,12 +6,15 @@ namespace FinGather\Controller\Admin;
 
 use FinGather\Dto\UserCreateDto;
 use FinGather\Dto\UserDto;
+use FinGather\Dto\UserWithStatisticDto;
 use FinGather\Model\Entity\Enum\UserRoleEnum;
 use FinGather\Model\Entity\User;
 use FinGather\Response\ConflictResponse;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Response\OkResponse;
+use FinGather\Service\Provider\AssetProvider;
 use FinGather\Service\Provider\CurrencyProvider;
+use FinGather\Service\Provider\TransactionProvider;
 use FinGather\Service\Provider\UserProvider;
 use FinGather\Service\Request\RequestService;
 use Laminas\Diactoros\Response\JsonResponse;
@@ -25,8 +28,9 @@ class UserController extends AdminController
 		RequestService $requestService,
 		private readonly UserProvider $userProvider,
 		private readonly CurrencyProvider $currencyProvider,
-	)
-	{
+		private readonly AssetProvider $assetProvider,
+		private readonly TransactionProvider $transactionProvider,
+	) {
 		parent::__construct($requestService);
 	}
 
@@ -35,7 +39,13 @@ class UserController extends AdminController
 		$this->checkAdminRole($request);
 
 		$brokers = array_map(
-			fn (User $user): UserDto => UserDto::fromEntity($user),
+			function (User $user): UserWithStatisticDto {
+				return UserWithStatisticDto::fromEntity(
+					entity: $user,
+					assetCount: $this->assetProvider->countAssets($user),
+					transactionCount: $this->transactionProvider->countTransactions($user),
+				);
+			},
 			iterator_to_array($this->userProvider->getUsers()),
 		);
 
