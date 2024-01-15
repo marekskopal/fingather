@@ -17,7 +17,6 @@ use Cycle\Migrations\Config\MigrationConfig;
 use Cycle\Migrations\FileRepository;
 use Cycle\Migrations\Migrator;
 use Cycle\ORM\Factory;
-use Cycle\ORM\Heap\Heap;
 use Cycle\ORM\ORM;
 use Cycle\ORM\ORMInterface;
 use Cycle\ORM\Schema;
@@ -137,12 +136,5 @@ class DbContext
 	public function getRegistry(): Registry
 	{
 		return $this->registry;
-	}
-
-	public function cloneOrm(): ORMInterface
-	{
-		$this->orm = $this->orm->with(heap: new Heap());
-
-		return $this->getOrm();
 	}
 }
