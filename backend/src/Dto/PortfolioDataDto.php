@@ -6,11 +6,13 @@ namespace FinGather\Dto;
 
 use Decimal\Decimal;
 use FinGather\Model\Entity\PortfolioData;
+use FinGather\Utils\DateTimeUtils;
 
 final readonly class PortfolioDataDto
 {
 	public function __construct(
 		public int $id,
+		public string $date,
 		public Decimal $value,
 		public Decimal $transactionValue,
 		public Decimal $gain,
@@ -28,6 +30,7 @@ final readonly class PortfolioDataDto
 	{
 		return new self(
 			id: $portfolioData->getId(),
+			date: DateTimeUtils::formatZulu($portfolioData->getDate()),
 			value: new Decimal($portfolioData->getValue()),
 			transactionValue: new Decimal($portfolioData->getTransactionValue()),
 			gain: new Decimal($portfolioData->getGain()),

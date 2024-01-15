@@ -57,6 +57,7 @@ enum Routes: string
 	case OverviewYearOverview = '/api/overview/year-overview';
 
 	case PortfolioData = '/api/portfolio-data';
+	case PortfolioDataRange = '/api/portfolio-data-range';
 
 	case Tickers = '/api/ticker';
 
@@ -114,6 +115,7 @@ enum Routes: string
 		$routeList->get(self::OverviewYearOverview->value, [OverviewController::class, 'actionGetYearOverview']);
 
 		$routeList->get(self::PortfolioData->value, [PortfolioDataController::class, 'actionGetPortfolioData']);
+		$routeList->get(self::PortfolioDataRange->value, [PortfolioDataController::class, 'actionGetPortfolioDataRange']);
 
 		$routeList->get(self::Tickers->value, [TickerController::class, 'actionGetTickers']);
 
