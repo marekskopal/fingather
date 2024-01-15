@@ -1,7 +1,7 @@
 ﻿import {AEntity} from "./AEntity";
 
 export class ADataEntity extends AEntity {
-    public date: Date;
+    public date: string;
     public value: number;
     public transactionValue: number;
     public gain: number;
