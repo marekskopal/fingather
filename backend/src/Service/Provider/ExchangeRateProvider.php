@@ -32,6 +32,12 @@ class ExchangeRateProvider
 			return $this->exchangeRates[$key];
 		}
 
+		if ($currencyFrom->getId() === $currencyTo->getId()) {
+			$this->exchangeRates[$key] = new ExchangeRate(currency: $currencyTo, date: $date, rate: '1');
+
+			return $this->exchangeRates[$key];
+		}
+
 		$today = new DateTimeImmutable('today');
 		if ($date->getTimestamp() === $today->getTimestamp()) {
 			$date = $date->sub(DateInterval::createFromDateString('1 day'));

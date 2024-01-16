@@ -41,7 +41,7 @@ class PortfolioDataProvider
 			$assetDtos[] = AssetWithPropertiesDto::fromEntity($asset, $assetProperties);
 		}
 
-		$calculatedData = $this->dataCalculator->calculate($user, $dateTime, $assetDtos);
+		$calculatedData = $this->dataCalculator->calculate($assetDtos);
 
 		$portfolioData = new PortfolioData(
 			user: $user,

@@ -7,6 +7,7 @@ namespace FinGather\App;
 use Cycle\ORM\ORM;
 use FinGather\Middleware\AuthorizationMiddleware;
 use FinGather\Model\Entity\Asset;
+use FinGather\Model\Entity\BenchmarkData;
 use FinGather\Model\Entity\Broker;
 use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\EmailVerify;
@@ -21,6 +22,7 @@ use FinGather\Model\Entity\TickerData;
 use FinGather\Model\Entity\Transaction;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\AssetRepository;
+use FinGather\Model\Repository\BenchmarkDataRepository;
 use FinGather\Model\Repository\BrokerRepository;
 use FinGather\Model\Repository\CurrencyRepository;
 use FinGather\Model\Repository\EmailVerifyRepository;
@@ -77,6 +79,7 @@ final class ApplicationFactory
 		assert($orm instanceof ORM);
 
 		$container->add(AssetRepository::class, fn () => $orm->getRepository(Asset::class));
+		$container->add(BenchmarkDataRepository::class, fn () => $orm->getRepository(BenchmarkData::class));
 		$container->add(BrokerRepository::class, fn () => $orm->getRepository(Broker::class));
 		$container->add(CurrencyRepository::class, fn () => $orm->getRepository(Currency::class));
 		$container->add(EmailVerifyRepository::class, fn () => $orm->getRepository(EmailVerify::class));

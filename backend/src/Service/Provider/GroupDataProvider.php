@@ -42,7 +42,7 @@ class GroupDataProvider
 			$assetDtos[] = AssetWithPropertiesDto::fromEntity($asset, $assetProperties);
 		}
 
-		$calculatedData = $this->dataCalculator->calculate($user, $dateTime, $assetDtos);
+		$calculatedData = $this->dataCalculator->calculate($assetDtos);
 
 		$groupData = new GroupData(
 			group: $group,
