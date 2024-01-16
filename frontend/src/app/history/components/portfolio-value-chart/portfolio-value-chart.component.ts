@@ -2,7 +2,7 @@
 import { first } from 'rxjs/operators';
 import {ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexGrid, ApexStroke,
     ApexTitleSubtitle, ApexXAxis, ChartComponent } from 'ng-apexcharts';
-import {PortfolioData, PortfolioDataRangeEnum} from "@app/models";
+import {PortfolioDataRangeEnum, PortfolioDataWithBenchmarkData} from "@app/models";
 import {PortfolioDataService} from "@app/services";
 
 export type ChartOptions = {
@@ -41,22 +41,31 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
     }
 
     private refreshChart(): void {
-        this.portfolioDataService.getPortfolioDataRange(this.range)
+        this.portfolioDataService.getPortfolioDataRange(this.range, 30)
             .pipe(first())
-            .subscribe((portfolioData: PortfolioData[]) => {
+            .subscribe((portfolioData: PortfolioDataWithBenchmarkData[]) => {
                 const chartMap = this.mapChart(portfolioData);
                 this.chartOptions.xaxis.categories = chartMap.categories;
                 this.chartOptions.series[0].data = chartMap.series;
+                if (chartMap.benchmarkSeries.length > 0) {
+                    this.chartOptions.series[1].data = chartMap.benchmarkSeries;
+                }
                 this.loading = false;
             });
     }
 
     private initializeChartOptions(): void {
         this.chartOptions = {
-            series: [{
-                name: 'Value: ',
-                data: [],
-            }],
+            series: [
+                {
+                    name: 'Value: ',
+                    data: [],
+                },
+                {
+                    name: 'Value: ',
+                    data: [],
+                },
+            ],
             chart: {
                 height: "350",
                 type: "line",
@@ -87,18 +96,24 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
         };
     }
 
-    private mapChart(portfolioDatas: PortfolioData[]): {series: number[], categories: string[]}
+    private mapChart(portfolioDatas: PortfolioDataWithBenchmarkData[]): {series: number[], benchmarkSeries: number[], categories: string[]}
     {
         const series: number[] = [];
+        const benchmarkSeries: number[] = [];
         const categories: string[] = [];
 
         for (const portfolioData of portfolioDatas) {
             series.push(portfolioData.value);
             categories.push(portfolioData.date);
+
+            if (portfolioData.benchmarkData !== null) {
+                benchmarkSeries.push(portfolioData.benchmarkData.value);
+            }
         }
 
         return {
             series: series,
+            benchmarkSeries: benchmarkSeries,
             categories: categories,
         };
     }
