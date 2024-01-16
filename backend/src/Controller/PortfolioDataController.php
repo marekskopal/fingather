@@ -6,6 +6,9 @@ namespace FinGather\Controller;
 
 use FinGather\Dto\Enum\PortfolioDataRangeEnum;
 use FinGather\Dto\PortfolioDataDto;
+use FinGather\Dto\PortfolioDataWithBenchmarkDataDto;
+use FinGather\Service\Provider\AssetProvider;
+use FinGather\Service\Provider\BenchmarkDataProvider;
 use FinGather\Service\Provider\PortfolioDataProvider;
 use FinGather\Service\Provider\TransactionProvider;
 use FinGather\Service\Request\RequestService;
@@ -20,6 +23,8 @@ class PortfolioDataController
 	public function __construct(
 		private readonly PortfolioDataProvider $portfolioDataProvider,
 		private readonly TransactionProvider $transactionProvider,
+		private readonly BenchmarkDataProvider $benchmarkDataProvider,
+		private readonly AssetProvider $assetProvider,
 		private readonly RequestService $requestService,
 	) {
 	}
@@ -37,27 +42,36 @@ class PortfolioDataController
 
 	public function actionGetPortfolioDataRange(ServerRequestInterface $request): ResponseInterface
 	{
-		/** @var array{range: value-of<PortfolioDataRangeEnum>} $queryParams */
+		/** @var array{range: value-of<PortfolioDataRangeEnum>, benchmarkAssetId?: string} $queryParams */
 		$queryParams = $request->getQueryParams();
 
 		$user = $this->requestService->getUser($request);
 
 		$range = PortfolioDataRangeEnum::from($queryParams['range']);
 
+		$benchmarkAssetId = ($queryParams['benchmarkAssetId'] ?? null) !== null ? (int) $queryParams['benchmarkAssetId'] : null;
+		$benchmarkAsset = $benchmarkAssetId !== null ? $this->assetProvider->getAsset($user, $benchmarkAssetId) : null;
+
 		$firstTransaction = $this->transactionProvider->getFirstTransaction($user);
 		if ($firstTransaction === null) {
 			return new JsonResponse([]);
 		}
 
-		$portfolioData = [];
+		$portfolioDatas = [];
 
 		foreach (DateTimeUtils::getDatePeriod($range, $firstTransaction->getActionCreated()) as $dateTime) {
 			/** @var \DateTimeImmutable $dateTime */
-			$portfolioData[] = PortfolioDataDto::fromEntity(
-				$this->portfolioDataProvider->getPortfolioData($user, DateTimeImmutable::createFromRegular($dateTime)),
-			);
+			$dateTimeConverted = DateTimeImmutable::createFromRegular($dateTime);
+
+			$portfolioData = $this->portfolioDataProvider->getPortfolioData($user, $dateTimeConverted);
+			$benchmarkData = $benchmarkAsset !== null
+				? $this->benchmarkDataProvider->getBenchmarkData($user, $benchmarkAsset, $dateTimeConverted)
+				: null;
+
+			/** @var \DateTimeImmutable $dateTime */
+			$portfolioDatas[] = PortfolioDataWithBenchmarkDataDto::fromEntity($portfolioData, $benchmarkData);
 		}
 
-		return new JsonResponse($portfolioData);
+		return new JsonResponse($portfolioDatas);
 	}
 }

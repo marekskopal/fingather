@@ -12,6 +12,7 @@ class DataProvider
 	public function __construct(
 		private readonly GroupDataProvider $groupDataProvider,
 		private readonly PortfolioDataProvider $portfolioDataProvider,
+		private readonly BenchmarkDataProvider $benchmarkDataProvider,
 	) {
 	}
 
@@ -19,5 +20,6 @@ class DataProvider
 	{
 		$this->groupDataProvider->deleteUserGroupData($user, $date);
 		$this->portfolioDataProvider->deletePortfolioData($user, $date);
+		$this->benchmarkDataProvider->deleteBenchmarkData($user, $date);
 	}
 }
