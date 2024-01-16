@@ -2,6 +2,30 @@
 
 <div class="row">
     <div class="col-12">
-        <fingather-history-portfolio-value-chart></fingather-history-portfolio-value-chart>
+        <ul class="nav">
+            <li class="nav-item">
+                <a (click)="changeRange(PortfolioDataRangeEnum.SevenDays)" class="nav-link active" aria-current="page">7d</a>
+            </li>
+            <li class="nav-item">
+                <a (click)="changeRange(PortfolioDataRangeEnum.OneMonth)" class="nav-link">1m</a>
+            </li>
+            <li class="nav-item">
+                <a (click)="changeRange(PortfolioDataRangeEnum.ThreeMonths)" class="nav-link">3m</a>
+            </li>
+            <li class="nav-item">
+                <a (click)="changeRange(PortfolioDataRangeEnum.SixMonths)" class="nav-link" aria-disabled="true">6m</a>
+            </li>
+            <li class="nav-item">
+                <a (click)="changeRange(PortfolioDataRangeEnum.YTD)" class="nav-link" aria-disabled="true">YTD</a>
+            </li>
+            <li class="nav-item">
+                <a (click)="changeRange(PortfolioDataRangeEnum.OneYear)" class="nav-link" aria-disabled="true">1y</a>
+            </li>
+            <li class="nav-item">
+                <a (click)="changeRange(PortfolioDataRangeEnum.All)" class="nav-link" aria-disabled="true">all</a>
+            </li>
+        </ul>
+
+        <fingather-history-portfolio-value-chart [range]="range"></fingather-history-portfolio-value-chart>
     </div>
 </div>

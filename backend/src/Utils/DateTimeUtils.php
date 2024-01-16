@@ -43,12 +43,12 @@ final class DateTimeUtils
 				new \Safe\DateTimeImmutable('today'),
 			),
 			PortfolioDataRangeEnum::YTD => new DatePeriod(
-				new \Safe\DateTimeImmutable('first day this year'),
+				new \Safe\DateTimeImmutable('first day of january this year'),
 				new DateInterval('P1W'),
 				new \Safe\DateTimeImmutable('today'),
 			),
 			PortfolioDataRangeEnum::OneYear => new DatePeriod(
-				new \Safe\DateTimeImmutable('first day this year'),
+				new \Safe\DateTimeImmutable('-1 year'),
 				new DateInterval('P1W'),
 				new \Safe\DateTimeImmutable('today'),
 			),

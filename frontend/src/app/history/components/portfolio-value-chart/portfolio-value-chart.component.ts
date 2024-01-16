@@ -1,10 +1,9 @@
-﻿import { Component, Input, OnInit, ViewChild } from '@angular/core';
+﻿import {Component, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
 import { first } from 'rxjs/operators';
 import {ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexGrid, ApexStroke,
     ApexTitleSubtitle, ApexXAxis, ChartComponent } from 'ng-apexcharts';
-import {GroupWithGroupData, PortfolioData, PortfolioDataRangeEnum} from "@app/models";
+import {PortfolioData, PortfolioDataRangeEnum} from "@app/models";
 import {PortfolioDataService} from "@app/services";
-import moment from "moment";
 
 export type ChartOptions = {
     series: ApexAxisChartSeries;
@@ -20,9 +19,9 @@ export type ChartOptions = {
     templateUrl: 'portfolio-value-chart.component.html',
     selector: 'fingather-history-portfolio-value-chart',
 })
-export class PortfolioValueChartComponent implements OnInit {
+export class PortfolioValueChartComponent implements OnInit, OnChanges {
     @ViewChild("chart", { static: false }) public chart: ChartComponent;
-    @Input() public assetTickerId: string;
+    @Input() public range: PortfolioDataRangeEnum;
     public chartOptions: ChartOptions;
     public loading: boolean = true;
 
@@ -33,7 +32,16 @@ export class PortfolioValueChartComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.portfolioDataService.getPortfolioDataRange(PortfolioDataRangeEnum.SevenDays)
+        this.refreshChart();
+    }
+
+    public ngOnChanges(): void {
+        this.loading = true;
+        this.refreshChart();
+    }
+
+    private refreshChart(): void {
+        this.portfolioDataService.getPortfolioDataRange(this.range)
             .pipe(first())
             .subscribe((portfolioData: PortfolioData[]) => {
                 const chartMap = this.mapChart(portfolioData);
