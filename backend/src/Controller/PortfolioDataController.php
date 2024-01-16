@@ -59,13 +59,19 @@ class PortfolioDataController
 
 		$portfolioDatas = [];
 
+		$firstDateTime = null;
+
 		foreach (DateTimeUtils::getDatePeriod($range, $firstTransaction->getActionCreated()) as $dateTime) {
 			/** @var \DateTimeImmutable $dateTime */
 			$dateTimeConverted = DateTimeImmutable::createFromRegular($dateTime);
 
+			if ($firstDateTime === null) {
+				$firstDateTime = $dateTimeConverted;
+			}
+
 			$portfolioData = $this->portfolioDataProvider->getPortfolioData($user, $dateTimeConverted);
 			$benchmarkData = $benchmarkAsset !== null
-				? $this->benchmarkDataProvider->getBenchmarkData($user, $benchmarkAsset, $dateTimeConverted)
+				? $this->benchmarkDataProvider->getBenchmarkData($user, $benchmarkAsset, $dateTimeConverted, $firstDateTime)
 				: null;
 
 			/** @var \DateTimeImmutable $dateTime */
