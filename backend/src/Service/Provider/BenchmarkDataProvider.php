@@ -70,6 +70,16 @@ class BenchmarkDataProvider
 
 				$transactionActionCreated = DateTimeImmutable::createFromRegular($transaction->getActionCreated());
 
+				if ($tickerCurrency->getId() !== $transaction->getCurrency()->getId()) {
+					$transactionExchangeRate = $this->exchangeRateProvider->getExchangeRate(
+						$transactionActionCreated,
+						$transaction->getCurrency(),
+						$tickerCurrency,
+					);
+
+					$transactionPriceUnit = $transactionPriceUnit->mul($transactionExchangeRate->getRate());
+				}
+
 				$transactionExchangeRateDefaultCurrency = $this->exchangeRateProvider->getExchangeRate(
 					$transactionActionCreated,
 					$tickerCurrency,
