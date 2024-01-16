@@ -2,6 +2,7 @@
 export * from './alert';
 export * from './asset';
 export * from './asset-with-properties';
+export * from './benchmark-data';
 export * from './ticker';
 export * from './ticker-data';
 export * from './broker';
@@ -12,6 +13,7 @@ export * from './group-data';
 export * from './import-data';
 export * from './market';
 export * from './portfolio-data';
+export * from './portfolio-data-with-benchmark-data';
 export * from './sign-up';
 export * from './transaction';
 export * from './user';
