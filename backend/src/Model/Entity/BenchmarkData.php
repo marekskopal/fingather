@@ -20,8 +20,12 @@ class BenchmarkData extends AEntity
 		protected Asset $asset,
 		#[Column(type: 'timestamp')]
 		protected DateTimeImmutable $date,
+		#[Column(type: 'timestamp')]
+		protected DateTimeImmutable $fromDate,
 		#[Column(type: 'decimal(11,2)')]
 		protected string $value,
+		#[Column(type: 'decimal(18,8)')]
+		protected string $units,
 	) {
 	}
 
@@ -55,6 +59,16 @@ class BenchmarkData extends AEntity
 		$this->date = $date;
 	}
 
+	public function getFromDate(): DateTimeImmutable
+	{
+		return $this->fromDate;
+	}
+
+	public function setFromDate(DateTimeImmutable $beforeDate): void
+	{
+		$this->fromDate = $beforeDate;
+	}
+
 	public function getValue(): string
 	{
 		return $this->value;
@@ -63,5 +77,15 @@ class BenchmarkData extends AEntity
 	public function setValue(string $value): void
 	{
 		$this->value = $value;
+	}
+
+	public function getUnits(): string
+	{
+		return $this->units;
+	}
+
+	public function setUnits(string $units): void
+	{
+		$this->units = $units;
 	}
 }

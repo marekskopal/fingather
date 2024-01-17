@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Controller;
 
+use Decimal\Decimal;
 use FinGather\Dto\Enum\PortfolioDataRangeEnum;
 use FinGather\Dto\PortfolioDataDto;
 use FinGather\Dto\PortfolioDataWithBenchmarkDataDto;
@@ -60,21 +61,39 @@ class PortfolioDataController
 		$portfolioDatas = [];
 
 		$firstDateTime = null;
+		$benchmarkDataFromDate = null;
 
 		foreach (DateTimeUtils::getDatePeriod($range, $firstTransaction->getActionCreated()) as $dateTime) {
 			/** @var \DateTimeImmutable $dateTime */
 			$dateTimeConverted = DateTimeImmutable::createFromRegular($dateTime);
 
-			if ($firstDateTime === null) {
-				$firstDateTime = $dateTimeConverted;
+			$portfolioData = $this->portfolioDataProvider->getPortfolioData($user, $dateTimeConverted);
+
+			if ($benchmarkAsset === null) {
+				$portfolioDatas[] = PortfolioDataWithBenchmarkDataDto::fromEntity($portfolioData);
+				continue;
 			}
 
-			$portfolioData = $this->portfolioDataProvider->getPortfolioData($user, $dateTimeConverted);
-			$benchmarkData = $benchmarkAsset !== null
-				? $this->benchmarkDataProvider->getBenchmarkData($user, $benchmarkAsset, $dateTimeConverted, $firstDateTime)
-				: null;
+			if ($firstDateTime === null || $benchmarkDataFromDate === null) {
+				$firstDateTime = $dateTimeConverted;
+				$benchmarkDataFromDate = $this->benchmarkDataProvider->getBenchmarkDataFromDate(
+					user: $user,
+					benchmarkAsset: $benchmarkAsset,
+					benchmarkFromDateTime: $firstDateTime,
+					portfolioDataValue: new Decimal($portfolioData->getValue()),
+				);
 
-			/** @var \DateTimeImmutable $dateTime */
+				$portfolioDatas[] = PortfolioDataWithBenchmarkDataDto::fromEntity($portfolioData, $benchmarkDataFromDate);
+			}
+
+			$benchmarkData = $this->benchmarkDataProvider->getBenchmarkData(
+				user: $user,
+				benchmarkAsset: $benchmarkAsset,
+				dateTime: $dateTimeConverted,
+				benchmarkFromDateTime: $firstDateTime,
+				benchmarkFromDateUnits: new Decimal($benchmarkDataFromDate->getUnits()),
+			);
+
 			$portfolioDatas[] = PortfolioDataWithBenchmarkDataDto::fromEntity($portfolioData, $benchmarkData);
 		}
 

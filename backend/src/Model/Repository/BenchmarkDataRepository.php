@@ -11,12 +11,13 @@ use FinGather\Model\Entity\PortfolioData;
 /** @extends ARepository<BenchmarkData> */
 class BenchmarkDataRepository extends ARepository
 {
-	public function findBenchmarkData(int $userId, int $assetId, DateTimeImmutable $date): ?BenchmarkData
+	public function findBenchmarkData(int $userId, int $assetId, DateTimeImmutable $date, DateTimeImmutable $fromDate): ?BenchmarkData
 	{
 		return $this->findOne([
 			'user_id' => $userId,
 			'asset_id' => $assetId,
 			'date' => $date,
+			'from_date' => $fromDate,
 		]);
 	}
 
