@@ -30,11 +30,18 @@ class BenchmarkDataProvider
 		User $user,
 		Asset $benchmarkAsset,
 		DateTimeImmutable $dateTime,
-		?DateTimeImmutable $benchmarkFromDateTime = null,
+		DateTimeImmutable $benchmarkFromDateTime,
+		Decimal $benchmarkFromDateUnits,
 	): BenchmarkData {
 		$dateTime = $dateTime->setTime(0, 0);
+		$benchmarkFromDateTime = $benchmarkFromDateTime->setTime(0, 0);
 
-		$benchmarkData = $this->benchmarkDataRepository->findBenchmarkData($user->getId(), $benchmarkAsset->getId(), $dateTime);
+		$benchmarkData = $this->benchmarkDataRepository->findBenchmarkData(
+			$user->getId(),
+			$benchmarkAsset->getId(),
+			$dateTime,
+			$benchmarkFromDateTime,
+		);
 		if ($benchmarkData !== null) {
 			return $benchmarkData;
 		}
@@ -44,7 +51,6 @@ class BenchmarkDataProvider
 		$benchmarkSplits = $this->splitRepository->findSplits($benchmarkAsset->getTicker()->getId());
 
 		$benchmarkUnitsSum = new Decimal(0);
-		$beforeBenchmarkValueSum = new Decimal(0);
 
 		$assets = $this->assetProvider->getOpenAssets($user, $dateTime);
 		foreach ($assets as $asset) {
@@ -56,8 +62,6 @@ class BenchmarkDataProvider
 			$splits = $this->splitRepository->findSplits($asset->getTicker()->getId());
 
 			$tickerCurrency = $asset->getTicker()->getCurrency();
-
-			$transactionUnitsSum = new Decimal(0);
 
 			foreach ($transactions as $transaction) {
 				if (TransactionActionTypeEnum::from($transaction->getActionType()) === TransactionActionTypeEnum::Dividend) {
@@ -76,8 +80,7 @@ class BenchmarkDataProvider
 
 				$transactionActionCreated = DateTimeImmutable::createFromRegular($transaction->getActionCreated());
 
-				if ($benchmarkFromDateTime !== null && $transactionActionCreated <= $benchmarkFromDateTime) {
-					$transactionUnitsSum = $transactionUnitsSum->add($transactionUnits);
+				if ($transactionActionCreated <= $benchmarkFromDateTime) {
 					continue;
 				}
 
@@ -128,27 +131,6 @@ class BenchmarkDataProvider
 
 				$benchmarkUnitsSum = $benchmarkUnitsSum->add($benchmarkUnits);
 			}
-
-			if ($transactionUnitsSum->compareTo(0) === 0) {
-				continue;
-			}
-
-			$price = new Decimal(0);
-
-			$lastTickerData = $this->tickerDataProvider->getLastTickerData($asset->getTicker(), $dateTime);
-			if ($lastTickerData !== null) {
-				$price = new Decimal($lastTickerData->getClose());
-			}
-
-			$exchangeRate = $this->exchangeRateProvider->getExchangeRate(
-				DateTimeImmutable::createFromRegular($dateTime),
-				$tickerCurrency,
-				$user->getDefaultCurrency(),
-			);
-
-			$exchangeRateDecimal = new Decimal($exchangeRate->getRate());
-
-			$beforeBenchmarkValueSum = $beforeBenchmarkValueSum->add($transactionUnitsSum->mul($price)->mul($exchangeRateDecimal));
 		}
 
 		$benchmarkAssetTickerData = $this->tickerDataProvider->getLastTickerData($benchmarkAsset->getTicker(), $dateTime);
@@ -160,11 +142,70 @@ class BenchmarkDataProvider
 			$user->getDefaultCurrency(),
 		);
 
-		$value = $beforeBenchmarkValueSum->add($benchmarkUnitsSum->mul(
-			(new Decimal($benchmarkAssetTickerData->getClose()))->mul($benchmarkExchangeRateDefaultCurrency->getRate()),
-		));
+		$benchmarkUnitsSum = $benchmarkUnitsSum->add($benchmarkFromDateUnits);
 
-		$benchmarkData = new BenchmarkData(user: $user, asset: $benchmarkAsset, date: $dateTime, value: (string) $value);
+		$value = $benchmarkUnitsSum->mul(
+			(new Decimal($benchmarkAssetTickerData->getClose()))->mul($benchmarkExchangeRateDefaultCurrency->getRate()),
+		);
+
+		$benchmarkData = new BenchmarkData(
+			user: $user,
+			asset: $benchmarkAsset,
+			date: $dateTime,
+			fromDate: $benchmarkFromDateTime,
+			value: (string) $value,
+			units: (string) $benchmarkUnitsSum,
+		);
+
+		$this->benchmarkDataRepository->persist($benchmarkData);
+
+		return $benchmarkData;
+	}
+
+	public function getBenchmarkDataFromDate(
+		User $user,
+		Asset $benchmarkAsset,
+		DateTimeImmutable $benchmarkFromDateTime,
+		Decimal $portfolioDataValue,
+	): BenchmarkData
+	{
+		$benchmarkFromDateTime = $benchmarkFromDateTime->setTime(0, 0);
+
+		$benchmarkData = $this->benchmarkDataRepository->findBenchmarkData(
+			$user->getId(),
+			$benchmarkAsset->getId(),
+			$benchmarkFromDateTime,
+			$benchmarkFromDateTime,
+		);
+		if ($benchmarkData !== null) {
+			return $benchmarkData;
+		}
+
+		$benchmarkTickerCurrency = $benchmarkAsset->getTicker()->getCurrency();
+
+		$benchmarkAssetTickerData = $this->tickerDataProvider->getLastTickerData($benchmarkAsset->getTicker(), $benchmarkFromDateTime);
+		assert($benchmarkAssetTickerData instanceof TickerData);
+
+		$benchmarkExchangeRateDefaultCurrency = $this->exchangeRateProvider->getExchangeRate(
+			$benchmarkFromDateTime,
+			$benchmarkTickerCurrency,
+			$user->getDefaultCurrency(),
+		);
+
+		$benchmarkUnitPriceDefaultCurrency = (new Decimal($benchmarkAssetTickerData->getClose()))->mul(
+			$benchmarkExchangeRateDefaultCurrency->getRate(),
+		);
+
+		$benchmarkUnits = $portfolioDataValue->div($benchmarkUnitPriceDefaultCurrency);
+
+		$benchmarkData = new BenchmarkData(
+			user: $user,
+			asset: $benchmarkAsset,
+			date: $benchmarkFromDateTime,
+			fromDate: $benchmarkFromDateTime,
+			value: (string) $portfolioDataValue,
+			units: (string) $benchmarkUnits,
+		);
 
 		$this->benchmarkDataRepository->persist($benchmarkData);
 

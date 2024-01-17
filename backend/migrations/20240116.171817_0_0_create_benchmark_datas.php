@@ -17,7 +17,9 @@ class CreateBenchmarkDatas extends Migration
 			->addColumn('user_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
 			->addColumn('asset_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
 			->addColumn('date', 'timestamp', ['nullable' => false, 'default' => null])
+			->addColumn('from_date', 'timestamp', ['nullable' => false, 'default' => null])
 			->addColumn('value', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 2, 'precision' => 11])
+			->addColumn('units', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 8, 'precision' => 18])
 			->addIndex(['user_id'], ['name' => 'benchmark_datas_index_user_id_65a6ba59cf8ba', 'unique' => false])
 			->addIndex(['asset_id'], ['name' => 'benchmark_datas_index_asset_id_65a6ba59cf8d1', 'unique' => false])
 			->addForeignKey(['user_id'], 'users', ['id'], [
@@ -33,7 +35,7 @@ class CreateBenchmarkDatas extends Migration
 				'indexCreate' => true,
 			])
 			->addIndex(['date'], ['name' => 'benchmark_datas_index_date', 'unique' => false])
-			->addIndex(['date', 'asset_id'], ['name' => 'benchmark_datas_index_date_asset_id', 'unique' => true])
+			->addIndex(['date', 'from_date', 'asset_id'], ['name' => 'benchmark_datas_index_date_from_date_asset_id', 'unique' => true])
 			->setPrimaryKeys(['id'])
 			->create();
 	}
