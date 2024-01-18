@@ -13,7 +13,7 @@ export type ChartOptions = {
     yaxis: ApexYAxis,
     stroke: ApexStroke,
     legend: ApexLegend,
-    plotOptions: ApexPlotOptions
+    plotOptions: ApexPlotOptions,
 };
 
 @Component({
@@ -70,6 +70,7 @@ export class GroupChartComponent implements OnInit {
                 }
             },
             theme: {
+                mode: 'dark',
                 monochrome: {
                     enabled: true
                 }
