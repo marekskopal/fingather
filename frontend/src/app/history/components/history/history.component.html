@@ -1,7 +1,7 @@
 ﻿<h1>History</h1>
 
 <div class="row">
-    <div class="col-12">
+    <div class="col-md-6">
         <ul class="nav">
             <li class="nav-item">
                 <a (click)="changeRange(PortfolioDataRangeEnum.SevenDays)" class="nav-link active" aria-current="page">7d</a>
@@ -25,7 +25,28 @@
                 <a (click)="changeRange(PortfolioDataRangeEnum.All)" class="nav-link" aria-disabled="true">all</a>
             </li>
         </ul>
-
-        <fingather-history-portfolio-value-chart [range]="range"></fingather-history-portfolio-value-chart>
+    </div>
+    <div class="col-md-6">
+        <div class="row g-3 align-items-center">
+            <div class="col-auto">
+                <label for="benchmarkAssetId">Benchmark Asset</label>
+            </div>
+            <div class="col-auto">
+                <select id="benchmarkAssetId" (change)="changeBenchmarkAsset($event)" class="form-select">
+                    <option value="">Choose</option>
+                    @for (asset of assets; track asset.id) {
+                        <option value="{{asset.id}}">{{asset.ticker.ticker}}</option>
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <fingather-history-portfolio-value-chart
+            [range]="range"
+            [benchmarkAssetId]="benchmarkAssetId"
+        ></fingather-history-portfolio-value-chart>
     </div>
 </div>
