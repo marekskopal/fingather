@@ -1,6 +1,14 @@
 ﻿import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { first } from 'rxjs/operators';
-import { ApexAxisChartSeries, ApexChart, ApexTitleSubtitle, ApexXAxis, ApexYAxis, ChartComponent } from 'ng-apexcharts';
+import {
+    ApexAxisChartSeries,
+    ApexChart,
+    ApexTheme,
+    ApexTitleSubtitle,
+    ApexXAxis,
+    ApexYAxis,
+    ChartComponent
+} from 'ng-apexcharts';
 import {TickerData} from "@app/models";
 import {TickerDataService} from "@app/services";
 
@@ -10,6 +18,7 @@ export type ChartOptions = {
     xaxis: ApexXAxis;
     yaxis: ApexYAxis;
     title: ApexTitleSubtitle;
+    theme: ApexTheme,
 };
 
 @Component({
@@ -60,6 +69,9 @@ export class AssetTickerChartComponent implements OnInit {
                 tooltip: {
                     enabled: true
                 }
+            },
+            theme: {
+                mode: 'dark'
             }
         };
     }

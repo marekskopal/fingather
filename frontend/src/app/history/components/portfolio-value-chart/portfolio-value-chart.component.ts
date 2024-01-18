@@ -1,7 +1,9 @@
 ﻿import {Component, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
 import { first } from 'rxjs/operators';
-import {ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexGrid, ApexStroke,
-    ApexTitleSubtitle, ApexXAxis, ChartComponent } from 'ng-apexcharts';
+import {
+    ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexGrid, ApexStroke, ApexTheme,
+    ApexTitleSubtitle, ApexXAxis, ChartComponent
+} from 'ng-apexcharts';
 import {PortfolioDataRangeEnum, PortfolioDataWithBenchmarkData} from "@app/models";
 import {PortfolioDataService} from "@app/services";
 
@@ -13,6 +15,7 @@ export type ChartOptions = {
     grid: ApexGrid;
     stroke: ApexStroke;
     title: ApexTitleSubtitle;
+    theme: ApexTheme;
 };
 
 @Component({
@@ -59,19 +62,22 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
         this.chartOptions = {
             series: [
                 {
-                    name: 'Value: ',
+                    name: 'Value',
                     data: [],
                 },
                 {
-                    name: 'Value: ',
+                    name: 'Benchmark',
                     data: [],
                 },
             ],
             chart: {
-                height: "350",
+                height: "500",
                 type: "line",
                 zoom: {
                     enabled: false
+                },
+                toolbar: {
+                    show: false
                 }
             },
             dataLabels: {
@@ -93,6 +99,12 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
             xaxis: {
                 type: 'datetime',
                 categories: []
+            },
+            theme: {
+                mode: 'dark',
+                monochrome: {
+                    enabled: true
+                }
             }
         };
     }
