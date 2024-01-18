@@ -22,6 +22,7 @@ export type ChartOptions = {
 export class PortfolioValueChartComponent implements OnInit, OnChanges {
     @ViewChild("chart", { static: false }) public chart: ChartComponent;
     @Input() public range: PortfolioDataRangeEnum;
+    @Input() public benchmarkAssetId: number|null;
     public chartOptions: ChartOptions;
     public loading: boolean = true;
 
@@ -41,7 +42,7 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
     }
 
     private refreshChart(): void {
-        this.portfolioDataService.getPortfolioDataRange(this.range, 30)
+        this.portfolioDataService.getPortfolioDataRange(this.range, this.benchmarkAssetId)
             .pipe(first())
             .subscribe((portfolioData: PortfolioDataWithBenchmarkData[]) => {
                 const chartMap = this.mapChart(portfolioData);
