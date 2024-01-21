@@ -13,17 +13,17 @@ export class HistoryComponent implements OnInit {
     ) {
     }
 
-    public ngOnInit() {
+    public ngOnInit(): void {
         this.assetService.getAssets().subscribe((assets: Asset[]) => {
             this.assets = assets;
         });
     }
 
-    public changeRange(range: PortfolioDataRangeEnum) {
+    public changeRange(range: PortfolioDataRangeEnum): void {
         this.range = range;
     }
 
-    public changeBenchmarkAsset(event: Event) {
+    public changeBenchmarkAsset(event: Event): void {
         const eventTarget = event.target as HTMLSelectElement;
         this.benchmarkAssetId = eventTarget.value.length > 0 ? parseInt(eventTarget.value) : null;
     }
