@@ -15,6 +15,7 @@ use FinGather\Service\Authentication\AuthenticationService;
 use FinGather\Service\Authentication\Exceptions\AuthenticationException;
 use FinGather\Service\Provider\CurrencyProvider;
 use FinGather\Service\Provider\UserProvider;
+use FinGather\Service\Request\RequestService;
 use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -26,6 +27,7 @@ class AuthenticationController
 		private readonly AuthenticationService $authenticationService,
 		private readonly CurrencyProvider $currencyProvider,
 		private readonly UserProvider $userProvider,
+		private readonly RequestService $requestService,
 	) {
 	}
 
@@ -41,6 +43,13 @@ class AuthenticationController
 		} catch (AuthenticationException) {
 			return new JsonResponse('Email or password id invalid.', 401);
 		}
+	}
+
+	public function actionPostRefreshToken(ServerRequestInterface $request): ResponseInterface
+	{
+		$user = $this->requestService->getUser($request);
+
+		return new JsonResponse($this->authenticationService->createAuthentication($user));
 	}
 
 	public function actionPostSignUp(ServerRequestInterface $request): ResponseInterface

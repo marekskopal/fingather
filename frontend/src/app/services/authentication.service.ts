@@ -14,6 +14,7 @@ import {SignUp} from "@app/models";
 export class AuthenticationService {
     private authenticationSubject: BehaviorSubject<Authentication|null>;
     public authentication: Observable<Authentication|null>;
+    private refreshTokenTimeout: ReturnType<typeof setTimeout>;
 
     public constructor(
         private router: Router,
@@ -35,10 +36,11 @@ export class AuthenticationService {
           email: email,
           password,
         })
-            .pipe(map(authentication => {
+            .pipe(map((authentication: Authentication) => {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
                 localStorage.setItem('authentication', JSON.stringify(authentication));
                 this.authenticationSubject.next(authentication);
+                this.startRefreshTokenTimer();
                 return authentication;
             }));
     }
@@ -47,6 +49,7 @@ export class AuthenticationService {
         // remove authentication from local storage and set current authentication to null
         localStorage.removeItem('authentication');
         this.authenticationSubject.next(null);
+        this.stopRefreshTokenTimer();
         this.router.navigate(['/authentication/login']);
     }
 
@@ -61,5 +64,30 @@ export class AuthenticationService {
         }).pipe(
             map(response => response.value)
         );
+    }
+
+    public refreshToken(): Observable<Authentication> {
+        return this.http.post<Authentication>(`${environment.apiUrl}/authentication/refresh-token`, {}, { withCredentials: true })
+            .pipe(map((authentication: Authentication) => {
+                localStorage.setItem('authentication', JSON.stringify(authentication));
+                this.authenticationSubject.next(authentication);
+                this.startRefreshTokenTimer();
+                return authentication;
+            }));
+    }
+
+    private startRefreshTokenTimer(): void {
+        // parse json object from base64 encoded jwt token
+        const jwtBase64 = this.authenticationValue!.token!.split('.')[1];
+        const jwtToken = JSON.parse(atob(jwtBase64));
+
+        // set a timeout to refresh the token a minute before it expires
+        const expires = new Date(jwtToken.exp * 1000);
+        const timeout = expires.getTime() - Date.now() - (60 * 1000);
+        this.refreshTokenTimeout = setTimeout(() => this.refreshToken().subscribe(), timeout);
+    }
+
+    private stopRefreshTokenTimer(): void {
+        clearTimeout(this.refreshTokenTimeout);
     }
 }
