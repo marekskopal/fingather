@@ -8,6 +8,17 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {AlertComponent} from "@app/shared/components/alert/alert.component";
 import {JwtInterceptor} from "@app/core/interceptors/jwt.interceptor";
 import {ErrorInterceptor} from "@app/core/interceptors/error.interceptor";
+import {FaIconComponent, FaIconLibrary} from "@fortawesome/angular-fontawesome";
+import {
+    faChartLine, faChartPie,
+    faDashboard,
+    faEdit,
+    faExpand, faEye,
+    faFileImport, faHandshake, faLayerGroup, faList,
+    faPlus,
+    faPowerOff,
+    faTrash, faUserGroup
+} from "@fortawesome/free-solid-svg-icons";
 
 @NgModule({
     imports: [
@@ -15,7 +26,8 @@ import {ErrorInterceptor} from "@app/core/interceptors/error.interceptor";
         ReactiveFormsModule,
         HttpClientModule,
         AppRoutingModule,
-        NgbModule
+        NgbModule,
+        FaIconComponent,
     ],
     declarations: [
         AppComponent,
@@ -27,4 +39,10 @@ import {ErrorInterceptor} from "@app/core/interceptors/error.interceptor";
     ],
     bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+    public constructor(
+        private readonly faIconLibrary: FaIconLibrary
+    ) {
+        faIconLibrary.addIcons(faDashboard, faChartPie, faList, faEye, faChartLine, faLayerGroup, faHandshake, faUserGroup, faPowerOff)
+    }
+}
