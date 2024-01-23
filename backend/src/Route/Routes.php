@@ -34,6 +34,7 @@ enum Routes: string
 	case Asset = '/api/asset/{assetId:number}';
 
 	case AuthenticationLogin = '/api/authentication/login';
+	case AuthenticationRefreshToken = '/api/authentication/refresh-token';
 	case AuthenticationSignUp = '/api/authentication/sign-up';
 	case AuthenticationEmailExists = '/api/authentication/email-exists';
 
@@ -79,6 +80,7 @@ enum Routes: string
 		$routeList->delete(self::AdminUser->value, [UserController::class, 'actionDeleteUser']);
 
 		$routeList->post(self::AuthenticationLogin->value, [AuthenticationController::class, 'actionPostLogin']);
+		$routeList->post(self::AuthenticationRefreshToken->value, [AuthenticationController::class, 'actionPostRefreshToken']);
 		$routeList->post(self::AuthenticationSignUp->value, [AuthenticationController::class, 'actionPostSignUp']);
 		$routeList->post(self::AuthenticationEmailExists->value, [AuthenticationController::class, 'actionPostEmailExists']);
 

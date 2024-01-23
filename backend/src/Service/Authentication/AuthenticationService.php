@@ -6,6 +6,7 @@ namespace FinGather\Service\Authentication;
 
 use FinGather\Dto\AuthenticationDto;
 use FinGather\Dto\CredentialsDto;
+use FinGather\Model\Entity\User;
 use FinGather\Service\Authentication\Exceptions\AuthenticationException;
 use FinGather\Service\Provider\UserProvider;
 use Firebase\JWT\JWT;
@@ -29,6 +30,11 @@ final class AuthenticationService
 			throw new AuthenticationException('Password is incorrect.');
 		}
 
+		return $this->createAuthentication($user);
+	}
+
+	public function createAuthentication(User $user): AuthenticationDto
+	{
 		$expiration = time() + 3600;
 
 		return new AuthenticationDto(
