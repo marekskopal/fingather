@@ -10,14 +10,9 @@ import {JwtInterceptor} from "@app/core/interceptors/jwt.interceptor";
 import {ErrorInterceptor} from "@app/core/interceptors/error.interceptor";
 import {FaIconComponent, FaIconLibrary} from "@fortawesome/angular-fontawesome";
 import {
-    faChartLine, faChartPie,
-    faDashboard,
-    faEdit,
-    faExpand, faEye,
-    faFileImport, faHandshake, faLayerGroup, faList,
-    faPlus,
-    faPowerOff,
-    faTrash, faUserGroup
+    faChartLine, faChartPie, faDashboard, faEye,
+    faHandshake, faLayerGroup, faList, faPowerOff,
+    faUserGroup
 } from "@fortawesome/free-solid-svg-icons";
 
 @NgModule({
