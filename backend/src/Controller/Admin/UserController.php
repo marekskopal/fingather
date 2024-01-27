@@ -52,12 +52,10 @@ class UserController extends AdminController
 		return new JsonResponse($brokers);
 	}
 
-	/** @param array{userId: string} $args */
-	public function actionGetUser(ServerRequestInterface $request, array $args): ResponseInterface
+	public function actionGetUser(ServerRequestInterface $request, int $userId): ResponseInterface
 	{
 		$this->checkAdminRole($request);
 
-		$userId = (int) $args['userId'];
 		if ($userId < 1) {
 			return new NotFoundResponse('User id is required.');
 		}
@@ -99,12 +97,10 @@ class UserController extends AdminController
 		)));
 	}
 
-	/** @param array{userId: string} $args */
-	public function actionUpdateUser(ServerRequestInterface $request, array $args): ResponseInterface
+	public function actionUpdateUser(ServerRequestInterface $request, int $userId): ResponseInterface
 	{
 		$this->checkAdminRole($request);
 
-		$userId = (int) $args['userId'];
 		if ($userId < 1) {
 			return new NotFoundResponse('User id is required.');
 		}
@@ -131,12 +127,10 @@ class UserController extends AdminController
 		)));
 	}
 
-	/** @param array{userId: string} $args */
-	public function actionDeleteUser(ServerRequestInterface $request, array $args): ResponseInterface
+	public function actionDeleteUser(ServerRequestInterface $request, array $userId): ResponseInterface
 	{
 		$this->checkAdminRole($request);
 
-		$userId = (int) $args['userId'];
 		if ($userId < 1) {
 			return new NotFoundResponse('User id is required.');
 		}

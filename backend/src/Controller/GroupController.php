@@ -31,10 +31,8 @@ class GroupController
 		return new JsonResponse($brokers);
 	}
 
-	/** @param array{groupId: string} $args */
-	public function actionGetGroup(ServerRequestInterface $request, array $args): ResponseInterface
+	public function actionGetGroup(ServerRequestInterface $request, int $groupId): ResponseInterface
 	{
-		$groupId = (int) $args['groupId'];
 		if ($groupId < 1) {
 			return new NotFoundResponse('Group id is required.');
 		}
@@ -69,10 +67,8 @@ class GroupController
 		)));
 	}
 
-	/** @param array{groupId: string} $args */
-	public function actionPutGroup(ServerRequestInterface $request, array $args): ResponseInterface
+	public function actionPutGroup(ServerRequestInterface $request, int $groupId): ResponseInterface
 	{
-		$groupId = (int) $args['groupId'];
 		if ($groupId < 1) {
 			return new NotFoundResponse('Group id is required.');
 		}
@@ -95,10 +91,8 @@ class GroupController
 		)));
 	}
 
-	/** @param array{groupId: string} $args */
-	public function actionDeleteGroup(ServerRequestInterface $request, array $args): ResponseInterface
+	public function actionDeleteGroup(ServerRequestInterface $request, int $groupId): ResponseInterface
 	{
-		$groupId = (int) $args['groupId'];
 		if ($groupId < 1) {
 			return new NotFoundResponse('Group id is required.');
 		}
