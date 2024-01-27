@@ -10,6 +10,7 @@ use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Response\OkResponse;
 use FinGather\Service\Provider\BrokerProvider;
+use FinGather\Service\Provider\PortfolioProvider;
 use FinGather\Service\Request\RequestService;
 use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
@@ -18,15 +19,30 @@ use function Safe\json_decode;
 
 class BrokerController
 {
-	public function __construct(private readonly BrokerProvider $brokerProvider, private readonly RequestService $requestService)
+	public function __construct(
+		private readonly BrokerProvider $brokerProvider,
+		private readonly PortfolioProvider $portfolioProvider,
+		private readonly RequestService $requestService,
+	)
 	{
 	}
 
-	public function actionGetBrokers(ServerRequestInterface $request): ResponseInterface
+	public function actionGetBrokers(ServerRequestInterface $request, int $portfolioId): ResponseInterface
 	{
+		$user = $this->requestService->getUser($request);
+
+		if ($portfolioId < 1) {
+			return new NotFoundResponse('Portfolio id is required.');
+		}
+
+		$portfolio = $this->portfolioProvider->getPortfolio($user, $portfolioId);
+		if ($portfolio === null) {
+			return new NotFoundResponse('Portfolio with id "' . $portfolioId . '" was not found.');
+		}
+
 		$brokers = array_map(
 			fn (Broker $broker): BrokerDto => BrokerDto::fromEntity($broker),
-			iterator_to_array($this->brokerProvider->getBrokers($this->requestService->getUser($request))),
+			iterator_to_array($this->brokerProvider->getBrokers($user, $portfolio)),
 		);
 
 		return new JsonResponse($brokers);
@@ -49,13 +65,25 @@ class BrokerController
 		return new JsonResponse(BrokerDto::fromEntity($broker));
 	}
 
-	public function actionCreateBroker(ServerRequestInterface $request): ResponseInterface
+	public function actionCreateBroker(ServerRequestInterface $request, int $portfolioId): ResponseInterface
 	{
+		$user = $this->requestService->getUser($request);
+
+		if ($portfolioId < 1) {
+			return new NotFoundResponse('Portfolio id is required.');
+		}
+
+		$portfolio = $this->portfolioProvider->getPortfolio($user, $portfolioId);
+		if ($portfolio === null) {
+			return new NotFoundResponse('Portfolio with id "' . $portfolioId . '" was not found.');
+		}
+
 		/** @var array{name: string, importType: value-of<BrokerImportTypeEnum>} $requestBody */
 		$requestBody = json_decode($request->getBody()->getContents(), assoc: true);
 
 		return new JsonResponse(BrokerDto::fromEntity($this->brokerProvider->createBroker(
-			user: $this->requestService->getUser($request),
+			user: $user,
+			portfolio: $portfolio,
 			name: $requestBody['name'],
 			importType: BrokerImportTypeEnum::from($requestBody['importType']),
 		)));

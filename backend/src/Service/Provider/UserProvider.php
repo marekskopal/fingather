@@ -57,9 +57,9 @@ class UserProvider
 		);
 		$this->userRepository->persist($user);
 
-		$this->groupProvider->createOthersGroup($user);
+		$defaultPortfolio = $this->portfolioProvider->createDefaultPortfolio($user);
 
-		$this->portfolioProvider->createDefaultPortfolio($user);
+		$this->groupProvider->createOthersGroup($user, $defaultPortfolio);
 
 		if (!$isEmailVerified) {
 			$this->emailVerifyProvider->createEmailVerify($user);

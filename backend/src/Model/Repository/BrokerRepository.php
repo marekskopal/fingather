@@ -10,10 +10,11 @@ use FinGather\Model\Entity\Broker;
 class BrokerRepository extends ARepository
 {
 	/** @return iterable<Broker> */
-	public function findBrokers(int $userId): iterable
+	public function findBrokers(int $userId, int $portfolioId): iterable
 	{
 		return $this->findAll([
 			'user_id' => $userId,
+			'portfolio_id' => $portfolioId,
 		]);
 	}
 

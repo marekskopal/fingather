@@ -6,6 +6,7 @@ namespace FinGather\Service\Provider;
 
 use FinGather\Model\Entity\Broker;
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
+use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\BrokerRepository;
 
@@ -16,9 +17,9 @@ class BrokerProvider
 	}
 
 	/** @return iterable<Broker> */
-	public function getBrokers(User $user): iterable
+	public function getBrokers(User $user, Portfolio $portfolio): iterable
 	{
-		return $this->brokerRepository->findBrokers($user->getId());
+		return $this->brokerRepository->findBrokers($user->getId(), $portfolio->getId());
 	}
 
 	public function getBroker(User $user, int $brokerId): ?Broker
@@ -26,9 +27,9 @@ class BrokerProvider
 		return $this->brokerRepository->findBroker($brokerId, $user->getId());
 	}
 
-	public function createBroker(User $user, string $name, BrokerImportTypeEnum $importType): Broker
+	public function createBroker(User $user, Portfolio $portfolio, string $name, BrokerImportTypeEnum $importType): Broker
 	{
-		$broker = new Broker(user: $user, name: $name, importType: $importType->value);
+		$broker = new Broker(user: $user, portfolio: $portfolio, name: $name, importType: $importType->value);
 		$this->brokerRepository->persist($broker);
 
 		return $broker;

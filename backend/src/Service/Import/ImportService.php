@@ -13,7 +13,6 @@ use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Enum\TransactionCreateTypeEnum;
 use FinGather\Model\Repository\AssetRepository;
 use FinGather\Model\Repository\CurrencyRepository;
-use FinGather\Model\Repository\GroupRepository;
 use FinGather\Model\Repository\TransactionRepository;
 use FinGather\Service\Import\Entity\TransactionRecord;
 use FinGather\Service\Import\Mapper\AnycoinMapper;
@@ -21,6 +20,7 @@ use FinGather\Service\Import\Mapper\MapperInterface;
 use FinGather\Service\Import\Mapper\RevolutMapper;
 use FinGather\Service\Import\Mapper\Trading212Mapper;
 use FinGather\Service\Provider\DataProvider;
+use FinGather\Service\Provider\GroupProvider;
 use FinGather\Service\Provider\TickerProvider;
 use FinGather\Service\Provider\TransactionProvider;
 use League\Csv\Reader;
@@ -35,7 +35,7 @@ final class ImportService
 		private readonly TickerProvider $tickerProvider,
 		private readonly AssetRepository $assetRepository,
 		private readonly CurrencyRepository $currencyRepository,
-		private readonly GroupRepository $groupRepository,
+		private readonly GroupProvider $groupProvider,
 		private readonly DataProvider $dataProvider,
 		private readonly LoggerInterface $logger,
 	) {
@@ -50,7 +50,8 @@ final class ImportService
 		$tickerMapping = $importMapper->getTickerMapping();
 
 		$user = $broker->getUser();
-		$othersGroup = $this->groupRepository->findOthersGroup($user->getId());
+		$portfolio = $broker->getPortfolio();
+		$othersGroup = $this->groupProvider->getOthersGroup($user, $portfolio);
 
 		$firstDate = null;
 
@@ -90,6 +91,7 @@ final class ImportService
 			if ($asset === null) {
 				$asset = new Asset(
 					user: $user,
+					portfolio: $portfolio,
 					ticker: $ticker,
 					group: $othersGroup,
 					transactions: [],
@@ -110,6 +112,7 @@ final class ImportService
 
 			$transaction = $this->transactionProvider->createTransaction(
 				user: $user,
+				portfolio: $portfolio,
 				asset: $asset,
 				broker: $broker,
 				actionType: $actionType,
@@ -132,7 +135,7 @@ final class ImportService
 			return;
 		}
 
-		$this->dataProvider->deleteUserData($user, DateTimeImmutable::createFromRegular($firstDate));
+		$this->dataProvider->deleteUserData($user, $portfolio, DateTimeImmutable::createFromRegular($firstDate));
 	}
 
 	/** @param array<string, string> $csvRecord */

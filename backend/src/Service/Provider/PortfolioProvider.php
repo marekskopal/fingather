@@ -20,7 +20,7 @@ class PortfolioProvider
 		return $this->portfolioRepository->findPortfolios($user->getId());
 	}
 
-	public function getGroup(User $user, int $portfolioId): ?Portfolio
+	public function getPortfolio(User $user, int $portfolioId): ?Portfolio
 	{
 		return $this->portfolioRepository->findPortfolio($user->getId(), $portfolioId);
 	}

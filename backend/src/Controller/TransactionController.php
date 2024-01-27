@@ -16,6 +16,7 @@ use FinGather\Service\Provider\AssetProvider;
 use FinGather\Service\Provider\BrokerProvider;
 use FinGather\Service\Provider\CurrencyProvider;
 use FinGather\Service\Provider\DataProvider;
+use FinGather\Service\Provider\PortfolioProvider;
 use FinGather\Service\Provider\TransactionProvider;
 use FinGather\Service\Request\RequestService;
 use Laminas\Diactoros\Response\JsonResponse;
@@ -31,16 +32,26 @@ class TransactionController
 		private readonly BrokerProvider $brokerProvider,
 		private readonly CurrencyProvider $currencyProvider,
 		private readonly DataProvider $dataProvider,
+		private readonly PortfolioProvider $portfolioProvider,
 		private readonly RequestService $requestService,
 	) {
 	}
 
-	public function actionGetTransactions(ServerRequestInterface $request): ResponseInterface
+	public function actionGetTransactions(ServerRequestInterface $request, int $portfolioId): ResponseInterface
 	{
 		/** @var array{assetId?: string, limit?: string, offset?: string, actionTypes?: string} $queryParams */
 		$queryParams = $request->getQueryParams();
 
 		$user = $this->requestService->getUser($request);
+
+		if ($portfolioId < 1) {
+			return new NotFoundResponse('Portfolio id is required.');
+		}
+
+		$portfolio = $this->portfolioProvider->getPortfolio($user, $portfolioId);
+		if ($portfolio === null) {
+			return new NotFoundResponse('Portfolio with id "' . $portfolioId . '" was not found.');
+		}
 
 		$assetId = ($queryParams['assetId'] ?? null) !== null ? (int) $queryParams['assetId'] : null;
 		$asset = $assetId !== null ?
@@ -54,8 +65,8 @@ class TransactionController
 			array_map(fn (string $item) => TransactionActionTypeEnum::from($item), explode('|', $queryParams['actionTypes'])) :
 			null;
 
-		$transactions = $this->transactionProvider->getTransactions($user, $asset, null, $actionTypes, $limit, $offset);
-		$count = $this->transactionProvider->countTransactions($user, $asset, null, $actionTypes);
+		$transactions = $this->transactionProvider->getTransactions($user, $portfolio, $asset, null, $actionTypes, $limit, $offset);
+		$count = $this->transactionProvider->countTransactions($user, $portfolio, $asset, null, $actionTypes);
 
 		$transactionDtos = array_map(
 			fn (Transaction $transaction): TransactionDto => TransactionDto::fromEntity($transaction),
@@ -82,11 +93,20 @@ class TransactionController
 		return new JsonResponse(TransactionDto::fromEntity($transaction));
 	}
 
-	public function actionCreateTransaction(ServerRequestInterface $request): ResponseInterface
+	public function actionCreateTransaction(ServerRequestInterface $request, int $portfolioId): ResponseInterface
 	{
 		$transactionDto = TransactionCreateDto::fromJson($request->getBody()->getContents());
 
 		$user = $this->requestService->getUser($request);
+
+		if ($portfolioId < 1) {
+			return new NotFoundResponse('Portfolio id is required.');
+		}
+
+		$portfolio = $this->portfolioProvider->getPortfolio($user, $portfolioId);
+		if ($portfolio === null) {
+			return new NotFoundResponse('Portfolio with id "' . $portfolioId . '" was not found.');
+		}
 
 		$asset = $this->assetProvider->getAsset($user, $transactionDto->assetId);
 		if ($asset === null) {
@@ -105,6 +125,7 @@ class TransactionController
 
 		$transaction = $this->transactionProvider->createTransaction(
 			user: $user,
+			portfolio: $portfolio,
 			asset: $asset,
 			broker: $broker,
 			actionType: $transactionDto->actionType,
@@ -118,7 +139,7 @@ class TransactionController
 			importIdentifier: $transactionDto->importIdentifier,
 		);
 
-		$this->dataProvider->deleteUserData($user, $transactionDto->actionCreated);
+		$this->dataProvider->deleteUserData($user, $portfolio, $transactionDto->actionCreated);
 
 		return new JsonResponse(TransactionDto::fromEntity($transaction));
 	}
@@ -170,7 +191,7 @@ class TransactionController
 			importIdentifier: $transactionDto->importIdentifier,
 		);
 
-		$this->dataProvider->deleteUserData($user, $transactionDto->actionCreated);
+		$this->dataProvider->deleteUserData($user, $transaction->getPortfolio(), $transactionDto->actionCreated);
 
 		return new JsonResponse(TransactionDto::fromEntity($transaction));
 	}
@@ -193,6 +214,7 @@ class TransactionController
 
 		$this->dataProvider->deleteUserData(
 			$transaction->getUser(),
+			$transaction->getPortfolio(),
 			DateTimeImmutable::createFromRegular($transaction->getActionCreated()),
 		);
 

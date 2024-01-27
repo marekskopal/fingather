@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Service\Provider;
 
 use FinGather\Model\Entity\Group;
+use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\AssetRepository;
 use FinGather\Model\Repository\GroupDataRepository;
@@ -20,9 +21,9 @@ class GroupProvider
 	}
 
 	/** @return iterable<Group> */
-	public function getGroups(User $user): iterable
+	public function getGroups(User $user, Portfolio $portfolio): iterable
 	{
-		return $this->groupRepository->findGroups($user->getId());
+		return $this->groupRepository->findGroups($user->getId(), $portfolio->getId());
 	}
 
 	public function getGroup(User $user, int $groupId): ?Group
@@ -30,15 +31,15 @@ class GroupProvider
 		return $this->groupRepository->findGroup($user->getId(), $groupId);
 	}
 
-	public function getOthersGroup(User $user): Group
+	public function getOthersGroup(User $user, Portfolio $portfolio): Group
 	{
-		return $this->groupRepository->findOthersGroup($user->getId());
+		return $this->groupRepository->findOthersGroup($user->getId(), $portfolio->getId());
 	}
 
 	/** @param list<int> $assetIds */
-	public function createGroup(User $user, string $name, array $assetIds): Group
+	public function createGroup(User $user, Portfolio $portfolio, string $name, array $assetIds): Group
 	{
-		$group = new Group(user: $user, name: $name, isOthers: false, assets: []);
+		$group = new Group(user: $user, portfolio: $portfolio, name: $name, isOthers: false, assets: []);
 		$this->groupRepository->persist($group);
 
 		foreach ($assetIds as $assetId) {
@@ -51,15 +52,15 @@ class GroupProvider
 			$this->assetRepository->persist($asset);
 		}
 
-		$othersGroup = $this->getOthersGroup($user);
+		$othersGroup = $this->getOthersGroup($user, $portfolio);
 		$this->groupDataRepository->deleteGroupData($othersGroup->getId());
 
 		return $group;
 	}
 
-	public function createOthersGroup(User $user): Group
+	public function createOthersGroup(User $user, Portfolio $portfolio): Group
 	{
-		$group = new Group(user: $user, name: 'Others', isOthers: true, assets: []);
+		$group = new Group(user: $user, portfolio: $portfolio, name: 'Others', isOthers: true, assets: []);
 		$this->groupRepository->persist($group);
 
 		return $group;
@@ -72,7 +73,7 @@ class GroupProvider
 		$this->groupRepository->persist($group);
 
 		$user = $group->getUser();
-		$othersGroup = $this->getOthersGroup($user);
+		$othersGroup = $this->getOthersGroup($user, $group->getPortfolio());
 
 		foreach ($group->getAssets() as $asset) {
 			$asset->setGroup($othersGroup);
@@ -97,7 +98,7 @@ class GroupProvider
 
 	public function deleteGroup(Group $group): void
 	{
-		$othersGroup = $this->getOthersGroup($group->getUser());
+		$othersGroup = $this->getOthersGroup($group->getUser(), $group->getPortfolio());
 
 		foreach ($group->getAssets() as $asset) {
 			$asset->setGroup($othersGroup);

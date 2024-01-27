@@ -8,6 +8,7 @@ use Decimal\Decimal;
 use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Group;
+use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\AssetRepository;
@@ -39,25 +40,25 @@ class AssetProvider
 	}
 
 	/** @return array<int, Asset> */
-	public function getOpenAssets(User $user, DateTimeImmutable $dateTime): array
+	public function getOpenAssets(User $user, Portfolio $portfolio, DateTimeImmutable $dateTime): array
 	{
 		return $this->assetRepository->findOpenAssets($user->getId(), $dateTime);
 	}
 
 	/** @return array<int, Asset> */
-	public function getOpenAssetsByGroup(Group $group, User $user, DateTimeImmutable $dateTime): array
+	public function getOpenAssetsByGroup(Group $group, User $user, Portfolio $portfolio, DateTimeImmutable $dateTime): array
 	{
 		return $this->assetRepository->findOpenAssetsByGroup($user->getId(), $group->getId(), $dateTime);
 	}
 
 	/** @return array<int, Asset> */
-	public function getClosedAssets(User $user, DateTimeImmutable $dateTime): array
+	public function getClosedAssets(User $user, Portfolio $portfolio, DateTimeImmutable $dateTime): array
 	{
 		return $this->assetRepository->findClosedAssets($user->getId(), $dateTime);
 	}
 
 	/** @return array<int, Asset> */
-	public function getWatchedAssets(User $user): array
+	public function getWatchedAssets(User $user, Portfolio $portfolio): array
 	{
 		return $this->assetRepository->findWatchedAssets($user->getId());
 	}
@@ -67,9 +68,9 @@ class AssetProvider
 		return $this->assetRepository->findAsset($assetId, $user->getId());
 	}
 
-	public function getAssetProperties(User $user, Asset $asset, DateTimeImmutable $dateTime): ?AssetPropertiesDto
+	public function getAssetProperties(User $user, Portfolio $portfolio, Asset $asset, DateTimeImmutable $dateTime): ?AssetPropertiesDto
 	{
-		$transactions = $this->transactionProvider->getTransactions($user, $asset, $dateTime);
+		$transactions = $this->transactionProvider->getTransactions($user, $portfolio, $asset, $dateTime);
 		if (count($transactions) === 0) {
 			return null;
 		}
@@ -191,19 +192,20 @@ class AssetProvider
 		);
 	}
 
-	public function createAsset(User $user, Ticker $ticker): Asset
+	public function createAsset(User $user, Portfolio $portfolio, Ticker $ticker): Asset
 	{
-		$group = $this->groupProvider->getOthersGroup($user);
+		$group = $this->groupProvider->getOthersGroup($user, $portfolio);
 
-		$aaset = new Asset(
+		$asset = new Asset(
 			user: $user,
+			portfolio: $portfolio,
 			ticker: $ticker,
 			group: $group,
 			transactions: [],
 		);
 
-		$this->assetRepository->persist($aaset);
+		$this->assetRepository->persist($asset);
 
-		return $aaset;
+		return $asset;
 	}
 }

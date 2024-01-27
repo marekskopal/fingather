@@ -9,6 +9,7 @@ use FinGather\Model\Entity\Group;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Response\OkResponse;
 use FinGather\Service\Provider\GroupProvider;
+use FinGather\Service\Provider\PortfolioProvider;
 use FinGather\Service\Request\RequestService;
 use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
@@ -17,18 +18,32 @@ use function Safe\json_decode;
 
 class GroupController
 {
-	public function __construct(private readonly GroupProvider $groupProvider, private readonly RequestService $requestService)
-	{
+	public function __construct(
+		private readonly GroupProvider $groupProvider,
+		private readonly PortfolioProvider $portfolioProvider,
+		private readonly RequestService $requestService,
+	) {
 	}
 
-	public function actionGetGroups(ServerRequestInterface $request): ResponseInterface
+	public function actionGetGroups(ServerRequestInterface $request, int $portfolioId): ResponseInterface
 	{
-		$brokers = array_map(
+		$user = $this->requestService->getUser($request);
+
+		if ($portfolioId < 1) {
+			return new NotFoundResponse('Portfolio id is required.');
+		}
+
+		$portfolio = $this->portfolioProvider->getPortfolio($user, $portfolioId);
+		if ($portfolio === null) {
+			return new NotFoundResponse('Portfolio with id "' . $portfolioId . '" was not found.');
+		}
+
+		$groups = array_map(
 			fn (Group $group): GroupDto => GroupDto::fromEntity($group),
-			iterator_to_array($this->groupProvider->getGroups($this->requestService->getUser($request))),
+			iterator_to_array($this->groupProvider->getGroups($user, $portfolio)),
 		);
 
-		return new JsonResponse($brokers);
+		return new JsonResponse($groups);
 	}
 
 	public function actionGetGroup(ServerRequestInterface $request, int $groupId): ResponseInterface
@@ -48,20 +63,43 @@ class GroupController
 		return new JsonResponse(GroupDto::fromEntity($group));
 	}
 
-	public function actionGetOthersGroup(ServerRequestInterface $request): ResponseInterface
+	public function actionGetOthersGroup(ServerRequestInterface $request, int $portfolioId): ResponseInterface
 	{
-		$othersGroup = $this->groupProvider->getOthersGroup($this->requestService->getUser($request));
+		$user = $this->requestService->getUser($request);
+
+		if ($portfolioId < 1) {
+			return new NotFoundResponse('Portfolio id is required.');
+		}
+
+		$portfolio = $this->portfolioProvider->getPortfolio($user, $portfolioId);
+		if ($portfolio === null) {
+			return new NotFoundResponse('Portfolio with id "' . $portfolioId . '" was not found.');
+		}
+
+		$othersGroup = $this->groupProvider->getOthersGroup($user, $portfolio);
 
 		return new JsonResponse(GroupDto::fromEntity($othersGroup));
 	}
 
-	public function actionPostGroup(ServerRequestInterface $request): ResponseInterface
+	public function actionPostGroup(ServerRequestInterface $request, int $portfolioId): ResponseInterface
 	{
+		$user = $this->requestService->getUser($request);
+
+		if ($portfolioId < 1) {
+			return new NotFoundResponse('Portfolio id is required.');
+		}
+
+		$portfolio = $this->portfolioProvider->getPortfolio($user, $portfolioId);
+		if ($portfolio === null) {
+			return new NotFoundResponse('Portfolio with id "' . $portfolioId . '" was not found.');
+		}
+
 		/** @var array{name: string, assetIds: list<int>} $requestBody */
 		$requestBody = json_decode($request->getBody()->getContents(), assoc: true);
 
 		return new JsonResponse(GroupDto::fromEntity($this->groupProvider->createGroup(
-			user: $this->requestService->getUser($request),
+			user: $user,
+			portfolio: $portfolio,
 			name: $requestBody['name'],
 			assetIds: $requestBody['assetIds'],
 		)));

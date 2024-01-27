@@ -8,6 +8,7 @@ use Decimal\Decimal;
 use FinGather\Dto\AssetWithPropertiesDto;
 use FinGather\Dto\GroupDataDto;
 use FinGather\Dto\GroupWithGroupDataDto;
+use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use Safe\DateTimeImmutable;
 
@@ -21,16 +22,16 @@ class GroupWithGroupDataProvider
 	}
 
 	/** @return list<GroupWithGroupDataDto> */
-	public function getGroupsWithGroupData(User $user, DateTimeImmutable $dateTime): array
+	public function getGroupsWithGroupData(User $user, Portfolio $portfolio, DateTimeImmutable $dateTime): array
 	{
-		$portfolioData = $this->portfolioDataProvider->getPortfolioData($user, $dateTime);
+		$portfolioData = $this->portfolioDataProvider->getPortfolioData($user, $portfolio, $dateTime);
 
 		$groups = [];
 		$groupAssets = [];
 
-		$assets = $this->assetProvider->getOpenAssets($user, $dateTime);
+		$assets = $this->assetProvider->getOpenAssets($user, $portfolio, $dateTime);
 		foreach ($assets as $asset) {
-			$assetProperties = $this->assetProvider->getAssetProperties($user, $asset, $dateTime);
+			$assetProperties = $this->assetProvider->getAssetProperties($user, $portfolio, $asset, $dateTime);
 			if ($assetProperties === null) {
 				continue;
 			}
@@ -51,7 +52,7 @@ class GroupWithGroupDataProvider
 		$groupsWithGroupData = [];
 
 		foreach	($groups as $groupId => $group) {
-			$groupData = $this->groupDataProvider->getGroupData($group, $user, $dateTime);
+			$groupData = $this->groupDataProvider->getGroupData($group, $user, $portfolio, $dateTime);
 
 			$groupsWithGroupData[] = new GroupWithGroupDataDto(
 				id: $groupId,

@@ -18,23 +18,33 @@ class TransactionRepository extends ARepository
 	 */
 	public function findTransactions(
 		int $userId,
+		int $portfolioId,
 		?int $assetId = null,
 		?DateTimeImmutable $actionCreatedBefore = null,
 		?array $actionTypes = null,
 		?int $limit = null,
 		?int $offset = null,
 	): array {
-		return $this->getTransactionsSelect($userId, $assetId, $actionCreatedBefore, $actionTypes, $limit, $offset)->fetchAll();
+		return $this->getTransactionsSelect(
+			$userId,
+			$portfolioId,
+			$assetId,
+			$actionCreatedBefore,
+			$actionTypes,
+			$limit,
+			$offset,
+		)->fetchAll();
 	}
 
 	/** @param list<TransactionActionTypeEnum> $actionTypes */
 	public function countTransactions(
 		int $userId,
+		?int $portfolioId = null,
 		?int $assetId = null,
 		?DateTimeImmutable $actionCreatedBefore = null,
 		?array $actionTypes = null,
 	): int {
-		return $this->getTransactionsSelect($userId, $assetId, $actionCreatedBefore, $actionTypes)->count();
+		return $this->getTransactionsSelect($userId, $portfolioId, $assetId, $actionCreatedBefore, $actionTypes)->count();
 	}
 
 	/**
@@ -43,6 +53,7 @@ class TransactionRepository extends ARepository
 	 */
 	private function getTransactionsSelect(
 		int $userId,
+		?int $portfolioId = null,
 		?int $assetId = null,
 		?DateTimeImmutable $actionCreatedBefore = null,
 		?array $actionTypes = null,
@@ -51,6 +62,10 @@ class TransactionRepository extends ARepository
 	): Select {
 		$transactions = $this->select()
 			->where('user_id', $userId);
+
+		if ($portfolioId !== null) {
+			$transactions->where('portfolio_id', $portfolioId);
+		}
 
 		if ($assetId !== null) {
 			$transactions->where('asset_id', $assetId);
@@ -93,10 +108,11 @@ class TransactionRepository extends ARepository
 		]);
 	}
 
-	public function findFirstTransaction(int $userId,): ?Transaction
+	public function findFirstTransaction(int $userId, int $portfolioId): ?Transaction
 	{
 		return $this->select()
 			->where('user_id', $userId)
+			->where('portfolio_id', $portfolioId)
 			->orderBy('action_created')
 			->fetchOne();
 	}

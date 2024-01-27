@@ -7,6 +7,7 @@ namespace FinGather\Service\Provider;
 use FinGather\Dto\AssetWithPropertiesDto;
 use FinGather\Model\Entity\Group;
 use FinGather\Model\Entity\GroupData;
+use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\GroupDataRepository;
 use FinGather\Service\DataCalculator\DataCalculator;
@@ -21,7 +22,7 @@ class GroupDataProvider
 	) {
 	}
 
-	public function getGroupData(Group $group, User $user, DateTimeImmutable $dateTime): GroupData
+	public function getGroupData(Group $group, User $user, Portfolio $portfolio, DateTimeImmutable $dateTime): GroupData
 	{
 		$dateTime = $dateTime->setTime(0, 0);
 
@@ -32,9 +33,9 @@ class GroupDataProvider
 
 		$assetDtos = [];
 
-		$assets = $this->assetProvider->getOpenAssetsByGroup($group, $user, $dateTime);
+		$assets = $this->assetProvider->getOpenAssetsByGroup($group, $user, $portfolio, $dateTime);
 		foreach ($assets as $asset) {
-			$assetProperties = $this->assetProvider->getAssetProperties($user, $asset, $dateTime);
+			$assetProperties = $this->assetProvider->getAssetProperties($user, $portfolio, $asset, $dateTime);
 			if ($assetProperties === null) {
 				continue;
 			}
@@ -47,6 +48,7 @@ class GroupDataProvider
 		$groupData = new GroupData(
 			group: $group,
 			user: $user,
+			portfolio: $portfolio,
 			date: $dateTime,
 			value: (string) $calculatedData->value,
 			transactionValue: (string) $calculatedData->transactionValue,
@@ -65,8 +67,8 @@ class GroupDataProvider
 		return $groupData;
 	}
 
-	public function deleteUserGroupData(User $user, DateTimeImmutable $date): void
+	public function deleteUserGroupData(User $user, Portfolio $portfolio, DateTimeImmutable $date): void
 	{
-		$this->groupDataRepository->deleteUserGroupData($user->getId(), $date);
+		$this->groupDataRepository->deleteUserGroupData($user->getId(), $portfolio->getId(), $date);
 	}
 }
