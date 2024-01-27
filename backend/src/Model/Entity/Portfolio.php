@@ -8,7 +8,6 @@ use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\RefersTo;
 use FinGather\Model\Repository\PortfolioRepository;
-use FinGather\Model\Repository\UserRepository;
 
 #[Entity(repository: PortfolioRepository::class)]
 class Portfolio extends AEntity
@@ -19,7 +18,7 @@ class Portfolio extends AEntity
 		#[Column(type: 'string')]
 		private string $name,
 		#[Column(type: 'boolean')]
-		private string $isDefault,
+		private bool $isDefault,
 	) {
 	}
 
@@ -43,12 +42,12 @@ class Portfolio extends AEntity
 		$this->name = $name;
 	}
 
-	public function getIsDefault(): string
+	public function getIsDefault(): bool
 	{
 		return $this->isDefault;
 	}
 
-	public function setIsDefault(string $isDefault): void
+	public function setIsDefault(bool $isDefault): void
 	{
 		$this->isDefault = $isDefault;
 	}

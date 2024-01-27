@@ -30,9 +30,6 @@ class PortfolioDataController
 	) {
 	}
 
-	/**
-	 * @param array{string $portfolioId} $args
-	 */
 	public function actionGetPortfolioData(ServerRequestInterface $request, array $args): ResponseInterface
 	{
 		$user = $this->requestService->getUser($request);
