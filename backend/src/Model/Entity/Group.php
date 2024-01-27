@@ -17,6 +17,8 @@ class Group extends AEntity
 	public function __construct(
 		#[RefersTo(target: User::class)]
 		private User $user,
+		#[RefersTo(target: Portfolio::class)]
+		private Portfolio $portfolio,
 		#[Column(type: 'string')]
 		private string $name,
 		#[Column(type: 'boolean')]
@@ -34,6 +36,16 @@ class Group extends AEntity
 	public function setUser(User $user): void
 	{
 		$this->user = $user;
+	}
+
+	public function getPortfolio(): Portfolio
+	{
+		return $this->portfolio;
+	}
+
+	public function setPortfolio(Portfolio $portfolio): void
+	{
+		$this->portfolio = $portfolio;
 	}
 
 	public function getName(): string

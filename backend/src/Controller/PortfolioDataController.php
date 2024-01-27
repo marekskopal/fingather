@@ -30,7 +30,10 @@ class PortfolioDataController
 	) {
 	}
 
-	public function actionGetPortfolioData(ServerRequestInterface $request): ResponseInterface
+	/**
+	 * @param array{string $portfolioId} $args
+	 */
+	public function actionGetPortfolioData(ServerRequestInterface $request, array $args): ResponseInterface
 	{
 		$user = $this->requestService->getUser($request);
 
@@ -41,7 +44,7 @@ class PortfolioDataController
 		return new JsonResponse(PortfolioDataDto::fromEntity($portfolioData));
 	}
 
-	public function actionGetPortfolioDataRange(ServerRequestInterface $request): ResponseInterface
+	public function actionGetPortfolioDataRange(ServerRequestInterface $request, array $args): ResponseInterface
 	{
 		/** @var array{range: value-of<PortfolioDataRangeEnum>, benchmarkAssetId?: string} $queryParams */
 		$queryParams = $request->getQueryParams();

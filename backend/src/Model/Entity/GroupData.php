@@ -16,6 +16,7 @@ class GroupData extends ADataEntity
 		#[RefersTo(target: Group::class)]
 		private Group $group,
 		User $user,
+		Portfolio $portfolio,
 		DateTimeImmutable $date,
 		string $value,
 		string $transactionValue,
@@ -30,6 +31,7 @@ class GroupData extends ADataEntity
 	) {
 		parent::__construct(
 			$user,
+			$portfolio,
 			$date,
 			$value,
 			$transactionValue,

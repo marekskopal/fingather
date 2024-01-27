@@ -13,6 +13,8 @@ class ADataEntity extends AEntity
 	public function __construct(
 		#[RefersTo(target: User::class)]
 		protected User $user,
+		#[RefersTo(target: Portfolio::class)]
+		private Portfolio $portfolio,
 		#[Column(type: 'timestamp')]
 		protected DateTimeImmutable $date,
 		#[Column(type: 'decimal(11,2)')]
@@ -46,6 +48,16 @@ class ADataEntity extends AEntity
 	public function setUser(User $user): void
 	{
 		$this->user = $user;
+	}
+
+	public function getPortfolio(): Portfolio
+	{
+		return $this->portfolio;
+	}
+
+	public function setPortfolio(Portfolio $portfolio): void
+	{
+		$this->portfolio = $portfolio;
 	}
 
 	public function getDate(): DateTimeImmutable

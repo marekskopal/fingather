@@ -16,6 +16,8 @@ class BenchmarkData extends AEntity
 	public function __construct(
 		#[RefersTo(target: User::class)]
 		protected User $user,
+		#[RefersTo(target: Portfolio::class)]
+		private Portfolio $portfolio,
 		#[RefersTo(target: Asset::class)]
 		protected Asset $asset,
 		#[Column(type: 'timestamp')]
@@ -37,6 +39,16 @@ class BenchmarkData extends AEntity
 	public function setUser(User $user): void
 	{
 		$this->user = $user;
+	}
+
+	public function getPortfolio(): Portfolio
+	{
+		return $this->portfolio;
+	}
+
+	public function setPortfolio(Portfolio $portfolio): void
+	{
+		$this->portfolio = $portfolio;
 	}
 
 	public function getAsset(): Asset
