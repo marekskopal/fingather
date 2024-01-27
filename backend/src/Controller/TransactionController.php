@@ -65,10 +65,8 @@ class TransactionController
 		return new JsonResponse(new TransactionListDto($transactionDtos, $count));
 	}
 
-	/** @param array{transactionId: string} $args */
-	public function actionGetTransaction(ServerRequestInterface $request, array $args): ResponseInterface
+	public function actionGetTransaction(ServerRequestInterface $request, int $transactionId): ResponseInterface
 	{
-		$transactionId = (int) $args['transactionId'];
 		if ($transactionId < 1) {
 			return new NotFoundResponse('Transaction id is required.');
 		}
@@ -125,10 +123,8 @@ class TransactionController
 		return new JsonResponse(TransactionDto::fromEntity($transaction));
 	}
 
-	/** @param array{transactionId: string} $args */
-	public function actionUpdateTransaction(ServerRequestInterface $request, array $args): ResponseInterface
+	public function actionUpdateTransaction(ServerRequestInterface $request, int $transactionId): ResponseInterface
 	{
-		$transactionId = (int) $args['transactionId'];
 		if ($transactionId < 1) {
 			return new NotFoundResponse('Transaction id is required.');
 		}
@@ -179,10 +175,8 @@ class TransactionController
 		return new JsonResponse(TransactionDto::fromEntity($transaction));
 	}
 
-	/** @param array{transactionId: string} $args */
-	public function actionDeleteTransaction(ServerRequestInterface $request, array $args): ResponseInterface
+	public function actionDeleteTransaction(ServerRequestInterface $request, int $transactionId): ResponseInterface
 	{
-		$transactionId = (int) $args['transactionId'];
 		if ($transactionId < 1) {
 			return new NotFoundResponse('Transaction id is required.');
 		}

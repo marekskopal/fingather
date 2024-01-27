@@ -21,10 +21,8 @@ class TickerDataController
 	{
 	}
 
-	/** @param array{tickerId: string} $args */
-	public function actionGetTickerData(ServerRequestInterface $request, array $args): ResponseInterface
+	public function actionGetTickerData(ServerRequestInterface $request, int $tickerId): ResponseInterface
 	{
-		$tickerId = (int) $args['tickerId'];
 		if ($tickerId < 1) {
 			return new NotFoundResponse('Ticker id is required.');
 		}

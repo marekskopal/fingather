@@ -32,10 +32,8 @@ class BrokerController
 		return new JsonResponse($brokers);
 	}
 
-	/** @param array{brokerId: string} $args */
-	public function actionGetBroker(ServerRequestInterface $request, array $args): ResponseInterface
+	public function actionGetBroker(ServerRequestInterface $request, int $brokerId): ResponseInterface
 	{
-		$brokerId = (int) $args['brokerId'];
 		if ($brokerId < 1) {
 			return new NotFoundResponse('Broker id is required.');
 		}
@@ -63,10 +61,8 @@ class BrokerController
 		)));
 	}
 
-	/** @param array{brokerId: string} $args */
-	public function actionUpdateBroker(ServerRequestInterface $request, array $args): ResponseInterface
+	public function actionUpdateBroker(ServerRequestInterface $request, int $brokerId): ResponseInterface
 	{
-		$brokerId = (int) $args['brokerId'];
 		if ($brokerId < 1) {
 			return new NotFoundResponse('Broker id is required.');
 		}
@@ -89,10 +85,8 @@ class BrokerController
 		)));
 	}
 
-	/** @param array{brokerId: string} $args */
-	public function actionDeleteBroker(ServerRequestInterface $request, array $args): ResponseInterface
+	public function actionDeleteBroker(ServerRequestInterface $request, int $brokerId): ResponseInterface
 	{
-		$brokerId = (int) $args['brokerId'];
 		if ($brokerId < 1) {
 			return new NotFoundResponse('Broker id is required.');
 		}

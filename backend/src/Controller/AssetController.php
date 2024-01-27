@@ -112,10 +112,8 @@ class AssetController
 		return new JsonResponse($assetDtos);
 	}
 
-	/** @param array{assetId: string} $args */
-	public function actionGetAsset(ServerRequestInterface $request, array $args): ResponseInterface
+	public function actionGetAsset(ServerRequestInterface $request, int $assetId): ResponseInterface
 	{
-		$assetId = (int) $args['assetId'];
 		if ($assetId < 1) {
 			return new NotFoundResponse('Asset id is required.');
 		}
