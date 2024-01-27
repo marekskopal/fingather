@@ -13,6 +13,8 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Log\LoggerInterface;
+use function Safe\json_encode;
+use const FILTER_VALIDATE_INT;
 
 class JsonStrategy extends \League\Route\Strategy\JsonStrategy
 {
@@ -25,7 +27,10 @@ class JsonStrategy extends \League\Route\Strategy\JsonStrategy
 	{
 		$controller = $route->getCallable($this->getContainer());
 
-		$vars = array_map(fn (string $item): int|string => filter_var($item, FILTER_VALIDATE_INT) !== false ? (int) $item : $item, $route->getVars());
+		$vars = array_map(
+			fn (string $item): int|string => filter_var($item, FILTER_VALIDATE_INT) !== false ? (int) $item : $item,
+			$route->getVars(),
+		);
 
 		$response = $controller($request, ...$vars);
 

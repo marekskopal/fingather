@@ -127,7 +127,7 @@ class UserController extends AdminController
 		)));
 	}
 
-	public function actionDeleteUser(ServerRequestInterface $request, array $userId): ResponseInterface
+	public function actionDeleteUser(ServerRequestInterface $request, int $userId): ResponseInterface
 	{
 		$this->checkAdminRole($request);
 
