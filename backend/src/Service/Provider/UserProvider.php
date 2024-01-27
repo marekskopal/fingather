@@ -17,6 +17,7 @@ class UserProvider
 		private readonly UserRepository $userRepository,
 		private readonly EmailVerifyProvider $emailVerifyProvider,
 		private readonly GroupProvider $groupProvider,
+		private readonly PortfolioProvider $portfolioProvider,
 	) {
 	}
 
@@ -57,6 +58,8 @@ class UserProvider
 		$this->userRepository->persist($user);
 
 		$this->groupProvider->createOthersGroup($user);
+
+		$this->portfolioProvider->createDefaultPortfolio($user);
 
 		if (!$isEmailVerified) {
 			$this->emailVerifyProvider->createEmailVerify($user);

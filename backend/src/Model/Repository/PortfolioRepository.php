@@ -5,21 +5,34 @@ declare(strict_types=1);
 namespace FinGather\Model\Repository;
 
 use FinGather\Model\Entity\Portfolio;
-use FinGather\Model\Entity\User;
 
 /** @extends ARepository<Portfolio> */
 class PortfolioRepository extends ARepository
 {
 	/** @return iterable<Portfolio> */
-	public function findPortfolios(): iterable
+	public function findPortfolios(int $userId): iterable
 	{
-		return $this->findAll();
+		return $this->findAll([
+			'user_id' => $userId,
+			'is_others' => false,
+		]);
 	}
 
-	public function findPortfolio(int $portfolioId): ?User
+	public function findPortfolio(int $userId, int $portfolioId): ?Portfolio
 	{
 		return $this->findOne([
+			'user_id' => $userId,
 			'id' => $portfolioId,
 		]);
+	}
+
+	public function findDefaultPortfolio(int $userId): Portfolio
+	{
+		$defaultPortfolio = $this->findOne([
+			'user_id' => $userId,
+			'is_default' => true,
+		]);
+		assert($defaultPortfolio instanceof Portfolio);
+		return $defaultPortfolio;
 	}
 }
