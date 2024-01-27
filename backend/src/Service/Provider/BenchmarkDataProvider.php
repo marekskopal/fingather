@@ -8,6 +8,7 @@ use Decimal\Decimal;
 use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\BenchmarkData;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
+use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\TickerData;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\BenchmarkDataRepository;
@@ -28,6 +29,7 @@ class BenchmarkDataProvider
 
 	public function getBenchmarkData(
 		User $user,
+		Portfolio $portfolio,
 		Asset $benchmarkAsset,
 		DateTimeImmutable $dateTime,
 		DateTimeImmutable $benchmarkFromDateTime,
@@ -52,9 +54,9 @@ class BenchmarkDataProvider
 
 		$benchmarkUnitsSum = new Decimal(0);
 
-		$assets = $this->assetProvider->getOpenAssets($user, $dateTime);
+		$assets = $this->assetProvider->getOpenAssets($user, $portfolio, $dateTime);
 		foreach ($assets as $asset) {
-			$transactions = $this->transactionProvider->getTransactions($user, $asset, $dateTime);
+			$transactions = $this->transactionProvider->getTransactions($user, $portfolio, $asset, $dateTime);
 			if (count($transactions) === 0) {
 				continue;
 			}
@@ -150,6 +152,7 @@ class BenchmarkDataProvider
 
 		$benchmarkData = new BenchmarkData(
 			user: $user,
+			portfolio: $portfolio,
 			asset: $benchmarkAsset,
 			date: $dateTime,
 			fromDate: $benchmarkFromDateTime,
@@ -164,6 +167,7 @@ class BenchmarkDataProvider
 
 	public function getBenchmarkDataFromDate(
 		User $user,
+		Portfolio $portfolio,
 		Asset $benchmarkAsset,
 		DateTimeImmutable $benchmarkFromDateTime,
 		Decimal $portfolioDataValue,
@@ -200,6 +204,7 @@ class BenchmarkDataProvider
 
 		$benchmarkData = new BenchmarkData(
 			user: $user,
+			portfolio: $portfolio,
 			asset: $benchmarkAsset,
 			date: $benchmarkFromDateTime,
 			fromDate: $benchmarkFromDateTime,
@@ -212,8 +217,8 @@ class BenchmarkDataProvider
 		return $benchmarkData;
 	}
 
-	public function deleteBenchmarkData(User $user, DateTimeImmutable $date): void
+	public function deleteBenchmarkData(User $user, Portfolio $portfolio, DateTimeImmutable $date): void
 	{
-		$this->benchmarkDataRepository->deleteBenchmarkData($user->getId(), $date);
+		$this->benchmarkDataRepository->deleteBenchmarkData($user->getId(), $portfolio->getId(), $date);
 	}
 }

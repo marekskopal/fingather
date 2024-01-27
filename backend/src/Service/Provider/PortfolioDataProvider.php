@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Service\Provider;
 
 use FinGather\Dto\AssetWithPropertiesDto;
+use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\PortfolioData;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\PortfolioDataRepository;
@@ -20,20 +21,20 @@ class PortfolioDataProvider
 	) {
 	}
 
-	public function getPortfolioData(User $user, DateTimeImmutable $dateTime): PortfolioData
+	public function getPortfolioData(User $user, Portfolio $portfolio, DateTimeImmutable $dateTime): PortfolioData
 	{
 		$dateTime = $dateTime->setTime(0, 0);
 
-		$portfolioData = $this->portfolioDataRepository->findPortfolioData($user->getId(), $dateTime);
+		$portfolioData = $this->portfolioDataRepository->findPortfolioData($user->getId(), $portfolio->getId(), $dateTime);
 		if ($portfolioData !== null) {
 			return $portfolioData;
 		}
 
 		$assetDtos = [];
 
-		$assets = $this->assetProvider->getOpenAssets($user, $dateTime);
+		$assets = $this->assetProvider->getOpenAssets($user, $portfolio, $dateTime);
 		foreach ($assets as $asset) {
-			$assetProperties = $this->assetProvider->getAssetProperties($user, $asset, $dateTime);
+			$assetProperties = $this->assetProvider->getAssetProperties($user, $portfolio, $asset, $dateTime);
 			if ($assetProperties === null) {
 				continue;
 			}
@@ -45,6 +46,7 @@ class PortfolioDataProvider
 
 		$portfolioData = new PortfolioData(
 			user: $user,
+			portfolio: $portfolio,
 			date: $dateTime,
 			value: (string) $calculatedData->value,
 			transactionValue: (string) $calculatedData->transactionValue,
@@ -63,8 +65,8 @@ class PortfolioDataProvider
 		return $portfolioData;
 	}
 
-	public function deletePortfolioData(User $user, DateTimeImmutable $date): void
+	public function deletePortfolioData(User $user, Portfolio $portfolio, DateTimeImmutable $date): void
 	{
-		$this->portfolioDataRepository->deletePortfolioData($user->getId(), $date);
+		$this->portfolioDataRepository->deletePortfolioData($user->getId(), $portfolio->getId(), $date);
 	}
 }

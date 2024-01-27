@@ -27,10 +27,10 @@ enum Routes: string
 	case AdminUsers = '/api/admin/user';
 	case AdminUser = '/api/admin/user/{userId:number}';
 
-	case Assets = '/api/asset';
-	case AssetsOpened = '/api/asset/opened';
-	case AssetsClosed = '/api/asset/closed';
-	case AssetsWatched = '/api/asset/watched';
+	case Assets = '/api/asset/{portfolioId:number}';
+	case AssetsOpened = '/api/asset/opened/{portfolioId:number}';
+	case AssetsClosed = '/api/asset/closed/{portfolioId:number}';
+	case AssetsWatched = '/api/asset/watched/{portfolioId:number}';
 	case Asset = '/api/asset/{assetId:number}';
 
 	case AuthenticationLogin = '/api/authentication/login';
@@ -38,7 +38,7 @@ enum Routes: string
 	case AuthenticationSignUp = '/api/authentication/sign-up';
 	case AuthenticationEmailExists = '/api/authentication/email-exists';
 
-	case Brokers = '/api/broker';
+	case Brokers = '/api/broker/{portfolioId:number}';
 	case Broker = '/api/broker/{brokerId:number}';
 
 	case Currencies = '/api/currency';
@@ -47,15 +47,15 @@ enum Routes: string
 
 	case EmailVerify = '/api/email-verify';
 
-	case Groups = '/api/group';
+	case Groups = '/api/group/{portfolioId:number}';
 	case Group = '/api/group/{groupId:number}';
-	case GroupOthers = '/api/group/others';
+	case GroupOthers = '/api/group/others/{portfolioId:number}';
 
-	case GroupsWithGroupData = '/api/group-with-group-data';
+	case GroupsWithGroupData = '/api/group-with-group-data/{portfolioId:number}';
 
 	case ImportData = '/api/import-data';
 
-	case OverviewYearOverview = '/api/overview/year-overview';
+	case OverviewYearOverview = '/api/overview/year-overview/{portfolioId:number}';
 
 	case PortfolioData = '/api/portfolio-data/{portfolioId:number}';
 	case PortfolioDataRange = '/api/portfolio-data-range/{portfolioId:number}';
@@ -64,7 +64,7 @@ enum Routes: string
 
 	case TickerData = '/api/ticker-data/{tickerId:number}';
 
-	case Transactions = '/api/transaction';
+	case Transactions = '/api/transaction/{portfolioId:number}';
 	case Transaction = '/api/transaction/{transactionId:number}';
 
 	public static function getRouteList(): RouteList

@@ -10,10 +10,11 @@ use FinGather\Model\Entity\Group;
 class GroupRepository extends ARepository
 {
 	/** @return iterable<Group> */
-	public function findGroups(int $userId): iterable
+	public function findGroups(int $userId, int $portfolioId): iterable
 	{
 		return $this->findAll([
 			'user_id' => $userId,
+			'portfolio_id' => $portfolioId,
 			'is_others' => false,
 		]);
 	}
@@ -26,10 +27,11 @@ class GroupRepository extends ARepository
 		]);
 	}
 
-	public function findOthersGroup(int $userId): Group
+	public function findOthersGroup(int $userId, int $portfolioId): Group
 	{
 		$othersGroup = $this->findOne([
 			'user_id' => $userId,
+			'portfolio_id' => $portfolioId,
 			'is_others' => true,
 		]);
 		assert($othersGroup instanceof Group);

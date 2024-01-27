@@ -21,12 +21,13 @@ class BenchmarkDataRepository extends ARepository
 		]);
 	}
 
-	public function deleteBenchmarkData(int $userId, DateTimeImmutable $date): void
+	public function deleteBenchmarkData(int $userId, int $portfolioId, DateTimeImmutable $date): void
 	{
 		$this->orm->getSource(PortfolioData::class)
 			->getDatabase()
 			->delete('benchmark_datas')
 			->where('user_id', $userId)
+			->where('portfolio_id', $portfolioId)
 			->where('date', '>=', $date)
 			->run();
 	}

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Service\DataCalculator;
 
 use FinGather\Dto\PortfolioDataDto;
+use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Service\DataCalculator\Dto\YearCalculatedDataDto;
 use FinGather\Service\Provider\PortfolioDataProvider;
@@ -20,9 +21,9 @@ class OverviewDataCalculator
 	}
 
 	/** @return array<int,YearCalculatedDataDto> */
-	public function yearCalculate(User $user): array
+	public function yearCalculate(User $user, Portfolio $portfolio): array
 	{
-		$firstTransaction = $this->transactionProvider->getFirstTransaction($user);
+		$firstTransaction = $this->transactionProvider->getFirstTransaction($user, $portfolio);
 		if ($firstTransaction === null) {
 			return [];
 		}
@@ -39,8 +40,12 @@ class OverviewDataCalculator
 			$yearFromDate = (new DateTimeImmutable('first day of january ' . $i))->setTime(0, 0);
 			$yearToDate = (new DateTimeImmutable('last day of december ' . $i))->setTime(0, 0);
 
-			$portfolioDataFromDate = PortfolioDataDto::fromEntity($this->portfolioDataProvider->getPortfolioData($user, $yearFromDate));
-			$portfolioDataToDate = PortfolioDataDto::fromEntity($this->portfolioDataProvider->getPortfolioData($user, $yearToDate));
+			$portfolioDataFromDate = PortfolioDataDto::fromEntity(
+				$this->portfolioDataProvider->getPortfolioData($user, $portfolio, $yearFromDate),
+			);
+			$portfolioDataToDate = PortfolioDataDto::fromEntity(
+				$this->portfolioDataProvider->getPortfolioData($user, $portfolio, $yearToDate),
+			);
 
 			if ($i === $fromDateYear) {
 				$yearCalculatedData[$i] = new YearCalculatedDataDto(

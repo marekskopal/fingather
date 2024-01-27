@@ -10,6 +10,7 @@ use FinGather\Model\Entity\Broker;
 use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Enum\TransactionCreateTypeEnum;
+use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\Transaction;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\TransactionRepository;
@@ -27,23 +28,39 @@ class TransactionProvider
 	 */
 	public function getTransactions(
 		User $user,
+		Portfolio $portfolio,
 		?Asset $asset = null,
 		?DateTimeImmutable $dateTime = null,
 		?array $actionTypes = null,
 		?int $limit = null,
 		?int $offset = null,
 	): array {
-		return $this->transactionRepository->findTransactions($user->getId(), $asset?->getId(), $dateTime, $actionTypes, $limit, $offset);
+		return $this->transactionRepository->findTransactions(
+			$user->getId(),
+			$portfolio->getId(),
+			$asset?->getId(),
+			$dateTime,
+			$actionTypes,
+			$limit,
+			$offset,
+		);
 	}
 
 	/** @param list<TransactionActionTypeEnum> $actionTypes */
 	public function countTransactions(
 		User $user,
+		?Portfolio $portfolio = null,
 		?Asset $asset = null,
 		?DateTimeImmutable $dateTime = null,
 		?array $actionTypes = null,
 	): int {
-		return $this->transactionRepository->countTransactions($user->getId(), $asset?->getId(), $dateTime, $actionTypes);
+		return $this->transactionRepository->countTransactions(
+			$user->getId(),
+			$portfolio?->getId(),
+			$asset?->getId(),
+			$dateTime,
+			$actionTypes,
+		);
 	}
 
 	public function getTransaction(User $user, int $transactionId): ?Transaction
@@ -51,13 +68,14 @@ class TransactionProvider
 		return $this->transactionRepository->findTransaction($transactionId, $user->getId());
 	}
 
-	public function getFirstTransaction(User $user): ?Transaction
+	public function getFirstTransaction(User $user, Portfolio $portfolio): ?Transaction
 	{
-		return $this->transactionRepository->findFirstTransaction($user->getId());
+		return $this->transactionRepository->findFirstTransaction($user->getId(), $portfolio->getId());
 	}
 
 	public function createTransaction(
 		User $user,
+		Portfolio $portfolio,
 		Asset $asset,
 		Broker $broker,
 		TransactionActionTypeEnum $actionType,
@@ -74,6 +92,7 @@ class TransactionProvider
 
 		$transaction = new Transaction(
 			user: $user,
+			portfolio: $portfolio,
 			asset: $asset,
 			broker: $broker,
 			actionType: $actionType->value,
