@@ -57,8 +57,8 @@ enum Routes: string
 
 	case OverviewYearOverview = '/api/overview/year-overview';
 
-	case PortfolioData = '/api/portfolio-data';
-	case PortfolioDataRange = '/api/portfolio-data-range';
+	case PortfolioData = '/api/portfolio-data/{portfolioId:number}';
+	case PortfolioDataRange = '/api/portfolio-data-range/{portfolioId:number}';
 
 	case Tickers = '/api/ticker';
 

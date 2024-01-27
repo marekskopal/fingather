@@ -41,14 +41,65 @@ class InitMigration extends Migration
 			->setPrimaryKeys(['id'])
 			->create();
 
+		$this->table('portfolios')
+			->addColumn('id', 'primary', [
+				'nullable' => false,
+				'defaultValue' => null,
+				'size' => 11,
+				'autoIncrement' => true,
+				'unsigned' => false,
+				'zerofill' => false,
+			])
+			->addColumn('user_id', 'integer', [
+				'nullable' => false,
+				'defaultValue' => null,
+				'size' => 11,
+				'autoIncrement' => false,
+				'unsigned' => false,
+				'zerofill' => false,
+			])
+			->addColumn('name', 'string', ['nullable' => false, 'defaultValue' => null, 'size' => 255])
+			->addColumn('is_default', 'boolean', [
+				'nullable' => false,
+				'defaultValue' => null,
+				'size' => 1,
+				'autoIncrement' => false,
+				'unsigned' => false,
+				'zerofill' => false,
+			])
+			->addIndex(['user_id'], ['name' => 'portfolios_index_user_id_65b57eba83b92', 'unique' => false])
+			->addForeignKey(['user_id'], 'users', ['id'], [
+				'name' => 'portfolios_foreign_user_id_65b57eba83b95',
+				'delete' => 'CASCADE',
+				'update' => 'CASCADE',
+				'indexCreate' => true,
+			])
+			->setPrimaryKeys(['id'])
+			->create();
+
 		$this->table('groups')
 			->addColumn('id', 'primary', ['nullable' => false, 'default' => null, 'size' => 11])
 			->addColumn('user_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
+			->addColumn('portfolio_id', 'integer', [
+				'nullable' => false,
+				'defaultValue' => null,
+				'size' => 11,
+				'autoIncrement' => false,
+				'unsigned' => false,
+				'zerofill' => false,
+			])
 			->addColumn('name', 'string', ['nullable' => false, 'default' => null, 'size' => 255])
 			->addColumn('is_others', 'boolean', ['nullable' => false, 'default' => false])
 			->addIndex(['user_id'], ['name' => 'groups_index_user_id_657179dd4f473', 'unique' => false])
+			->addIndex(['portfolio_id'], ['name' => 'groups_index_portfolio_id_65b57aa23e661', 'unique' => false])
 			->addForeignKey(['user_id'], 'users', ['id'], [
 				'name' => 'groups_foreign_user_id_657179dd4f47d',
+				'delete' => 'CASCADE',
+				'update' => 'CASCADE',
+				'indexCreate' => true,
+			])
+			->addForeignKey(['portfolio_id'], 'portfolios', ['id'], [
+				'name' => 'groups_foreign_portfolio_id_65b57aa23e664',
 				'delete' => 'CASCADE',
 				'update' => 'CASCADE',
 				'indexCreate' => true,
@@ -103,13 +154,28 @@ class InitMigration extends Migration
 		$this->table('assets')
 			->addColumn('id', 'primary', ['nullable' => false, 'default' => null, 'size' => 11])
 			->addColumn('user_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
+			->addColumn('portfolio_id', 'integer', [
+				'nullable' => false,
+				'defaultValue' => null,
+				'size' => 11,
+				'autoIncrement' => false,
+				'unsigned' => false,
+				'zerofill' => false,
+			])
 			->addColumn('ticker_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
 			->addColumn('group_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
 			->addIndex(['user_id'], ['name' => 'assets_index_user_id_657179dd4f4c5', 'unique' => false])
+			->addIndex(['portfolio_id'], ['name' => 'assets_index_portfolio_id_65b57aa23e798', 'unique' => false])
 			->addIndex(['ticker_id'], ['name' => 'assets_index_ticker_id_657179dd4f4d9', 'unique' => false])
 			->addIndex(['group_id'], ['name' => 'assets_index_group_id_657179dd4f4eb', 'unique' => false])
 			->addForeignKey(['user_id'], 'users', ['id'], [
 				'name' => 'assets_foreign_user_id_657179dd4f4c9',
+				'delete' => 'CASCADE',
+				'update' => 'CASCADE',
+				'indexCreate' => true,
+			])
+			->addForeignKey(['portfolio_id'], 'portfolios', ['id'], [
+				'name' => 'assets_foreign_portfolio_id_65b57aa23e79b',
 				'delete' => 'CASCADE',
 				'update' => 'CASCADE',
 				'indexCreate' => true,
@@ -170,11 +236,26 @@ class InitMigration extends Migration
 		$this->table('brokers')
 			->addColumn('id', 'primary', ['nullable' => false, 'default' => null, 'size' => 11])
 			->addColumn('user_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
+			->addColumn('portfolio_id', 'integer', [
+				'nullable' => false,
+				'defaultValue' => null,
+				'size' => 11,
+				'autoIncrement' => false,
+				'unsigned' => false,
+				'zerofill' => false,
+			])
 			->addColumn('name', 'string', ['nullable' => false, 'default' => null, 'size' => 255])
 			->addColumn('import_type', 'enum', ['nullable' => false, 'default' => null, 'values' => ['Trading212', 'Revolut', 'Anycoin']])
 			->addIndex(['user_id'], ['name' => 'brokers_index_user_id_657179dd4f4c5', 'unique' => false])
+			->addIndex(['portfolio_id'], ['name' => 'brokers_index_portfolio_id_65b57aa23e69e', 'unique' => false])
 			->addForeignKey(['user_id'], 'users', ['id'], [
 				'name' => 'brokers_foreign_user_id_657179dd4f4c9',
+				'delete' => 'CASCADE',
+				'update' => 'CASCADE',
+				'indexCreate' => true,
+			])
+			->addForeignKey(['portfolio_id'], 'portfolios', ['id'], [
+				'name' => 'brokers_foreign_portfolio_id_65b57aa23e6a1',
 				'delete' => 'CASCADE',
 				'update' => 'CASCADE',
 				'indexCreate' => true,
@@ -201,6 +282,14 @@ class InitMigration extends Migration
 		$this->table('transactions')
 			->addColumn('id', 'primary', ['nullable' => false, 'default' => null, 'size' => 11])
 			->addColumn('user_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
+			->addColumn('portfolio_id', 'integer', [
+				'nullable' => false,
+				'defaultValue' => null,
+				'size' => 11,
+				'autoIncrement' => false,
+				'unsigned' => false,
+				'zerofill' => false,
+			])
 			->addColumn('asset_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
 			->addColumn('broker_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
 			->addColumn(
@@ -219,11 +308,18 @@ class InitMigration extends Migration
 			->addColumn('notes', 'tinyText', ['nullable' => true, 'default' => null])
 			->addColumn('import_identifier', 'string', ['nullable' => true, 'default' => null, 'size' => 255])
 			->addIndex(['user_id'], ['name' => 'transactions_index_user_id_657179dd4f5bc', 'unique' => false])
+			->addIndex(['portfolio_id'], ['name' => 'transactions_index_portfolio_id_65b57aa23e609', 'unique' => false])
 			->addIndex(['asset_id'], ['name' => 'transactions_index_asset_id_657179dd4f5cf', 'unique' => false])
 			->addIndex(['broker_id'], ['name' => 'transactions_index_broker_id_657179dd4f5e2', 'unique' => false])
 			->addIndex(['currency_id'], ['name' => 'transactions_index_currency_id_657179dd4f5fb', 'unique' => false])
 			->addForeignKey(['user_id'], 'users', ['id'], [
 				'name' => 'transactions_foreign_user_id_657179dd4f5c0',
+				'delete' => 'CASCADE',
+				'update' => 'CASCADE',
+				'indexCreate' => true,
+			])
+			->addForeignKey(['portfolio_id'], 'portfolios', ['id'], [
+				'name' => 'transactions_foreign_portfolio_id_65b57aa23e610',
 				'delete' => 'CASCADE',
 				'update' => 'CASCADE',
 				'indexCreate' => true,
@@ -325,10 +421,53 @@ class InitMigration extends Migration
 			->addIndex(['token'], ['name' => 'email_verifies_index_token', 'unique' => false])
 			->setPrimaryKeys(['id'])
 			->create();
+
+		$this->table('benchmark_datas')
+			->addColumn('id', 'primary', ['nullable' => false, 'default' => null, 'size' => 11])
+			->addColumn('user_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
+			->addColumn('portfolio_id', 'integer', [
+				'nullable' => false,
+				'defaultValue' => null,
+				'size' => 11,
+				'autoIncrement' => false,
+				'unsigned' => false,
+				'zerofill' => false,
+			])
+			->addColumn('asset_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
+			->addColumn('date', 'timestamp', ['nullable' => false, 'default' => null])
+			->addColumn('from_date', 'timestamp', ['nullable' => false, 'default' => null])
+			->addColumn('value', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 2, 'precision' => 11])
+			->addColumn('units', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 8, 'precision' => 18])
+			->addIndex(['user_id'], ['name' => 'benchmark_datas_index_user_id_65a6ba59cf8ba', 'unique' => false])
+			->addIndex(['portfolio_id'], ['name' => 'benchmark_datas_index_portfolio_id_65b57aa23e71a', 'unique' => false])
+			->addIndex(['asset_id'], ['name' => 'benchmark_datas_index_asset_id_65a6ba59cf8d1', 'unique' => false])
+			->addForeignKey(['user_id'], 'users', ['id'], [
+				'name' => 'benchmark_datas_foreign_user_id_65a6ba59cf8c1',
+				'delete' => 'CASCADE',
+				'update' => 'CASCADE',
+				'indexCreate' => true,
+			])
+			->addForeignKey(['portfolio_id'], 'portfolios', ['id'], [
+				'name' => 'benchmark_datas_foreign_portfolio_id_65b57aa23e71d',
+				'delete' => 'CASCADE',
+				'update' => 'CASCADE',
+				'indexCreate' => true,
+			])
+			->addForeignKey(['asset_id'], 'assets', ['id'], [
+				'name' => 'benchmark_datas_foreign_asset_id_65a6ba59cf8d4',
+				'delete' => 'CASCADE',
+				'update' => 'CASCADE',
+				'indexCreate' => true,
+			])
+			->addIndex(['date'], ['name' => 'benchmark_datas_index_date', 'unique' => false])
+			->addIndex(['date', 'from_date', 'asset_id'], ['name' => 'benchmark_datas_index_date_from_date_asset_id', 'unique' => true])
+			->setPrimaryKeys(['id'])
+			->create();
 	}
 
 	public function down(): void
 	{
+		$this->table('benchmark_datas')->drop();
 		$this->table('email_verifies')->drop();
 		$this->table('portfolio_datas')->drop();
 		$this->table('group_datas')->drop();
@@ -341,6 +480,7 @@ class InitMigration extends Migration
 		$this->table('tickers')->drop();
 		$this->table('markets')->drop();
 		$this->table('groups')->drop();
+		$this->table('portfolios')->drop();
 		$this->table('users')->drop();
 		$this->table('currencies')->drop();
 	}

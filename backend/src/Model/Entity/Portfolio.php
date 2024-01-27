@@ -7,20 +7,19 @@ namespace FinGather\Model\Entity;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\RefersTo;
-use FinGather\Model\Repository\BrokerRepository;
+use FinGather\Model\Repository\PortfolioRepository;
+use FinGather\Model\Repository\UserRepository;
 
-#[Entity(repository: BrokerRepository::class)]
-class Broker extends AEntity
+#[Entity(repository: PortfolioRepository::class)]
+class Portfolio extends AEntity
 {
 	public function __construct(
 		#[RefersTo(target: User::class)]
 		private User $user,
-		#[RefersTo(target: Portfolio::class)]
-		private Portfolio $portfolio,
 		#[Column(type: 'string')]
 		private string $name,
-		#[Column(type: 'enum(Trading212,Revolut,Anycoin)')]
-		private string $importType,
+		#[Column(type: 'boolean')]
+		private string $isDefault,
 	) {
 	}
 
@@ -34,16 +33,6 @@ class Broker extends AEntity
 		$this->user = $user;
 	}
 
-	public function getPortfolio(): Portfolio
-	{
-		return $this->portfolio;
-	}
-
-	public function setPortfolio(Portfolio $portfolio): void
-	{
-		$this->portfolio = $portfolio;
-	}
-
 	public function getName(): string
 	{
 		return $this->name;
@@ -54,13 +43,13 @@ class Broker extends AEntity
 		$this->name = $name;
 	}
 
-	public function getImportType(): string
+	public function getIsDefault(): string
 	{
-		return $this->importType;
+		return $this->isDefault;
 	}
 
-	public function setImportType(string $importType): void
+	public function setIsDefault(string $isDefault): void
 	{
-		$this->importType = $importType;
+		$this->isDefault = $isDefault;
 	}
 }

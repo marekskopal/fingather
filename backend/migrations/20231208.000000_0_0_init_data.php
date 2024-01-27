@@ -26,6 +26,10 @@ class InitDataMigration extends Migration
 			['id' => 1, 'email' => 'admin@fingather.com', 'password' => '$2y$10$Gv6vVjtQsz2n/1zk.wbyKOOON7ThrnpzJ0U7xJAUNHSE.4dJSyvSS', 'name' => 'FinGather Admin', 'default_currency_id' => 5, 'role' => 'Admin'],
 		])->run();
 
+		$this->database()->insert('portfolios')->values([
+			['id' => 1, 'user_id' => 1, 'name' => 'My Portfolio', 'is_default' => true],
+		])->run();
+
 		$this->database()->insert('markets')->values([
 			['id' => 1, 'type' => 'Stock', 'name' => 'NASDAQ Stock Exchange', 'acronym' => 'NASDAQ', 'mic' => 'XNAS', 'country' => 'US', 'city' => 'New York', 'web' => 'www.nasdaq.com', 'currency_id' => 1],
 			['id' => 2, 'type' => 'Stock', 'name' => 'New York Stock Exchange', 'acronym' => 'NYSE', 'mic' => 'XNYS', 'country' => 'US', 'city' => 'New York', 'web' => 'www.nyse.com', 'currency_id' => 1],
@@ -37,9 +41,9 @@ class InitDataMigration extends Migration
 		])->run();
 
 		$this->database()->insert('brokers')->values([
-			['id' => 1, 'user_id' => 1, 'name' => 'Trading212', 'import_type' => 'Trading212'],
-			['id' => 2, 'user_id' => 1, 'name' => 'Revolut', 'import_type' => 'Revolut'],
-			['id' => 3, 'user_id' => 1, 'name' => 'Anycoin', 'import_type' => 'Anycoin'],
+			['id' => 1, 'user_id' => 1, 'portfolio_id' => 1, 'name' => 'Trading212', 'import_type' => 'Trading212'],
+			['id' => 2, 'user_id' => 1, 'portfolio_id' => 1, 'name' => 'Revolut', 'import_type' => 'Revolut'],
+			['id' => 3, 'user_id' => 1, 'portfolio_id' => 1, 'name' => 'Anycoin', 'import_type' => 'Anycoin'],
 		])->run();
 
 		$this->database()->insert('tickers')->values([
@@ -49,7 +53,7 @@ class InitDataMigration extends Migration
 		])->run();
 
 		$this->database()->insert('groups')->values([
-			['id' => 1, 'user_id' => 1, 'name' => 'Others', 'is_others' => true],
+			['id' => 1, 'user_id' => 1, 'portfolio_id' => 1, 'name' => 'Others', 'is_others' => true],
 		])->run();
 	}
 
