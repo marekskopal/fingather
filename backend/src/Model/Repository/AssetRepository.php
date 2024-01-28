@@ -13,22 +13,29 @@ use Safe\DateTimeImmutable;
 class AssetRepository extends ARepository
 {
 	/** @return array<int, Asset> */
-	public function findAssets(int $userId): array
+	public function findAssets(int $userId, ?int $portfolioId = null): array
 	{
-		return $this->getAssetsSelect($userId)->fetchAll();
+		return $this->getAssetsSelect($userId, $portfolioId)->fetchAll();
 	}
 
-	public function countAssets(int $userId): int
+	public function countAssets(int $userId, ?int $portfolioId = null): int
 	{
-		return $this->getAssetsSelect($userId)->count();
+		return $this->getAssetsSelect($userId, $portfolioId)->count();
 	}
 
 	/** @return Select<Asset> */
-	private function getAssetsSelect(int $userId): Select
+	private function getAssetsSelect(int $userId, ?int $portfolioId = null): Select
 	{
-		return $this->select()
-			->where('user_id', $userId)
-			->orderBy('ticker.name');
+		$assetsSelect = $this->select()
+			->where('user_id', $userId);
+
+		if ($portfolioId !== null) {
+			$assetsSelect->where('portfolio_id', $portfolioId);
+		}
+
+		$assetsSelect->orderBy('ticker.name');
+
+		return $assetsSelect;
 	}
 
 	/** @return array<int, Asset> */

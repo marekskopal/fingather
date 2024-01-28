@@ -15,23 +15,23 @@ export class AssetService extends NotifyService {
     }
 
     public createAsset(asset: AssetCreate): Observable<Asset> {
-        return this.http.post<Asset>(`${environment.apiUrl}/asset`, asset);
+        return this.http.post<Asset>(`${environment.apiUrl}/assets`, asset);
     }
 
-    public getAssets(): Observable<Asset[]> {
-        return this.http.get<Asset[]>(`${environment.apiUrl}/asset`);
+    public getAssets(portfolioId: number): Observable<Asset[]> {
+        return this.http.get<Asset[]>(`${environment.apiUrl}/assets/${portfolioId}`);
     }
 
-    public getOpenedAssets(): Observable<AssetWithProperties[]> {
-        return this.http.get<AssetWithProperties[]>(`${environment.apiUrl}/asset/opened`);
+    public getOpenedAssets(portfolioId: number): Observable<AssetWithProperties[]> {
+        return this.http.get<AssetWithProperties[]>(`${environment.apiUrl}/assets/opened/${portfolioId}`);
     }
 
-    public getClosedAssets(): Observable<Asset[]> {
-        return this.http.get<Asset[]>(`${environment.apiUrl}/asset/closed`);
+    public getClosedAssets(portfolioId: number): Observable<Asset[]> {
+        return this.http.get<Asset[]>(`${environment.apiUrl}/assets/closed/${portfolioId}`);
     }
 
-    public getWatchedAssets(): Observable<Asset[]> {
-        return this.http.get<Asset[]>(`${environment.apiUrl}/asset/watched`);
+    public getWatchedAssets(portfolioId: number): Observable<Asset[]> {
+        return this.http.get<Asset[]>(`${environment.apiUrl}/assets/watched/${portfolioId}`);
     }
 
     public getAsset(id: number): Observable<AssetWithProperties> {

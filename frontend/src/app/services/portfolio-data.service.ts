@@ -11,11 +11,11 @@ export class PortfolioDataService {
         private http: HttpClient
     ) {}
 
-    public getPortfolioData(): Observable<PortfolioData> {
-        return this.http.get<PortfolioData>(`${environment.apiUrl}/portfolio-data`);
+    public getPortfolioData(portfolioId: number): Observable<PortfolioData> {
+        return this.http.get<PortfolioData>(`${environment.apiUrl}/portfolio-data/${portfolioId}`);
     }
 
-    public getPortfolioDataRange(range: PortfolioDataRangeEnum, benchmarkAssetId: number|null = null): Observable<PortfolioDataWithBenchmarkData[]> {
+    public getPortfolioDataRange(portfolioId: number, range: PortfolioDataRangeEnum, benchmarkAssetId: number|null = null): Observable<PortfolioDataWithBenchmarkData[]> {
         let params = new HttpParams();
         params = params.set('range', range)
 
@@ -23,6 +23,6 @@ export class PortfolioDataService {
             params = params.set('benchmarkAssetId', benchmarkAssetId)
         }
 
-        return this.http.get<PortfolioDataWithBenchmarkData[]>(`${environment.apiUrl}/portfolio-data-range`, {params});
+        return this.http.get<PortfolioDataWithBenchmarkData[]>(`${environment.apiUrl}/portfolio-data-range/${portfolioId}`, {params});
     }
 }

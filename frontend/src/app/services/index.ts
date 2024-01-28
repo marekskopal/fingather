@@ -12,5 +12,6 @@ export * from './group.service';
 export * from './import-data.service';
 export * from './overview.service';
 export * from './group-with-group-data.service';
+export * from './portfolio.service';
 export * from './portfolio-data.service';
 export * from './transaction.service';

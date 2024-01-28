@@ -4,7 +4,7 @@ import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
 import {Broker} from "@app/models";
-import {AlertService, BrokerService, ImportDataService} from "@app/services";
+import {AlertService, BrokerService, ImportDataService, PortfolioService} from "@app/services";
 import {BaseForm} from "@app/shared/components/form/base-form";
 
 @Component({ templateUrl: 'import.component.html' })
@@ -13,18 +13,21 @@ export class ImportComponent extends BaseForm implements OnInit {
     public brokers: Broker[];
 
     public constructor(
+        private readonly router: Router,
+        private readonly brokerService: BrokerService,
+        private readonly importDataService: ImportDataService,
+        private readonly portfolioService: PortfolioService,
         private route: ActivatedRoute,
-        private router: Router,
-        private brokerService: BrokerService,
-        private importDataService: ImportDataService,
         formBuilder: UntypedFormBuilder,
         alertService: AlertService,
     ) {
         super(formBuilder, alertService)
     }
 
-    public ngOnInit(): void {
-        this.brokerService.getBrokers()
+    public async ngOnInit(): Promise<void> {
+        const portfolio = await this.portfolioService.getDefaultPortfolio();
+
+        this.brokerService.getBrokers(portfolio.id)
             .pipe(first())
             .subscribe(brokers => this.brokers = brokers);
 

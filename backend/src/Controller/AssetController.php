@@ -30,12 +30,21 @@ class AssetController
 	) {
 	}
 
-	public function actionGetAssets(ServerRequestInterface $request): ResponseInterface
+	public function actionGetAssets(ServerRequestInterface $request, int $portfolioId): ResponseInterface
 	{
 		$user = $this->requestService->getUser($request);
 
+		if ($portfolioId < 1) {
+			return new NotFoundResponse('Portfolio id is required.');
+		}
+
+		$portfolio = $this->portfolioProvider->getPortfolio($user, $portfolioId);
+		if ($portfolio === null) {
+			return new NotFoundResponse('Portfolio with id "' . $portfolioId . '" was not found.');
+		}
+
 		$dateTime = new DateTimeImmutable();
-		$assets = $this->assetProvider->getAssets($user);
+		$assets = $this->assetProvider->getAssets($user, $portfolio);
 
 		$assetDtos = [];
 

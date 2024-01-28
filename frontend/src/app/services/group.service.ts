@@ -16,20 +16,20 @@ export class GroupService extends NotifyService {
         super();
     }
 
-    public createGroup(group: Group): Observable<Group> {
-        return this.http.post<Group>(`${environment.apiUrl}/group`, group);
+    public createGroup(group: Group, portfolioId: number): Observable<Group> {
+        return this.http.post<Group>(`${environment.apiUrl}/groups/${portfolioId}`, group);
     }
 
-    public getGroups(): Observable<Group[]> {
-        return this.http.get<Group[]>(`${environment.apiUrl}/group`);
+    public getGroups(portfolioId: number): Observable<Group[]> {
+        return this.http.get<Group[]>(`${environment.apiUrl}/groups/${portfolioId}`);
     }
 
     public getGroup(id: number): Observable<Group> {
         return this.http.get<Group>(`${environment.apiUrl}/group/${id}`);
     }
 
-    public getOthersGroup(): Observable<Group> {
-        return this.http.get<Group>(`${environment.apiUrl}/group/others`);
+    public getOthersGroup(portfolioId: number): Observable<Group> {
+        return this.http.get<Group>(`${environment.apiUrl}/group/others/${portfolioId}`);
     }
 
     public updateGroup(id: number, group: Group): Observable<Group> {

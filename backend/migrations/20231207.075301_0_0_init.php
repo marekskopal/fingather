@@ -353,6 +353,14 @@ class InitMigration extends Migration
 			->addColumn('id', 'primary', ['nullable' => false, 'default' => null, 'size' => 11])
 			->addColumn('group_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
 			->addColumn('user_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
+			->addColumn('portfolio_id', 'integer', [
+				'nullable' => false,
+				'defaultValue' => null,
+				'size' => 11,
+				'autoIncrement' => false,
+				'unsigned' => false,
+				'zerofill' => false,
+			])
 			->addColumn('date', 'timestamp', ['nullable' => false, 'default' => null])
 			->addColumn('value', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 2, 'precision' => 11])
 			->addColumn('transaction_value', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 2, 'precision' => 11])
@@ -366,6 +374,7 @@ class InitMigration extends Migration
 			->addColumn('return_percentage', 'float', ['nullable' => false, 'default' => null])
 			->addIndex(['group_id'], ['name' => 'group_datas_index_group_id_6580626872321', 'unique' => false])
 			->addIndex(['user_id'], ['name' => 'group_datas_index_user_id_658062687233a', 'unique' => false])
+			->addIndex(['portfolio_id'], ['name' => 'group_datas_index_portfolio_id_65b57aa23e69a', 'unique' => false])
 			->addForeignKey(['group_id'], 'groups', ['id'], [
 				'name' => 'group_datas_foreign_group_id_658062687232a',
 				'delete' => 'CASCADE',
@@ -378,6 +387,12 @@ class InitMigration extends Migration
 				'update' => 'CASCADE',
 				'indexCreate' => true,
 			])
+			->addForeignKey(['portfolio_id'], 'portfolios', ['id'], [
+				'name' => 'group_datas_foreign_portfolio_id_65b57aa23e69d',
+				'delete' => 'CASCADE',
+				'update' => 'CASCADE',
+				'indexCreate' => true,
+			])
 			->addIndex(['date'], ['name' => 'group_datas_index_date', 'unique' => false])
 			->setPrimaryKeys(['id'])
 			->create();
@@ -385,6 +400,14 @@ class InitMigration extends Migration
 		$this->table('portfolio_datas')
 			->addColumn('id', 'primary', ['nullable' => false, 'default' => null, 'size' => 11])
 			->addColumn('user_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
+			->addColumn('portfolio_id', 'integer', [
+				'nullable' => false,
+				'defaultValue' => null,
+				'size' => 11,
+				'autoIncrement' => false,
+				'unsigned' => false,
+				'zerofill' => false,
+			])
 			->addColumn('date', 'timestamp', ['nullable' => false, 'default' => null])
 			->addColumn('value', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 2, 'precision' => 11])
 			->addColumn('transaction_value', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 2, 'precision' => 11])
@@ -397,8 +420,15 @@ class InitMigration extends Migration
 			->addColumn('return', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 2, 'precision' => 11])
 			->addColumn('return_percentage', 'float', ['nullable' => false, 'default' => null])
 			->addIndex(['user_id'], ['name' => 'portfolio_datas_index_user_id_658062687238c', 'unique' => false])
+			->addIndex(['portfolio_id'], ['name' => 'portfolio_datas_index_portfolio_id_65b57aa23e70a', 'unique' => false])
 			->addForeignKey(['user_id'], 'users', ['id'], [
 				'name' => 'portfolio_datas_foreign_user_id_6580626872392',
+				'delete' => 'CASCADE',
+				'update' => 'CASCADE',
+				'indexCreate' => true,
+			])
+			->addForeignKey(['portfolio_id'], 'portfolios', ['id'], [
+				'name' => 'portfolio_datas_foreign_portfolio_id_65b57aa23e70d',
 				'delete' => 'CASCADE',
 				'update' => 'CASCADE',
 				'indexCreate' => true,

@@ -11,7 +11,7 @@ export class GroupWithGroupDataService {
         private http: HttpClient
     ) {}
 
-    public getGroupWithGroupData(): Observable<GroupWithGroupData[]> {
-        return this.http.get<GroupWithGroupData[]>(`${environment.apiUrl}/group-with-group-data`);
+    public getGroupWithGroupData(portfolioId: number): Observable<GroupWithGroupData[]> {
+        return this.http.get<GroupWithGroupData[]>(`${environment.apiUrl}/groups-with-group-data/${portfolioId}`);
     }
 }

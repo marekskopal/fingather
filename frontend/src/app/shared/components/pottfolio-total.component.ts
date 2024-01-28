@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 
 import {first} from "rxjs/operators";
 import {Currency, PortfolioData} from "@app/models";
-import {CurrencyService, PortfolioDataService} from "@app/services";
+import {CurrencyService, PortfolioDataService, PortfolioService} from "@app/services";
 
 @Component({ selector: 'fingather-portfolio-total', templateUrl: 'portfolio-total.component.html' })
 export class PortfolioTotalComponent implements OnInit {
@@ -12,15 +12,17 @@ export class PortfolioTotalComponent implements OnInit {
     public defaultCurrency: Currency;
 
     public constructor(
-        private portfolioDataService: PortfolioDataService,
-        private currencyService: CurrencyService,
+        private readonly portfolioDataService: PortfolioDataService,
+        private readonly currencyService: CurrencyService,
+        private readonly portfolioService: PortfolioService,
     ) { }
 
     public async ngOnInit(): Promise<void> {
+        const portfolio = await this.portfolioService.getDefaultPortfolio();
         this.currencies = await this.currencyService.getCurrenciesMap();
         this.defaultCurrency = await this.currencyService.getDefaultCurrency();
 
-        this.portfolioDataService.getPortfolioData()
+        this.portfolioDataService.getPortfolioData(portfolio.id)
             .pipe(first())
             .subscribe((portfolioData) => {
                 this.portfolioData = portfolioData;

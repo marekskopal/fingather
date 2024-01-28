@@ -12,6 +12,7 @@ export * from './group-with-group-data';
 export * from './group-data';
 export * from './import-data';
 export * from './market';
+export * from './portfolio';
 export * from './portfolio-data';
 export * from './portfolio-data-with-benchmark-data';
 export * from './sign-up';

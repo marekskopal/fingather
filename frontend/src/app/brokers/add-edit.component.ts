@@ -2,7 +2,7 @@
 import {UntypedFormBuilder, Validators} from '@angular/forms';
 import {first} from 'rxjs/operators';
 
-import {AlertService, BrokerService} from '@app/services';
+import {AlertService, BrokerService, PortfolioService} from '@app/services';
 import {BrokerImportTypes} from "../models";
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 import {BaseForm} from "@app/shared/components/form/base-form";
@@ -18,7 +18,8 @@ export class AddEditComponent extends BaseForm implements OnInit {
     ]
 
     public constructor(
-        private brokerService: BrokerService,
+        private readonly brokerService: BrokerService,
+        private readonly portfolioService: PortfolioService,
         public activeModal: NgbActiveModal,
         formBuilder: UntypedFormBuilder,
         alertService: AlertService,
@@ -41,7 +42,7 @@ export class AddEditComponent extends BaseForm implements OnInit {
         }
     }
 
-    public onSubmit(): void {
+    public async onSubmit(): Promise<void> {
         this.submitted = true;
 
         // reset alerts on submit
@@ -54,14 +55,15 @@ export class AddEditComponent extends BaseForm implements OnInit {
 
         this.loading = true;
         if (this.isAddMode) {
-            this.createBroker();
+            const portfolio = await this.portfolioService.getDefaultPortfolio();
+            this.createBroker(portfolio.id);
         } else {
             this.updateBroker();
         }
     }
 
-    private createBroker(): void {
-        this.brokerService.createBroker(this.form.value)
+    private createBroker(portfolioId: number): void {
+        this.brokerService.createBroker(this.form.value, portfolioId)
             .pipe(first())
             .subscribe({
                 next: () => {

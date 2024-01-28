@@ -16,12 +16,12 @@ export class BrokerService extends NotifyService {
         super();
     }
 
-    public createBroker(broker: Broker): Observable<Broker> {
-        return this.http.post<Broker>(`${environment.apiUrl}/broker`, broker);
+    public createBroker(broker: Broker, portfolioId: number): Observable<Broker> {
+        return this.http.post<Broker>(`${environment.apiUrl}/brokers/${portfolioId}`, broker);
     }
 
-    public getBrokers(): Observable<Broker[]> {
-        return this.http.get<Broker[]>(`${environment.apiUrl}/broker`);
+    public getBrokers(portfolioId: number): Observable<Broker[]> {
+        return this.http.get<Broker[]>(`${environment.apiUrl}/brokers/${portfolioId}`);
     }
 
     public getBroker(id: number): Observable<Broker> {

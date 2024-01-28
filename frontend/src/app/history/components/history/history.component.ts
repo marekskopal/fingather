@@ -1,6 +1,6 @@
 ﻿import {Component, OnInit} from '@angular/core';
 import {Asset, PortfolioDataRangeEnum} from "@app/models";
-import {AssetService} from "@app/services";
+import {AssetService, PortfolioService} from "@app/services";
 
 @Component({ templateUrl: 'history.component.html' })
 export class HistoryComponent implements OnInit {
@@ -9,12 +9,15 @@ export class HistoryComponent implements OnInit {
     public benchmarkAssetId: number|null;
 
     public constructor(
-        private readonly assetService: AssetService
+        private readonly assetService: AssetService,
+        private readonly portfolioService: PortfolioService,
     ) {
     }
 
-    public ngOnInit(): void {
-        this.assetService.getAssets().subscribe((assets: Asset[]) => {
+    public async ngOnInit(): Promise<void> {
+        const portfolio = await this.portfolioService.getDefaultPortfolio();
+
+        this.assetService.getAssets(portfolio.id).subscribe((assets: Asset[]) => {
             this.assets = assets;
         });
     }

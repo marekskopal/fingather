@@ -17,11 +17,12 @@ export class TransactionService extends NotifyService {
         super();
     }
 
-    public createTransaction(transaction: Transaction): Observable<Transaction> {
-        return this.http.post<Transaction>(`${environment.apiUrl}/transaction`, transaction);
+    public createTransaction(transaction: Transaction, portfolioId: number): Observable<Transaction> {
+        return this.http.post<Transaction>(`${environment.apiUrl}/transactions/${portfolioId}`, transaction);
     }
 
     public getTransactions(
+        portfolioId: number,
         assetId: number|null = null,
         actionTypes: TransactionActionType[]|null = null,
         limit: number|null = null,
@@ -45,7 +46,7 @@ export class TransactionService extends NotifyService {
             params = params.set('offset', offset);
         }
 
-        return this.http.get<TransactionList>(`${environment.apiUrl}/transaction`, {params});
+        return this.http.get<TransactionList>(`${environment.apiUrl}/transactions/${portfolioId}`, {params});
     }
 
     public getTransaction(id: number): Observable<Transaction> {

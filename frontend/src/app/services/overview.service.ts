@@ -10,7 +10,7 @@ export class OverviewService {
         private http: HttpClient
     ) {}
 
-    public getYearCalculatedData(): Observable<YearCalculatedData[]> {
-        return this.http.get<YearCalculatedData[]>(`${environment.apiUrl}/overview/year-overview`);
+    public getYearCalculatedData(portfolioId: number): Observable<YearCalculatedData[]> {
+        return this.http.get<YearCalculatedData[]>(`${environment.apiUrl}/overview/year-overview/${portfolioId}`);
     }
 }
