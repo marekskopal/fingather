@@ -34,7 +34,7 @@ export class ListComponent implements OnInit, OnDestroy {
     }
 
     public async refreshTransactions(): Promise<void> {
-        const portfolio = await this.portfolioService.getDefaultPortfolio();
+        const portfolio = await this.portfolioService.getCurrentPortfolio();
 
         this.transactionService.getTransactions(portfolio.id, null, null, this.pageSize, (this.page - 1) * this.pageSize)
             .pipe(first())

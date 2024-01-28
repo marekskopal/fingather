@@ -33,7 +33,7 @@ export class AddEditComponent extends BaseForm implements OnInit {
             assetIds: ['', Validators.required],
         });
 
-        const portfolio = await this.portfolioService.getDefaultPortfolio();
+        const portfolio = await this.portfolioService.getCurrentPortfolio();
 
         this.assetService.getOpenedAssets(portfolio.id)
             .subscribe((assets) => {
@@ -55,7 +55,7 @@ export class AddEditComponent extends BaseForm implements OnInit {
     public async onSubmit(): Promise<void> {
         this.submitted = true;
 
-        const portfolio = await this.portfolioService.getDefaultPortfolio();
+        const portfolio = await this.portfolioService.getCurrentPortfolio();
 
         // reset alerts on submit
         this.alertService.clear();

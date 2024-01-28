@@ -25,7 +25,7 @@ export class ImportComponent extends BaseForm implements OnInit {
     }
 
     public async ngOnInit(): Promise<void> {
-        const portfolio = await this.portfolioService.getDefaultPortfolio();
+        const portfolio = await this.portfolioService.getCurrentPortfolio();
 
         this.brokerService.getBrokers(portfolio.id)
             .pipe(first())

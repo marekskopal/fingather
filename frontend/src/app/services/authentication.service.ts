@@ -9,6 +9,7 @@ import {Authentication} from "@app/models/authentication";
 import {OkResponse} from "@app/models/ok-response";
 import {BoolResponse} from "@app/models/bool-response";
 import {SignUp} from "@app/models";
+import {PortfolioService} from "@app/services/portfolio.service";
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -17,8 +18,9 @@ export class AuthenticationService {
     private refreshTokenTimeout: ReturnType<typeof setTimeout>;
 
     public constructor(
-        private router: Router,
-        private http: HttpClient
+        private readonly router: Router,
+        private readonly http: HttpClient,
+        private readonly portfolioService: PortfolioService,
     ) {
         const localStorageAuthentication = localStorage.getItem('authentication');
         const authentication = localStorageAuthentication !== null ? JSON.parse(localStorageAuthentication) : null;
@@ -41,6 +43,7 @@ export class AuthenticationService {
                 localStorage.setItem('authentication', JSON.stringify(authentication));
                 this.authenticationSubject.next(authentication);
                 this.startRefreshTokenTimer();
+                this.portfolioService.cleanCurrentPortfolio();
                 return authentication;
             }));
     }
@@ -50,6 +53,7 @@ export class AuthenticationService {
         localStorage.removeItem('authentication');
         this.authenticationSubject.next(null);
         this.stopRefreshTokenTimer();
+        this.portfolioService.cleanCurrentPortfolio();
         this.router.navigate(['/authentication/login']);
     }
 

@@ -55,7 +55,7 @@ export class AddEditComponent extends BaseForm implements OnInit {
 
         this.loading = true;
         if (this.isAddMode) {
-            const portfolio = await this.portfolioService.getDefaultPortfolio();
+            const portfolio = await this.portfolioService.getCurrentPortfolio();
             this.createBroker(portfolio.id);
         } else {
             this.updateBroker();

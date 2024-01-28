@@ -36,7 +36,7 @@ export class ListComponent implements OnInit, OnDestroy {
     }
 
     private async refreshOpenedAssets(): Promise<void> {
-        const portfolio = await this.portfolioService.getDefaultPortfolio();
+        const portfolio = await this.portfolioService.getCurrentPortfolio();
 
         if (this.withGroups) {
             this.groupWithGroupDataService.getGroupWithGroupData(portfolio.id)
@@ -56,7 +56,7 @@ export class ListComponent implements OnInit, OnDestroy {
     }
 
     private async refreshClosedAssets(): Promise<void> {
-        const portfolio = await this.portfolioService.getDefaultPortfolio();
+        const portfolio = await this.portfolioService.getCurrentPortfolio();
 
         this.assetService.getClosedAssets(portfolio.id)
             .pipe(first())
@@ -64,7 +64,7 @@ export class ListComponent implements OnInit, OnDestroy {
     }
 
     private async refreshWatchedAssets(): Promise<void> {
-        const portfolio = await this.portfolioService.getDefaultPortfolio();
+        const portfolio = await this.portfolioService.getCurrentPortfolio();
 
         this.assetService.getWatchedAssets(portfolio.id)
             .pipe(first())

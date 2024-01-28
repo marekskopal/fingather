@@ -29,7 +29,7 @@ export class ListComponent implements OnInit, OnDestroy {
     }
 
     public async refreshGroups(): Promise<void> {
-        const portfolio = await this.portfolioService.getDefaultPortfolio();
+        const portfolio = await this.portfolioService.getCurrentPortfolio();
 
         this.groupService.getGroups(portfolio.id)
             .pipe(first())

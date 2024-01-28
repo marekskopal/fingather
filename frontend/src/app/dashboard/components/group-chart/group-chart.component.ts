@@ -33,7 +33,7 @@ export class GroupChartComponent implements OnInit {
     }
 
     public async ngOnInit(): Promise<void> {
-        const portfolio = await this.portfolioService.getDefaultPortfolio();
+        const portfolio = await this.portfolioService.getCurrentPortfolio();
 
         this.groupWithGroupDataService.getGroupWithGroupData(portfolio.id)
             .pipe(first())

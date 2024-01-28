@@ -8,6 +8,7 @@ import {LayoutComponent} from "@app/dashboard/components/layout/layout.component
 import {DashboardComponent} from "@app/dashboard/components/dashboard/dashboard.component";
 import {GroupChartComponent} from "@app/dashboard/components/group-chart/group-chart.component";
 import {NgApexchartsModule} from "ng-apexcharts";
+import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 
 @NgModule({
     imports: [
@@ -16,6 +17,7 @@ import {NgApexchartsModule} from "ng-apexcharts";
         SharedModule,
         DashboardRoutingModule,
         NgApexchartsModule,
+        FaIconComponent,
     ],
     declarations: [
         LayoutComponent,
