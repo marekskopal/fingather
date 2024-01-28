@@ -12,7 +12,7 @@ import {FaIconComponent, FaIconLibrary} from "@fortawesome/angular-fontawesome";
 import {
     faChartLine, faChartPie, faDashboard, faEye,
     faHandshake, faLayerGroup, faList, faPowerOff,
-    faUserGroup
+    faUserGroup, faWallet
 } from "@fortawesome/free-solid-svg-icons";
 
 @NgModule({
@@ -38,6 +38,6 @@ export class AppModule {
     public constructor(
         private readonly faIconLibrary: FaIconLibrary
     ) {
-        faIconLibrary.addIcons(faDashboard, faChartPie, faList, faEye, faChartLine, faLayerGroup, faHandshake, faUserGroup, faPowerOff)
+        faIconLibrary.addIcons(faDashboard, faChartPie, faList, faEye, faChartLine, faLayerGroup, faHandshake, faWallet, faUserGroup, faPowerOff)
     }
 }

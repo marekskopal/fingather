@@ -30,8 +30,15 @@ class PortfolioProvider
 		return $this->portfolioRepository->findDefaultPortfolio($user->getId());
 	}
 
-	public function createPortfolio(User $user, string $name): Portfolio
+	public function createPortfolio(User $user, string $name, bool $isDefault): Portfolio
 	{
+		if ($isDefault) {
+			foreach ($this->getPortfolios($user) as $portfolio) {
+				$portfolio->setIsDefault(false);
+				$this->portfolioRepository->persist($portfolio);
+			}
+		}
+
 		$portfolio = new Portfolio(user: $user, name: $name, isDefault: false);
 		$this->portfolioRepository->persist($portfolio);
 
@@ -40,15 +47,29 @@ class PortfolioProvider
 
 	public function createDefaultPortfolio(User $user): Portfolio
 	{
-		$portfolio = new Portfolio(user: $user, name: 'My Portfolio', isDefault: true);
-		$this->portfolioRepository->persist($portfolio);
-
-		return $portfolio;
+		return $this->createPortfolio(user: $user, name: 'My Portfolio', isDefault: true);
 	}
 
-	public function updatePortfolio(Portfolio $portfolio, string $name): Portfolio
+	public function updatePortfolio(Portfolio $portfolio, string $name, bool $isDefault): Portfolio
 	{
+		$otherPortfolios = $this->getPortfolios($portfolio->getUser());
+		if (!$isDefault && count($otherPortfolios) === 0) {
+			$isDefault = true;
+		}
+
+		if ($isDefault && $portfolio->getIsDefault() !== $isDefault) {
+			foreach ($otherPortfolios as $otherPortfolio) {
+				if ($otherPortfolio->getId() === $portfolio->getId()) {
+					continue;
+				}
+
+				$otherPortfolio->setIsDefault(false);
+				$this->portfolioRepository->persist($otherPortfolio);
+			}
+		}
+
 		$portfolio->setName($name);
+		$portfolio->setIsDefault($isDefault);
 		$this->portfolioRepository->persist($portfolio);
 
 		return $portfolio;

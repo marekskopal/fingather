@@ -2,21 +2,32 @@
 import { HttpClient } from '@angular/common/http';
 
 import { environment } from '@environments/environment';
-import { Currency } from '@app/models';
-import {CurrentUserService} from "@app/services/current-user.service";
+import {Portfolio} from '@app/models';
 import {Observable} from "rxjs";
-import {Portfolio} from "@app/models/portfolio";
+import {NotifyService} from "@app/services/notify-service";
+import {map} from "rxjs/operators";
+import {OkResponse} from "@app/models/ok-response";
 
 @Injectable({ providedIn: 'root' })
-export class PortfolioService {
+export class PortfolioService extends NotifyService {
     private defaultPortfolio: Portfolio|null = null;
 
     public constructor(
         private http: HttpClient,
-    ) {}
+    ) {
+        super();
+    }
+
+    public createPortfolio(portfolio: Portfolio): Observable<Portfolio> {
+        return this.http.post<Portfolio>(`${environment.apiUrl}/portfolios`, portfolio);
+    }
 
     public getPortfolios(): Observable<Portfolio[]> {
-        return this.http.get<Portfolio[]>(`${environment.apiUrl}/portfolio`);
+        return this.http.get<Portfolio[]>(`${environment.apiUrl}/portfolios`);
+    }
+
+    public getPortfolio(id: number): Observable<Portfolio> {
+        return this.http.get<Portfolio>(`${environment.apiUrl}/portfolio/${id}`);
     }
 
     public async getDefaultPortfolio(): Promise<Portfolio> {
@@ -27,5 +38,13 @@ export class PortfolioService {
         this.defaultPortfolio = await this.http.get<Portfolio>(`${environment.apiUrl}/portfolio/default`).toPromise();
 
         return this.defaultPortfolio;
+    }
+
+    public updatePortfolio(id: number, portfolio: Portfolio): Observable<Portfolio> {
+        return this.http.put<Portfolio>(`${environment.apiUrl}/portfolio/${id}`, portfolio);
+    }
+
+    public deletePortfolio(id: number): Observable<OkResponse> {
+        return this.http.delete<OkResponse>(`${environment.apiUrl}/portfolio/${id}`);
     }
 }

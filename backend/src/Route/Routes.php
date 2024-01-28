@@ -58,7 +58,8 @@ enum Routes: string
 
 	case OverviewYearOverview = '/api/overview/year-overview/{portfolioId:number}';
 
-	case Portfolios = '/api/portfolio';
+	case Portfolios = '/api/portfolios';
+	case Portfolio = '/api/portfolio/{portfolioId:number}';
 	case PortfolioDefault = '/api/portfolio/default';
 
 	case PortfolioData = '/api/portfolio-data/{portfolioId:number}';
@@ -121,7 +122,11 @@ enum Routes: string
 		$routeList->get(self::OverviewYearOverview->value, [OverviewController::class, 'actionGetYearOverview']);
 
 		$routeList->get(self::Portfolios->value, [PortfolioController::class, 'actionGetPortfolios']);
+		$routeList->get(self::Portfolio->value, [PortfolioController::class, 'actionGetPortfolio']);
 		$routeList->get(self::PortfolioDefault->value, [PortfolioController::class, 'actionGetDefaultPortfolio']);
+		$routeList->post(self::Portfolios->value, [PortfolioController::class, 'actionPostPortfolio']);
+		$routeList->put(self::Portfolio->value, [PortfolioController::class, 'actionPutPortfolio']);
+		$routeList->delete(self::Portfolio->value, [PortfolioController::class, 'actionDeletePortfolio']);
 
 		$routeList->get(self::PortfolioData->value, [PortfolioDataController::class, 'actionGetPortfolioData']);
 		$routeList->get(self::PortfolioDataRange->value, [PortfolioDataController::class, 'actionGetPortfolioDataRange']);

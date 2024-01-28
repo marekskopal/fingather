@@ -14,7 +14,6 @@ class PortfolioRepository extends ARepository
 	{
 		return $this->findAll([
 			'user_id' => $userId,
-			'is_others' => false,
 		]);
 	}
 
