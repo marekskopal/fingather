@@ -29,7 +29,7 @@ export class ListComponent implements OnInit, OnDestroy {
     }
 
     public async refreshBrokers(): Promise<void> {
-        const portfolio = await this.portfolioService.getDefaultPortfolio();
+        const portfolio = await this.portfolioService.getCurrentPortfolio();
 
         this.brokerService.getBrokers(portfolio.id)
             .pipe(first())

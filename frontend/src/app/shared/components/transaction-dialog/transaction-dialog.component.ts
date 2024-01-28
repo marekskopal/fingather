@@ -49,7 +49,7 @@ export class TransactionDialogComponent extends BaseForm implements OnInit {
 
         const currentDate = moment().format('YYYY-MM-DDTHH:mm');
 
-        const portfolio = await this.portfolioService.getDefaultPortfolio();
+        const portfolio = await this.portfolioService.getCurrentPortfolio();
 
         this.assetService.getOpenedAssets(portfolio.id)
             .pipe(first())
@@ -97,7 +97,7 @@ export class TransactionDialogComponent extends BaseForm implements OnInit {
 
         this.loading = true;
         if (this.id === null) {
-            const portfolio = await this.portfolioService.getDefaultPortfolio();
+            const portfolio = await this.portfolioService.getCurrentPortfolio();
             this.createTransaction(portfolio.id);
         } else {
             this.updateTransaction(this.id);

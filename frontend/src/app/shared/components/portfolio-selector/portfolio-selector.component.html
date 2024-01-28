@@ -1,0 +1,7 @@
+﻿@if(portfolios !== null && portfolios.length > 1) {
+    <select id="portfolioId" (change)="changeCurrentPortfolio($event)" class="form-select">
+        @for (portfolio of portfolios; track portfolio.id) {
+            <option value="{{portfolio.id}}" [selected]="portfolio.id === currentPortfolio.id">{{portfolio.name}}</option>
+        }
+    </select>
+}

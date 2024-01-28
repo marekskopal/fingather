@@ -46,7 +46,7 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
     }
 
     private async refreshChart(): Promise<void> {
-        const portfolio = await this.portfolioService.getDefaultPortfolio();
+        const portfolio = await this.portfolioService.getCurrentPortfolio();
 
         this.portfolioDataService.getPortfolioDataRange(portfolio.id, this.range, this.benchmarkAssetId)
             .pipe(first())

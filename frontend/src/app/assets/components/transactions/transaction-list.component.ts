@@ -37,7 +37,7 @@ export class TransactionListComponent implements OnInit, OnDestroy {
     }
 
     public async refreshTransactions(): Promise<void> {
-        const portfolio = await this.portfolioService.getDefaultPortfolio();
+        const portfolio = await this.portfolioService.getCurrentPortfolio();
 
         this.transactionService.getTransactions(portfolio.id, this.assetId, [TransactionActionType.Buy, TransactionActionType.Sell])
             .pipe(first())

@@ -36,7 +36,7 @@ export class DividendListComponent implements OnInit, OnDestroy {
     }
 
     public async refreshTransactions(): Promise<void> {
-        const portfolio = await this.portfolioService.getDefaultPortfolio();
+        const portfolio = await this.portfolioService.getCurrentPortfolio();
 
         this.transactionService.getTransactions(portfolio.id, this.assetId, [TransactionActionType.Dividend])
             .pipe(first())

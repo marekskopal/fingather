@@ -15,7 +15,7 @@ export class HistoryComponent implements OnInit {
     }
 
     public async ngOnInit(): Promise<void> {
-        const portfolio = await this.portfolioService.getDefaultPortfolio();
+        const portfolio = await this.portfolioService.getCurrentPortfolio();
 
         this.assetService.getAssets(portfolio.id).subscribe((assets: Asset[]) => {
             this.assets = assets;
