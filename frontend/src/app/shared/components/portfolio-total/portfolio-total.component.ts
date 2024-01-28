@@ -7,7 +7,7 @@ import {CurrencyService, PortfolioDataService, PortfolioService} from "@app/serv
 
 @Component({ selector: 'fingather-portfolio-total', templateUrl: 'portfolio-total.component.html' })
 export class PortfolioTotalComponent implements OnInit {
-    public portfolioData: PortfolioData;
+    public portfolioData: PortfolioData|null;
     public currencies: Map<number, Currency>;
     public defaultCurrency: Currency;
 
@@ -18,9 +18,20 @@ export class PortfolioTotalComponent implements OnInit {
     ) { }
 
     public async ngOnInit(): Promise<void> {
-        const portfolio = await this.portfolioService.getCurrentPortfolio();
         this.currencies = await this.currencyService.getCurrenciesMap();
         this.defaultCurrency = await this.currencyService.getDefaultCurrency();
+
+        this.refreshPortfolioData();
+
+        this.portfolioService.eventEmitter.subscribe(() => {
+            this.refreshPortfolioData();
+        });
+    }
+
+    public async refreshPortfolioData(): Promise<void> {
+        this.portfolioData = null;
+
+        const portfolio = await this.portfolioService.getCurrentPortfolio();
 
         this.portfolioDataService.getPortfolioData(portfolio.id)
             .pipe(first())

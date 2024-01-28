@@ -1,14 +1,18 @@
 ﻿<div id="chart">
-    <apx-chart
-        [series]="chartOptions.series"
-        [chart]="chartOptions.chart"
-        [labels]="chartOptions.labels"
-        [theme]="chartOptions.theme"
-        [fill]="chartOptions.fill"
-        [yaxis]="chartOptions.yaxis"
-        [stroke]="chartOptions.stroke"
-        [legend]="chartOptions.legend"
-        [plotOptions]="chartOptions.plotOptions"
-    ></apx-chart>
+    @if (!this.loading) {
+        <apx-chart
+            [series]="chartOptions.series"
+            [chart]="chartOptions.chart"
+            [labels]="chartOptions.labels"
+            [theme]="chartOptions.theme"
+            [fill]="chartOptions.fill"
+            [yaxis]="chartOptions.yaxis"
+            [stroke]="chartOptions.stroke"
+            [legend]="chartOptions.legend"
+            [plotOptions]="chartOptions.plotOptions"
+        ></apx-chart>
+    } @else {
+        <span class="spinner-border spinner-border-sm mr-1"></span>
+    }
   </div>
 
