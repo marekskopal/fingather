@@ -10,7 +10,7 @@ use FinGather\Model\Repository\PortfolioRepository;
 
 class PortfolioProvider
 {
-	public function __construct(private readonly PortfolioRepository $portfolioRepository)
+	public function __construct(private readonly PortfolioRepository $portfolioRepository, private readonly GroupProvider $groupProvider)
 	{
 	}
 
@@ -42,6 +42,8 @@ class PortfolioProvider
 		$portfolio = new Portfolio(user: $user, name: $name, isDefault: false);
 		$this->portfolioRepository->persist($portfolio);
 
+		$this->groupProvider->createOthersGroup(user: $user, portfolio: $portfolio);
+
 		return $portfolio;
 	}
 
@@ -52,7 +54,7 @@ class PortfolioProvider
 
 	public function updatePortfolio(Portfolio $portfolio, string $name, bool $isDefault): Portfolio
 	{
-		$otherPortfolios = $this->getPortfolios($portfolio->getUser());
+		$otherPortfolios = iterator_to_array($this->getPortfolios($portfolio->getUser()));
 		if (!$isDefault && count($otherPortfolios) === 0) {
 			$isDefault = true;
 		}
