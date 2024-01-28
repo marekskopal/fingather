@@ -4,7 +4,7 @@ import { first } from 'rxjs/operators';
 import {ActivatedRoute} from "@angular/router";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {Transaction, TransactionActionType} from "@app/models";
-import {TransactionService} from "@app/services";
+import {PortfolioService, TransactionService} from "@app/services";
 import {TransactionDialogComponent} from "@app/shared/components/transaction-dialog/transaction-dialog.component";
 
 @Component({
@@ -16,7 +16,8 @@ export class TransactionListComponent implements OnInit, OnDestroy {
     public assetId: number;
 
     public constructor(
-        private transactionService: TransactionService,
+        private readonly transactionService: TransactionService,
+        private readonly portfolioService: PortfolioService,
         private route: ActivatedRoute,
         private modalService: NgbModal,
     ) {}
@@ -35,8 +36,10 @@ export class TransactionListComponent implements OnInit, OnDestroy {
         this.transactionService.eventEmitter.unsubscribe();
     }
 
-    public refreshTransactions(): void {
-        this.transactionService.getTransactions(this.assetId, [TransactionActionType.Buy, TransactionActionType.Sell])
+    public async refreshTransactions(): Promise<void> {
+        const portfolio = await this.portfolioService.getDefaultPortfolio();
+
+        this.transactionService.getTransactions(portfolio.id, this.assetId, [TransactionActionType.Buy, TransactionActionType.Sell])
             .pipe(first())
             .subscribe(transactions => this.transactions = transactions.transactions);
     }

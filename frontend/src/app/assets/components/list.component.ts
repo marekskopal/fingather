@@ -3,7 +3,7 @@ import { first } from 'rxjs/operators';
 
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {Asset, AssetWithProperties, Currency, GroupWithGroupData} from "@app/models";
-import {AssetService, CurrencyService, GroupWithGroupDataService} from "@app/services";
+import {AssetService, CurrencyService, GroupWithGroupDataService, PortfolioService} from "@app/services";
 import {AddAssetComponent} from "@app/assets/components/add-asset/add-asset.component";
 
 @Component({ templateUrl: 'list.component.html' })
@@ -24,6 +24,7 @@ export class ListComponent implements OnInit, OnDestroy {
         private readonly modalService: NgbModal,
         private readonly currencyService: CurrencyService,
         private readonly groupWithGroupDataService: GroupWithGroupDataService,
+        private readonly portfolioService: PortfolioService,
     ) {}
 
     public async ngOnInit(): Promise<void> {
@@ -34,9 +35,11 @@ export class ListComponent implements OnInit, OnDestroy {
         this.refreshWatchedAssets();
     }
 
-    private refreshOpenedAssets(): void {
+    private async refreshOpenedAssets(): Promise<void> {
+        const portfolio = await this.portfolioService.getDefaultPortfolio();
+
         if (this.withGroups) {
-            this.groupWithGroupDataService.getGroupWithGroupData()
+            this.groupWithGroupDataService.getGroupWithGroupData(portfolio.id)
                 .pipe(first())
                 .subscribe((openedGroupedAssets: GroupWithGroupData[]) => this.openedGroupedAssets = openedGroupedAssets);
 
@@ -45,21 +48,25 @@ export class ListComponent implements OnInit, OnDestroy {
             return;
         }
 
-        this.assetService.getOpenedAssets()
+        this.assetService.getOpenedAssets(portfolio.id)
             .pipe(first())
             .subscribe((openedAssets: AssetWithProperties[]) => this.openedAssets = openedAssets);
 
         this.openedGroupedAssets = null;
     }
 
-    private refreshClosedAssets(): void {
-        this.assetService.getClosedAssets()
+    private async refreshClosedAssets(): Promise<void> {
+        const portfolio = await this.portfolioService.getDefaultPortfolio();
+
+        this.assetService.getClosedAssets(portfolio.id)
             .pipe(first())
             .subscribe((closedAssets: Asset[]) => this.closedAssets = closedAssets);
     }
 
-    private refreshWatchedAssets(): void {
-        this.assetService.getWatchedAssets()
+    private async refreshWatchedAssets(): Promise<void> {
+        const portfolio = await this.portfolioService.getDefaultPortfolio();
+
+        this.assetService.getWatchedAssets(portfolio.id)
             .pipe(first())
             .subscribe((watchedAssets: Asset[]) => this.watchedAssets = watchedAssets);
     }

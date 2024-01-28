@@ -4,7 +4,7 @@ import { first } from 'rxjs/operators';
 import {AddEditComponent} from "./add-edit.component";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {Group} from "@app/models";
-import {GroupService} from "@app/services";
+import {GroupService, PortfolioService} from "@app/services";
 
 @Component({ templateUrl: 'list.component.html' })
 export class ListComponent implements OnInit, OnDestroy {
@@ -13,6 +13,7 @@ export class ListComponent implements OnInit, OnDestroy {
     public constructor(
         private readonly groupService: GroupService,
         private readonly modalService: NgbModal,
+        private readonly portfolioService: PortfolioService,
     ) {}
 
     public ngOnInit(): void {
@@ -27,8 +28,10 @@ export class ListComponent implements OnInit, OnDestroy {
         this.groupService.eventEmitter.unsubscribe();
     }
 
-    public refreshGroups(): void {
-        this.groupService.getGroups()
+    public async refreshGroups(): Promise<void> {
+        const portfolio = await this.portfolioService.getDefaultPortfolio();
+
+        this.groupService.getGroups(portfolio.id)
             .pipe(first())
             .subscribe(groups => this.groups = groups);
     }

@@ -1,7 +1,7 @@
 ﻿import {Component, OnDestroy, OnInit} from '@angular/core';
 import { first } from 'rxjs/operators';
 
-import { BrokerService } from '@app/services';
+import {BrokerService, PortfolioService} from '@app/services';
 import { Broker } from "../models/broker";
 import {AddEditComponent} from "./add-edit.component";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
@@ -11,8 +11,9 @@ export class ListComponent implements OnInit, OnDestroy {
     public brokers: Broker[]|null = null;
 
     public constructor(
-        private brokerService: BrokerService,
-        private modalService: NgbModal,
+        private readonly brokerService: BrokerService,
+        private readonly portfolioService: PortfolioService,
+        private readonly modalService: NgbModal,
     ) {}
 
     public ngOnInit(): void {
@@ -27,8 +28,10 @@ export class ListComponent implements OnInit, OnDestroy {
         this.brokerService.eventEmitter.unsubscribe();
     }
 
-    public refreshBrokers(): void {
-        this.brokerService.getBrokers()
+    public async refreshBrokers(): Promise<void> {
+        const portfolio = await this.portfolioService.getDefaultPortfolio();
+
+        this.brokerService.getBrokers(portfolio.id)
             .pipe(first())
             .subscribe(brokers => this.brokers = brokers);
     }

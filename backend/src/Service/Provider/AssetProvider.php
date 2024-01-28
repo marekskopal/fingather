@@ -29,14 +29,14 @@ class AssetProvider
 	}
 
 	/** @return array<int, Asset> */
-	public function getAssets(User $user): array
+	public function getAssets(User $user, Portfolio $portfolio): array
 	{
-		return $this->assetRepository->findAssets($user->getId());
+		return $this->assetRepository->findAssets($user->getId(), $portfolio->getId());
 	}
 
-	public function countAssets(User $user): int
+	public function countAssets(User $user, ?Portfolio $portfolio = null): int
 	{
-		return $this->assetRepository->countAssets($user->getId());
+		return $this->assetRepository->countAssets($user->getId(), $portfolio?->getId());
 	}
 
 	/** @return array<int, Asset> */

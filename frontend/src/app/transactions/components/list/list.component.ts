@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {first} from "rxjs/operators";
-import {TransactionService} from "@app/services";
+import {PortfolioService, TransactionService} from "@app/services";
 import {TransactionList} from "@app/models/TransactionList";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {TransactionDialogComponent} from "@app/shared/components/transaction-dialog/transaction-dialog.component";
@@ -16,6 +16,7 @@ export class ListComponent implements OnInit, OnDestroy {
 
     public constructor(
         private readonly transactionService: TransactionService,
+        private readonly portfolioService: PortfolioService,
         private readonly modalService: NgbModal,
     ) {
     }
@@ -32,8 +33,10 @@ export class ListComponent implements OnInit, OnDestroy {
         this.transactionService.eventEmitter.unsubscribe();
     }
 
-    public refreshTransactions(): void {
-        this.transactionService.getTransactions(null, null, this.pageSize, (this.page - 1) * this.pageSize)
+    public async refreshTransactions(): Promise<void> {
+        const portfolio = await this.portfolioService.getDefaultPortfolio();
+
+        this.transactionService.getTransactions(portfolio.id, null, null, this.pageSize, (this.page - 1) * this.pageSize)
             .pipe(first())
             .subscribe(transactionList => this.transactionList = transactionList);
     }

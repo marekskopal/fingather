@@ -2,7 +2,7 @@
 import { first } from 'rxjs/operators';
 import { ActivatedRoute } from "@angular/router";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {TransactionService} from "@app/services";
+import {PortfolioService, TransactionService} from "@app/services";
 import {Transaction, TransactionActionType} from "@app/models";
 import {DividendDialogComponent} from "@app/shared/components/dividend-dialog/dividend-dialog.component";
 
@@ -15,7 +15,8 @@ export class DividendListComponent implements OnInit, OnDestroy {
     public assetId: number;
 
     public constructor(
-        private transactionService: TransactionService,
+        private readonly transactionService: TransactionService,
+        private readonly portfolioService: PortfolioService,
         private route: ActivatedRoute,
         private modalService: NgbModal,
     ) {}
@@ -34,8 +35,10 @@ export class DividendListComponent implements OnInit, OnDestroy {
         this.transactionService.eventEmitter.unsubscribe();
     }
 
-    public refreshTransactions(): void {
-        this.transactionService.getTransactions(this.assetId, [TransactionActionType.Dividend])
+    public async refreshTransactions(): Promise<void> {
+        const portfolio = await this.portfolioService.getDefaultPortfolio();
+
+        this.transactionService.getTransactions(portfolio.id, this.assetId, [TransactionActionType.Dividend])
             .pipe(first())
             .subscribe(dividends => this.dividends = dividends.transactions);
     }

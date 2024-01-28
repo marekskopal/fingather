@@ -14,7 +14,7 @@ class ADataEntity extends AEntity
 		#[RefersTo(target: User::class)]
 		protected User $user,
 		#[RefersTo(target: Portfolio::class)]
-		private Portfolio $portfolio,
+		protected Portfolio $portfolio,
 		#[Column(type: 'timestamp')]
 		protected DateTimeImmutable $date,
 		#[Column(type: 'decimal(11,2)')]

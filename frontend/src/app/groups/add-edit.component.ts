@@ -2,7 +2,7 @@
 import {UntypedFormBuilder, Validators} from '@angular/forms';
 import {first} from 'rxjs/operators';
 
-import {AlertService, AssetService, GroupService} from '@app/services';
+import {AlertService, AssetService, GroupService, PortfolioService} from '@app/services';
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 import {AssetWithProperties, Group} from "../models";
 import {BaseForm} from "@app/shared/components/form/base-form";
@@ -15,8 +15,9 @@ export class AddEditComponent extends BaseForm implements OnInit {
     public othersGroup: Group;
 
     public constructor(
-        private assetService: AssetService,
-        private groupService: GroupService,
+        private readonly assetService: AssetService,
+        private readonly groupService: GroupService,
+        private readonly portfolioService: PortfolioService,
         public activeModal: NgbActiveModal,
         formBuilder: UntypedFormBuilder,
         alertService: AlertService,
@@ -24,7 +25,7 @@ export class AddEditComponent extends BaseForm implements OnInit {
         super(formBuilder, alertService)
     }
 
-    public ngOnInit(): void {
+    public async ngOnInit(): Promise<void> {
         this.isAddMode = !this.id;
 
         this.form = this.formBuilder.group({
@@ -32,12 +33,14 @@ export class AddEditComponent extends BaseForm implements OnInit {
             assetIds: ['', Validators.required],
         });
 
-        this.assetService.getOpenedAssets()
+        const portfolio = await this.portfolioService.getDefaultPortfolio();
+
+        this.assetService.getOpenedAssets(portfolio.id)
             .subscribe((assets) => {
                 this.assets = assets;
             });
 
-        this.groupService.getOthersGroup()
+        this.groupService.getOthersGroup(portfolio.id)
             .subscribe((group) => {
                 this.othersGroup = group;
             });
@@ -49,8 +52,10 @@ export class AddEditComponent extends BaseForm implements OnInit {
         }
     }
 
-    public onSubmit(): void {
+    public async onSubmit(): Promise<void> {
         this.submitted = true;
+
+        const portfolio = await this.portfolioService.getDefaultPortfolio();
 
         // reset alerts on submit
         this.alertService.clear();
@@ -62,14 +67,14 @@ export class AddEditComponent extends BaseForm implements OnInit {
 
         this.loading = true;
         if (this.isAddMode) {
-            this.createGroup();
+            this.createGroup(portfolio.id);
         } else {
             this.updateGroup();
         }
     }
 
-    private createGroup(): void {
-        this.groupService.createGroup(this.form.value)
+    private createGroup(portfolioId: number): void {
+        this.groupService.createGroup(this.form.value, portfolioId)
             .pipe(first())
             .subscribe({
                 next: () => {

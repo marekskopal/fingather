@@ -2,7 +2,7 @@
 import { first } from 'rxjs/operators';
 import { ApexChart, ApexFill, ApexLegend, ApexNonAxisChartSeries, ApexPlotOptions, ApexStroke, ApexTheme, ApexYAxis, ChartComponent } from 'ng-apexcharts';
 import {GroupWithGroupData} from "@app/models";
-import {GroupWithGroupDataService} from "@app/services";
+import {GroupWithGroupDataService, PortfolioService} from "@app/services";
 
 export type ChartOptions = {
     series: ApexNonAxisChartSeries;
@@ -26,13 +26,16 @@ export class GroupChartComponent implements OnInit {
     public chartOptions: ChartOptions;
 
     public constructor(
-        private groupWithGroupDataService: GroupWithGroupDataService,
+        private readonly groupWithGroupDataService: GroupWithGroupDataService,
+        private readonly portfolioService: PortfolioService,
     ) {
         this.initializeChartOptions();
     }
 
-    public ngOnInit(): void {
-        this.groupWithGroupDataService.getGroupWithGroupData()
+    public async ngOnInit(): Promise<void> {
+        const portfolio = await this.portfolioService.getDefaultPortfolio();
+
+        this.groupWithGroupDataService.getGroupWithGroupData(portfolio.id)
             .pipe(first())
             .subscribe((groupsWithGroupData: GroupWithGroupData[]) => {
                 const chartMap = this.mapChart(groupsWithGroupData);

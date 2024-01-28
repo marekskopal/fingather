@@ -6,7 +6,14 @@ import { first } from 'rxjs/operators';
 import * as moment from "moment";
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {AssetWithProperties, Broker, Currency, Transaction, TransactionActionType} from "@app/models";
-import {AlertService, AssetService, BrokerService, CurrencyService, TransactionService} from "@app/services";
+import {
+    AlertService,
+    AssetService,
+    BrokerService,
+    CurrencyService,
+    PortfolioService,
+    TransactionService
+} from "@app/services";
 import {BaseForm} from "@app/shared/components/form/base-form";
 
 @Component({ templateUrl: 'transaction-dialog.component.html' })
@@ -22,11 +29,12 @@ export class TransactionDialogComponent extends BaseForm implements OnInit {
     public currencies: Currency[];
 
     public constructor(
+        private readonly transactionService: TransactionService,
+        private readonly assetService: AssetService,
+        private readonly brokerService: BrokerService,
+        private readonly currencyService: CurrencyService,
+        private readonly portfolioService: PortfolioService,
         private route: ActivatedRoute,
-        private transactionService: TransactionService,
-        private assetService: AssetService,
-        private brokerService: BrokerService,
-        private currencyService: CurrencyService,
         public activeModal: NgbActiveModal,
         formBuilder: UntypedFormBuilder,
         alertService: AlertService,
@@ -41,11 +49,13 @@ export class TransactionDialogComponent extends BaseForm implements OnInit {
 
         const currentDate = moment().format('YYYY-MM-DDTHH:mm');
 
-        this.assetService.getOpenedAssets()
+        const portfolio = await this.portfolioService.getDefaultPortfolio();
+
+        this.assetService.getOpenedAssets(portfolio.id)
             .pipe(first())
             .subscribe((assets: AssetWithProperties[]) => this.assets = assets);
 
-        this.brokerService.getBrokers()
+        this.brokerService.getBrokers(portfolio.id)
             .pipe(first())
             .subscribe((brokers: Broker[]) => this.brokers = brokers);
 
@@ -74,7 +84,7 @@ export class TransactionDialogComponent extends BaseForm implements OnInit {
         }
     }
 
-    public onSubmit(): void {
+    public async onSubmit(): Promise<void> {
         this.submitted = true;
 
         // reset alerts on submit
@@ -87,17 +97,18 @@ export class TransactionDialogComponent extends BaseForm implements OnInit {
 
         this.loading = true;
         if (this.id === null) {
-            this.createTransaction();
+            const portfolio = await this.portfolioService.getDefaultPortfolio();
+            this.createTransaction(portfolio.id);
         } else {
             this.updateTransaction(this.id);
         }
     }
 
-    private createTransaction(): void {
+    private createTransaction(portfolioId: number): void {
         const values = this.form.value;
         values.assetId = parseInt(values.assetId);
 
-        this.transactionService.createTransaction(values)
+        this.transactionService.createTransaction(values, portfolioId)
             .pipe(first())
             .subscribe({
                 next: () => {

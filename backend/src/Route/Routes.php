@@ -15,6 +15,7 @@ use FinGather\Controller\GroupController;
 use FinGather\Controller\GroupWithGroupDataController;
 use FinGather\Controller\ImportDataController;
 use FinGather\Controller\OverviewController;
+use FinGather\Controller\PortfolioController;
 use FinGather\Controller\PortfolioDataController;
 use FinGather\Controller\TickerController;
 use FinGather\Controller\TickerDataController;
@@ -27,10 +28,10 @@ enum Routes: string
 	case AdminUsers = '/api/admin/user';
 	case AdminUser = '/api/admin/user/{userId:number}';
 
-	case Assets = '/api/asset/{portfolioId:number}';
-	case AssetsOpened = '/api/asset/opened/{portfolioId:number}';
-	case AssetsClosed = '/api/asset/closed/{portfolioId:number}';
-	case AssetsWatched = '/api/asset/watched/{portfolioId:number}';
+	case Assets = '/api/assets/{portfolioId:number}';
+	case AssetsOpened = '/api/assets/opened/{portfolioId:number}';
+	case AssetsClosed = '/api/assets/closed/{portfolioId:number}';
+	case AssetsWatched = '/api/assets/watched/{portfolioId:number}';
 	case Asset = '/api/asset/{assetId:number}';
 
 	case AuthenticationLogin = '/api/authentication/login';
@@ -38,7 +39,7 @@ enum Routes: string
 	case AuthenticationSignUp = '/api/authentication/sign-up';
 	case AuthenticationEmailExists = '/api/authentication/email-exists';
 
-	case Brokers = '/api/broker/{portfolioId:number}';
+	case Brokers = '/api/brokers/{portfolioId:number}';
 	case Broker = '/api/broker/{brokerId:number}';
 
 	case Currencies = '/api/currency';
@@ -47,15 +48,18 @@ enum Routes: string
 
 	case EmailVerify = '/api/email-verify';
 
-	case Groups = '/api/group/{portfolioId:number}';
+	case Groups = '/api/groups/{portfolioId:number}';
 	case Group = '/api/group/{groupId:number}';
 	case GroupOthers = '/api/group/others/{portfolioId:number}';
 
-	case GroupsWithGroupData = '/api/group-with-group-data/{portfolioId:number}';
+	case GroupsWithGroupData = '/api/groups-with-group-data/{portfolioId:number}';
 
 	case ImportData = '/api/import-data';
 
 	case OverviewYearOverview = '/api/overview/year-overview/{portfolioId:number}';
+
+	case Portfolios = '/api/portfolio';
+	case PortfolioDefault = '/api/portfolio/default';
 
 	case PortfolioData = '/api/portfolio-data/{portfolioId:number}';
 	case PortfolioDataRange = '/api/portfolio-data-range/{portfolioId:number}';
@@ -64,7 +68,7 @@ enum Routes: string
 
 	case TickerData = '/api/ticker-data/{tickerId:number}';
 
-	case Transactions = '/api/transaction/{portfolioId:number}';
+	case Transactions = '/api/transactions/{portfolioId:number}';
 	case Transaction = '/api/transaction/{transactionId:number}';
 
 	public static function getRouteList(): RouteList
@@ -115,6 +119,9 @@ enum Routes: string
 		$routeList->post(self::ImportData->value, [ImportDataController::class, 'actionImportData']);
 
 		$routeList->get(self::OverviewYearOverview->value, [OverviewController::class, 'actionGetYearOverview']);
+
+		$routeList->get(self::Portfolios->value, [PortfolioController::class, 'actionGetPortfolios']);
+		$routeList->get(self::PortfolioDefault->value, [PortfolioController::class, 'actionGetDefaultPortfolio']);
 
 		$routeList->get(self::PortfolioData->value, [PortfolioDataController::class, 'actionGetPortfolioData']);
 		$routeList->get(self::PortfolioDataRange->value, [PortfolioDataController::class, 'actionGetPortfolioDataRange']);
