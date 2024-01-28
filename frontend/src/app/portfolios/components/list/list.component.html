@@ -1,0 +1,38 @@
+﻿<div class="row">
+    <div class="col-md-8">
+        <h1>Portfolios</h1>
+    </div>
+    <div class="col-md-4 text-end">
+        <a (click)="addPortfolio()" class="btn btn-sm btn-success" tabindex="0"><fa-icon icon="plus"></fa-icon> Add Portfolio</a>
+    </div>
+</div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th style="width: 80%">Name</th>
+            <th style="width: 20%"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (portfolio of portfolios; track portfolio.id) {
+            <tr>
+                <td>{{portfolio.name}}</td>
+                <td class="text-end" style="white-space: nowrap">
+                    <a (click)="editPortfolio(portfolio.id)" class="btn btn-sm btn-primary me-2" tabindex="0"><fa-icon icon="edit"></fa-icon> Edit</a>
+                    <button (click)="deletePortfolio(portfolio.id)" class="btn btn-sm btn-danger btn-delete-user" [disabled]="portfolio.isDeleting">
+                        @if (portfolio.isDeleting) {
+                            <span class="spinner-border spinner-border-sm"></span>
+                        } @else {
+                            <span><fa-icon icon="trash"></fa-icon> Delete</span>
+                        }
+                    </button>
+                </td>
+            </tr>
+        }
+        <tr *ngIf="portfolios === null">
+            <td colspan="4" class="text-center">
+                <span class="spinner-border spinner-border-lg align-center"></span>
+            </td>
+        </tr>
+    </tbody>
+</table>
