@@ -16,8 +16,19 @@ export class DashboardComponent implements OnInit {
     ) {}
 
     public async ngOnInit(): Promise<void> {
-        const portfolio = await this.portfolioService.getCurrentPortfolio();
         this.defaultCurrency = await this.currencyService.getDefaultCurrency();
+
+        this.refreshGroupWithGroupData();
+
+        this.portfolioService.eventEmitter.subscribe(() => {
+            this.refreshGroupWithGroupData();
+        });
+    }
+
+    public async refreshGroupWithGroupData(): Promise<void> {
+        this.groupsWithGroupData = null;
+
+        const portfolio = await this.portfolioService.getCurrentPortfolio();
 
         this.groupWithGroupDataService.getGroupWithGroupData(portfolio.id)
             .pipe(first())

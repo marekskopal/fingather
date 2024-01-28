@@ -24,6 +24,7 @@ export class GroupChartComponent implements OnInit {
     @ViewChild("chart", { static: false }) public chart: ChartComponent;
     @Input() public assetTickerId: string;
     public chartOptions: ChartOptions;
+    public loading: boolean = true;
 
     public constructor(
         private readonly groupWithGroupDataService: GroupWithGroupDataService,
@@ -33,6 +34,16 @@ export class GroupChartComponent implements OnInit {
     }
 
     public async ngOnInit(): Promise<void> {
+        this.refreshChart();
+
+        this.portfolioService.eventEmitter.subscribe(() => {
+            this.refreshChart();
+        });
+    }
+
+    public async refreshChart(): Promise<void> {
+        this.loading = true;
+
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
         this.groupWithGroupDataService.getGroupWithGroupData(portfolio.id)
@@ -41,6 +52,7 @@ export class GroupChartComponent implements OnInit {
                 const chartMap = this.mapChart(groupsWithGroupData);
                 this.chartOptions.series = chartMap.series;
                 this.chartOptions.labels = chartMap.labels;
+                this.loading = false;
             });
     }
 

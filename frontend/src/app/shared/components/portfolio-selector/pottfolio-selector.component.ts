@@ -33,6 +33,7 @@ export class PortfolioSelectorComponent implements OnInit {
         this.portfolioService.getPortfolio(currentPortfolioId).subscribe((portfolio: Portfolio) => {
             this.portfolioService.setCurrentPortfolio(portfolio);
             this.currentPortfolio = portfolio;
+            this.portfolioService.notify();
         });
     }
 }
