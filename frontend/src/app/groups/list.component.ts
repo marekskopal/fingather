@@ -22,6 +22,10 @@ export class ListComponent implements OnInit, OnDestroy {
         this.groupService.eventEmitter.subscribe(() => {
             this.refreshGroups();
         });
+
+        this.portfolioService.eventEmitter.subscribe(() => {
+            this.refreshGroups();
+        });
     }
 
     public ngOnDestroy(): void {
@@ -29,6 +33,8 @@ export class ListComponent implements OnInit, OnDestroy {
     }
 
     public async refreshGroups(): Promise<void> {
+        this.groups = null;
+
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
         this.groupService.getGroups(portfolio.id)
