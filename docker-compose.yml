@@ -101,6 +101,13 @@ services:
         profiles:
             - dev
 
+    adminer:
+        image: adminer:4.8.1
+        restart: unless-stopped
+        networks:
+            - frontend
+            - backend
+
 networks:
     frontend:
         name: frontend
