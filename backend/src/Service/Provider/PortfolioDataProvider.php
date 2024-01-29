@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Provider;
 
+use Cycle\Database\Exception\StatementException\ConstrainException;
 use FinGather\Dto\AssetWithPropertiesDto;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\PortfolioData;
@@ -60,7 +61,11 @@ class PortfolioDataProvider
 			returnPercentage: $calculatedData->returnPercentage,
 		);
 
-		$this->portfolioDataRepository->persist($portfolioData);
+		try {
+			$this->portfolioDataRepository->persist($portfolioData);
+		} catch (ConstrainException) {
+			//ignore duplicate data
+		}
 
 		return $portfolioData;
 	}
