@@ -1,8 +1,11 @@
 ﻿<div class="row">
-    <div class="col-md-8">
+    <div class="col-md-3 order-md-2 text-end">
+        <fingather-portfolio-selector />
+    </div>
+    <div class="col-md-5 order-md-0">
         <h1>Assets</h1>
     </div>
-    <div class="col-md-4 text-end">
+    <div class="col-md-4 order-md-1 text-end">
         <a (click)="addAsset()" class="btn btn-sm btn-success me-2" tabindex="0"><fa-icon icon="plus"></fa-icon> Add Asset</a>
         <a routerLink="import" class="btn btn-sm btn-info"><fa-icon icon="file-import"></fa-icon> Import</a>
     </div>
