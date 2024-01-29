@@ -10,6 +10,7 @@ import {
     PortfolioValueChartComponent
 } from "@app/history/components/portfolio-value-chart/portfolio-value-chart.component";
 import {NgApexchartsModule} from "ng-apexcharts";
+import {SharedModule} from "@app/shared/shared.module";
 
 @NgModule({
     imports: [
@@ -17,6 +18,7 @@ import {NgApexchartsModule} from "ng-apexcharts";
         ReactiveFormsModule,
         HistoryRoutingModule,
         NgApexchartsModule,
+        SharedModule,
     ],
     declarations: [
         LayoutComponent,
