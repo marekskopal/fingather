@@ -20,6 +20,17 @@ export class ListComponent implements OnInit {
 
     public async ngOnInit(): Promise<void> {
         this.defaultCurrency = await this.currencyService.getDefaultCurrency();
+
+        this.refreshYearCalculatedData();
+
+        this.portfolioService.eventEmitter.subscribe(() => {
+            this.refreshYearCalculatedData();
+        });
+    }
+
+    public async refreshYearCalculatedData(): Promise<void> {
+        this.yearCalculatedDatas = null;
+
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
         this.overviewService.getYearCalculatedData(portfolio.id)
