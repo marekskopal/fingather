@@ -39,7 +39,7 @@ class PortfolioProvider
 			}
 		}
 
-		$portfolio = new Portfolio(user: $user, name: $name, isDefault: false);
+		$portfolio = new Portfolio(user: $user, name: $name, isDefault: $isDefault);
 		$this->portfolioRepository->persist($portfolio);
 
 		$this->groupProvider->createOthersGroup(user: $user, portfolio: $portfolio);
