@@ -33,9 +33,18 @@ export class ListComponent implements OnInit, OnDestroy {
         this.refreshOpenedAssets();
         this.refreshClosedAssets();
         this.refreshWatchedAssets();
+
+        this.portfolioService.eventEmitter.subscribe(() => {
+            this.refreshOpenedAssets();
+            this.refreshClosedAssets();
+            this.refreshWatchedAssets();
+        });
     }
 
     private async refreshOpenedAssets(): Promise<void> {
+        this.openedAssets = null;
+        this.openedGroupedAssets = null;
+
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
         if (this.withGroups) {
@@ -43,19 +52,17 @@ export class ListComponent implements OnInit, OnDestroy {
                 .pipe(first())
                 .subscribe((openedGroupedAssets: GroupWithGroupData[]) => this.openedGroupedAssets = openedGroupedAssets);
 
-            this.openedAssets = null;
-
             return;
         }
 
         this.assetService.getOpenedAssets(portfolio.id)
             .pipe(first())
             .subscribe((openedAssets: AssetWithProperties[]) => this.openedAssets = openedAssets);
-
-        this.openedGroupedAssets = null;
     }
 
     private async refreshClosedAssets(): Promise<void> {
+        this.closedAssets = null;
+
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
         this.assetService.getClosedAssets(portfolio.id)
@@ -64,6 +71,8 @@ export class ListComponent implements OnInit, OnDestroy {
     }
 
     private async refreshWatchedAssets(): Promise<void> {
+        this.watchedAssets = null;
+
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
         this.assetService.getWatchedAssets(portfolio.id)
