@@ -27,6 +27,10 @@ export class ListComponent implements OnInit, OnDestroy {
         this.transactionService.eventEmitter.subscribe(() => {
             this.refreshTransactions();
         });
+
+        this.portfolioService.eventEmitter.subscribe(() => {
+            this.refreshTransactions();
+        });
     }
 
     public ngOnDestroy(): void {
@@ -34,6 +38,8 @@ export class ListComponent implements OnInit, OnDestroy {
     }
 
     public async refreshTransactions(): Promise<void> {
+        this.transactionList = null;
+
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
         this.transactionService.getTransactions(portfolio.id, null, null, this.pageSize, (this.page - 1) * this.pageSize)
