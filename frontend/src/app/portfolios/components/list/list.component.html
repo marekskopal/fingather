@@ -19,13 +19,15 @@
                 <td>{{portfolio.name}}</td>
                 <td class="text-end" style="white-space: nowrap">
                     <a (click)="editPortfolio(portfolio.id)" class="btn btn-sm btn-primary me-2" tabindex="0"><fa-icon icon="edit"></fa-icon> Edit</a>
-                    <button (click)="deletePortfolio(portfolio.id)" class="btn btn-sm btn-danger btn-delete-user" [disabled]="portfolio.isDeleting">
-                        @if (portfolio.isDeleting) {
-                            <span class="spinner-border spinner-border-sm"></span>
-                        } @else {
-                            <span><fa-icon icon="trash"></fa-icon> Delete</span>
-                        }
-                    </button>
+                    @if (!portfolio.isDefault && portfolio.id !== currentPortfolio.id) {
+                        <button (click)="deletePortfolio(portfolio.id)" class="btn btn-sm btn-danger btn-delete-user" [disabled]="portfolio.isDeleting">
+                            @if (portfolio.isDeleting) {
+                                <span class="spinner-border spinner-border-sm"></span>
+                            } @else {
+                                <span><fa-icon icon="trash"></fa-icon> Delete</span>
+                            }
+                        </button>
+                    }
                 </td>
             </tr>
         }

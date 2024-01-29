@@ -8,13 +8,16 @@ import {AddEditComponent} from "@app/portfolios/components/add-edit/add-edit.com
 @Component({ templateUrl: 'list.component.html' })
 export class ListComponent implements OnInit, OnDestroy {
     public portfolios: Portfolio[]|null = null;
+    public currentPortfolio: Portfolio;
 
     public constructor(
         private readonly portfolioService: PortfolioService,
         private readonly modalService: NgbModal,
     ) {}
 
-    public ngOnInit(): void {
+    public async ngOnInit(): Promise<void> {
+        this.currentPortfolio = await this.portfolioService.getCurrentPortfolio();
+
         this.refreshPortfolios();
 
         this.portfolioService.eventEmitter.subscribe(() => {
