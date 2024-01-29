@@ -124,12 +124,14 @@ class BenchmarkDataProvider
 					$benchmarkAsset->getTicker(),
 					$transactionActionCreated,
 				);
-				assert($benchmarkTransactionAssetTickerData instanceof TickerData);
+				if ($benchmarkTransactionAssetTickerData !== null) {
+					$benchmarkPrice = (new Decimal($benchmarkTransactionAssetTickerData->getClose()))->div($benchmarkSplitFactor);
+					$benchmarkPriceUnitDefaultCurrency = $benchmarkPrice->mul($benchmarkTransactionExchangeRateDefaultCurrency->getRate());
 
-				$benchmarkPrice = (new Decimal($benchmarkTransactionAssetTickerData->getClose()))->div($benchmarkSplitFactor);
-				$benchmarkPriceUnitDefaultCurrency = $benchmarkPrice->mul($benchmarkTransactionExchangeRateDefaultCurrency->getRate());
-
-				$benchmarkUnits = $transactionUnits->mul($transactionPriceUnitDefaultCurrency)->div($benchmarkPriceUnitDefaultCurrency);
+					$benchmarkUnits = $transactionUnits->mul($transactionPriceUnitDefaultCurrency)->div($benchmarkPriceUnitDefaultCurrency);
+				} else {
+					$benchmarkUnits = new Decimal(0);
+				}
 
 				$benchmarkUnitsSum = $benchmarkUnitsSum->add($benchmarkUnits);
 			}
