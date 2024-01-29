@@ -56,6 +56,7 @@ export class PortfolioService extends NotifyService {
     public cleanCurrentPortfolio(): void {
         localStorage.removeItem('currentPortfolio');
         this.currentPortfolio = null;
+        this.defaultPortfolio = null;
     }
 
     public async getDefaultPortfolio(): Promise<Portfolio> {
