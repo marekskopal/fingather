@@ -188,19 +188,21 @@ class BenchmarkDataProvider
 		$benchmarkTickerCurrency = $benchmarkAsset->getTicker()->getCurrency();
 
 		$benchmarkAssetTickerData = $this->tickerDataProvider->getLastTickerData($benchmarkAsset->getTicker(), $benchmarkFromDateTime);
-		assert($benchmarkAssetTickerData instanceof TickerData);
+		if ($benchmarkAssetTickerData !== null) {
+			$benchmarkExchangeRateDefaultCurrency = $this->exchangeRateProvider->getExchangeRate(
+				$benchmarkFromDateTime,
+				$benchmarkTickerCurrency,
+				$user->getDefaultCurrency(),
+			);
 
-		$benchmarkExchangeRateDefaultCurrency = $this->exchangeRateProvider->getExchangeRate(
-			$benchmarkFromDateTime,
-			$benchmarkTickerCurrency,
-			$user->getDefaultCurrency(),
-		);
+			$benchmarkUnitPriceDefaultCurrency = (new Decimal($benchmarkAssetTickerData->getClose()))->mul(
+				$benchmarkExchangeRateDefaultCurrency->getRate(),
+			);
 
-		$benchmarkUnitPriceDefaultCurrency = (new Decimal($benchmarkAssetTickerData->getClose()))->mul(
-			$benchmarkExchangeRateDefaultCurrency->getRate(),
-		);
-
-		$benchmarkUnits = $portfolioDataValue->div($benchmarkUnitPriceDefaultCurrency);
+			$benchmarkUnits = $portfolioDataValue->div($benchmarkUnitPriceDefaultCurrency);
+		} else {
+			$benchmarkUnits = new Decimal(0);
+		}
 
 		$benchmarkData = new BenchmarkData(
 			user: $user,
