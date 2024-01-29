@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Provider;
 
+use Cycle\Database\Exception\StatementException\ConstrainException;
 use FinGather\Dto\AssetWithPropertiesDto;
 use FinGather\Model\Entity\Group;
 use FinGather\Model\Entity\GroupData;
@@ -62,7 +63,11 @@ class GroupDataProvider
 			returnPercentage: $calculatedData->returnPercentage,
 		);
 
-		$this->groupDataRepository->persist($groupData);
+		try {
+			$this->groupDataRepository->persist($groupData);
+		} catch (ConstrainException) {
+			//ignore duplicate data
+		}
 
 		return $groupData;
 	}

@@ -394,6 +394,7 @@ class InitMigration extends Migration
 				'indexCreate' => true,
 			])
 			->addIndex(['date'], ['name' => 'group_datas_index_date', 'unique' => false])
+			->addIndex(['date', 'group_id', 'portfolio_id'], ['name' => 'group_datas_index_date_group_id_portfolio_id', 'unique' => true])
 			->setPrimaryKeys(['id'])
 			->create();
 
@@ -434,6 +435,7 @@ class InitMigration extends Migration
 				'indexCreate' => true,
 			])
 			->addIndex(['date'], ['name' => 'portfolio_datas_index_date', 'unique' => false])
+			->addIndex(['date', 'portfolio_id'], ['name' => 'portfolio_datas_index_date_portfolio_id', 'unique' => true])
 			->setPrimaryKeys(['id'])
 			->create();
 
