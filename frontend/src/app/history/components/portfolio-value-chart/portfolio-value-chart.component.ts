@@ -4,7 +4,7 @@ import {
     ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexGrid, ApexStroke, ApexTheme,
     ApexTitleSubtitle, ApexXAxis, ChartComponent
 } from 'ng-apexcharts';
-import {Asset, PortfolioDataRangeEnum, PortfolioDataWithBenchmarkData} from "@app/models";
+import {PortfolioDataRangeEnum, PortfolioDataWithBenchmarkData} from "@app/models";
 import {PortfolioDataService, PortfolioService} from "@app/services";
 
 export type ChartOptions = {
