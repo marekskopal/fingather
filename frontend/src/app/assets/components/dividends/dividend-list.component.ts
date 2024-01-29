@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {PortfolioService, TransactionService} from "@app/services";
 import {Transaction, TransactionActionType} from "@app/models";
 import {DividendDialogComponent} from "@app/shared/components/dividend-dialog/dividend-dialog.component";
+import {ConfirmDialogService} from "@app/services/confirm-dialog.service";
 
 @Component({
     templateUrl: 'dividend-list.component.html',
@@ -19,6 +20,7 @@ export class DividendListComponent implements OnInit, OnDestroy {
         private readonly portfolioService: PortfolioService,
         private route: ActivatedRoute,
         private modalService: NgbModal,
+        private readonly confirmDialogService: ConfirmDialogService,
     ) {}
 
     public ngOnInit(): void {
@@ -53,12 +55,24 @@ export class DividendListComponent implements OnInit, OnDestroy {
         dividendDialogComponent.componentInstance.id = id;
     }
 
-    public deleteDividend(id: number): void {
+    public async deleteDividend(id: number): Promise<void> {
         const transaction = this.dividends?.find(x => x.id === id);
         if (transaction === undefined) {
             return;
         }
         transaction.isDeleting = true;
+
+        try {
+            const confirmed = await this.confirmDialogService.confirm(`Delete dividend`, `Are you sure to delete dividend?`);
+            if (!confirmed){
+                transaction.isDeleting = false;
+                return;
+            }
+        } catch (err) {
+            transaction.isDeleting = false;
+            return;
+        }
+
         this.transactionService.deleteTransaction(id)
             .pipe(first())
             .subscribe(() => this.refreshTransactions());

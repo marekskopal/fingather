@@ -5,6 +5,8 @@ import {BrokerService, PortfolioService} from '@app/services';
 import { Broker } from "../models/broker";
 import {AddEditComponent} from "./add-edit.component";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {ConfirmDialogService} from "@app/services/confirm-dialog.service";
+import {environment} from "@environments/environment";
 
 @Component({ templateUrl: 'list.component.html' })
 export class ListComponent implements OnInit, OnDestroy {
@@ -14,6 +16,7 @@ export class ListComponent implements OnInit, OnDestroy {
         private readonly brokerService: BrokerService,
         private readonly portfolioService: PortfolioService,
         private readonly modalService: NgbModal,
+        private readonly confirmDialogService: ConfirmDialogService,
     ) {}
 
     public ngOnInit(): void {
@@ -51,7 +54,24 @@ export class ListComponent implements OnInit, OnDestroy {
         addEditComponent.componentInstance.id = id;
     }
 
-    public deleteBroker(id: number): void {
+    public async deleteBroker(id: number): Promise<void> {
+        const broker = this.brokers?.find(x => x.id === id);
+        if (broker === undefined) {
+            return
+        }
+        broker.isDeleting = true;
+
+        try {
+            const confirmed = await this.confirmDialogService.confirm(`Delete broker ${broker.name}`, `Are you sure to delete broker ${broker.name}?`);
+            if (!confirmed){
+                broker.isDeleting = false;
+                return;
+            }
+        } catch (err) {
+            broker.isDeleting = false;
+            return;
+        }
+
         this.brokerService.deleteBroker(id)
             .pipe(first())
             .subscribe(() => this.brokers = this.brokers !== null ? this.brokers.filter(x => x.id !== id) : null);
