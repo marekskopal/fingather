@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 
 import {first} from "rxjs/operators";
-import {Asset, Currency, Portfolio, PortfolioData} from "@app/models";
-import {CurrencyService, PortfolioDataService, PortfolioService} from "@app/services";
+import {Portfolio} from "@app/models";
+import {PortfolioService} from "@app/services";
 
 @Component({
     selector: 'fingather-portfolio-selector',
