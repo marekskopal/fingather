@@ -6,6 +6,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {TransactionDialogComponent} from "@app/shared/components/transaction-dialog/transaction-dialog.component";
 import {DividendDialogComponent} from "@app/shared/components/dividend-dialog/dividend-dialog.component";
 import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selector/portfolio-selector.component";
+import {ConfirmDialogComponent} from "@app/shared/components/confirm-dialog/confirm-dialog.component";
 
 @NgModule({
     imports: [
@@ -18,6 +19,7 @@ import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selec
         CurrencyPipe,
         TransactionDialogComponent,
         DividendDialogComponent,
+        ConfirmDialogComponent,
     ],
     exports: [
         PortfolioTotalComponent,

@@ -5,6 +5,7 @@ import {TransactionList} from "@app/models/TransactionList";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {TransactionDialogComponent} from "@app/shared/components/transaction-dialog/transaction-dialog.component";
 import {DividendDialogComponent} from "@app/shared/components/dividend-dialog/dividend-dialog.component";
+import {ConfirmDialogService} from "@app/services/confirm-dialog.service";
 
 @Component({
     templateUrl: './list.component.html',
@@ -18,6 +19,7 @@ export class ListComponent implements OnInit, OnDestroy {
         private readonly transactionService: TransactionService,
         private readonly portfolioService: PortfolioService,
         private readonly modalService: NgbModal,
+        private readonly confirmDialogService: ConfirmDialogService,
     ) {
     }
 
@@ -60,12 +62,24 @@ export class ListComponent implements OnInit, OnDestroy {
         transactionDialogComponent.componentInstance.id = id;
     }
 
-    public deleteTransaction(id: number): void {
+    public async deleteTransaction(id: number): Promise<void> {
         const transaction = this.transactionList?.transactions?.find(x => x.id === id);
         if (transaction === undefined) {
             return;
         }
         transaction.isDeleting = true;
+
+        try {
+            const confirmed = await this.confirmDialogService.confirm(`Delete transaction`, `Are you sure to delete transaction?`);
+            if (!confirmed){
+                transaction.isDeleting = false;
+                return;
+            }
+        } catch (err) {
+            transaction.isDeleting = false;
+            return;
+        }
+
         this.transactionService.deleteTransaction(id)
             .pipe(first())
             .subscribe(() => this.refreshTransactions());

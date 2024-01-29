@@ -4,6 +4,7 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {Portfolio} from "@app/models";
 import {PortfolioService} from "@app/services";
 import {AddEditComponent} from "@app/portfolios/components/add-edit/add-edit.component";
+import {ConfirmDialogService} from "@app/services/confirm-dialog.service";
 
 @Component({ templateUrl: 'list.component.html' })
 export class ListComponent implements OnInit, OnDestroy {
@@ -13,6 +14,7 @@ export class ListComponent implements OnInit, OnDestroy {
     public constructor(
         private readonly portfolioService: PortfolioService,
         private readonly modalService: NgbModal,
+        private readonly confirmDialogService: ConfirmDialogService,
     ) {}
 
     public async ngOnInit(): Promise<void> {
@@ -44,12 +46,24 @@ export class ListComponent implements OnInit, OnDestroy {
         addEditComponent.componentInstance.id = id;
     }
 
-    public deletePortfolio(id: number): void {
+    public async deletePortfolio(id: number): Promise<void> {
         const portfolio = this.portfolios?.find(x => x.id === id);
         if (portfolio === undefined) {
             return
         }
         portfolio.isDeleting = true;
+
+        try {
+            const confirmed = await this.confirmDialogService.confirm(`Delete portfolio ${portfolio.name}`, `Are you sure to delete portfolio ${portfolio.name}?`);
+            if (!confirmed){
+                portfolio.isDeleting = false;
+                return;
+            }
+        } catch (err) {
+            portfolio.isDeleting = false;
+            return;
+        }
+
         this.portfolioService.deletePortfolio(id)
             .pipe(first())
             .subscribe(() => this.portfolios = this.portfolios !== null ? this.portfolios.filter(x => x.id !== id) : null);

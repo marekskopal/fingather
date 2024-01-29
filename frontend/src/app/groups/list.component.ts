@@ -5,6 +5,7 @@ import {AddEditComponent} from "./add-edit.component";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {Group} from "@app/models";
 import {GroupService, PortfolioService} from "@app/services";
+import {ConfirmDialogService} from "@app/services/confirm-dialog.service";
 
 @Component({ templateUrl: 'list.component.html' })
 export class ListComponent implements OnInit, OnDestroy {
@@ -14,6 +15,7 @@ export class ListComponent implements OnInit, OnDestroy {
         private readonly groupService: GroupService,
         private readonly modalService: NgbModal,
         private readonly portfolioService: PortfolioService,
+        private readonly confirmDialogService: ConfirmDialogService,
     ) {}
 
     public ngOnInit(): void {
@@ -51,12 +53,24 @@ export class ListComponent implements OnInit, OnDestroy {
         addEditComponent.componentInstance.id = id;
     }
 
-    public deleteGroup(id: number): void {
+    public async deleteGroup(id: number): Promise<void> {
         const group = this.groups?.find(x => x.id === id);
         if (group === undefined) {
             return
         }
         group.isDeleting = true;
+
+        try {
+            const confirmed = await this.confirmDialogService.confirm(`Delete group ${group.name}`, `Are you sure to delete group ${group.name}?`);
+            if (!confirmed){
+                group.isDeleting = false;
+                return;
+            }
+        } catch (err) {
+            group.isDeleting = false;
+            return;
+        }
+
         this.groupService.deleteGroup(id)
             .pipe(first())
             .subscribe(() => this.groups = this.groups !== null ? this.groups.filter(x => x.id !== id) : null);
