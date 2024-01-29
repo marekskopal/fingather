@@ -4,7 +4,7 @@ import {
     ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexGrid, ApexStroke, ApexTheme,
     ApexTitleSubtitle, ApexXAxis, ChartComponent
 } from 'ng-apexcharts';
-import {PortfolioDataRangeEnum, PortfolioDataWithBenchmarkData} from "@app/models";
+import {Asset, PortfolioDataRangeEnum, PortfolioDataWithBenchmarkData} from "@app/models";
 import {PortfolioDataService, PortfolioService} from "@app/services";
 
 export type ChartOptions = {
@@ -36,16 +36,21 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
         this.initializeChartOptions();
     }
 
-    public async ngOnInit(): Promise<void> {
-        await this.refreshChart();
+    public ngOnInit(): void {
+        this.refreshChart();
+
+        this.portfolioService.eventEmitter.subscribe(() => {
+            this.refreshChart();
+        });
     }
 
     public ngOnChanges(): void {
-        this.loading = true;
         this.refreshChart();
     }
 
     private async refreshChart(): Promise<void> {
+        this.loading = true;
+
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
         this.portfolioDataService.getPortfolioDataRange(portfolio.id, this.range, this.benchmarkAssetId)
