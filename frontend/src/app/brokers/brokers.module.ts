@@ -8,13 +8,15 @@ import { ListComponent } from './list.component';
 import { AddEditComponent } from './add-edit.component';
 import {FaIconComponent, FaIconLibrary} from "@fortawesome/angular-fontawesome";
 import {faEdit, faPlus, faTrash} from "@fortawesome/free-solid-svg-icons";
+import {SharedModule} from "@app/shared/shared.module";
 
 @NgModule({
     imports: [
         CommonModule,
         ReactiveFormsModule,
         BrokersRoutingModule,
-        FaIconComponent
+        FaIconComponent,
+        SharedModule
     ],
     declarations: [
         LayoutComponent,

@@ -22,6 +22,10 @@ export class ListComponent implements OnInit, OnDestroy {
         this.brokerService.eventEmitter.subscribe(() => {
             this.refreshBrokers();
         });
+
+        this.portfolioService.eventEmitter.subscribe(() => {
+            this.refreshBrokers();
+        });
     }
 
     public ngOnDestroy(): void {
@@ -29,6 +33,8 @@ export class ListComponent implements OnInit, OnDestroy {
     }
 
     public async refreshBrokers(): Promise<void> {
+        this.brokers = null;
+
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
         this.brokerService.getBrokers(portfolio.id)
