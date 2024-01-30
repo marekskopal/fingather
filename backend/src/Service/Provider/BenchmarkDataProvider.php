@@ -138,19 +138,21 @@ class BenchmarkDataProvider
 		}
 
 		$benchmarkAssetTickerData = $this->tickerDataProvider->getLastTickerData($benchmarkAsset->getTicker(), $dateTime);
-		assert($benchmarkAssetTickerData instanceof TickerData);
+		if ($benchmarkAssetTickerData !== null) {
+			$benchmarkExchangeRateDefaultCurrency = $this->exchangeRateProvider->getExchangeRate(
+				$dateTime,
+				$benchmarkTickerCurrency,
+				$user->getDefaultCurrency(),
+			);
 
-		$benchmarkExchangeRateDefaultCurrency = $this->exchangeRateProvider->getExchangeRate(
-			$dateTime,
-			$benchmarkTickerCurrency,
-			$user->getDefaultCurrency(),
-		);
+			$benchmarkUnitsSum = $benchmarkUnitsSum->add($benchmarkFromDateUnits);
 
-		$benchmarkUnitsSum = $benchmarkUnitsSum->add($benchmarkFromDateUnits);
-
-		$value = $benchmarkUnitsSum->mul(
-			(new Decimal($benchmarkAssetTickerData->getClose()))->mul($benchmarkExchangeRateDefaultCurrency->getRate()),
-		);
+			$value = $benchmarkUnitsSum->mul(
+				(new Decimal($benchmarkAssetTickerData->getClose()))->mul($benchmarkExchangeRateDefaultCurrency->getRate()),
+			);
+		} else {
+			$value = new Decimal(0);
+		}
 
 		$benchmarkData = new BenchmarkData(
 			user: $user,
