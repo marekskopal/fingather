@@ -1,6 +1,6 @@
 ﻿import {Component, OnInit} from '@angular/core';
-import {Asset, PortfolioDataRangeEnum} from "@app/models";
-import {AssetService, PortfolioService} from "@app/services";
+import {Asset, PortfolioDataRangeEnum} from '@app/models';
+import {AssetService, PortfolioService} from '@app/services';
 
 @Component({ templateUrl: 'history.component.html' })
 export class HistoryComponent implements OnInit {

@@ -1,10 +1,9 @@
-﻿import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-
-import { environment } from '@environments/environment';
+﻿import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Currency } from '@app/models';
-import {CurrentUserService} from "@app/services/current-user.service";
-import {Observable} from "rxjs";
+import {CurrentUserService} from '@app/services/current-user.service';
+import { environment } from '@environments/environment';
+import {Observable} from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class CurrencyService {
@@ -39,7 +38,7 @@ export class CurrencyService {
         const currencies = await this.getCurrenciesMap();
         const defaultCurrency = currencies.get((currentUser.defaultCurrencyId));
         if (defaultCurrency === undefined) {
-            throw "Default currency not exists."
+            throw 'Default currency not exists.'
         }
         return defaultCurrency;
     }

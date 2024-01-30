@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import {LayoutComponent} from "@app/email-verify/componenets/layout/layout.component";
-import {VerifyComponent} from "@app/email-verify/componenets/verify/verify.component";
+import { RouterModule,Routes } from '@angular/router';
+import {LayoutComponent} from '@app/email-verify/componenets/layout/layout.component';
+import {VerifyComponent} from '@app/email-verify/componenets/verify/verify.component';
 
 const routes: Routes = [
     {

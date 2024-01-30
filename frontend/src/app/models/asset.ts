@@ -1,4 +1,4 @@
-﻿import {Ticker} from "@app/models/ticker";
+﻿import {Ticker} from '@app/models/ticker';
 
 export class Asset {
     public id: number;

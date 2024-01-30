@@ -1,12 +1,12 @@
 ﻿import {Component, Input, OnInit} from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
 import { UntypedFormBuilder, Validators} from '@angular/forms';
+import { ActivatedRoute,Router } from '@angular/router';
+import {Currency} from '@app/models';
+import {UserRoleEnum} from '@app/models/enums/user-role-enum';
+import {AlertService, CurrencyService,UserService} from '@app/services';
+import {BaseForm} from '@app/shared/components/form/base-form';
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import { first } from 'rxjs/operators';
-
-import {UserService, AlertService, CurrencyService} from '@app/services';
-import {Currency, UserRoleEnum} from "@app/models";
-import {BaseForm} from "@app/shared/components/form/base-form";
-import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({ templateUrl: 'add-edit.component.html' })
 export class AddEditComponent extends BaseForm implements OnInit {

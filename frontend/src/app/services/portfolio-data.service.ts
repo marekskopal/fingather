@@ -1,9 +1,9 @@
-﻿import { Injectable } from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
-import { environment } from '@environments/environment';
+﻿import {HttpClient, HttpParams} from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import {PortfolioData, PortfolioDataRangeEnum} from '@app/models';
-import {Observable} from "rxjs";
-import {PortfolioDataWithBenchmarkData} from "@app/models/portfolio-data-with-benchmark-data";
+import {PortfolioDataWithBenchmarkData} from '@app/models/portfolio-data-with-benchmark-data';
+import { environment } from '@environments/environment';
+import {Observable} from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class PortfolioDataService {
@@ -15,7 +15,11 @@ export class PortfolioDataService {
         return this.http.get<PortfolioData>(`${environment.apiUrl}/portfolio-data/${portfolioId}`);
     }
 
-    public getPortfolioDataRange(portfolioId: number, range: PortfolioDataRangeEnum, benchmarkAssetId: number|null = null): Observable<PortfolioDataWithBenchmarkData[]> {
+    public getPortfolioDataRange(
+        portfolioId: number,
+        range: PortfolioDataRangeEnum,
+        benchmarkAssetId: number|null = null
+    ): Observable<PortfolioDataWithBenchmarkData[]> {
         let params = new HttpParams();
         params = params.set('range', range)
 
@@ -23,6 +27,9 @@ export class PortfolioDataService {
             params = params.set('benchmarkAssetId', benchmarkAssetId)
         }
 
-        return this.http.get<PortfolioDataWithBenchmarkData[]>(`${environment.apiUrl}/portfolio-data-range/${portfolioId}`, {params});
+        return this.http.get<PortfolioDataWithBenchmarkData[]>(
+            `${environment.apiUrl}/portfolio-data-range/${portfolioId}`,
+            {params}
+        );
     }
 }

@@ -1,4 +1,5 @@
-﻿import {AEntity} from "@app/models/AEntity";
+﻿import {AEntity} from '@app/models/AEntity';
+import {UserRoleEnum} from '@app/models/enums/user-role-enum';
 
 export class User extends AEntity {
     public email: string
@@ -6,9 +7,4 @@ export class User extends AEntity {
     public name: string;
     public defaultCurrencyId: number;
     public role: UserRoleEnum;
-}
-
-export enum UserRoleEnum {
-    User = 'User',
-    Admin = 'Admin',
 }

@@ -1,7 +1,7 @@
 ﻿import {Component, OnInit} from '@angular/core';
-import {first} from "rxjs/operators";
-import {ActivatedRoute, Router} from "@angular/router";
-import {EmailVerifyService} from "@app/services";
+import {ActivatedRoute, Router} from '@angular/router';
+import {EmailVerifyService} from '@app/services';
+import {first} from 'rxjs/operators';
 
 @Component({ templateUrl: 'verify.component.html' })
 export class VerifyComponent implements OnInit {

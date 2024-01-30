@@ -1,14 +1,14 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ListComponent } from "@app/transactions/components/list/list.component";
-import {LayoutComponent} from "@app/transactions/components/layout/layout.component";
-import {TransactionsRoutingModule} from "@app/transactions/transactions-routing.module";
-import {SharedModule} from "@app/shared/shared.module";
-import {NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {FaIconLibrary, FontAwesomeModule} from "@fortawesome/angular-fontawesome";
-import {faEdit, faPlus, faTrash} from "@fortawesome/free-solid-svg-icons";
-import {MomentModule} from "ngx-moment";
+import { NgModule } from '@angular/core';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {SharedModule} from '@app/shared/shared.module';
+import {LayoutComponent} from '@app/transactions/components/layout/layout.component';
+import { ListComponent } from '@app/transactions/components/list/list.component';
+import {TransactionsRoutingModule} from '@app/transactions/transactions-routing.module';
+import {FaIconLibrary, FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import {faEdit, faPlus, faTrash} from '@fortawesome/free-solid-svg-icons';
+import {NgbPaginationModule} from '@ng-bootstrap/ng-bootstrap';
+import {MomentModule} from 'ngx-moment';
 
 
 @NgModule({

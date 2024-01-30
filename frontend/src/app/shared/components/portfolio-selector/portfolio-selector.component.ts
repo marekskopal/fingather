@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-
-
-import {first} from "rxjs/operators";
-import {Portfolio} from "@app/models";
-import {PortfolioService} from "@app/services";
+import {Portfolio} from '@app/models';
+import {PortfolioService} from '@app/services';
+import {first} from 'rxjs/operators';
 
 @Component({
     selector: 'fingather-portfolio-selector',

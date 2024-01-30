@@ -1,11 +1,11 @@
 ﻿import { Component, OnDestroy, OnInit } from '@angular/core';
-import { first } from 'rxjs/operators';
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute } from '@angular/router';
+import {Transaction, TransactionActionType} from '@app/models';
+import {PortfolioService, TransactionService} from '@app/services';
+import {ConfirmDialogService} from '@app/services/confirm-dialog.service';
+import {DividendDialogComponent} from '@app/shared/components/dividend-dialog/dividend-dialog.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {PortfolioService, TransactionService} from "@app/services";
-import {Transaction, TransactionActionType} from "@app/models";
-import {DividendDialogComponent} from "@app/shared/components/dividend-dialog/dividend-dialog.component";
-import {ConfirmDialogService} from "@app/services/confirm-dialog.service";
+import { first } from 'rxjs/operators';
 
 @Component({
     templateUrl: 'dividend-list.component.html',
@@ -63,7 +63,10 @@ export class DividendListComponent implements OnInit, OnDestroy {
         transaction.isDeleting = true;
 
         try {
-            const confirmed = await this.confirmDialogService.confirm(`Delete dividend`, `Are you sure to delete dividend?`);
+            const confirmed = await this.confirmDialogService.confirm(
+                'Delete dividend',
+                'Are you sure to delete dividend?'
+            );
             if (!confirmed){
                 transaction.isDeleting = false;
                 return;

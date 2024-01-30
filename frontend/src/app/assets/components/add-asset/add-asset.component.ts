@@ -1,10 +1,10 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
+import {AlertService, AssetService, TickerService} from '@app/services';
+import {BaseDialog} from '@app/shared/components/dialog/base-dialog';
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {Observable, of, OperatorFunction} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, first, map, switchMap, tap} from 'rxjs/operators';
-import {AlertService, AssetService, TickerService} from "@app/services";
-import {Observable, of, OperatorFunction} from "rxjs";
-import {BaseDialog} from "@app/shared/components/dialog/base-dialog";
-import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 
 
 @Component({ templateUrl: 'add-asset.component.html' })

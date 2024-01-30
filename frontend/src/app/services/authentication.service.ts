@@ -1,15 +1,14 @@
-﻿import { Injectable } from '@angular/core';
+﻿import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import {SignUp} from '@app/models';
+import {Authentication} from '@app/models/authentication';
+import {BoolResponse} from '@app/models/bool-response';
+import {OkResponse} from '@app/models/ok-response';
+import {PortfolioService} from '@app/services/portfolio.service';
+import { environment } from '@environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
 import {map} from 'rxjs/operators';
-
-import { environment } from '@environments/environment';
-import {Authentication} from "@app/models/authentication";
-import {OkResponse} from "@app/models/ok-response";
-import {BoolResponse} from "@app/models/bool-response";
-import {SignUp} from "@app/models";
-import {PortfolioService} from "@app/services/portfolio.service";
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -35,8 +34,8 @@ export class AuthenticationService {
 
     public login(email: string, password: string): Observable<Authentication> {
         return this.http.post<Authentication>(`${environment.apiUrl}/authentication/login`, {
-          email: email,
-          password,
+            email: email,
+            password,
         })
             .pipe(map((authentication: Authentication) => {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
@@ -71,7 +70,11 @@ export class AuthenticationService {
     }
 
     public refreshToken(): Observable<Authentication> {
-        return this.http.post<Authentication>(`${environment.apiUrl}/authentication/refresh-token`, {}, { withCredentials: true })
+        return this.http.post<Authentication>(
+            `${environment.apiUrl}/authentication/refresh-token`,
+            {},
+            { withCredentials: true }
+        )
             .pipe(map((authentication: Authentication) => {
                 localStorage.setItem('authentication', JSON.stringify(authentication));
                 this.authenticationSubject.next(authentication);

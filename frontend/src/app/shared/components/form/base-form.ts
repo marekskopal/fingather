@@ -1,5 +1,5 @@
-import {AbstractControl, UntypedFormBuilder, UntypedFormGroup} from "@angular/forms";
-import { AlertService } from "@app/services";
+import {AbstractControl, UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
+import { AlertService } from '@app/services';
 
 export abstract class BaseForm
 {

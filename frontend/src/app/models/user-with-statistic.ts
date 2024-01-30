@@ -1,5 +1,5 @@
-﻿import {AEntity} from "@app/models/AEntity";
-import {UserRoleEnum} from "@app/models/user";
+﻿import {AEntity} from '@app/models/AEntity';
+import {UserRoleEnum} from '@app/models/enums/user-role-enum';
 
 export class UserWithStatistic extends AEntity {
     public email: string

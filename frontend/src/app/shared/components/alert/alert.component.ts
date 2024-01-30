@@ -1,9 +1,8 @@
-﻿import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-import { Router, NavigationStart } from '@angular/router';
-import { Subscription } from 'rxjs';
-
+﻿import { Component, Input,OnDestroy, OnInit } from '@angular/core';
+import { NavigationStart,Router } from '@angular/router';
 import { Alert, AlertType } from '@app/models';
 import { AlertService } from '@app/services';
+import { Subscription } from 'rxjs';
 
 @Component({ selector: 'fingather-alert', templateUrl: 'alert.component.html' })
 export class AlertComponent implements OnInit, OnDestroy {
@@ -37,7 +36,7 @@ export class AlertComponent implements OnInit, OnDestroy {
                 if (alert.autoClose) {
                     setTimeout(() => this.removeAlert(alert), 3500);
                 }
-           });
+            });
 
         // clear alerts on location change
         this.routeSubscription = this.router.events.subscribe(event => {

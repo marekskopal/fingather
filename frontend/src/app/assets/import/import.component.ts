@@ -1,11 +1,10 @@
 ﻿import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute,Router } from '@angular/router';
+import {Broker} from '@app/models';
+import {AlertService, BrokerService, ImportDataService, PortfolioService} from '@app/services';
+import {BaseForm} from '@app/shared/components/form/base-form';
 import { first } from 'rxjs/operators';
-
-import {Broker} from "@app/models";
-import {AlertService, BrokerService, ImportDataService, PortfolioService} from "@app/services";
-import {BaseForm} from "@app/shared/components/form/base-form";
 
 @Component({ templateUrl: 'import.component.html' })
 export class ImportComponent extends BaseForm implements OnInit {

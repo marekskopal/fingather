@@ -1,12 +1,12 @@
-﻿import {Injectable} from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+﻿import { HttpClient } from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import { Group } from '@app/models';
+import {OkResponse} from '@app/models/ok-response';
+import { environment } from '@environments/environment';
+import {Observable} from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { environment } from '@environments/environment';
-import { Group } from '@app/models';
 import { NotifyService } from '.';
-import {Observable} from "rxjs";
-import {OkResponse} from "@app/models/ok-response";
 
 @Injectable({ providedIn: 'root' })
 export class GroupService extends NotifyService {

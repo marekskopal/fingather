@@ -1,12 +1,11 @@
 ﻿import {Component, OnDestroy, OnInit} from '@angular/core';
-import { first } from 'rxjs/operators';
-
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute} from '@angular/router';
+import {Transaction, TransactionActionType} from '@app/models';
+import {PortfolioService, TransactionService} from '@app/services';
+import {ConfirmDialogService} from '@app/services/confirm-dialog.service';
+import {TransactionDialogComponent} from '@app/shared/components/transaction-dialog/transaction-dialog.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {Transaction, TransactionActionType} from "@app/models";
-import {PortfolioService, TransactionService} from "@app/services";
-import {TransactionDialogComponent} from "@app/shared/components/transaction-dialog/transaction-dialog.component";
-import {ConfirmDialogService} from "@app/services/confirm-dialog.service";
+import { first } from 'rxjs/operators';
 
 @Component({
     templateUrl: 'transaction-list.component.html',
@@ -41,7 +40,10 @@ export class TransactionListComponent implements OnInit, OnDestroy {
     public async refreshTransactions(): Promise<void> {
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
-        this.transactionService.getTransactions(portfolio.id, this.assetId, [TransactionActionType.Buy, TransactionActionType.Sell])
+        this.transactionService.getTransactions(portfolio.id, this.assetId, [
+            TransactionActionType.Buy,
+            TransactionActionType.Sell
+        ])
             .pipe(first())
             .subscribe(transactions => this.transactions = transactions.transactions);
     }
@@ -64,7 +66,10 @@ export class TransactionListComponent implements OnInit, OnDestroy {
         transaction.isDeleting = true;
 
         try {
-            const confirmed = await this.confirmDialogService.confirm(`Delete transaction`, `Are you sure to delete transaction?`);
+            const confirmed = await this.confirmDialogService.confirm(
+                'Delete transaction',
+                'Are you sure to delete transaction?'
+            );
             if (!confirmed){
                 transaction.isDeleting = false;
                 return;
