@@ -87,7 +87,7 @@ final class ImportService
 				continue;
 			}
 
-			$asset = $this->assetRepository->findAssetByTickerId($user->getId(), $ticker->getId());
+			$asset = $this->assetRepository->findAssetByTickerId($user->getId(), $portfolio->getId(), $ticker->getId());
 			if ($asset === null) {
 				$asset = new Asset(
 					user: $user,
