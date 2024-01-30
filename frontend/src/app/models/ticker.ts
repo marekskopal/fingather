@@ -1,4 +1,4 @@
-﻿import {Market} from '@app/models/market';
+import { Market } from '@app/models/market';
 
 export class Ticker {
     public id: number;
@@ -6,5 +6,5 @@ export class Ticker {
     public name: string;
     public marketId: number;
 
-    public market: Market
+    public market: Market;
 }

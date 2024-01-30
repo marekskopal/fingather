@@ -1,11 +1,11 @@
-﻿import { HTTP_INTERCEPTORS,HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import {ErrorInterceptor} from '@app/core/interceptors/error.interceptor';
-import {JwtInterceptor} from '@app/core/interceptors/jwt.interceptor';
-import {AlertComponent} from '@app/shared/components/alert/alert.component';
-import {FaIconComponent, FaIconLibrary} from '@fortawesome/angular-fontawesome';
+import { ErrorInterceptor } from '@app/core/interceptors/error.interceptor';
+import { JwtInterceptor } from '@app/core/interceptors/jwt.interceptor';
+import { AlertComponent } from '@app/shared/components/alert/alert.component';
+import { FaIconComponent, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import {
     faChartLine, faChartPie, faDashboard, faEye,
     faHandshake, faLayerGroup, faList, faPowerOff,

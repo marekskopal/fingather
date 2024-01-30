@@ -1,14 +1,13 @@
-import {Component, OnInit} from '@angular/core';
-import {Currency, YearCalculatedData} from '@app/models';
-import {CurrencyService, OverviewService, PortfolioService} from '@app/services';
-import {first} from 'rxjs/operators';
-
+import { Component, OnInit } from '@angular/core';
+import { Currency, YearCalculatedData } from '@app/models';
+import { CurrencyService, OverviewService, PortfolioService } from '@app/services';
+import { first } from 'rxjs/operators';
 
 @Component({
     templateUrl: './list.component.html'
 })
 export class ListComponent implements OnInit {
-    public yearCalculatedDatas: YearCalculatedData[]|null = null;
+    public yearCalculatedDatas: YearCalculatedData[] | null = null;
     public defaultCurrency: Currency;
 
     public constructor(
@@ -35,6 +34,6 @@ export class ListComponent implements OnInit {
 
         this.overviewService.getYearCalculatedData(portfolio.id)
             .pipe(first())
-            .subscribe(yearCalculatedDatas => this.yearCalculatedDatas = yearCalculatedDatas);
+            .subscribe((yearCalculatedDatas) => this.yearCalculatedDatas = yearCalculatedDatas);
     }
 }

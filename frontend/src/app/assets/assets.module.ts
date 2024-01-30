@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {AddAssetComponent} from '@app/assets/components/add-asset/add-asset.component';
-import {FaIconLibrary, FontAwesomeModule} from '@fortawesome/angular-fontawesome';
-import {faEdit, faExpand, faFileImport,faPlus, faTrash} from '@fortawesome/free-solid-svg-icons';
-import {NgbNavModule, NgbTypeaheadModule} from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AddAssetComponent } from '@app/assets/components/add-asset/add-asset.component';
+import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import {
+    faEdit, faExpand, faFileImport, faPlus, faTrash
+} from '@fortawesome/free-solid-svg-icons';
+import { NgbNavModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { MomentModule } from 'ngx-moment';
 
@@ -44,6 +46,6 @@ export class AssetsModule {
     public constructor(
         private readonly faIconLibrary: FaIconLibrary
     ) {
-        faIconLibrary.addIcons(faPlus, faEdit, faTrash, faExpand, faFileImport)
+        faIconLibrary.addIcons(faPlus, faEdit, faTrash, faExpand, faFileImport);
     }
 }

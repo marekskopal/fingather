@@ -1,9 +1,9 @@
-﻿import {Component, OnDestroy, OnInit} from '@angular/core';
-import {User, UserWithStatistic} from '@app/models';
-import {CurrentUserService, UserService} from '@app/services';
-import {ConfirmDialogService} from '@app/services/confirm-dialog.service';
-import {AddEditComponent} from '@app/users/add-edit.component';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { User, UserWithStatistic } from '@app/models';
+import { CurrentUserService, UserService } from '@app/services';
+import { ConfirmDialogService } from '@app/services/confirm-dialog.service';
+import { AddEditComponent } from '@app/users/add-edit.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { first } from 'rxjs/operators';
 
 @Component({ templateUrl: 'list.component.html' })
@@ -35,7 +35,7 @@ export class ListComponent implements OnInit, OnDestroy {
     public refreshUsers(): void {
         this.userService.getUsers()
             .pipe(first())
-            .subscribe(users => this.users = users);
+            .subscribe((users) => this.users = users);
     }
 
     public addUser(): void {
@@ -48,7 +48,7 @@ export class ListComponent implements OnInit, OnDestroy {
     }
 
     public async deleteUser(id: number): Promise<void> {
-        const user = this.users.find(x => x.id === id);
+        const user = this.users.find((x) => x.id === id);
         if (user === undefined) {
             return;
         }
@@ -59,7 +59,7 @@ export class ListComponent implements OnInit, OnDestroy {
                 `Delete user ${user.name}`,
                 `Are you sure to delete user ${user.name}?`
             );
-            if (!confirmed){
+            if (!confirmed) {
                 user.isDeleting = false;
                 return;
             }
@@ -70,6 +70,6 @@ export class ListComponent implements OnInit, OnDestroy {
 
         this.userService.deleteUser(id)
             .pipe(first())
-            .subscribe(() => this.users = this.users.filter(x => x.id !== id));
+            .subscribe(() => this.users = this.users.filter((x) => x.id !== id));
     }
 }

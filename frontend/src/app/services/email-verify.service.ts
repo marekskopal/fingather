@@ -1,10 +1,9 @@
-﻿import { HttpClient } from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {OkResponse} from '@app/models/ok-response';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { OkResponse } from '@app/models/ok-response';
+import { NotifyService } from '@app/services/notify-service';
 import { environment } from '@environments/environment';
-import {Observable} from 'rxjs';
-
-import { NotifyService } from '.';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class EmailVerifyService extends NotifyService {
@@ -16,7 +15,7 @@ export class EmailVerifyService extends NotifyService {
 
     public verifyEmail(token: string): Observable<OkResponse> {
         return this.http.post<OkResponse>(`${environment.apiUrl}/email-verify`, {
-            token: token,
+            token,
         });
     }
 }

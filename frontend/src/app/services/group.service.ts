@@ -1,12 +1,11 @@
-﻿import { HttpClient } from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Group } from '@app/models';
-import {OkResponse} from '@app/models/ok-response';
+import { OkResponse } from '@app/models/ok-response';
+import { NotifyService } from '@app/services/notify-service';
 import { environment } from '@environments/environment';
-import {Observable} from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
-import { NotifyService } from '.';
 
 @Injectable({ providedIn: 'root' })
 export class GroupService extends NotifyService {
@@ -34,15 +33,11 @@ export class GroupService extends NotifyService {
 
     public updateGroup(id: number, group: Group): Observable<Group> {
         return this.http.put<Group>(`${environment.apiUrl}/group/${id}`, group)
-            .pipe(map(x => {
-                return x;
-            }));
+            .pipe(map((x) => x));
     }
 
     public deleteGroup(id: number): Observable<OkResponse> {
         return this.http.delete<OkResponse>(`${environment.apiUrl}/group/${id}`)
-            .pipe(map(x => {
-                return x;
-            }));
+            .pipe(map((x) => x));
     }
 }

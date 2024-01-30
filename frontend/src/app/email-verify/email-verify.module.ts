@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import {LayoutComponent} from '@app/email-verify/componenets/layout/layout.component';
-import {VerifyComponent} from '@app/email-verify/componenets/verify/verify.component';
+import { LayoutComponent } from '@app/email-verify/componenets/layout/layout.component';
+import { VerifyComponent } from '@app/email-verify/componenets/verify/verify.component';
 
 import { SharedModule } from '../shared/shared.module';
 import { EmailVerifyRoutingModule } from './email-verify-routing.module';

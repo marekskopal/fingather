@@ -1,11 +1,13 @@
-﻿import {Component, Input, OnInit} from '@angular/core';
-import {UntypedFormBuilder, Validators} from '@angular/forms';
-import {AlertService, AssetService, GroupService, PortfolioService} from '@app/services';
-import {BaseForm} from '@app/shared/components/form/base-form';
-import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import {first} from 'rxjs/operators';
+import { Component, Input, OnInit } from '@angular/core';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
+import {
+    AlertService, AssetService, GroupService, PortfolioService
+} from '@app/services';
+import { BaseForm } from '@app/shared/components/form/base-form';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { first } from 'rxjs/operators';
 
-import {AssetWithProperties, Group} from '../models';
+import { AssetWithProperties, Group } from '../models';
 
 @Component({ templateUrl: 'add-edit.component.html' })
 export class AddEditComponent extends BaseForm implements OnInit {
@@ -22,7 +24,7 @@ export class AddEditComponent extends BaseForm implements OnInit {
         formBuilder: UntypedFormBuilder,
         alertService: AlertService,
     ) {
-        super(formBuilder, alertService)
+        super(formBuilder, alertService);
     }
 
     public async ngOnInit(): Promise<void> {
@@ -48,7 +50,7 @@ export class AddEditComponent extends BaseForm implements OnInit {
         if (!this.isAddMode) {
             this.groupService.getGroup(this.id)
                 .pipe(first())
-                .subscribe(x => this.form.patchValue(x));
+                .subscribe((x) => this.form.patchValue(x));
         }
     }
 
@@ -82,7 +84,7 @@ export class AddEditComponent extends BaseForm implements OnInit {
                     this.activeModal.dismiss();
                     this.groupService.notify();
                 },
-                error: error => {
+                error: (error) => {
                     this.alertService.error(error);
                     this.loading = false;
                 }
@@ -98,7 +100,7 @@ export class AddEditComponent extends BaseForm implements OnInit {
                     this.activeModal.dismiss();
                     this.groupService.notify();
                 },
-                error: error => {
+                error: (error) => {
                     this.alertService.error(error);
                     this.loading = false;
                 }

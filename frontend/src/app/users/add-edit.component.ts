@@ -1,11 +1,11 @@
-﻿import {Component, Input, OnInit} from '@angular/core';
-import { UntypedFormBuilder, Validators} from '@angular/forms';
-import { ActivatedRoute,Router } from '@angular/router';
-import {Currency} from '@app/models';
-import {UserRoleEnum} from '@app/models/enums/user-role-enum';
-import {AlertService, CurrencyService,UserService} from '@app/services';
-import {BaseForm} from '@app/shared/components/form/base-form';
-import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import { Component, Input, OnInit } from '@angular/core';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Currency } from '@app/models';
+import { UserRoleEnum } from '@app/models/enums/user-role-enum';
+import { AlertService, CurrencyService, UserService } from '@app/services';
+import { BaseForm } from '@app/shared/components/form/base-form';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { first } from 'rxjs/operators';
 
 @Component({ templateUrl: 'add-edit.component.html' })
@@ -14,9 +14,9 @@ export class AddEditComponent extends BaseForm implements OnInit {
     public isAddMode: boolean;
     public currencies: Currency[];
     public roles = [
-        {name: 'User', key: UserRoleEnum.User},
-        {name: 'Admin', key: UserRoleEnum.Admin},
-    ]
+        { name: 'User', key: UserRoleEnum.User },
+        { name: 'Admin', key: UserRoleEnum.Admin },
+    ];
 
     public constructor(
         private route: ActivatedRoute,
@@ -33,7 +33,7 @@ export class AddEditComponent extends BaseForm implements OnInit {
     public async ngOnInit(): Promise<void> {
         this.isAddMode = !this.id;
 
-        const emailValidators = [Validators.email]
+        const emailValidators = [Validators.email];
         const passwordValidators = [Validators.minLength(6)];
         if (this.isAddMode) {
             emailValidators.push(Validators.required);
@@ -58,7 +58,7 @@ export class AddEditComponent extends BaseForm implements OnInit {
         if (!this.isAddMode) {
             this.userService.getUser(this.id)
                 .pipe(first())
-                .subscribe(x => this.form.patchValue(x));
+                .subscribe((x) => this.form.patchValue(x));
         }
     }
 
@@ -90,7 +90,7 @@ export class AddEditComponent extends BaseForm implements OnInit {
                     this.activeModal.dismiss();
                     this.userService.notify();
                 },
-                error: error => {
+                error: (error) => {
                     this.alertService.error(error);
                     this.loading = false;
                 }
@@ -106,7 +106,7 @@ export class AddEditComponent extends BaseForm implements OnInit {
                     this.activeModal.dismiss();
                     this.userService.notify();
                 },
-                error: error => {
+                error: (error) => {
                     this.alertService.error(error);
                     this.loading = false;
                 }

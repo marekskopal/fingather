@@ -1,11 +1,11 @@
-﻿import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute,Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from '@app/services';
-import {BaseForm} from '@app/shared/components/form/base-form';
+import { BaseForm } from '@app/shared/components/form/base-form';
 import { first } from 'rxjs/operators';
 
-import {AuthenticationService} from '../services/authentication.service';
+import { AuthenticationService } from '../services/authentication.service';
 
 @Component({ templateUrl: 'login.component.html' })
 export class LoginComponent extends BaseForm implements OnInit {
@@ -16,7 +16,7 @@ export class LoginComponent extends BaseForm implements OnInit {
         formBuilder: UntypedFormBuilder,
         alertService: AlertService,
     ) {
-        super(formBuilder, alertService)
+        super(formBuilder, alertService);
     }
 
     public ngOnInit(): void {
@@ -46,7 +46,7 @@ export class LoginComponent extends BaseForm implements OnInit {
                     const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
                     this.router.navigateByUrl(returnUrl);
                 },
-                error: error => {
+                error: (error) => {
                     this.alertService.error(error);
                     this.loading = false;
                 }

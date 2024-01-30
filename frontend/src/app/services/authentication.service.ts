@@ -1,19 +1,19 @@
-﻿import { HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import {SignUp} from '@app/models';
-import {Authentication} from '@app/models/authentication';
-import {BoolResponse} from '@app/models/bool-response';
-import {OkResponse} from '@app/models/ok-response';
-import {PortfolioService} from '@app/services/portfolio.service';
+import { SignUp } from '@app/models';
+import { Authentication } from '@app/models/authentication';
+import { BoolResponse } from '@app/models/bool-response';
+import { OkResponse } from '@app/models/ok-response';
+import { PortfolioService } from '@app/services/portfolio.service';
 import { environment } from '@environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
-import {map} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-    private authenticationSubject: BehaviorSubject<Authentication|null>;
-    public authentication: Observable<Authentication|null>;
+    private authenticationSubject: BehaviorSubject<Authentication | null>;
+    public authentication: Observable<Authentication | null>;
     private refreshTokenTimeout: ReturnType<typeof setTimeout>;
 
     public constructor(
@@ -28,13 +28,13 @@ export class AuthenticationService {
         this.authentication = this.authenticationSubject.asObservable();
     }
 
-    public get authenticationValue(): Authentication|null {
+    public get authenticationValue(): Authentication | null {
         return this.authenticationSubject.value;
     }
 
     public login(email: string, password: string): Observable<Authentication> {
         return this.http.post<Authentication>(`${environment.apiUrl}/authentication/login`, {
-            email: email,
+            email,
             password,
         })
             .pipe(map((authentication: Authentication) => {
@@ -57,15 +57,14 @@ export class AuthenticationService {
     }
 
     public signUp(signUp: SignUp): Observable<OkResponse> {
-        return this.http.post<OkResponse>(`${environment.apiUrl}/authentication/sign-up`, signUp)
+        return this.http.post<OkResponse>(`${environment.apiUrl}/authentication/sign-up`, signUp);
     }
 
-    public isEmailExists(email: string): Observable<boolean>
-    {
+    public isEmailExists(email: string): Observable<boolean> {
         return this.http.post<BoolResponse>(`${environment.apiUrl}/authentication/email-exists`, {
-            email: email,
+            email,
         }).pipe(
-            map(response => response.value)
+            map((response) => response.value)
         );
     }
 

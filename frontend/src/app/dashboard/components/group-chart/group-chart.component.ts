@@ -1,8 +1,12 @@
-﻿import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import {GroupWithGroupData} from '@app/models';
-import {GroupWithGroupDataService, PortfolioService} from '@app/services';
-import { ApexChart, ApexFill, ApexLegend,
-    ApexNonAxisChartSeries, ApexPlotOptions, ApexStroke, ApexTheme, ApexYAxis, ChartComponent } from 'ng-apexcharts';
+import {
+    Component, Input, OnInit, ViewChild
+} from '@angular/core';
+import { GroupWithGroupData } from '@app/models';
+import { GroupWithGroupDataService, PortfolioService } from '@app/services';
+import {
+    ApexChart, ApexFill, ApexLegend,
+    ApexNonAxisChartSeries, ApexPlotOptions, ApexStroke, ApexTheme, ApexYAxis, ChartComponent
+} from 'ng-apexcharts';
 import { first } from 'rxjs/operators';
 
 export type ChartOptions = {
@@ -94,8 +98,7 @@ export class GroupChartComponent implements OnInit {
         };
     }
 
-    private mapChart(groupsWithGroupData: GroupWithGroupData[]): {series: number[], labels: string[]}
-    {
+    private mapChart(groupsWithGroupData: GroupWithGroupData[]): { series: number[], labels: string[] } {
         const series: number[] = [];
         const labels: string[] = [];
 
@@ -105,8 +108,8 @@ export class GroupChartComponent implements OnInit {
         }
 
         return {
-            series: series,
-            labels: labels,
+            series,
+            labels,
         };
     }
 }

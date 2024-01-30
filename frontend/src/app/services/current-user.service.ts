@@ -1,11 +1,11 @@
-﻿import { HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '@app/models';
 import { environment } from '@environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class CurrentUserService {
-    private currentUser: User|null = null;
+    private currentUser: User | null = null;
 
     public constructor(
         private http: HttpClient

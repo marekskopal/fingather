@@ -1,11 +1,11 @@
-﻿import { Component, OnInit } from '@angular/core';
-import {Currency, GroupWithGroupData} from '@app/models';
-import {CurrencyService, GroupWithGroupDataService, PortfolioService} from '@app/services';
+import { Component, OnInit } from '@angular/core';
+import { Currency, GroupWithGroupData } from '@app/models';
+import { CurrencyService, GroupWithGroupDataService, PortfolioService } from '@app/services';
 import { first } from 'rxjs/operators';
 
 @Component({ templateUrl: 'dashboard.component.html' })
 export class DashboardComponent implements OnInit {
-    public groupsWithGroupData: GroupWithGroupData[]|null = null;
+    public groupsWithGroupData: GroupWithGroupData[] | null = null;
     public defaultCurrency: Currency;
 
     public constructor(

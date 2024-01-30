@@ -1,9 +1,9 @@
-﻿import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {Transaction, TransactionActionType} from '@app/models';
-import {PortfolioService, TransactionService} from '@app/services';
-import {ConfirmDialogService} from '@app/services/confirm-dialog.service';
-import {DividendDialogComponent} from '@app/shared/components/dividend-dialog/dividend-dialog.component';
+import { Transaction, TransactionActionType } from '@app/models';
+import { PortfolioService, TransactionService } from '@app/services';
+import { ConfirmDialogService } from '@app/services/confirm-dialog.service';
+import { DividendDialogComponent } from '@app/shared/components/dividend-dialog/dividend-dialog.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { first } from 'rxjs/operators';
 
@@ -12,7 +12,7 @@ import { first } from 'rxjs/operators';
     selector: 'fingather-dividend-list',
 })
 export class DividendListComponent implements OnInit, OnDestroy {
-    public dividends: Transaction[]|null = null;
+    public dividends: Transaction[] | null = null;
     public assetId: number;
 
     public constructor(
@@ -42,7 +42,7 @@ export class DividendListComponent implements OnInit, OnDestroy {
 
         this.transactionService.getTransactions(portfolio.id, this.assetId, [TransactionActionType.Dividend])
             .pipe(first())
-            .subscribe(dividends => this.dividends = dividends.transactions);
+            .subscribe((dividends) => this.dividends = dividends.transactions);
     }
 
     public addDividend(): void {
@@ -56,7 +56,7 @@ export class DividendListComponent implements OnInit, OnDestroy {
     }
 
     public async deleteDividend(id: number): Promise<void> {
-        const transaction = this.dividends?.find(x => x.id === id);
+        const transaction = this.dividends?.find((x) => x.id === id);
         if (transaction === undefined) {
             return;
         }
@@ -67,7 +67,7 @@ export class DividendListComponent implements OnInit, OnDestroy {
                 'Delete dividend',
                 'Are you sure to delete dividend?'
             );
-            if (!confirmed){
+            if (!confirmed) {
                 transaction.isDeleting = false;
                 return;
             }

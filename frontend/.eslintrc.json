@@ -3,6 +3,9 @@
   "ignorePatterns": [
     "projects/**/*"
   ],
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
   "plugins": ["unused-imports", "simple-import-sort"],
   "overrides": [
     {
@@ -10,6 +13,8 @@
         "*.ts"
       ],
       "extends": [
+        "airbnb-base",
+        "airbnb-typescript/base",
         "eslint:recommended",
         "plugin:import/recommended",
         "plugin:@typescript-eslint/recommended",
@@ -17,6 +22,12 @@
         "plugin:@angular-eslint/template/process-inline-templates"
       ],
       "rules": {
+        "no-return-assign": "off",
+        "no-unsafe-optional-chaining": "off",
+        "class-methods-use-this": "off",
+        "no-restricted-syntax": "off",
+        "no-param-reassign": "off",
+        "import/no-cycle": "off",
         "import/prefer-default-export": "off",
         "import/first": "error",
         "import/newline-after-import": "error",

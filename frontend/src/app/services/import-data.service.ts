@@ -1,9 +1,9 @@
-﻿import { HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ImportData } from '@app/models';
-import {OkResponse} from '@app/models/ok-response';
+import { OkResponse } from '@app/models/ok-response';
 import { environment } from '@environments/environment';
-import {Observable} from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ImportDataService {

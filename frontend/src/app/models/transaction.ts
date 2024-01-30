@@ -1,11 +1,11 @@
-﻿import { AEntity } from '.';
+import { AEntity } from '@app/models/AEntity';
 
 export class Transaction extends AEntity {
     public assetId: string;
     public brokerId: string;
     public actionType: TransactionActionType;
     public actionCreated: string;
-    public createType: TransactionCreateType
+    public createType: TransactionCreateType;
     public created: Date;
     public modified: Date;
     public units: number;

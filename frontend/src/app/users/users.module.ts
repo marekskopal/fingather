@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import {FaIconComponent, FaIconLibrary} from '@fortawesome/angular-fontawesome';
-import {faEdit, faPlus, faTrash} from '@fortawesome/free-solid-svg-icons';
+import { FaIconComponent, FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { faEdit, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 import { AddEditComponent } from './add-edit.component';
 import { LayoutComponent } from './layout.component';
@@ -26,6 +26,6 @@ export class UsersModule {
     public constructor(
         private readonly faIconLibrary: FaIconLibrary
     ) {
-        faIconLibrary.addIcons(faPlus, faEdit, faTrash)
+        faIconLibrary.addIcons(faPlus, faEdit, faTrash);
     }
 }

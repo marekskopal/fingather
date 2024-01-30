@@ -1,3 +1,3 @@
-﻿export class AssetCreate {
+export class AssetCreate {
     public ticker: string;
 }

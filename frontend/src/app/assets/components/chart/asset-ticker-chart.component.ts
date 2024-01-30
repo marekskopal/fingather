@@ -1,6 +1,8 @@
-﻿import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import {TickerData} from '@app/models';
-import {TickerDataService} from '@app/services';
+import {
+    Component, Input, OnInit, ViewChild
+} from '@angular/core';
+import { TickerData } from '@app/models';
+import { TickerDataService } from '@app/services';
 import {
     ApexAxisChartSeries,
     ApexChart,
@@ -28,7 +30,7 @@ export type ChartOptions = {
 export class AssetTickerChartComponent implements OnInit {
     @ViewChild('chart', { static: false }) public chart: ChartComponent;
     @Input() public assetTickerId: string;
-    public assetTickerDatas: TickerData[]|null = null;
+    public assetTickerDatas: TickerData[] | null = null;
     public chartOptions: ChartOptions;
 
     public constructor(
@@ -38,9 +40,9 @@ export class AssetTickerChartComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.assetTickerDataService.getTickerDatas(parseInt(this.assetTickerId))
+        this.assetTickerDataService.getTickerDatas(parseInt(this.assetTickerId, 10))
             .pipe(first())
-            .subscribe(assetTickerDatas => {
+            .subscribe((assetTickerDatas) => {
                 this.chartOptions.series = [{
                     data: this.mapAssetTickerData(assetTickerDatas)
                 }];
@@ -76,12 +78,10 @@ export class AssetTickerChartComponent implements OnInit {
         };
     }
 
-    private mapAssetTickerData(assetTickerDatas: TickerData[]): {x: Date, y: number[]}[]
-    {
+    private mapAssetTickerData(assetTickerDatas: TickerData[]): { x: Date, y: number[] }[] {
         const chartData = [];
 
         for (const assetTickerData of assetTickerDatas) {
-
             chartData.push({
                 x: new Date(assetTickerData.date),
                 y: [
@@ -93,6 +93,6 @@ export class AssetTickerChartComponent implements OnInit {
             });
         }
 
-        return chartData
+        return chartData;
     }
 }

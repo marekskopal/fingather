@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import {Portfolio} from '@app/models';
-import {PortfolioService} from '@app/services';
-import {first} from 'rxjs/operators';
+import { Portfolio } from '@app/models';
+import { PortfolioService } from '@app/services';
+import { first } from 'rxjs/operators';
 
 @Component({
     selector: 'fingather-portfolio-selector',
     templateUrl: 'portfolio-selector.component.html',
 })
 export class PortfolioSelectorComponent implements OnInit {
-    public portfolios: Portfolio[]|null = null;
+    public portfolios: Portfolio[] | null = null;
     public currentPortfolio: Portfolio;
 
     public constructor(
@@ -27,7 +27,7 @@ export class PortfolioSelectorComponent implements OnInit {
 
     public changeCurrentPortfolio(event: Event): void {
         const eventTarget = event.target as HTMLSelectElement;
-        const currentPortfolioId = parseInt(eventTarget.value);
+        const currentPortfolioId = parseInt(eventTarget.value, 10);
         this.portfolioService.getPortfolio(currentPortfolioId).subscribe((portfolio: Portfolio) => {
             this.portfolioService.setCurrentPortfolio(portfolio);
             this.currentPortfolio = portfolio;
