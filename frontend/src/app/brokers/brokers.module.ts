@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import {SharedModule} from '@app/shared/shared.module';
-import {FaIconComponent, FaIconLibrary} from '@fortawesome/angular-fontawesome';
-import {faEdit, faPlus, faTrash} from '@fortawesome/free-solid-svg-icons';
+import { SharedModule } from '@app/shared/shared.module';
+import { FaIconComponent, FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { faEdit, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 import { AddEditComponent } from './add-edit.component';
 import { BrokersRoutingModule } from './brokers-routing.module';
@@ -28,6 +28,6 @@ export class BrokersModule {
     public constructor(
         private readonly faIconLibrary: FaIconLibrary
     ) {
-        faIconLibrary.addIcons(faPlus, faEdit, faTrash)
+        faIconLibrary.addIcons(faPlus, faEdit, faTrash);
     }
 }

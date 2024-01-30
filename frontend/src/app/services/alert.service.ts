@@ -1,4 +1,4 @@
-﻿import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Alert, AlertType } from '@app/models';
 import { Observable, Subject } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -10,12 +10,14 @@ export class AlertService {
 
     // enable subscribing to alerts observable
     public onAlert(id = this.defaultId): Observable<Alert> {
-        return this.subject.asObservable().pipe(filter(x => x && x.id === id));
+        return this.subject.asObservable().pipe(filter((x) => x && x.id === id));
     }
 
     // convenience methods
     public success(message: string, options?: Partial<Alert>): void {
-        this.alert(new Alert({ ...options, type: AlertType.Success, autoClose: true, message }));
+        this.alert(new Alert({
+            ...options, type: AlertType.Success, autoClose: true, message
+        }));
     }
 
     public error(message: string, options?: Partial<Alert>): void {
@@ -23,7 +25,9 @@ export class AlertService {
     }
 
     public info(message: string, options?: Partial<Alert>): void {
-        this.alert(new Alert({ ...options, type: AlertType.Info, autoClose: true, message }));
+        this.alert(new Alert({
+            ...options, type: AlertType.Info, autoClose: true, message
+        }));
     }
 
     public warning(message: string, options?: Partial<Alert>): void {

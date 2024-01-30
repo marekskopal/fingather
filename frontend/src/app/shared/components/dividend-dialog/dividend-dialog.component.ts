@@ -1,7 +1,9 @@
-﻿import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import {AssetWithProperties, Broker, Currency, Transaction, TransactionActionType} from '@app/models';
+import {
+    AssetWithProperties, Broker, Currency, Transaction, TransactionActionType
+} from '@app/models';
 import {
     AlertService,
     AssetService,
@@ -10,16 +12,16 @@ import {
     PortfolioService,
     TransactionService
 } from '@app/services';
-import {BaseForm} from '@app/shared/components/form/base-form';
+import { BaseForm } from '@app/shared/components/form/base-form';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import { first } from 'rxjs/operators';
 
 @Component({ templateUrl: 'dividend-dialog.component.html' })
 export class DividendDialogComponent extends BaseForm implements OnInit {
-    public id: number|null = null;
-    public assets: AssetWithProperties[]|null;
-    public assetId: number|null = null
+    public id: number | null = null;
+    public assets: AssetWithProperties[] | null;
+    public assetId: number | null = null;
     public brokers: Broker[];
     public currencies: Currency[];
 
@@ -34,7 +36,7 @@ export class DividendDialogComponent extends BaseForm implements OnInit {
         formBuilder: UntypedFormBuilder,
         alertService: AlertService,
     ) {
-        super(formBuilder, alertService)
+        super(formBuilder, alertService);
     }
 
     public async ngOnInit(): Promise<void> {
@@ -72,7 +74,7 @@ export class DividendDialogComponent extends BaseForm implements OnInit {
                 .pipe(first())
                 .subscribe((transaction: Transaction) => {
                     transaction.actionCreated = moment(transaction.actionCreated).format('YYYY-MM-DDTHH:mm');
-                    this.form.patchValue(transaction)
+                    this.form.patchValue(transaction);
                 });
         }
     }
@@ -99,7 +101,7 @@ export class DividendDialogComponent extends BaseForm implements OnInit {
 
     private createTransaction(portfolioId: number): void {
         const values = this.form.value;
-        values.assetId = parseInt(values.assetId);
+        values.assetId = parseInt(values.assetId, 10);
         values.units = 0;
         values.actionType = TransactionActionType.Dividend;
 
@@ -108,10 +110,10 @@ export class DividendDialogComponent extends BaseForm implements OnInit {
             .subscribe({
                 next: () => {
                     this.alertService.success('Dividend added successfully');
-                    this.activeModal.dismiss()
+                    this.activeModal.dismiss();
                     this.transactionService.notify();
                 },
-                error: error => {
+                error: (error) => {
                     this.alertService.error(error);
                     this.loading = false;
                 }
@@ -129,10 +131,10 @@ export class DividendDialogComponent extends BaseForm implements OnInit {
             .subscribe({
                 next: () => {
                     this.alertService.success('Update successful');
-                    this.activeModal.dismiss()
+                    this.activeModal.dismiss();
                     this.transactionService.notify();
                 },
-                error: error => {
+                error: (error) => {
                     this.alertService.error(error);
                     this.loading = false;
                 }

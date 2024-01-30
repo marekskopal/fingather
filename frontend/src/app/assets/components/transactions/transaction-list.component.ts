@@ -1,9 +1,9 @@
-﻿import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {Transaction, TransactionActionType} from '@app/models';
-import {PortfolioService, TransactionService} from '@app/services';
-import {ConfirmDialogService} from '@app/services/confirm-dialog.service';
-import {TransactionDialogComponent} from '@app/shared/components/transaction-dialog/transaction-dialog.component';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Transaction, TransactionActionType } from '@app/models';
+import { PortfolioService, TransactionService } from '@app/services';
+import { ConfirmDialogService } from '@app/services/confirm-dialog.service';
+import { TransactionDialogComponent } from '@app/shared/components/transaction-dialog/transaction-dialog.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { first } from 'rxjs/operators';
 
@@ -12,7 +12,7 @@ import { first } from 'rxjs/operators';
     selector: 'fingather-transaction-list',
 })
 export class TransactionListComponent implements OnInit, OnDestroy {
-    public transactions: Transaction[]|null = null;
+    public transactions: Transaction[] | null = null;
     public assetId: number;
 
     public constructor(
@@ -45,7 +45,7 @@ export class TransactionListComponent implements OnInit, OnDestroy {
             TransactionActionType.Sell
         ])
             .pipe(first())
-            .subscribe(transactions => this.transactions = transactions.transactions);
+            .subscribe((transactions) => this.transactions = transactions.transactions);
     }
 
     public addTransaction(assetId: number): void {
@@ -59,7 +59,7 @@ export class TransactionListComponent implements OnInit, OnDestroy {
     }
 
     public async deleteTransaction(id: number): Promise<void> {
-        const transaction = this.transactions?.find(x => x.id === id);
+        const transaction = this.transactions?.find((x) => x.id === id);
         if (transaction === undefined) {
             return;
         }
@@ -70,7 +70,7 @@ export class TransactionListComponent implements OnInit, OnDestroy {
                 'Delete transaction',
                 'Are you sure to delete transaction?'
             );
-            if (!confirmed){
+            if (!confirmed) {
                 transaction.isDeleting = false;
                 return;
             }

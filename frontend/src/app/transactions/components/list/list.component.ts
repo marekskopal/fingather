@@ -1,11 +1,11 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {TransactionList} from '@app/models/TransactionList';
-import {PortfolioService, TransactionService} from '@app/services';
-import {ConfirmDialogService} from '@app/services/confirm-dialog.service';
-import {DividendDialogComponent} from '@app/shared/components/dividend-dialog/dividend-dialog.component';
-import {TransactionDialogComponent} from '@app/shared/components/transaction-dialog/transaction-dialog.component';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {first} from 'rxjs/operators';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { TransactionList } from '@app/models/TransactionList';
+import { PortfolioService, TransactionService } from '@app/services';
+import { ConfirmDialogService } from '@app/services/confirm-dialog.service';
+import { DividendDialogComponent } from '@app/shared/components/dividend-dialog/dividend-dialog.component';
+import { TransactionDialogComponent } from '@app/shared/components/transaction-dialog/transaction-dialog.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { first } from 'rxjs/operators';
 
 @Component({
     templateUrl: './list.component.html',
@@ -13,7 +13,7 @@ import {first} from 'rxjs/operators';
 export class ListComponent implements OnInit, OnDestroy {
     public page: number = 1;
     public pageSize: number = 50;
-    public transactionList: TransactionList|null = null;
+    public transactionList: TransactionList | null = null;
 
     public constructor(
         private readonly transactionService: TransactionService,
@@ -52,7 +52,7 @@ export class ListComponent implements OnInit, OnDestroy {
             (this.page - 1) * this.pageSize
         )
             .pipe(first())
-            .subscribe(transactionList => this.transactionList = transactionList);
+            .subscribe((transactionList) => this.transactionList = transactionList);
     }
 
     public addTransaction(): void {
@@ -69,7 +69,7 @@ export class ListComponent implements OnInit, OnDestroy {
     }
 
     public async deleteTransaction(id: number): Promise<void> {
-        const transaction = this.transactionList?.transactions?.find(x => x.id === id);
+        const transaction = this.transactionList?.transactions?.find((x) => x.id === id);
         if (transaction === undefined) {
             return;
         }
@@ -80,7 +80,7 @@ export class ListComponent implements OnInit, OnDestroy {
                 'Delete transaction',
                 'Are you sure to delete transaction?'
             );
-            if (!confirmed){
+            if (!confirmed) {
                 transaction.isDeleting = false;
                 return;
             }

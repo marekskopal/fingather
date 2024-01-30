@@ -1,11 +1,11 @@
-﻿import {HttpClient, HttpParams} from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {Transaction, TransactionActionType} from '@app/models';
-import {OkResponse} from '@app/models/ok-response';
-import {TransactionList} from '@app/models/TransactionList';
-import {NotifyService} from '@app/services/notify-service';
+import { Transaction, TransactionActionType } from '@app/models';
+import { OkResponse } from '@app/models/ok-response';
+import { TransactionList } from '@app/models/TransactionList';
+import { NotifyService } from '@app/services/notify-service';
 import { environment } from '@environments/environment';
-import {Observable} from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
@@ -22,10 +22,10 @@ export class TransactionService extends NotifyService {
 
     public getTransactions(
         portfolioId: number,
-        assetId: number|null = null,
-        actionTypes: TransactionActionType[]|null = null,
-        limit: number|null = null,
-        offset: number|null = null,
+        assetId: number | null = null,
+        actionTypes: TransactionActionType[] | null = null,
+        limit: number | null = null,
+        offset: number | null = null,
     ): Observable<TransactionList> {
         let params = new HttpParams();
 
@@ -45,7 +45,7 @@ export class TransactionService extends NotifyService {
             params = params.set('offset', offset);
         }
 
-        return this.http.get<TransactionList>(`${environment.apiUrl}/transactions/${portfolioId}`, {params});
+        return this.http.get<TransactionList>(`${environment.apiUrl}/transactions/${portfolioId}`, { params });
     }
 
     public getTransaction(id: number): Observable<Transaction> {
@@ -54,15 +54,11 @@ export class TransactionService extends NotifyService {
 
     public updateTransaction(id: number, transaction: Transaction): Observable<Transaction> {
         return this.http.put<Transaction>(`${environment.apiUrl}/transaction/${id}`, transaction)
-            .pipe(map(x => {
-                return x;
-            }));
+            .pipe(map((x) => x));
     }
 
     public deleteTransaction(id: number): Observable<OkResponse> {
         return this.http.delete<OkResponse>(`${environment.apiUrl}/transaction/${id}`)
-            .pipe(map(x => {
-                return x;
-            }));
+            .pipe(map((x) => x));
     }
 }

@@ -1,11 +1,11 @@
-﻿import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute,Router } from '@angular/router';
-import {UniqueEmailValidator} from '@app/authentication/validator/UniqueEmailValidator';
-import {Currency} from '@app/models';
-import {AlertService, CurrencyService} from '@app/services';
-import {AuthenticationService} from '@app/services/authentication.service';
-import {BaseForm} from '@app/shared/components/form/base-form';
+import { ActivatedRoute, Router } from '@angular/router';
+import { UniqueEmailValidator } from '@app/authentication/validator/UniqueEmailValidator';
+import { Currency } from '@app/models';
+import { AlertService, CurrencyService } from '@app/services';
+import { AuthenticationService } from '@app/services/authentication.service';
+import { BaseForm } from '@app/shared/components/form/base-form';
 import { first } from 'rxjs/operators';
 
 @Component({ templateUrl: 'sign-up.component.html' })
@@ -64,7 +64,7 @@ export class SignUpComponent extends BaseForm implements OnInit {
                     this.alertService.success('Registration successful', { keepAfterRouteChange: true });
                     this.router.navigate(['../login'], { relativeTo: this.route });
                 },
-                error: error => {
+                error: (error) => {
                     this.alertService.error(error);
                     this.loading = false;
                 }

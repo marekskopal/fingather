@@ -1,5 +1,4 @@
-export abstract class AEntity
-{
+export abstract class AEntity {
     public id: number;
     public isDeleting: boolean = false;
 }

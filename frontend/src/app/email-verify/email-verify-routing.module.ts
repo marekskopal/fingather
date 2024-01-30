@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
-import { RouterModule,Routes } from '@angular/router';
-import {LayoutComponent} from '@app/email-verify/componenets/layout/layout.component';
-import {VerifyComponent} from '@app/email-verify/componenets/verify/verify.component';
+import { RouterModule, Routes } from '@angular/router';
+import { LayoutComponent } from '@app/email-verify/componenets/layout/layout.component';
+import { VerifyComponent } from '@app/email-verify/componenets/verify/verify.component';
 
 const routes: Routes = [
     {
-        path: '', component: LayoutComponent,
+        path: '',
+        component: LayoutComponent,
         children: [
             { path: ':token', component: VerifyComponent },
         ]

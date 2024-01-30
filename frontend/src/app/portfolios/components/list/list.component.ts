@@ -1,14 +1,14 @@
-﻿import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Portfolio} from '@app/models';
-import {AddEditComponent} from '@app/portfolios/components/add-edit/add-edit.component';
-import {PortfolioService} from '@app/services';
-import {ConfirmDialogService} from '@app/services/confirm-dialog.service';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Portfolio } from '@app/models';
+import { AddEditComponent } from '@app/portfolios/components/add-edit/add-edit.component';
+import { PortfolioService } from '@app/services';
+import { ConfirmDialogService } from '@app/services/confirm-dialog.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { first } from 'rxjs/operators';
 
 @Component({ templateUrl: 'list.component.html' })
 export class ListComponent implements OnInit, OnDestroy {
-    public portfolios: Portfolio[]|null = null;
+    public portfolios: Portfolio[] | null = null;
     public currentPortfolio: Portfolio;
 
     public constructor(
@@ -47,9 +47,9 @@ export class ListComponent implements OnInit, OnDestroy {
     }
 
     public async deletePortfolio(id: number): Promise<void> {
-        const portfolio = this.portfolios?.find(x => x.id === id);
+        const portfolio = this.portfolios?.find((x) => x.id === id);
         if (portfolio === undefined) {
-            return
+            return;
         }
         portfolio.isDeleting = true;
 
@@ -58,7 +58,7 @@ export class ListComponent implements OnInit, OnDestroy {
                 `Delete portfolio ${portfolio.name}`,
                 `Are you sure to delete portfolio ${portfolio.name}?`
             );
-            if (!confirmed){
+            if (!confirmed) {
                 portfolio.isDeleting = false;
                 return;
             }
@@ -69,9 +69,8 @@ export class ListComponent implements OnInit, OnDestroy {
 
         this.portfolioService.deletePortfolio(id)
             .pipe(first())
-            .subscribe(() => this.portfolios = this.portfolios !== null ?
-                this.portfolios.filter(x => x.id !== id) :
-                null
-            );
+            .subscribe(() => this.portfolios = this.portfolios !== null
+                ? this.portfolios.filter((x) => x.id !== id)
+                : null);
     }
 }

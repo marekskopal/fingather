@@ -1,4 +1,4 @@
-import { AEntity } from '.';
+import { AEntity } from '@app/models/AEntity';
 
 export class BenchmarkData extends AEntity {
     public assetId: number;

@@ -1,4 +1,4 @@
-﻿export class Market {
+export class Market {
     public id: number;
     public name: string;
     public acronym: string;

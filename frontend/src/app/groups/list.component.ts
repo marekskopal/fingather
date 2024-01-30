@@ -1,15 +1,15 @@
-﻿import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Group} from '@app/models';
-import {GroupService, PortfolioService} from '@app/services';
-import {ConfirmDialogService} from '@app/services/confirm-dialog.service';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Group } from '@app/models';
+import { GroupService, PortfolioService } from '@app/services';
+import { ConfirmDialogService } from '@app/services/confirm-dialog.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { first } from 'rxjs/operators';
 
-import {AddEditComponent} from './add-edit.component';
+import { AddEditComponent } from './add-edit.component';
 
 @Component({ templateUrl: 'list.component.html' })
 export class ListComponent implements OnInit, OnDestroy {
-    public groups: Group[]|null = null;
+    public groups: Group[] | null = null;
 
     public constructor(
         private readonly groupService: GroupService,
@@ -41,7 +41,7 @@ export class ListComponent implements OnInit, OnDestroy {
 
         this.groupService.getGroups(portfolio.id)
             .pipe(first())
-            .subscribe(groups => this.groups = groups);
+            .subscribe((groups) => this.groups = groups);
     }
 
     public addGroup(): void {
@@ -54,9 +54,9 @@ export class ListComponent implements OnInit, OnDestroy {
     }
 
     public async deleteGroup(id: number): Promise<void> {
-        const group = this.groups?.find(x => x.id === id);
+        const group = this.groups?.find((x) => x.id === id);
         if (group === undefined) {
-            return
+            return;
         }
         group.isDeleting = true;
 
@@ -65,7 +65,7 @@ export class ListComponent implements OnInit, OnDestroy {
                 `Delete group ${group.name}`,
                 `Are you sure to delete group ${group.name}?`
             );
-            if (!confirmed){
+            if (!confirmed) {
                 group.isDeleting = false;
                 return;
             }
@@ -76,9 +76,8 @@ export class ListComponent implements OnInit, OnDestroy {
 
         this.groupService.deleteGroup(id)
             .pipe(first())
-            .subscribe(() => this.groups = this.groups !== null ?
-                this.groups.filter(x => x.id !== id) :
-                null
-            );
+            .subscribe(() => this.groups = this.groups !== null
+                ? this.groups.filter((x) => x.id !== id)
+                : null);
     }
 }

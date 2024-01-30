@@ -1,10 +1,9 @@
-import { UntypedFormBuilder} from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { AlertService } from '@app/services';
 import { BaseForm } from '@app/shared/components/form/base-form';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
-export abstract class BaseDialog extends BaseForm
-{
+export abstract class BaseDialog extends BaseForm {
     public isAddMode: boolean;
 
     public constructor(
@@ -12,6 +11,6 @@ export abstract class BaseDialog extends BaseForm
         formBuilder: UntypedFormBuilder,
         alertService: AlertService,
     ) {
-        super(formBuilder, alertService)
+        super(formBuilder, alertService);
     }
 }

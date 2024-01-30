@@ -1,16 +1,20 @@
-﻿import {Component, OnDestroy, OnInit} from '@angular/core';
-import {AddAssetComponent} from '@app/assets/components/add-asset/add-asset.component';
-import {Asset, AssetWithProperties, Currency, GroupWithGroupData} from '@app/models';
-import {AssetService, CurrencyService, GroupWithGroupDataService, PortfolioService} from '@app/services';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AddAssetComponent } from '@app/assets/components/add-asset/add-asset.component';
+import {
+    Asset, AssetWithProperties, Currency, GroupWithGroupData
+} from '@app/models';
+import {
+    AssetService, CurrencyService, GroupWithGroupDataService, PortfolioService
+} from '@app/services';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { first } from 'rxjs/operators';
 
 @Component({ templateUrl: 'list.component.html' })
 export class ListComponent implements OnInit, OnDestroy {
-    public openedAssets: AssetWithProperties[]|null = null;
-    public openedGroupedAssets: GroupWithGroupData[]|null = null;
-    public closedAssets: Asset[]|null = null;
-    public watchedAssets: Asset[]|null = null;
+    public openedAssets: AssetWithProperties[] | null = null;
+    public openedGroupedAssets: GroupWithGroupData[] | null = null;
+    public closedAssets: Asset[] | null = null;
+    public watchedAssets: Asset[] | null = null;
 
     public defaultCurrency: Currency;
 

@@ -1,4 +1,4 @@
-﻿export class YearCalculatedData {
+export class YearCalculatedData {
     public year: number;
     public value: number;
     public transactionValue: number;

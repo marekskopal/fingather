@@ -1,15 +1,15 @@
-﻿import {Component, OnDestroy, OnInit} from '@angular/core';
-import {BrokerService, PortfolioService} from '@app/services';
-import {ConfirmDialogService} from '@app/services/confirm-dialog.service';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { BrokerService, PortfolioService } from '@app/services';
+import { ConfirmDialogService } from '@app/services/confirm-dialog.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { first } from 'rxjs/operators';
 
 import { Broker } from '../models/broker';
-import {AddEditComponent} from './add-edit.component';
+import { AddEditComponent } from './add-edit.component';
 
 @Component({ templateUrl: 'list.component.html' })
 export class ListComponent implements OnInit, OnDestroy {
-    public brokers: Broker[]|null = null;
+    public brokers: Broker[] | null = null;
 
     public constructor(
         private readonly brokerService: BrokerService,
@@ -41,22 +41,22 @@ export class ListComponent implements OnInit, OnDestroy {
 
         this.brokerService.getBrokers(portfolio.id)
             .pipe(first())
-            .subscribe(brokers => this.brokers = brokers);
+            .subscribe((brokers) => this.brokers = brokers);
     }
 
     public addBroker(): void {
-        this.modalService.open(AddEditComponent, {ariaLabelledBy: 'modal-basic-title'});
+        this.modalService.open(AddEditComponent, { ariaLabelledBy: 'modal-basic-title' });
     }
 
     public editBroker(id: number): void {
-        const addEditComponent = this.modalService.open(AddEditComponent, {ariaLabelledBy: 'modal-basic-title'});
+        const addEditComponent = this.modalService.open(AddEditComponent, { ariaLabelledBy: 'modal-basic-title' });
         addEditComponent.componentInstance.id = id;
     }
 
     public async deleteBroker(id: number): Promise<void> {
-        const broker = this.brokers?.find(x => x.id === id);
+        const broker = this.brokers?.find((x) => x.id === id);
         if (broker === undefined) {
-            return
+            return;
         }
         broker.isDeleting = true;
 
@@ -65,7 +65,7 @@ export class ListComponent implements OnInit, OnDestroy {
                 `Delete broker ${broker.name}`,
                 `Are you sure to delete broker ${broker.name}?`
             );
-            if (!confirmed){
+            if (!confirmed) {
                 broker.isDeleting = false;
                 return;
             }
@@ -76,6 +76,6 @@ export class ListComponent implements OnInit, OnDestroy {
 
         this.brokerService.deleteBroker(id)
             .pipe(first())
-            .subscribe(() => this.brokers = this.brokers !== null ? this.brokers.filter(x => x.id !== id) : null);
+            .subscribe(() => this.brokers = this.brokers !== null ? this.brokers.filter((x) => x.id !== id) : null);
     }
 }

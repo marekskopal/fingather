@@ -1,7 +1,7 @@
-﻿import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {EmailVerifyService} from '@app/services';
-import {first} from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { EmailVerifyService } from '@app/services';
+import { first } from 'rxjs/operators';
 
 @Component({ templateUrl: 'verify.component.html' })
 export class VerifyComponent implements OnInit {
@@ -19,6 +19,6 @@ export class VerifyComponent implements OnInit {
 
         this.emailVerifyService.verifyEmail(this.token)
             .pipe(first())
-            .subscribe(() => {this.validated = true});
+            .subscribe(() => { this.validated = true; });
     }
 }

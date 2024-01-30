@@ -1,15 +1,14 @@
-﻿import { HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {User, UserWithStatistic} from '@app/models';
-import {OkResponse} from '@app/models/ok-response';
-import {NotifyService} from '@app/services/notify-service';
+import { User, UserWithStatistic } from '@app/models';
+import { OkResponse } from '@app/models/ok-response';
+import { NotifyService } from '@app/services/notify-service';
 import { environment } from '@environments/environment';
-import {Observable} from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class UserService extends NotifyService {
-
     public constructor(
         private http: HttpClient
     ) {
@@ -30,19 +29,10 @@ export class UserService extends NotifyService {
 
     public updateUser(id: number, user: User): Observable<User> {
         return this.http.put<User>(`${environment.apiUrl}/admin/user/${id}`, user)
-            .pipe(map(x => {
-                return x;
-            }));
+            .pipe(map((x) => x));
     }
 
     public deleteUser(id: number): Observable<OkResponse> {
-        return this.http.delete<OkResponse>(`${environment.apiUrl}/admin/user/${id}`)
-            .pipe(map(x => {
-                // auto logout if the logged in user deleted their own record
-                //if (id == this.userValue.id) {
-                //    this.logout();
-                //}
-                return x;
-            }));
+        return this.http.delete<OkResponse>(`${environment.apiUrl}/admin/user/${id}`);
     }
 }

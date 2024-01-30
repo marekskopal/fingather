@@ -1,6 +1,8 @@
-﻿import {Component, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
-import {PortfolioDataRangeEnum, PortfolioDataWithBenchmarkData} from '@app/models';
-import {PortfolioDataService, PortfolioService} from '@app/services';
+import {
+    Component, Input, OnChanges, OnInit, ViewChild
+} from '@angular/core';
+import { PortfolioDataRangeEnum, PortfolioDataWithBenchmarkData } from '@app/models';
+import { PortfolioDataService, PortfolioService } from '@app/services';
 import {
     ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexGrid, ApexStroke, ApexTheme,
     ApexTitleSubtitle, ApexXAxis, ChartComponent
@@ -25,7 +27,7 @@ export type ChartOptions = {
 export class PortfolioValueChartComponent implements OnInit, OnChanges {
     @ViewChild('chart', { static: false }) public chart: ChartComponent;
     @Input() public range: PortfolioDataRangeEnum;
-    @Input() public benchmarkAssetId: number|null;
+    @Input() public benchmarkAssetId: number | null;
     public chartOptions: ChartOptions;
     public loading: boolean = true;
 
@@ -119,7 +121,7 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
 
     private mapChart(
         portfolioDatas: PortfolioDataWithBenchmarkData[]
-    ): {series: number[], benchmarkSeries: number[], categories: string[]} {
+    ): { series: number[], benchmarkSeries: number[], categories: string[] } {
         const series: number[] = [];
         const benchmarkSeries: number[] = [];
         const categories: string[] = [];
@@ -134,9 +136,9 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
         }
 
         return {
-            series: series,
-            benchmarkSeries: benchmarkSeries,
-            categories: categories,
+            series,
+            benchmarkSeries,
+            categories,
         };
     }
 }

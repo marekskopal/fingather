@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
-import { RouterModule,Routes } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
 import { LayoutComponent } from './layout.component';
 import { ListComponent } from './list.component';
 
 const routes: Routes = [
     {
-        path: '', component: LayoutComponent,
+        path: '',
+        component: LayoutComponent,
         children: [
             { path: '', component: ListComponent },
         ]

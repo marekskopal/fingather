@@ -1,9 +1,11 @@
-﻿import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute,Router } from '@angular/router';
-import {Broker} from '@app/models';
-import {AlertService, BrokerService, ImportDataService, PortfolioService} from '@app/services';
-import {BaseForm} from '@app/shared/components/form/base-form';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Broker } from '@app/models';
+import {
+    AlertService, BrokerService, ImportDataService, PortfolioService
+} from '@app/services';
+import { BaseForm } from '@app/shared/components/form/base-form';
 import { first } from 'rxjs/operators';
 
 @Component({ templateUrl: 'import.component.html' })
@@ -20,7 +22,7 @@ export class ImportComponent extends BaseForm implements OnInit {
         formBuilder: UntypedFormBuilder,
         alertService: AlertService,
     ) {
-        super(formBuilder, alertService)
+        super(formBuilder, alertService);
     }
 
     public async ngOnInit(): Promise<void> {
@@ -28,7 +30,7 @@ export class ImportComponent extends BaseForm implements OnInit {
 
         this.brokerService.getBrokers(portfolio.id)
             .pipe(first())
-            .subscribe(brokers => this.brokers = brokers);
+            .subscribe((brokers) => this.brokers = brokers);
 
         this.form = this.formBuilder.group({
             brokerId: [this.brokerId, Validators.required],
@@ -56,7 +58,7 @@ export class ImportComponent extends BaseForm implements OnInit {
     public onFileChange(event: any): void {
         const reader = new FileReader();
 
-        if(event.target.files && event.target.files.length) {
+        if (event.target.files && event.target.files.length) {
             const [file] = event.target.files;
             reader.readAsDataURL(file);
 
@@ -76,7 +78,7 @@ export class ImportComponent extends BaseForm implements OnInit {
                     this.alertService.success('Asset added successfully', { keepAfterRouteChange: true });
                     this.router.navigate(['../'], { relativeTo: this.route });
                 },
-                error: error => {
+                error: (error) => {
                     this.alertService.error(error);
                     this.loading = false;
                 }

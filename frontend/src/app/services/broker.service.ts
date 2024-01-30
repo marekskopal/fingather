@@ -1,10 +1,10 @@
-﻿import { HttpClient } from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Broker } from '@app/models';
-import {OkResponse} from '@app/models/ok-response';
-import {NotifyService} from '@app/services/notify-service';
+import { OkResponse } from '@app/models/ok-response';
+import { NotifyService } from '@app/services/notify-service';
 import { environment } from '@environments/environment';
-import {Observable} from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
@@ -29,15 +29,11 @@ export class BrokerService extends NotifyService {
 
     public updateBroker(id: number, broker: Broker): Observable<Broker> {
         return this.http.put<Broker>(`${environment.apiUrl}/broker/${id}`, broker)
-            .pipe(map(x => {
-                return x;
-            }));
+            .pipe(map((x) => x));
     }
 
     public deleteBroker(id: number): Observable<OkResponse> {
         return this.http.delete<OkResponse>(`${environment.apiUrl}/broker/${id}`)
-            .pipe(map(x => {
-                return x;
-            }));
+            .pipe(map((x) => x));
     }
 }
