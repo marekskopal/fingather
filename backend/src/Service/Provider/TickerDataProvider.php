@@ -53,6 +53,11 @@ class TickerDataProvider
 
 	public function updateTickerData(Ticker $ticker, bool $fullHistory = false): void
 	{
+		$lastTickerData = $this->tickerDataRepository->findLastTickerData($ticker->getId());
+		if ($lastTickerData !== null && $fullHistory) {
+			return;
+		}
+
 		$actualDate = new DateTime('today');
 
 		$dayOfWeek = (int) $actualDate->format('w');
@@ -63,9 +68,8 @@ class TickerDataProvider
 			$actualDate->sub(DateInterval::createFromDateString('1 day'));
 		}
 
-		$firstDate = (new DateTime('today'))->sub(DateInterval::createFromDateString('3 years'));
+		$firstDate = new DateTimeImmutable('2000-01-01 00:00:00');
 
-		$lastTickerData = $this->tickerDataRepository->findLastTickerData($ticker->getId());
 		if ($lastTickerData !== null && ($actualDate->getTimestamp() - $lastTickerData->getDate()->getTimestamp() < 86400)) {
 			return;
 		}
@@ -82,7 +86,7 @@ class TickerDataProvider
 		};
 	}
 
-	private function createTickerDataFromStock(Ticker $ticker, DateTime|DateTimeImmutable $fromDate, bool $fullHistory = false): void
+	private function createTickerDataFromStock(Ticker $ticker, DateTimeImmutable $fromDate, bool $fullHistory = false): void
 	{
 		$dailyTimeSeries = $this->alphaVantageApiClient->getTimeSeriesDaily($ticker->getTicker(), $fullHistory);
 		foreach ($dailyTimeSeries as $dailyTimeSerie) {

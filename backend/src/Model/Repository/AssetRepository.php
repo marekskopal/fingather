@@ -124,10 +124,11 @@ class AssetRepository extends ARepository
 		]);
 	}
 
-	public function findAssetByTickerId(int $userId, int $tickerId): ?Asset
+	public function findAssetByTickerId(int $userId, int $portfolioId, int $tickerId): ?Asset
 	{
 		return $this->findOne([
 			'user_id' => $userId,
+			'portfolio_id' => $portfolioId,
 			'ticker_id' => $tickerId,
 		]);
 	}
