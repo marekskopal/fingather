@@ -1,10 +1,10 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 
+import { ImportComponent } from './import.component';
 import { ImportRoutingModule } from './import-routing.module';
 import { LayoutComponent } from './layout.component';
-import { ImportComponent } from './import.component';
 
 @NgModule({
     imports: [

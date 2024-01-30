@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {first} from "rxjs/operators";
-import {Currency, YearCalculatedData} from "@app/models";
-import {CurrencyService, OverviewService, PortfolioService} from "@app/services";
+import {Currency, YearCalculatedData} from '@app/models';
+import {CurrencyService, OverviewService, PortfolioService} from '@app/services';
+import {first} from 'rxjs/operators';
 
 
 @Component({

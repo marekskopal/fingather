@@ -1,4 +1,4 @@
-﻿import { AEntity } from ".";
+﻿import { AEntity } from '.';
 
 export class Portfolio extends AEntity {
     public name: string;

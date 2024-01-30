@@ -1,4 +1,4 @@
-﻿import {Market} from "@app/models/market";
+﻿import {Market} from '@app/models/market';
 
 export class Ticker {
     public id: number;

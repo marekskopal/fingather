@@ -1,8 +1,7 @@
 ﻿import { Component, OnInit } from '@angular/core';
-import { first } from 'rxjs/operators';
-
+import {Currency, GroupWithGroupData} from '@app/models';
 import {CurrencyService, GroupWithGroupDataService, PortfolioService} from '@app/services';
-import {Currency, GroupWithGroupData} from "@app/models";
+import { first } from 'rxjs/operators';
 
 @Component({ templateUrl: 'dashboard.component.html' })
 export class DashboardComponent implements OnInit {

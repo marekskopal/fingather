@@ -1,12 +1,11 @@
-﻿import {Injectable} from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
-
-import { environment } from '@environments/environment';
+﻿import { HttpClient } from '@angular/common/http';
+import {Injectable} from '@angular/core';
 import { Broker } from '@app/models';
-import {NotifyService} from "@app/services/notify-service";
-import {Observable} from "rxjs";
-import {OkResponse} from "@app/models/ok-response";
+import {OkResponse} from '@app/models/ok-response';
+import {NotifyService} from '@app/services/notify-service';
+import { environment } from '@environments/environment';
+import {Observable} from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class BrokerService extends NotifyService {

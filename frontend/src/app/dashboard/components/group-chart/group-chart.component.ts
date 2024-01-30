@@ -1,8 +1,9 @@
 ﻿import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import {GroupWithGroupData} from '@app/models';
+import {GroupWithGroupDataService, PortfolioService} from '@app/services';
+import { ApexChart, ApexFill, ApexLegend,
+    ApexNonAxisChartSeries, ApexPlotOptions, ApexStroke, ApexTheme, ApexYAxis, ChartComponent } from 'ng-apexcharts';
 import { first } from 'rxjs/operators';
-import { ApexChart, ApexFill, ApexLegend, ApexNonAxisChartSeries, ApexPlotOptions, ApexStroke, ApexTheme, ApexYAxis, ChartComponent } from 'ng-apexcharts';
-import {GroupWithGroupData} from "@app/models";
-import {GroupWithGroupDataService, PortfolioService} from "@app/services";
 
 export type ChartOptions = {
     series: ApexNonAxisChartSeries;
@@ -21,7 +22,7 @@ export type ChartOptions = {
     selector: 'fingather-dashboard-group-chart',
 })
 export class GroupChartComponent implements OnInit {
-    @ViewChild("chart", { static: false }) public chart: ChartComponent;
+    @ViewChild('chart', { static: false }) public chart: ChartComponent;
     @Input() public assetTickerId: string;
     public chartOptions: ChartOptions;
     public loading: boolean = true;
@@ -60,8 +61,8 @@ export class GroupChartComponent implements OnInit {
         this.chartOptions = {
             series: [],
             chart: {
-                width: "100%",
-                type: "pie"
+                width: '100%',
+                type: 'pie'
             },
             labels: [],
             fill: {

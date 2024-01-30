@@ -1,13 +1,12 @@
-﻿import { Injectable } from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
-import { map } from 'rxjs/operators';
-
-import { environment } from '@environments/environment';
+﻿import {HttpClient, HttpParams} from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import {Transaction, TransactionActionType} from '@app/models';
-import {Observable} from "rxjs";
-import {OkResponse} from "@app/models/ok-response";
-import {NotifyService} from "@app/services/notify-service";
-import {TransactionList} from "@app/models/TransactionList";
+import {OkResponse} from '@app/models/ok-response';
+import {TransactionList} from '@app/models/TransactionList';
+import {NotifyService} from '@app/services/notify-service';
+import { environment } from '@environments/environment';
+import {Observable} from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class TransactionService extends NotifyService {

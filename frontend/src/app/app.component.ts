@@ -1,6 +1,6 @@
 ﻿import { Component } from '@angular/core';
-import {AuthenticationService} from "@app/services/authentication.service";
-import {Authentication} from "@app/models/authentication";
+import {Authentication} from '@app/models/authentication';
+import {AuthenticationService} from '@app/services/authentication.service';
 
 
 @Component({ selector: 'fingather-app', templateUrl: 'app.component.html' })

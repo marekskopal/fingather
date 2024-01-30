@@ -1,14 +1,14 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import {SharedModule} from '@app/shared/shared.module';
+import {FaIconComponent, FaIconLibrary} from '@fortawesome/angular-fontawesome';
+import {faEdit, faPlus, faTrash} from '@fortawesome/free-solid-svg-icons';
 
+import { AddEditComponent } from './add-edit.component';
 import { GroupsRoutingModule } from './groups-routing.module';
 import { LayoutComponent } from './layout.component';
 import { ListComponent } from './list.component';
-import { AddEditComponent } from './add-edit.component';
-import {FaIconComponent, FaIconLibrary} from "@fortawesome/angular-fontawesome";
-import {faEdit, faPlus, faTrash} from "@fortawesome/free-solid-svg-icons";
-import {SharedModule} from "@app/shared/shared.module";
 
 @NgModule({
     imports: [

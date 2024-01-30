@@ -1,11 +1,10 @@
 ﻿import {Component, OnDestroy, OnInit} from '@angular/core';
-import { first } from 'rxjs/operators';
-
+import {User, UserWithStatistic} from '@app/models';
 import {CurrentUserService, UserService} from '@app/services';
-import {User, UserWithStatistic} from "@app/models";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {AddEditComponent} from "@app/users/add-edit.component";
-import {ConfirmDialogService} from "@app/services/confirm-dialog.service";
+import {ConfirmDialogService} from '@app/services/confirm-dialog.service';
+import {AddEditComponent} from '@app/users/add-edit.component';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { first } from 'rxjs/operators';
 
 @Component({ templateUrl: 'list.component.html' })
 export class ListComponent implements OnInit, OnDestroy {
@@ -56,7 +55,10 @@ export class ListComponent implements OnInit, OnDestroy {
         user.isDeleting = true;
 
         try {
-            const confirmed = await this.confirmDialogService.confirm(`Delete user ${user.name}`, `Are you sure to delete user ${user.name}?`);
+            const confirmed = await this.confirmDialogService.confirm(
+                `Delete user ${user.name}`,
+                `Are you sure to delete user ${user.name}?`
+            );
             if (!confirmed){
                 user.isDeleting = false;
                 return;

@@ -1,5 +1,6 @@
 ﻿import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { first } from 'rxjs/operators';
+import {TickerData} from '@app/models';
+import {TickerDataService} from '@app/services';
 import {
     ApexAxisChartSeries,
     ApexChart,
@@ -9,8 +10,7 @@ import {
     ApexYAxis,
     ChartComponent
 } from 'ng-apexcharts';
-import {TickerData} from "@app/models";
-import {TickerDataService} from "@app/services";
+import { first } from 'rxjs/operators';
 
 export type ChartOptions = {
     series: ApexAxisChartSeries;
@@ -26,7 +26,7 @@ export type ChartOptions = {
     selector: 'fingather-asset-ticker-chart',
 })
 export class AssetTickerChartComponent implements OnInit {
-    @ViewChild("chart", { static: false }) public chart: ChartComponent;
+    @ViewChild('chart', { static: false }) public chart: ChartComponent;
     @Input() public assetTickerId: string;
     public assetTickerDatas: TickerData[]|null = null;
     public chartOptions: ChartOptions;
@@ -55,15 +55,15 @@ export class AssetTickerChartComponent implements OnInit {
                 }
             ],
             chart: {
-                type: "candlestick",
+                type: 'candlestick',
                 height: 500
             },
             title: {
-                text: "CandleStick Chart",
-                align: "left"
+                text: 'CandleStick Chart',
+                align: 'left'
             },
             xaxis: {
-                type: "datetime"
+                type: 'datetime'
             },
             yaxis: {
                 tooltip: {

@@ -1,11 +1,7 @@
 ﻿import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
-import { first } from 'rxjs/operators';
-
-import * as moment from "moment";
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import {AssetWithProperties, Broker, Currency, Transaction, TransactionActionType} from "@app/models";
+import { ActivatedRoute } from '@angular/router';
+import {AssetWithProperties, Broker, Currency, Transaction, TransactionActionType} from '@app/models';
 import {
     AlertService,
     AssetService,
@@ -13,8 +9,11 @@ import {
     CurrencyService,
     PortfolioService,
     TransactionService
-} from "@app/services";
-import {BaseForm} from "@app/shared/components/form/base-form";
+} from '@app/services';
+import {BaseForm} from '@app/shared/components/form/base-form';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import * as moment from 'moment';
+import { first } from 'rxjs/operators';
 
 @Component({ templateUrl: 'dividend-dialog.component.html' })
 export class DividendDialogComponent extends BaseForm implements OnInit {

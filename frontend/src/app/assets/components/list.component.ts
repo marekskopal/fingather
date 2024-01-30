@@ -1,10 +1,9 @@
 ﻿import {Component, OnDestroy, OnInit} from '@angular/core';
+import {AddAssetComponent} from '@app/assets/components/add-asset/add-asset.component';
+import {Asset, AssetWithProperties, Currency, GroupWithGroupData} from '@app/models';
+import {AssetService, CurrencyService, GroupWithGroupDataService, PortfolioService} from '@app/services';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { first } from 'rxjs/operators';
-
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {Asset, AssetWithProperties, Currency, GroupWithGroupData} from "@app/models";
-import {AssetService, CurrencyService, GroupWithGroupDataService, PortfolioService} from "@app/services";
-import {AddAssetComponent} from "@app/assets/components/add-asset/add-asset.component";
 
 @Component({ templateUrl: 'list.component.html' })
 export class ListComponent implements OnInit, OnDestroy {
@@ -50,7 +49,9 @@ export class ListComponent implements OnInit, OnDestroy {
         if (this.withGroups) {
             this.groupWithGroupDataService.getGroupWithGroupData(portfolio.id)
                 .pipe(first())
-                .subscribe((openedGroupedAssets: GroupWithGroupData[]) => this.openedGroupedAssets = openedGroupedAssets);
+                .subscribe(
+                    (openedGroupedAssets: GroupWithGroupData[]) => this.openedGroupedAssets = openedGroupedAssets
+                );
 
             return;
         }

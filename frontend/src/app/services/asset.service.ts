@@ -1,10 +1,10 @@
-﻿import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '@environments/environment';
+﻿import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import {Asset, AssetWithProperties} from '@app/models';
-import {Observable} from "rxjs";
-import {AssetCreate} from "@app/models/asset-create";
-import {NotifyService} from "@app/services/notify-service";
+import {AssetCreate} from '@app/models/asset-create';
+import {NotifyService} from '@app/services/notify-service';
+import { environment } from '@environments/environment';
+import {Observable} from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AssetService extends NotifyService {

@@ -1,4 +1,4 @@
-﻿import {AEntity} from "@app/models/AEntity";
+﻿import {AEntity} from '@app/models/AEntity';
 
 export class Broker extends AEntity {
     public userId: number;

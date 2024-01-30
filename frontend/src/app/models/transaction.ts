@@ -1,4 +1,4 @@
-﻿import { AEntity } from ".";
+﻿import { AEntity } from '.';
 
 export class Transaction extends AEntity {
     public assetId: string;

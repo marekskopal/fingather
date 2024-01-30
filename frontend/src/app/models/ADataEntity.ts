@@ -1,4 +1,4 @@
-﻿import {AEntity} from "./AEntity";
+﻿import {AEntity} from './AEntity';
 
 export class ADataEntity extends AEntity {
     public date: string;

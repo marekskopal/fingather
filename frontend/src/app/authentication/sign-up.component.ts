@@ -1,13 +1,12 @@
 ﻿import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
-import { first } from 'rxjs/operators';
-
+import { ActivatedRoute,Router } from '@angular/router';
+import {UniqueEmailValidator} from '@app/authentication/validator/UniqueEmailValidator';
+import {Currency} from '@app/models';
 import {AlertService, CurrencyService} from '@app/services';
-import {BaseForm} from "@app/shared/components/form/base-form";
-import {UniqueEmailValidator} from "@app/authentication/validator/UniqueEmailValidator";
-import {Currency} from "@app/models";
-import {AuthenticationService} from "@app/services/authentication.service";
+import {AuthenticationService} from '@app/services/authentication.service';
+import {BaseForm} from '@app/shared/components/form/base-form';
+import { first } from 'rxjs/operators';
 
 @Component({ templateUrl: 'sign-up.component.html' })
 export class SignUpComponent extends BaseForm implements OnInit {
@@ -28,7 +27,12 @@ export class SignUpComponent extends BaseForm implements OnInit {
     public async ngOnInit(): Promise<void> {
         this.form = this.formBuilder.group({
             name: ['', Validators.required],
-            email: ['', [Validators.required, Validators.email], [this.uniqueEmailValidator.validate.bind(this.uniqueEmailValidator)], 'blur'],
+            email: [
+                '',
+                [Validators.required, Validators.email],
+                [this.uniqueEmailValidator.validate.bind(this.uniqueEmailValidator)],
+                'blur'
+            ],
             password: ['', [Validators.required, Validators.minLength(6)]],
             defaultCurrencyId: ['', Validators.required],
         });

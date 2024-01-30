@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-
-
-import {first} from "rxjs/operators";
-import {Currency, PortfolioData} from "@app/models";
-import {CurrencyService, PortfolioDataService, PortfolioService} from "@app/services";
+import {Currency, PortfolioData} from '@app/models';
+import {CurrencyService, PortfolioDataService, PortfolioService} from '@app/services';
+import {first} from 'rxjs/operators';
 
 @Component({ selector: 'fingather-portfolio-total', templateUrl: 'portfolio-total.component.html' })
 export class PortfolioTotalComponent implements OnInit {

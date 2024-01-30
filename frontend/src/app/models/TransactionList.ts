@@ -1,4 +1,4 @@
-﻿import {Transaction} from "@app/models/transaction";
+﻿import {Transaction} from '@app/models/transaction';
 
 export class TransactionList {
     public transactions: Transaction[];

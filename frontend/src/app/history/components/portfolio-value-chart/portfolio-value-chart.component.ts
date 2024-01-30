@@ -1,11 +1,11 @@
 ﻿import {Component, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
-import { first } from 'rxjs/operators';
+import {PortfolioDataRangeEnum, PortfolioDataWithBenchmarkData} from '@app/models';
+import {PortfolioDataService, PortfolioService} from '@app/services';
 import {
     ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexGrid, ApexStroke, ApexTheme,
     ApexTitleSubtitle, ApexXAxis, ChartComponent
 } from 'ng-apexcharts';
-import {PortfolioDataRangeEnum, PortfolioDataWithBenchmarkData} from "@app/models";
-import {PortfolioDataService, PortfolioService} from "@app/services";
+import { first } from 'rxjs/operators';
 
 export type ChartOptions = {
     series: ApexAxisChartSeries;
@@ -23,7 +23,7 @@ export type ChartOptions = {
     selector: 'fingather-history-portfolio-value-chart',
 })
 export class PortfolioValueChartComponent implements OnInit, OnChanges {
-    @ViewChild("chart", { static: false }) public chart: ChartComponent;
+    @ViewChild('chart', { static: false }) public chart: ChartComponent;
     @Input() public range: PortfolioDataRangeEnum;
     @Input() public benchmarkAssetId: number|null;
     public chartOptions: ChartOptions;
@@ -79,8 +79,8 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
                 },
             ],
             chart: {
-                height: "500",
-                type: "line",
+                height: '500',
+                type: 'line',
                 zoom: {
                     enabled: false
                 },
@@ -92,11 +92,11 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
                 enabled: false
             },
             stroke: {
-                curve: "smooth"
+                curve: 'smooth'
             },
             title: {
-                text: "Portfolio Value",
-                align: "left"
+                text: 'Portfolio Value',
+                align: 'left'
             },
             grid: {
                 row: {
@@ -117,8 +117,9 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
         };
     }
 
-    private mapChart(portfolioDatas: PortfolioDataWithBenchmarkData[]): {series: number[], benchmarkSeries: number[], categories: string[]}
-    {
+    private mapChart(
+        portfolioDatas: PortfolioDataWithBenchmarkData[]
+    ): {series: number[], benchmarkSeries: number[], categories: string[]} {
         const series: number[] = [];
         const benchmarkSeries: number[] = [];
         const categories: string[] = [];

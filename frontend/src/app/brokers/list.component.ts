@@ -1,12 +1,11 @@
 ﻿import {Component, OnDestroy, OnInit} from '@angular/core';
+import {BrokerService, PortfolioService} from '@app/services';
+import {ConfirmDialogService} from '@app/services/confirm-dialog.service';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { first } from 'rxjs/operators';
 
-import {BrokerService, PortfolioService} from '@app/services';
-import { Broker } from "../models/broker";
-import {AddEditComponent} from "./add-edit.component";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {ConfirmDialogService} from "@app/services/confirm-dialog.service";
-import {environment} from "@environments/environment";
+import { Broker } from '../models/broker';
+import {AddEditComponent} from './add-edit.component';
 
 @Component({ templateUrl: 'list.component.html' })
 export class ListComponent implements OnInit, OnDestroy {
@@ -62,7 +61,10 @@ export class ListComponent implements OnInit, OnDestroy {
         broker.isDeleting = true;
 
         try {
-            const confirmed = await this.confirmDialogService.confirm(`Delete broker ${broker.name}`, `Are you sure to delete broker ${broker.name}?`);
+            const confirmed = await this.confirmDialogService.confirm(
+                `Delete broker ${broker.name}`,
+                `Are you sure to delete broker ${broker.name}?`
+            );
             if (!confirmed){
                 broker.isDeleting = false;
                 return;
