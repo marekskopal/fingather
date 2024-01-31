@@ -105,10 +105,10 @@ class AssetProvider
 				}
 			}
 
-			$transactionUnits = (new Decimal($transaction->getUnits()))->mul($splitFactor);
-			$transactionPriceUnit = (new Decimal($transaction->getPrice()))->div($splitFactor);
+			$transactionUnits = new Decimal($transaction->getUnits());
+			$transactionPriceUnit = new Decimal($transaction->getPrice());
 
-			$units = $units->add($transactionUnits);
+			$units = $units->add($transactionUnits->mul($splitFactor));
 
 			//if close position, start from zero
 			if ($units->toFloat() === 0.0) {
