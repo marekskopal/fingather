@@ -110,14 +110,6 @@ class AssetProvider
 
 			$units = $units->add($transactionUnits->mul($splitFactor));
 
-			//if close position, start from zero
-			if ($units->toFloat() === 0.0) {
-				$transactionValue = new Decimal(0);
-				$transactionValueDefaultCurrency = new Decimal(0);
-
-				continue;
-			}
-
 			$transactionSum = $transactionUnits->mul($transactionPriceUnit);
 
 			if ($tickerCurrency->getId() !== $transaction->getCurrency()->getId()) {
