@@ -64,7 +64,8 @@ class PortfolioDataProvider
 		try {
 			$this->portfolioDataRepository->persist($portfolioData);
 		} catch (ConstrainException) {
-			//ignore duplicate data
+			$portfolioData = $this->portfolioDataRepository->findPortfolioData($user->getId(), $portfolio->getId(), $dateTime);
+			assert($portfolioData instanceof PortfolioData);
 		}
 
 		return $portfolioData;

@@ -66,7 +66,8 @@ class GroupDataProvider
 		try {
 			$this->groupDataRepository->persist($groupData);
 		} catch (ConstrainException) {
-			//ignore duplicate data
+			$groupData = $this->groupDataRepository->findGroupData($group->getId(), $dateTime);
+			assert($groupData instanceof GroupData);
 		}
 
 		return $groupData;

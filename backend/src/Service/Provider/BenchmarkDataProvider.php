@@ -9,7 +9,6 @@ use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\BenchmarkData;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Portfolio;
-use FinGather\Model\Entity\TickerData;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\BenchmarkDataRepository;
 use FinGather\Model\Repository\SplitRepository;
