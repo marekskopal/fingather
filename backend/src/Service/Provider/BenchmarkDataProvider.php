@@ -11,7 +11,6 @@ use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\BenchmarkDataRepository;
-use FinGather\Model\Repository\SplitRepository;
 use Safe\DateTimeImmutable;
 
 class BenchmarkDataProvider
@@ -20,7 +19,6 @@ class BenchmarkDataProvider
 		private readonly BenchmarkDataRepository $benchmarkDataRepository,
 		private readonly AssetProvider $assetProvider,
 		private readonly TransactionProvider $transactionProvider,
-		private readonly SplitRepository $splitRepository,
 		private readonly ExchangeRateProvider $exchangeRateProvider,
 		private readonly TickerDataProvider $tickerDataProvider,
 	) {
@@ -49,8 +47,6 @@ class BenchmarkDataProvider
 
 		$benchmarkTickerCurrency = $benchmarkAsset->getTicker()->getCurrency();
 
-		$benchmarkSplits = $this->splitRepository->findSplits($benchmarkAsset->getTicker()->getId());
-
 		$benchmarkUnitsSum = new Decimal(0);
 
 		$assets = $this->assetProvider->getOpenAssets($user, $portfolio, $dateTime);
@@ -60,8 +56,6 @@ class BenchmarkDataProvider
 				continue;
 			}
 
-			$splits = $this->splitRepository->findSplits($asset->getTicker()->getId());
-
 			$tickerCurrency = $asset->getTicker()->getCurrency();
 
 			foreach ($transactions as $transaction) {
@@ -69,23 +63,13 @@ class BenchmarkDataProvider
 					continue;
 				}
 
-				$splitFactor = new Decimal(1);
-
-				foreach ($splits as $split) {
-					if ($split->getDate() >= $transaction->getActionCreated() && $split->getDate() <= $dateTime) {
-						$splitFactor = $splitFactor->mul(new Decimal($split->getFactor()));
-					}
-				}
-
-				$transactionUnits = (new Decimal($transaction->getUnits()))->mul($splitFactor);
-
 				$transactionActionCreated = DateTimeImmutable::createFromRegular($transaction->getActionCreated());
-
 				if ($transactionActionCreated <= $benchmarkFromDateTime) {
 					continue;
 				}
 
-				$transactionPriceUnit = (new Decimal($transaction->getPrice()))->div($splitFactor);
+				$transactionUnits = new Decimal($transaction->getUnits());
+				$transactionPriceUnit = new Decimal($transaction->getPrice());
 
 				if ($tickerCurrency->getId() !== $transaction->getCurrency()->getId()) {
 					$transactionExchangeRate = $this->exchangeRateProvider->getExchangeRate(
@@ -111,20 +95,12 @@ class BenchmarkDataProvider
 					$user->getDefaultCurrency(),
 				);
 
-				$benchmarkSplitFactor = new Decimal(1);
-
-				foreach ($benchmarkSplits as $benchmarkSplit) {
-					if ($benchmarkSplit->getDate() >= $transaction->getActionCreated() && $benchmarkSplit->getDate() <= $dateTime) {
-						$splitFactor = $splitFactor->mul(new Decimal($benchmarkSplit->getFactor()));
-					}
-				}
-
 				$benchmarkTransactionAssetTickerData = $this->tickerDataProvider->getLastTickerData(
 					$benchmarkAsset->getTicker(),
 					$transactionActionCreated,
 				);
 				if ($benchmarkTransactionAssetTickerData !== null) {
-					$benchmarkPrice = (new Decimal($benchmarkTransactionAssetTickerData->getClose()))->div($benchmarkSplitFactor);
+					$benchmarkPrice = new Decimal($benchmarkTransactionAssetTickerData->getClose());
 					$benchmarkPriceUnitDefaultCurrency = $benchmarkPrice->mul($benchmarkTransactionExchangeRateDefaultCurrency->getRate());
 
 					$benchmarkUnits = $transactionUnits->mul($transactionPriceUnitDefaultCurrency)->div($benchmarkPriceUnitDefaultCurrency);
