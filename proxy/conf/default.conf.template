@@ -42,6 +42,13 @@ server {
         proxy_pass http://frontend;
     }
 
+    location ~* \.(js|css|jpg|jpeg|png|gif|js|css|ico|swf)$ {
+        expires 1y;
+        etag off;
+        if_modified_since off;
+        add_header Cache-Control "public, no-transform";
+    }
+
     location /api {
         fastcgi_pass backend:9000;
         include fastcgi_params;
