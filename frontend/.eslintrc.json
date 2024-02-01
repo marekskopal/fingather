@@ -23,7 +23,6 @@
       ],
       "rules": {
         "no-return-assign": "off",
-        "no-unsafe-optional-chaining": "off",
         "class-methods-use-this": "off",
         "no-restricted-syntax": ["error", "ForInStatement", "LabeledStatement", "WithStatement"],
         "no-param-reassign": "off",
