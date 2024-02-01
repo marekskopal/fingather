@@ -1,11 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AddEditComponent } from '@app/brokers/components/add-edit/add-edit.component';
+import { Broker } from '@app/models';
 import { BrokerService, PortfolioService } from '@app/services';
 import { ConfirmDialogService } from '@app/services/confirm-dialog.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { first } from 'rxjs/operators';
-
-import { Broker } from '../models/broker';
-import { AddEditComponent } from './add-edit.component';
 
 @Component({ templateUrl: 'list.component.html' })
 export class ListComponent implements OnInit, OnDestroy {

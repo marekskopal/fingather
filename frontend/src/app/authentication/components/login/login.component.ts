@@ -2,10 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from '@app/services';
+import { AuthenticationService } from '@app/services/authentication.service';
 import { BaseForm } from '@app/shared/components/form/base-form';
 import { first } from 'rxjs/operators';
-
-import { AuthenticationService } from '../services/authentication.service';
 
 @Component({ templateUrl: 'login.component.html' })
 export class LoginComponent extends BaseForm implements OnInit {

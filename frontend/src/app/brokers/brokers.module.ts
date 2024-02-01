@@ -1,14 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AddEditComponent } from '@app/brokers/components/add-edit/add-edit.component';
+import { LayoutComponent } from '@app/brokers/components/layout/layout.component';
+import { ListComponent } from '@app/brokers/components/list/list.component';
 import { SharedModule } from '@app/shared/shared.module';
 import { FaIconComponent, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { faEdit, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 
-import { AddEditComponent } from './add-edit.component';
 import { BrokersRoutingModule } from './brokers-routing.module';
-import { LayoutComponent } from './layout.component';
-import { ListComponent } from './list.component';
 
 @NgModule({
     imports: [

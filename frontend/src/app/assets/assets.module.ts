@@ -2,6 +2,9 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddAssetComponent } from '@app/assets/components/add-asset/add-asset.component';
+import { DetailComponent } from '@app/assets/components/detail/detail.component';
+import { LayoutComponent } from '@app/assets/components/layout/layout.component';
+import { ListComponent } from '@app/assets/components/list/list.component';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
     faEdit, faExpand, faFileImport, faPlus, faTrash
@@ -13,10 +16,7 @@ import { MomentModule } from 'ngx-moment';
 import { SharedModule } from '../shared/shared.module';
 import { AssetsRoutingModule } from './assets-routing.module';
 import { AssetTickerChartComponent } from './components/chart/asset-ticker-chart.component';
-import { DetailComponent } from './components/detail.component';
 import { DividendListComponent } from './components/dividends/dividend-list.component';
-import { LayoutComponent } from './components/layout.component';
-import { ListComponent } from './components/list.component';
 import { TransactionListComponent } from './components/transactions/transaction-list.component';
 
 @NgModule({
