@@ -7,7 +7,7 @@ import { LayoutComponent } from '@app/assets/components/layout/layout.component'
 import { ListComponent } from '@app/assets/components/list/list.component';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
-    faEdit, faExpand, faFileImport, faPlus, faTrash
+    faEdit, faExpand, faPlus, faTrash
 } from '@fortawesome/free-solid-svg-icons';
 import { NgbNavModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgApexchartsModule } from 'ng-apexcharts';
@@ -46,6 +46,6 @@ export class AssetsModule {
     public constructor(
         private readonly faIconLibrary: FaIconLibrary
     ) {
-        faIconLibrary.addIcons(faPlus, faEdit, faTrash, faExpand, faFileImport);
+        faIconLibrary.addIcons(faPlus, faEdit, faTrash, faExpand);
     }
 }
