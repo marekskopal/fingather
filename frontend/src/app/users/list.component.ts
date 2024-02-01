@@ -35,7 +35,7 @@ export class ListComponent implements OnInit, OnDestroy {
     public refreshUsers(): void {
         this.userService.getUsers()
             .pipe(first())
-            .subscribe((users) => this.users = users);
+            .subscribe((users) => (this.users = users));
     }
 
     public addUser(): void {

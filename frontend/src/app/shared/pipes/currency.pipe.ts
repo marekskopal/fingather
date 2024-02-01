@@ -16,7 +16,13 @@ export class CurrencyPipe implements PipeTransform {
         }
 
         const currencies = await this.currencyService.getCurrenciesMap();
+        const currency = currencies.get(currencyId);
 
-        return value + currencies.get(currencyId)?.symbol;
+        let symbol = '';
+        if (currency !== undefined) {
+            symbol = currency.symbol;
+        }
+
+        return value + symbol;
     }
 }
