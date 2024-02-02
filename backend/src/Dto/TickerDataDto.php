@@ -6,6 +6,7 @@ namespace FinGather\Dto;
 
 use Decimal\Decimal;
 use FinGather\Model\Entity\TickerData;
+use FinGather\Service\Provider\Dto\TickerDataAdjustedDto;
 use FinGather\Utils\DateTimeUtils;
 
 final readonly class TickerDataDto
@@ -33,6 +34,20 @@ final readonly class TickerDataDto
 			high: new Decimal($tickerData->getHigh()),
 			low: new Decimal($tickerData->getLow()),
 			volume: new Decimal($tickerData->getVolume()),
+		);
+	}
+
+	public static function fromTickerDataAdjusted(TickerDataAdjustedDto $tickerData): self
+	{
+		return new self(
+			id: $tickerData->id,
+			tickerId: $tickerData->ticker->getId(),
+			date: DateTimeUtils::formatZulu($tickerData->date),
+			open: $tickerData->open,
+			close: $tickerData->close,
+			high: $tickerData->high,
+			low: $tickerData->low,
+			volume: $tickerData->volume,
 		);
 	}
 }
