@@ -130,7 +130,7 @@
         "title": "Historie",
         "d": "d",
         "m": "m",
-        "y": "y",
+        "y": "r",
         "ytd": "tento rok",
         "all": "celá historie",
         "benchmarkAsset": "Srovnávací aktivum",
@@ -212,7 +212,10 @@
     },
     "shared": {
       "portfolioTotal": {
-        "header": "Hodnota portfólia"
+        "portfolioValue": "Hodnota portfólia",
+        "gain": "Zisk/Ztráta",
+        "dividend": "Dividenda",
+        "fxImpact": "FX dopad"
       },
       "dividendDialog": {
         "headerAdd": "Přidat dividendu",

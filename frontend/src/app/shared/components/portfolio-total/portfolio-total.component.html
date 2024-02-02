@@ -2,7 +2,7 @@
     <div class="col-md-6 col-lg-3 mb-4">
         <div class="card h-100">
             <div class="card-header">
-                {{ 'app.shared.portfolioTotal.header' | translate }}
+                {{ 'app.shared.portfolioTotal.portfolioValue' | translate }}
             </div>
             @if (portfolioData) {
                 <div class="card-body">
@@ -19,7 +19,7 @@
     <div class="col-md-6 col-lg-3 mb-4">
         <div class="card h-100">
             <div class="card-header">
-                Gain/Loss
+                {{ 'app.shared.portfolioTotal.gain' | translate }}
             </div>
             @if (portfolioData) {
                 <div class="card-body {{portfolioData.gain > 0 ? 'green' : (portfolioData.gain < 0 ? 'red' : '')}}">
@@ -41,7 +41,7 @@
     <div class="col-md-6 col-lg-3 mb-4">
         <div class="card h-100">
             <div class="card-header">
-                Dividend
+                {{ 'app.shared.portfolioTotal.dividend' | translate }}
             </div>
             @if (portfolioData) {
                 <div class="card-body {{portfolioData.dividendGain > 0 ? 'green' : (portfolioData.dividendGain < 0 ? 'red' : '')}}">
@@ -63,7 +63,7 @@
     <div class="col-md-6 col-lg-3 mb-4">
         <div class="card h-100">
             <div class="card-header">
-                FX Impact
+                {{ 'app.shared.portfolioTotal.fxImpact' | translate }}
             </div>
             @if (portfolioData) {
                 <div class="card-body {{portfolioData.fxImpact > 0 ? 'green' : (portfolioData.fxImpact < 0 ? 'red' : '')}}">
