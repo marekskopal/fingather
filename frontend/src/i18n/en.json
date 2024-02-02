@@ -212,7 +212,10 @@
     },
     "shared": {
       "portfolioTotal": {
-        "header": "Portfolio Value"
+        "portfolioValue": "Portfolio Value",
+        "gain": "Gain/Loss",
+        "dividend": "Dividend",
+        "fxImpact": "FX Impact"
       },
       "dividendDialog": {
         "headerAdd": "Add Dividend",

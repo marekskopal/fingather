@@ -18,7 +18,7 @@
         <ng-template ngbNavContent>
             <div class="form-check form-switch">
                 <input (change)="changeWithGroups()" class="form-check-input" type="checkbox" role="switch" id="withGroups">
-                <label class="form-check-label" for="withGroups">With Groups</label>
+                <label class="form-check-label" for="withGroups">{{ 'app.assets.list.withGroups' | translate }}</label>
             </div>
 
             @if (openedGroupedAssets !== null) {
