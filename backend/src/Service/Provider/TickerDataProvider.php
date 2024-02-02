@@ -6,6 +6,7 @@ namespace FinGather\Service\Provider;
 
 use Cycle\Database\Exception\StatementException\ConstrainException;
 use DateInterval;
+use Decimal\Decimal;
 use FinGather\Model\Entity\Enum\MarketTypeEnum;
 use FinGather\Model\Entity\Split;
 use FinGather\Model\Entity\Ticker;
@@ -13,6 +14,7 @@ use FinGather\Model\Entity\TickerData;
 use FinGather\Model\Repository\SplitRepository;
 use FinGather\Model\Repository\TickerDataRepository;
 use FinGather\Service\AlphaVantage\AlphaVantageApiClient;
+use FinGather\Service\Provider\Dto\TickerDataAdjustedDto;
 use Safe\DateTime;
 use Safe\DateTimeImmutable;
 
@@ -29,6 +31,37 @@ class TickerDataProvider
 	public function getTickerDatas(Ticker $ticker, DateTimeImmutable $fromDate, DateTimeImmutable $toDate): array
 	{
 		return $this->tickerDataRepository->findTickerDatas($ticker->getId(), $fromDate, $toDate);
+	}
+
+	/** @return array<TickerDataAdjustedDto> */
+	public function getAdjustedTickerDatas(Ticker $ticker, DateTimeImmutable $fromDate, DateTimeImmutable $toDate): array
+	{
+		$splits = $this->splitRepository->findSplits($ticker->getId());
+
+		return array_map(
+			function (TickerData $tickerData) use ($splits): TickerDataAdjustedDto {
+				$splitFactor = new Decimal(1);
+				foreach ($splits as $split) {
+					if ($split->getDate() <= $tickerData->getDate()) {
+						continue;
+					}
+
+					$splitFactor = $splitFactor->mul($split->getFactor());
+				}
+
+				return new TickerDataAdjustedDto(
+					id: $tickerData->getId(),
+					ticker: $tickerData->getTicker(),
+					date: $tickerData->getDate(),
+					open: (new Decimal($tickerData->getOpen()))->div($splitFactor),
+					close: (new Decimal($tickerData->getClose()))->div($splitFactor),
+					high: (new Decimal($tickerData->getHigh()))->div($splitFactor),
+					low: (new Decimal($tickerData->getLow()))->div($splitFactor),
+					volume: new Decimal($tickerData->getVolume()),
+				);
+			},
+			$this->getTickerDatas($ticker, $fromDate, $toDate),
+		);
 	}
 
 	public function getLastTickerData(Ticker $ticker, DateTimeImmutable $beforeDate): ?TickerData
