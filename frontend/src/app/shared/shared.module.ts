@@ -8,6 +8,7 @@ import { TransactionDialogComponent } from '@app/shared/components/transaction-d
 import { CurrencyPipe } from '@app/shared/pipes/currency.pipe';
 
 import { PortfolioTotalComponent } from './components/portfolio-total/portfolio-total.component';
+import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
     imports: [
@@ -26,6 +27,7 @@ import { PortfolioTotalComponent } from './components/portfolio-total/portfolio-
         PortfolioTotalComponent,
         PortfolioSelectorComponent,
         CurrencyPipe,
+        TranslateModule,
     ]
 })
 export class SharedModule { }

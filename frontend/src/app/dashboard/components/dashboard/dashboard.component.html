@@ -3,7 +3,7 @@
         <fingather-portfolio-selector />
     </div>
     <div class="col-md-9 order-md-0">
-        <h1>Dashboard</h1>
+        <h1>{{ 'app.dashboard.title' | translate }}</h1>
     </div>
 </div>
 
@@ -22,16 +22,16 @@
         @if (groupsWithGroupData !== null) {
             <div class="table-responsive">
                 <table class="table table-striped caption-top">
-                    <caption>Groups Allocation</caption>
+                    <caption>{{ 'app.dashboard.groupsAllocation.caption' | translate }}</caption>
                     <thead>
                         <tr>
-                            <th style="width: 22%">Group</th>
-                            <th style="width: 13%">Allocation</th>
-                            <th style="width: 13%">Value</th>
-                            <th style="width: 13%">Gain/Loss</th>
-                            <th style="width: 13%">Dividend</th>
-                            <th style="width: 13%">FX Impact</th>
-                            <th style="width: 13%"><strong>Return</strong></th>
+                            <th style="width: 22%">{{ 'app.dashboard.groupsAllocation.group' | translate }}</th>
+                            <th style="width: 13%">{{ 'app.dashboard.groupsAllocation.allocation' | translate }}</th>
+                            <th style="width: 13%">{{ 'app.dashboard.groupsAllocation.value' | translate }}</th>
+                            <th style="width: 13%">{{ 'app.dashboard.groupsAllocation.gain' | translate }}</th>
+                            <th style="width: 13%">{{ 'app.dashboard.groupsAllocation.dividend' | translate }}</th>
+                            <th style="width: 13%">{{ 'app.dashboard.groupsAllocation.fxImpact' | translate }}</th>
+                            <th style="width: 13%"><strong>{{ 'app.dashboard.groupsAllocation.return' | translate }}</strong></th>
                         </tr>
                     </thead>
                     <tbody>

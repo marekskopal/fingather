@@ -11,6 +11,39 @@
       "portfolios": "Portfolios",
       "users": "Users",
       "logout": "Logout"
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "groupsAllocation": {
+        "caption": "Groups Allocation",
+        "group": "Group",
+        "allocation": "Allocation",
+        "value": "Value",
+        "gain": "Gain/Loss",
+        "dividend": "Dividend",
+        "fxImpact": "FX Impact",
+        "return": "Return"
+      }
+    },
+    "assets": {
+      "addAsset": {
+        "header": "Add Asset",
+        "selectAsset": "Select Asset",
+        "searching": "Searching...",
+        "searchFailed": "Sorry, Tickers could not be loaded.",
+        "required": "Asset is required"
+      },
+      "dividends": {
+        "title": "Dividends",
+        "addDividend": "Add Dividend",
+        "date": "Date"
+      }
+    },
+    "common": {
+      "cancel": "Cancel",
+      "save": "Save",
+      "edit": "Edit",
+      "delete": "Delete"
     }
   }
 }
