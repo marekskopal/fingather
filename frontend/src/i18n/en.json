@@ -37,6 +37,56 @@
         "title": "Dividends",
         "addDividend": "Add Dividend",
         "date": "Date"
+      },
+      "list": {
+        "title": "Assets",
+        "addAsset": "Add Asset",
+        "openPositions": "Open positions",
+        "closedPositions": "Closed positions",
+        "watchList": "Watch list",
+        "withGroups": "With Groups",
+        "name": "Name",
+        "price": "Price",
+        "units": "Units",
+        "value": "Value",
+        "gain": "Gain/Loss",
+        "dividend": "Dividend",
+        "fxImpact": "FX Impact",
+        "return": "Return",
+        "total": "Total",
+        "detail": "Detail"
+      },
+      "transactions": {
+        "title": "Transactions",
+        "addTransaction": "Add Transaction",
+        "date": "Date",
+        "action": "Action"
+      }
+    },
+    "authentication": {
+      "login": {
+        "header": "Login",
+        "email": "Email",
+        "emailRequired": "Email is required",
+        "password": "Password",
+        "passwordRequired": "Password is required",
+        "login": "Login",
+        "signUp": "Sign Up"
+      },
+      "signUp": {
+        "header": "Sign Up",
+        "name": "Name",
+        "nameRequired": "Name is required",
+        "email": "Email",
+        "emailRequired": "Email is required",
+        "emailIsEmail": "Email must be in form 'jondow@example.com'",
+        "emailExists": "Email already exists",
+        "password": "Password",
+        "passwordRequired": "Password is required",
+        "passwordLength": "Password must be at least 6 characters",
+        "defaultCurrency": "Default Currency",
+        "defaultCurrencyRequired": "Default Currency is required",
+        "signUp": "Sign Up"
       }
     },
     "common": {
