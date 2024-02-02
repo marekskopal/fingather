@@ -3,20 +3,20 @@
         <fingather-portfolio-selector />
     </div>
     <div class="col-md-5 order-md-0">
-        <h1>Transactions</h1>
+        <h1>{{ 'app.transactions.list.title' | translate }}</h1>
     </div>
     <div class="col-md-4 order-md-1 text-end">
-        <a (click)="addTransaction()" class="btn btn-sm btn-success me-2" tabindex="0"><fa-icon icon="plus"></fa-icon> Add Transaction</a>
-        <a (click)="addDividend()" class="btn btn-sm btn-success me-2" tabindex="0"><fa-icon icon="plus"></fa-icon> Add Dividend</a>
-        <a routerLink="import" class="btn btn-sm btn-info"><fa-icon icon="file-import"></fa-icon> Import</a>
+        <a (click)="addTransaction()" class="btn btn-sm btn-success me-2" tabindex="0"><fa-icon icon="plus"></fa-icon> {{ 'app.transactions.list.addTransaction' | translate }}</a>
+        <a (click)="addDividend()" class="btn btn-sm btn-success me-2" tabindex="0"><fa-icon icon="plus"></fa-icon> {{ 'app.transactions.list.addDividend' | translate }}</a>
+        <a routerLink="import" class="btn btn-sm btn-info"><fa-icon icon="file-import"></fa-icon> {{ 'app.transactions.list.import' | translate }}</a>
     </div>
 </div>
 <table class="table table-striped">
     <thead>
         <tr>
-            <th style="width: 16%">Date</th>
-            <th style="width: 14%">Created</th>
-            <th style="width: 14%">Type</th>
+            <th style="width: 16%">{{ 'app.transactions.list.date' | translate }}</th>
+            <th style="width: 14%">{{ 'app.transactions.list.created' | translate }}</th>
+            <th style="width: 14%">{{ 'app.transactions.list.type' | translate }}</th>
             <th style="width: 20%"></th>
         </tr>
     </thead>
@@ -26,12 +26,12 @@
             <td>{{transaction.created | amFromUtc | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm'}}</td>
             <td>{{transaction.actionType}}</td>
             <td class="text-end" style="white-space: nowrap">
-                <a (click)="editTransaction(transaction.id)" class="btn btn-sm btn-primary me-2" tabindex="0"><fa-icon icon="edit"></fa-icon> Edit</a>
+                <a (click)="editTransaction(transaction.id)" class="btn btn-sm btn-primary me-2" tabindex="0"><fa-icon icon="edit"></fa-icon> {{ 'app.common.edit' | translate }}</a>
                 <button (click)="deleteTransaction(transaction.id)" class="btn btn-sm btn-danger btn-delete-user" [disabled]="transaction.isDeleting">
                     @if (transaction.isDeleting) {
                         <span class="spinner-border spinner-border-sm"></span>
                     } @else {
-                        <span><fa-icon icon="trash"></fa-icon> Delete</span>
+                        <span><fa-icon icon="trash"></fa-icon> {{ 'app.common.delete' | translate }}</span>
                     }
                 </button>
             </td>
@@ -54,8 +54,8 @@
     </ngb-pagination>
 
     <select class="form-select" style="width: auto" [(ngModel)]="pageSize" (ngModelChange)="refreshTransactions()">
-        <option [ngValue]="50">50 items per page</option>
-        <option [ngValue]="100">100 items per page</option>
-        <option [ngValue]="200">200 items per page</option>
+        <option [ngValue]="50">50 {{ 'app.transactions.list.itemsPerPage' | translate }}</option>
+        <option [ngValue]="100">100 {{ 'app.transactions.list.itemsPerPage' | translate }}</option>
+        <option [ngValue]="200">200 {{ 'app.transactions.list.itemsPerPage' | translate }}</option>
     </select>
 </div>

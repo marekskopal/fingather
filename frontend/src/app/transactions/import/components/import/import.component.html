@@ -1,29 +1,29 @@
-﻿<h1>Import CSV File</h1>
+﻿<h1>{{ 'app.transactions.import.import.title' | translate }}</h1>
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="form-row">
         <div class="form-group col">
-            <label for="brokerId">Broker</label>
+            <label for="brokerId">{{ 'app.transactions.import.import.broker' | translate }}</label>
             <select id="brokerId" formControlName="brokerId" class="form-select">
                 <option *ngFor="let broker of brokers" [ngValue]="broker.id">
                     {{ broker.name }}
                 </option>
             </select>
             <div *ngIf="submitted && f['brokerId'].errors" class="invalid-feedback">
-                <div *ngIf="f['brokerId'].errors['required']">Broker is required</div>
+                <div *ngIf="f['brokerId'].errors['required']">{{ 'app.transactions.import.import.brokerRequired' | translate }}</div>
             </div>
         </div>
     </div>
     <div class="form-row">
         <div class="form-group col">
-            <label for="data">CSV File</label>
+            <label for="data">{{ 'app.transactions.import.import.file' | translate }}</label>
             <input type="file" id="data" accept="text/csv" class="form-control" (change)="onFileChange($event)">
         </div>
     </div>
     <div class="form-group">
         <button [disabled]="loading" class="btn btn-primary">
             <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-            Import
+            {{ 'app.transactions.import.import.import' | translate }}
         </button>
-        <a routerLink="/users" class="btn btn-link">Cancel</a>
+        <a routerLink="/transactions" class="btn btn-link">{{ 'app.common.cancel' | translate }}</a>
     </div>
 </form>

@@ -8,13 +8,15 @@ import { AddEditComponent } from './add-edit.component';
 import { LayoutComponent } from './layout.component';
 import { ListComponent } from './list.component';
 import { UsersRoutingModule } from './users-routing.module';
+import {SharedModule} from "@app/shared/shared.module";
 
 @NgModule({
     imports: [
         CommonModule,
         ReactiveFormsModule,
         UsersRoutingModule,
-        FaIconComponent
+        FaIconComponent,
+        SharedModule,
     ],
     declarations: [
         LayoutComponent,
