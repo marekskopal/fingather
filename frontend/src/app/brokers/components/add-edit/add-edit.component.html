@@ -1,26 +1,29 @@
 ﻿<div class="modal-header">
-    <h4 class="modal-title" *ngIf="isAddMode">Add Broker</h4>
-    <h4 class="modal-title" *ngIf="!isAddMode">Edit Broker</h4>
+    @if (isAddMode) {
+        <h4 class="modal-title">{{ 'app.brokers.addEdit.headerAdd' | translate }}</h4>
+    } @else {
+        <h4 class="modal-title">{{ 'app.brokers.addEdit.headerEdit' | translate }}</h4>
+    }
     <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
 </div>
 <div class="modal-body">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <div class="mb-3">
-            <label for="name" class="form-label">Name</label>
+            <label for="name" class="form-label">{{ 'app.brokers.addEdit.name' | translate }}</label>
             <input id="name" type="text" formControlName="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['name'].errors }" />
             <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
-                <div *ngIf="f['name'].errors['required']">Name is required</div>
+                <div *ngIf="f['name'].errors['required']">{{ 'app.brokers.addEdit.nameRequired' | translate }}</div>
             </div>
         </div>
         <div class="mb-3">
-            <label for="importType" class="form-label">Import Type</label>
+            <label for="importType" class="form-label">{{ 'app.brokers.addEdit.importType' | translate }}</label>
             <select id="importType" formControlName="importType" class="form-select">
                 <option *ngFor="let importType of importTypes" [ngValue]="importType.key">
                     {{ importType.name }}
                 </option>
             </select>
             <div *ngIf="submitted && f['importTypes'].errors" class="invalid-feedback">
-                <div *ngIf="f['importTypes'].errors['required']">Import Type is required</div>
+                <div *ngIf="f['importTypes'].errors['required']">{{ 'app.brokers.addEdit.importTypeRequired' | translate }}</div>
             </div>
         </div>
         <div>
@@ -28,7 +31,7 @@
                 <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
                 Save
             </button>
-            <a class="btn btn-link" (click)="activeModal.dismiss()" tabindex="0">Cancel</a>
+            <a class="btn btn-link" (click)="activeModal.dismiss()" tabindex="0">{{ 'app.common.cancel' | translate }}</a>
         </div>
     </form>
 </div>
