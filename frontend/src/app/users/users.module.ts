@@ -4,11 +4,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FaIconComponent, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { faEdit, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 
-import { AddEditComponent } from './add-edit.component';
-import { LayoutComponent } from './layout.component';
-import { ListComponent } from './list.component';
 import { UsersRoutingModule } from './users-routing.module';
 import {SharedModule} from "@app/shared/shared.module";
+import {LayoutComponent} from "@app/users/layout/layout.component";
+import {ListComponent} from "@app/users/list/list.component";
+import {AddEditComponent} from "@app/users/add-edit/add-edit.component";
 
 @NgModule({
     imports: [
