@@ -1,0 +1,16 @@
+{
+  "app" : {
+    "navbar": {
+      "dashboard": "Dashboard",
+      "assets": "Assets",
+      "transactions": "Transactions",
+      "overviews": "Overviews",
+      "history": "Overviews",
+      "groups": "Groups",
+      "brokers": "Brokers",
+      "portfolios": "Portfolios",
+      "users": "Users",
+      "logout": "Logout"
+    }
+  }
+}
