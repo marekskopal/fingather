@@ -1,10 +1,10 @@
 ﻿<div class="modal-header">
-    <h4>Add Asset</h4>
+    <h4>{{ 'app.assets.addAsset.header' | translate }}</h4>
 </div>
 <div class="modal-body" >
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <div class="mb-3">
-            <label for="ticker" class="form-label">Select Asset</label>
+            <label for="ticker" class="form-label">{{ 'app.assets.addAsset.selectAsset' | translate }}</label>
             <input
                 id="ticker"
                 type="text"
@@ -16,29 +16,29 @@
                 placeholder="Ticker search"
             />
             @if (searching) {
-                <small class="form-text text-muted">searching...</small>
+                <small class="form-text text-muted">{{ 'app.assets.addAsset.searching' | translate }}</small>
             }
             @if (searchFailed) {
-                <div class="invalid-feedback">Sorry, suggestions could not be loaded.</div>
+                <div class="invalid-feedback">{{ 'app.assets.addAsset.searchFailed' | translate }}</div>
             }
 
             <div *ngIf="submitted && f['ticker'].errors" class="invalid-feedback">
-                <div *ngIf="f['ticker'].errors['ticker']">Asset is required</div>
+                <div *ngIf="f['ticker'].errors['ticker']">{{ 'app.assets.addAsset.required' | translate }}</div>
             </div>
         </div>
         @if (searching) {
-            <small class="form-text text-muted">searching...</small>
+            <small class="form-text text-muted">{{ 'app.assets.addAsset.searching' | translate }}</small>
         }
         @if (searchFailed) {
-            <div class="invalid-feedback">Sorry, suggestions could not be loaded.</div>
+            <div class="invalid-feedback">{{ 'app.assets.addAsset.searchFailed' | translate }}</div>
         }
 
         <div class="mb-3">
             <button [disabled]="loading" class="btn btn-primary">
                 <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                Save
+                {{ 'app.common.save' | translate }}
             </button>
-            <a (click)="activeModal.dismiss()" class="btn btn-link" tabindex="0">Cancel</a>
+            <a (click)="activeModal.dismiss()" class="btn btn-link" tabindex="0">{{ 'app.common.cancel' | translate }}</a>
         </div>
     </form>
 </div>
