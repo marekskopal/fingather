@@ -14,6 +14,7 @@ import {TranslateModule} from "@ngx-translate/core";
     imports: [
         CommonModule,
         ReactiveFormsModule,
+        TranslateModule
     ],
     declarations: [
         PortfolioTotalComponent,

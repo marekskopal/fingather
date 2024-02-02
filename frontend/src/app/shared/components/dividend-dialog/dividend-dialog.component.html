@@ -1,8 +1,8 @@
 ﻿<div class="modal-header">
     @if (id === null) {
-        <h4 class="modal-title">Add Dividend</h4>
+        <h4 class="modal-title">{{ 'app.shared.dividendDialog.headerAdd' | translate }}</h4>
     } @else {
-        <h4 class="modal-title">Edit Dividend</h4>
+        <h4 class="modal-title">{{ 'app.shared.dividendDialog.headerEdit' | translate }}</h4>
     }
 
     <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
@@ -14,75 +14,75 @@
         } @else {
             <div class="form-row">
                 <div class="form-group col">
-                    <label for="assetId">Asset</label>
+                    <label for="assetId">{{ 'app.shared.dividendDialog.asset' | translate }}</label>
                     <select id="assetId" formControlName="assetId" class="form-select">
                         <option *ngFor="let asset of assets" [ngValue]="asset.id">
                             {{ asset.ticker.name }}
                         </option>
                     </select>
                     <div *ngIf="submitted && f['assetId'].errors" class="invalid-feedback">
-                        <div *ngIf="f['assetId'].errors['required']">Asset is required</div>
+                        <div *ngIf="f['assetId'].errors['required']">{{ 'app.shared.dividendDialog.assetRequired' | translate }}</div>
                     </div>
                 </div>
             </div>
         }
         <div class="form-row">
             <div class="form-group col">
-                <label for="brokerId">Broker</label>
+                <label for="brokerId">{{ 'app.shared.dividendDialog.broker' | translate }}</label>
                 <select id="brokerId" formControlName="brokerId" class="form-select">
                     <option *ngFor="let broker of brokers" [ngValue]="broker.id">
                         {{ broker.name }}
                     </option>
                 </select>
                 <div *ngIf="submitted && f['brokerId'].errors" class="invalid-feedback">
-                    <div *ngIf="f['brokerId'].errors['required']">Broker is required</div>
+                    <div *ngIf="f['brokerId'].errors['required']">{{ 'app.shared.dividendDialog.brokerRequired' | translate }}</div>
                 </div>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col">
-                <label for="actionCreated">Paid date</label>
+                <label for="actionCreated">{{ 'app.shared.dividendDialog.paidDate' | translate }}</label>
                 <input type="datetime-local" id="actionCreated" formControlName="actionCreated" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['actionCreated'].errors }" />
                 <div *ngIf="submitted && f['actionCreated'].errors" class="invalid-feedback">
-                    <div *ngIf="f['actionCreated'].errors['required']">Created is required</div>
+                    <div *ngIf="f['actionCreated'].errors['required']">{{ 'app.shared.dividendDialog.paidDateRequired' | translate }}</div>
                 </div>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col">
-                <label for="price">Price</label>
+                <label for="price">{{ 'app.shared.dividendDialog.price' | translate }}</label>
                 <input type="number" step="0.01" min="0" id="price" formControlName="price" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['price'].errors }" [defaultValue]="0.00" />
                 <div *ngIf="submitted && f['price'].errors" class="invalid-feedback">
-                    <div *ngIf="f['price'].errors['required']">Date is required</div>
+                    <div *ngIf="f['price'].errors['required']">{{ 'app.shared.dividendDialog.priceRequired' | translate }}</div>
                 </div>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col">
-                <label for="tax">Tax</label>
+                <label for="tax">{{ 'app.shared.dividendDialog.tax' | translate }}</label>
                 <input type="number" step="0.01" min="0" id="tax" formControlName="tax" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['tax'].errors }" [defaultValue]="0.00" />
                 <div *ngIf="submitted && f['tax'].errors" class="invalid-feedback">
-                    <div *ngIf="f['tax'].errors['required']">Tax</div>
+                    <div *ngIf="f['tax'].errors['required']">{{ 'app.shared.dividendDialog.taxRequired' | translate }}</div>
                 </div>
             </div>
         </div>
         <div class="mb-3">
-            <label for="currencyId" class="form-label">Currency</label>
+            <label for="currencyId" class="form-label">{{ 'app.shared.dividendDialog.currency' | translate }}</label>
             <select id="currencyId" formControlName="currencyId" class="form-select">
                 <option *ngFor="let currency of currencies" [ngValue]="currency.id">
                     {{ currency.code }}
                 </option>
             </select>
             <div *ngIf="submitted && f['currencyId'].errors" class="invalid-feedback">
-                <div *ngIf="f['currencyId'].errors['required']">Currency is required</div>
+                <div *ngIf="f['currencyId'].errors['required']">{{ 'app.shared.dividendDialog.currencyRequired' | translate }}</div>
             </div>
         </div>
         <div class="form-group">
             <button [disabled]="loading" class="btn btn-primary">
                 <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                Save
+                {{ 'app.common.save' | translate }}
             </button>
-            <a (click)="activeModal.dismiss()" class="btn btn-link" tabindex="0">Cancel</a>
+            <a (click)="activeModal.dismiss()" class="btn btn-link" tabindex="0">{{ 'app.common.cancel' | translate }}</a>
         </div>
     </form>
 </div>
