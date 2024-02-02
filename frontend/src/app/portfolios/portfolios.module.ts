@@ -8,13 +8,15 @@ import { FaIconComponent, FaIconLibrary } from '@fortawesome/angular-fontawesome
 import { faEdit, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 import { PortfolioRoutingModule } from './portfolio-routing.module';
+import {SharedModule} from "@app/shared/shared.module";
 
 @NgModule({
     imports: [
         CommonModule,
         ReactiveFormsModule,
         PortfolioRoutingModule,
-        FaIconComponent
+        FaIconComponent,
+        SharedModule,
     ],
     declarations: [
         LayoutComponent,

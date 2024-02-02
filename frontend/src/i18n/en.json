@@ -5,7 +5,7 @@
       "assets": "Assets",
       "transactions": "Transactions",
       "overviews": "Overviews",
-      "history": "Overviews",
+      "history": "History",
       "groups": "Groups",
       "brokers": "Brokers",
       "portfolios": "Portfolios",
@@ -101,6 +101,65 @@
       "list": {
         "title": "Brokers",
         "addBroker": "Add Broker",
+        "name": "Name"
+      }
+    },
+    "emailVerify": {
+      "verify": {
+        "emailVerified": "Email was verified.",
+        "login": "Login"
+      }
+    },
+    "groups": {
+      "addEdit": {
+        "headerAdd": "Add Group",
+        "headerEdit": "Edit Group",
+        "name": "Name",
+        "nameRequired": "Name is required",
+        "assets": "Assets",
+        "assetsRequired": "Assets is required"
+      },
+      "list": {
+        "title": "Groups",
+        "addGroup": "Add Group",
+        "name": "Name"
+      }
+    },
+    "history": {
+      "history": {
+        "title": "History",
+        "d": "d",
+        "m": "m",
+        "y": "y",
+        "ytd": "YTD",
+        "all": "all",
+        "benchmarkAsset": "Benchmark Asset",
+        "choose": "Choose"
+      }
+    },
+    "overviews": {
+      "list": {
+        "title": "Overviews",
+        "year": "Year",
+        "value": "Value",
+        "transactionValue": "Transaction Value",
+        "gain": "Gain/Loss",
+        "dividend": "Dividend",
+        "fxImpact": "FX Impact",
+        "return": "Return"
+      }
+    },
+    "portfolios": {
+      "addEdit": {
+        "headerAdd": "Add Portfolio",
+        "headerEdit": "Edit Portfolio",
+        "name": "Name",
+        "nameRequired": "Name is required",
+        "default": "Default"
+      },
+      "list": {
+        "title": "Portfolios",
+        "addPortfolio": "Add Portfolio",
         "name": "Name"
       }
     },

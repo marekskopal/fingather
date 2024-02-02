@@ -1,37 +1,37 @@
 ﻿<div class="modal-header">
     @if (isAddMode) {
-        <h4 class="modal-title">Add Group</h4>
+        <h4 class="modal-title">{{ 'app.groups.addEdit.headerAdd' | translate }}</h4>
     } @else {
-        <h4 class="modal-title">Edit Group</h4>
+        <h4 class="modal-title">{{ 'app.groups.addEdit.headerEdit' | translate }}</h4>
     }
     <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
 </div>
 <div class="modal-body">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <div class="mb-3">
-            <label for="name" class="form-label">Name</label>
+            <label for="name" class="form-label">{{ 'app.groups.addEdit.name' | translate }}</label>
             <input id="name" type="text" formControlName="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['name'].errors }" />
             <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
-                <div *ngIf="f['name'].errors['required']">Name is required</div>
+                <div *ngIf="f['name'].errors['required']">{{ 'app.groups.addEdit.nameRequired' | translate }}</div>
             </div>
         </div>
         <div class="mb-3">
-            <label for="assetIds" class="form-label">Assets</label>
+            <label for="assetIds" class="form-label">{{ 'app.groups.addEdit.assets' | translate }}</label>
             <select multiple id="assetIds" formControlName="assetIds" class="form-select">
                 <option *ngFor="let asset of assets" [ngValue]="asset.id" [disabled]="asset.groupId !== othersGroup.id && asset.groupId !== id">
                     {{ asset.ticker.name }}
                 </option>
             </select>
             <div *ngIf="submitted && f['assetIds'].errors" class="invalid-feedback">
-                <div *ngIf="f['assetIds'].errors['required']">Assets is required</div>
+                <div *ngIf="f['assetIds'].errors['required']">{{ 'app.groups.addEdit.assetsRequired' | translate }}</div>
             </div>
         </div>
         <div>
             <button [disabled]="loading" class="btn btn-primary">
                 <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                Save
+                {{ 'app.common.save' | translate }}
             </button>
-            <a class="btn btn-link" (click)="activeModal.dismiss()" tabindex="0">Cancel</a>
+            <a class="btn btn-link" (click)="activeModal.dismiss()" tabindex="0">{{ 'app.common.cancel' | translate }}</a>
         </div>
     </form>
 </div>
