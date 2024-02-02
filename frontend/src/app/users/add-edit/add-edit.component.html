@@ -68,7 +68,7 @@
         <div class="form-group">
             <button [disabled]="loading" class="btn btn-primary">
                 <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                Save
+                {{ 'app.common.save' | translate }}
             </button>
             <a class="btn btn-link" (click)="activeModal.dismiss()" tabindex="0">{{ 'app.common.cancel' | translate }}</a>
         </div>

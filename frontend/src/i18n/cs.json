@@ -11,6 +11,252 @@
       "portfolios": "Portfólia",
       "users": "Uživatelé",
       "logout": "Odhlásit"
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "groupsAllocation": {
+        "caption": "Alokace dle skupin",
+        "group": "Skupina",
+        "allocation": "Alokace",
+        "value": "Hodnota",
+        "gain": "Zisk/Ztráta",
+        "dividend": "Dividenda",
+        "fxImpact": "FX dopad",
+        "return": "Návratnost"
+      }
+    },
+    "assets": {
+      "addAsset": {
+        "header": "Přidat aktivum",
+        "selectAsset": "Vybrat aktivum",
+        "searching": "Vyhledávám...",
+        "searchFailed": "Omlouváme se, značka nebyla nalezena.",
+        "required": "Aktivum je povinné"
+      },
+      "dividends": {
+        "title": "Dividendy",
+        "addDividend": "Přidat dividendu",
+        "date": "Datum"
+      },
+      "list": {
+        "title": "Aktiva",
+        "addAsset": "Přidat aktivum",
+        "openPositions": "Otevřené pozice",
+        "closedPositions": "Zavžené pozice",
+        "watchList": "Seznam sldovaných",
+        "withGroups": "Včetně skupin",
+        "name": "Jméno",
+        "price": "Cena",
+        "units": "Jednotek",
+        "value": "Hodnota",
+        "gain": "Zisk/Ztráta",
+        "dividend": "Dividenda",
+        "fxImpact": "FX dopad",
+        "return": "Návratnost",
+        "total": "Celkem",
+        "detail": "Detail"
+      },
+      "transactions": {
+        "title": "Transakce",
+        "addTransaction": "Přidat transakci",
+        "date": "Datum",
+        "action": "Akce"
+      }
+    },
+    "authentication": {
+      "login": {
+        "header": "Přihlášení",
+        "email": "Email",
+        "emailRequired": "Email je povinný",
+        "password": "Heslo",
+        "passwordRequired": "Heslo je povinné",
+        "login": "Přihlásit",
+        "signUp": "Registrace"
+      },
+      "signUp": {
+        "header": "Registrace",
+        "name": "Jméno",
+        "nameRequired": "Jméno is povinné",
+        "email": "Email",
+        "emailRequired": "Email je povinný",
+        "emailIsEmail": "Email musí být ve tvaru 'jannovak@seznam.cz'",
+        "emailExists": "Email již existuje",
+        "password": "Heslo",
+        "passwordRequired": "Heslo je povinné",
+        "passwordLength": "Heslo musí být nejméně 6 znaků dlouhé",
+        "defaultCurrency": "Výchozí měna",
+        "defaultCurrencyRequired": "Výchozí měna je povinná",
+        "signUp": "Registrovat"
+      }
+    },
+    "brokers": {
+      "addEdit": {
+        "headerAdd": "Přidat brokera",
+        "headerEdit": "Upravit brokera",
+        "name": "Jméno",
+        "nameRequired": "Jméno je povinné",
+        "importType": "Typ importu",
+        "importTypeRequired": "Typ importu je povinný"
+      },
+      "list": {
+        "title": "Brokeři",
+        "addBroker": "Přidat brokera",
+        "name": "Jméno"
+      }
+    },
+    "emailVerify": {
+      "verify": {
+        "emailVerified": "Email byl verifikován.",
+        "login": "Přihlásit se"
+      }
+    },
+    "groups": {
+      "addEdit": {
+        "headerAdd": "Přidat skupinu",
+        "headerEdit": "Upravit skupinu",
+        "name": "Jméno",
+        "nameRequired": "Jméno is povinné",
+        "assets": "Aktiva",
+        "assetsRequired": "Aktiva jsou povinná"
+      },
+      "list": {
+        "title": "Skupiny",
+        "addGroup": "Přidat skupinu",
+        "name": "Jméno"
+      }
+    },
+    "history": {
+      "history": {
+        "title": "Historie",
+        "d": "d",
+        "m": "m",
+        "y": "y",
+        "ytd": "tento rok",
+        "all": "celá historie",
+        "benchmarkAsset": "Srovnávací aktivum",
+        "choose": "Vybrat"
+      }
+    },
+    "overviews": {
+      "list": {
+        "title": "Přehledy",
+        "year": "Rok",
+        "value": "Hodnota",
+        "transactionValue": "Hodnota transakcí",
+        "gain": "Zisk/Ztráta",
+        "dividend": "Dividenda",
+        "fxImpact": "FX dopad",
+        "return": "Návratnost"
+      }
+    },
+    "portfolios": {
+      "addEdit": {
+        "headerAdd": "Přidat portfólio",
+        "headerEdit": "Upravit portfólio",
+        "name": "Jméno",
+        "nameRequired": "Jméno je povinné",
+        "default": "Výchozí"
+      },
+      "list": {
+        "title": "Portfólia",
+        "addPortfolio": "Přidat portfólio",
+        "name": "Jméno"
+      }
+    },
+    "transactions": {
+      "list": {
+        "title": "Transakce",
+        "addTransaction": "Přidat transakci",
+        "addDividend": "Přidat dividendu",
+        "import": "Import",
+        "date": "Datum",
+        "created": "Vytvořeno",
+        "type": "Typ",
+        "itemsPerPage": "záznamů na stranu"
+      },
+      "import": {
+        "import": {
+          "title": "Importovat CSV soubor",
+          "broker": "Broker",
+          "brokerRequired": "Broker je povinný",
+          "file": "CSV soubor",
+          "import": "Importovat"
+        }
+      }
+    },
+    "users": {
+      "addEdit": {
+        "headerAdd": "Přidat uživatele",
+        "headerEdit": "Upravit uživatele",
+        "name": "Jmého",
+        "nameRequired": "Jméno je povinné",
+        "email": "Email",
+        "emailRequired": "Email je povinný",
+        "password": "Heslo",
+        "passwordLeaveBlank": "(Nechte prázdné pro stejné heslo)",
+        "passwordRequired": "Heslo je povinné",
+        "passwordLength": "Heslo musí být nejméně 6 znaků dlouhé",
+        "defaultCurrency": "Výchozí měna",
+        "defaultCurrencyRequired": "Výchozí měna je povinná",
+        "role": "Role",
+        "roleRequired": "Role je povinná"
+      },
+      "list": {
+        "title": "Uživatelé",
+        "addUser": "Přidat uživatele",
+        "email": "Email",
+        "name": "Jméno",
+        "assets": "Aktiv",
+        "transactions": "Transakcí"
+      }
+    },
+    "shared": {
+      "portfolioTotal": {
+        "header": "Hodnota portfólia"
+      },
+      "dividendDialog": {
+        "headerAdd": "Přidat dividendu",
+        "headerEdit": "Upravit Dividend",
+        "asset": "Aktivum",
+        "assetRequired": "Aktivum je povinné",
+        "broker": "Broker",
+        "brokerRequired": "Broker je povinný",
+        "paidDate": "Datum vyplacení",
+        "paidDateRequired": "Datum vyplacení je povinné",
+        "price": "Cena",
+        "priceRequired": "Cena je povinná",
+        "tax": "Daň/Poplatky",
+        "taxRequired": "Daň/Poplatky je povinná",
+        "currency": "Měna",
+        "currencyRequired": "Měna je povinná"
+      },
+      "transactionDialog": {
+        "headerAdd": "Přidat transakci",
+        "headerEdit": "Upravit transakci",
+        "asset": "Aktivum",
+        "assetRequired": "Aktivum je povinné",
+        "broker": "Broker",
+        "brokerRequired": "Broker je povinný",
+        "actionType": "Typ akce",
+        "actionTypeRequired": "Typ akce je povinný",
+        "actionCreated": "Datum akce",
+        "actionCreatedRequired": "Datum akce je povinné",
+        "units": "Jednotek",
+        "unitsRequired": "Jednotek je povinné",
+        "unitPrice": "Cena za jednotku",
+        "unitPriceRequired": "Cena za jednotku je povinná",
+        "tax": "Daň/Poplatky",
+        "taxRequired": "Daň/Poplatky je povinná",
+        "currency": "Měna",
+        "currencyRequired": "Měna je povinná"
+      }
+    },
+    "common": {
+      "cancel": "Zpět",
+      "save": "Uložit",
+      "edit": "Upravit",
+      "delete": "Smazat"
     }
   }
 }
+

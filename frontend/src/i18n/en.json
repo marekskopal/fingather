@@ -202,9 +202,53 @@
         "roleRequired": "Role is required"
       },
       "list": {
-        "title": "Portfolios",
-        "addPortfolio": "Add Portfolio",
-        "name": "Name"
+        "title": "Users",
+        "addUser": "Add User",
+        "email": "Email",
+        "name": "Name",
+        "assets": "Assets",
+        "transactions": "Transactions"
+      }
+    },
+    "shared": {
+      "portfolioTotal": {
+        "header": "Portfolio Value"
+      },
+      "dividendDialog": {
+        "headerAdd": "Add Dividend",
+        "headerEdit": "Edit Dividend",
+        "asset": "Asset",
+        "assetRequired": "Asset is required",
+        "broker": "Broker",
+        "brokerRequired": "Broker is required",
+        "paidDate": "Paid date",
+        "paidDateRequired": "Paid date is required",
+        "price": "Price",
+        "priceRequired": "Price is required",
+        "tax": "Tax/Fee",
+        "taxRequired": "Tax/Fee is required",
+        "currency": "Currency",
+        "currencyRequired": "Currency is required"
+      },
+      "transactionDialog": {
+        "headerAdd": "Add Transaction",
+        "headerEdit": "Edit Transaction",
+        "asset": "Asset",
+        "assetRequired": "Asset is required",
+        "broker": "Broker",
+        "brokerRequired": "Broker is required",
+        "actionType": "Action Type",
+        "actionTypeRequired": "Action Type is required",
+        "actionCreated": "Created",
+        "actionCreatedRequired": "Created is required",
+        "units": "Units",
+        "unitsRequired": "Units is required",
+        "unitPrice": "Unit Price",
+        "unitPriceRequired": "Unit Price is required",
+        "tax": "Tax/Fee",
+        "taxRequired": "Tax/Fee is required",
+        "currency": "Currency",
+        "currencyRequired": "Currency is required"
       }
     },
     "common": {
