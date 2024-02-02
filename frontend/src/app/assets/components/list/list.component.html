@@ -3,10 +3,10 @@
         <fingather-portfolio-selector />
     </div>
     <div class="col-md-5 order-md-0">
-        <h1>Assets</h1>
+        <h1>{{ 'app.assets.list.title' | translate }}</h1>
     </div>
     <div class="col-md-4 order-md-1 text-end">
-        <a (click)="addAsset()" class="btn btn-sm btn-success" tabindex="0"><fa-icon icon="plus"></fa-icon> Add Asset</a>
+        <a (click)="addAsset()" class="btn btn-sm btn-success" tabindex="0"><fa-icon icon="plus"></fa-icon> {{ 'app.assets.list.addAsset' | translate }}</a>
     </div>
 </div>
 
@@ -14,7 +14,7 @@
 
 <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav nav-tabs" role="tablist">
     <li [ngbNavItem]="'open-positions'">
-        <button ngbNavLink><span class="h4">Open positions</span></button>
+        <button ngbNavLink><span class="h4">{{ 'app.assets.list.openPositions' | translate }}</span></button>
         <ng-template ngbNavContent>
             <div class="form-check form-switch">
                 <input (change)="changeWithGroups()" class="form-check-input" type="checkbox" role="switch" id="withGroups">
@@ -27,14 +27,14 @@
                         <caption *ngIf="group.id !== null">{{group.name}}</caption>
                         <thead>
                             <tr>
-                                <th style="width: 24%">Name</th>
-                                <th style="width: 9.5%">Price</th>
-                                <th style="width: 9.5%">Units</th>
-                                <th style="width: 9.5%">Value</th>
-                                <th style="width: 9.5%">Gain/Loss</th>
-                                <th style="width: 9.5%">Dividend</th>
-                                <th style="width: 9.5%">FX Impact</th>
-                                <th style="width: 9.5%"><strong>Return</strong></th>
+                                <th style="width: 24%">{{ 'app.assets.list.name' | translate }}</th>
+                                <th style="width: 9.5%">{{ 'app.assets.list.price' | translate }}</th>
+                                <th style="width: 9.5%">{{ 'app.assets.list.units' | translate }}</th>
+                                <th style="width: 9.5%">{{ 'app.assets.list.value' | translate }}</th>
+                                <th style="width: 9.5%">{{ 'app.assets.list.gain' | translate }}</th>
+                                <th style="width: 9.5%">{{ 'app.assets.list.dividend' | translate }}</th>
+                                <th style="width: 9.5%">{{ 'app.assets.list.fxImpact' | translate }}</th>
+                                <th style="width: 9.5%"><strong>{{ 'app.assets.list.return' | translate }}</strong></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -61,7 +61,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td><strong>Total {{group.percentage | number:'1.2-2'}}%</strong></td>
+                                <td><strong>{{ 'app.assets.list.total' | translate }} {{group.percentage | number:'1.2-2'}}%</strong></td>
                                 <td></td>
                                 <td></td>
                                 <td class="text-end">{{group.groupData.value | number:'1.2-2' | currency: defaultCurrency.id | async}}</td>
@@ -89,14 +89,14 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th style="width: 24%">Name</th>
-                            <th style="width: 9.5%">Price</th>
-                            <th style="width: 9.5%">Units</th>
-                            <th style="width: 9.5%">Value</th>
-                            <th style="width: 9.5%">Gain/Loss</th>
-                            <th style="width: 9.5%">Dividend</th>
-                            <th style="width: 9.5%">FX Impact</th>
-                            <th style="width: 9.5%"><strong>Return</strong></th>
+                            <th style="width: 24%">{{ 'app.assets.list.name' | translate }}</th>
+                            <th style="width: 9.5%">{{ 'app.assets.list.price' | translate }}</th>
+                            <th style="width: 9.5%">{{ 'app.assets.list.units' | translate }}</th>
+                            <th style="width: 9.5%">{{ 'app.assets.list.value' | translate }}</th>
+                            <th style="width: 9.5%">{{ 'app.assets.list.gain' | translate }}</th>
+                            <th style="width: 9.5%">{{ 'app.assets.list.dividend' | translate }}</th>
+                            <th style="width: 9.5%">{{ 'app.assets.list.fxImpact' | translate }}</th>
+                            <th style="width: 9.5%"><strong>{{ 'app.assets.list.return' | translate }}</strong></th>
                             <th style="width: 9.5%"></th>
                         </tr>
                     </thead>
@@ -123,7 +123,7 @@
                                 <div><strong>{{asset.returnPercentage}}%</strong></div>
                             </td>
                             <td class="align-middle text-end" style="white-space: nowrap">
-                                <a routerLink="{{asset.id}}" class="btn btn-sm btn-primary mr-1"><fa-icon icon="expand"></fa-icon> Detail</a>
+                                <a routerLink="{{asset.id}}" class="btn btn-sm btn-primary mr-1"><fa-icon icon="expand"></fa-icon> {{ 'app.assets.list.detail' | translate }}</a>
                             </td>
                         </tr>
                     </tbody>
@@ -134,13 +134,13 @@
         </ng-template>
     </li>
     <li [ngbNavItem]="'closed-positions'">
-        <button ngbNavLink><span class="h4">Closed positions</span></button>
+        <button ngbNavLink><span class="h4">{{ 'app.assets.list.closedPositions' | translate }}</span></button>
         <ng-template ngbNavContent>
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th style="width: 50%">Name</th>
-                        <th style="width: 30%">Price</th>
+                        <th style="width: 50%">{{ 'app.assets.list.name' | translate }}</th>
+                        <th style="width: 30%">{{ 'app.assets.list.price' | translate }}</th>
                         <th style="width: 20%"></th>
                     </tr>
                 </thead>
@@ -149,7 +149,7 @@
                         <td class="align-middle"><strong>{{asset.ticker.ticker}}</strong> {{asset.ticker.name}}</td>
                         <td class="align-middle text-end">{{asset.price | number:'1.2-2' | currency: asset.ticker.market.currencyId | async}}</td>
                         <td class="text-end" style="white-space: nowrap">
-                            <a routerLink="{{asset.id}}" class="btn btn-sm btn-primary mr-1"><fa-icon icon="expand"></fa-icon> Detail</a>
+                            <a routerLink="{{asset.id}}" class="btn btn-sm btn-primary mr-1"><fa-icon icon="expand"></fa-icon> {{ 'app.assets.list.detail' | translate }}</a>
                         </td>
                     </tr>
                     <tr *ngIf="closedAssets === null">
@@ -162,13 +162,13 @@
         </ng-template>
     </li>
     <li [ngbNavItem]="'watch-list'">
-        <button ngbNavLink><span class="h4">Watch list</span></button>
+        <button ngbNavLink><span class="h4">{{ 'app.assets.list.watchList' | translate }}</span></button>
         <ng-template ngbNavContent>
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th style="width: 50%">Name</th>
-                        <th style="width: 30%">Price</th>
+                        <th style="width: 50%">{{ 'app.assets.list.name' | translate }}</th>
+                        <th style="width: 30%">{{ 'app.assets.list.price' | translate }}</th>
                         <th style="width: 20%"></th>
                     </tr>
                 </thead>
@@ -177,7 +177,7 @@
                         <td class="align-middle"><strong>{{asset.ticker.ticker}}</strong> {{asset.ticker.name}}</td>
                         <td class="align-middle text-end">{{asset.price | number:'1.2-2' | currency: asset.ticker.market.currencyId | async}}</td>
                         <td class="text-end" style="white-space: nowrap">
-                            <a routerLink="{{asset.id}}" class="btn btn-sm btn-primary mr-1"><fa-icon icon="expand"></fa-icon> Detail</a>
+                            <a routerLink="{{asset.id}}" class="btn btn-sm btn-primary mr-1"><fa-icon icon="expand"></fa-icon> {{ 'app.assets.list.detail' | translate }}</a>
                         </td>
                     </tr>
                     <tr *ngIf="watchedAssets === null">

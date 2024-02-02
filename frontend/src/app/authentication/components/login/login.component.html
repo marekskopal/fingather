@@ -1,27 +1,27 @@
 ﻿<div class="card">
-    <h4 class="card-header">Login</h4>
+    <h4 class="card-header">{{ 'app.authentication.login.header' | translate }}</h4>
     <div class="card-body">
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
             <div class="form-group mb-3">
-                <label for="email">Email</label>
+                <label for="email">{{ 'app.authentication.login.email' | translate }}</label>
                 <input id="email" type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['email'].errors }" />
                 <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
-                    <div *ngIf="f['email'].errors['required']">Email is required</div>
+                    <div *ngIf="f['email'].errors['required']">{{ 'app.authentication.login.emailRequired' | translate }}</div>
                 </div>
             </div>
             <div class="form-group mb-3">
-                <label for="password">Password</label>
+                <label for="password">{{ 'app.authentication.login.password' | translate }}</label>
                 <input id="password" type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['password'].errors }" />
                 <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
-                    <div *ngIf="f['password'].errors['required']">Password is required</div>
+                    <div *ngIf="f['password'].errors['required']">{{ 'app.authentication.login.passwordRequired' | translate }}</div>
                 </div>
             </div>
             <div class="form-group text-center">
                 <button [disabled]="loading" class="btn btn-primary">
                     <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                    Login
+                    {{ 'app.authentication.login.login' | translate }}
                 </button>
-                <a routerLink="../sign-up" class="btn btn-link">Sign Up</a>
+                <a routerLink="../sign-up" class="btn btn-link">{{ 'app.authentication.login.signUp' | translate }}</a>
             </div>
         </form>
     </div>

@@ -6,12 +6,14 @@ import { LoginComponent } from '@app/authentication/components/login/login.compo
 import { SignUpComponent } from '@app/authentication/components/sign-up/sign-up.component';
 
 import { AuthenticationRoutingModule } from './authentication-routing.module';
+import {SharedModule} from "@app/shared/shared.module";
 
 @NgModule({
     imports: [
         CommonModule,
         ReactiveFormsModule,
-        AuthenticationRoutingModule
+        AuthenticationRoutingModule,
+        SharedModule,
     ],
     declarations: [
         LayoutComponent,
