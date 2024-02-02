@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Authentication } from '@app/models/authentication';
 import { AuthenticationService } from '@app/services/authentication.service';
-import {TranslateService} from "@ngx-translate/core";
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({ selector: 'fingather-app', templateUrl: 'app.component.html' })
 export class AppComponent {
