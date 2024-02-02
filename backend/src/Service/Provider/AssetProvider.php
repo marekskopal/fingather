@@ -42,25 +42,25 @@ class AssetProvider
 	/** @return array<int, Asset> */
 	public function getOpenAssets(User $user, Portfolio $portfolio, DateTimeImmutable $dateTime): array
 	{
-		return $this->assetRepository->findOpenAssets($user->getId(), $dateTime);
+		return $this->assetRepository->findOpenAssets($user->getId(), $portfolio->getId(), $dateTime);
 	}
 
 	/** @return array<int, Asset> */
 	public function getOpenAssetsByGroup(Group $group, User $user, Portfolio $portfolio, DateTimeImmutable $dateTime): array
 	{
-		return $this->assetRepository->findOpenAssetsByGroup($user->getId(), $group->getId(), $dateTime);
+		return $this->assetRepository->findOpenAssetsByGroup($user->getId(), $portfolio->getId(), $group->getId(), $dateTime);
 	}
 
 	/** @return array<int, Asset> */
 	public function getClosedAssets(User $user, Portfolio $portfolio, DateTimeImmutable $dateTime): array
 	{
-		return $this->assetRepository->findClosedAssets($user->getId(), $dateTime);
+		return $this->assetRepository->findClosedAssets($user->getId(), $portfolio->getId(), $dateTime);
 	}
 
 	/** @return array<int, Asset> */
 	public function getWatchedAssets(User $user, Portfolio $portfolio): array
 	{
-		return $this->assetRepository->findWatchedAssets($user->getId());
+		return $this->assetRepository->findWatchedAssets($user->getId(), $portfolio->getId(),);
 	}
 
 	public function getAsset(User $user, int $assetId): ?Asset

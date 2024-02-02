@@ -39,13 +39,14 @@ class AssetRepository extends ARepository
 	}
 
 	/** @return array<int, Asset> */
-	public function findOpenAssets(int $userId, DateTimeImmutable $dateTime): array
+	public function findOpenAssets(int $userId, int $portfolioId, DateTimeImmutable $dateTime): array
 	{
 		$openAssetSelect = $this->orm->getSource(Asset::class)
 			->getDatabase()
 			->select('asset_id')
 			->from('transactions')
 			->where('user_id', $userId)
+			->where('portfolio_id', $portfolioId)
 			->where('action_created', '<=', $dateTime)
 			->where('action_type', 'in', [TransactionActionTypeEnum::Buy->value, TransactionActionTypeEnum::Sell->value])
 			->groupBy('asset_id')
@@ -53,19 +54,21 @@ class AssetRepository extends ARepository
 
 		return $this->select()
 			->where('user_id', $userId)
+			->where('portfolio_id', $portfolioId)
 			->where('id', 'in', $openAssetSelect)
 			->orderBy('ticker.name')
 			->fetchAll();
 	}
 
 	/** @return array<int, Asset> */
-	public function findOpenAssetsByGroup(int $userId, int $groupId, DateTimeImmutable $dateTime): array
+	public function findOpenAssetsByGroup(int $userId, int $portfolioId, int $groupId, DateTimeImmutable $dateTime): array
 	{
 		$openAssetSelect = $this->orm->getSource(Asset::class)
 			->getDatabase()
 			->select('asset_id')
 			->from('transactions')
 			->where('user_id', $userId)
+			->where('portfolio_id', $portfolioId)
 			->where('action_created', '<=', $dateTime)
 			->where('action_type', 'in', [TransactionActionTypeEnum::Buy->value, TransactionActionTypeEnum::Sell->value])
 			->groupBy('asset_id')
@@ -73,19 +76,21 @@ class AssetRepository extends ARepository
 
 		return $this->select()
 			->where('user_id', $userId)
+			->where('portfolio_id', $portfolioId)
 			->where('group_id', $groupId)
 			->where('id', 'in', $openAssetSelect)
 			->fetchAll();
 	}
 
 	/** @return array<int, Asset> */
-	public function findClosedAssets(int $userId, DateTimeImmutable $dateTime): array
+	public function findClosedAssets(int $userId, int $portfolioId, DateTimeImmutable $dateTime): array
 	{
 		$closedAssetSelect = $this->orm->getSource(Asset::class)
 			->getDatabase()
 			->select('asset_id')
 			->from('transactions')
 			->where('user_id', $userId)
+			->where('portfolio_id', $portfolioId)
 			->where('action_created', '<=', $dateTime)
 			->where('action_type', 'in', [TransactionActionTypeEnum::Buy->value, TransactionActionTypeEnum::Sell->value])
 			->groupBy('asset_id')
@@ -93,24 +98,27 @@ class AssetRepository extends ARepository
 
 		return $this->select()
 			->where('user_id', $userId)
+			->where('portfolio_id', $portfolioId)
 			->where('id', 'in', $closedAssetSelect)
 			->orderBy('ticker.name')
 			->fetchAll();
 	}
 
 	/** @return array<int, Asset> */
-	public function findWatchedAssets(int $userId): array
+	public function findWatchedAssets(int $userId, int $portfolioId): array
 	{
 		$watchedAssetSelect = $this->orm->getSource(Asset::class)
 			->getDatabase()
 			->select('asset_id')
 			->from('transactions')
 			->where('user_id', $userId)
+			->where('portfolio_id', $portfolioId)
 			->where('action_type', 'in', [TransactionActionTypeEnum::Buy->value, TransactionActionTypeEnum::Sell->value])
 			->groupBy('asset_id');
 
 		return $this->select()
 			->where('user_id', $userId)
+			->where('portfolio_id', $portfolioId)
 			->where('id', 'not in', $watchedAssetSelect)
 			->orderBy('ticker.name')
 			->fetchAll();
