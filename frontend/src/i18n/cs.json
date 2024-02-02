@@ -1,0 +1,16 @@
+{
+  "app" : {
+    "navbar": {
+      "dashboard": "Dashboard",
+      "assets": "Aktiva",
+      "transactions": "Transakce",
+      "overviews": "Přehledy",
+      "history": "Historie",
+      "groups": "Skupiny",
+      "brokers": "Brokeři",
+      "portfolios": "Portfólia",
+      "users": "Uživatelé",
+      "logout": "Odhlásit"
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -15,6 +15,12 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import {TranslateLoader, TranslateModule, TranslateService} from "@ngx-translate/core";
+import {TranslateHttpLoader} from "@ngx-translate/http-loader";
+
+export function HttpLoaderFactory(http: HttpClient) {
+    return new TranslateHttpLoader(http, '/i18n/');
+}
 
 @NgModule({
     imports: [
@@ -24,6 +30,13 @@ import { AppRoutingModule } from './app-routing.module';
         AppRoutingModule,
         NgbModule,
         FaIconComponent,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        })
     ],
     declarations: [
         AppComponent,
@@ -37,7 +50,8 @@ import { AppRoutingModule } from './app-routing.module';
 })
 export class AppModule {
     public constructor(
-        private readonly faIconLibrary: FaIconLibrary
+        private readonly faIconLibrary: FaIconLibrary,
+        private readonly translateService: TranslateService,
     ) {
         faIconLibrary.addIcons(
             faDashboard,
@@ -51,5 +65,9 @@ export class AppModule {
             faUserGroup,
             faPowerOff
         );
+
+        translateService.addLangs(['en', 'cs']);
+        translateService.use(localStorage.getItem('currentLanguage') ?? 'en');
+        translateService.setDefaultLang('en');
     }
 }
