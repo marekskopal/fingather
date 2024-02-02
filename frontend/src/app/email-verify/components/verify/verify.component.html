@@ -1,8 +1,8 @@
 ﻿<div class="card">
     <div class="card-body">
         @if (validated) {
-            <p>Email was verified.</p>
-            <a routerLink="/" class="btn btn-primary">Login</a>
+            <p>{{ 'app.emailVerify.verify.emailVerified' | translate }}</p>
+            <a routerLink="/" class="btn btn-primary">{{ 'app.emailVerify.verify.login' | translate }}</a>
         }
     </div>
 </div>
