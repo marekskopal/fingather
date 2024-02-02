@@ -6,8 +6,8 @@ namespace FinGather\Controller;
 
 use DateInterval;
 use FinGather\Dto\TickerDataDto;
-use FinGather\Model\Entity\TickerData;
 use FinGather\Response\NotFoundResponse;
+use FinGather\Service\Provider\Dto\TickerDataAdjustedDto;
 use FinGather\Service\Provider\TickerDataProvider;
 use FinGather\Service\Provider\TickerProvider;
 use Laminas\Diactoros\Response\JsonResponse;
@@ -36,8 +36,8 @@ class TickerDataController
 		$fromDate = $toDate->sub(DateInterval::createFromDateString('1 year'));
 
 		$tickerDatas = array_map(
-			fn (TickerData $tickerData): TickerDataDto => TickerDataDto::fromEntity($tickerData),
-			$this->tickerDataProvider->getTickerDatas($ticker, $fromDate, $toDate),
+			fn (TickerDataAdjustedDto $tickerData): TickerDataDto => TickerDataDto::fromTickerDataAdjusted($tickerData),
+			$this->tickerDataProvider->getAdjustedTickerDatas($ticker, $fromDate, $toDate),
 		);
 
 		return new JsonResponse($tickerDatas);
