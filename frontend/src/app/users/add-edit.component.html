@@ -1,8 +1,8 @@
 ﻿<div class="modal-header">
     @if (isAddMode) {
-        <h4 class="modal-title">Add User</h4>
+        <h4 class="modal-title">{{ 'app.users.addEdit.headerAdd' | translate }}</h4>
     } @else {
-        <h4 class="modal-title">Edit User</h4>
+        <h4 class="modal-title">{{ 'app.users.addEdit.headerAdd' | translate }}</h4>
     }
     <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
 </div>
@@ -10,58 +10,58 @@
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <div class="form-row">
             <div class="form-group col">
-                <label for="email">Email</label>
-                <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['email'].errors }" />
+                <label for="email">{{ 'app.users.addEdit.email' | translate }}</label>
+                <input id="email" type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['email'].errors }" />
                 <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
-                    <div *ngIf="f['email'].errors['required']">Email is required</div>
+                    <div *ngIf="f['email'].errors['required']">{{ 'app.users.addEdit.emailRequired' | translate }}</div>
                 </div>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col">
-                <label for="name">Name</label>
-                <input type="text" formControlName="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['name'].errors }" />
+                <label for="name">{{ 'app.users.addEdit.name' | translate }}</label>
+                <input id="name" type="text" formControlName="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['name'].errors }" />
                 <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
-                    <div *ngIf="f['name'].errors['required']">Name is required</div>
+                    <div *ngIf="f['name'].errors['required']">{{ 'app.users.addEdit.emailRequired' | translate }}</div>
                 </div>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col">
                 <label for="password">
-                    Password
-                    <em *ngIf="!isAddMode">(Leave blank to keep the same password)</em>
+                    {{ 'app.users.addEdit.password' | translate }}
+                    <em *ngIf="!isAddMode">{{ 'app.users.addEdit.passwordLeaveBlank' | translate }}</em>
                 </label>
-                <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['password'].errors }" />
+                <input id="password" type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['password'].errors }" />
                 <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
-                    <div *ngIf="f['password'].errors['required']">Password is required</div>
-                    <div *ngIf="f['password'].errors['minlength']">Password must be at least 6 characters</div>
+                    <div *ngIf="f['password'].errors['required']">{{ 'app.users.addEdit.passwordRequired' | translate }}</div>
+                    <div *ngIf="f['password'].errors['minlength']">{{ 'app.users.addEdit.passwordLength' | translate }}</div>
                 </div>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col">
-                <label for="defaultCurrencyId" class="form-label">Default Currency</label>
+                <label for="defaultCurrencyId" class="form-label">{{ 'app.users.addEdit.defaultCurrency' | translate }}</label>
                 <select id="defaultCurrencyId" formControlName="defaultCurrencyId" class="form-select">
                     <option *ngFor="let currency of currencies" [ngValue]="currency.id">
                         {{ currency.code }}
                     </option>
                 </select>
                 <div *ngIf="submitted && f['defaultCurrencyId'].errors" class="invalid-feedback">
-                    <div *ngIf="f['defaultCurrencyId'].errors['required']">Default Currency is required</div>
+                    <div *ngIf="f['defaultCurrencyId'].errors['required']">{{ 'app.users.addEdit.defaultCurrencyRequired' | translate }}</div>
                 </div>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col">
-                <label for="role" class="form-label">Role</label>
+                <label for="role" class="form-label">{{ 'app.users.addEdit.role' | translate }}</label>
                 <select id="role" formControlName="role" class="form-select">
                     <option *ngFor="let role of roles" [ngValue]="role.key">
                         {{ role.name }}
                     </option>
                 </select>
                 <div *ngIf="submitted && f['role'].errors" class="invalid-feedback">
-                    <div *ngIf="f['role'].errors['required']">Role is required</div>
+                    <div *ngIf="f['role'].errors['required']">{{ 'app.users.addEdit.roleRequired' | translate }}</div>
                 </div>
             </div>
         </div>
@@ -70,7 +70,7 @@
                 <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
                 Save
             </button>
-            <a routerLink="/users" class="btn btn-link">Cancel</a>
+            <a class="btn btn-link" (click)="activeModal.dismiss()" tabindex="0">{{ 'app.common.cancel' | translate }}</a>
         </div>
     </form>
 </div>

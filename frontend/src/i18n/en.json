@@ -163,6 +163,50 @@
         "name": "Name"
       }
     },
+    "transactions": {
+      "list": {
+        "title": "Transactions",
+        "addTransaction": "Add Transaction",
+        "addDividend": "Add Dividend",
+        "import": "Import",
+        "date": "Date",
+        "created": "Created",
+        "type": "Type",
+        "itemsPerPage": "items per page"
+      },
+      "import": {
+        "import": {
+          "title": "Import CSV File",
+          "broker": "Broker",
+          "brokerRequired": "Broker is required",
+          "file": "CSV File",
+          "import": "Import"
+        }
+      }
+    },
+    "users": {
+      "addEdit": {
+        "headerAdd": "Add User",
+        "headerEdit": "Edit User",
+        "name": "Name",
+        "nameRequired": "Name is required",
+        "email": "Email",
+        "emailRequired": "Email is required",
+        "password": "Password",
+        "passwordLeaveBlank": "(Leave blank to keep the same password)",
+        "passwordRequired": "Password is required",
+        "passwordLength": "Password must be at least 6 characters",
+        "defaultCurrency": "Default Currency",
+        "defaultCurrencyRequired": "Default Currency is required",
+        "role": "Role",
+        "roleRequired": "Role is required"
+      },
+      "list": {
+        "title": "Portfolios",
+        "addPortfolio": "Add Portfolio",
+        "name": "Name"
+      }
+    },
     "common": {
       "cancel": "Cancel",
       "save": "Save",

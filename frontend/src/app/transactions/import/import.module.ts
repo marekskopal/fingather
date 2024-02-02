@@ -5,12 +5,14 @@ import { ImportComponent } from '@app/transactions/import/components/import/impo
 import { LayoutComponent } from '@app/transactions/import/components/layout/layout.component';
 
 import { ImportRoutingModule } from './import-routing.module';
+import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
     imports: [
         CommonModule,
         ReactiveFormsModule,
-        ImportRoutingModule
+        ImportRoutingModule,
+        TranslateModule
     ],
     declarations: [
         LayoutComponent,
