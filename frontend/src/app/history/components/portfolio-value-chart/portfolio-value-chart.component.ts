@@ -4,7 +4,7 @@ import {
 import { PortfolioDataRangeEnum, PortfolioDataWithBenchmarkData } from '@app/models';
 import { PortfolioDataService, PortfolioService } from '@app/services';
 import {
-    ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexGrid, ApexStroke, ApexTheme,
+    ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexGrid, ApexStroke, ApexTheme,
     ApexTitleSubtitle, ApexXAxis, ChartComponent
 } from 'ng-apexcharts';
 import { first } from 'rxjs/operators';
@@ -18,6 +18,8 @@ export type ChartOptions = {
     stroke: ApexStroke;
     title: ApexTitleSubtitle;
     theme: ApexTheme;
+    fill: ApexFill;
+    colors: string[];
 };
 
 @Component({
@@ -82,7 +84,7 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
             ],
             chart: {
                 height: '500',
-                type: 'line',
+                type: 'area',
                 zoom: {
                     enabled: false
                 },
@@ -112,10 +114,18 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
             },
             theme: {
                 mode: 'dark',
-                monochrome: {
-                    enabled: true
-                }
-            }
+            },
+            fill: {
+                type: 'gradient',
+                gradient: {
+                    shadeIntensity: 1,
+                    inverseColors: false,
+                    opacityFrom: 0.5,
+                    opacityTo: 0,
+                    stops: [0, 90, 100]
+                },
+            },
+            colors: ['#64ee85', '#6bf5ff']
         };
     }
 
