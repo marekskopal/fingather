@@ -39,7 +39,10 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let asset of group.assets">
-                                <td><strong>{{asset.ticker.ticker}}</strong> {{asset.ticker.name}}</td>
+                                <td>
+                                    <div><strong>{{asset.ticker.ticker}}</strong></div>
+                                    <div>{{asset.ticker.name}}</div>
+                                </td>
                                 <td class="text-end">{{asset.price | number:'1.2-2' | currency: asset.ticker.market.currencyId | async}}</td>
                                 <td>{{asset.units | number:'1.0-8'}}</td>
                                 <td class="text-end">{{asset.value | number:'1.2-2' | currency: defaultCurrency.id | async}}</td>
@@ -102,7 +105,10 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let asset of openedAssets">
-                            <td class="align-middle"><strong>{{asset.ticker.ticker}}</strong> {{asset.ticker.name}}</td>
+                            <td class="align-middle">
+                                <div><strong>{{asset.ticker.ticker}}</strong></div>
+                                <div>{{asset.ticker.name}}</div>
+                            </td>
                             <td class="align-middle text-end">{{asset.price | number:'1.2-2' | currency: asset.ticker.market.currencyId | async}}</td>
                             <td class="align-middle">{{asset.units | number:'1.0-8'}}</td>
                             <td class="align-middle text-end">{{asset.value | number:'1.2-2' | currency: defaultCurrency.id | async}}</td>
@@ -146,7 +152,10 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let asset of closedAssets">
-                        <td class="align-middle"><strong>{{asset.ticker.ticker}}</strong> {{asset.ticker.name}}</td>
+                        <td class="align-middle">
+                            <div><strong>{{asset.ticker.ticker}}</strong></div>
+                            <div>{{asset.ticker.name}}</div>
+                        </td>
                         <td class="align-middle text-end">{{asset.price | number:'1.2-2' | currency: asset.ticker.market.currencyId | async}}</td>
                         <td class="text-end" style="white-space: nowrap">
                             <a routerLink="{{asset.id}}" class="btn btn-sm btn-primary mr-1"><fa-icon icon="expand"></fa-icon> {{ 'app.assets.list.detail' | translate }}</a>
@@ -174,7 +183,10 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let asset of watchedAssets">
-                        <td class="align-middle"><strong>{{asset.ticker.ticker}}</strong> {{asset.ticker.name}}</td>
+                        <td class="align-middle">
+                            <div><strong>{{asset.ticker.ticker}}</strong></div>
+                            <div>{{asset.ticker.name}}</div>
+                        </td>
                         <td class="align-middle text-end">{{asset.price | number:'1.2-2' | currency: asset.ticker.market.currencyId | async}}</td>
                         <td class="text-end" style="white-space: nowrap">
                             <a routerLink="{{asset.id}}" class="btn btn-sm btn-primary mr-1"><fa-icon icon="expand"></fa-icon> {{ 'app.assets.list.detail' | translate }}</a>
