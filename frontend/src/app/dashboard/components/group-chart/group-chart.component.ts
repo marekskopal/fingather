@@ -5,7 +5,7 @@ import { GroupWithGroupData } from '@app/models';
 import { GroupWithGroupDataService, PortfolioService } from '@app/services';
 import {
     ApexChart, ApexFill, ApexLegend,
-    ApexNonAxisChartSeries, ApexPlotOptions, ApexStroke, ApexTheme, ApexYAxis, ChartComponent
+    ApexNonAxisChartSeries, ApexPlotOptions, ApexStates, ApexStroke, ApexTheme, ApexYAxis, ChartComponent
 } from 'ng-apexcharts';
 import { first } from 'rxjs/operators';
 
@@ -17,6 +17,7 @@ export type ChartOptions = {
     fill: ApexFill,
     yaxis: ApexYAxis,
     stroke: ApexStroke,
+    states: ApexStates,
     legend: ApexLegend,
     plotOptions: ApexPlotOptions,
     colors: string[],
@@ -68,15 +69,25 @@ export class GroupChartComponent implements OnInit {
             series: [],
             chart: {
                 width: '100%',
-                type: 'pie'
+                type: 'donut',
+                selection: {
+                    enabled: false,
+                },
             },
             labels: [],
             fill: {
                 opacity: 1
             },
             stroke: {
-                width: 1,
-                colors: undefined
+                width: 4,
+                colors: ['#1b2627']
+            },
+            states: {
+                active: {
+                    filter: {
+                        type: 'none'
+                    }
+                }
             },
             yaxis: {
                 show: false
@@ -85,9 +96,9 @@ export class GroupChartComponent implements OnInit {
                 position: 'bottom'
             },
             plotOptions: {
-                polarArea: {
-                    rings: {
-                        strokeWidth: 0
+                pie: {
+                    donut: {
+                        size: '50%'
                     }
                 }
             },
