@@ -19,6 +19,7 @@ export type ChartOptions = {
     stroke: ApexStroke,
     legend: ApexLegend,
     plotOptions: ApexPlotOptions,
+    colors: string[],
 };
 
 @Component({
@@ -57,6 +58,7 @@ export class GroupChartComponent implements OnInit {
                 const chartMap = this.mapChart(groupsWithGroupData);
                 this.chartOptions.series = chartMap.series;
                 this.chartOptions.labels = chartMap.labels;
+                this.chartOptions.colors = chartMap.colors;
                 this.loading = false;
             });
     }
@@ -91,25 +93,28 @@ export class GroupChartComponent implements OnInit {
             },
             theme: {
                 mode: 'dark',
-                monochrome: {
-                    enabled: true
-                }
-            }
+            },
+            colors: [],
         };
     }
 
-    private mapChart(groupsWithGroupData: GroupWithGroupData[]): { series: number[], labels: string[] } {
+    private mapChart(
+        groupsWithGroupData: GroupWithGroupData[]
+    ): { series: number[], labels: string[], colors: string[] } {
         const series: number[] = [];
         const labels: string[] = [];
+        const colors: string[] = [];
 
         for (const groupWithGroupData of groupsWithGroupData) {
             series.push(groupWithGroupData.percentage);
             labels.push(groupWithGroupData.name);
+            colors.push(groupWithGroupData.color);
         }
 
         return {
             series,
             labels,
+            colors,
         };
     }
 }

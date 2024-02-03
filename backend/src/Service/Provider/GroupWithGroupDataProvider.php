@@ -58,6 +58,7 @@ class GroupWithGroupDataProvider
 				id: $groupId,
 				userId: $user->getId(),
 				name: $group->getName(),
+				color: $group->getColor(),
 				assetIds: array_map(fn (AssetWithPropertiesDto $asset): int => $asset->id, $groupAssets[$groupId]),
 				assets: $groupAssets[$groupId],
 				percentage: ((new Decimal($groupData->getValue()))->div(new Decimal($portfolioData->getValue())))->toFloat() * 100,

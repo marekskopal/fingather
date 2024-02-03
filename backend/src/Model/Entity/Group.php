@@ -13,6 +13,9 @@ use FinGather\Model\Repository\GroupRepository;
 #[Entity(repository: GroupRepository::class)]
 class Group extends AEntity
 {
+	public const string OthersName = 'Others';
+	public const string OthersColor = '#2c3d3f';
+
 	/** @param array<int, Asset> $assets */
 	public function __construct(
 		#[RefersTo(target: User::class)]
@@ -21,6 +24,8 @@ class Group extends AEntity
 		private Portfolio $portfolio,
 		#[Column(type: 'string')]
 		private string $name,
+		#[Column(type: 'string(7)')]
+		private string $color,
 		#[Column(type: 'boolean')]
 		private bool $isOthers,
 		#[HasMany(target: Asset::class)]
@@ -56,6 +61,16 @@ class Group extends AEntity
 	public function setName(string $name): void
 	{
 		$this->name = $name;
+	}
+
+	public function getColor(): string
+	{
+		return $this->color;
+	}
+
+	public function setColor(string $color): void
+	{
+		$this->color = $color;
 	}
 
 	public function isOthers(): bool

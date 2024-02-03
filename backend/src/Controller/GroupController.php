@@ -94,13 +94,14 @@ class GroupController
 			return new NotFoundResponse('Portfolio with id "' . $portfolioId . '" was not found.');
 		}
 
-		/** @var array{name: string, assetIds: list<int>} $requestBody */
+		/** @var array{name: string, color: string, assetIds: list<int>} $requestBody */
 		$requestBody = json_decode($request->getBody()->getContents(), assoc: true);
 
 		return new JsonResponse(GroupDto::fromEntity($this->groupProvider->createGroup(
 			user: $user,
 			portfolio: $portfolio,
 			name: $requestBody['name'],
+			color: $requestBody['color'],
 			assetIds: $requestBody['assetIds'],
 		)));
 	}
@@ -119,12 +120,13 @@ class GroupController
 			return new NotFoundResponse('Group with id "' . $groupId . '" was not found.');
 		}
 
-		/** @var array{name: string, assetIds: list<int>} $requestBody */
+		/** @var array{name: string, color: string, assetIds: list<int>} $requestBody */
 		$requestBody = json_decode($request->getBody()->getContents(), assoc: true);
 
 		return new JsonResponse(GroupDto::fromEntity($this->groupProvider->updateGroup(
 			group: $group,
 			name: $requestBody['name'],
+			color: $requestBody['color'],
 			assetIds: $requestBody['assetIds'],
 		)));
 	}

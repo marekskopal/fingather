@@ -10,7 +10,7 @@ use FinGather\Model\Entity\Group;
 readonly class GroupDto
 {
 	/** @param list<int> $assetIds */
-	public function __construct(public int $id, public int $userId, public string $name, public array $assetIds)
+	public function __construct(public int $id, public int $userId, public string $name, public string $color, public array $assetIds)
 	{
 	}
 
@@ -20,6 +20,7 @@ readonly class GroupDto
 			id: $entity->getId(),
 			userId: $entity->getUser()->getId(),
 			name: $entity->getName(),
+			color: $entity->getColor(),
 			assetIds: array_map(fn (Asset $asset): int => $asset->getId(), $entity->getAssets()),
 		);
 	}
