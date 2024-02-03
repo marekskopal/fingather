@@ -116,6 +116,8 @@
         "headerEdit": "Edit Group",
         "name": "Name",
         "nameRequired": "Name is required",
+        "color": "Color",
+        "colorRequired": "Color is required",
         "assets": "Assets",
         "assetsRequired": "Assets is required"
       },

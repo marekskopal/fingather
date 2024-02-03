@@ -16,6 +16,13 @@
             </div>
         </div>
         <div class="mb-3">
+            <label for="color" class="form-label">{{ 'app.groups.addEdit.color' | translate }}</label>
+            <input id="color" type="color" formControlName="color" class="form-control form-control-color" [ngClass]="{ 'is-invalid': submitted && f['color'].errors }" />
+            <div *ngIf="submitted && f['color'].errors" class="invalid-feedback">
+                <div *ngIf="f['color'].errors['required']">{{ 'app.groups.addEdit.colorRequired' | translate }}</div>
+            </div>
+        </div>
+        <div class="mb-3">
             <label for="assetIds" class="form-label">{{ 'app.groups.addEdit.assets' | translate }}</label>
             <select multiple id="assetIds" formControlName="assetIds" class="form-select">
                 <option *ngFor="let asset of assets" [ngValue]="asset.id" [disabled]="asset.groupId !== othersGroup.id && asset.groupId !== id">

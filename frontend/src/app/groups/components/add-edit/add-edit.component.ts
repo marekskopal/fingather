@@ -31,6 +31,7 @@ export class AddEditComponent extends BaseForm implements OnInit {
 
         this.form = this.formBuilder.group({
             name: ['', Validators.required],
+            color: ['#64ee85', Validators.required],
             assetIds: ['', Validators.required],
         });
 

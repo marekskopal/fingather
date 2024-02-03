@@ -37,9 +37,9 @@ class GroupProvider
 	}
 
 	/** @param list<int> $assetIds */
-	public function createGroup(User $user, Portfolio $portfolio, string $name, array $assetIds): Group
+	public function createGroup(User $user, Portfolio $portfolio, string $name, string $color, array $assetIds): Group
 	{
-		$group = new Group(user: $user, portfolio: $portfolio, name: $name, isOthers: false, assets: []);
+		$group = new Group(user: $user, portfolio: $portfolio, name: $name, color: $color, isOthers: false, assets: []);
 		$this->groupRepository->persist($group);
 
 		foreach ($assetIds as $assetId) {
@@ -60,16 +60,24 @@ class GroupProvider
 
 	public function createOthersGroup(User $user, Portfolio $portfolio): Group
 	{
-		$group = new Group(user: $user, portfolio: $portfolio, name: 'Others', isOthers: true, assets: []);
+		$group = new Group(
+			user: $user,
+			portfolio: $portfolio,
+			name: Group::OthersName,
+			color: Group::OthersColor,
+			isOthers: true,
+			assets: [],
+		);
 		$this->groupRepository->persist($group);
 
 		return $group;
 	}
 
 	/** @param list<int> $assetIds */
-	public function updateGroup(Group $group, string $name, array $assetIds): Group
+	public function updateGroup(Group $group, string $name, string $color, array $assetIds): Group
 	{
 		$group->setName($name);
+		$group->setColor($color);
 		$this->groupRepository->persist($group);
 
 		$user = $group->getUser();

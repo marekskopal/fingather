@@ -116,6 +116,8 @@
         "headerEdit": "Upravit skupinu",
         "name": "Jméno",
         "nameRequired": "Jméno is povinné",
+        "color": "Barva",
+        "colorRequired": "Barva je povinná",
         "assets": "Aktiva",
         "assetsRequired": "Aktiva jsou povinná"
       },

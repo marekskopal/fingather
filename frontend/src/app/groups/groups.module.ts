@@ -7,6 +7,7 @@ import { ListComponent } from '@app/groups/components/list/list.component';
 import { SharedModule } from '@app/shared/shared.module';
 import { FaIconComponent, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { faEdit, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { GroupsRoutingModule } from './groups-routing.module';
 
@@ -16,7 +17,8 @@ import { GroupsRoutingModule } from './groups-routing.module';
         ReactiveFormsModule,
         GroupsRoutingModule,
         FaIconComponent,
-        SharedModule
+        SharedModule,
+        NgbModule,
     ],
     declarations: [
         LayoutComponent,

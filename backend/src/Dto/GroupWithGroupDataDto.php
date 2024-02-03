@@ -14,12 +14,13 @@ final readonly class GroupWithGroupDataDto extends GroupWithAssetsDto
 		int $id,
 		int $userId,
 		string $name,
+		string $color,
 		array $assetIds,
 		array $assets,
 		public float $percentage,
 		public GroupDataDto $groupData,
 	)
 	{
-		parent::__construct($id, $userId, $name, $assetIds, $assets);
+		parent::__construct($id, $userId, $name, $color, $assetIds, $assets);
 	}
 }

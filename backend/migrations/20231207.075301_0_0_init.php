@@ -89,6 +89,7 @@ class InitMigration extends Migration
 				'zerofill' => false,
 			])
 			->addColumn('name', 'string', ['nullable' => false, 'default' => null, 'size' => 255])
+			->addColumn('name', 'string', ['nullable' => false, 'default' => null, 'size' => 7])
 			->addColumn('is_others', 'boolean', ['nullable' => false, 'default' => false])
 			->addIndex(['user_id'], ['name' => 'groups_index_user_id_657179dd4f473', 'unique' => false])
 			->addIndex(['portfolio_id'], ['name' => 'groups_index_portfolio_id_65b57aa23e661', 'unique' => false])
