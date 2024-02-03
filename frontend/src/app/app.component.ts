@@ -36,5 +36,6 @@ export class AppComponent {
     public changeLanguage(lang: string): void {
         localStorage.setItem('currentLanguage', lang);
         this.translateService.use(lang);
+        this.currentLanguage = this.translateService.currentLang;
     }
 }
