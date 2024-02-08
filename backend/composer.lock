@@ -63,21 +63,21 @@
         },
         {
             "name": "cycle/annotated",
-            "version": "v3.4.0",
+            "version": "v3.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cycle/annotated.git",
-                "reference": "bb376d2ee60d35f75e9d9efbd15932ebaf86d7e8"
+                "reference": "4024d2ea9b5656cdd0bf4e79acc485dc063b8273"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cycle/annotated/zipball/bb376d2ee60d35f75e9d9efbd15932ebaf86d7e8",
-                "reference": "bb376d2ee60d35f75e9d9efbd15932ebaf86d7e8",
+                "url": "https://api.github.com/repos/cycle/annotated/zipball/4024d2ea9b5656cdd0bf4e79acc485dc063b8273",
+                "reference": "4024d2ea9b5656cdd0bf4e79acc485dc063b8273",
                 "shasum": ""
             },
             "require": {
-                "cycle/orm": "^2.2.0",
-                "cycle/schema-builder": "^2.6",
+                "cycle/orm": "^2.7",
+                "cycle/schema-builder": "^2.8",
                 "doctrine/annotations": "^1.14.3 || ^2.0.1",
                 "doctrine/inflector": "^2.0",
                 "php": ">=8.0",
@@ -101,28 +101,28 @@
             "description": "Cycle ORM Annotated Entities generator",
             "support": {
                 "issues": "https://github.com/cycle/annotated/issues",
-                "source": "https://github.com/cycle/annotated/tree/v3.4.0"
+                "source": "https://github.com/cycle/annotated/tree/v3.5.0"
             },
             "funding": [
                 {
-                    "url": "https://github.com/roadrunner-server",
+                    "url": "https://github.com/cycle",
                     "type": "github"
                 }
             ],
-            "time": "2023-11-23T14:49:23+00:00"
+            "time": "2024-02-08T21:32:45+00:00"
         },
         {
             "name": "cycle/database",
-            "version": "2.7.1",
+            "version": "2.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cycle/database.git",
-                "reference": "74d674412ca4e405070d6748d31b3421ff61ec72"
+                "reference": "f9f70c8067ce436d0090118a1e75f8363d05048e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cycle/database/zipball/74d674412ca4e405070d6748d31b3421ff61ec72",
-                "reference": "74d674412ca4e405070d6748d31b3421ff61ec72",
+                "url": "https://api.github.com/repos/cycle/database/zipball/f9f70c8067ce436d0090118a1e75f8363d05048e",
+                "reference": "f9f70c8067ce436d0090118a1e75f8363d05048e",
                 "shasum": ""
             },
             "require": {
@@ -189,36 +189,36 @@
                 "sqlite"
             ],
             "support": {
-                "chat": "https://discord.gg/TFeEmCs",
+                "chat": "https://discord.gg/spiralphp",
                 "docs": "https://cycle-orm.dev/docs",
                 "issues": "https://github.com/cycle/database/issues",
                 "source": "https://github.com/cycle/database"
             },
             "funding": [
                 {
-                    "url": "https://github.com/sponsors/roadrunner-server",
+                    "url": "https://github.com/sponsors/cycle",
                     "type": "github"
                 }
             ],
-            "time": "2023-12-21T20:57:38+00:00"
+            "time": "2024-02-08T16:04:55+00:00"
         },
         {
             "name": "cycle/entity-behavior",
-            "version": "1.2.0",
+            "version": "1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cycle/entity-behavior.git",
-                "reference": "891fd972047a453afa43ee8d8117c6532d0971bf"
+                "reference": "fd6de37bcee0d8e753805f83c574762e82426490"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cycle/entity-behavior/zipball/891fd972047a453afa43ee8d8117c6532d0971bf",
-                "reference": "891fd972047a453afa43ee8d8117c6532d0971bf",
+                "url": "https://api.github.com/repos/cycle/entity-behavior/zipball/fd6de37bcee0d8e753805f83c574762e82426490",
+                "reference": "fd6de37bcee0d8e753805f83c574762e82426490",
                 "shasum": ""
             },
             "require": {
-                "cycle/orm": "^2.0",
-                "cycle/schema-builder": "^2.5",
+                "cycle/orm": "^2.7",
+                "cycle/schema-builder": "^2.8",
                 "php": ">=8.0",
                 "psr/container": "^1.0|^2.0",
                 "psr/event-dispatcher": "^1",
@@ -241,29 +241,56 @@
             "license": [
                 "MIT"
             ],
+            "authors": [
+                {
+                    "name": "Anton Titov (wolfy-j)",
+                    "email": "wolfy-j@spiralscout.com"
+                },
+                {
+                    "name": "Aleksei Gagarin (roxblnfk)",
+                    "email": "alexey.gagarin@spiralscout.com"
+                },
+                {
+                    "name": "Pavel Butchnev (butschster)",
+                    "email": "pavel.buchnev@spiralscout.com"
+                },
+                {
+                    "name": "Maksim Smakouz (msmakouz)",
+                    "email": "maksim.smakouz@spiralscout.com"
+                }
+            ],
             "description": "Provides a collection of attributes that add behaviors to Cycle ORM entities",
+            "homepage": "https://cycle-orm.dev",
             "support": {
+                "chat": "https://discord.gg/spiralphp",
+                "docs": "https://cycle-orm.dev/docs",
                 "issues": "https://github.com/cycle/entity-behavior/issues",
-                "source": "https://github.com/cycle/entity-behavior/tree/1.2.0"
+                "source": "https://github.com/cycle/entity-behavior"
             },
-            "time": "2023-05-19T13:54:19+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/cycle",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-02-08T19:35:15+00:00"
         },
         {
             "name": "cycle/entity-behavior-uuid",
-            "version": "1.1.0",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cycle/entity-behavior-uuid.git",
-                "reference": "37728260297f8d5a5afaa3e89192d0f12eeb17e0"
+                "reference": "04b27fcd5e0b7bce9a596889215f6a999d8cb2e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cycle/entity-behavior-uuid/zipball/37728260297f8d5a5afaa3e89192d0f12eeb17e0",
-                "reference": "37728260297f8d5a5afaa3e89192d0f12eeb17e0",
+                "url": "https://api.github.com/repos/cycle/entity-behavior-uuid/zipball/04b27fcd5e0b7bce9a596889215f6a999d8cb2e9",
+                "reference": "04b27fcd5e0b7bce9a596889215f6a999d8cb2e9",
                 "shasum": ""
             },
             "require": {
-                "cycle/entity-behavior": "^1.0",
+                "cycle/entity-behavior": "^1.3",
                 "php": ">=8.0",
                 "ramsey/uuid": "^4.5"
             },
@@ -283,11 +310,39 @@
             "license": [
                 "MIT"
             ],
+            "authors": [
+                {
+                    "name": "Anton Titov (wolfy-j)",
+                    "email": "wolfy-j@spiralscout.com"
+                },
+                {
+                    "name": "Aleksei Gagarin (roxblnfk)",
+                    "email": "alexey.gagarin@spiralscout.com"
+                },
+                {
+                    "name": "Pavel Butchnev (butschster)",
+                    "email": "pavel.buchnev@spiralscout.com"
+                },
+                {
+                    "name": "Maksim Smakouz (msmakouz)",
+                    "email": "maksim.smakouz@spiralscout.com"
+                }
+            ],
+            "description": "Provides an ability to use ramsey/uuid as a Cycle ORM entity column type",
+            "homepage": "https://cycle-orm.dev",
             "support": {
+                "chat": "https://discord.gg/spiralphp",
+                "docs": "https://cycle-orm.dev/docs",
                 "issues": "https://github.com/cycle/entity-behavior-uuid/issues",
-                "source": "https://github.com/cycle/entity-behavior-uuid/tree/1.1.0"
+                "source": "https://github.com/cycle/entity-behavior-uuid"
             },
-            "time": "2023-05-19T14:17:36+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/cycle",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-02-08T19:43:45+00:00"
         },
         {
             "name": "cycle/migrations",
@@ -335,20 +390,20 @@
         },
         {
             "name": "cycle/orm",
-            "version": "v2.6.1",
+            "version": "v2.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cycle/orm.git",
-                "reference": "1cf556d9c74393006ae5debfd9059c4523499aee"
+                "reference": "31e29e443dfb9dfe5cf6e92c913c2a287fbbb7f8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cycle/orm/zipball/1cf556d9c74393006ae5debfd9059c4523499aee",
-                "reference": "1cf556d9c74393006ae5debfd9059c4523499aee",
+                "url": "https://api.github.com/repos/cycle/orm/zipball/31e29e443dfb9dfe5cf6e92c913c2a287fbbb7f8",
+                "reference": "31e29e443dfb9dfe5cf6e92c913c2a287fbbb7f8",
                 "shasum": ""
             },
             "require": {
-                "cycle/database": "^2.6",
+                "cycle/database": "^2.8.1",
                 "doctrine/instantiator": "^1.3.1 || ^2.0",
                 "ext-pdo": "*",
                 "php": ">=8.0",
@@ -362,7 +417,7 @@
                 "phpunit/phpunit": "^9.5",
                 "ramsey/uuid": "^4.0",
                 "spiral/tokenizer": "^2.8 || ^3.0",
-                "vimeo/psalm": "^4.9"
+                "vimeo/psalm": "5.21"
             },
             "type": "library",
             "autoload": {
@@ -374,36 +429,57 @@
             "license": [
                 "MIT"
             ],
+            "authors": [
+                {
+                    "name": "Anton Titov (wolfy-j)",
+                    "email": "wolfy-j@spiralscout.com"
+                },
+                {
+                    "name": "Aleksei Gagarin (roxblnfk)",
+                    "email": "alexey.gagarin@spiralscout.com"
+                },
+                {
+                    "name": "Pavel Butchnev (butschster)",
+                    "email": "pavel.buchnev@spiralscout.com"
+                },
+                {
+                    "name": "Maksim Smakouz (msmakouz)",
+                    "email": "maksim.smakouz@spiralscout.com"
+                }
+            ],
             "description": "PHP DataMapper ORM and Data Modelling Engine",
+            "homepage": "https://cycle-orm.dev",
             "support": {
+                "chat": "https://discord.gg/spiralphp",
+                "docs": "https://cycle-orm.dev/docs",
                 "issues": "https://github.com/cycle/orm/issues",
-                "source": "https://github.com/cycle/orm/tree/v2.6.1"
+                "source": "https://github.com/cycle/orm"
             },
             "funding": [
                 {
-                    "url": "https://github.com/roadrunner-server",
+                    "url": "https://github.com/sponsors/cycle",
                     "type": "github"
                 }
             ],
-            "time": "2024-01-04T12:09:49+00:00"
+            "time": "2024-02-08T17:51:52+00:00"
         },
         {
             "name": "cycle/schema-builder",
-            "version": "v2.7.0",
+            "version": "v2.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cycle/schema-builder.git",
-                "reference": "67da7e79f6e7638f3d1f1068ade394461a1516aa"
+                "reference": "8fbc46372194b21e2eea6f36b9a4730629da4ab7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cycle/schema-builder/zipball/67da7e79f6e7638f3d1f1068ade394461a1516aa",
-                "reference": "67da7e79f6e7638f3d1f1068ade394461a1516aa",
+                "url": "https://api.github.com/repos/cycle/schema-builder/zipball/8fbc46372194b21e2eea6f36b9a4730629da4ab7",
+                "reference": "8fbc46372194b21e2eea6f36b9a4730629da4ab7",
                 "shasum": ""
             },
             "require": {
                 "cycle/database": "^2.7.1",
-                "cycle/orm": "^2.0",
+                "cycle/orm": "^2.7",
                 "php": ">=8.0",
                 "yiisoft/friendly-exception": "^1.1"
             },
@@ -426,9 +502,9 @@
             "description": "Cycle ORM Schema Builder",
             "support": {
                 "issues": "https://github.com/cycle/schema-builder/issues",
-                "source": "https://github.com/cycle/schema-builder/tree/v2.7.0"
+                "source": "https://github.com/cycle/schema-builder/tree/v2.8.0"
             },
-            "time": "2024-01-10T09:48:52+00:00"
+            "time": "2024-02-08T18:29:02+00:00"
         },
         {
             "name": "cycle/schema-migrations-generator",
