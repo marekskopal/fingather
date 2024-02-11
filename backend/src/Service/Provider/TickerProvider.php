@@ -32,6 +32,17 @@ class TickerProvider
 		return $this->tickerRepository->findTicker($tickerId);
 	}
 
+	/** @return array<Ticker> */
+	public function getTickersByTicker(string $ticker): array
+	{
+		return $this->tickerRepository->findTickersByTicker($ticker);
+	}
+
+	public function countTickersByTicker(string $ticker): int
+	{
+		return $this->tickerRepository->countTickersByTicker($ticker);
+	}
+
 	public function getTickerByTicker(string $ticker): ?Ticker
 	{
 		return $this->tickerRepository->findTickerByTicker($ticker);
