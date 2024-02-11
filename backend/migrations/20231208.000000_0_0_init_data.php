@@ -51,8 +51,8 @@ class InitDataMigration extends Migration
 		])->run();
 
 		$this->database()->insert('tickers')->values([
-			['id' => 1, 'ticker' => 'VUSA', 'name' => 'Vanguard S&P 500 UCITS ETF', 'market_id' => 3, 'currency_id' => 3],
-			['id' => 2, 'ticker' => 'NVDA', 'name' => 'NVIDIA Corp', 'market_id' => 1, 'currency_id' => 1],
+			['id' => 1, 'ticker' => 'VUSA', 'name' => 'Vanguard S&P 500 UCITS ETF', 'market_id' => 7, 'currency_id' => 3],
+			['id' => 2, 'ticker' => 'NVDA', 'name' => 'NVIDIA Corp', 'market_id' => 3, 'currency_id' => 1],
 			['id' => 3, 'ticker' => 'BTC', 'name' => 'Bitcoin', 'market_id' => 11, 'currency_id' => 1],
 		])->run();
 
