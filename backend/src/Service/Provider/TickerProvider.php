@@ -50,7 +50,12 @@ class TickerProvider
 					continue;
 				}
 
-				$currency = $this->currencyRepository->findCurrencyByCode($stock->currency);
+				$stockCurrency = $stock->currency;
+				if ($stockCurrency === 'GBp') {
+					$stockCurrency = 'GBX';
+				}
+
+				$currency = $this->currencyRepository->findCurrencyByCode($stockCurrency);
 				if ($currency === null) {
 					continue;
 				}
@@ -65,7 +70,12 @@ class TickerProvider
 					continue;
 				}
 
-				$currency = $this->currencyRepository->findCurrencyByCode($etf->currency);
+				$etfCurrency = $etf->currency;
+				if ($etfCurrency === 'GBp') {
+					$etfCurrency = 'GBX';
+				}
+
+				$currency = $this->currencyRepository->findCurrencyByCode($etfCurrency);
 				if ($currency === null) {
 					continue;
 				}
