@@ -194,7 +194,7 @@ class AssetController
 		/** @var array{ticker: string} $requestBody */
 		$requestBody = json_decode($request->getBody()->getContents(), assoc: true);
 
-		$ticker = $this->tickerProvider->getOrCreateTicker($requestBody['ticker']);
+		$ticker = $this->tickerProvider->getTickerByTicker($requestBody['ticker']);
 		if ($ticker === null) {
 			return new NotFoundResponse('Ticker "' . $requestBody['ticker'] . '" was not found.');
 		}

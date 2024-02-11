@@ -9,7 +9,7 @@ use Decimal\Decimal;
 use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\ExchangeRate;
 use FinGather\Model\Repository\ExchangeRateRepository;
-use FinGather\Service\AlphaVantage\AlphaVantageApiClient;
+use MarekSkopal\TwelveData\TwelveData;
 use Safe\DateTimeImmutable;
 
 class ExchangeRateProvider
@@ -17,10 +17,8 @@ class ExchangeRateProvider
 	/** @var array<string, ExchangeRate> */
 	private array $exchangeRates = [];
 
-	public function __construct(
-		private readonly ExchangeRateRepository $exchangeRateRepository,
-		private readonly AlphaVantageApiClient $alphaVantageApiClient,
-	) {
+	public function __construct(private readonly ExchangeRateRepository $exchangeRateRepository, private readonly TwelveData $twelveData,)
+	{
 	}
 
 	public function getExchangeRate(DateTimeImmutable $date, Currency $currencyFrom, Currency $currencyTo): ExchangeRate
@@ -70,7 +68,7 @@ class ExchangeRateProvider
 		return $exchangeRate;
 	}
 
-	public function updateExchangeRates(Currency $currencyTo, bool $fullHistory = false): void
+	public function updateExchangeRates(Currency $currencyTo): void
 	{
 		$code = $currencyTo->getCode();
 		$multiplier = 1;
@@ -81,16 +79,15 @@ class ExchangeRateProvider
 
 		$lastExchangeRate = $this->exchangeRateRepository->findLastExchangeRate($currencyTo->getId());
 
-		$fxDailyResults = $this->alphaVantageApiClient->getFxDaily($code, $fullHistory);
-		foreach ($fxDailyResults as $dailyResult) {
-			if ($lastExchangeRate !== null && $dailyResult->date <= $lastExchangeRate->getDate()) {
-				continue;
-			}
-
+		$timeSeries = $this->twelveData->getCoreData()->timeSeries(
+			symbol: $code . '/USD',
+			startDate: $lastExchangeRate?->getDate() ?? new DateTimeImmutable('2020-01-01'),
+		);
+		foreach ($timeSeries->values as $timeSeriesValue) {
 			$exchangeRate = new ExchangeRate(
 				currency: $currencyTo,
-				date: $dailyResult->date,
-				rate: (string) $dailyResult->close->mul($multiplier),
+				date: $timeSeriesValue->datetime,
+				rate: (string) ((new Decimal($timeSeriesValue->close))->mul($multiplier)),
 			);
 			$this->exchangeRateRepository->persist($exchangeRate);
 		}
@@ -115,7 +112,7 @@ class ExchangeRateProvider
 			}
 		}
 
-		$this->updateExchangeRates($currencyTo, true);
+		$this->updateExchangeRates($currencyTo);
 
 		$exchangeRate = $this->exchangeRateRepository->findLastExchangeRate($currencyTo->getId());
 		assert($exchangeRate instanceof ExchangeRate);

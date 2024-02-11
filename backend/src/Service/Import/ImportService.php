@@ -47,7 +47,6 @@ final class ImportService
 		$csv->setHeaderOffset(0);
 
 		$importMapper = $this->getImportMapper(BrokerImportTypeEnum::from($broker->getImportType()));
-		$tickerMapping = $importMapper->getTickerMapping();
 
 		$user = $broker->getUser();
 		$portfolio = $broker->getPortfolio();
@@ -76,12 +75,7 @@ final class ImportService
 				continue;
 			}
 
-			$transactionRecordTicker = array_search($transactionRecord->ticker, $tickerMapping, strict: true);
-			if ($transactionRecordTicker === false) {
-				$transactionRecordTicker = $transactionRecord->ticker;
-			}
-
-			$ticker = $this->tickerProvider->getOrCreateTicker($transactionRecordTicker);
+			$ticker = $this->tickerProvider->getTickerByTicker($transactionRecord->ticker);
 			if ($ticker === null) {
 				$this->logger->log('import', 'Ticker not created: ' . implode(',', $record));
 				continue;

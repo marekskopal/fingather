@@ -46,6 +46,7 @@ use Http\Discovery\Psr17FactoryDiscovery;
 use League\Container\Container;
 use League\Container\ReflectionContainer;
 use League\Route\Router;
+use MarekSkopal\TwelveData\Config\Config;
 use MarekSkopal\TwelveData\TwelveData;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
@@ -78,7 +79,7 @@ final class ApplicationFactory
 
 		$container->add(
 			TwelveData::class,
-			fn (): TwelveData => new TwelveData((string) getenv('TWELVEDATA_API_KEY'))
+			fn (): TwelveData => new TwelveData(new Config((string) getenv('TWELVEDATA_API_KEY')))
 		);
 
 		$container->add(ORM::class, $dbContext->getOrm());
