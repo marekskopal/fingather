@@ -8,13 +8,13 @@ use Cycle\Database\Exception\StatementException\ConstrainException;
 use DateInterval;
 use Decimal\Decimal;
 use FinGather\Model\Entity\Enum\MarketTypeEnum;
-use FinGather\Model\Entity\Split;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\TickerData;
 use FinGather\Model\Repository\SplitRepository;
 use FinGather\Model\Repository\TickerDataRepository;
-use FinGather\Service\AlphaVantage\AlphaVantageApiClient;
 use FinGather\Service\Provider\Dto\TickerDataAdjustedDto;
+use MarekSkopal\TwelveData\Dto\CoreData\TimeSeries;
+use MarekSkopal\TwelveData\TwelveData;
 use Safe\DateTime;
 use Safe\DateTimeImmutable;
 
@@ -23,7 +23,7 @@ class TickerDataProvider
 	public function __construct(
 		private readonly TickerDataRepository $tickerDataRepository,
 		private readonly SplitRepository $splitRepository,
-		private readonly AlphaVantageApiClient $alphaVantageApiClient,
+		private readonly TwelveData $twelveData,
 	) {
 	}
 
@@ -114,76 +114,47 @@ class TickerDataProvider
 
 		$marketType = MarketTypeEnum::from($ticker->getMarket()->getType());
 		match ($marketType) {
-			MarketTypeEnum::Stock => $this->createTickerDataFromStock($ticker, $fromDate, $fullHistory),
+			MarketTypeEnum::Stock => $this->createTickerDataFromStock($ticker, $fromDate),
 			MarketTypeEnum::Crypto => $this->createTickerDataFromCrypto($ticker, $fromDate),
 		};
 	}
 
-	private function createTickerDataFromStock(Ticker $ticker, DateTimeImmutable $fromDate, bool $fullHistory = false): void
+	private function createTickerDataFromStock(Ticker $ticker, DateTimeImmutable $fromDate): void
 	{
-		$dailyTimeSeries = $this->alphaVantageApiClient->getTimeSeriesDaily($ticker->getTicker(), $fullHistory);
-		foreach ($dailyTimeSeries as $dailyTimeSerie) {
-			if ($dailyTimeSerie->date < $fromDate) {
-				continue;
-			}
+		$timeSeries = $this->twelveData->getCoreData()->timeSeries(
+			symbol: $ticker->getTicker(),
+			micCode: $ticker->getMarket()->getMic(),
+			startDate: $fromDate,
+		);
+		$this->createTickerData($ticker, $timeSeries);
+	}
 
+	private function createTickerDataFromCrypto(Ticker $ticker, DateTimeImmutable $fromDate): void
+	{
+		$timeSeries = $this->twelveData->getCoreData()->timeSeries(
+			symbol: $ticker->getTicker() . '/USD',
+			startDate: $fromDate,
+		);
+		$this->createTickerData($ticker, $timeSeries);
+	}
+
+	private function createTickerData(Ticker $ticker, TimeSeries $timeSeries): void
+	{
+		foreach ($timeSeries->values as $timeSeriesValue) {
 			$tickerData = new TickerData(
 				ticker: $ticker,
-				date: $dailyTimeSerie->date,
-				open: (string) $dailyTimeSerie->open,
-				close: (string) $dailyTimeSerie->close,
-				high: (string) $dailyTimeSerie->high,
-				low: (string) $dailyTimeSerie->low,
-				volume: (string) $dailyTimeSerie->volume,
+				date: $timeSeriesValue->datetime,
+				open: $timeSeriesValue->open,
+				close: $timeSeriesValue->close,
+				high: $timeSeriesValue->high,
+				low: $timeSeriesValue->low,
+				volume: $timeSeriesValue->volume ?? '0',
 			);
 
 			try {
 				$this->tickerDataRepository->persist($tickerData);
 			} catch (ConstrainException) {
 				//ignore duplicate tickers
-			}
-
-			if ($dailyTimeSerie->splitCoefficient->toFloat() === 1.0) {
-				continue;
-			}
-
-			$split = $this->splitRepository->findSplit($ticker->getId(), $dailyTimeSerie->date);
-			if ($split !== null) {
-				continue;
-			}
-
-			$split = new Split(ticker: $ticker, date: $dailyTimeSerie->date, factor: (string) $dailyTimeSerie->splitCoefficient);
-
-			try {
-				$this->splitRepository->persist($split);
-			} catch (ConstrainException) {
-				//ignore duplicate splits
-			}
-		}
-	}
-
-	private function createTickerDataFromCrypto(Ticker $ticker, DateTime|DateTimeImmutable $fromDate): void
-	{
-		$cryptoDailies = $this->alphaVantageApiClient->getCryptoDaily($ticker->getTicker());
-		foreach ($cryptoDailies as $cryptoDaily) {
-			if ($cryptoDaily->date < $fromDate) {
-				continue;
-			}
-
-			$tickerData = new TickerData(
-				ticker: $ticker,
-				date: $cryptoDaily->date,
-				open: (string) $cryptoDaily->open,
-				close: (string) $cryptoDaily->close,
-				high: (string) $cryptoDaily->high,
-				low: (string) $cryptoDaily->low,
-				volume: (string) $cryptoDaily->volume,
-			);
-
-			try {
-				$this->tickerDataRepository->persist($tickerData);
-			} catch (ConstrainException) {
-				//ignore duplicate ticker data
 			}
 		}
 	}

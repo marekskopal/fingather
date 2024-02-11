@@ -8,7 +8,4 @@ interface MapperInterface
 {
 	/** @return array<string, string|callable> */
 	public function getCsvMapping(): array;
-
-	/** @return array<string, string> */
-	public function getTickerMapping(): array;
 }

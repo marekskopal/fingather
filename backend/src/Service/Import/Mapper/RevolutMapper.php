@@ -19,10 +19,4 @@ class RevolutMapper implements MapperInterface
 			'total' => 'Total Amount',
 		];
 	}
-
-	/** @return array<string, string> */
-	public function getTickerMapping(): array
-	{
-		return [];
-	}
 }
