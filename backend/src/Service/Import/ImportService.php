@@ -11,9 +11,12 @@ use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Enum\TransactionCreateTypeEnum;
+use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Repository\AssetRepository;
 use FinGather\Model\Repository\CurrencyRepository;
 use FinGather\Model\Repository\TransactionRepository;
+use FinGather\Service\Import\Entity\PrepareImport;
+use FinGather\Service\Import\Entity\PrepareImportTicker;
 use FinGather\Service\Import\Entity\TransactionRecord;
 use FinGather\Service\Import\Mapper\AnycoinMapper;
 use FinGather\Service\Import\Mapper\MapperInterface;
@@ -21,6 +24,8 @@ use FinGather\Service\Import\Mapper\RevolutMapper;
 use FinGather\Service\Import\Mapper\Trading212Mapper;
 use FinGather\Service\Provider\DataProvider;
 use FinGather\Service\Provider\GroupProvider;
+use FinGather\Service\Provider\ImportMappingProvider;
+use FinGather\Service\Provider\ImportProvider;
 use FinGather\Service\Provider\TickerProvider;
 use FinGather\Service\Provider\TransactionProvider;
 use League\Csv\Reader;
@@ -37,8 +42,82 @@ final class ImportService
 		private readonly CurrencyRepository $currencyRepository,
 		private readonly GroupProvider $groupProvider,
 		private readonly DataProvider $dataProvider,
+		private readonly ImportProvider $importProvider,
+		private readonly ImportMappingProvider $importMappingProvider,
 		private readonly LoggerInterface $logger,
 	) {
+	}
+
+	public function prepareImportCsv(Broker $broker, string $csvContent): PrepareImport
+	{
+		$csv = Reader::createFromString($csvContent);
+		$csv->setHeaderOffset(0);
+
+		$importMapper = $this->getImportMapper(BrokerImportTypeEnum::from($broker->getImportType()));
+
+		$user = $broker->getUser();
+		$portfolio = $broker->getPortfolio();
+
+		$records = $csv->getRecords();
+
+		$notFoundTickers = [];
+		$multipleFoundTickers = [];
+		$okFoundTickers = [];
+
+		foreach ($records as $record) {
+			/** @var array<string, string> $record */
+			$transactionRecord = $this->mapTransactionRecord($importMapper, $record);
+
+			if (!isset($transactionRecord->ticker)) {
+				$this->logger->log('import', 'Ticker not found: ' . implode(',', $record));
+				continue;
+			}
+
+			if (array_key_exists($transactionRecord->ticker, $notFoundTickers)) {
+				continue;
+			}
+			if (array_key_exists($transactionRecord->ticker, $multipleFoundTickers)) {
+				continue;
+			}
+			if (array_key_exists($transactionRecord->ticker, $okFoundTickers)) {
+				continue;
+			}
+
+			$importMappings = $this->importMappingProvider->getImportMappings($user, $portfolio, $broker);
+			if (array_key_exists($transactionRecord->ticker, $importMappings)) {
+				$okFoundTickers[$transactionRecord->ticker] = new PrepareImportTicker(
+					ticker: $transactionRecord->ticker,
+					tickers: [$importMappings[$transactionRecord->ticker]->getTicker()],
+				);
+				continue;
+			}
+
+			$countTicker = $this->tickerProvider->countTickersByTicker($transactionRecord->ticker);
+			if ($countTicker === 0) {
+				$notFoundTickers[$transactionRecord->ticker] = new PrepareImportTicker(ticker: $transactionRecord->ticker, tickers: []);
+			} elseif ($countTicker > 1) {
+				$multipleFoundTickers[$transactionRecord->ticker] = new PrepareImportTicker(
+					ticker: $transactionRecord->ticker,
+					tickers: $this->tickerProvider->getTickersByTicker($transactionRecord->ticker),
+				);
+			} else {
+				$tickerByTicker = $this->tickerProvider->getTickerByTicker($transactionRecord->ticker);
+				assert($tickerByTicker instanceof Ticker);
+				$okFoundTickers[$transactionRecord->ticker] = new PrepareImportTicker(
+					ticker: $transactionRecord->ticker,
+					tickers: [$tickerByTicker],
+				);
+			}
+		}
+
+		$import = $this->importProvider->createImport(user: $user, portfolio: $portfolio, broker: $broker, csvContent: $csvContent);
+
+		return new PrepareImport(
+			import: $import,
+			notFoundTickers: $notFoundTickers,
+			multipleFoundTickers: $multipleFoundTickers,
+			okFoundTickers: $okFoundTickers,
+		);
 	}
 
 	public function importCsv(Broker $broker, string $csvContent): void

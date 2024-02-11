@@ -38,6 +38,21 @@ class TickerRepository extends ARepository
 		]);
 	}
 
+	/** @return array<Ticker> */
+	public function findTickersByTicker(string $ticker): array
+	{
+		return $this->select()
+			->where('ticker', $ticker)
+			->fetchAll();
+	}
+
+	public function countTickersByTicker(string $ticker): int
+	{
+		return $this->select()
+			->where('ticker', $ticker)
+			->count();
+	}
+
 	public function findTickerByTicker(string $ticker): ?Ticker
 	{
 		return $this->findOne([

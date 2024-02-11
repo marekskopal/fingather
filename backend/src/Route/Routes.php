@@ -13,7 +13,7 @@ use FinGather\Controller\CurrentUserController;
 use FinGather\Controller\EmailVerifyController;
 use FinGather\Controller\GroupController;
 use FinGather\Controller\GroupWithGroupDataController;
-use FinGather\Controller\ImportDataController;
+use FinGather\Controller\ImportController;
 use FinGather\Controller\OverviewController;
 use FinGather\Controller\PortfolioController;
 use FinGather\Controller\PortfolioDataController;
@@ -54,7 +54,8 @@ enum Routes: string
 
 	case GroupsWithGroupData = '/api/groups-with-group-data/{portfolioId:number}';
 
-	case ImportData = '/api/import-data';
+	case ImportPrepare = '/api/import/import-prepare';
+	case ImportStart = '/api/import/import-start';
 
 	case OverviewYearOverview = '/api/overview/year-overview/{portfolioId:number}';
 
@@ -117,7 +118,8 @@ enum Routes: string
 
 		$routeList->get(self::GroupsWithGroupData->value, [GroupWithGroupDataController::class, 'actionGetGroupsWithGroupData']);
 
-		$routeList->post(self::ImportData->value, [ImportDataController::class, 'actionImportData']);
+		$routeList->post(self::ImportPrepare->value, [ImportController::class, 'actionImportPrepare']);
+		$routeList->post(self::ImportStart->value, [ImportController::class, 'actionImportStart']);
 
 		$routeList->get(self::OverviewYearOverview->value, [OverviewController::class, 'actionGetYearOverview']);
 
