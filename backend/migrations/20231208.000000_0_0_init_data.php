@@ -31,13 +31,17 @@ class InitDataMigration extends Migration
 		])->run();
 
 		$this->database()->insert('markets')->values([
-			['id' => 1, 'type' => 'Stock', 'name' => 'NASDAQ Stock Exchange', 'acronym' => 'NASDAQ', 'mic' => 'XNAS', 'country' => 'US', 'city' => 'New York', 'web' => 'www.nasdaq.com', 'currency_id' => 1],
-			['id' => 2, 'type' => 'Stock', 'name' => 'New York Stock Exchange', 'acronym' => 'NYSE', 'mic' => 'XNYS', 'country' => 'US', 'city' => 'New York', 'web' => 'www.nyse.com', 'currency_id' => 1],
-			['id' => 3, 'type' => 'Stock', 'name' => 'London Stock Exchange', 'acronym' => 'LSE', 'mic' => 'XLON', 'country' => 'GB', 'city' => 'London', 'web' => 'www.londonstockexchange.com', 'currency_id' => 3],
-			['id' => 4, 'type' => 'Stock', 'name' => 'Canadian Securities Exchange', 'acronym' => 'CNSX', 'mic' => 'XCNQ', 'country' => 'CA', 'city' => 'Toronto', 'web' => 'www.cnsx.ca', 'currency_id' => 6],
-			['id' => 5, 'type' => 'Stock', 'name' => 'Euronext Paris', 'acronym' => 'EURONEXT', 'mic' => 'XPAR', 'country' => 'FR', 'city' => 'Paris', 'web' => 'www.euronext.com', 'currency_id' => 2],
-			['id' => 6, 'type' => 'Stock', 'name' => 'Deutsche B\u00f6rse', 'acronym' => 'FSX', 'mic' => 'XFRA', 'country' => 'DE', 'city' => 'Frankfurt', 'web' => 'www.deutsche-boerse.com', 'currency_id' => 2],
-			['id' => 7, 'type' => 'Crypto', 'name' => 'Crypto', 'acronym' => '', 'mic' => '', 'country' => '', 'city' => '', 'web' => '', 'currency_id' => 1],
+			['id' => 1, 'type' => 'Stock', 'name' => 'NASDAQ Stock Exchange', 'acronym' => 'NASDAQ', 'mic' => 'XNAS', 'country' => 'US', 'city' => 'New York', 'timezone' => 'America/New_York', 'currency_id' => 1],
+			['id' => 2, 'type' => 'Stock', 'name' => 'NASDAQ Stock Exchange', 'acronym' => 'NASDAQ', 'mic' => 'XNMS', 'country' => 'US', 'city' => 'New York', 'timezone' => 'America/New_York', 'currency_id' => 1],
+			['id' => 3, 'type' => 'Stock', 'name' => 'NASDAQ Stock Exchange', 'acronym' => 'NASDAQ', 'mic' => 'XNGS', 'country' => 'US', 'city' => 'New York', 'timezone' => 'America/New_York', 'currency_id' => 1],
+			['id' => 4, 'type' => 'Stock', 'name' => 'NASDAQ Stock Exchange', 'acronym' => 'NASDAQ', 'mic' => 'XNCM', 'country' => 'US', 'city' => 'New York', 'timezone' => 'America/New_York', 'currency_id' => 1],
+			['id' => 5, 'type' => 'Stock', 'name' => 'New York Stock Exchange', 'acronym' => 'NYSE', 'mic' => 'XNYS', 'country' => 'US', 'city' => 'New York', 'timezone' => 'America/New_York', 'currency_id' => 1],
+			['id' => 6, 'type' => 'Stock', 'name' => 'New York Stock Exchange', 'acronym' => 'NYSE', 'mic' => 'XASE', 'country' => 'US', 'city' => 'New York', 'timezone' => 'America/New_York', 'currency_id' => 1],
+			['id' => 7, 'type' => 'Stock', 'name' => 'London Stock Exchange', 'acronym' => 'LSE', 'mic' => 'XLON', 'country' => 'GB', 'city' => 'London', 'timezone' => 'Europe/London', 'currency_id' => 3],
+			['id' => 8, 'type' => 'Stock', 'name' => 'Canadian Securities Exchange', 'acronym' => 'CSE', 'mic' => 'XCNQ', 'country' => 'CA', 'city' => 'Toronto', 'timezone' => 'America/Toronto', 'currency_id' => 6],
+			['id' => 9, 'type' => 'Stock', 'name' => 'Euronext Paris', 'acronym' => 'EURONEXT', 'mic' => 'XPAR', 'country' => 'FR', 'city' => 'Paris', 'timezone' => 'Europe/Paris', 'currency_id' => 2],
+			['id' => 10, 'type' => 'Stock', 'name' => 'Deutsche B\u00f6rse', 'acronym' => 'FSX', 'mic' => 'XFRA', 'country' => 'DE', 'city' => 'Frankfurt', 'timezone' => 'Europe/Berlin', 'currency_id' => 2],
+			['id' => 11, 'type' => 'Crypto', 'name' => 'Crypto', 'acronym' => '', 'mic' => '', 'country' => '', 'city' => '', 'web' => '', 'currency_id' => 1],
 		])->run();
 
 		$this->database()->insert('brokers')->values([
@@ -47,9 +51,9 @@ class InitDataMigration extends Migration
 		])->run();
 
 		$this->database()->insert('tickers')->values([
-			['id' => 1, 'ticker' => 'VUSA.XLON', 'name' => 'Vanguard S&P 500 UCITS ETF', 'market_id' => 3, 'currency_id' => 3],
-			['id' => 2, 'ticker' => 'NVDA.XNAS', 'name' => 'NVIDIA Corp', 'market_id' => 1, 'currency_id' => 1],
-			['id' => 3, 'ticker' => 'BTC', 'name' => 'Bitcoin', 'market_id' => 7, 'currency_id' => 1],
+			['id' => 1, 'ticker' => 'VUSA', 'name' => 'Vanguard S&P 500 UCITS ETF', 'market_id' => 3, 'currency_id' => 3],
+			['id' => 2, 'ticker' => 'NVDA', 'name' => 'NVIDIA Corp', 'market_id' => 1, 'currency_id' => 1],
+			['id' => 3, 'ticker' => 'BTC', 'name' => 'Bitcoin', 'market_id' => 11, 'currency_id' => 1],
 		])->run();
 
 		$this->database()->insert('groups')->values([

@@ -11,6 +11,18 @@ use FinGather\Model\Entity\Market;
 /** @extends Repository<Market> */
 class MarketRepository extends Repository
 {
+	/** @return iterable<Market> */
+	public function findMarkets(?MarketTypeEnum $type = null): iterable
+	{
+		if ($type === null) {
+			return $this->findAll();
+		}
+
+		return $this->findAll([
+			'type' => $type->value,
+		]);
+	}
+
 	public function findMarketByMic(string $mic): ?Market
 	{
 		return $this->findOne([

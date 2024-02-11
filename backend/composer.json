@@ -32,7 +32,8 @@
         "php-decimal/php-decimal": "^1.1",
         "spiral/roadrunner-jobs": "^4.3",
         "symfony/mailer": "^7.0",
-        "cycle/entity-behavior-uuid": "^1.1"
+        "cycle/entity-behavior-uuid": "^1.1",
+        "marekskopal/twelvedata": "^0.1"
     },
     "require-dev": {
         "phpstan/phpstan": "^1.10",

@@ -9,6 +9,7 @@ use FinGather\Command\ExchangeRateUpdateCommand;
 use FinGather\Command\MigrationGenerateCommand;
 use FinGather\Command\MigrationRunCommand;
 use FinGather\Command\TickerDataUpdateCommand;
+use FinGather\Command\TickerUpdateCommand;
 use Symfony\Component\Console\Application;
 
 $application = new Application();
@@ -17,5 +18,6 @@ $application->add(new ExchangeRateUpdateCommand());
 $application->add(new MigrationGenerateCommand());
 $application->add(new MigrationRunCommand());
 $application->add(new TickerDataUpdateCommand());
+$application->add(new TickerUpdateCommand());
 
 $application->run();

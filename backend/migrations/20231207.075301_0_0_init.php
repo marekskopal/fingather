@@ -89,7 +89,7 @@ class InitMigration extends Migration
 				'zerofill' => false,
 			])
 			->addColumn('name', 'string', ['nullable' => false, 'default' => null, 'size' => 255])
-			->addColumn('name', 'string', ['nullable' => false, 'default' => null, 'size' => 7])
+			->addColumn('color', 'string', ['nullable' => false, 'default' => null, 'size' => 7])
 			->addColumn('is_others', 'boolean', ['nullable' => false, 'default' => false])
 			->addIndex(['user_id'], ['name' => 'groups_index_user_id_657179dd4f473', 'unique' => false])
 			->addIndex(['portfolio_id'], ['name' => 'groups_index_portfolio_id_65b57aa23e661', 'unique' => false])
@@ -116,7 +116,7 @@ class InitMigration extends Migration
 			->addColumn('mic', 'string', ['nullable' => false, 'default' => null, 'size' => 4])
 			->addColumn('country', 'string', ['nullable' => false, 'default' => null, 'size' => 2])
 			->addColumn('city', 'string', ['nullable' => false, 'default' => null, 'size' => 255])
-			->addColumn('web', 'string', ['nullable' => false, 'default' => null, 'size' => 255])
+			->addColumn('timezone', 'string', ['nullable' => false, 'default' => null, 'size' => 255])
 			->addColumn('currency_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
 			->addIndex(['currency_id'], ['name' => 'markets_index_currency_id_657179dd4f50f', 'unique' => false])
 			->addForeignKey(['currency_id'], 'currencies', ['id'], [

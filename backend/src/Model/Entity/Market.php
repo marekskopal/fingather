@@ -26,7 +26,7 @@ class Market extends AEntity
 		#[Column(type: 'string')]
 		private string $city,
 		#[Column(type: 'string')]
-		private string $web,
+		private string $timezone,
 		#[RefersTo(target: Currency::class)]
 		private Currency $currency,
 	) {
@@ -92,14 +92,14 @@ class Market extends AEntity
 		$this->city = $city;
 	}
 
-	public function getWeb(): string
+	public function getTimezone(): string
 	{
-		return $this->web;
+		return $this->timezone;
 	}
 
-	public function setWeb(string $web): void
+	public function setTimezone(string $timezone): void
 	{
-		$this->web = $web;
+		$this->timezone = $timezone;
 	}
 
 	public function getCurrency(): Currency

@@ -46,6 +46,7 @@ use Http\Discovery\Psr17FactoryDiscovery;
 use League\Container\Container;
 use League\Container\ReflectionContainer;
 use League\Route\Router;
+use MarekSkopal\TwelveData\TwelveData;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -73,6 +74,11 @@ final class ApplicationFactory
 		$container->add(
 			ResponseFactoryInterface::class,
 			fn (): ResponseFactoryInterface => Psr17FactoryDiscovery::findResponseFactory()
+		);
+
+		$container->add(
+			TwelveData::class,
+			fn (): TwelveData => new TwelveData((string) getenv('TWELVEDATA_API_KEY'))
 		);
 
 		$container->add(ORM::class, $dbContext->getOrm());
