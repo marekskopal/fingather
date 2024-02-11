@@ -80,7 +80,7 @@ class ExchangeRateProvider
 		$lastExchangeRate = $this->exchangeRateRepository->findLastExchangeRate($currencyTo->getId());
 
 		$timeSeries = $this->twelveData->getCoreData()->timeSeries(
-			symbol: $code . '/USD',
+			symbol: 'USD/' . $code,
 			startDate: $lastExchangeRate?->getDate() ?? new DateTimeImmutable('2020-01-01'),
 		);
 		foreach ($timeSeries->values as $timeSeriesValue) {
