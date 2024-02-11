@@ -14,7 +14,7 @@ final readonly class MarketDto
 		public string $mic,
 		public string $country,
 		public string $city,
-		public string $web,
+		public string $timezone,
 		public int $currencyId,
 	) {
 	}
@@ -27,7 +27,7 @@ final readonly class MarketDto
 			mic: $market->getMic(),
 			country: $market->getCountry(),
 			city: $market->getCity(),
-			web: $market->getWeb(),
+			timezone: $market->getTimezone(),
 			currencyId: $market->getCurrency()->getId(),
 		);
 	}

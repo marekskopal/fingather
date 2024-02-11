@@ -5,6 +5,6 @@ export class Market {
     public mic: string;
     public country: string;
     public city: string;
-    public web: string;
+    public timezone: string;
     public currencyId: number;
 }
