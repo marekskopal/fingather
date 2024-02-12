@@ -7,6 +7,7 @@ import { Observable, of, OperatorFunction } from 'rxjs';
 import {
     catchError, debounceTime, distinctUntilChanged, first, map, switchMap, tap
 } from 'rxjs/operators';
+import {Ticker} from "@app/models";
 
 @Component({ templateUrl: 'add-asset.component.html' })
 export class AddAssetComponent extends BaseDialog implements OnInit {
@@ -31,12 +32,12 @@ export class AddAssetComponent extends BaseDialog implements OnInit {
         });
     }
 
-    public search: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) => text$.pipe(
+    public search: OperatorFunction<string, readonly Ticker[]> = (text$: Observable<string>) => text$.pipe(
         debounceTime(300),
         distinctUntilChanged(),
         tap(() => (this.searching = true)),
         switchMap((search) => this.tickerService.getTickers(search, 10).pipe(
-            map((x) => x.map((ticker) => ticker.ticker)),
+            map((x) => x.map((ticker) => ticker)),
             tap(() => (this.searchFailed = false)),
             catchError(() => {
                 this.searchFailed = true;
