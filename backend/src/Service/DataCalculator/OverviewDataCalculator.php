@@ -38,7 +38,11 @@ class OverviewDataCalculator
 
 		for ($i = $fromDateYear; $i <= $toDateYear; $i++) {
 			$yearFromDate = (new DateTimeImmutable('first day of january ' . $i))->setTime(0, 0);
-			$yearToDate = (new DateTimeImmutable('last day of december ' . $i))->setTime(0, 0);
+			if ($i === $toDateYear) {
+				$yearToDate = $toDate;
+			} else {
+				$yearToDate = (new DateTimeImmutable('last day of december ' . $i))->setTime(0, 0);
+			}
 
 			$portfolioDataFromDate = PortfolioDataDto::fromEntity(
 				$this->portfolioDataProvider->getPortfolioData($user, $portfolio, $yearFromDate),

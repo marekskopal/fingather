@@ -31,7 +31,7 @@ class ExchangeRateRepository extends ARepository
 	public function findNearestExchangeRate(DateTimeImmutable $date, int $currencyId): ?ExchangeRate
 	{
 		$select = $this->select()
-			->where('date', '>', $date)
+			->where('date', '<=', $date)
 			->where('currency_id', $currencyId);
 
 		$select->orderBy('date');
