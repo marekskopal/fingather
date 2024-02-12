@@ -10,7 +10,6 @@ use Decimal\Decimal;
 use FinGather\Model\Entity\Enum\MarketTypeEnum;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\TickerData;
-use FinGather\Model\Repository\SplitRepository;
 use FinGather\Model\Repository\TickerDataRepository;
 use FinGather\Service\Provider\Dto\TickerDataAdjustedDto;
 use MarekSkopal\TwelveData\Dto\CoreData\TimeSeries;
@@ -22,7 +21,7 @@ class TickerDataProvider
 {
 	public function __construct(
 		private readonly TickerDataRepository $tickerDataRepository,
-		private readonly SplitRepository $splitRepository,
+		private readonly SplitProvider $splitProvider,
 		private readonly TwelveData $twelveData,
 	) {
 	}
@@ -36,7 +35,7 @@ class TickerDataProvider
 	/** @return array<TickerDataAdjustedDto> */
 	public function getAdjustedTickerDatas(Ticker $ticker, DateTimeImmutable $fromDate, DateTimeImmutable $toDate): array
 	{
-		$splits = $this->splitRepository->findSplits($ticker->getId());
+		$splits = $this->splitProvider->getSplits($ticker);
 
 		return array_map(
 			function (TickerData $tickerData) use ($splits): TickerDataAdjustedDto {
