@@ -496,10 +496,143 @@ class InitMigration extends Migration
 			->addIndex(['date', 'from_date', 'asset_id'], ['name' => 'benchmark_datas_index_date_from_date_asset_id', 'unique' => true])
 			->setPrimaryKeys(['id'])
 			->create();
+
+		$this->table('import_mappings')
+			->addColumn('id', 'primary', [
+				'nullable' => false,
+				'defaultValue' => null,
+				'size' => 11,
+				'autoIncrement' => true,
+				'unsigned' => false,
+				'zerofill' => false,
+			])
+			->addColumn('user_id', 'integer', [
+				'nullable' => false,
+				'defaultValue' => null,
+				'size' => 11,
+				'autoIncrement' => false,
+				'unsigned' => false,
+				'zerofill' => false,
+			])
+			->addColumn('portfolio_id', 'integer', [
+				'nullable' => false,
+				'defaultValue' => null,
+				'size' => 11,
+				'autoIncrement' => false,
+				'unsigned' => false,
+				'zerofill' => false,
+			])
+			->addColumn('broker_id', 'integer', [
+				'nullable' => false,
+				'defaultValue' => null,
+				'size' => 11,
+				'autoIncrement' => false,
+				'unsigned' => false,
+				'zerofill' => false,
+			])
+			->addColumn('import_ticker', 'string', ['nullable' => false, 'defaultValue' => null, 'size' => 255])
+			->addColumn('ticker_id', 'integer', [
+				'nullable' => false,
+				'defaultValue' => null,
+				'size' => 11,
+				'autoIncrement' => false,
+				'unsigned' => false,
+				'zerofill' => false,
+			])
+			->addIndex(['user_id'], ['name' => 'import_mappings_index_user_id_65c9e5cb4e4f2', 'unique' => false])
+			->addIndex(['portfolio_id'], ['name' => 'import_mappings_index_portfolio_id_65c9e5cb4e50d', 'unique' => false])
+			->addIndex(['broker_id'], ['name' => 'import_mappings_index_broker_id_65c9e5cb4e520', 'unique' => false])
+			->addIndex(['ticker_id'], ['name' => 'import_mappings_index_ticker_id_65c9e5cb4e532', 'unique' => false])
+			->addForeignKey(['user_id'], 'users', ['id'], [
+				'name' => 'import_mappings_foreign_user_id_65c9e5cb4e4fb',
+				'delete' => 'CASCADE',
+				'update' => 'CASCADE',
+				'indexCreate' => true,
+			])
+			->addForeignKey(['portfolio_id'], 'portfolios', ['id'], [
+				'name' => 'import_mappings_foreign_portfolio_id_65c9e5cb4e510',
+				'delete' => 'CASCADE',
+				'update' => 'CASCADE',
+				'indexCreate' => true,
+			])
+			->addForeignKey(['broker_id'], 'brokers', ['id'], [
+				'name' => 'import_mappings_foreign_broker_id_65c9e5cb4e523',
+				'delete' => 'CASCADE',
+				'update' => 'CASCADE',
+				'indexCreate' => true,
+			])
+			->addForeignKey(['ticker_id'], 'tickers', ['id'], [
+				'name' => 'import_mappings_foreign_ticker_id_65c9e5cb4e53e',
+				'delete' => 'CASCADE',
+				'update' => 'CASCADE',
+				'indexCreate' => true,
+			])
+			->setPrimaryKeys(['id'])
+			->create();
+		$this->table('imports')
+			->addColumn('id', 'primary', [
+				'nullable' => false,
+				'defaultValue' => null,
+				'size' => 11,
+				'autoIncrement' => true,
+				'unsigned' => false,
+				'zerofill' => false,
+			])
+			->addColumn('user_id', 'integer', [
+				'nullable' => false,
+				'defaultValue' => null,
+				'size' => 11,
+				'autoIncrement' => false,
+				'unsigned' => false,
+				'zerofill' => false,
+			])
+			->addColumn('portfolio_id', 'integer', [
+				'nullable' => false,
+				'defaultValue' => null,
+				'size' => 11,
+				'autoIncrement' => false,
+				'unsigned' => false,
+				'zerofill' => false,
+			])
+			->addColumn('broker_id', 'integer', [
+				'nullable' => false,
+				'defaultValue' => null,
+				'size' => 11,
+				'autoIncrement' => false,
+				'unsigned' => false,
+				'zerofill' => false,
+			])
+			->addColumn('created', 'timestamp', ['nullable' => false, 'defaultValue' => null])
+			->addColumn('csv_content', 'longText', ['nullable' => false, 'defaultValue' => null])
+			->addIndex(['user_id'], ['name' => 'imports_index_user_id_65c9e5cb4e6ba', 'unique' => false])
+			->addIndex(['portfolio_id'], ['name' => 'imports_index_portfolio_id_65c9e5cb4e6d8', 'unique' => false])
+			->addIndex(['broker_id'], ['name' => 'imports_index_broker_id_65c9e5cb4e6eb', 'unique' => false])
+			->addForeignKey(['user_id'], 'users', ['id'], [
+				'name' => 'imports_foreign_user_id_65c9e5cb4e6c0',
+				'delete' => 'CASCADE',
+				'update' => 'CASCADE',
+				'indexCreate' => true,
+			])
+			->addForeignKey(['portfolio_id'], 'portfolios', ['id'], [
+				'name' => 'imports_foreign_portfolio_id_65c9e5cb4e6db',
+				'delete' => 'CASCADE',
+				'update' => 'CASCADE',
+				'indexCreate' => true,
+			])
+			->addForeignKey(['broker_id'], 'brokers', ['id'], [
+				'name' => 'imports_foreign_broker_id_65c9e5cb4e6ee',
+				'delete' => 'CASCADE',
+				'update' => 'CASCADE',
+				'indexCreate' => true,
+			])
+			->setPrimaryKeys(['id'])
+			->create();
 	}
 
 	public function down(): void
 	{
+		$this->table('imports')->drop();
+		$this->table('import_mappings')->drop();
 		$this->table('benchmark_datas')->drop();
 		$this->table('email_verifies')->drop();
 		$this->table('portfolio_datas')->drop();

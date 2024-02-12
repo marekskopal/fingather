@@ -17,6 +17,11 @@ class ImportProvider
 	{
 	}
 
+	public function getImport(User $user, int $importId): ?Import
+	{
+		return $this->importRepository->findImport($importId, $user->getId());
+	}
+
 	public function createImport(User $user, Portfolio $portfolio, Broker $broker, string $csvContent): Import
 	{
 		$import = new Import(

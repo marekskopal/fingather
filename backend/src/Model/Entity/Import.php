@@ -22,7 +22,7 @@ class Import extends AEntity
 		private Broker $broker,
 		#[Column(type: 'timestamp')]
 		private DateTimeImmutable $created,
-		#[Column(type: 'string')]
+		#[Column(type: 'longText')]
 		private string $csvContent,
 	) {
 	}
