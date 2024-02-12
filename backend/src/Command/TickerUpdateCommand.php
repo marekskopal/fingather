@@ -19,12 +19,16 @@ class TickerUpdateCommand extends Command
 
 	protected function execute(InputInterface $input, OutputInterface $output): int
 	{
+		$output->writeln('Tickers update was started.');
+
 		$application = ApplicationFactory::create();
 
 		$tickerProvider = $application->container->get(TickerProvider::class);
 		assert($tickerProvider instanceof TickerProvider);
 
 		$tickerProvider->updateTickers();
+
+		$output->writeln('Tickers was updated.');
 
 		return 0;
 	}

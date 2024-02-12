@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Provider;
 
+use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\Enum\MarketTypeEnum;
+use FinGather\Model\Entity\Market;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Repository\CurrencyRepository;
 use FinGather\Model\Repository\MarketRepository;
@@ -30,6 +32,11 @@ class TickerProvider
 	public function getTicker(int $tickerId): ?Ticker
 	{
 		return $this->tickerRepository->findTicker($tickerId);
+	}
+
+	public function getActiveTickers(): array
+	{
+		return $this->tickerRepository->findActiveTickers();
 	}
 
 	/** @return array<Ticker> */
@@ -94,6 +101,32 @@ class TickerProvider
 				$ticker = new Ticker(ticker: $etf->symbol, name: $etf->name, market: $market, currency: $currency);
 				$this->tickerRepository->persist($ticker);
 			}
+		}
+
+		$market = $this->marketRepository->findMarketByType(MarketTypeEnum::Crypto);
+		assert($market instanceof Market);
+		$currencyUsd = $this->currencyRepository->findCurrencyByCode('USD');
+		assert($currencyUsd instanceof Currency);
+
+		$cryptocurrenciesList = $this->twelveData->getReferenceData()->cryptocurrenciesList(exchange: 'Binance');
+		foreach ($cryptocurrenciesList->data as $cryptocurrency) {
+			if (str_ends_with($cryptocurrency->symbol, '/USD')) {
+				continue;
+			}
+
+			$cryptocurrencySymbol = str_replace('/USD', '', $cryptocurrency->symbol);
+
+			if (in_array($cryptocurrencySymbol, $tickerTickers, true)) {
+				continue;
+			}
+
+			$ticker = new Ticker(
+				ticker: $cryptocurrencySymbol,
+				name: $cryptocurrency->currencyBase,
+				market: $market,
+				currency: $currencyUsd,
+			);
+			$this->tickerRepository->persist($ticker);
 		}
 	}
 }

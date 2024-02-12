@@ -20,6 +20,8 @@ class ExchangeRateUpdateCommand extends Command
 
 	protected function execute(InputInterface $input, OutputInterface $output): int
 	{
+		$output->writeln('Exchange Rates update was started.');
+
 		$application = ApplicationFactory::create();
 
 		$exchangeRateProvider = $application->container->get(ExchangeRateProvider::class);
@@ -31,6 +33,8 @@ class ExchangeRateUpdateCommand extends Command
 		foreach ($currencyProvider->getCurrencies() as $currency) {
 			$exchangeRateProvider->updateExchangeRates($currency);
 		}
+
+		$output->writeln('Exchange Rates was updated.');
 
 		return 0;
 	}
