@@ -6,7 +6,7 @@ export * from './current-user.service';
 export * from './email-verify.service';
 export * from './group.service';
 export * from './group-with-group-data.service';
-export * from './import-data.service';
+export * from './import.service';
 export * from './notify-service';
 export * from './overview.service';
 export * from './portfolio.service';

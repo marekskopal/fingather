@@ -11,6 +11,7 @@ use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Enum\TransactionCreateTypeEnum;
+use FinGather\Model\Entity\Import;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Repository\AssetRepository;
 use FinGather\Model\Repository\CurrencyRepository;
@@ -60,6 +61,8 @@ final class ImportService
 
 		$records = $csv->getRecords();
 
+		$importMappings = $this->importMappingProvider->getImportMappings($user, $portfolio, $broker);
+
 		$notFoundTickers = [];
 		$multipleFoundTickers = [];
 		$okFoundTickers = [];
@@ -83,7 +86,6 @@ final class ImportService
 				continue;
 			}
 
-			$importMappings = $this->importMappingProvider->getImportMappings($user, $portfolio, $broker);
 			if (array_key_exists($transactionRecord->ticker, $importMappings)) {
 				$okFoundTickers[$transactionRecord->ticker] = new PrepareImportTicker(
 					ticker: $transactionRecord->ticker,
@@ -120,18 +122,22 @@ final class ImportService
 		);
 	}
 
-	public function importCsv(Broker $broker, string $csvContent): void
+	public function importCsv(Import $import): void
 	{
-		$csv = Reader::createFromString($csvContent);
+		$csv = Reader::createFromString($import->getCsvContent());
 		$csv->setHeaderOffset(0);
+
+		$broker = $import->getBroker();
 
 		$importMapper = $this->getImportMapper(BrokerImportTypeEnum::from($broker->getImportType()));
 
-		$user = $broker->getUser();
-		$portfolio = $broker->getPortfolio();
+		$user = $import->getUser();
+		$portfolio = $import->getPortfolio();
 		$othersGroup = $this->groupProvider->getOthersGroup($user, $portfolio);
 
 		$firstDate = null;
+
+		$importMappings = $this->importMappingProvider->getImportMappings($user, $portfolio, $broker);
 
 		$records = $csv->getRecords();
 		foreach ($records as $record) {
@@ -154,7 +160,9 @@ final class ImportService
 				continue;
 			}
 
-			$ticker = $this->tickerProvider->getTickerByTicker($transactionRecord->ticker);
+			$ticker = array_key_exists($transactionRecord->ticker, $importMappings)
+				? $importMappings[$transactionRecord->ticker]->getTicker()
+				: $this->tickerProvider->getTickerByTicker($transactionRecord->ticker);
 			if ($ticker === null) {
 				$this->logger->log('import', 'Ticker not created: ' . implode(',', $record));
 				continue;

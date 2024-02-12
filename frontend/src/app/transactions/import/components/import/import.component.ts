@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Broker } from '@app/models';
+import { Broker, ImportPrepare } from '@app/models';
 import {
-    AlertService, BrokerService, ImportDataService, PortfolioService
+    AlertService, BrokerService, ImportService, PortfolioService
 } from '@app/services';
 import { BaseForm } from '@app/shared/components/form/base-form';
 import { first } from 'rxjs/operators';
@@ -12,11 +12,12 @@ import { first } from 'rxjs/operators';
 export class ImportComponent extends BaseForm implements OnInit {
     public brokerId: string;
     public brokers: Broker[];
+    public importPrepare: ImportPrepare | null = null;
 
     public constructor(
         private readonly router: Router,
         private readonly brokerService: BrokerService,
-        private readonly importDataService: ImportDataService,
+        private readonly importService: ImportService,
         private readonly portfolioService: PortfolioService,
         private route: ActivatedRoute,
         formBuilder: UntypedFormBuilder,
@@ -71,17 +72,11 @@ export class ImportComponent extends BaseForm implements OnInit {
     }
 
     private createImport(): void {
-        this.importDataService.createImportData(this.form.value)
+        this.importService.createImportPrepare(this.form.value)
             .pipe(first())
-            .subscribe({
-                next: () => {
-                    this.alertService.success('Asset added successfully', { keepAfterRouteChange: true });
-                    this.router.navigate(['../'], { relativeTo: this.route });
-                },
-                error: (error) => {
-                    this.alertService.error(error);
-                    this.loading = false;
-                }
+            .subscribe((importPrepare: ImportPrepare) => {
+                this.loading = false;
+                this.importPrepare = importPrepare;
             });
     }
 }
