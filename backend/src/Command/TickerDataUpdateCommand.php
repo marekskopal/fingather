@@ -20,6 +20,8 @@ class TickerDataUpdateCommand extends Command
 
 	protected function execute(InputInterface $input, OutputInterface $output): int
 	{
+		$output->writeln('Ticker Data update was started.');
+
 		$application = ApplicationFactory::create();
 
 		$tickerDataProvider = $application->container->get(TickerDataProvider::class);
@@ -28,9 +30,12 @@ class TickerDataUpdateCommand extends Command
 		$tickerProvider = $application->container->get(TickerProvider::class);
 		assert($tickerProvider instanceof TickerProvider);
 
-		foreach ($tickerProvider->getTickers() as $ticker) {
+		$activeTickers = $tickerProvider->getActiveTickers();
+		foreach ($activeTickers as $ticker) {
 			$tickerDataProvider->updateTickerData($ticker);
 		}
+
+		$output->writeln('Updated "' . count($activeTickers) . '" Tickers.');
 
 		return 0;
 	}

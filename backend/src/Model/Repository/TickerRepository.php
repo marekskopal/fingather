@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace FinGather\Model\Repository;
 
+use FinGather\Model\Entity\Asset;
+use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Ticker;
 
 /** @extends ARepository<Ticker> */
@@ -36,6 +38,20 @@ class TickerRepository extends ARepository
 		return $this->findOne([
 			'id' => $tickerId,
 		]);
+	}
+
+	/** @return array<Ticker> */
+	public function findActiveTickers(): array
+	{
+		$activeTickersSelect = $this->orm->getSource(Ticker::class)
+			->getDatabase()
+			->select('ticker_id')
+			->from('assets')
+			->groupBy('ticker_id');
+
+		return $this->select()
+			->where('in', 'in', $activeTickersSelect)
+			->fetchAll();
 	}
 
 	/** @return array<Ticker> */
