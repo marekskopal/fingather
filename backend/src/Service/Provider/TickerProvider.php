@@ -34,6 +34,7 @@ class TickerProvider
 		return $this->tickerRepository->findTicker($tickerId);
 	}
 
+	/** @return array<Ticker> */
 	public function getActiveTickers(): array
 	{
 		return $this->tickerRepository->findActiveTickers();

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace FinGather\Model\Repository;
 
-use FinGather\Model\Entity\Asset;
-use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Ticker;
 
 /** @extends ARepository<Ticker> */
@@ -50,7 +48,7 @@ class TickerRepository extends ARepository
 			->groupBy('ticker_id');
 
 		return $this->select()
-			->where('in', 'in', $activeTickersSelect)
+			->where('id', 'in', $activeTickersSelect)
 			->fetchAll();
 	}
 

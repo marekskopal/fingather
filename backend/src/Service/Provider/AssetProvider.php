@@ -12,7 +12,6 @@ use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\AssetRepository;
-use FinGather\Model\Repository\SplitRepository;
 use FinGather\Service\Provider\Dto\AssetPropertiesDto;
 use Safe\DateTimeImmutable;
 
@@ -21,7 +20,7 @@ class AssetProvider
 	public function __construct(
 		private readonly AssetRepository $assetRepository,
 		private readonly TransactionProvider $transactionProvider,
-		private readonly SplitRepository $splitRepository,
+		private readonly SplitProvider $splitProvider,
 		private readonly TickerDataProvider $tickerDataProvider,
 		private readonly ExchangeRateProvider $exchangeRateProvider,
 		private readonly GroupProvider $groupProvider,
@@ -75,7 +74,7 @@ class AssetProvider
 			return null;
 		}
 
-		$splits = $this->splitRepository->findSplits($asset->getTicker()->getId());
+		$splits = $this->splitProvider->getSplits($asset->getTicker());
 
 		$transactionValue = new Decimal(0);
 		$transactionValueDefaultCurrency = new Decimal(0);
