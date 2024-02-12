@@ -1,4 +1,18 @@
-﻿<div class="modal-header">
+﻿<ng-template #rt let-r="result" let-t="term">
+    <div class="d-flex justify-content-between">
+        <div>
+            <ngb-highlight [result]="r.ticker" [term]="t"></ngb-highlight>
+        </div>
+        <div>
+            <small>{{ r.name }}</small>
+        </div>
+        <div>
+            <small>{{ r.market.mic }}</small>
+        </div>
+    </div>
+</ng-template>
+
+<div class="modal-header">
     <h4>{{ 'app.assets.addAsset.header' | translate }}</h4>
 </div>
 <div class="modal-body" >
@@ -13,6 +27,7 @@
                 [ngClass]="{ 'is-invalid': searchFailed || (submitted && f['ticker'].errors) }"
                 [(ngModel)]="model"
                 [ngbTypeahead]="search"
+                [resultTemplate]="rt"
                 placeholder="Ticker search"
             />
             @if (searching) {
