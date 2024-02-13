@@ -43,7 +43,7 @@
                                     <div><strong>{{asset.ticker.ticker}}</strong></div>
                                     <div>{{asset.ticker.name}}</div>
                                 </td>
-                                <td class="text-end">{{asset.price | number:'1.2-2' | currency: asset.ticker.market.currencyId | async}}</td>
+                                <td class="text-end">{{asset.price | number:'1.2-2' | currency: asset.ticker.currencyId | async}}</td>
                                 <td>{{asset.units | number:'1.0-8'}}</td>
                                 <td class="text-end">{{asset.value | number:'1.2-2' | currency: defaultCurrency.id | async}}</td>
                                 <td class="text-end {{asset.gain > 0 ? 'green' : (asset.gain < 0 ? 'red' : '')}}">
@@ -109,7 +109,7 @@
                                 <div><strong>{{asset.ticker.ticker}}</strong></div>
                                 <div>{{asset.ticker.name}}</div>
                             </td>
-                            <td class="align-middle text-end">{{asset.price | number:'1.2-2' | currency: asset.ticker.market.currencyId | async}}</td>
+                            <td class="align-middle text-end">{{asset.price | number:'1.2-2' | currency: asset.ticker.currencyId | async}}</td>
                             <td class="align-middle">{{asset.units | number:'1.0-8'}}</td>
                             <td class="align-middle text-end">{{asset.value | number:'1.2-2' | currency: defaultCurrency.id | async}}</td>
                             <td class="text-end {{asset.gain > 0 ? 'green' : (asset.gain < 0 ? 'red' : '')}}">
@@ -156,7 +156,7 @@
                             <div><strong>{{asset.ticker.ticker}}</strong></div>
                             <div>{{asset.ticker.name}}</div>
                         </td>
-                        <td class="align-middle text-end">{{asset.price | number:'1.2-2' | currency: asset.ticker.market.currencyId | async}}</td>
+                        <td class="align-middle text-end">{{asset.price | number:'1.2-2' | currency: asset.ticker.currencyId | async}}</td>
                         <td class="text-end" style="white-space: nowrap">
                             <a routerLink="{{asset.id}}" class="btn btn-sm btn-primary mr-1"><fa-icon icon="expand"></fa-icon> {{ 'app.assets.list.detail' | translate }}</a>
                         </td>
@@ -187,7 +187,7 @@
                             <div><strong>{{asset.ticker.ticker}}</strong></div>
                             <div>{{asset.ticker.name}}</div>
                         </td>
-                        <td class="align-middle text-end">{{asset.price | number:'1.2-2' | currency: asset.ticker.market.currencyId | async}}</td>
+                        <td class="align-middle text-end">{{asset.price | number:'1.2-2' | currency: asset.ticker.currencyId | async}}</td>
                         <td class="text-end" style="white-space: nowrap">
                             <a routerLink="{{asset.id}}" class="btn btn-sm btn-primary mr-1"><fa-icon icon="expand"></fa-icon> {{ 'app.assets.list.detail' | translate }}</a>
                         </td>
