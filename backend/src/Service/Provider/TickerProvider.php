@@ -24,9 +24,9 @@ class TickerProvider
 	}
 
 	/** @return array<Ticker> */
-	public function getTickers(?string $search = null, ?int $limit = null, ?int $offset = null,): array
+	public function getTickers(?Market $market = null, ?string $search = null, ?int $limit = null, ?int $offset = null,): array
 	{
-		return $this->tickerRepository->findTickers($search, $limit, $offset);
+		return $this->tickerRepository->findTickers(marketId: $market?->getId(), search: $search, limit: $limit, offset: $offset);
 	}
 
 	public function getTicker(int $tickerId): ?Ticker
@@ -58,11 +58,11 @@ class TickerProvider
 
 	public function updateTickers(): void
 	{
-		$tickers = $this->tickerRepository->findTickers();
-		$tickerTickers = array_map(fn(Ticker $ticker): string => $ticker->getTicker(), $tickers);
-
 		$markets = $this->marketRepository->findMarkets(type: MarketTypeEnum::Stock);
 		foreach ($markets as $market) {
+			$tickers = $this->tickerRepository->findTickers(marketId: $market->getId());
+			$tickerTickers = array_map(fn(Ticker $ticker): string => $ticker->getTicker(), $tickers);
+
 			$stockList = $this->twelveData->getReferenceData()->stockList(micCode: $market->getMic());
 			foreach ($stockList->data as $stock) {
 				if (in_array($stock->symbol, $tickerTickers, true)) {
@@ -109,9 +109,12 @@ class TickerProvider
 		$currencyUsd = $this->currencyRepository->findCurrencyByCode('USD');
 		assert($currencyUsd instanceof Currency);
 
+		$tickers = $this->tickerRepository->findTickers(marketId: $market->getId());
+		$tickerTickers = array_map(fn(Ticker $ticker): string => $ticker->getTicker(), $tickers);
+
 		$cryptocurrenciesList = $this->twelveData->getReferenceData()->cryptocurrenciesList(exchange: 'Binance');
 		foreach ($cryptocurrenciesList->data as $cryptocurrency) {
-			if (str_ends_with($cryptocurrency->symbol, '/USD')) {
+			if (!str_ends_with($cryptocurrency->symbol, '/USD')) {
 				continue;
 			}
 
