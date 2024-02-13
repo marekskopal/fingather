@@ -19,12 +19,12 @@ class Currency extends AEntity
 		private string $name,
 		#[Column(type: 'string(5)')]
 		private string $symbol,
-		#[RefersTo(target: Currency::class, nullable: true)]
+		#[RefersTo(target: Currency::class, nullable: true, innerKey:'multiply_currency_id')]
 		private ?Currency $multiplyCurrency,
 		#[Column(type: 'integer', default: 1)]
 		private int $multiplier,
 		#[Column(type: 'boolean', default: true)]
-		private string $isSelectable,
+		private bool $isSelectable,
 	) {
 	}
 
@@ -78,12 +78,12 @@ class Currency extends AEntity
 		$this->multiplier = $multiplier;
 	}
 
-	public function getIsSelectable(): string
+	public function getIsSelectable(): bool
 	{
 		return $this->isSelectable;
 	}
 
-	public function setIsSelectable(string $isSelectable): void
+	public function setIsSelectable(bool $isSelectable): void
 	{
 		$this->isSelectable = $isSelectable;
 	}

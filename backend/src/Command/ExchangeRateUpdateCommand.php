@@ -31,6 +31,10 @@ class ExchangeRateUpdateCommand extends Command
 		assert($currencyProvider instanceof CurrencyProvider);
 
 		foreach ($currencyProvider->getCurrencies() as $currency) {
+			if ($currency->getCode() === 'USD') {
+				continue;
+			}
+
 			$exchangeRateProvider->updateExchangeRates($currency);
 		}
 
