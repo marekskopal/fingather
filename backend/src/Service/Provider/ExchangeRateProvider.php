@@ -105,17 +105,14 @@ class ExchangeRateProvider
 		}
 
 		$lastExchangeRate = $this->exchangeRateRepository->findLastExchangeRate($currencyTo->getId());
-		if ($lastExchangeRate !== null && $date < $lastExchangeRate->getDate()) {
+		assert($lastExchangeRate instanceof ExchangeRate);
+		if ($date < $lastExchangeRate->getDate()) {
 			$exchangeRate = $this->exchangeRateRepository->findNearestExchangeRate($date, $currencyTo->getId());
 			if ($exchangeRate !== null) {
 				return $exchangeRate;
 			}
 		}
 
-		$this->updateExchangeRates($currencyTo);
-
-		$exchangeRate = $this->exchangeRateRepository->findLastExchangeRate($currencyTo->getId());
-		assert($exchangeRate instanceof ExchangeRate);
-		return $exchangeRate;
+		return $lastExchangeRate;
 	}
 }
