@@ -10,9 +10,13 @@ use FinGather\Model\Entity\Ticker;
 class TickerRepository extends ARepository
 {
 	/** @return array<Ticker> */
-	public function findTickers(?string $search = null, ?int $limit = null, ?int $offset = null,): array
+	public function findTickers(?int $marketId = null, ?string $search = null, ?int $limit = null, ?int $offset = null,): array
 	{
 		$tickers = $this->select();
+
+		if ($marketId !== null) {
+			$tickers->where('market_id', $marketId);
+		}
 
 		if ($search !== null) {
 			$tickers->where('ticker', 'like', $search . '%');
