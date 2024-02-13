@@ -74,7 +74,7 @@ class ExchangeRateProvider
 		$multiplyCurrency = $currencyTo->getMultiplyCurrency();
 		if ($multiplyCurrency !== null) {
 			$code = $multiplyCurrency->getCode();
-			$multiplier = $multiplyCurrency->getMultiplier();
+			$multiplier = $currencyTo->getMultiplier();
 		}
 
 		$lastExchangeRate = $this->exchangeRateRepository->findLastExchangeRate($currencyTo->getId());
