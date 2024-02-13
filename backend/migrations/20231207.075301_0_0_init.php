@@ -23,7 +23,7 @@ class InitMigration extends Migration
 			->addColumn('is_selectable', 'boolean', ['nullable' => false, 'default' => true])
 			->addIndex(['code'], ['name' => 'currencies_index_code', 'unique' => false])
 			->addIndex(['multiply_currency_id'], ['name' => 'currencies_index_multiply_currency_id_657179dd5f5a5', 'unique' => false])
-			->addForeignKey(['default_currency_id'], 'currencies', ['id'], [
+			->addForeignKey(['multiply_currency_id'], 'currencies', ['id'], [
 				'name' => 'currencies_foreign_multiply_currency_id_657179dd5f5a8',
 				'delete' => 'CASCADE',
 				'update' => 'CASCADE',
