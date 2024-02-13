@@ -63,7 +63,7 @@ services:
             - backend
         volumes:
             - ./log:/app/log
-            - ./backend/migrations:/app/migrations
+            #- ./backend/migrations:/app/migrations
             #- ./backend:/app
 
     db:
