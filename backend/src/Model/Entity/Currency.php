@@ -19,7 +19,7 @@ class Currency extends AEntity
 		private string $name,
 		#[Column(type: 'string(5)')]
 		private string $symbol,
-		#[RefersTo(target: Currency::class, nullable: true, innerKey:'multiply_currency_id')]
+		#[RefersTo(target: self::class, nullable: true, innerKey:'multiply_currency_id')]
 		private ?Currency $multiplyCurrency,
 		#[Column(type: 'integer', default: 1)]
 		private int $multiplier,

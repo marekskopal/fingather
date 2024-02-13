@@ -8,8 +8,14 @@ use FinGather\Model\Entity\Ticker;
 
 final readonly class TickerDto
 {
-	public function __construct(public int $id, public string $ticker, public string $name, public int $marketId, public MarketDto $market,)
-	{
+	public function __construct(
+		public int $id,
+		public string $ticker,
+		public string $name,
+		public int $marketId,
+		public int $currencyId,
+		public MarketDto $market,
+	) {
 	}
 
 	public static function fromEntity(Ticker $ticker): self
@@ -19,6 +25,7 @@ final readonly class TickerDto
 			ticker: $ticker->getTicker(),
 			name: $ticker->getName(),
 			marketId: $ticker->getMarket()->getId(),
+			currencyId: $ticker->getCurrency()->getId(),
 			market: MarketDto::fromEntity($ticker->getMarket()),
 		);
 	}

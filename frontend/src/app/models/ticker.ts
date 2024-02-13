@@ -5,6 +5,6 @@ export class Ticker {
     public ticker: string;
     public name: string;
     public marketId: number;
-
+    public currencyId: number;
     public market: Market;
 }
