@@ -18,7 +18,17 @@ class InitMigration extends Migration
 			->addColumn('code', 'string', ['nullable' => false, 'default' => null, 'size' => 3])
 			->addColumn('name', 'string', ['nullable' => false, 'default' => null, 'size' => 50])
 			->addColumn('symbol', 'string', ['nullable' => false, 'default' => null, 'size' => 5])
+			->addColumn('multiply_currency_id', 'integer', ['nullable' => true, 'default' => null, 'size' => 11])
+			->addColumn('multiplier', 'integer', ['nullable' => false, 'default' => 1, 'size' => 11])
+			->addColumn('is_selectable', 'boolean', ['nullable' => false, 'default' => true])
 			->addIndex(['code'], ['name' => 'currencies_index_code', 'unique' => false])
+			->addIndex(['multiply_currency_id'], ['name' => 'currencies_index_multiply_currency_id_657179dd5f5a5', 'unique' => false])
+			->addForeignKey(['default_currency_id'], 'currencies', ['id'], [
+				'name' => 'currencies_foreign_multiply_currency_id_657179dd5f5a8',
+				'delete' => 'CASCADE',
+				'update' => 'CASCADE',
+				'indexCreate' => true,
+			])
 			->setPrimaryKeys(['id'])
 			->create();
 

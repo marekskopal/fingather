@@ -71,9 +71,10 @@ class ExchangeRateProvider
 	{
 		$code = $currencyTo->getCode();
 		$multiplier = 1;
-		if ($code === 'GBX') {
-			$code = 'GBP';
-			$multiplier = 100;
+		$multiplyCurrency = $currencyTo->getMultiplyCurrency();
+		if ($multiplyCurrency !== null) {
+			$code = $multiplyCurrency->getCode();
+			$multiplier = $multiplyCurrency->getMultiplier();
 		}
 
 		$lastExchangeRate = $this->exchangeRateRepository->findLastExchangeRate($currencyTo->getId());
