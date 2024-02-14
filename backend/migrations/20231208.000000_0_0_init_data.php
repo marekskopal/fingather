@@ -160,7 +160,7 @@ class InitDataMigration extends Migration
 		])->run();
 
 		$this->database()->insert('groups')->values([
-			['id' => 1, 'user_id' => 1, 'portfolio_id' => 1, 'name' => 'Others', 'is_others' => true],
+			['id' => 1, 'user_id' => 1, 'portfolio_id' => 1, 'name' => 'Others', 'color' => '#2c3d3f', 'is_others' => true],
 		])->run();
 	}
 
