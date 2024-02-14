@@ -144,6 +144,7 @@ class InitMigration extends Migration
 			->addColumn('name', 'string', ['nullable' => false, 'default' => null, 'size' => 255])
 			->addColumn('market_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
 			->addColumn('currency_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
+			->addColumn('logo', 'string', ['nullable' => true, 'default' => null, 'size' => 255])
 			->addIndex(['market_id'], ['name' => 'tickers_index_market_id_657179dd4f54a', 'unique' => false])
 			->addIndex(['currency_id'], ['name' => 'tickers_index_currency_id_657179dd4f55c', 'unique' => false])
 			->addForeignKey(['market_id'], 'markets', ['id'], [

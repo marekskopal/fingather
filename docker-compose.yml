@@ -25,8 +25,11 @@ services:
         depends_on:
             - proxy
             - backend
+        restart: unless-stopped
         networks:
             - frontend
+        volumes:
+            - fingather_logos:/usr/share/nginx/html/images/logos
 
     backend:
         build: 
@@ -62,6 +65,7 @@ services:
         networks:
             - backend
         volumes:
+            - fingather_logos:/app/public/images/logos
             - ./log:/app/log
             #- ./backend/migrations:/app/migrations
             #- ./backend:/app
@@ -118,5 +122,7 @@ networks:
 volumes:
     fingather_data:
         name: fingather_data
+    fingather_logos:
+        name: fingather_logos
     rabbitmq_volume:
         name: rabbitmq_volume

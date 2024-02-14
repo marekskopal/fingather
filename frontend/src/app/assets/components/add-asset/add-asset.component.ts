@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
+import { Ticker } from '@app/models';
 import { AlertService, AssetService, TickerService } from '@app/services';
 import { BaseDialog } from '@app/shared/components/dialog/base-dialog';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -7,7 +8,6 @@ import { Observable, of, OperatorFunction } from 'rxjs';
 import {
     catchError, debounceTime, distinctUntilChanged, first, map, switchMap, tap
 } from 'rxjs/operators';
-import {Ticker} from "@app/models";
 
 @Component({ templateUrl: 'add-asset.component.html' })
 export class AddAssetComponent extends BaseDialog implements OnInit {

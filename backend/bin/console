@@ -11,6 +11,7 @@ use FinGather\Command\MigrationRunCommand;
 use FinGather\Command\SplitUpdateCommand;
 use FinGather\Command\TickerDataUpdateCommand;
 use FinGather\Command\TickerUpdateCommand;
+use FinGather\Command\TickerLogoUpdateCommand;
 use Symfony\Component\Console\Application;
 
 $application = new Application();
@@ -20,6 +21,7 @@ $application->add(new MigrationGenerateCommand());
 $application->add(new MigrationRunCommand());
 $application->add(new SplitUpdateCommand());
 $application->add(new TickerDataUpdateCommand());
+$application->add(new TickerLogoUpdateCommand());
 $application->add(new TickerUpdateCommand());
 
 $application->run();
