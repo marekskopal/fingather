@@ -120,31 +120,39 @@ class TickerDataProvider
 		};
 	}
 
-	private function createTickerDataFromStock(Ticker $ticker, DateTimeImmutable $fromDate): void
+	private function createTickerDataFromStock(Ticker $ticker, DateTimeImmutable $fromDate, ?DateTimeImmutable $toDate = null): void
 	{
 		$timeSeries = $this->twelveData->getCoreData()->timeSeries(
 			symbol: $ticker->getTicker(),
 			micCode: $ticker->getMarket()->getMic(),
 			startDate: $fromDate,
+			endDate: $toDate,
 		);
 		$this->createTickerData($ticker, $timeSeries);
 
 		if (count($timeSeries->values) === self::TwelveDataTimeSeriesMaxResults) {
-			$this->createTickerDataFromStock($ticker, DateTimeImmutable::createFromRegular($timeSeries->values[0]->datetime));
+			$this->createTickerDataFromStock($ticker, $fromDate, DateTimeImmutable::createFromRegular($timeSeries->values[4999]->datetime));
 		}
 	}
 
-	private function createTickerDataFromCrypto(Ticker $ticker, DateTimeImmutable $fromDate): void
+	private function createTickerDataFromCrypto(Ticker $ticker, DateTimeImmutable $fromDate, ?DateTimeImmutable $toDate = null): void
 	{
 		$timeSeries = $this->twelveData->getCoreData()->timeSeries(
 			symbol: $ticker->getTicker() . '/USD',
 			startDate: $fromDate,
+			endDate: $toDate,
 		);
 		$this->createTickerData($ticker, $timeSeries);
 
-		if (count($timeSeries->values) === self::TwelveDataTimeSeriesMaxResults) {
-			$this->createTickerDataFromCrypto($ticker, DateTimeImmutable::createFromRegular($timeSeries->values[0]->datetime));
+		if (count($timeSeries->values) !== self::TwelveDataTimeSeriesMaxResults) {
+			return;
 		}
+
+		$this->createTickerDataFromCrypto(
+			$ticker,
+			$fromDate,
+			DateTimeImmutable::createFromRegular($timeSeries->values[4999]->datetime),
+		);
 	}
 
 	private function createTickerData(Ticker $ticker, TimeSeries $timeSeries): void
