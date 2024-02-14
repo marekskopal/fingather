@@ -19,7 +19,7 @@ class Market extends AEntity
 		private string $name,
 		#[Column(type: 'string(20)')]
 		private string $acronym,
-		#[Column(type: 'string(4)')]
+		#[Column(type: 'string(5)')]
 		private string $mic,
 		#[Column(type: 'string(2)')]
 		private string $country,

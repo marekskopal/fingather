@@ -123,7 +123,7 @@ class InitMigration extends Migration
 			->addColumn('type', 'enum', ['nullable' => false, 'default' => 'Stock', 'values' => ['Stock', 'Crypto']])
 			->addColumn('name', 'string', ['nullable' => false, 'default' => null, 'size' => 255])
 			->addColumn('acronym', 'string', ['nullable' => false, 'default' => null, 'size' => 20])
-			->addColumn('mic', 'string', ['nullable' => false, 'default' => null, 'size' => 4])
+			->addColumn('mic', 'string', ['nullable' => false, 'default' => null, 'size' => 5])
 			->addColumn('country', 'string', ['nullable' => false, 'default' => null, 'size' => 2])
 			->addColumn('city', 'string', ['nullable' => false, 'default' => null, 'size' => 255])
 			->addColumn('timezone', 'string', ['nullable' => false, 'default' => null, 'size' => 255])
