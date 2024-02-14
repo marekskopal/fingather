@@ -130,7 +130,7 @@ class TickerDataProvider
 		$this->createTickerData($ticker, $timeSeries);
 
 		if (count($timeSeries->values) === self::TwelveDataTimeSeriesMaxResults) {
-			$this->createTickerDataFromStock($ticker, DateTimeImmutable::createFromRegular($timeSeries->values[4999]->datetime));
+			$this->createTickerDataFromStock($ticker, DateTimeImmutable::createFromRegular($timeSeries->values[0]->datetime));
 		}
 	}
 
@@ -143,7 +143,7 @@ class TickerDataProvider
 		$this->createTickerData($ticker, $timeSeries);
 
 		if (count($timeSeries->values) === self::TwelveDataTimeSeriesMaxResults) {
-			$this->createTickerDataFromCrypto($ticker, DateTimeImmutable::createFromRegular($timeSeries->values[4999]->datetime));
+			$this->createTickerDataFromCrypto($ticker, DateTimeImmutable::createFromRegular($timeSeries->values[0]->datetime));
 		}
 	}
 
