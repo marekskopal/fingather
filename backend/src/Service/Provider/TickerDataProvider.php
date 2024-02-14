@@ -19,6 +19,8 @@ use Safe\DateTimeImmutable;
 
 class TickerDataProvider
 {
+	private const TwelveDataTimeSeriesMaxResults = 5000;
+
 	public function __construct(
 		private readonly TickerDataRepository $tickerDataRepository,
 		private readonly SplitProvider $splitProvider,
@@ -126,6 +128,10 @@ class TickerDataProvider
 			startDate: $fromDate,
 		);
 		$this->createTickerData($ticker, $timeSeries);
+
+		if (count($timeSeries->values) === self::TwelveDataTimeSeriesMaxResults) {
+			$this->createTickerDataFromStock($ticker, DateTimeImmutable::createFromRegular($timeSeries->values[4999]->datetime));
+		}
 	}
 
 	private function createTickerDataFromCrypto(Ticker $ticker, DateTimeImmutable $fromDate): void
@@ -135,6 +141,10 @@ class TickerDataProvider
 			startDate: $fromDate,
 		);
 		$this->createTickerData($ticker, $timeSeries);
+
+		if (count($timeSeries->values) === self::TwelveDataTimeSeriesMaxResults) {
+			$this->createTickerDataFromCrypto($ticker, DateTimeImmutable::createFromRegular($timeSeries->values[4999]->datetime));
+		}
 	}
 
 	private function createTickerData(Ticker $ticker, TimeSeries $timeSeries): void
