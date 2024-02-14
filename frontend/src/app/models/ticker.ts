@@ -6,5 +6,6 @@ export class Ticker {
     public name: string;
     public marketId: number;
     public currencyId: number;
+    public logo: string | null;
     public market: Market;
 }

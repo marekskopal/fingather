@@ -14,6 +14,7 @@ final readonly class TickerDto
 		public string $name,
 		public int $marketId,
 		public int $currencyId,
+		public ?string $logo,
 		public MarketDto $market,
 	) {
 	}
@@ -26,6 +27,7 @@ final readonly class TickerDto
 			name: $ticker->getName(),
 			marketId: $ticker->getMarket()->getId(),
 			currencyId: $ticker->getCurrency()->getId(),
+			logo: $ticker->getLogo(),
 			market: MarketDto::fromEntity($ticker->getMarket()),
 		);
 	}

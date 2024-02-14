@@ -149,7 +149,7 @@ class InitDataMigration extends Migration
 			['id' => 81, 'type' => 'Stock', 'name' => 'Johannesburg Stock Exchange', 'acronym' => 'JSE', 'mic' => 'XJSE', 'country' => 'ZA', 'city' => 'Johannesburg', 'timezone' => 'Africa/Johannesburg', 'currency_id' => 37],
 			['id' => 82, 'type' => 'Stock', 'name' => 'New Zealand Exchange Ltd', 'acronym' => 'NZX', 'mic' => 'XNZE', 'country' => 'NZ', 'city' => 'Wellington', 'timezone' => 'Pacific/Auckland', 'currency_id' => 38],
 
-			['id' => 83, 'type' => 'Crypto', 'name' => 'Binance', 'acronym' => '', 'mic' => '', 'country' => '', 'city' => '', 'web' => '', 'currency_id' => 1],
+			['id' => 83, 'type' => 'Crypto', 'name' => 'Binance', 'acronym' => '', 'mic' => 'Bina', 'country' => '', 'city' => '', 'web' => '', 'currency_id' => 1],
 
 		])->run();
 

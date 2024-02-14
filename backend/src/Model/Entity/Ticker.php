@@ -21,6 +21,8 @@ class Ticker extends AEntity
 		private Market $market,
 		#[RefersTo(target: Currency::class)]
 		private Currency $currency,
+		#[Column(type: 'string', nullable: true)]
+		private ?string $logo,
 	) {
 	}
 
@@ -62,5 +64,15 @@ class Ticker extends AEntity
 	public function setCurrency(Currency $currency): void
 	{
 		$this->currency = $currency;
+	}
+
+	public function getLogo(): ?string
+	{
+		return $this->logo;
+	}
+
+	public function setLogo(?string $logo): void
+	{
+		$this->logo = $logo;
 	}
 }
