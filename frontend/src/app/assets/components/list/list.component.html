@@ -40,7 +40,7 @@
                         <tbody>
                             <tr *ngFor="let asset of group.assets">
                                 <td>
-                                    <div class="d-flex">
+                                    <div class="d-flex align-items-center">
                                         <fingather-ticker-logo [ticker]="asset.ticker" />
                                         <div>
                                             <div><strong>{{asset.ticker.ticker}}</strong></div>
@@ -111,7 +111,7 @@
                     <tbody>
                         <tr *ngFor="let asset of openedAssets">
                             <td class="align-middle">
-                                <div class="d-flex">
+                                <div class="d-flex align-items-center">
                                     <fingather-ticker-logo [ticker]="asset.ticker" />
                                     <div>
                                         <div><strong>{{asset.ticker.ticker}}</strong></div>
@@ -163,8 +163,13 @@
                 <tbody>
                     <tr *ngFor="let asset of closedAssets">
                         <td class="align-middle">
-                            <div><strong>{{asset.ticker.ticker}}</strong></div>
-                            <div>{{asset.ticker.name}}</div>
+                            <div class="d-flex align-items-center">
+                                <fingather-ticker-logo [ticker]="asset.ticker" />
+                                <div>
+                                    <div><strong>{{asset.ticker.ticker}}</strong></div>
+                                    <div>{{asset.ticker.name}}</div>
+                                </div>
+                            </div>
                         </td>
                         <td class="align-middle text-end">{{asset.price | number:'1.2-2' | currency: asset.ticker.currencyId | async}}</td>
                         <td class="text-end" style="white-space: nowrap">
@@ -194,8 +199,13 @@
                 <tbody>
                     <tr *ngFor="let asset of watchedAssets">
                         <td class="align-middle">
-                            <div><strong>{{asset.ticker.ticker}}</strong></div>
-                            <div>{{asset.ticker.name}}</div>
+                            <div class="d-flex align-items-center">
+                                <fingather-ticker-logo [ticker]="asset.ticker" />
+                                <div>
+                                    <div><strong>{{asset.ticker.ticker}}</strong></div>
+                                    <div>{{asset.ticker.name}}</div>
+                                </div>
+                            </div>
                         </td>
                         <td class="align-middle text-end">{{asset.price | number:'1.2-2' | currency: asset.ticker.currencyId | async}}</td>
                         <td class="text-end" style="white-space: nowrap">
