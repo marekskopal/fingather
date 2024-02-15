@@ -26,6 +26,7 @@ COPY --from=roadrunner /usr/bin/rr /usr/local/bin/rr
 COPY --from=composer /usr/bin/composer /usr/local/bin/composer
 
 COPY ./docker/etc/cron.d /etc/cron.d
+RUN chmod 0600 /etc/cron.d/*
 COPY ./docker/etc/service /etc/service
 COPY ./docker/etc/php /etc/php
 
