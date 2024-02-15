@@ -85,6 +85,7 @@ class TransactionProvider
 		?Decimal $price,
 		Currency $currency,
 		?Decimal $tax,
+		?Decimal $fee,
 		?string $notes,
 		?string $importIdentifier,
 	): Transaction {
@@ -104,6 +105,7 @@ class TransactionProvider
 			price: $price !== null ? (string) $price : '0',
 			currency: $currency,
 			tax: $tax !== null ? (string) $tax : '0',
+			fee: $fee !== null ? (string) $fee : '0',
 			notes: $notes,
 			importIdentifier: $importIdentifier,
 		);
@@ -123,6 +125,7 @@ class TransactionProvider
 		?Decimal $price,
 		Currency $currency,
 		?Decimal $tax,
+		?Decimal $fee,
 		?string $notes,
 		?string $importIdentifier,
 	): Transaction {
@@ -137,6 +140,7 @@ class TransactionProvider
 		$transaction->setPrice($price !== null ? (string) $price : '0');
 		$transaction->setCurrency($currency);
 		$transaction->setTax($tax !== null ? (string) $tax : '0');
+		$transaction->setFee($fee !== null ? (string) $fee : '0');
 		$transaction->setNotes($notes);
 		$transaction->setImportIdentifier($importIdentifier);
 

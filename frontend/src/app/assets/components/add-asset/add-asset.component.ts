@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { Ticker } from '@app/models';
-import {AlertService, AssetService, PortfolioService, TickerService} from '@app/services';
+import {
+    AlertService, AssetService, PortfolioService, TickerService
+} from '@app/services';
 import { BaseDialog } from '@app/shared/components/dialog/base-dialog';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, of, OperatorFunction } from 'rxjs';
@@ -48,12 +50,12 @@ export class AddAssetComponent extends BaseDialog implements OnInit {
         tap(() => (this.searching = false)),
     );
 
-    public formatter = (ticker: Ticker|string): string => {
+    public formatter = (ticker: Ticker | string): string => {
         if (typeof ticker === 'string') {
             return ticker;
         }
 
-        return ticker.ticker + ' . ' + ticker.market.mic;
+        return `${ticker.ticker} . ${ticker.market.mic}`;
     };
 
     public async onSubmit(): Promise<void> {

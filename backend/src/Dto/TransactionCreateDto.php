@@ -20,6 +20,7 @@ final readonly class TransactionCreateDto
 		public Decimal $price,
 		public int $currencyId,
 		public ?Decimal $tax,
+		public ?Decimal $fee,
 		public ?string $notes,
 		public ?string $importIdentifier,
 	) {
@@ -34,6 +35,7 @@ final readonly class TransactionCreateDto
 	 *     price: string,
 	 *     currencyId: int,
 	 *     tax: string,
+	 *     fee: string,
 	 *     notes?: string|null,
 	 *     importIdentifier?: string|null
 	 * } $data
@@ -49,6 +51,7 @@ final readonly class TransactionCreateDto
 			price: new Decimal($data['price']),
 			currencyId: $data['currencyId'],
 			tax: new Decimal($data['tax']),
+			fee: new Decimal($data['fee']),
 			notes: $data['notes'] ?? null,
 			importIdentifier: $data['importIdentifier'] ?? null,
 		);
@@ -65,6 +68,7 @@ final readonly class TransactionCreateDto
 		 *     price: string,
 		 *     currencyId: int,
 		 *     tax: string,
+		 *     fee: string,
 		 *     notes?: string|null,
 		 *     importIdentifier?: string|null
 		 * } $data

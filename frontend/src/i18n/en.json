@@ -231,8 +231,10 @@
         "paidDateRequired": "Paid date is required",
         "price": "Price",
         "priceRequired": "Price is required",
-        "tax": "Tax/Fee",
-        "taxRequired": "Tax/Fee is required",
+        "tax": "Tax",
+        "taxRequired": "Tax is required",
+        "fee": "Fee",
+        "feeRequired": "Fee is required",
         "currency": "Currency",
         "currencyRequired": "Currency is required"
       },
@@ -251,8 +253,10 @@
         "unitsRequired": "Units is required",
         "unitPrice": "Unit Price",
         "unitPriceRequired": "Unit Price is required",
-        "tax": "Tax/Fee",
-        "taxRequired": "Tax/Fee is required",
+        "tax": "Tax",
+        "taxRequired": "Tax is required",
+        "fee": "Fee",
+        "feeRequired": "Fee is required",
         "currency": "Currency",
         "currencyRequired": "Currency is required"
       }

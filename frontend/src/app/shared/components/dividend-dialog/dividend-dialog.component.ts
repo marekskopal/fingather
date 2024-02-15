@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import {
-    AssetWithProperties, Broker, Currency, Transaction, TransactionActionType
+    Asset, Broker, Currency, Transaction, TransactionActionType
 } from '@app/models';
 import {
     AlertService,
@@ -20,7 +20,7 @@ import { first } from 'rxjs/operators';
 @Component({ templateUrl: 'dividend-dialog.component.html' })
 export class DividendDialogComponent extends BaseForm implements OnInit {
     public id: number | null = null;
-    public assets: AssetWithProperties[] | null;
+    public assets: Asset[] | null;
     public assetId: number | null = null;
     public brokers: Broker[];
     public currencies: Currency[];
@@ -48,9 +48,9 @@ export class DividendDialogComponent extends BaseForm implements OnInit {
 
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
-        this.assetService.getOpenedAssets(portfolio.id)
+        this.assetService.getAssets(portfolio.id)
             .pipe(first())
-            .subscribe((assets: AssetWithProperties[]) => this.assets = assets);
+            .subscribe((assets: Asset[]) => this.assets = assets);
 
         this.brokerService.getBrokers(portfolio.id)
             .pipe(first())
@@ -66,6 +66,7 @@ export class DividendDialogComponent extends BaseForm implements OnInit {
             actionCreated: [currentDate, Validators.required],
             price: ['0.00', Validators.required],
             tax: ['0.00', Validators.required],
+            fee: ['0.00', Validators.required],
             currencyId: ['', Validators.required],
         });
 

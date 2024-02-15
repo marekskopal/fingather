@@ -231,8 +231,10 @@
         "paidDateRequired": "Datum vyplacení je povinné",
         "price": "Cena",
         "priceRequired": "Cena je povinná",
-        "tax": "Daň/Poplatky",
-        "taxRequired": "Daň/Poplatky je povinná",
+        "tax": "Daň",
+        "taxRequired": "Daň je povinná",
+        "fee": "Poplatek",
+        "feeRequired": "Poplatek je povinny",
         "currency": "Měna",
         "currencyRequired": "Měna je povinná"
       },
@@ -251,8 +253,10 @@
         "unitsRequired": "Jednotek je povinné",
         "unitPrice": "Cena za jednotku",
         "unitPriceRequired": "Cena za jednotku je povinná",
-        "tax": "Daň/Poplatky",
-        "taxRequired": "Daň/Poplatky je povinná",
+        "tax": "Daň",
+        "taxRequired": "Daň je povinná",
+        "fee": "Poplatek",
+        "feeRequired": "Poplatek je povinny",
         "currency": "Měna",
         "currencyRequired": "Měna je povinná"
       }

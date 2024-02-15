@@ -135,6 +135,7 @@ class TransactionController
 			price: $transactionDto->price,
 			currency: $currency,
 			tax: $transactionDto->tax,
+			fee: $transactionDto->fee,
 			notes: $transactionDto->notes,
 			importIdentifier: $transactionDto->importIdentifier,
 		);
@@ -187,6 +188,7 @@ class TransactionController
 			price: $transactionDto->price,
 			currency: $currency,
 			tax: $transactionDto->tax,
+			fee: $transactionDto->fee,
 			notes: $transactionDto->notes,
 			importIdentifier: $transactionDto->importIdentifier,
 		);

@@ -317,6 +317,7 @@ class InitMigration extends Migration
 			->addColumn('price', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 2, 'precision' => 9])
 			->addColumn('currency_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
 			->addColumn('tax', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 2, 'precision' => 9])
+			->addColumn('fee', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 2, 'precision' => 9])
 			->addColumn('notes', 'tinyText', ['nullable' => true, 'default' => null])
 			->addColumn('import_identifier', 'string', ['nullable' => true, 'default' => null, 'size' => 255])
 			->addIndex(['user_id'], ['name' => 'transactions_index_user_id_657179dd4f5bc', 'unique' => false])
