@@ -181,7 +181,8 @@
           "title": "Import CSV File",
           "broker": "Broker",
           "brokerRequired": "Broker is required",
-          "file": "CSV File",
+          "fileDropText": "Drop CSV Files here or click to upload",
+          "fileDropButton": "Choose files",
           "import": "Import"
         }
       }

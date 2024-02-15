@@ -5,6 +5,7 @@ import { ImportComponent } from '@app/transactions/import/components/import/impo
 import { ImportPrepareComponent } from '@app/transactions/import/components/import-prepare/import-prepare.component';
 import { LayoutComponent } from '@app/transactions/import/components/layout/layout.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { NgxFileDropModule } from 'ngx-file-drop';
 
 import { ImportRoutingModule } from './import-routing.module';
 
@@ -13,7 +14,8 @@ import { ImportRoutingModule } from './import-routing.module';
         CommonModule,
         ReactiveFormsModule,
         ImportRoutingModule,
-        TranslateModule
+        TranslateModule,
+        NgxFileDropModule,
     ],
     declarations: [
         LayoutComponent,

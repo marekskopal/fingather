@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Broker, ImportPrepare } from '@app/models';
 import {
     AlertService, BrokerService, ImportService, PortfolioService
 } from '@app/services';
 import { BaseForm } from '@app/shared/components/form/base-form';
+import { NgxFileDropEntry } from 'ngx-file-drop';
 import { first } from 'rxjs/operators';
 
 @Component({ templateUrl: 'import.component.html' })
@@ -13,13 +13,12 @@ export class ImportComponent extends BaseForm implements OnInit {
     public brokerId: string;
     public brokers: Broker[];
     public importPrepare: ImportPrepare | null = null;
+    public droppedFiles: NgxFileDropEntry[] = [];
 
     public constructor(
-        private readonly router: Router,
         private readonly brokerService: BrokerService,
         private readonly importService: ImportService,
         private readonly portfolioService: PortfolioService,
-        private route: ActivatedRoute,
         formBuilder: UntypedFormBuilder,
         alertService: AlertService,
     ) {
@@ -55,19 +54,28 @@ export class ImportComponent extends BaseForm implements OnInit {
         this.createImport();
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    public onFileChange(event: any): void {
-        const reader = new FileReader();
+    public onFileDropped(files: NgxFileDropEntry[]): void {
+        this.droppedFiles = this.droppedFiles.concat(files);
 
-        if (event.target.files && event.target.files.length) {
-            const [file] = event.target.files;
-            reader.readAsDataURL(file);
+        const filesContents: string[] = [];
 
+        for (const droppedFile of this.droppedFiles) {
+            const reader = new FileReader();
             reader.onload = (): void => {
+                filesContents.push((reader.result as string));
                 this.form.patchValue({
-                    data: reader.result
+                    data: filesContents
                 });
             };
+
+            if (!droppedFile.fileEntry.isFile || !droppedFile.fileEntry.name.endsWith('.csv')) {
+                continue;
+            }
+
+            const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
+            fileEntry.file((file: File) => {
+                reader.readAsDataURL(file);
+            });
         }
     }
 

@@ -1,10 +1,11 @@
 ﻿<h1>{{ 'app.transactions.import.import.title' | translate }}</h1>
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div class="form-row">
+    <div class="form-row mb-4">
         <div class="form-group col">
             <label for="brokerId">{{ 'app.transactions.import.import.broker' | translate }}</label>
             <select id="brokerId" formControlName="brokerId" class="form-select">
                 <option *ngFor="let broker of brokers" [ngValue]="broker.id">
+
                     {{ broker.name }}
                 </option>
             </select>
@@ -13,10 +14,21 @@
             </div>
         </div>
     </div>
-    <div class="form-row">
+    <div class="form-row mb-4">
         <div class="form-group col">
-            <label for="data">{{ 'app.transactions.import.import.file' | translate }}</label>
-            <input type="file" id="data" accept="text/csv" class="form-control" (change)="onFileChange($event)">
+            <ngx-file-drop dropZoneLabel="Drop files here" dropZoneClassName="file-drop" (onFileDrop)="onFileDropped($event)" accept=".csv">
+                <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+                    <div class="file-drop-text">{{ 'app.transactions.import.import.fileDropText' | translate }}</div>
+                    <button type="button" class="btn btn-primary" (click)="openFileSelector()">{{ 'app.transactions.import.import.fileDropButton' | translate }}</button>
+                </ng-template>
+            </ngx-file-drop>
+            @if (droppedFiles.length > 0) {
+                @for (droppedFile of droppedFiles; track droppedFile) {
+                    <div class="alert alert-primary" role="alert">
+                        {{ droppedFile.fileEntry.name }}
+                    </div>
+                }
+            }
         </div>
     </div>
     @if (importPrepare === null) {

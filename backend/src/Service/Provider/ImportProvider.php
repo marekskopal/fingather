@@ -35,4 +35,9 @@ class ImportProvider
 
 		return $import;
 	}
+
+	public function deleteImport(Import $import): void
+	{
+		$this->importRepository->delete($import);
+	}
 }
