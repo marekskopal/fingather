@@ -17,6 +17,7 @@ readonly class TransactionRecord
 		public ?Decimal $price = null,
 		public ?string $currency = null,
 		public ?Decimal $tax = null,
+		public ?Decimal $fee = null,
 		public ?string $notes = null,
 		public ?string $importIdentifier = null,
 	) {

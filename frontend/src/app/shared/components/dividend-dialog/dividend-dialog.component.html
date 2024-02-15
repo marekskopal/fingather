@@ -66,6 +66,15 @@
                 </div>
             </div>
         </div>
+        <div class="form-row">
+            <div class="form-group col">
+                <label for="fee">{{ 'app.shared.dividendDialog.fee' | translate }}</label>
+                <input type="number" step="0.01" min="0" id="fee" formControlName="fee" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['fee'].errors }" [defaultValue]="0.00" />
+                <div *ngIf="submitted && f['fee'].errors" class="invalid-feedback">
+                    <div *ngIf="f['fee'].errors['required']">{{ 'app.shared.dividendDialog.feeRequired' | translate }}</div>
+                </div>
+            </div>
+        </div>
         <div class="mb-3">
             <label for="currencyId" class="form-label">{{ 'app.shared.dividendDialog.currency' | translate }}</label>
             <select id="currencyId" formControlName="currencyId" class="form-select">

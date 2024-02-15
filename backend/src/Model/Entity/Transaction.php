@@ -40,6 +40,8 @@ class Transaction extends AEntity
 		private Currency $currency,
 		#[Column(type: 'decimal(9,2)')]
 		private string $tax,
+		#[Column(type: 'decimal(9,2)')]
+		private string $fee,
 		#[Column(type: 'tinyText', nullable: true)]
 		private ?string $notes,
 		#[Column(type: 'string', nullable: true)]
@@ -175,6 +177,16 @@ class Transaction extends AEntity
 	public function setTax(string $tax): void
 	{
 		$this->tax = $tax;
+	}
+
+	public function getFee(): string
+	{
+		return $this->fee;
+	}
+
+	public function setFee(string $fee): void
+	{
+		$this->fee = $fee;
 	}
 
 	public function getNotes(): ?string

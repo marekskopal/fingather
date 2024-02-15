@@ -215,6 +215,7 @@ final class ImportService
 					price: $transactionRecord->price,
 					currency: $currency,
 					tax: $transactionRecord->tax,
+					fee: $transactionRecord->fee,
 					notes: $transactionRecord->notes,
 					importIdentifier: $transactionRecord->importIdentifier,
 				);
