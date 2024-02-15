@@ -22,7 +22,8 @@ class Trading212Mapper implements MapperInterface
 				$record['Action'],
 				'Dividend',
 			) ? $record['Currency (Total)'] : $record['Currency (Price / share)'],
-			'tax' => 'Currency conversion fee',
+			'fee' => 'Currency conversion fee',
+			'importIdentifier' => 'ID',
 		];
 	}
 }
