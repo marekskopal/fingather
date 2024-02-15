@@ -7,8 +7,10 @@ namespace FinGather\Controller;
 use Decimal\Decimal;
 use FinGather\Dto\AssetDto;
 use FinGather\Dto\AssetWithPropertiesDto;
+use FinGather\Dto\TickerDto;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Service\Provider\AssetProvider;
+use FinGather\Service\Provider\MarketProvider;
 use FinGather\Service\Provider\PortfolioProvider;
 use FinGather\Service\Provider\TickerDataProvider;
 use FinGather\Service\Provider\TickerProvider;
@@ -17,7 +19,6 @@ use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Safe\DateTimeImmutable;
-use function Safe\json_decode;
 
 class AssetController
 {
@@ -26,6 +27,7 @@ class AssetController
 		private readonly TickerProvider $tickerProvider,
 		private readonly TickerDataProvider $tickerDataProvider,
 		private readonly PortfolioProvider $portfolioProvider,
+		private readonly MarketProvider $marketProvider,
 		private readonly RequestService $requestService,
 	) {
 	}
@@ -191,18 +193,22 @@ class AssetController
 			return new NotFoundResponse('Portfolio with id "' . $portfolioId . '" was not found.');
 		}
 
-		/** @var array{ticker: string} $requestBody */
-		$requestBody = json_decode($request->getBody()->getContents(), assoc: true);
+		$tickerDto = TickerDto::fromJson($request->getBody()->getContents());
 
-		$ticker = $this->tickerProvider->getTickerByTicker($requestBody['ticker']);
+		$market = $this->marketProvider->getMarketByMic($tickerDto->market->mic);
+		if ($market === null) {
+			return new NotFoundResponse('Market with MIC "' . $tickerDto->market->mic . '" was not found.');
+		}
+
+		$ticker = $this->tickerProvider->getTickerByTicker($tickerDto->ticker, $market);
 		if ($ticker === null) {
-			return new NotFoundResponse('Ticker "' . $requestBody['ticker'] . '" was not found.');
+			return new NotFoundResponse('Ticker "' . $tickerDto->ticker . '" was not found.');
 		}
 
 		$dateTime = new DateTimeImmutable();
 		$lastTickerData = $this->tickerDataProvider->getLastTickerData($ticker, $dateTime);
 		if ($lastTickerData === null) {
-			return new NotFoundResponse('Ticker Data for ticker "' . $requestBody['ticker'] . '" was not found.');
+			return new NotFoundResponse('Ticker Data for ticker "' . $tickerDto->ticker . '" was not found.');
 		}
 
 		return new JsonResponse(AssetDto::fromEntity($this->assetProvider->createAsset(
