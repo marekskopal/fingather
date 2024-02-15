@@ -14,8 +14,8 @@ export class AssetService extends NotifyService {
         super();
     }
 
-    public createAsset(asset: AssetCreate): Observable<Asset> {
-        return this.http.post<Asset>(`${environment.apiUrl}/assets`, asset);
+    public createAsset(asset: AssetCreate, portfolioId: number): Observable<Asset> {
+        return this.http.post<Asset>(`${environment.apiUrl}/assets/${portfolioId}`, asset);
     }
 
     public getAssets(portfolioId: number): Observable<Asset[]> {

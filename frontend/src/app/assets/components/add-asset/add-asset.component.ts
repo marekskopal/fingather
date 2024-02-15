@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { Ticker } from '@app/models';
-import { AlertService, AssetService, TickerService } from '@app/services';
+import {AlertService, AssetService, PortfolioService, TickerService} from '@app/services';
 import { BaseDialog } from '@app/shared/components/dialog/base-dialog';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, of, OperatorFunction } from 'rxjs';
@@ -17,8 +17,9 @@ export class AddAssetComponent extends BaseDialog implements OnInit {
     public model: any;
 
     public constructor(
-        private tickerService: TickerService,
-        private assetService: AssetService,
+        private readonly tickerService: TickerService,
+        private readonly assetService: AssetService,
+        private readonly portfolioService: PortfolioService,
         formBuilder: UntypedFormBuilder,
         activeModal: NgbActiveModal,
         alertService: AlertService,
@@ -47,7 +48,15 @@ export class AddAssetComponent extends BaseDialog implements OnInit {
         tap(() => (this.searching = false)),
     );
 
-    public override onSubmit(): void {
+    public formatter = (ticker: Ticker|string): string => {
+        if (typeof ticker === 'string') {
+            return ticker;
+        }
+
+        return ticker.ticker + ' . ' + ticker.market.mic;
+    };
+
+    public async onSubmit(): Promise<void> {
         this.submitted = true;
 
         this.alertService.clear();
@@ -56,11 +65,12 @@ export class AddAssetComponent extends BaseDialog implements OnInit {
             return;
         }
 
-        this.createAsset();
+        const portfolio = await this.portfolioService.getCurrentPortfolio();
+        this.createAsset(portfolio.id);
     }
 
-    private createAsset(): void {
-        this.assetService.createAsset(this.form.value)
+    private createAsset(portfolioId: number): void {
+        this.assetService.createAsset(this.form.value.ticker, portfolioId)
             .pipe(first())
             .subscribe({
                 next: () => {

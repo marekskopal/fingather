@@ -30,7 +30,8 @@ class TickerRepository extends ARepository
 			$tickers->offset($offset);
 		}
 
-		$tickers->orderBy('ticker', 'DESC');
+		$tickers->orderBy('ticker');
+		$tickers->orderBy('market_id');
 
 		return $tickers->fetchAll();
 	}
@@ -71,10 +72,15 @@ class TickerRepository extends ARepository
 			->count();
 	}
 
-	public function findTickerByTicker(string $ticker): ?Ticker
+	public function findTickerByTicker(string $ticker, ?int $marketId = null): ?Ticker
 	{
-		return $this->findOne([
-			'ticker' => $ticker,
-		]);
+		$tickerSelect = $this->select()
+			->where('ticker', $ticker);
+
+		if ($marketId !== null) {
+			$tickerSelect->where('market_id', $marketId);
+		}
+
+		return $tickerSelect->fetchOne();
 	}
 }

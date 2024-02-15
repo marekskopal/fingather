@@ -28,6 +28,7 @@
                 [(ngModel)]="model"
                 [ngbTypeahead]="search"
                 [resultTemplate]="rt"
+                [inputFormatter]="formatter"
                 placeholder="Ticker search"
             />
             @if (searching) {

@@ -59,9 +59,9 @@ class TickerProvider
 		return $this->tickerRepository->countTickersByTicker($ticker);
 	}
 
-	public function getTickerByTicker(string $ticker): ?Ticker
+	public function getTickerByTicker(string $ticker, ?Market $market = null): ?Ticker
 	{
-		return $this->tickerRepository->findTickerByTicker($ticker);
+		return $this->tickerRepository->findTickerByTicker($ticker, $market?->getId());
 	}
 
 	public function updateTickers(): void
