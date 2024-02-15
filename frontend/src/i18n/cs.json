@@ -181,7 +181,8 @@
           "title": "Importovat CSV soubor",
           "broker": "Broker",
           "brokerRequired": "Broker je povinný",
-          "file": "CSV soubor",
+          "fileDropText": "Přesuň CSV soubory sem, nebo klikni pro výběr",
+          "fileDropButton": "Vybrat soubory",
           "import": "Importovat"
         }
       }

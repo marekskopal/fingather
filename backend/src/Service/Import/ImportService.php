@@ -32,6 +32,8 @@ use FinGather\Service\Provider\TransactionProvider;
 use League\Csv\Reader;
 use Psr\Log\LoggerInterface;
 use Safe\DateTimeImmutable;
+use function Safe\json_decode;
+use function Safe\json_encode;
 
 final class ImportService
 {
@@ -49,17 +51,13 @@ final class ImportService
 	) {
 	}
 
-	public function prepareImportCsv(Broker $broker, string $csvContent): PrepareImport
+	/** @param array<string> $csvContents */
+	public function prepareImportCsv(Broker $broker, array $csvContents): PrepareImport
 	{
-		$csv = Reader::createFromString($csvContent);
-		$csv->setHeaderOffset(0);
-
 		$importMapper = $this->getImportMapper(BrokerImportTypeEnum::from($broker->getImportType()));
 
 		$user = $broker->getUser();
 		$portfolio = $broker->getPortfolio();
-
-		$records = $csv->getRecords();
 
 		$importMappings = $this->importMappingProvider->getImportMappings($user, $portfolio, $broker);
 
@@ -67,52 +65,63 @@ final class ImportService
 		$multipleFoundTickers = [];
 		$okFoundTickers = [];
 
-		foreach ($records as $record) {
-			/** @var array<string, string> $record */
-			$transactionRecord = $this->mapTransactionRecord($importMapper, $record);
+		foreach ($csvContents as $csvContent) {
+			$csv = Reader::createFromString($csvContent);
+			$csv->setHeaderOffset(0);
 
-			if (!isset($transactionRecord->ticker)) {
-				$this->logger->log('import', 'Ticker not found: ' . implode(',', $record));
-				continue;
-			}
+			$records = $csv->getRecords();
+			foreach ($records as $record) {
+				/** @var array<string, string> $record */
+				$transactionRecord = $this->mapTransactionRecord($importMapper, $record);
 
-			if (array_key_exists($transactionRecord->ticker, $notFoundTickers)) {
-				continue;
-			}
-			if (array_key_exists($transactionRecord->ticker, $multipleFoundTickers)) {
-				continue;
-			}
-			if (array_key_exists($transactionRecord->ticker, $okFoundTickers)) {
-				continue;
-			}
+				if (!isset($transactionRecord->ticker)) {
+					$this->logger->log('import', 'Ticker not found: ' . implode(',', $record));
+					continue;
+				}
 
-			if (array_key_exists($transactionRecord->ticker, $importMappings)) {
-				$okFoundTickers[$transactionRecord->ticker] = new PrepareImportTicker(
-					ticker: $transactionRecord->ticker,
-					tickers: [$importMappings[$transactionRecord->ticker]->getTicker()],
-				);
-				continue;
-			}
+				if (array_key_exists($transactionRecord->ticker, $notFoundTickers)) {
+					continue;
+				}
+				if (array_key_exists($transactionRecord->ticker, $multipleFoundTickers)) {
+					continue;
+				}
+				if (array_key_exists($transactionRecord->ticker, $okFoundTickers)) {
+					continue;
+				}
 
-			$countTicker = $this->tickerProvider->countTickersByTicker($transactionRecord->ticker);
-			if ($countTicker === 0) {
-				$notFoundTickers[$transactionRecord->ticker] = new PrepareImportTicker(ticker: $transactionRecord->ticker, tickers: []);
-			} elseif ($countTicker > 1) {
-				$multipleFoundTickers[$transactionRecord->ticker] = new PrepareImportTicker(
-					ticker: $transactionRecord->ticker,
-					tickers: $this->tickerProvider->getTickersByTicker($transactionRecord->ticker),
-				);
-			} else {
-				$tickerByTicker = $this->tickerProvider->getTickerByTicker($transactionRecord->ticker);
-				assert($tickerByTicker instanceof Ticker);
-				$okFoundTickers[$transactionRecord->ticker] = new PrepareImportTicker(
-					ticker: $transactionRecord->ticker,
-					tickers: [$tickerByTicker],
-				);
+				if (array_key_exists($transactionRecord->ticker, $importMappings)) {
+					$okFoundTickers[$transactionRecord->ticker] = new PrepareImportTicker(
+						ticker: $transactionRecord->ticker,
+						tickers: [$importMappings[$transactionRecord->ticker]->getTicker()],
+					);
+					continue;
+				}
+
+				$countTicker = $this->tickerProvider->countTickersByTicker($transactionRecord->ticker);
+				if ($countTicker === 0) {
+					$notFoundTickers[$transactionRecord->ticker] = new PrepareImportTicker(ticker: $transactionRecord->ticker, tickers: []);
+				} elseif ($countTicker > 1) {
+					$multipleFoundTickers[$transactionRecord->ticker] = new PrepareImportTicker(
+						ticker: $transactionRecord->ticker,
+						tickers: $this->tickerProvider->getTickersByTicker($transactionRecord->ticker),
+					);
+				} else {
+					$tickerByTicker = $this->tickerProvider->getTickerByTicker($transactionRecord->ticker);
+					assert($tickerByTicker instanceof Ticker);
+					$okFoundTickers[$transactionRecord->ticker] = new PrepareImportTicker(
+						ticker: $transactionRecord->ticker,
+						tickers: [$tickerByTicker],
+					);
+				}
 			}
 		}
 
-		$import = $this->importProvider->createImport(user: $user, portfolio: $portfolio, broker: $broker, csvContent: $csvContent);
+		$import = $this->importProvider->createImport(
+			user: $user,
+			portfolio: $portfolio,
+			broker: $broker,
+			csvContent: json_encode($csvContents),
+		);
 
 		return new PrepareImport(
 			import: $import,
@@ -124,9 +133,6 @@ final class ImportService
 
 	public function importCsv(Import $import): void
 	{
-		$csv = Reader::createFromString($import->getCsvContent());
-		$csv->setHeaderOffset(0);
-
 		$broker = $import->getBroker();
 
 		$importMapper = $this->getImportMapper(BrokerImportTypeEnum::from($broker->getImportType()));
@@ -139,78 +145,87 @@ final class ImportService
 
 		$importMappings = $this->importMappingProvider->getImportMappings($user, $portfolio, $broker);
 
-		$records = $csv->getRecords();
-		foreach ($records as $record) {
-			/** @var array<string, string> $record */
-			$transactionRecord = $this->mapTransactionRecord($importMapper, $record);
+		/** @var list<string> $csvContents */
+		$csvContents = json_decode($import->getCsvContent(), assoc: true);
+		foreach ($csvContents as $csvContent) {
+			$csv = Reader::createFromString($csvContent);
+			$csv->setHeaderOffset(0);
 
-			if (
-				isset($transactionRecord->importIdentifier)
-				&& $this->transactionRepository->findTransactionByIdentifier(
-					$broker->getId(),
-					$transactionRecord->importIdentifier,
-				) !== null
-			) {
-				$this->logger->log('import', 'Skipped transaction: ' . implode(',', $record));
-				continue;
-			}
+			$records = $csv->getRecords();
+			foreach ($records as $record) {
+				/** @var array<string, string> $record */
+				$transactionRecord = $this->mapTransactionRecord($importMapper, $record);
 
-			if (!isset($transactionRecord->ticker)) {
-				$this->logger->log('import', 'Ticker not found: ' . implode(',', $record));
-				continue;
-			}
+				if (
+					isset($transactionRecord->importIdentifier)
+					&& $this->transactionRepository->findTransactionByIdentifier(
+						$broker->getId(),
+						$transactionRecord->importIdentifier,
+					) !== null
+				) {
+					$this->logger->log('import', 'Skipped transaction: ' . implode(',', $record));
+					continue;
+				}
 
-			$ticker = array_key_exists($transactionRecord->ticker, $importMappings)
-				? $importMappings[$transactionRecord->ticker]->getTicker()
-				: $this->tickerProvider->getTickerByTicker($transactionRecord->ticker);
-			if ($ticker === null) {
-				$this->logger->log('import', 'Ticker not created: ' . implode(',', $record));
-				continue;
-			}
+				if (!isset($transactionRecord->ticker)) {
+					$this->logger->log('import', 'Ticker not found: ' . implode(',', $record));
+					continue;
+				}
 
-			$asset = $this->assetRepository->findAssetByTickerId($user->getId(), $portfolio->getId(), $ticker->getId());
-			if ($asset === null) {
-				$asset = new Asset(
+				$ticker = array_key_exists($transactionRecord->ticker, $importMappings)
+					? $importMappings[$transactionRecord->ticker]->getTicker()
+					: $this->tickerProvider->getTickerByTicker($transactionRecord->ticker);
+				if ($ticker === null) {
+					$this->logger->log('import', 'Ticker not created: ' . implode(',', $record));
+					continue;
+				}
+
+				$asset = $this->assetRepository->findAssetByTickerId($user->getId(), $portfolio->getId(), $ticker->getId());
+				if ($asset === null) {
+					$asset = new Asset(
+						user: $user,
+						portfolio: $portfolio,
+						ticker: $ticker,
+						group: $othersGroup,
+						transactions: [],
+					);
+					$this->assetRepository->persist($asset);
+				}
+
+				$currencyCode = $transactionRecord->currency ?? 'USD';
+				$currency = $this->currencyRepository->findCurrencyByCode($currencyCode);
+				assert($currency instanceof Currency);
+
+				$actionType = TransactionActionTypeEnum::fromString($transactionRecord->actionType ?? '');
+
+				$units = $transactionRecord->units ?? new Decimal(0);
+				if ($actionType === TransactionActionTypeEnum::Sell) {
+					$units = $units->negate();
+				}
+
+				$transaction = $this->transactionProvider->createTransaction(
 					user: $user,
 					portfolio: $portfolio,
-					ticker: $ticker,
-					group: $othersGroup,
-					transactions: [],
+					asset: $asset,
+					broker: $broker,
+					actionType: $actionType,
+					actionCreated: $transactionRecord->created ?? new DateTimeImmutable(),
+					createType: TransactionCreateTypeEnum::Import,
+					units: $units,
+					price: $transactionRecord->price,
+					currency: $currency,
+					tax: $transactionRecord->tax,
+					notes: $transactionRecord->notes,
+					importIdentifier: $transactionRecord->importIdentifier,
 				);
-				$this->assetRepository->persist($asset);
-			}
 
-			$currencyCode = $transactionRecord->currency ?? 'USD';
-			$currency = $this->currencyRepository->findCurrencyByCode($currencyCode);
-			assert($currency instanceof Currency);
-
-			$actionType = TransactionActionTypeEnum::fromString($transactionRecord->actionType ?? '');
-
-			$units = $transactionRecord->units ?? new Decimal(0);
-			if ($actionType === TransactionActionTypeEnum::Sell) {
-				$units = $units->negate();
-			}
-
-			$transaction = $this->transactionProvider->createTransaction(
-				user: $user,
-				portfolio: $portfolio,
-				asset: $asset,
-				broker: $broker,
-				actionType: $actionType,
-				actionCreated: $transactionRecord->created ?? new DateTimeImmutable(),
-				createType: TransactionCreateTypeEnum::Import,
-				units: $units,
-				price: $transactionRecord->price,
-				currency: $currency,
-				tax: $transactionRecord->tax,
-				notes: $transactionRecord->notes,
-				importIdentifier: $transactionRecord->importIdentifier,
-			);
-
-			if ($firstDate === null || $transaction->getActionCreated()->getTimestamp() < $firstDate->getTimestamp()) {
-				$firstDate = $transaction->getActionCreated();
+				if ($firstDate === null || $transaction->getActionCreated()->getTimestamp() < $firstDate->getTimestamp()) {
+					$firstDate = $transaction->getActionCreated();
+				}
 			}
 		}
+
+		$this->importProvider->deleteImport($import);
 
 		if ($firstDate === null) {
 			return;
