@@ -20,6 +20,7 @@ use FinGather\Service\Import\Entity\PrepareImport;
 use FinGather\Service\Import\Entity\PrepareImportTicker;
 use FinGather\Service\Import\Entity\TransactionRecord;
 use FinGather\Service\Import\Mapper\AnycoinMapper;
+use FinGather\Service\Import\Mapper\InteractiveBrokersMapper;
 use FinGather\Service\Import\Mapper\MapperInterface;
 use FinGather\Service\Import\Mapper\RevolutMapper;
 use FinGather\Service\Import\Mapper\Trading212Mapper;
@@ -253,6 +254,7 @@ final class ImportService
 
 		return new TransactionRecord(
 			ticker: $ticker,
+			marketMic: $mappedRecord['marketMic'] ? strtoupper($mappedRecord['marketMic']) : null,
 			actionType: strtolower($mappedRecord['actionType'] ?? ''),
 			created: new DateTimeImmutable($mappedRecord['created'] ?? ''),
 			units: $mappedRecord['units'] ? new Decimal($mappedRecord['units']) : null,
@@ -267,8 +269,9 @@ final class ImportService
 	private function getImportMapper(BrokerImportTypeEnum $importType): MapperInterface
 	{
 		return match ($importType) {
-			BrokerImportTypeEnum::Revolut => new RevolutMapper(),
 			BrokerImportTypeEnum::Trading212 => new Trading212Mapper(),
+			BrokerImportTypeEnum::InteractiveBrokers => new InteractiveBrokersMapper(),
+			BrokerImportTypeEnum::Revolut => new RevolutMapper(),
 			BrokerImportTypeEnum::Anycoin => new AnycoinMapper(),
 		};
 	}

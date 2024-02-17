@@ -12,6 +12,7 @@ export class AddEditComponent extends BaseForm implements OnInit {
     public isAddMode: boolean;
     public importTypes = [
         { name: 'Trading212', key: BrokerImportTypes.Trading212 },
+        { name: 'InteractiveBrokers', key: BrokerImportTypes.InteractiveBrokers },
         { name: 'Revolut', key: BrokerImportTypes.Revolut },
         { name: 'Anycoin', key: BrokerImportTypes.Anycoin },
     ];

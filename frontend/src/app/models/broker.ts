@@ -8,6 +8,7 @@ export class Broker extends AEntity {
 
 export enum BrokerImportTypes {
     Trading212 = 'Trading212',
+    InteractiveBrokers = 'InteractiveBrokers',
     Revolut = 'Revolut',
     Anycoin = 'Anycoin',
 }
