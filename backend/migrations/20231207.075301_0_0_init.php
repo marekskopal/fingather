@@ -257,7 +257,15 @@ class InitMigration extends Migration
 				'zerofill' => false,
 			])
 			->addColumn('name', 'string', ['nullable' => false, 'default' => null, 'size' => 255])
-			->addColumn('import_type', 'enum', ['nullable' => false, 'default' => null, 'values' => ['Trading212', 'Revolut', 'Anycoin']])
+			->addColumn('import_type', 'enum', [
+				'nullable' => false,
+				'default' => null,
+				'values' => [
+					'Trading212',
+					'Revolut',
+					'Anycoin',
+					'InteractiveBrokers',
+				]])
 			->addIndex(['user_id'], ['name' => 'brokers_index_user_id_657179dd4f4c5', 'unique' => false])
 			->addIndex(['portfolio_id'], ['name' => 'brokers_index_portfolio_id_65b57aa23e69e', 'unique' => false])
 			->addForeignKey(['user_id'], 'users', ['id'], [
