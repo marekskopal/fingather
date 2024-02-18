@@ -6,6 +6,8 @@ namespace FinGather\Service\Dbal;
 
 use Cycle\Annotated\Embeddings;
 use Cycle\Annotated\Entities;
+use Cycle\Annotated\Locator\TokenizerEmbeddingLocator;
+use Cycle\Annotated\Locator\TokenizerEntityLocator;
 use Cycle\Annotated\MergeColumns;
 use Cycle\Annotated\MergeIndexes;
 use Cycle\Annotated\TableInheritance;
@@ -30,8 +32,8 @@ use Cycle\Schema\Generator\RenderTables;
 use Cycle\Schema\Generator\ResetTables;
 use Cycle\Schema\Generator\ValidateEntities;
 use Cycle\Schema\Registry;
-use Spiral\Tokenizer\ClassLocator;
-use Symfony\Component\Finder\Finder;
+use Spiral\Tokenizer\Config\TokenizerConfig;
+use Spiral\Tokenizer\Tokenizer;
 
 class DbContext
 {
@@ -68,10 +70,11 @@ class DbContext
 			]),
 		);
 
-		$finder = (new Finder())->files()->in([
-			__DIR__ . '/../../Model/Entity',
-		]);
-		$classLocator = new ClassLocator($finder);
+		$classLocator = (new Tokenizer(new TokenizerConfig([
+			'directories' => [
+				__DIR__ . '/../../Model/Entity',
+			],
+		])))->classLocator();
 
 		$migrationConfig = new MigrationConfig([
 			// where to store migrations
@@ -93,9 +96,9 @@ class DbContext
 			// Reconfigure table schemas (deletes columns if necessary)
 			new ResetTables(),
 			// Recognize embeddable entities
-			new Embeddings($classLocator),
+			new Embeddings(new TokenizerEmbeddingLocator($classLocator)),
 			// Identify attributed entities
-			new Entities($classLocator),
+			new Entities(new TokenizerEntityLocator($classLocator)),
 			// Setup Single Table or Joined Table Inheritance
 			new TableInheritance(),
 			// Integrate table #[Column] attributes
