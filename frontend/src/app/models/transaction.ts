@@ -11,9 +11,10 @@ export class Transaction extends AEntity {
     public units: number;
     public price: number;
     public currencyId: number;
-    public exchangeRate: number;
     public tax: number;
+    public taxCurrencyId: number;
     public fee: number;
+    public feeCurrencyId: number;
     public notes: string;
 }
 

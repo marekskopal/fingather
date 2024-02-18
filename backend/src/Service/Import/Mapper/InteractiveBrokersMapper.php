@@ -18,7 +18,8 @@ class InteractiveBrokersMapper implements MapperInterface
 			'price' => 'TradePrice',
 			'currency' => 'CurrencyPrimary',
 			'tax' => 'Taxes',
-			'fee' => 'IBCommission',
+			'fee' => fn (array $record): string => (string) abs((int) $record['IBCommission']),
+			'feeCurrency' => 'IBCommissionCurrency',
 			'importIdentifier' => 'TransactionID',
 		];
 	}
