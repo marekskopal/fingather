@@ -25,6 +25,9 @@ final readonly class TransactionDto
 		public Decimal $price,
 		public int $currencyId,
 		public Decimal $tax,
+		public int $taxCurrencyId,
+		public Decimal $fee,
+		public int $feeCurrencyId,
 		public ?string $notes,
 		public ?string $importIdentifier,
 	) {
@@ -45,6 +48,9 @@ final readonly class TransactionDto
 			price: new Decimal($transaction->getPrice()),
 			currencyId: $transaction->getCurrency()->getId(),
 			tax: new Decimal($transaction->getTax()),
+			taxCurrencyId: $transaction->getTaxCurrency()->getId(),
+			fee: new Decimal($transaction->getFee()),
+			feeCurrencyId: $transaction->getFeeCurrency()->getId(),
 			notes: $transaction->getNotes(),
 			importIdentifier: $transaction->getImportIdentifier(),
 		);

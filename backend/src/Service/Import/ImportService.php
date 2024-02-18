@@ -7,7 +7,6 @@ namespace FinGather\Service\Import;
 use Decimal\Decimal;
 use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Broker;
-use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Enum\TransactionCreateTypeEnum;
@@ -141,6 +140,7 @@ final class ImportService
 		$user = $import->getUser();
 		$portfolio = $import->getPortfolio();
 		$othersGroup = $this->groupProvider->getOthersGroup($user, $portfolio);
+		$defaultCurrency = $user->getDefaultCurrency();
 
 		$firstDate = null;
 
@@ -195,7 +195,31 @@ final class ImportService
 
 				$currencyCode = $transactionRecord->currency ?? 'USD';
 				$currency = $this->currencyRepository->findCurrencyByCode($currencyCode);
-				assert($currency instanceof Currency);
+				if ($currency === null) {
+					continue;
+				}
+
+				$taxCurrencyCode = $transactionRecord->taxCurrency;
+				if ($taxCurrencyCode === null) {
+					$taxCurrency = $defaultCurrency;
+				} else {
+					$taxCurrency = $this->currencyRepository->findCurrencyByCode($taxCurrencyCode);
+					if ($taxCurrency === null) {
+						$taxCurrency = $defaultCurrency;
+
+					}
+				}
+
+				$feeCurrencyCode = $transactionRecord->taxCurrency;
+				if ($feeCurrencyCode === null) {
+					$feeCurrency = $defaultCurrency;
+				} else {
+					$feeCurrency = $this->currencyRepository->findCurrencyByCode($feeCurrencyCode);
+					if ($feeCurrency === null) {
+						$feeCurrency = $defaultCurrency;
+
+					}
+				}
 
 				$actionType = TransactionActionTypeEnum::fromString($transactionRecord->actionType ?? '');
 
@@ -216,7 +240,9 @@ final class ImportService
 					price: $transactionRecord->price,
 					currency: $currency,
 					tax: $transactionRecord->tax,
+					taxCurrency: $taxCurrency,
 					fee: $transactionRecord->fee,
+					feeCurrency: $feeCurrency,
 					notes: $transactionRecord->notes,
 					importIdentifier: $transactionRecord->importIdentifier,
 				);
@@ -261,6 +287,9 @@ final class ImportService
 			price: $mappedRecord['price'] ? new Decimal($mappedRecord['price']) : null,
 			currency: $mappedRecord['currency'],
 			tax: $mappedRecord['tax'] ? new Decimal($mappedRecord['tax']) : null,
+			taxCurrency: $mappedRecord['taxCurrency'] ?? null,
+			fee: $mappedRecord['fee'] ? new Decimal($mappedRecord['fee']) : null,
+			feeCurrency: $mappedRecord['feeCurrency'] ?? null,
 			notes: $mappedRecord['notes'] ?? null,
 			importIdentifier: $mappedRecord['importIdentifier'] ?? null,
 		);

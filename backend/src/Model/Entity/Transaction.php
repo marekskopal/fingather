@@ -40,8 +40,12 @@ class Transaction extends AEntity
 		private Currency $currency,
 		#[Column(type: 'decimal(9,2)')]
 		private string $tax,
+		#[RefersTo(target: Currency::class, innerKey:'tax_currency_id')]
+		private Currency $taxCurrency,
 		#[Column(type: 'decimal(9,2)')]
 		private string $fee,
+		#[RefersTo(target: Currency::class, innerKey:'fee_currency_id')]
+		private Currency $feeCurrency,
 		#[Column(type: 'tinyText', nullable: true)]
 		private ?string $notes,
 		#[Column(type: 'string', nullable: true)]
@@ -179,6 +183,16 @@ class Transaction extends AEntity
 		$this->tax = $tax;
 	}
 
+	public function getTaxCurrency(): Currency
+	{
+		return $this->taxCurrency;
+	}
+
+	public function setTaxCurrency(Currency $taxCurrency): void
+	{
+		$this->taxCurrency = $taxCurrency;
+	}
+
 	public function getFee(): string
 	{
 		return $this->fee;
@@ -187,6 +201,16 @@ class Transaction extends AEntity
 	public function setFee(string $fee): void
 	{
 		$this->fee = $fee;
+	}
+
+	public function getFeeCurrency(): Currency
+	{
+		return $this->feeCurrency;
+	}
+
+	public function setFeeCurrency(Currency $feeCurrency): void
+	{
+		$this->feeCurrency = $feeCurrency;
 	}
 
 	public function getNotes(): ?string

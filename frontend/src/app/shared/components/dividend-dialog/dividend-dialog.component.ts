@@ -60,14 +60,18 @@ export class DividendDialogComponent extends BaseForm implements OnInit {
             .pipe(first())
             .subscribe((currencies: Currency[]) => this.currencies = currencies);
 
+        const defaultCurrency = await this.currencyService.getDefaultCurrency();
+
         this.form = this.formBuilder.group({
             assetId: [this.assetId !== null ? this.assetId : '', Validators.required],
             brokerId: ['', Validators.required],
             actionCreated: [currentDate, Validators.required],
             price: ['0.00', Validators.required],
-            tax: ['0.00', Validators.required],
-            fee: ['0.00', Validators.required],
             currencyId: ['', Validators.required],
+            tax: ['0.00', Validators.required],
+            taxCurrencyId: [defaultCurrency.id, Validators.required],
+            fee: ['0.00', Validators.required],
+            feeCurrencyId: [defaultCurrency.id, Validators.required],
         });
 
         if (this.id !== null) {

@@ -123,6 +123,16 @@ class TransactionController
 			return new NotFoundResponse('Currency with id "' . $transactionDto->currencyId . '" was not found.');
 		}
 
+		$taxCurrency = $this->currencyProvider->getCurrency($transactionDto->taxCurrencyId);
+		if ($taxCurrency === null) {
+			return new NotFoundResponse('Currency with id "' . $transactionDto->taxCurrencyId . '" was not found.');
+		}
+
+		$feeCurrency = $this->currencyProvider->getCurrency($transactionDto->feeCurrencyId);
+		if ($feeCurrency === null) {
+			return new NotFoundResponse('Currency with id "' . $transactionDto->feeCurrencyId . '" was not found.');
+		}
+
 		$transaction = $this->transactionProvider->createTransaction(
 			user: $user,
 			portfolio: $portfolio,
@@ -135,7 +145,9 @@ class TransactionController
 			price: $transactionDto->price,
 			currency: $currency,
 			tax: $transactionDto->tax,
+			taxCurrency: $taxCurrency,
 			fee: $transactionDto->fee,
+			feeCurrency: $feeCurrency,
 			notes: $transactionDto->notes,
 			importIdentifier: $transactionDto->importIdentifier,
 		);
@@ -178,6 +190,16 @@ class TransactionController
 			return new NotFoundResponse('Currency with id "' . $transactionDto->currencyId . '" was not found.');
 		}
 
+		$taxCurrency = $this->currencyProvider->getCurrency($transactionDto->taxCurrencyId);
+		if ($taxCurrency === null) {
+			return new NotFoundResponse('Currency with id "' . $transactionDto->taxCurrencyId . '" was not found.');
+		}
+
+		$feeCurrency = $this->currencyProvider->getCurrency($transactionDto->feeCurrencyId);
+		if ($feeCurrency === null) {
+			return new NotFoundResponse('Currency with id "' . $transactionDto->feeCurrencyId . '" was not found.');
+		}
+
 		$transaction = $this->transactionProvider->updateTransaction(
 			transaction: $transaction,
 			asset: $asset,
@@ -188,7 +210,9 @@ class TransactionController
 			price: $transactionDto->price,
 			currency: $currency,
 			tax: $transactionDto->tax,
+			taxCurrency: $taxCurrency,
 			fee: $transactionDto->fee,
+			feeCurrency: $feeCurrency,
 			notes: $transactionDto->notes,
 			importIdentifier: $transactionDto->importIdentifier,
 		);

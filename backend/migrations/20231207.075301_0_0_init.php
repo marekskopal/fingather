@@ -325,7 +325,9 @@ class InitMigration extends Migration
 			->addColumn('price', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 2, 'precision' => 9])
 			->addColumn('currency_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
 			->addColumn('tax', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 2, 'precision' => 9])
+			->addColumn('tax_currency_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
 			->addColumn('fee', 'decimal', ['nullable' => false, 'default' => null, 'scale' => 2, 'precision' => 9])
+			->addColumn('fee_currency_id', 'integer', ['nullable' => false, 'default' => null, 'size' => 11])
 			->addColumn('notes', 'tinyText', ['nullable' => true, 'default' => null])
 			->addColumn('import_identifier', 'string', ['nullable' => true, 'default' => null, 'size' => 255])
 			->addIndex(['user_id'], ['name' => 'transactions_index_user_id_657179dd4f5bc', 'unique' => false])
@@ -333,6 +335,8 @@ class InitMigration extends Migration
 			->addIndex(['asset_id'], ['name' => 'transactions_index_asset_id_657179dd4f5cf', 'unique' => false])
 			->addIndex(['broker_id'], ['name' => 'transactions_index_broker_id_657179dd4f5e2', 'unique' => false])
 			->addIndex(['currency_id'], ['name' => 'transactions_index_currency_id_657179dd4f5fb', 'unique' => false])
+			->addIndex(['tax_currency_id'], ['name' => 'transactions_index_tax_currency_id_657179dd4f5fc', 'unique' => false])
+			->addIndex(['fee_currency_id'], ['name' => 'transactions_index_fee_currency_id_657179dd4f5fd', 'unique' => false])
 			->addForeignKey(['user_id'], 'users', ['id'], [
 				'name' => 'transactions_foreign_user_id_657179dd4f5c0',
 				'delete' => 'CASCADE',
@@ -359,6 +363,18 @@ class InitMigration extends Migration
 			])
 			->addForeignKey(['currency_id'], 'currencies', ['id'], [
 				'name' => 'transactions_foreign_currency_id_657179dd4f5fe',
+				'delete' => 'CASCADE',
+				'update' => 'CASCADE',
+				'indexCreate' => true,
+			])
+			->addForeignKey(['tax_currency_id'], 'currencies', ['id'], [
+				'name' => 'transactions_foreign_tax_currency_id_657179dd4f5fc',
+				'delete' => 'CASCADE',
+				'update' => 'CASCADE',
+				'indexCreate' => true,
+			])
+			->addForeignKey(['fee_currency_id'], 'currencies', ['id'], [
+				'name' => 'transactions_foreign_fee_currency_id_657179dd4f5fd',
 				'delete' => 'CASCADE',
 				'update' => 'CASCADE',
 				'indexCreate' => true,

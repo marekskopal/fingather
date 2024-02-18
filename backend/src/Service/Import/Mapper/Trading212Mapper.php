@@ -22,7 +22,10 @@ class Trading212Mapper implements MapperInterface
 				$record['Action'],
 				'Dividend',
 			) ? $record['Currency (Total)'] : $record['Currency (Price / share)'],
+			'tax' => 'Stamp duty reserve tax',
+			'taxCurrency' => 'Currency (Stamp duty reserve tax)',
 			'fee' => 'Currency conversion fee',
+			'feeCurrency' => 'Currency (Currency conversion fee)',
 			'importIdentifier' => 'ID',
 		];
 	}
