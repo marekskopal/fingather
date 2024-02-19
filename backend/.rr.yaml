@@ -2,10 +2,7 @@ version: '3'
 
 server:
     command: "php /app/src/rr-worker.php"
-    env:
-        - XDEBUG_SESSION: 1
-        - XDEBUG_CONFIG: "remote_host=host.docker.internal"
-        - PHP_IDE_CONFIG: "serverName=PHPSTORM"
+
 http:
     fcgi:
         address: tcp://0.0.0.0:9000
@@ -26,6 +23,10 @@ http:
             max_worker_memory: 256
         num_workers: ${BACKEND_ROADRUNNER_WORKERS:-5}
         debug: ${BACKEND_ROADRUNNER_DEBUG:-0}
+
+logs:
+    mode: production
+    level: error
 
 amqp:
     addr: amqp://${RABBITMQ_USER}:${RABBITMQ_PASSWORD}@${RABBITMQ_HOST}:${RABBITMQ_PORT}
