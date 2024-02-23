@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Import\Mapper;
 
-class XtbMapper implements MapperInterface
+class XtbMapper extends CsvMapper
 {
 	private const string Action = 'Action';
 	private const string Type = 'Type';
@@ -12,7 +12,7 @@ class XtbMapper implements MapperInterface
 	private const string Price = 'Price';
 
 	/** @return array<string, string|callable> */
-	public function getCsvMapping(): array
+	public function getMapping(): array
 	{
 		return [
 			'actionType' => 'Type',
