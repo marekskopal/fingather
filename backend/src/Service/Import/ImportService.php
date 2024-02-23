@@ -31,7 +31,6 @@ use FinGather\Service\Provider\ImportMappingProvider;
 use FinGather\Service\Provider\ImportProvider;
 use FinGather\Service\Provider\TickerProvider;
 use FinGather\Service\Provider\TransactionProvider;
-use League\Csv\Reader;
 use Psr\Log\LoggerInterface;
 use Safe\DateTimeImmutable;
 use function Safe\json_decode;
@@ -53,8 +52,8 @@ final class ImportService
 	) {
 	}
 
-	/** @param array<string> $csvContents */
-	public function prepareImportCsv(Broker $broker, array $csvContents): PrepareImport
+	/** @param array<string> $contents */
+	public function prepareImportCsv(Broker $broker, array $contents): PrepareImport
 	{
 		$importMapper = $this->getImportMapper(BrokerImportTypeEnum::from($broker->getImportType()));
 
@@ -67,13 +66,8 @@ final class ImportService
 		$multipleFoundTickers = [];
 		$okFoundTickers = [];
 
-		foreach ($csvContents as $csvContent) {
-			$csv = Reader::createFromString($csvContent);
-			$csv->setDelimiter($importMapper->getCsvDelimiter());
-			$csv->setHeaderOffset(0);
-
-			$records = $csv->getRecords();
-			foreach ($records as $record) {
+		foreach ($contents as $content) {
+			foreach ($importMapper->getRecords($content) as $record) {
 				/** @var array<string, string> $record */
 				$transactionRecord = $this->mapTransactionRecord($importMapper, $record);
 
@@ -123,7 +117,7 @@ final class ImportService
 			user: $user,
 			portfolio: $portfolio,
 			broker: $broker,
-			csvContent: json_encode($csvContents),
+			csvContent: json_encode($contents),
 		);
 
 		return new PrepareImport(
@@ -149,15 +143,10 @@ final class ImportService
 
 		$importMappings = $this->importMappingProvider->getImportMappings($user, $portfolio, $broker);
 
-		/** @var list<string> $csvContents */
-		$csvContents = json_decode($import->getCsvContent(), assoc: true);
-		foreach ($csvContents as $csvContent) {
-			$csv = Reader::createFromString($csvContent);
-			$csv->setDelimiter($importMapper->getCsvDelimiter());
-			$csv->setHeaderOffset(0);
-
-			$records = $csv->getRecords();
-			foreach ($records as $record) {
+		/** @var list<string> $contents */
+		$contents = json_decode($import->getCsvContent(), assoc: true);
+		foreach ($contents as $content) {
+			foreach ($importMapper->getRecords($content) as $record) {
 				/** @var array<string, string> $record */
 				$transactionRecord = $this->mapTransactionRecord($importMapper, $record);
 
@@ -272,7 +261,7 @@ final class ImportService
 	{
 		$mappedRecord = [];
 
-		foreach ($mapper->getCsvMapping() as $attribute => $recordKey) {
+		foreach ($mapper->getMapping() as $attribute => $recordKey) {
 			if (!is_string($recordKey)) {
 				$mappedRecord[$attribute] = $recordKey($csvRecord);
 				continue;

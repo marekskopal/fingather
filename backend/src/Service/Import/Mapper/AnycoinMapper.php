@@ -7,10 +7,10 @@ namespace FinGather\Service\Import\Mapper;
 use FinGather\Utils\DateTimeUtils;
 use Safe\DateTimeImmutable;
 
-class AnycoinMapper implements MapperInterface
+class AnycoinMapper extends CsvMapper
 {
 	/** @return array<string, string|callable> */
-	public function getCsvMapping(): array
+	public function getMapping(): array
 	{
 		return [
 			'actionType' => 'ACTION',
@@ -23,10 +23,5 @@ class AnycoinMapper implements MapperInterface
 			'currency' => fn (array $record): string => substr($record['SYMBOL'], 4, 3),
 			'importIdentifier' => 'UID',
 		];
-	}
-
-	public function getCsvDelimiter(): string
-	{
-		return ',';
 	}
 }

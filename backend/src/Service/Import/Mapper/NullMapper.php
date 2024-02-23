@@ -6,14 +6,15 @@ namespace FinGather\Service\Import\Mapper;
 
 class NullMapper implements MapperInterface
 {
-	/** @return array<string, string|callable> */
-	public function getCsvMapping(): array
+	/** @return list<array<string, string>> */
+	public function getRecords(string $content): array
 	{
 		return [];
 	}
 
-	public function getCsvDelimiter(): string
+	/** @return array<string, string|callable> */
+	public function getMapping(): array
 	{
-		return ',';
+		return [];
 	}
 }

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Import\Mapper;
 
-class Trading212Mapper implements MapperInterface
+class Trading212Mapper extends CsvMapper
 {
 	/** @return array<string, string|callable> */
-	public function getCsvMapping(): array
+	public function getMapping(): array
 	{
 		return [
 			'actionType' => 'Action',
@@ -28,10 +28,5 @@ class Trading212Mapper implements MapperInterface
 			'feeCurrency' => 'Currency (Currency conversion fee)',
 			'importIdentifier' => 'ID',
 		];
-	}
-
-	public function getCsvDelimiter(): string
-	{
-		return ',';
 	}
 }

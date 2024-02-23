@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Import\Mapper;
 
-class InteractiveBrokersMapper implements MapperInterface
+class InteractiveBrokersMapper extends CsvMapper
 {
 	/** @return array<string, string|callable> */
-	public function getCsvMapping(): array
+	public function getMapping(): array
 	{
 		return [
 			'actionType' => 'Buy/Sell',
@@ -22,10 +22,5 @@ class InteractiveBrokersMapper implements MapperInterface
 			'feeCurrency' => 'IBCommissionCurrency',
 			'importIdentifier' => 'TransactionID',
 		];
-	}
-
-	public function getCsvDelimiter(): string
-	{
-		return ',';
 	}
 }

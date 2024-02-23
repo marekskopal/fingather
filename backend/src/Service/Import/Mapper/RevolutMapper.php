@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Import\Mapper;
 
-class RevolutMapper implements MapperInterface
+class RevolutMapper extends CsvMapper
 {
 	/** @return array<string, string> */
-	public function getCsvMapping(): array
+	public function getMapping(): array
 	{
 		return [
 			'actionType' => 'Type',
@@ -18,10 +18,5 @@ class RevolutMapper implements MapperInterface
 			'currency' => 'Currency',
 			'total' => 'Total Amount',
 		];
-	}
-
-	public function getCsvDelimiter(): string
-	{
-		return ',';
 	}
 }
