@@ -23,4 +23,9 @@ class InteractiveBrokersMapper implements MapperInterface
 			'importIdentifier' => 'TransactionID',
 		];
 	}
+
+	public function getCsvDelimiter(): string
+	{
+		return ',';
+	}
 }

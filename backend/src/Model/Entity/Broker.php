@@ -19,7 +19,7 @@ class Broker extends AEntity
 		private Portfolio $portfolio,
 		#[Column(type: 'string')]
 		private string $name,
-		#[Column(type: 'enum(Trading212,Revolut,Anycoin,InteractiveBrokers)')]
+		#[Column(type: 'enum(Trading212,InteractiveBrokers,Xtb,Etoro,Revolut,Anycoin)')]
 		private string $importType,
 	) {
 	}

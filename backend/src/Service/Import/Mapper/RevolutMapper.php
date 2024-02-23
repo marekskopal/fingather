@@ -19,4 +19,9 @@ class RevolutMapper implements MapperInterface
 			'total' => 'Total Amount',
 		];
 	}
+
+	public function getCsvDelimiter(): string
+	{
+		return ',';
+	}
 }

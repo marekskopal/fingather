@@ -263,6 +263,8 @@ class InitMigration extends Migration
 				'values' => [
 					'Trading212',
 					'Revolut',
+					'Xtb',
+					'Etoro',
 					'Anycoin',
 					'InteractiveBrokers',
 				]])

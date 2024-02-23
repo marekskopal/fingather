@@ -8,4 +8,6 @@ interface MapperInterface
 {
 	/** @return array<string, string|callable> */
 	public function getCsvMapping(): array;
+
+	public function getCsvDelimiter(): string;
 }
