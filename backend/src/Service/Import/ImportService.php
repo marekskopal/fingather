@@ -21,8 +21,10 @@ use FinGather\Service\Import\Entity\TransactionRecord;
 use FinGather\Service\Import\Mapper\AnycoinMapper;
 use FinGather\Service\Import\Mapper\InteractiveBrokersMapper;
 use FinGather\Service\Import\Mapper\MapperInterface;
+use FinGather\Service\Import\Mapper\NullMapper;
 use FinGather\Service\Import\Mapper\RevolutMapper;
 use FinGather\Service\Import\Mapper\Trading212Mapper;
+use FinGather\Service\Import\Mapper\XtbMapper;
 use FinGather\Service\Provider\DataProvider;
 use FinGather\Service\Provider\GroupProvider;
 use FinGather\Service\Provider\ImportMappingProvider;
@@ -67,6 +69,7 @@ final class ImportService
 
 		foreach ($csvContents as $csvContent) {
 			$csv = Reader::createFromString($csvContent);
+			$csv->setDelimiter($importMapper->getCsvDelimiter());
 			$csv->setHeaderOffset(0);
 
 			$records = $csv->getRecords();
@@ -150,6 +153,7 @@ final class ImportService
 		$csvContents = json_decode($import->getCsvContent(), assoc: true);
 		foreach ($csvContents as $csvContent) {
 			$csv = Reader::createFromString($csvContent);
+			$csv->setDelimiter($importMapper->getCsvDelimiter());
 			$csv->setHeaderOffset(0);
 
 			$records = $csv->getRecords();
@@ -193,10 +197,13 @@ final class ImportService
 					$this->assetRepository->persist($asset);
 				}
 
-				$currencyCode = $transactionRecord->currency ?? 'USD';
-				$currency = $this->currencyRepository->findCurrencyByCode($currencyCode);
-				if ($currency === null) {
-					continue;
+				if ($transactionRecord->currency === null) {
+					$currency = $ticker->getCurrency();
+				} else {
+					$currency = $this->currencyRepository->findCurrencyByCode($transactionRecord->currency);
+					if ($currency === null) {
+						continue;
+					}
 				}
 
 				$taxCurrencyCode = $transactionRecord->taxCurrency;
@@ -206,7 +213,6 @@ final class ImportService
 					$taxCurrency = $this->currencyRepository->findCurrencyByCode($taxCurrencyCode);
 					if ($taxCurrency === null) {
 						$taxCurrency = $defaultCurrency;
-
 					}
 				}
 
@@ -217,7 +223,6 @@ final class ImportService
 					$feeCurrency = $this->currencyRepository->findCurrencyByCode($feeCurrencyCode);
 					if ($feeCurrency === null) {
 						$feeCurrency = $defaultCurrency;
-
 					}
 				}
 
@@ -300,8 +305,10 @@ final class ImportService
 		return match ($importType) {
 			BrokerImportTypeEnum::Trading212 => new Trading212Mapper(),
 			BrokerImportTypeEnum::InteractiveBrokers => new InteractiveBrokersMapper(),
+			BrokerImportTypeEnum::Xtb => new XtbMapper(),
 			BrokerImportTypeEnum::Revolut => new RevolutMapper(),
 			BrokerImportTypeEnum::Anycoin => new AnycoinMapper(),
+			default => new NullMapper(),
 		};
 	}
 }

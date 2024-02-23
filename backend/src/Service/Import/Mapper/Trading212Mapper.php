@@ -29,4 +29,9 @@ class Trading212Mapper implements MapperInterface
 			'importIdentifier' => 'ID',
 		];
 	}
+
+	public function getCsvDelimiter(): string
+	{
+		return ',';
+	}
 }

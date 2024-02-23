@@ -24,4 +24,9 @@ class AnycoinMapper implements MapperInterface
 			'importIdentifier' => 'UID',
 		];
 	}
+
+	public function getCsvDelimiter(): string
+	{
+		return ',';
+	}
 }

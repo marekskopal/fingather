@@ -8,6 +8,8 @@ enum BrokerImportTypeEnum: string
 {
 	case Trading212 = 'Trading212';
 	case InteractiveBrokers = 'InteractiveBrokers';
+	case Xtb = 'Xtb';
+	case Etoro = 'Etoro';
 	case Revolut = 'Revolut';
 	case Anycoin = 'Anycoin';
 }
