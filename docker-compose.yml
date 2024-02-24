@@ -68,7 +68,7 @@ services:
             - fingather_logos:/app/public/images/logos
             - ./log:/app/log
             #- ./backend/migrations:/app/migrations
-            #- ./backend:/app
+            #- ./backend/src:/app/src
 
     db:
         image: mariadb:11.2

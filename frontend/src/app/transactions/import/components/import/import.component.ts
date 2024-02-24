@@ -68,7 +68,12 @@ export class ImportComponent extends BaseForm implements OnInit {
                 });
             };
 
-            if (!droppedFile.fileEntry.isFile || !droppedFile.fileEntry.name.endsWith('.csv')) {
+            if (
+                !droppedFile.fileEntry.isFile || (
+                    !droppedFile.fileEntry.name.endsWith('.csv')
+                    && !droppedFile.fileEntry.name.endsWith('.xlsx')
+                )
+            ) {
                 continue;
             }
 

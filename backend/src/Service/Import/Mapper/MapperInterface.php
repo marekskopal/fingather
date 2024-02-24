@@ -9,6 +9,6 @@ interface MapperInterface
 	/** @return list<array<string, string>> */
 	public function getRecords(string $content): array;
 
-	/** @return array<string, string|callable> */
+	/** @return array<string, string|callable|null> */
 	public function getMapping(): array;
 }

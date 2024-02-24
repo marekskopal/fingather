@@ -38,7 +38,7 @@ class ImportController
 			return new NotFoundResponse('Broker was not found');
 		}
 
-		return new JsonResponse(ImportPrepareDto::fromImportPrepare($this->importService->prepareImportCsv($broker, $importData->data)));
+		return new JsonResponse(ImportPrepareDto::fromImportPrepare($this->importService->prepareImport($broker, $importData->data)));
 	}
 
 	public function actionImportStart(ServerRequestInterface $request): ResponseInterface
