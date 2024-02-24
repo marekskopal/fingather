@@ -1,0 +1,44 @@
+<?php
+
+declare(strict_types=1);
+
+namespace FinGather\Service\Import\Mapper;
+
+use PhpOffice\PhpSpreadsheet\Exception;
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
+use function Safe\file_put_contents;
+use function Safe\tempnam;
+use function Safe\unlink;
+
+abstract class XlsxMapper implements MapperInterface
+{
+	private const TEMP_FILE_PREFIX = 'FinGatherEtoro_';
+
+	/** @return list<array<string, string>> */
+	public function getRecords(string $content): array
+	{
+		$reader = new Xlsx();
+		$reader->setReadDataOnly(true);
+
+		$tempFile = tempnam(sys_get_temp_dir(), self::TEMP_FILE_PREFIX);
+
+		file_put_contents($tempFile, $content);
+
+		$spreadsheet = $reader->load($tempFile);
+
+		try {
+			$sheet = $spreadsheet->getSheet($this->getSheetIndex());
+		} catch (Exception) {
+			return [];
+		}
+
+		$sheetData = $sheet->toArray(null, true, true, true);
+		array_shift($sheetData);
+
+		unlink($tempFile);
+
+		return $sheetData;
+	}
+
+	abstract protected function getSheetIndex(): int;
+}

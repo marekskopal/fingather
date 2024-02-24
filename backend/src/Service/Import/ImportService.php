@@ -19,9 +19,9 @@ use FinGather\Service\Import\Entity\PrepareImport;
 use FinGather\Service\Import\Entity\PrepareImportTicker;
 use FinGather\Service\Import\Entity\TransactionRecord;
 use FinGather\Service\Import\Mapper\AnycoinMapper;
+use FinGather\Service\Import\Mapper\EtoroMapper;
 use FinGather\Service\Import\Mapper\InteractiveBrokersMapper;
 use FinGather\Service\Import\Mapper\MapperInterface;
-use FinGather\Service\Import\Mapper\NullMapper;
 use FinGather\Service\Import\Mapper\RevolutMapper;
 use FinGather\Service\Import\Mapper\Trading212Mapper;
 use FinGather\Service\Import\Mapper\XtbMapper;
@@ -31,6 +31,7 @@ use FinGather\Service\Provider\ImportMappingProvider;
 use FinGather\Service\Provider\ImportProvider;
 use FinGather\Service\Provider\TickerProvider;
 use FinGather\Service\Provider\TransactionProvider;
+use FinGather\Utils\Base64Utils;
 use Psr\Log\LoggerInterface;
 use Safe\DateTimeImmutable;
 use function Safe\json_decode;
@@ -53,7 +54,7 @@ final class ImportService
 	}
 
 	/** @param array<string> $contents */
-	public function prepareImportCsv(Broker $broker, array $contents): PrepareImport
+	public function prepareImport(Broker $broker, array $contents): PrepareImport
 	{
 		$importMapper = $this->getImportMapper(BrokerImportTypeEnum::from($broker->getImportType()));
 
@@ -117,7 +118,7 @@ final class ImportService
 			user: $user,
 			portfolio: $portfolio,
 			broker: $broker,
-			csvContent: json_encode($contents),
+			csvContent: json_encode(Base64Utils::encodeList($contents)),
 		);
 
 		return new PrepareImport(
@@ -143,8 +144,9 @@ final class ImportService
 
 		$importMappings = $this->importMappingProvider->getImportMappings($user, $portfolio, $broker);
 
-		/** @var list<string> $contents */
-		$contents = json_decode($import->getCsvContent(), assoc: true);
+		/** @var list<string> $jsonContents */
+		$jsonContents = json_decode($import->getCsvContent(), assoc: true);
+		$contents = Base64Utils::decodeList($jsonContents);
 		foreach ($contents as $content) {
 			foreach ($importMapper->getRecords($content) as $record) {
 				/** @var array<string, string> $record */
@@ -262,6 +264,11 @@ final class ImportService
 		$mappedRecord = [];
 
 		foreach ($mapper->getMapping() as $attribute => $recordKey) {
+			if ($recordKey === null) {
+				$mappedRecord[$attribute] = null;
+				continue;
+			}
+
 			if (!is_string($recordKey)) {
 				$mappedRecord[$attribute] = $recordKey($csvRecord);
 				continue;
@@ -295,9 +302,10 @@ final class ImportService
 			BrokerImportTypeEnum::Trading212 => new Trading212Mapper(),
 			BrokerImportTypeEnum::InteractiveBrokers => new InteractiveBrokersMapper(),
 			BrokerImportTypeEnum::Xtb => new XtbMapper(),
+			BrokerImportTypeEnum::Etoro => new EtoroMapper(),
 			BrokerImportTypeEnum::Revolut => new RevolutMapper(),
 			BrokerImportTypeEnum::Anycoin => new AnycoinMapper(),
-			default => new NullMapper(),
+			//default => new NullMapper(),
 		};
 	}
 }

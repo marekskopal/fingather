@@ -16,7 +16,7 @@
     </div>
     <div class="form-row mb-4">
         <div class="form-group col">
-            <ngx-file-drop dropZoneLabel="Drop files here" dropZoneClassName="file-drop" (onFileDrop)="onFileDropped($event)" accept=".csv">
+            <ngx-file-drop dropZoneLabel="Drop files here" dropZoneClassName="file-drop" (onFileDrop)="onFileDropped($event)" accept=".csv,.xlsx">
                 <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
                     <div class="file-drop-text">{{ 'app.transactions.import.import.fileDropText' | translate }}</div>
                     <button type="button" class="btn btn-primary" (click)="openFileSelector()">{{ 'app.transactions.import.import.fileDropButton' | translate }}</button>

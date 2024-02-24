@@ -13,11 +13,19 @@ enum TransactionActionTypeEnum: string
 
 	public static function fromString(string $string): self
 	{
-		if (strpos($string, 'buy') !== false || strpos($string, 'nákup') !== false) {
+		if (
+			strpos($string, 'buy') !== false
+			|| strpos($string, 'nákup') !== false
+			|| strpos($string, 'otevřená') !== false
+		) {
 			return TransactionActionTypeEnum::Buy;
 		}
 
-		if (strpos($string, 'sell') !== false || strpos($string, 'prodej') !== false) {
+		if (
+			strpos($string, 'sell') !== false
+			|| strpos($string, 'prodej') !== false
+			|| strpos($string, 'zavřená') !== false
+		) {
 			return TransactionActionTypeEnum::Sell;
 		}
 

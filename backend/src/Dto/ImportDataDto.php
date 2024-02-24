@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Dto;
 
-use function Safe\base64_decode;
+use FinGather\Utils\Base64Utils;
 use function Safe\json_decode;
 
 readonly class ImportDataDto
@@ -19,10 +19,7 @@ readonly class ImportDataDto
 	{
 		return new self(
 			brokerId: $data['brokerId'],
-			data: array_map(
-				fn (string $item): string => base64_decode(substr($item, (int) strpos($item, 'base64,') + 7), strict: true),
-				$data['data'],
-			),
+			data: Base64Utils::decodeList($data['data']),
 		);
 	}
 

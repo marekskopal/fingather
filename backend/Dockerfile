@@ -16,6 +16,7 @@ RUN LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php && \
         php8.3-zip \
         php8.3-decimal \
         php8.3-simplexml \
+        php8.3-gd \
         curl \
         tzdata && \
     apt-get autoremove -y && \
