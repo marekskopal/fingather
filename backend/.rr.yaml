@@ -24,9 +24,9 @@ http:
         num_workers: ${BACKEND_ROADRUNNER_WORKERS:-5}
         debug: ${BACKEND_ROADRUNNER_DEBUG:-0}
 
-logs:
-    mode: production
-    level: error
+#logs:
+#    mode: production
+#    level: error
 
 amqp:
     addr: amqp://${RABBITMQ_USER}:${RABBITMQ_PASSWORD}@${RABBITMQ_HOST}:${RABBITMQ_PORT}
@@ -46,6 +46,12 @@ jobs:
                 durable: true
                 queue: email-verify
                 routing_key: email-verify
+
+kv:
+    memcached:
+        driver: memcached
+        config:
+            addr: ${MEMCACHED_HOST}:${MEMCACHED_PORT}
 
 rpc:
     listen: tcp://127.0.0.1:6001
