@@ -51,6 +51,8 @@ services:
             RABBITMQ_PORT: ${RABBITMQ_PORT}
             RABBITMQ_USER: ${RABBITMQ_USER}
             RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
+            MEMCACHED_HOST: ${MEMCACHED_HOST}
+            MEMCACHED_PORT: ${MEMCACHED_PORT}
             SMTP_HOST: ${SMTP_HOST}
             SMTP_PORT: ${SMTP_PORT}
             SMTP_USER: ${SMTP_USER}
@@ -61,6 +63,8 @@ services:
             EMAIL_FROM: ${EMAIL_FROM}
         depends_on:
             - proxy
+            - rabbitmq
+            - memcached
         restart: unless-stopped
         networks:
             - backend
@@ -95,6 +99,12 @@ services:
             - backend
         volumes:
             - rabbitmq_volume:/var/lib/rabbitmq
+
+    memcached:
+        image: memcached:1.6.23-alpine
+        restart: unless-stopped
+        networks:
+            - backend
 
     maildev:
         image: maildev/maildev:2.1.0
