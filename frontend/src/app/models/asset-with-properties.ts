@@ -10,13 +10,17 @@ export class AssetWithProperties {
     public gain: number;
     public gainDefaultCurrency: number;
     public gainPercentage: number;
+    public gainPercentagePerAnnum: number;
     public dividendGain: number;
     public dividendGainDefaultCurrency: number;
     public dividendGainPercentage: number;
+    public dividendGainPercentagePerAnnum: number;
     public fxImpact: number;
     public fxImpactPercentage: number;
+    public fxImpactPercentagePerAnnum: number;
     public return: number;
     public returnPercentage: number;
+    public returnPercentagePerAnnum: number;
 
     public ticker: Ticker;
 }

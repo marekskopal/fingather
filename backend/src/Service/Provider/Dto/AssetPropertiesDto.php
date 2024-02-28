@@ -16,13 +16,17 @@ readonly class AssetPropertiesDto
 		public Decimal $gain,
 		public Decimal $gainDefaultCurrency,
 		public float $gainPercentage,
+		public float $gainPercentagePerAnnum,
 		public Decimal $dividendGain,
 		public Decimal $dividendGainDefaultCurrency,
 		public float $dividendGainPercentage,
+		public float $dividendGainPercentagePerAnnum,
 		public Decimal $fxImpact,
 		public float $fxImpactPercentage,
+		public float $fxImpactPercentagePerAnnum,
 		public Decimal $return,
 		public float $returnPercentage,
+		public float $returnPercentagePerAnnum,
 	) {
 	}
 }

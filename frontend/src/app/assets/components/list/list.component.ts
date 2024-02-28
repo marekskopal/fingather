@@ -21,6 +21,7 @@ export class ListComponent implements OnInit, OnDestroy {
     public activeTab = 'open-positions';
 
     public withGroups: boolean = false;
+    public showPerAnnum: boolean = false;
 
     public constructor(
         private readonly assetService: AssetService,
@@ -99,5 +100,9 @@ export class ListComponent implements OnInit, OnDestroy {
         this.openedGroupedAssets = null;
 
         this.refreshOpenedAssets();
+    }
+
+    public changeShowPerAnnum(): void {
+        this.showPerAnnum = !this.showPerAnnum;
     }
 }
