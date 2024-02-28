@@ -22,13 +22,17 @@ final readonly class AssetWithPropertiesDto
 		public Decimal $gain,
 		public Decimal $gainDefaultCurrency,
 		public float $gainPercentage,
+		public float $gainPercentagePerAnnum,
 		public Decimal $dividendGain,
 		public Decimal $dividendGainDefaultCurrency,
 		public float $dividendGainPercentage,
+		public float $dividendGainPercentagePerAnnum,
 		public Decimal $fxImpact,
 		public float $fxImpactPercentage,
+		public float $fxImpactPercentagePerAnnum,
 		public Decimal $return,
 		public float $returnPercentage,
+		public float $returnPercentagePerAnnum,
 	) {
 	}
 
@@ -46,13 +50,17 @@ final readonly class AssetWithPropertiesDto
 			gain: $assetProperties->gain,
 			gainDefaultCurrency: $assetProperties->gainDefaultCurrency,
 			gainPercentage: $assetProperties->gainPercentage,
+			gainPercentagePerAnnum: $assetProperties->gainPercentagePerAnnum,
 			dividendGain: $assetProperties->dividendGain,
 			dividendGainDefaultCurrency: $assetProperties->dividendGainDefaultCurrency,
 			dividendGainPercentage: $assetProperties->dividendGainPercentage,
+			dividendGainPercentagePerAnnum: $assetProperties->dividendGainPercentagePerAnnum,
 			fxImpact: $assetProperties->fxImpact,
 			fxImpactPercentage: $assetProperties->fxImpactPercentage,
+			fxImpactPercentagePerAnnum: $assetProperties->fxImpactPercentagePerAnnum,
 			return: $assetProperties->return,
 			returnPercentage: $assetProperties->returnPercentage,
+			returnPercentagePerAnnum: $assetProperties->returnPercentagePerAnnum,
 		);
 	}
 }

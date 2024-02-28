@@ -30,7 +30,7 @@ class TransactionProvider
 		User $user,
 		Portfolio $portfolio,
 		?Asset $asset = null,
-		?DateTimeImmutable $dateTime = null,
+		?DateTimeImmutable $actionCreatedBefore = null,
 		?array $actionTypes = null,
 		?int $limit = null,
 		?int $offset = null,
@@ -39,7 +39,7 @@ class TransactionProvider
 			$user->getId(),
 			$portfolio->getId(),
 			$asset?->getId(),
-			$dateTime,
+			$actionCreatedBefore,
 			$actionTypes,
 			$limit,
 			$offset,
@@ -51,14 +51,14 @@ class TransactionProvider
 		User $user,
 		?Portfolio $portfolio = null,
 		?Asset $asset = null,
-		?DateTimeImmutable $dateTime = null,
+		?DateTimeImmutable $actionCreatedBefore = null,
 		?array $actionTypes = null,
 	): int {
 		return $this->transactionRepository->countTransactions(
 			$user->getId(),
 			$portfolio?->getId(),
 			$asset?->getId(),
-			$dateTime,
+			$actionCreatedBefore,
 			$actionTypes,
 		);
 	}

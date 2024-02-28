@@ -20,6 +20,10 @@
                 <input (change)="changeWithGroups()" class="form-check-input" type="checkbox" role="switch" id="withGroups">
                 <label class="form-check-label" for="withGroups">{{ 'app.assets.list.withGroups' | translate }}</label>
             </div>
+            <div class="form-check form-switch">
+                <input (change)="changeShowPerAnnum()" class="form-check-input" type="checkbox" role="switch" id="showPerAnnum">
+                <label class="form-check-label" for="showPerAnnum">{{ 'app.assets.list.showPerAnnum' | translate }}</label>
+            </div>
 
             @if (openedGroupedAssets !== null) {
                 <div *ngFor="let group of openedGroupedAssets">
@@ -53,19 +57,43 @@
                                 <td class="text-end">{{asset.value | number:'1.2-2' | currency: defaultCurrency.id | async}}</td>
                                 <td class="text-end {{asset.gain > 0 ? 'green' : (asset.gain < 0 ? 'red' : '')}}">
                                     <div class="small">{{asset.gainDefaultCurrency | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
-                                    <div>{{asset.gainPercentage}}%</div>
+                                    <div>
+                                        @if (showPerAnnum) {
+                                            {{asset.gainPercentagePerAnnum}}%&nbsp;p.a.
+                                        } @else {
+                                            {{asset.gainPercentage}}%
+                                        }
+                                    </div>
                                 </td>
                                 <td class="text-end {{asset.dividendGain > 0 ? 'green' : (asset.dividendGain < 0 ? 'red' : '')}}">
                                     <div class="small">{{asset.dividendGainDefaultCurrency | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
-                                    <div>{{asset.dividendGainPercentage}}%</div>
+                                    <div>
+                                        @if (showPerAnnum) {
+                                            {{asset.dividendGainPercentagePerAnnum}}%&nbsp;p.a.
+                                        } @else {
+                                            {{asset.dividendGainPercentage}}%
+                                        }
+                                    </div>
                                 </td>
                                 <td class="text-end {{asset.fxImpact > 0 ? 'green' : (asset.fxImpact < 0 ? 'red' : '')}}">
                                     <div class="small">{{asset.fxImpact | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
-                                    <div>{{asset.fxImpactPercentage}}%</div>
+                                    <div>
+                                        @if (showPerAnnum) {
+                                            {{asset.fxImpactPercentagePerAnnum}}%&nbsp;p.a.
+                                        } @else {
+                                            {{asset.fxImpactPercentage}}%
+                                        }
+                                    </div>
                                 </td>
                                 <td class="text-end {{asset.return > 0 ? 'green' : (asset.return < 0 ? 'red' : '')}}">
                                     <div class="small"><strong>{{asset.return | number:'1.2-2' | currency: defaultCurrency.id | async}}</strong></div>
-                                    <div><strong>{{asset.returnPercentage}}%</strong></div>
+                                    <div>
+                                        @if (showPerAnnum) {
+                                            <strong>{{asset.returnPercentagePerAnnum}}%&nbsp;p.a.</strong>
+                                        } @else {
+                                            <strong>{{asset.returnPercentage}}%</strong>
+                                        }
+                                    </div>
                                 </td>
                             </tr>
                             <tr>
@@ -124,19 +152,43 @@
                             <td class="align-middle text-end">{{asset.value | number:'1.2-2' | currency: defaultCurrency.id | async}}</td>
                             <td class="text-end {{asset.gain > 0 ? 'green' : (asset.gain < 0 ? 'red' : '')}}">
                                 <div class="small">{{asset.gainDefaultCurrency | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
-                                <div>{{asset.gainPercentage}}%</div>
+                                <div>
+                                    @if (showPerAnnum) {
+                                        {{asset.gainPercentagePerAnnum}}%&nbsp;p.a.
+                                    } @else {
+                                        {{asset.gainPercentage}}%
+                                    }
+                                </div>
                             </td>
                             <td class="text-end {{asset.dividendGain > 0 ? 'green' : (asset.dividendGain < 0 ? 'red' : '')}}">
                                 <div class="small">{{asset.dividendGainDefaultCurrency | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
-                                <div>{{asset.dividendGainPercentage}}%</div>
+                                <div>
+                                    @if (showPerAnnum) {
+                                        {{asset.dividendGainPercentagePerAnnum}}%&nbsp;p.a.
+                                    } @else {
+                                        {{asset.dividendGainPercentage}}%
+                                    }
+                                </div>
                             </td>
                             <td class="text-end {{asset.fxImpact > 0 ? 'green' : (asset.fxImpact < 0 ? 'red' : '')}}">
                                 <div class="small">{{asset.fxImpact | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
-                                <div>{{asset.fxImpactPercentage}}%</div>
+                                <div>
+                                    @if (showPerAnnum) {
+                                        {{asset.fxImpactPercentagePerAnnum}}%&nbsp;p.a.
+                                    } @else {
+                                        {{asset.fxImpactPercentage}}%
+                                    }
+                                </div>
                             </td>
                             <td class="text-end {{asset.return > 0 ? 'green' : (asset.return < 0 ? 'red' : '')}}">
                                 <div class="small"><strong>{{asset.return | number:'1.2-2' | currency: defaultCurrency.id | async}}</strong></div>
-                                <div><strong>{{asset.returnPercentage}}%</strong></div>
+                                <div>
+                                    @if (showPerAnnum) {
+                                        <strong>{{asset.returnPercentagePerAnnum}}%&nbsp;p.a.</strong>
+                                    } @else {
+                                        <strong>{{asset.returnPercentage}}%</strong>
+                                    }
+                                </div>
                             </td>
                             <td class="align-middle text-end" style="white-space: nowrap">
                                 <a routerLink="{{asset.id}}" class="btn btn-sm btn-primary mr-1"><fa-icon icon="expand"></fa-icon> {{ 'app.assets.list.detail' | translate }}</a>
