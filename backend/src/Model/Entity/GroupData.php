@@ -22,12 +22,16 @@ class GroupData extends ADataEntity
 		string $transactionValue,
 		string $gain,
 		float $gainPercentage,
+		float $gainPercentagePerAnnum,
 		string $dividendGain,
 		float $dividendGainPercentage,
+		float $dividendGainPercentagePerAnnum,
 		string $fxImpact,
 		float $fxImpactPercentage,
+		float $fxImpactPercentagePerAnnum,
 		string $return,
 		float $returnPercentage,
+		float $returnPercentagePerAnnum,
 	) {
 		parent::__construct(
 			$user,
@@ -37,12 +41,16 @@ class GroupData extends ADataEntity
 			$transactionValue,
 			$gain,
 			$gainPercentage,
+			$gainPercentagePerAnnum,
 			$dividendGain,
 			$dividendGainPercentage,
+			$dividendGainPercentagePerAnnum,
 			$fxImpact,
 			$fxImpactPercentage,
+			$fxImpactPercentagePerAnnum,
 			$return,
 			$returnPercentage,
+			$returnPercentagePerAnnum,
 		);
 	}
 

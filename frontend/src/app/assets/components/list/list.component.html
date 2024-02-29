@@ -103,19 +103,43 @@
                                 <td class="text-end">{{group.groupData.value | number:'1.2-2' | currency: defaultCurrency.id | async}}</td>
                                 <td class="text-end {{group.groupData.gain > 0 ? 'green' : (group.groupData.gain < 0 ? 'red' : '')}}">
                                     <div class="small">{{group.groupData.gain | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
-                                    <div>{{group.groupData.gainPercentage}}%</div>
+                                    <div>
+                                        @if (showPerAnnum) {
+                                            {{group.groupData.gainPercentagePerAnnum}}%&nbsp;p.a.
+                                        } @else {
+                                            {{group.groupData.gainPercentage}}%
+                                        }
+                                    </div>
                                 </td>
                                 <td class="text-end {{group.groupData.dividendGain > 0 ? 'green' : (group.groupData.dividendGain < 0 ? 'red' : '')}}">
                                     <div class="small">{{group.groupData.dividendGain | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
-                                    <div>{{group.groupData.dividendGainPercentage}}%</div>
+                                    <div>
+                                        @if (showPerAnnum) {
+                                            {{group.groupData.dividendGainPercentagePerAnnum}}%&nbsp;p.a.
+                                        } @else {
+                                            {{group.groupData.dividendGainPercentage}}%
+                                        }
+                                    </div>
                                 </td>
                                 <td class="text-end {{group.groupData.fxImpact > 0 ? 'green' : (group.groupData.fxImpact < 0 ? 'red' : '')}}">
                                     <div class="small">{{group.groupData.fxImpact | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
-                                    <div>{{group.groupData.fxImpactPercentage}}%</div>
+                                    <div>
+                                        @if (showPerAnnum) {
+                                            {{group.groupData.fxImpactPercentagePerAnnum}}%&nbsp;p.a.
+                                        } @else {
+                                            {{group.groupData.fxImpactPercentage}}%
+                                        }
+                                    </div>
                                 </td>
                                 <td class="text-end {{group.groupData.return > 0 ? 'green' : (group.groupData.return < 0 ? 'red' : '')}}">
                                     <div class="small"><strong>{{group.groupData.return | number:'1.2-2' | currency: defaultCurrency.id | async}}</strong></div>
-                                    <div><strong>{{group.groupData.returnPercentage}}%</strong></div>
+                                    <div>
+                                        @if (showPerAnnum) {
+                                            <strong>{{group.groupData.returnPercentagePerAnnum}}%&nbsp;p.a.</strong>
+                                        } @else {
+                                            <strong>{{group.groupData.returnPercentage}}%</strong>
+                                        }
+                                    </div>
                                 </td>
                             </tr>
                         </tbody>

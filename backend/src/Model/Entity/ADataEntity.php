@@ -23,20 +23,28 @@ class ADataEntity extends AEntity
 		protected string $transactionValue,
 		#[Column(type: 'decimal(11,2)')]
 		protected string $gain,
-		#[Column(type: 'float(4,2')]
+		#[Column(type: 'float')]
 		protected float $gainPercentage,
+		#[Column(type: 'float')]
+		protected float $gainPercentagePerAnnum,
 		#[Column(type: 'decimal(11,2)')]
 		protected string $dividendGain,
-		#[Column(type: 'float(4,2')]
+		#[Column(type: 'float')]
 		protected float $dividendGainPercentage,
+		#[Column(type: 'float')]
+		protected float $dividendGainPercentagePerAnnum,
 		#[Column(type: 'decimal(11,2)')]
 		protected string $fxImpact,
-		#[Column(type: 'float(4,2')]
+		#[Column(type: 'float')]
 		protected float $fxImpactPercentage,
+		#[Column(type: 'float')]
+		protected float $fxImpactPercentagePerAnnum,
 		#[Column(type: 'decimal(11,2)')]
 		protected string $return,
-		#[Column(type: 'float(4,2')]
+		#[Column(type: 'float')]
 		protected float $returnPercentage,
+		#[Column(type: 'float')]
+		protected float $returnPercentagePerAnnum,
 	) {
 	}
 
@@ -110,6 +118,16 @@ class ADataEntity extends AEntity
 		$this->gainPercentage = $gainPercentage;
 	}
 
+	public function getGainPercentagePerAnnum(): float
+	{
+		return $this->gainPercentagePerAnnum;
+	}
+
+	public function setGainPercentagePerAnnum(float $gainPercentagePerAnnum): void
+	{
+		$this->gainPercentagePerAnnum = $gainPercentagePerAnnum;
+	}
+
 	public function getDividendGain(): string
 	{
 		return $this->dividendGain;
@@ -128,6 +146,16 @@ class ADataEntity extends AEntity
 	public function setDividendGainPercentage(float $dividendGainPercentage): void
 	{
 		$this->dividendGainPercentage = $dividendGainPercentage;
+	}
+
+	public function getDividendGainPercentagePerAnnum(): float
+	{
+		return $this->dividendGainPercentagePerAnnum;
+	}
+
+	public function setDividendGainPercentagePerAnnum(float $dividendGainPercentagePerAnnum): void
+	{
+		$this->dividendGainPercentagePerAnnum = $dividendGainPercentagePerAnnum;
 	}
 
 	public function getFxImpact(): string
@@ -150,6 +178,16 @@ class ADataEntity extends AEntity
 		$this->fxImpactPercentage = $fxImpactPercentage;
 	}
 
+	public function getFxImpactPercentagePerAnnum(): float
+	{
+		return $this->fxImpactPercentagePerAnnum;
+	}
+
+	public function setFxImpactPercentagePerAnnum(float $fxImpactPercentagePerAnnum): void
+	{
+		$this->fxImpactPercentagePerAnnum = $fxImpactPercentagePerAnnum;
+	}
+
 	public function getReturn(): string
 	{
 		return $this->return;
@@ -168,5 +206,15 @@ class ADataEntity extends AEntity
 	public function setReturnPercentage(float $returnPercentage): void
 	{
 		$this->returnPercentage = $returnPercentage;
+	}
+
+	public function getReturnPercentagePerAnnum(): float
+	{
+		return $this->returnPercentagePerAnnum;
+	}
+
+	public function setReturnPercentagePerAnnum(float $returnPercentagePerAnnum): void
+	{
+		$this->returnPercentagePerAnnum = $returnPercentagePerAnnum;
 	}
 }

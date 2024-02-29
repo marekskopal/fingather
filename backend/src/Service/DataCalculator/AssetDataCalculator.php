@@ -14,12 +14,11 @@ use FinGather\Service\Provider\ExchangeRateProvider;
 use FinGather\Service\Provider\SplitProvider;
 use FinGather\Service\Provider\TickerDataProvider;
 use FinGather\Service\Provider\TransactionProvider;
+use FinGather\Utils\CalculatorUtils;
 use Safe\DateTimeImmutable;
 
 class AssetDataCalculator
 {
-	private const int DaysInYear = 365;
-
 	public function __construct(
 		private readonly TransactionProvider $transactionProvider,
 		private readonly SplitProvider $splitProvider,
@@ -124,12 +123,12 @@ class AssetDataCalculator
 		$dividendGainDefaultCurrency = $dividendTotal->mul($exchangeRateDecimal);
 		$fxImpact = $transactionValue->mul($exchangeRateDecimal)->sub($transactionValueDefaultCurrency);
 
-		$gainPercentage = $this->toPercentage($gain, $transactionValue);
-		$gainPercentagePerAnnum = $this->toPercentagePerAnnum($gainPercentage, $fromFirstTransactionDays);
-		$dividendGainPercentage = $this->toPercentage($dividendTotal, $transactionValue);
-		$dividendGainPercentagePerAnnum = $this->toPercentagePerAnnum($dividendGainPercentage, $fromFirstTransactionDays);
-		$fxImpactPercentage = $this->toPercentage($fxImpact, $transactionValueDefaultCurrency);
-		$fxImpactPercentagePerAnnum = $this->toPercentagePerAnnum($fxImpactPercentage, $fromFirstTransactionDays);
+		$gainPercentage = CalculatorUtils::toPercentage($gain, $transactionValue);
+		$gainPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($gainPercentage, $fromFirstTransactionDays);
+		$dividendGainPercentage = CalculatorUtils::toPercentage($dividendTotal, $transactionValue);
+		$dividendGainPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($dividendGainPercentage, $fromFirstTransactionDays);
+		$fxImpactPercentage = CalculatorUtils::toPercentage($fxImpact, $transactionValueDefaultCurrency);
+		$fxImpactPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($fxImpactPercentage, $fromFirstTransactionDays);
 
 		return new AssetPropertiesDto(
 			price: $price,
@@ -150,28 +149,7 @@ class AssetDataCalculator
 			return: $gainDefaultCurrency->add($dividendGainDefaultCurrency)->add($fxImpact),
 			returnPercentage: round($gainPercentage + $dividendGainPercentage + $fxImpactPercentage, 2),
 			returnPercentagePerAnnum: round($gainPercentagePerAnnum + $dividendGainPercentagePerAnnum + $fxImpactPercentagePerAnnum, 2),
+			firstTransactionActionCreated: $firstTransaction->getActionCreated(),
 		);
-	}
-
-	private function toPercentage(Decimal $value, Decimal $total): float
-	{
-		if ($total->compareTo(0) === 0) {
-			return 0.0;
-		}
-
-		return round($value->div($total)->mul(100)->toFloat(), 2);
-	}
-
-	private function toPercentagePerAnnum(float $percentage, int $days): float
-	{
-		if ($percentage === 0.0) {
-			return 0.0;
-		}
-
-		if ($days < self::DaysInYear) {
-			$days = self::DaysInYear;
-		}
-
-		return round($percentage / ($days / self::DaysInYear), 2);
 	}
 }
