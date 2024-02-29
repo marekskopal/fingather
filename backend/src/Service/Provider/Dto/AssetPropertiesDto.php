@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Provider\Dto;
 
+use DateTimeImmutable;
 use Decimal\Decimal;
 
 readonly class AssetPropertiesDto
@@ -27,6 +28,7 @@ readonly class AssetPropertiesDto
 		public Decimal $return,
 		public float $returnPercentage,
 		public float $returnPercentagePerAnnum,
+		public DateTimeImmutable $firstTransactionActionCreated,
 	) {
 	}
 }

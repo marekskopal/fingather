@@ -10,6 +10,7 @@ use FinGather\Model\Entity\User;
 use FinGather\Service\DataCalculator\Dto\YearCalculatedDataDto;
 use FinGather\Service\Provider\PortfolioDataProvider;
 use FinGather\Service\Provider\TransactionProvider;
+use FinGather\Utils\CalculatorUtils;
 use Safe\DateTimeImmutable;
 
 class OverviewDataCalculator
@@ -47,6 +48,8 @@ class OverviewDataCalculator
 				$this->portfolioDataProvider->getPortfolioData($user, $portfolio, $yearToDate),
 			);
 
+			$fromFirstTransactionDays = (int) $yearToDate->diff($firstTransaction->getActionCreated())->days;
+
 			if ($i === $fromDateYear) {
 				$yearCalculatedData[$i] = new YearCalculatedDataDto(
 					year: $i,
@@ -54,12 +57,16 @@ class OverviewDataCalculator
 					transactionValue: $portfolioDataToDate->transactionValue,
 					gain: $portfolioDataToDate->gain,
 					gainPercentage: $portfolioDataToDate->gainPercentage,
+					gainPercentagePerAnnum: $portfolioDataToDate->gainPercentagePerAnnum,
 					dividendGain: $portfolioDataToDate->dividendGain,
 					dividendGainPercentage: $portfolioDataToDate->dividendGainPercentage,
+					dividendGainPercentagePerAnnum: $portfolioDataToDate->dividendGainPercentagePerAnnum,
 					fxImpact: $portfolioDataToDate->fxImpact,
 					fxImpactPercentage: $portfolioDataToDate->fxImpactPercentage,
+					fxImpactPercentagePerAnnum: $portfolioDataToDate->fxImpactPercentagePerAnnum,
 					return: $portfolioDataToDate->return,
 					returnPercentage: $portfolioDataToDate->returnPercentage,
+					returnPercentagePerAnnum: $portfolioDataToDate->returnPercentagePerAnnum,
 				);
 				continue;
 			}
@@ -74,9 +81,12 @@ class OverviewDataCalculator
 			$fxImpact = $portfolioDataToDate->fxImpact->sub($portfolioDataFromDate->fxImpact);
 			$return = $portfolioDataToDate->return->sub($portfolioDataFromDate->return);
 
-			$gainPercentage = round($gain->div($investSum)->mul(100)->toFloat(), 2);
-			$dividendGainPercentage = round($dividendGain->div($investSum)->mul(100)->toFloat(), 2);
-			$fxImpactPercentage = round($fxImpact->div($investSum)->mul(100)->toFloat(), 2);
+			$gainPercentage = CalculatorUtils::toPercentage($gain, $investSum);
+			$gainPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($gainPercentage, $fromFirstTransactionDays);
+			$dividendGainPercentage = CalculatorUtils::toPercentage($dividendGain, $investSum);
+			$dividendGainPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($dividendGainPercentage, $fromFirstTransactionDays);
+			$fxImpactPercentage = CalculatorUtils::toPercentage($fxImpact, $investSum);
+			$fxImpactPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($fxImpactPercentage, $fromFirstTransactionDays);
 
 			$yearCalculatedData[$i] = new YearCalculatedDataDto(
 				year: $i,
@@ -84,12 +94,16 @@ class OverviewDataCalculator
 				transactionValue: $transactionValue,
 				gain: $gain,
 				gainPercentage: $gainPercentage,
+				gainPercentagePerAnnum: $gainPercentagePerAnnum,
 				dividendGain: $dividendGain,
 				dividendGainPercentage: $dividendGainPercentage,
+				dividendGainPercentagePerAnnum: $dividendGainPercentagePerAnnum,
 				fxImpact: $fxImpact,
 				fxImpactPercentage: $fxImpactPercentage,
+				fxImpactPercentagePerAnnum: $fxImpactPercentagePerAnnum,
 				return: $return,
 				returnPercentage: round($gainPercentage + $dividendGainPercentage + $fxImpactPercentage, 2),
+				returnPercentagePerAnnum: round($gainPercentagePerAnnum + $dividendGainPercentagePerAnnum + $fxImpactPercentagePerAnnum, 2),
 			);
 		}
 

@@ -19,6 +19,7 @@ class PortfolioDataProvider
 		private readonly PortfolioDataRepository $portfolioDataRepository,
 		private readonly DataCalculator $dataCalculator,
 		private readonly AssetProvider $assetProvider,
+		private readonly TransactionProvider $transactionProvider,
 	) {
 	}
 
@@ -43,7 +44,12 @@ class PortfolioDataProvider
 			$assetDtos[] = AssetWithPropertiesDto::fromEntity($asset, $assetProperties);
 		}
 
-		$calculatedData = $this->dataCalculator->calculate($assetDtos);
+		$fistTransactionActionCreated = $this->transactionProvider->getFirstTransaction(
+			$user,
+			$portfolio,
+		)?->getActionCreated() ?? $dateTime;
+
+		$calculatedData = $this->dataCalculator->calculate($assetDtos, $dateTime, $fistTransactionActionCreated);
 
 		$portfolioData = new PortfolioData(
 			user: $user,
@@ -53,12 +59,16 @@ class PortfolioDataProvider
 			transactionValue: (string) $calculatedData->transactionValue,
 			gain: (string) $calculatedData->gain,
 			gainPercentage: $calculatedData->gainPercentage,
+			gainPercentagePerAnnum: $calculatedData->gainPercentagePerAnnum,
 			dividendGain: (string) $calculatedData->dividendGain,
 			dividendGainPercentage: $calculatedData->dividendGainPercentage,
+			dividendGainPercentagePerAnnum: $calculatedData->dividendGainPercentagePerAnnum,
 			fxImpact: (string) $calculatedData->fxImpact,
 			fxImpactPercentage: $calculatedData->fxImpactPercentage,
+			fxImpactPercentagePerAnnum: $calculatedData->fxImpactPercentagePerAnnum,
 			return: (string) $calculatedData->return,
 			returnPercentage: $calculatedData->returnPercentage,
+			returnPercentagePerAnnum: $calculatedData->returnPercentagePerAnnum,
 		);
 
 		try {

@@ -29,6 +29,9 @@
                     <div>
                         {{portfolioData.gainPercentage | number:'1.2-2'}}%
                     </div>
+                    <div>
+                        {{portfolioData.gainPercentagePerAnnum | number:'1.2-2'}}%&nbsp;p.a.
+                    </div>
                 </div>
             } @else {
                 <div class="card-body text-center">
@@ -51,6 +54,9 @@
                     <div>
                         {{portfolioData.dividendGainPercentage | number:'1.2-2'}}%
                     </div>
+                    <div>
+                        {{portfolioData.dividendGainPercentagePerAnnum | number:'1.2-2'}}%&nbsp;p.a.
+                    </div>
                 </div>
             } @else {
                 <div class="card-body text-center">
@@ -72,6 +78,9 @@
                     </div>
                     <div>
                         {{portfolioData.fxImpactPercentage | number:'1.2-2'}}%
+                    </div>
+                    <div>
+                        {{portfolioData.fxImpactPercentagePerAnnum | number:'1.2-2'}}%&nbsp;p.a.
                     </div>
                 </div>
             } @else {

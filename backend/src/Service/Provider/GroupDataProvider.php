@@ -34,6 +34,8 @@ class GroupDataProvider
 
 		$assetDtos = [];
 
+		$firstTransactionActionCreated = $dateTime;
+
 		$assets = $this->assetProvider->getOpenAssetsByGroup($group, $user, $portfolio, $dateTime);
 		foreach ($assets as $asset) {
 			$assetProperties = $this->assetProvider->getAssetProperties($user, $portfolio, $asset, $dateTime);
@@ -41,10 +43,14 @@ class GroupDataProvider
 				continue;
 			}
 
+			if ($firstTransactionActionCreated > $assetProperties->firstTransactionActionCreated) {
+				$firstTransactionActionCreated = $assetProperties->firstTransactionActionCreated;
+			}
+
 			$assetDtos[] = AssetWithPropertiesDto::fromEntity($asset, $assetProperties);
 		}
 
-		$calculatedData = $this->dataCalculator->calculate($assetDtos);
+		$calculatedData = $this->dataCalculator->calculate($assetDtos, $dateTime, $firstTransactionActionCreated);
 
 		$groupData = new GroupData(
 			group: $group,
@@ -55,12 +61,16 @@ class GroupDataProvider
 			transactionValue: (string) $calculatedData->transactionValue,
 			gain: (string) $calculatedData->gain,
 			gainPercentage: $calculatedData->gainPercentage,
+			gainPercentagePerAnnum: $calculatedData->gainPercentagePerAnnum,
 			dividendGain: (string) $calculatedData->dividendGain,
 			dividendGainPercentage: $calculatedData->dividendGainPercentage,
+			dividendGainPercentagePerAnnum: $calculatedData->dividendGainPercentagePerAnnum,
 			fxImpact: (string) $calculatedData->fxImpact,
 			fxImpactPercentage: $calculatedData->fxImpactPercentage,
+			fxImpactPercentagePerAnnum: $calculatedData->fxImpactPercentagePerAnnum,
 			return: (string) $calculatedData->return,
 			returnPercentage: $calculatedData->returnPercentage,
+			returnPercentagePerAnnum: $calculatedData->returnPercentagePerAnnum,
 		);
 
 		try {

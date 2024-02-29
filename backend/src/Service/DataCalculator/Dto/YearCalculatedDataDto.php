@@ -14,24 +14,32 @@ final readonly class YearCalculatedDataDto extends CalculatedDataDto
 		Decimal $transactionValue,
 		Decimal $gain,
 		float $gainPercentage,
+		float $gainPercentagePerAnnum,
 		Decimal $dividendGain,
 		float $dividendGainPercentage,
+		float $dividendGainPercentagePerAnnum,
 		Decimal $fxImpact,
 		float $fxImpactPercentage,
+		float $fxImpactPercentagePerAnnum,
 		Decimal $return,
 		float $returnPercentage,
+		float $returnPercentagePerAnnum,
 	) {
 		parent::__construct(
 			$value,
 			$transactionValue,
 			$gain,
 			$gainPercentage,
+			$gainPercentagePerAnnum,
 			$dividendGain,
 			$dividendGainPercentage,
+			$dividendGainPercentagePerAnnum,
 			$fxImpact,
 			$fxImpactPercentage,
+			$fxImpactPercentagePerAnnum,
 			$return,
 			$returnPercentage,
+			$returnPercentagePerAnnum,
 		);
 	}
 }

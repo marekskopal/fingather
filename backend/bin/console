@@ -5,6 +5,7 @@ declare(strict_types=1);
 
 require __DIR__ . '/../vendor/autoload.php';
 
+use FinGather\Command\CacheClearCommand;
 use FinGather\Command\ExchangeRateUpdateCommand;
 use FinGather\Command\MigrationGenerateCommand;
 use FinGather\Command\MigrationRunCommand;
@@ -16,6 +17,7 @@ use Symfony\Component\Console\Application;
 
 $application = new Application();
 
+$application->add(new CacheClearCommand());
 $application->add(new ExchangeRateUpdateCommand());
 $application->add(new MigrationGenerateCommand());
 $application->add(new MigrationRunCommand());
