@@ -7,48 +7,50 @@
     </div>
 </div>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th style="width: 16%">{{ 'app.overviews.list.year' | translate }}</th>
-            <th style="width: 14%">{{ 'app.overviews.list.value' | translate }}</th>
-            <th style="width: 14%">{{ 'app.overviews.list.transactionValue' | translate }}</th>
-            <th style="width: 14%">{{ 'app.overviews.list.gain' | translate }}</th>
-            <th style="width: 14%">{{ 'app.overviews.list.dividend' | translate }}</th>
-            <th style="width: 14%">{{ 'app.overviews.list.fxImpact' | translate }}</th>
-            <th style="width: 14%"><strong>{{ 'app.overviews.list.return' | translate }}</strong></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let yearCalculatedData of yearCalculatedDatas">
-            <td>{{yearCalculatedData.year}}</td>
-            <td class="text-end">{{yearCalculatedData.value | number:'1.2-2' | currency: defaultCurrency.id | async}}</td>
-            <td class="text-end">{{yearCalculatedData.transactionValue | number:'1.2-2' | currency: defaultCurrency.id | async}}</td>
-            <td class="text-end" style="color:{{yearCalculatedData.gain > 0 ? 'green' : (yearCalculatedData.gain < 0 ? 'red' : '')}}">
-                <div class="small">{{yearCalculatedData.gain | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
-                <div>{{yearCalculatedData.gainPercentage}}%</div>
-                <div>{{yearCalculatedData.gainPercentagePerAnnum}}%&nbsp;p.a.</div>
-            </td>
-            <td class="text-end" style="color:{{yearCalculatedData.dividendGain > 0 ? 'green' : (yearCalculatedData.dividendGain < 0 ? 'red' : '')}}">
-                <div class="small">{{yearCalculatedData.dividendGain | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
-                <div>{{yearCalculatedData.dividendGainPercentage}}%</div>
-                <div>{{yearCalculatedData.dividendGainPercentagePerAnnum}}%&nbsp;p.a.</div>
-            </td>
-            <td class="text-end" style="color:{{yearCalculatedData.fxImpact > 0 ? 'green' : (yearCalculatedData.fxImpact < 0 ? 'red' : '')}}">
-                <div class="small">{{yearCalculatedData.fxImpact | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
-                <div>{{yearCalculatedData.fxImpactPercentage}}%</div>
-                <div>{{yearCalculatedData.fxImpactPercentagePerAnnum}}%&nbsp;p.a.</div>
-            </td>
-            <td class="text-end" style="color:{{yearCalculatedData.return > 0 ? 'green' : (yearCalculatedData.return < 0 ? 'red' : '')}}">
-                <div class="small"><strong>{{yearCalculatedData.return | number:'1.2-2' | currency: defaultCurrency.id | async}}</strong></div>
-                <div><strong>{{yearCalculatedData.returnPercentage}}%</strong></div>
-                <div><strong>{{yearCalculatedData.returnPercentagePerAnnum}}%&nbsp;p.a.</strong></div>
-            </td>
-        </tr>
-        <tr *ngIf="yearCalculatedDatas === null">
-            <td colspan="7" class="text-center">
-                <span class="spinner-border spinner-border-lg align-center"></span>
-            </td>
-        </tr>
-    </tbody>
-</table>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th style="width: 16%">{{ 'app.overviews.list.year' | translate }}</th>
+                <th style="width: 14%">{{ 'app.overviews.list.value' | translate }}</th>
+                <th style="width: 14%">{{ 'app.overviews.list.transactionValue' | translate }}</th>
+                <th style="width: 14%">{{ 'app.overviews.list.gain' | translate }}</th>
+                <th style="width: 14%">{{ 'app.overviews.list.dividend' | translate }}</th>
+                <th style="width: 14%">{{ 'app.overviews.list.fxImpact' | translate }}</th>
+                <th style="width: 14%"><strong>{{ 'app.overviews.list.return' | translate }}</strong></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let yearCalculatedData of yearCalculatedDatas">
+                <td>{{yearCalculatedData.year}}</td>
+                <td class="text-end">{{yearCalculatedData.value | number:'1.2-2' | currency: defaultCurrency.id | async}}</td>
+                <td class="text-end">{{yearCalculatedData.transactionValue | number:'1.2-2' | currency: defaultCurrency.id | async}}</td>
+                <td class="text-end" style="color:{{yearCalculatedData.gain > 0 ? 'green' : (yearCalculatedData.gain < 0 ? 'red' : '')}}">
+                    <div class="small">{{yearCalculatedData.gain | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
+                    <div>{{yearCalculatedData.gainPercentage}}%</div>
+                    <div>{{yearCalculatedData.gainPercentagePerAnnum}}%&nbsp;p.a.</div>
+                </td>
+                <td class="text-end" style="color:{{yearCalculatedData.dividendGain > 0 ? 'green' : (yearCalculatedData.dividendGain < 0 ? 'red' : '')}}">
+                    <div class="small">{{yearCalculatedData.dividendGain | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
+                    <div>{{yearCalculatedData.dividendGainPercentage}}%</div>
+                    <div>{{yearCalculatedData.dividendGainPercentagePerAnnum}}%&nbsp;p.a.</div>
+                </td>
+                <td class="text-end" style="color:{{yearCalculatedData.fxImpact > 0 ? 'green' : (yearCalculatedData.fxImpact < 0 ? 'red' : '')}}">
+                    <div class="small">{{yearCalculatedData.fxImpact | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
+                    <div>{{yearCalculatedData.fxImpactPercentage}}%</div>
+                    <div>{{yearCalculatedData.fxImpactPercentagePerAnnum}}%&nbsp;p.a.</div>
+                </td>
+                <td class="text-end" style="color:{{yearCalculatedData.return > 0 ? 'green' : (yearCalculatedData.return < 0 ? 'red' : '')}}">
+                    <div class="small"><strong>{{yearCalculatedData.return | number:'1.2-2' | currency: defaultCurrency.id | async}}</strong></div>
+                    <div><strong>{{yearCalculatedData.returnPercentage}}%</strong></div>
+                    <div><strong>{{yearCalculatedData.returnPercentagePerAnnum}}%&nbsp;p.a.</strong></div>
+                </td>
+            </tr>
+            <tr *ngIf="yearCalculatedDatas === null">
+                <td colspan="7" class="text-center">
+                    <span class="spinner-border spinner-border-lg align-center"></span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
