@@ -11,38 +11,40 @@
         <a routerLink="import" class="btn btn-sm btn-info"><fa-icon icon="file-import"></fa-icon> {{ 'app.transactions.list.import' | translate }}</a>
     </div>
 </div>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th style="width: 16%">{{ 'app.transactions.list.date' | translate }}</th>
-            <th style="width: 14%">{{ 'app.transactions.list.created' | translate }}</th>
-            <th style="width: 14%">{{ 'app.transactions.list.type' | translate }}</th>
-            <th style="width: 20%"></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let transaction of transactionList?.transactions">
-            <td>{{transaction.actionCreated | amFromUtc | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm'}}</td>
-            <td>{{transaction.created | amFromUtc | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm'}}</td>
-            <td>{{transaction.actionType}}</td>
-            <td class="text-end" style="white-space: nowrap">
-                <a (click)="editTransaction(transaction.id)" class="btn btn-sm btn-primary me-2" tabindex="0"><fa-icon icon="edit"></fa-icon> {{ 'app.common.edit' | translate }}</a>
-                <button (click)="deleteTransaction(transaction.id)" class="btn btn-sm btn-danger btn-delete-user" [disabled]="transaction.isDeleting">
-                    @if (transaction.isDeleting) {
-                        <span class="spinner-border spinner-border-sm"></span>
-                    } @else {
-                        <span><fa-icon icon="trash"></fa-icon> {{ 'app.common.delete' | translate }}</span>
-                    }
-                </button>
-            </td>
-        </tr>
-        <tr *ngIf="transactionList === null">
-            <td colspan="7" class="text-center">
-                <span class="spinner-border spinner-border-lg align-center"></span>
-            </td>
-        </tr>
-    </tbody>
-</table>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th style="width: 16%">{{ 'app.transactions.list.date' | translate }}</th>
+                <th style="width: 14%">{{ 'app.transactions.list.created' | translate }}</th>
+                <th style="width: 14%">{{ 'app.transactions.list.type' | translate }}</th>
+                <th style="width: 20%"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let transaction of transactionList?.transactions">
+                <td>{{transaction.actionCreated | amFromUtc | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm'}}</td>
+                <td>{{transaction.created | amFromUtc | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm'}}</td>
+                <td>{{transaction.actionType}}</td>
+                <td class="text-end" style="white-space: nowrap">
+                    <a (click)="editTransaction(transaction.id)" class="btn btn-sm btn-primary me-2" tabindex="0"><fa-icon icon="edit"></fa-icon> {{ 'app.common.edit' | translate }}</a>
+                    <button (click)="deleteTransaction(transaction.id)" class="btn btn-sm btn-danger btn-delete-user" [disabled]="transaction.isDeleting">
+                        @if (transaction.isDeleting) {
+                            <span class="spinner-border spinner-border-sm"></span>
+                        } @else {
+                            <span><fa-icon icon="trash"></fa-icon> {{ 'app.common.delete' | translate }}</span>
+                        }
+                    </button>
+                </td>
+            </tr>
+            <tr *ngIf="transactionList === null">
+                <td colspan="7" class="text-center">
+                    <span class="spinner-border spinner-border-lg align-center"></span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 
 <div class="d-flex justify-content-between p-2">
     <ngb-pagination

@@ -27,8 +27,129 @@
 
             @if (openedGroupedAssets !== null) {
                 <div *ngFor="let group of openedGroupedAssets">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <caption *ngIf="group.id !== null">{{group.name}}</caption>
+                            <thead>
+                                <tr>
+                                    <th style="width: 24%">{{ 'app.assets.list.name' | translate }}</th>
+                                    <th style="width: 9.5%">{{ 'app.assets.list.price' | translate }}</th>
+                                    <th style="width: 9.5%">{{ 'app.assets.list.units' | translate }}</th>
+                                    <th style="width: 9.5%">{{ 'app.assets.list.value' | translate }}</th>
+                                    <th style="width: 9.5%">{{ 'app.assets.list.gain' | translate }}</th>
+                                    <th style="width: 9.5%">{{ 'app.assets.list.dividend' | translate }}</th>
+                                    <th style="width: 9.5%">{{ 'app.assets.list.fxImpact' | translate }}</th>
+                                    <th style="width: 9.5%"><strong>{{ 'app.assets.list.return' | translate }}</strong></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let asset of group.assets">
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <fingather-ticker-logo [ticker]="asset.ticker" />
+                                            <div>
+                                                <div><strong>{{asset.ticker.ticker}}</strong></div>
+                                                <div>{{asset.ticker.name}}</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">{{asset.price | number:'1.2-2' | currency: asset.ticker.currencyId | async}}</td>
+                                    <td>{{asset.units | number:'1.0-8'}}</td>
+                                    <td class="text-end">{{asset.value | number:'1.2-2' | currency: defaultCurrency.id | async}}</td>
+                                    <td class="text-end {{asset.gain > 0 ? 'green' : (asset.gain < 0 ? 'red' : '')}}">
+                                        <div class="small">{{asset.gainDefaultCurrency | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
+                                        <div>
+                                            @if (showPerAnnum) {
+                                                {{asset.gainPercentagePerAnnum}}%&nbsp;p.a.
+                                            } @else {
+                                                {{asset.gainPercentage}}%
+                                            }
+                                        </div>
+                                    </td>
+                                    <td class="text-end {{asset.dividendGain > 0 ? 'green' : (asset.dividendGain < 0 ? 'red' : '')}}">
+                                        <div class="small">{{asset.dividendGainDefaultCurrency | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
+                                        <div>
+                                            @if (showPerAnnum) {
+                                                {{asset.dividendGainPercentagePerAnnum}}%&nbsp;p.a.
+                                            } @else {
+                                                {{asset.dividendGainPercentage}}%
+                                            }
+                                        </div>
+                                    </td>
+                                    <td class="text-end {{asset.fxImpact > 0 ? 'green' : (asset.fxImpact < 0 ? 'red' : '')}}">
+                                        <div class="small">{{asset.fxImpact | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
+                                        <div>
+                                            @if (showPerAnnum) {
+                                                {{asset.fxImpactPercentagePerAnnum}}%&nbsp;p.a.
+                                            } @else {
+                                                {{asset.fxImpactPercentage}}%
+                                            }
+                                        </div>
+                                    </td>
+                                    <td class="text-end {{asset.return > 0 ? 'green' : (asset.return < 0 ? 'red' : '')}}">
+                                        <div class="small"><strong>{{asset.return | number:'1.2-2' | currency: defaultCurrency.id | async}}</strong></div>
+                                        <div>
+                                            @if (showPerAnnum) {
+                                                <strong>{{asset.returnPercentagePerAnnum}}%&nbsp;p.a.</strong>
+                                            } @else {
+                                                <strong>{{asset.returnPercentage}}%</strong>
+                                            }
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>{{ 'app.assets.list.total' | translate }} {{group.percentage | number:'1.2-2'}}%</strong></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="text-end">{{group.groupData.value | number:'1.2-2' | currency: defaultCurrency.id | async}}</td>
+                                    <td class="text-end {{group.groupData.gain > 0 ? 'green' : (group.groupData.gain < 0 ? 'red' : '')}}">
+                                        <div class="small">{{group.groupData.gain | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
+                                        <div>
+                                            @if (showPerAnnum) {
+                                                {{group.groupData.gainPercentagePerAnnum}}%&nbsp;p.a.
+                                            } @else {
+                                                {{group.groupData.gainPercentage}}%
+                                            }
+                                        </div>
+                                    </td>
+                                    <td class="text-end {{group.groupData.dividendGain > 0 ? 'green' : (group.groupData.dividendGain < 0 ? 'red' : '')}}">
+                                        <div class="small">{{group.groupData.dividendGain | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
+                                        <div>
+                                            @if (showPerAnnum) {
+                                                {{group.groupData.dividendGainPercentagePerAnnum}}%&nbsp;p.a.
+                                            } @else {
+                                                {{group.groupData.dividendGainPercentage}}%
+                                            }
+                                        </div>
+                                    </td>
+                                    <td class="text-end {{group.groupData.fxImpact > 0 ? 'green' : (group.groupData.fxImpact < 0 ? 'red' : '')}}">
+                                        <div class="small">{{group.groupData.fxImpact | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
+                                        <div>
+                                            @if (showPerAnnum) {
+                                                {{group.groupData.fxImpactPercentagePerAnnum}}%&nbsp;p.a.
+                                            } @else {
+                                                {{group.groupData.fxImpactPercentage}}%
+                                            }
+                                        </div>
+                                    </td>
+                                    <td class="text-end {{group.groupData.return > 0 ? 'green' : (group.groupData.return < 0 ? 'red' : '')}}">
+                                        <div class="small"><strong>{{group.groupData.return | number:'1.2-2' | currency: defaultCurrency.id | async}}</strong></div>
+                                        <div>
+                                            @if (showPerAnnum) {
+                                                <strong>{{group.groupData.returnPercentagePerAnnum}}%&nbsp;p.a.</strong>
+                                            } @else {
+                                                <strong>{{group.groupData.returnPercentage}}%</strong>
+                                            }
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            } @else if (openedAssets !== null) {
+                <div class="table-responsive">
                     <table class="table table-striped">
-                        <caption *ngIf="group.id !== null">{{group.name}}</caption>
                         <thead>
                             <tr>
                                 <th style="width: 24%">{{ 'app.assets.list.name' | translate }}</th>
@@ -39,11 +160,12 @@
                                 <th style="width: 9.5%">{{ 'app.assets.list.dividend' | translate }}</th>
                                 <th style="width: 9.5%">{{ 'app.assets.list.fxImpact' | translate }}</th>
                                 <th style="width: 9.5%"><strong>{{ 'app.assets.list.return' | translate }}</strong></th>
+                                <th style="width: 9.5%"></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let asset of group.assets">
-                                <td>
+                            <tr *ngFor="let asset of openedAssets">
+                                <td class="align-middle">
                                     <div class="d-flex align-items-center">
                                         <fingather-ticker-logo [ticker]="asset.ticker" />
                                         <div>
@@ -52,9 +174,9 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="text-end">{{asset.price | number:'1.2-2' | currency: asset.ticker.currencyId | async}}</td>
-                                <td>{{asset.units | number:'1.0-8'}}</td>
-                                <td class="text-end">{{asset.value | number:'1.2-2' | currency: defaultCurrency.id | async}}</td>
+                                <td class="align-middle text-end">{{asset.price | number:'1.2-2' | currency: asset.ticker.currencyId | async}}</td>
+                                <td class="align-middle">{{asset.units | number:'1.0-8'}}</td>
+                                <td class="align-middle text-end">{{asset.value | number:'1.2-2' | currency: defaultCurrency.id | async}}</td>
                                 <td class="text-end {{asset.gain > 0 ? 'green' : (asset.gain < 0 ? 'red' : '')}}">
                                     <div class="small">{{asset.gainDefaultCurrency | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
                                     <div>
@@ -95,73 +217,32 @@
                                         }
                                     </div>
                                 </td>
-                            </tr>
-                            <tr>
-                                <td><strong>{{ 'app.assets.list.total' | translate }} {{group.percentage | number:'1.2-2'}}%</strong></td>
-                                <td></td>
-                                <td></td>
-                                <td class="text-end">{{group.groupData.value | number:'1.2-2' | currency: defaultCurrency.id | async}}</td>
-                                <td class="text-end {{group.groupData.gain > 0 ? 'green' : (group.groupData.gain < 0 ? 'red' : '')}}">
-                                    <div class="small">{{group.groupData.gain | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
-                                    <div>
-                                        @if (showPerAnnum) {
-                                            {{group.groupData.gainPercentagePerAnnum}}%&nbsp;p.a.
-                                        } @else {
-                                            {{group.groupData.gainPercentage}}%
-                                        }
-                                    </div>
-                                </td>
-                                <td class="text-end {{group.groupData.dividendGain > 0 ? 'green' : (group.groupData.dividendGain < 0 ? 'red' : '')}}">
-                                    <div class="small">{{group.groupData.dividendGain | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
-                                    <div>
-                                        @if (showPerAnnum) {
-                                            {{group.groupData.dividendGainPercentagePerAnnum}}%&nbsp;p.a.
-                                        } @else {
-                                            {{group.groupData.dividendGainPercentage}}%
-                                        }
-                                    </div>
-                                </td>
-                                <td class="text-end {{group.groupData.fxImpact > 0 ? 'green' : (group.groupData.fxImpact < 0 ? 'red' : '')}}">
-                                    <div class="small">{{group.groupData.fxImpact | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
-                                    <div>
-                                        @if (showPerAnnum) {
-                                            {{group.groupData.fxImpactPercentagePerAnnum}}%&nbsp;p.a.
-                                        } @else {
-                                            {{group.groupData.fxImpactPercentage}}%
-                                        }
-                                    </div>
-                                </td>
-                                <td class="text-end {{group.groupData.return > 0 ? 'green' : (group.groupData.return < 0 ? 'red' : '')}}">
-                                    <div class="small"><strong>{{group.groupData.return | number:'1.2-2' | currency: defaultCurrency.id | async}}</strong></div>
-                                    <div>
-                                        @if (showPerAnnum) {
-                                            <strong>{{group.groupData.returnPercentagePerAnnum}}%&nbsp;p.a.</strong>
-                                        } @else {
-                                            <strong>{{group.groupData.returnPercentage}}%</strong>
-                                        }
-                                    </div>
+                                <td class="align-middle text-end" style="white-space: nowrap">
+                                    <a routerLink="{{asset.id}}" class="btn btn-sm btn-primary mr-1"><fa-icon icon="expand"></fa-icon> {{ 'app.assets.list.detail' | translate }}</a>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-            } @else if (openedAssets !== null) {
+            } @else {
+                <span class="spinner-border spinner-border-lg align-center"></span>
+            }
+        </ng-template>
+    </li>
+    <li [ngbNavItem]="'closed-positions'">
+        <button ngbNavLink><span class="h4">{{ 'app.assets.list.closedPositions' | translate }}</span></button>
+        <ng-template ngbNavContent>
+            <div class="table-responsive">
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th style="width: 24%">{{ 'app.assets.list.name' | translate }}</th>
-                            <th style="width: 9.5%">{{ 'app.assets.list.price' | translate }}</th>
-                            <th style="width: 9.5%">{{ 'app.assets.list.units' | translate }}</th>
-                            <th style="width: 9.5%">{{ 'app.assets.list.value' | translate }}</th>
-                            <th style="width: 9.5%">{{ 'app.assets.list.gain' | translate }}</th>
-                            <th style="width: 9.5%">{{ 'app.assets.list.dividend' | translate }}</th>
-                            <th style="width: 9.5%">{{ 'app.assets.list.fxImpact' | translate }}</th>
-                            <th style="width: 9.5%"><strong>{{ 'app.assets.list.return' | translate }}</strong></th>
-                            <th style="width: 9.5%"></th>
+                            <th style="width: 50%">{{ 'app.assets.list.name' | translate }}</th>
+                            <th style="width: 30%">{{ 'app.assets.list.price' | translate }}</th>
+                            <th style="width: 20%"></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let asset of openedAssets">
+                        <tr *ngFor="let asset of closedAssets">
                             <td class="align-middle">
                                 <div class="d-flex align-items-center">
                                     <fingather-ticker-logo [ticker]="asset.ticker" />
@@ -172,129 +253,56 @@
                                 </div>
                             </td>
                             <td class="align-middle text-end">{{asset.price | number:'1.2-2' | currency: asset.ticker.currencyId | async}}</td>
-                            <td class="align-middle">{{asset.units | number:'1.0-8'}}</td>
-                            <td class="align-middle text-end">{{asset.value | number:'1.2-2' | currency: defaultCurrency.id | async}}</td>
-                            <td class="text-end {{asset.gain > 0 ? 'green' : (asset.gain < 0 ? 'red' : '')}}">
-                                <div class="small">{{asset.gainDefaultCurrency | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
-                                <div>
-                                    @if (showPerAnnum) {
-                                        {{asset.gainPercentagePerAnnum}}%&nbsp;p.a.
-                                    } @else {
-                                        {{asset.gainPercentage}}%
-                                    }
-                                </div>
-                            </td>
-                            <td class="text-end {{asset.dividendGain > 0 ? 'green' : (asset.dividendGain < 0 ? 'red' : '')}}">
-                                <div class="small">{{asset.dividendGainDefaultCurrency | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
-                                <div>
-                                    @if (showPerAnnum) {
-                                        {{asset.dividendGainPercentagePerAnnum}}%&nbsp;p.a.
-                                    } @else {
-                                        {{asset.dividendGainPercentage}}%
-                                    }
-                                </div>
-                            </td>
-                            <td class="text-end {{asset.fxImpact > 0 ? 'green' : (asset.fxImpact < 0 ? 'red' : '')}}">
-                                <div class="small">{{asset.fxImpact | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
-                                <div>
-                                    @if (showPerAnnum) {
-                                        {{asset.fxImpactPercentagePerAnnum}}%&nbsp;p.a.
-                                    } @else {
-                                        {{asset.fxImpactPercentage}}%
-                                    }
-                                </div>
-                            </td>
-                            <td class="text-end {{asset.return > 0 ? 'green' : (asset.return < 0 ? 'red' : '')}}">
-                                <div class="small"><strong>{{asset.return | number:'1.2-2' | currency: defaultCurrency.id | async}}</strong></div>
-                                <div>
-                                    @if (showPerAnnum) {
-                                        <strong>{{asset.returnPercentagePerAnnum}}%&nbsp;p.a.</strong>
-                                    } @else {
-                                        <strong>{{asset.returnPercentage}}%</strong>
-                                    }
-                                </div>
-                            </td>
-                            <td class="align-middle text-end" style="white-space: nowrap">
+                            <td class="text-end" style="white-space: nowrap">
                                 <a routerLink="{{asset.id}}" class="btn btn-sm btn-primary mr-1"><fa-icon icon="expand"></fa-icon> {{ 'app.assets.list.detail' | translate }}</a>
+                            </td>
+                        </tr>
+                        <tr *ngIf="closedAssets === null">
+                            <td colspan="9" class="text-center">
+                                <span class="spinner-border spinner-border-lg align-center"></span>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-            } @else {
-                <span class="spinner-border spinner-border-lg align-center"></span>
-            }
-        </ng-template>
-    </li>
-    <li [ngbNavItem]="'closed-positions'">
-        <button ngbNavLink><span class="h4">{{ 'app.assets.list.closedPositions' | translate }}</span></button>
-        <ng-template ngbNavContent>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th style="width: 50%">{{ 'app.assets.list.name' | translate }}</th>
-                        <th style="width: 30%">{{ 'app.assets.list.price' | translate }}</th>
-                        <th style="width: 20%"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let asset of closedAssets">
-                        <td class="align-middle">
-                            <div class="d-flex align-items-center">
-                                <fingather-ticker-logo [ticker]="asset.ticker" />
-                                <div>
-                                    <div><strong>{{asset.ticker.ticker}}</strong></div>
-                                    <div>{{asset.ticker.name}}</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="align-middle text-end">{{asset.price | number:'1.2-2' | currency: asset.ticker.currencyId | async}}</td>
-                        <td class="text-end" style="white-space: nowrap">
-                            <a routerLink="{{asset.id}}" class="btn btn-sm btn-primary mr-1"><fa-icon icon="expand"></fa-icon> {{ 'app.assets.list.detail' | translate }}</a>
-                        </td>
-                    </tr>
-                    <tr *ngIf="closedAssets === null">
-                        <td colspan="9" class="text-center">
-                            <span class="spinner-border spinner-border-lg align-center"></span>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            </div>
         </ng-template>
     </li>
     <li [ngbNavItem]="'watch-list'">
         <button ngbNavLink><span class="h4">{{ 'app.assets.list.watchList' | translate }}</span></button>
         <ng-template ngbNavContent>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th style="width: 50%">{{ 'app.assets.list.name' | translate }}</th>
-                        <th style="width: 30%">{{ 'app.assets.list.price' | translate }}</th>
-                        <th style="width: 20%"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let asset of watchedAssets">
-                        <td class="align-middle">
-                            <div class="d-flex align-items-center">
-                                <fingather-ticker-logo [ticker]="asset.ticker" />
-                                <div>
-                                    <div><strong>{{asset.ticker.ticker}}</strong></div>
-                                    <div>{{asset.ticker.name}}</div>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th style="width: 50%">{{ 'app.assets.list.name' | translate }}</th>
+                            <th style="width: 30%">{{ 'app.assets.list.price' | translate }}</th>
+                            <th style="width: 20%"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let asset of watchedAssets">
+                            <td class="align-middle">
+                                <div class="d-flex align-items-center">
+                                    <fingather-ticker-logo [ticker]="asset.ticker" />
+                                    <div>
+                                        <div><strong>{{asset.ticker.ticker}}</strong></div>
+                                        <div>{{asset.ticker.name}}</div>
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                        <td class="align-middle text-end">{{asset.price | number:'1.2-2' | currency: asset.ticker.currencyId | async}}</td>
-                        <td class="text-end" style="white-space: nowrap">
-                            <a routerLink="{{asset.id}}" class="btn btn-sm btn-primary mr-1"><fa-icon icon="expand"></fa-icon> {{ 'app.assets.list.detail' | translate }}</a>
-                        </td>
-                    </tr>
-                    <tr *ngIf="watchedAssets === null">
-                        <td colspan="9" class="text-center">
-                            <span class="spinner-border spinner-border-lg align-center"></span>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                            </td>
+                            <td class="align-middle text-end">{{asset.price | number:'1.2-2' | currency: asset.ticker.currencyId | async}}</td>
+                            <td class="text-end" style="white-space: nowrap">
+                                <a routerLink="{{asset.id}}" class="btn btn-sm btn-primary mr-1"><fa-icon icon="expand"></fa-icon> {{ 'app.assets.list.detail' | translate }}</a>
+                            </td>
+                        </tr>
+                        <tr *ngIf="watchedAssets === null">
+                            <td colspan="9" class="text-center">
+                                <span class="spinner-border spinner-border-lg align-center"></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </ng-template>
     </li>
 </ul>
