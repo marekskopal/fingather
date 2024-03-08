@@ -6,6 +6,7 @@ namespace FinGather\Controller;
 
 use Decimal\Decimal;
 use FinGather\Dto\AssetDto;
+use FinGather\Dto\AssetsWithPropertiesDto;
 use FinGather\Dto\AssetWithPropertiesDto;
 use FinGather\Dto\TickerDto;
 use FinGather\Response\NotFoundResponse;
@@ -62,7 +63,7 @@ class AssetController
 		return new JsonResponse($assetDtos);
 	}
 
-	public function actionGetAssetsOpened(ServerRequestInterface $request, int $portfolioId): ResponseInterface
+	public function actionGetAssetsWithProperties(ServerRequestInterface $request, int $portfolioId): ResponseInterface
 	{
 		$user = $this->requestService->getUser($request);
 
@@ -76,80 +77,36 @@ class AssetController
 		}
 
 		$dateTime = new DateTimeImmutable();
-		$assets = $this->assetProvider->getOpenAssets($user, $portfolio, $dateTime);
+		$assets = $this->assetProvider->getAssets(user: $user, portfolio: $portfolio, dateTime: $dateTime);
 
-		$assetDtos = [];
+		$openAssets = [];
+		$closedAssets = [];
+		$watchedAssets = [];
 
 		foreach ($assets as $asset) {
 			$assetProperties = $this->assetProvider->getAssetProperties($user, $portfolio, $asset, $dateTime);
 			if ($assetProperties === null) {
+				$lastTickerData = $this->tickerDataProvider->getLastTickerData($asset->getTicker(), $dateTime);
+				assert($lastTickerData !== null);
+				$watchedAssets[] = AssetDto::fromEntity($asset, new Decimal($lastTickerData->getClose()));
+
 				continue;
 			}
 
-			$assetDtos[] = AssetWithPropertiesDto::fromEntity($asset, $assetProperties);
-		}
+			$assetDto = AssetWithPropertiesDto::fromEntity($asset, $assetProperties);
 
-		return new JsonResponse($assetDtos);
-	}
-
-	public function actionGetAssetsClosed(ServerRequestInterface $request, int $portfolioId): ResponseInterface
-	{
-		$user = $this->requestService->getUser($request);
-
-		if ($portfolioId < 1) {
-			return new NotFoundResponse('Portfolio id is required.');
-		}
-
-		$portfolio = $this->portfolioProvider->getPortfolio($user, $portfolioId);
-		if ($portfolio === null) {
-			return new NotFoundResponse('Portfolio with id "' . $portfolioId . '" was not found.');
-		}
-
-		$dateTime = new DateTimeImmutable();
-		$assets = $this->assetProvider->getClosedAssets($user, $portfolio, $dateTime);
-
-		$assetDtos = [];
-
-		foreach ($assets as $asset) {
-			$lastTickerData = $this->tickerDataProvider->getLastTickerData($asset->getTicker(), $dateTime);
-			if ($lastTickerData === null) {
-				continue;
+			if ($assetProperties->isClosed()) {
+				$closedAssets[] = $assetDto;
+			} else {
+				$openAssets[] = $assetDto;
 			}
-
-			$assetDtos[] = AssetDto::fromEntity($asset, new Decimal($lastTickerData->getClose()));
 		}
 
-		return new JsonResponse($assetDtos);
-	}
-
-	public function actionGetAssetsWatched(ServerRequestInterface $request, int $portfolioId): ResponseInterface
-	{
-		$user = $this->requestService->getUser($request);
-
-		if ($portfolioId < 1) {
-			return new NotFoundResponse('Portfolio id is required.');
-		}
-
-		$portfolio = $this->portfolioProvider->getPortfolio($user, $portfolioId);
-		if ($portfolio === null) {
-			return new NotFoundResponse('Portfolio with id "' . $portfolioId . '" was not found.');
-		}
-
-		$dateTime = new DateTimeImmutable();
-		$assets = $this->assetProvider->getWatchedAssets($user, $portfolio);
-
-		$assetDtos = [];
-
-		foreach ($assets as $asset) {
-			$lastTickerData = $this->tickerDataProvider->getLastTickerData($asset->getTicker(), $dateTime);
-			if ($lastTickerData === null) {
-				continue;
-			}
-
-			$assetDtos[] = AssetDto::fromEntity($asset, new Decimal($lastTickerData->getClose()));
-		}
-
-		return new JsonResponse($assetDtos);
+		return new JsonResponse(new AssetsWithPropertiesDto(
+			openAssets: $openAssets,
+			closedAssets: $closedAssets,
+			watchedAssets: $watchedAssets,
+		));
 	}
 
 	public function actionGetAsset(ServerRequestInterface $request, int $assetId): ResponseInterface

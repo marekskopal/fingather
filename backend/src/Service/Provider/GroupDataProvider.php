@@ -36,10 +36,10 @@ class GroupDataProvider
 
 		$firstTransactionActionCreated = $dateTime;
 
-		$assets = $this->assetProvider->getOpenAssetsByGroup($group, $user, $portfolio, $dateTime);
+		$assets = $this->assetProvider->getAssets($user, $portfolio, $dateTime, $group);
 		foreach ($assets as $asset) {
 			$assetProperties = $this->assetProvider->getAssetProperties($user, $portfolio, $asset, $dateTime);
-			if ($assetProperties === null) {
+			if ($assetProperties === null || $assetProperties->isClosed()) {
 				continue;
 			}
 

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
-import { AssetWithProperties, Group } from '@app/models';
+import { Asset, Group } from '@app/models';
 import {
     AlertService, AssetService, GroupService, PortfolioService
 } from '@app/services';
@@ -12,7 +12,7 @@ import { first } from 'rxjs/operators';
 export class AddEditComponent extends BaseForm implements OnInit {
     @Input() public id: number;
     public isAddMode: boolean;
-    public assets: AssetWithProperties[];
+    public assets: Asset[];
     public othersGroup: Group;
 
     public constructor(
@@ -37,7 +37,7 @@ export class AddEditComponent extends BaseForm implements OnInit {
 
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
-        this.assetService.getOpenedAssets(portfolio.id)
+        this.assetService.getAssets(portfolio.id)
             .subscribe((assets) => {
                 this.assets = assets;
             });

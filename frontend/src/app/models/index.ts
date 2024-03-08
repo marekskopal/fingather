@@ -3,6 +3,7 @@ export * from './AEntity';
 export * from './alert';
 export * from './asset';
 export * from './asset-with-properties';
+export * from './assets-with-properties';
 export * from './benchmark-data';
 export * from './broker';
 export * from './currency';

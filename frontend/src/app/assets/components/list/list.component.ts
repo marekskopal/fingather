@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AddAssetComponent } from '@app/assets/components/add-asset/add-asset.component';
 import {
-    Asset, AssetWithProperties, Currency, GroupWithGroupData
+    Asset, AssetsWithProperties, Currency, GroupWithGroupData
 } from '@app/models';
 import {
     AssetService, CurrencyService, GroupWithGroupDataService, PortfolioService
@@ -11,7 +11,7 @@ import { first } from 'rxjs/operators';
 
 @Component({ templateUrl: 'list.component.html' })
 export class ListComponent implements OnInit, OnDestroy {
-    public openedAssets: AssetWithProperties[] | null = null;
+    public assetsWithProperties: AssetsWithProperties | null = null;
     public openedGroupedAssets: GroupWithGroupData[] | null = null;
     public closedAssets: Asset[] | null = null;
     public watchedAssets: Asset[] | null = null;
@@ -35,18 +35,14 @@ export class ListComponent implements OnInit, OnDestroy {
         this.defaultCurrency = await this.currencyService.getDefaultCurrency();
 
         this.refreshOpenedAssets();
-        this.refreshClosedAssets();
-        this.refreshWatchedAssets();
 
         this.portfolioService.eventEmitter.subscribe(() => {
             this.refreshOpenedAssets();
-            this.refreshClosedAssets();
-            this.refreshWatchedAssets();
         });
     }
 
     private async refreshOpenedAssets(): Promise<void> {
-        this.openedAssets = null;
+        this.assetsWithProperties = null;
         this.openedGroupedAssets = null;
 
         const portfolio = await this.portfolioService.getCurrentPortfolio();
@@ -57,33 +53,13 @@ export class ListComponent implements OnInit, OnDestroy {
                 .subscribe(
                     (openedGroupedAssets: GroupWithGroupData[]) => this.openedGroupedAssets = openedGroupedAssets
                 );
-
-            return;
         }
 
-        this.assetService.getOpenedAssets(portfolio.id)
+        this.assetService.getAssetsWithProperties(portfolio.id)
             .pipe(first())
-            .subscribe((openedAssets: AssetWithProperties[]) => this.openedAssets = openedAssets);
-    }
-
-    private async refreshClosedAssets(): Promise<void> {
-        this.closedAssets = null;
-
-        const portfolio = await this.portfolioService.getCurrentPortfolio();
-
-        this.assetService.getClosedAssets(portfolio.id)
-            .pipe(first())
-            .subscribe((closedAssets: Asset[]) => this.closedAssets = closedAssets);
-    }
-
-    private async refreshWatchedAssets(): Promise<void> {
-        this.watchedAssets = null;
-
-        const portfolio = await this.portfolioService.getCurrentPortfolio();
-
-        this.assetService.getWatchedAssets(portfolio.id)
-            .pipe(first())
-            .subscribe((watchedAssets: Asset[]) => this.watchedAssets = watchedAssets);
+            .subscribe(
+                (assetsWithProperties: AssetsWithProperties) => this.assetsWithProperties = assetsWithProperties
+            );
     }
 
     public ngOnDestroy(): void {
@@ -96,7 +72,7 @@ export class ListComponent implements OnInit, OnDestroy {
 
     public changeWithGroups(): void {
         this.withGroups = !this.withGroups;
-        this.openedAssets = null;
+        this.assetsWithProperties = null;
         this.openedGroupedAssets = null;
 
         this.refreshOpenedAssets();

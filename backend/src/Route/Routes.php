@@ -29,9 +29,7 @@ enum Routes: string
 	case AdminUser = '/api/admin/user/{userId:number}';
 
 	case Assets = '/api/assets/{portfolioId:number}';
-	case AssetsOpened = '/api/assets/opened/{portfolioId:number}';
-	case AssetsClosed = '/api/assets/closed/{portfolioId:number}';
-	case AssetsWatched = '/api/assets/watched/{portfolioId:number}';
+	case AssetsWithProperties = '/api/assets/with-properties/{portfolioId:number}';
 	case Asset = '/api/asset/{assetId:number}';
 
 	case AuthenticationLogin = '/api/authentication/login';
@@ -91,9 +89,7 @@ enum Routes: string
 		$routeList->post(self::AuthenticationEmailExists->value, [AuthenticationController::class, 'actionPostEmailExists']);
 
 		$routeList->get(self::Assets->value, [AssetController::class, 'actionGetAssets']);
-		$routeList->get(self::AssetsOpened->value, [AssetController::class, 'actionGetAssetsOpened']);
-		$routeList->get(self::AssetsClosed->value, [AssetController::class, 'actionGetAssetsClosed']);
-		$routeList->get(self::AssetsWatched->value, [AssetController::class, 'actionGetAssetsWatched']);
+		$routeList->get(self::AssetsWithProperties->value, [AssetController::class, 'actionGetAssetsWithProperties']);
 		$routeList->get(self::Asset->value, [AssetController::class, 'actionGetAsset']);
 		$routeList->post(self::Assets->value, [AssetController::class, 'actionCreateAsset']);
 

@@ -24,38 +24,14 @@ class AssetProvider
 	}
 
 	/** @return array<int, Asset> */
-	public function getAssets(User $user, Portfolio $portfolio): array
+	public function getAssets(User $user, Portfolio $portfolio, ?DateTimeImmutable $dateTime = null, ?Group $group = null): array
 	{
-		return $this->assetRepository->findAssets($user->getId(), $portfolio->getId());
+		return $this->assetRepository->findAssets($user->getId(), $portfolio->getId(), $dateTime, $group?->getId());
 	}
 
-	public function countAssets(User $user, ?Portfolio $portfolio = null): int
+	public function countAssets(User $user, ?Portfolio $portfolio = null, ?DateTimeImmutable $dateTime = null, ?int $groupId = null): int
 	{
-		return $this->assetRepository->countAssets($user->getId(), $portfolio?->getId());
-	}
-
-	/** @return array<int, Asset> */
-	public function getOpenAssets(User $user, Portfolio $portfolio, DateTimeImmutable $dateTime): array
-	{
-		return $this->assetRepository->findOpenAssets($user->getId(), $portfolio->getId(), $dateTime);
-	}
-
-	/** @return array<int, Asset> */
-	public function getOpenAssetsByGroup(Group $group, User $user, Portfolio $portfolio, DateTimeImmutable $dateTime): array
-	{
-		return $this->assetRepository->findOpenAssetsByGroup($user->getId(), $portfolio->getId(), $group->getId(), $dateTime);
-	}
-
-	/** @return array<int, Asset> */
-	public function getClosedAssets(User $user, Portfolio $portfolio, DateTimeImmutable $dateTime): array
-	{
-		return $this->assetRepository->findClosedAssets($user->getId(), $portfolio->getId(), $dateTime);
-	}
-
-	/** @return array<int, Asset> */
-	public function getWatchedAssets(User $user, Portfolio $portfolio): array
-	{
-		return $this->assetRepository->findWatchedAssets($user->getId(), $portfolio->getId(),);
+		return $this->assetRepository->countAssets($user->getId(), $portfolio?->getId(), $dateTime, $groupId);
 	}
 
 	public function getAsset(User $user, int $assetId): ?Asset
