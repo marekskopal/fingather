@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Asset, AssetWithProperties } from '@app/models';
+import { Asset, AssetsWithProperties, AssetWithProperties } from '@app/models';
 import { AssetCreate } from '@app/models/asset-create';
 import { NotifyService } from '@app/services/notify-service';
 import { environment } from '@environments/environment';
@@ -22,16 +22,8 @@ export class AssetService extends NotifyService {
         return this.http.get<Asset[]>(`${environment.apiUrl}/assets/${portfolioId}`);
     }
 
-    public getOpenedAssets(portfolioId: number): Observable<AssetWithProperties[]> {
-        return this.http.get<AssetWithProperties[]>(`${environment.apiUrl}/assets/opened/${portfolioId}`);
-    }
-
-    public getClosedAssets(portfolioId: number): Observable<Asset[]> {
-        return this.http.get<Asset[]>(`${environment.apiUrl}/assets/closed/${portfolioId}`);
-    }
-
-    public getWatchedAssets(portfolioId: number): Observable<Asset[]> {
-        return this.http.get<Asset[]>(`${environment.apiUrl}/assets/watched/${portfolioId}`);
+    public getAssetsWithProperties(portfolioId: number): Observable<AssetsWithProperties> {
+        return this.http.get<AssetsWithProperties>(`${environment.apiUrl}/assets/with-properties/${portfolioId}`);
     }
 
     public getAsset(id: number): Observable<AssetWithProperties> {

@@ -34,10 +34,10 @@ class PortfolioDataProvider
 
 		$assetDtos = [];
 
-		$assets = $this->assetProvider->getOpenAssets($user, $portfolio, $dateTime);
+		$assets = $this->assetProvider->getAssets(user: $user, portfolio: $portfolio, dateTime: $dateTime);
 		foreach ($assets as $asset) {
 			$assetProperties = $this->assetProvider->getAssetProperties($user, $portfolio, $asset, $dateTime);
-			if ($assetProperties === null) {
+			if ($assetProperties === null || $assetProperties->isClosed()) {
 				continue;
 			}
 

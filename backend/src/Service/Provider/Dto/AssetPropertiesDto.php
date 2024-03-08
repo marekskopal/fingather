@@ -31,4 +31,14 @@ readonly class AssetPropertiesDto
 		public DateTimeImmutable $firstTransactionActionCreated,
 	) {
 	}
+
+	public function isOpen(): bool
+	{
+		return $this->units->isPositive() && !$this->units->isZero();
+	}
+
+	public function isClosed(): bool
+	{
+		return !$this->isOpen();
+	}
 }

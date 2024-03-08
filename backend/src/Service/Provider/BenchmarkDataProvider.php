@@ -49,7 +49,7 @@ class BenchmarkDataProvider
 
 		$benchmarkUnitsSum = new Decimal(0);
 
-		$assets = $this->assetProvider->getOpenAssets($user, $portfolio, $dateTime);
+		$assets = $this->assetProvider->getAssets($user, $portfolio, $dateTime);
 		foreach ($assets as $asset) {
 			$transactions = $this->transactionProvider->getTransactions($user, $portfolio, $asset, $dateTime);
 			if (count($transactions) === 0) {
