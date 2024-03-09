@@ -23,19 +23,19 @@ class DataCalculator
 
 		$sumAssetValue = new Decimal(0);
 		$sumAssetTransactionValue = new Decimal(0);
+		$sumGain = new Decimal(0);
 		$sumDividendGain = new Decimal(0);
 		$sumFxImpact = new Decimal(0);
 
 		foreach ($assets as $asset) {
 			$sumAssetValue = $sumAssetValue->add($asset->value);
 			$sumAssetTransactionValue = $sumAssetTransactionValue->add($asset->transactionValue);
+			$sumGain = $sumGain->add($asset->gainDefaultCurrency);
 			$sumDividendGain = $sumDividendGain->add($asset->dividendGain);
 			$sumFxImpact = $sumFxImpact->add($asset->fxImpact);
 		}
 
-		$gain = $sumAssetValue->sub($sumAssetTransactionValue);
-
-		$gainPercentage = CalculatorUtils::toPercentage($gain, $sumAssetTransactionValue);
+		$gainPercentage = CalculatorUtils::toPercentage($sumGain, $sumAssetTransactionValue);
 		$gainPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($gainPercentage, $fromFirstTransactionDays);
 		$dividendGainPercentage = CalculatorUtils::toPercentage($sumDividendGain, $sumAssetTransactionValue);
 		$dividendGainPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($dividendGainPercentage, $fromFirstTransactionDays);
@@ -45,7 +45,7 @@ class DataCalculator
 		return new CalculatedDataDto(
 			value: $sumAssetValue,
 			transactionValue: $sumAssetTransactionValue,
-			gain: $gain,
+			gain: $sumGain,
 			gainPercentage: $gainPercentage,
 			gainPercentagePerAnnum: $gainPercentagePerAnnum,
 			dividendGain: $sumDividendGain,
@@ -54,7 +54,7 @@ class DataCalculator
 			fxImpact: $sumFxImpact,
 			fxImpactPercentage: $fxImpactPercentage,
 			fxImpactPercentagePerAnnum: $fxImpactPercentagePerAnnum,
-			return: $gain->add($sumDividendGain)->add($sumFxImpact),
+			return: $sumGain->add($sumDividendGain)->add($sumFxImpact),
 			returnPercentage: round($gainPercentage + $dividendGainPercentage + $fxImpactPercentage, 2),
 			returnPercentagePerAnnum: round($gainPercentagePerAnnum + $dividendGainPercentagePerAnnum + $fxImpactPercentagePerAnnum, 2),
 		);
