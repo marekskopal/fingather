@@ -14,22 +14,25 @@ enum TransactionActionTypeEnum: string
 	public static function fromString(string $string): self
 	{
 		if (
-			strpos($string, 'buy') !== false
-			|| strpos($string, 'nákup') !== false
-			|| strpos($string, 'otevřená') !== false
+			str_contains($string, 'buy')
+			|| str_contains($string, 'nákup')
+			|| str_contains($string, 'otevřená')
 		) {
 			return TransactionActionTypeEnum::Buy;
 		}
 
 		if (
-			strpos($string, 'sell') !== false
-			|| strpos($string, 'prodej') !== false
-			|| strpos($string, 'zavřená') !== false
+			str_contains($string, 'sell')
+			|| str_contains($string, 'prodej')
+			|| str_contains($string, 'zavřená')
 		) {
 			return TransactionActionTypeEnum::Sell;
 		}
 
-		if (strpos($string, 'dividend') !== false) {
+		if (
+			str_contains($string, 'dividend')
+			|| str_contains($string, 'dividenda')
+		) {
 			return TransactionActionTypeEnum::Dividend;
 		}
 
