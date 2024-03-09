@@ -52,7 +52,7 @@ class AssetDataCalculator
 		$fromFirstTransactionDays = (int) $dateTime->diff($firstTransaction->getActionCreated())->days;
 
 		foreach ($transactions as $transaction) {
-			if (TransactionActionTypeEnum::from($transaction->getActionType()) === TransactionActionTypeEnum::Dividend) {
+			if ($transaction->getActionType() === TransactionActionTypeEnum::Dividend) {
 				$dividendExchangeRate = $this->exchangeRateProvider->getExchangeRate(
 					DateTimeImmutable::createFromRegular($transaction->getActionCreated()),
 					$transaction->getCurrency(),

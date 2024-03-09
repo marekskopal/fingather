@@ -98,9 +98,9 @@ class TransactionProvider
 			portfolio: $portfolio,
 			asset: $asset,
 			broker: $broker,
-			actionType: $actionType->value,
+			actionType: $actionType,
 			actionCreated: $actionCreated,
-			createType: $createType->value,
+			createType: $createType,
 			created: $created,
 			modified: $created,
 			units: $units,
@@ -139,7 +139,7 @@ class TransactionProvider
 
 		$transaction->setAsset($asset);
 		$transaction->setBroker($broker);
-		$transaction->setActionType($actionType->value);
+		$transaction->setActionType($actionType);
 		$transaction->setActionCreated($actionCreated);
 		$transaction->setModified($modified);
 		$transaction->setUnits($units);

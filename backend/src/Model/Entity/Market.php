@@ -7,14 +7,15 @@ namespace FinGather\Model\Entity;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\RefersTo;
+use FinGather\Model\Entity\Enum\MarketTypeEnum;
 use FinGather\Model\Repository\MarketRepository;
 
 #[Entity(repository: MarketRepository::class)]
 class Market extends AEntity
 {
 	public function __construct(
-		#[Column(type: 'enum(Stock,Crypto)')]
-		private string $type,
+		#[Column(type: 'enum(Stock,Crypto)', typecast: MarketTypeEnum::class)]
+		private MarketTypeEnum $type,
 		#[Column(type: 'string')]
 		private string $name,
 		#[Column(type: 'string(20)')]
@@ -32,12 +33,12 @@ class Market extends AEntity
 	) {
 	}
 
-	public function getType(): string
+	public function getType(): MarketTypeEnum
 	{
 		return $this->type;
 	}
 
-	public function setType(string $type): void
+	public function setType(MarketTypeEnum $type): void
 	{
 		$this->type = $type;
 	}

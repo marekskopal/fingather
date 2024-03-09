@@ -10,6 +10,8 @@ use Cycle\Annotated\Annotation\Relation\RefersTo;
 use Cycle\ORM\Parser\Typecast;
 use DateTimeImmutable;
 use Decimal\Decimal;
+use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
+use FinGather\Model\Entity\Enum\TransactionCreateTypeEnum;
 use FinGather\Model\Repository\TransactionRepository;
 use FinGather\Service\Dbal\DecimalTypecast;
 
@@ -28,12 +30,16 @@ class Transaction extends AEntity
 		private Asset $asset,
 		#[RefersTo(target: Broker::class)]
 		private Broker $broker,
-		#[Column(type: 'enum(Undefined,Buy,Sell,Dividend)')]
-		private string $actionType,
+		#[Column(type: 'enum(Undefined,Buy,Sell,Dividend)', typecast: TransactionActionTypeEnum::class)]
+		private TransactionActionTypeEnum $actionType,
 		#[Column(type: 'timestamp')]
 		private DateTimeImmutable $actionCreated,
-		#[Column(type: 'enum(Manual,Import)', default: 'Manual')]
-		private string $createType,
+		#[Column(
+			type: 'enum(Manual,Import)',
+			default: TransactionCreateTypeEnum::Manual->value,
+			typecast: TransactionCreateTypeEnum::class,
+		)]
+		private TransactionCreateTypeEnum $createType,
 		#[Column(type: 'timestamp')]
 		private DateTimeImmutable $created,
 		#[Column(type: 'timestamp')]
@@ -99,12 +105,12 @@ class Transaction extends AEntity
 		$this->broker = $broker;
 	}
 
-	public function getActionType(): string
+	public function getActionType(): TransactionActionTypeEnum
 	{
 		return $this->actionType;
 	}
 
-	public function setActionType(string $actionType): void
+	public function setActionType(TransactionActionTypeEnum $actionType): void
 	{
 		$this->actionType = $actionType;
 	}
@@ -119,12 +125,12 @@ class Transaction extends AEntity
 		$this->actionCreated = $actionCreated;
 	}
 
-	public function getCreateType(): string
+	public function getCreateType(): TransactionCreateTypeEnum
 	{
 		return $this->createType;
 	}
 
-	public function setCreateType(string $createType): void
+	public function setCreateType(TransactionCreateTypeEnum $createType): void
 	{
 		$this->createType = $createType;
 	}

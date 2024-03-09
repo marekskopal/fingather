@@ -29,7 +29,7 @@ class BrokerProvider
 
 	public function createBroker(User $user, Portfolio $portfolio, string $name, BrokerImportTypeEnum $importType): Broker
 	{
-		$broker = new Broker(user: $user, portfolio: $portfolio, name: $name, importType: $importType->value);
+		$broker = new Broker(user: $user, portfolio: $portfolio, name: $name, importType: $importType);
 		$this->brokerRepository->persist($broker);
 
 		return $broker;
@@ -38,7 +38,7 @@ class BrokerProvider
 	public function updateBroker(Broker $broker, string $name, BrokerImportTypeEnum $importType): Broker
 	{
 		$broker->setName($name);
-		$broker->setImportType($importType->value);
+		$broker->setImportType($importType);
 		$this->brokerRepository->persist($broker);
 
 		return $broker;

@@ -59,7 +59,7 @@ class BenchmarkDataProvider
 			$tickerCurrency = $asset->getTicker()->getCurrency();
 
 			foreach ($transactions as $transaction) {
-				if (TransactionActionTypeEnum::from($transaction->getActionType()) === TransactionActionTypeEnum::Dividend) {
+				if ($transaction->getActionType() === TransactionActionTypeEnum::Dividend) {
 					continue;
 				}
 
