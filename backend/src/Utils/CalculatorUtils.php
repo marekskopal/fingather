@@ -12,7 +12,7 @@ class CalculatorUtils
 
 	public static function toPercentage(Decimal $value, Decimal $total): float
 	{
-		if ($total->compareTo(0) === 0) {
+		if ($total->isZero()) {
 			return 0.0;
 		}
 

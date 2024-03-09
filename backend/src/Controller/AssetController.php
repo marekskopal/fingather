@@ -77,7 +77,7 @@ class AssetController
 		}
 
 		$dateTime = new DateTimeImmutable();
-		$assets = $this->assetProvider->getAssets(user: $user, portfolio: $portfolio, dateTime: $dateTime);
+		$assets = $this->assetProvider->getAssets(user: $user, portfolio: $portfolio);
 
 		$openAssets = [];
 		$closedAssets = [];
