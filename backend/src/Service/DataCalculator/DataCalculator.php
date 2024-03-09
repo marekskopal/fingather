@@ -23,29 +23,35 @@ class DataCalculator
 
 		$sumAssetValue = new Decimal(0);
 		$sumAssetTransactionValue = new Decimal(0);
+		$sumAssetTransactionValueDefaultCurrency = new Decimal(0);
 		$sumGain = new Decimal(0);
+		$sumGainDefaultCurrency = new Decimal(0);
 		$sumDividendGain = new Decimal(0);
 		$sumFxImpact = new Decimal(0);
 
 		foreach ($assets as $asset) {
 			$sumAssetValue = $sumAssetValue->add($asset->value);
 			$sumAssetTransactionValue = $sumAssetTransactionValue->add($asset->transactionValue);
-			$sumGain = $sumGain->add($asset->gainDefaultCurrency);
+			$sumAssetTransactionValueDefaultCurrency = $sumAssetTransactionValueDefaultCurrency->add(
+				$asset->transactionValueDefaultCurrency,
+			);
+			$sumGain = $sumGain->add($asset->gain);
+			$sumGainDefaultCurrency = $sumGainDefaultCurrency->add($asset->gainDefaultCurrency);
 			$sumDividendGain = $sumDividendGain->add($asset->dividendGain);
 			$sumFxImpact = $sumFxImpact->add($asset->fxImpact);
 		}
 
 		$gainPercentage = CalculatorUtils::toPercentage($sumGain, $sumAssetTransactionValue);
 		$gainPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($gainPercentage, $fromFirstTransactionDays);
-		$dividendGainPercentage = CalculatorUtils::toPercentage($sumDividendGain, $sumAssetTransactionValue);
+		$dividendGainPercentage = CalculatorUtils::toPercentage($sumDividendGain, $sumAssetTransactionValueDefaultCurrency);
 		$dividendGainPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($dividendGainPercentage, $fromFirstTransactionDays);
-		$fxImpactPercentage = CalculatorUtils::toPercentage($sumFxImpact, $sumAssetTransactionValue);
+		$fxImpactPercentage = CalculatorUtils::toPercentage($sumFxImpact, $sumAssetTransactionValueDefaultCurrency);
 		$fxImpactPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($fxImpactPercentage, $fromFirstTransactionDays);
 
 		return new CalculatedDataDto(
 			value: $sumAssetValue,
-			transactionValue: $sumAssetTransactionValue,
-			gain: $sumGain,
+			transactionValue: $sumAssetTransactionValueDefaultCurrency,
+			gain: $sumGainDefaultCurrency,
 			gainPercentage: $gainPercentage,
 			gainPercentagePerAnnum: $gainPercentagePerAnnum,
 			dividendGain: $sumDividendGain,
@@ -54,7 +60,7 @@ class DataCalculator
 			fxImpact: $sumFxImpact,
 			fxImpactPercentage: $fxImpactPercentage,
 			fxImpactPercentagePerAnnum: $fxImpactPercentagePerAnnum,
-			return: $sumGain->add($sumDividendGain)->add($sumFxImpact),
+			return: $sumGainDefaultCurrency->add($sumDividendGain)->add($sumFxImpact),
 			returnPercentage: round($gainPercentage + $dividendGainPercentage + $fxImpactPercentage, 2),
 			returnPercentagePerAnnum: round($gainPercentagePerAnnum + $dividendGainPercentagePerAnnum + $fxImpactPercentagePerAnnum, 2),
 		);

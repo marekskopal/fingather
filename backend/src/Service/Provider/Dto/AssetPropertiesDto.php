@@ -14,6 +14,7 @@ readonly class AssetPropertiesDto
 		public Decimal $units,
 		public Decimal $value,
 		public Decimal $transactionValue,
+		public Decimal $transactionValueDefaultCurrency,
 		public Decimal $gain,
 		public Decimal $gainDefaultCurrency,
 		public float $gainPercentage,
