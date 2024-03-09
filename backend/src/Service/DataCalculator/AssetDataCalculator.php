@@ -102,11 +102,11 @@ class AssetDataCalculator
 			);
 		}
 
-		$price = new Decimal(0);
-
 		$lastTickerData = $this->tickerDataProvider->getLastTickerData($asset->getTicker(), $dateTime);
 		if ($lastTickerData !== null) {
 			$price = new Decimal($lastTickerData->getClose());
+		} else {
+			$price = new Decimal(0);
 		}
 
 		$exchangeRate = $this->exchangeRateProvider->getExchangeRate(
