@@ -10,7 +10,7 @@ use Cycle\ORM\Parser\Typecast;
 use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Model\Repository\GroupDataRepository;
-use FinGather\Service\Dbal\DecimalTypecast;
+use MarekSkopal\Cycle\Decimal\DecimalTypecast;
 
 #[Entity(repository: GroupDataRepository::class, typecast: [
 	Typecast::class,

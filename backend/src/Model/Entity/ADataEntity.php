@@ -8,7 +8,7 @@ use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Relation\RefersTo;
 use DateTimeImmutable;
 use Decimal\Decimal;
-use FinGather\Service\Dbal\DecimalTypecast;
+use MarekSkopal\Cycle\Decimal\DecimalTypecast;
 
 class ADataEntity extends AEntity
 {
