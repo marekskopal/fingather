@@ -13,7 +13,7 @@ use Decimal\Decimal;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Enum\TransactionCreateTypeEnum;
 use FinGather\Model\Repository\TransactionRepository;
-use FinGather\Service\Dbal\DecimalTypecast;
+use MarekSkopal\Cycle\Decimal\DecimalTypecast;
 
 #[Entity(repository: TransactionRepository::class, typecast: [
 	Typecast::class,

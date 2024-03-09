@@ -11,7 +11,7 @@ use Cycle\ORM\Parser\Typecast;
 use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Model\Repository\BenchmarkDataRepository;
-use FinGather\Service\Dbal\DecimalTypecast;
+use MarekSkopal\Cycle\Decimal\DecimalTypecast;
 
 #[Entity(repository: BenchmarkDataRepository::class, typecast: [
 	Typecast::class,
