@@ -292,7 +292,7 @@ final class ImportService
 			fee: $mappedRecord['fee'] ? new Decimal($mappedRecord['fee']) : null,
 			feeCurrency: $mappedRecord['feeCurrency'] ?? null,
 			notes: $mappedRecord['notes'] ?? null,
-			importIdentifier: $mappedRecord['importIdentifier'] ?? null,
+			importIdentifier: ($mappedRecord['importIdentifier'] ?? '') !== '' ? ($mappedRecord['importIdentifier'] ?? null) : null,
 		);
 	}
 
