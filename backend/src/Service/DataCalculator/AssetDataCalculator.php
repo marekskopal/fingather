@@ -59,7 +59,7 @@ class AssetDataCalculator
 					$tickerCurrency,
 				);
 
-				$dividendTotal = $dividendTotal->add((new Decimal($transaction->getPrice()))->mul($dividendExchangeRate->getRate()));
+				$dividendTotal = $dividendTotal->add($transaction->getPrice()->mul($dividendExchangeRate->getRate()));
 
 				continue;
 			}
@@ -68,12 +68,12 @@ class AssetDataCalculator
 
 			foreach ($splits as $split) {
 				if ($split->getDate() >= $transaction->getActionCreated() && $split->getDate() <= $dateTime) {
-					$splitFactor = $splitFactor->mul(new Decimal($split->getFactor()));
+					$splitFactor = $splitFactor->mul($split->getFactor());
 				}
 			}
 
-			$transactionUnits = new Decimal($transaction->getUnits());
-			$transactionPriceUnit = new Decimal($transaction->getPrice());
+			$transactionUnits = $transaction->getUnits();
+			$transactionPriceUnit = $transaction->getPrice();
 
 			$units = $units->add($transactionUnits->mul($splitFactor));
 
@@ -103,11 +103,7 @@ class AssetDataCalculator
 		}
 
 		$lastTickerData = $this->tickerDataProvider->getLastTickerData($asset->getTicker(), $dateTime);
-		if ($lastTickerData !== null) {
-			$price = new Decimal($lastTickerData->getClose());
-		} else {
-			$price = new Decimal(0);
-		}
+		$price = $lastTickerData?->getClose() ?? new Decimal(0);
 
 		$exchangeRate = $this->exchangeRateProvider->getExchangeRate(
 			DateTimeImmutable::createFromRegular($dateTime),
@@ -115,7 +111,7 @@ class AssetDataCalculator
 			$user->getDefaultCurrency(),
 		);
 
-		$exchangeRateDecimal = new Decimal($exchangeRate->getRate());
+		$exchangeRateDecimal = $exchangeRate->getRate();
 
 		$value = $units->mul($price);
 		$gain = $value->sub($transactionValue);

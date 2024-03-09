@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace FinGather\Controller;
 
-use Decimal\Decimal;
 use FinGather\Dto\Enum\PortfolioDataRangeEnum;
 use FinGather\Dto\PortfolioDataDto;
 use FinGather\Dto\PortfolioDataWithBenchmarkDataDto;
@@ -102,7 +101,7 @@ class PortfolioDataController
 					portfolio: $portfolio,
 					benchmarkAsset: $benchmarkAsset,
 					benchmarkFromDateTime: $firstDateTime,
-					portfolioDataValue: new Decimal($portfolioData->getValue()),
+					portfolioDataValue: $portfolioData->getValue(),
 				);
 
 				$portfolioDatas[] = PortfolioDataWithBenchmarkDataDto::fromEntity($portfolioData, $benchmarkDataFromDate);
@@ -114,7 +113,7 @@ class PortfolioDataController
 				benchmarkAsset: $benchmarkAsset,
 				dateTime: $dateTimeConverted,
 				benchmarkFromDateTime: $firstDateTime,
-				benchmarkFromDateUnits: new Decimal($benchmarkDataFromDate->getUnits()),
+				benchmarkFromDateUnits: $benchmarkDataFromDate->getUnits(),
 			);
 
 			$portfolioDatas[] = PortfolioDataWithBenchmarkDataDto::fromEntity($portfolioData, $benchmarkData);

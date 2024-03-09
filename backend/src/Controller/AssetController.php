@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace FinGather\Controller;
 
-use Decimal\Decimal;
 use FinGather\Dto\AssetDto;
 use FinGather\Dto\AssetsWithPropertiesDto;
 use FinGather\Dto\AssetWithPropertiesDto;
@@ -57,7 +56,7 @@ class AssetController
 				continue;
 			}
 
-			$assetDtos[] = AssetDto::fromEntity($asset, new Decimal($lastTickerData->getClose()));
+			$assetDtos[] = AssetDto::fromEntity($asset, $lastTickerData->getClose());
 		}
 
 		return new JsonResponse($assetDtos);
@@ -88,7 +87,7 @@ class AssetController
 			if ($assetProperties === null) {
 				$lastTickerData = $this->tickerDataProvider->getLastTickerData($asset->getTicker(), $dateTime);
 				assert($lastTickerData !== null);
-				$watchedAssets[] = AssetDto::fromEntity($asset, new Decimal($lastTickerData->getClose()));
+				$watchedAssets[] = AssetDto::fromEntity($asset, $lastTickerData->getClose());
 
 				continue;
 			}
@@ -131,7 +130,7 @@ class AssetController
 				return new NotFoundResponse('Asset with id "' . $assetId . '" was not found.');
 			}
 
-			return new JsonResponse(AssetDto::fromEntity($asset, new Decimal($lastTickerData->getClose())));
+			return new JsonResponse(AssetDto::fromEntity($asset, $lastTickerData->getClose()));
 		}
 
 		return new JsonResponse(AssetWithPropertiesDto::fromEntity($asset, $assetProperties));
@@ -172,6 +171,6 @@ class AssetController
 			user: $user,
 			portfolio: $portfolio,
 			ticker: $ticker,
-		), new Decimal($lastTickerData->getClose())));
+		), $lastTickerData->getClose()));
 	}
 }

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Provider;
 
-use Decimal\Decimal;
 use FinGather\Dto\AssetWithPropertiesDto;
 use FinGather\Dto\GroupDataDto;
 use FinGather\Dto\GroupWithGroupDataDto;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
+use FinGather\Utils\CalculatorUtils;
 use Safe\DateTimeImmutable;
 
 class GroupWithGroupDataProvider
@@ -61,7 +61,7 @@ class GroupWithGroupDataProvider
 				color: $group->getColor(),
 				assetIds: array_map(fn (AssetWithPropertiesDto $asset): int => $asset->id, $groupAssets[$groupId]),
 				assets: $groupAssets[$groupId],
-				percentage: ((new Decimal($groupData->getValue()))->div(new Decimal($portfolioData->getValue())))->toFloat() * 100,
+				percentage: CalculatorUtils::toPercentage($groupData->getValue(), $portfolioData->getValue()),
 				groupData: GroupDataDto::fromEntity($groupData),
 			);
 		}

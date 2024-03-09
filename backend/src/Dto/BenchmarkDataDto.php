@@ -20,7 +20,7 @@ final readonly class BenchmarkDataDto
 			id: $benchmarkData->getId(),
 			assetId: $benchmarkData->getAsset()->getId(),
 			date: DateTimeUtils::formatZulu($benchmarkData->getDate()),
-			value: new Decimal($benchmarkData->getValue()),
+			value: $benchmarkData->getValue(),
 		);
 	}
 }

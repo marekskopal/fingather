@@ -7,10 +7,16 @@ namespace FinGather\Model\Entity;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\RefersTo;
+use Cycle\ORM\Parser\Typecast;
 use DateTimeImmutable;
+use Decimal\Decimal;
 use FinGather\Model\Repository\ExchangeRateRepository;
+use FinGather\Service\Dbal\DecimalTypecast;
 
-#[Entity(repository: ExchangeRateRepository::class)]
+#[Entity(repository: ExchangeRateRepository::class, typecast: [
+	Typecast::class,
+	DecimalTypecast::class,
+])]
 class ExchangeRate extends AEntity
 {
 	public function __construct(
@@ -18,8 +24,8 @@ class ExchangeRate extends AEntity
 		private Currency $currency,
 		#[Column(type: 'timestamp')]
 		private DateTimeImmutable $date,
-		#[Column(type: 'decimal(9,4)')]
-		private string $rate,
+		#[Column(type: 'decimal(9,4)', typecast: DecimalTypecast::Type)]
+		private Decimal $rate,
 	) {
 	}
 
@@ -43,12 +49,12 @@ class ExchangeRate extends AEntity
 		$this->date = $date;
 	}
 
-	public function getRate(): string
+	public function getRate(): Decimal
 	{
 		return $this->rate;
 	}
 
-	public function setRate(string $rate): void
+	public function setRate(Decimal $rate): void
 	{
 		$this->rate = $rate;
 	}

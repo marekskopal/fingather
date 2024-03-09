@@ -68,8 +68,8 @@ class BenchmarkDataProvider
 					continue;
 				}
 
-				$transactionUnits = new Decimal($transaction->getUnits());
-				$transactionPriceUnit = new Decimal($transaction->getPrice());
+				$transactionUnits = $transaction->getUnits();
+				$transactionPriceUnit = $transaction->getPrice();
 
 				if ($tickerCurrency->getId() !== $transaction->getCurrency()->getId()) {
 					$transactionExchangeRate = $this->exchangeRateProvider->getExchangeRate(
@@ -100,7 +100,7 @@ class BenchmarkDataProvider
 					$transactionActionCreated,
 				);
 				if ($benchmarkTransactionAssetTickerData !== null) {
-					$benchmarkPrice = new Decimal($benchmarkTransactionAssetTickerData->getClose());
+					$benchmarkPrice = $benchmarkTransactionAssetTickerData->getClose();
 					$benchmarkPriceUnitDefaultCurrency = $benchmarkPrice->mul($benchmarkTransactionExchangeRateDefaultCurrency->getRate());
 
 					$benchmarkUnits = $transactionUnits->mul($transactionPriceUnitDefaultCurrency)->div($benchmarkPriceUnitDefaultCurrency);
@@ -123,7 +123,7 @@ class BenchmarkDataProvider
 			$benchmarkUnitsSum = $benchmarkUnitsSum->add($benchmarkFromDateUnits);
 
 			$value = $benchmarkUnitsSum->mul(
-				(new Decimal($benchmarkAssetTickerData->getClose()))->mul($benchmarkExchangeRateDefaultCurrency->getRate()),
+				$benchmarkAssetTickerData->getClose()->mul($benchmarkExchangeRateDefaultCurrency->getRate()),
 			);
 		} else {
 			$value = new Decimal(0);
@@ -135,8 +135,8 @@ class BenchmarkDataProvider
 			asset: $benchmarkAsset,
 			date: $dateTime,
 			fromDate: $benchmarkFromDateTime,
-			value: (string) $value,
-			units: (string) $benchmarkUnitsSum,
+			value: $value,
+			units: $benchmarkUnitsSum,
 		);
 
 		$this->benchmarkDataRepository->persist($benchmarkData);
@@ -174,7 +174,7 @@ class BenchmarkDataProvider
 				$user->getDefaultCurrency(),
 			);
 
-			$benchmarkUnitPriceDefaultCurrency = (new Decimal($benchmarkAssetTickerData->getClose()))->mul(
+			$benchmarkUnitPriceDefaultCurrency = $benchmarkAssetTickerData->getClose()->mul(
 				$benchmarkExchangeRateDefaultCurrency->getRate(),
 			);
 
@@ -189,8 +189,8 @@ class BenchmarkDataProvider
 			asset: $benchmarkAsset,
 			date: $benchmarkFromDateTime,
 			fromDate: $benchmarkFromDateTime,
-			value: (string) $portfolioDataValue,
-			units: (string) $benchmarkUnits,
+			value: $portfolioDataValue,
+			units: $benchmarkUnits,
 		);
 
 		$this->benchmarkDataRepository->persist($benchmarkData);

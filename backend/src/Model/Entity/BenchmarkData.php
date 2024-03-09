@@ -7,10 +7,16 @@ namespace FinGather\Model\Entity;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\RefersTo;
+use Cycle\ORM\Parser\Typecast;
 use DateTimeImmutable;
+use Decimal\Decimal;
 use FinGather\Model\Repository\BenchmarkDataRepository;
+use FinGather\Service\Dbal\DecimalTypecast;
 
-#[Entity(repository: BenchmarkDataRepository::class)]
+#[Entity(repository: BenchmarkDataRepository::class, typecast: [
+	Typecast::class,
+	DecimalTypecast::class,
+])]
 class BenchmarkData extends AEntity
 {
 	public function __construct(
@@ -24,10 +30,10 @@ class BenchmarkData extends AEntity
 		protected DateTimeImmutable $date,
 		#[Column(type: 'timestamp')]
 		protected DateTimeImmutable $fromDate,
-		#[Column(type: 'decimal(11,2)')]
-		protected string $value,
-		#[Column(type: 'decimal(18,8)')]
-		protected string $units,
+		#[Column(type: 'decimal(11,2)', typecast: DecimalTypecast::Type)]
+		protected Decimal $value,
+		#[Column(type: 'decimal(18,8)', typecast: DecimalTypecast::Type)]
+		protected Decimal $units,
 	) {
 	}
 
@@ -81,22 +87,22 @@ class BenchmarkData extends AEntity
 		$this->fromDate = $beforeDate;
 	}
 
-	public function getValue(): string
+	public function getValue(): Decimal
 	{
 		return $this->value;
 	}
 
-	public function setValue(string $value): void
+	public function setValue(Decimal $value): void
 	{
 		$this->value = $value;
 	}
 
-	public function getUnits(): string
+	public function getUnits(): Decimal
 	{
 		return $this->units;
 	}
 
-	public function setUnits(string $units): void
+	public function setUnits(Decimal $units): void
 	{
 		$this->units = $units;
 	}

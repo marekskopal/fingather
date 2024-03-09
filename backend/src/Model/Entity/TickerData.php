@@ -7,10 +7,16 @@ namespace FinGather\Model\Entity;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\RefersTo;
+use Cycle\ORM\Parser\Typecast;
 use DateTimeImmutable;
+use Decimal\Decimal;
 use FinGather\Model\Repository\TickerDataRepository;
+use FinGather\Service\Dbal\DecimalTypecast;
 
-#[Entity(repository: TickerDataRepository::class)]
+#[Entity(repository: TickerDataRepository::class, typecast: [
+	Typecast::class,
+	DecimalTypecast::class,
+])]
 class TickerData extends AEntity
 {
 	public function __construct(
@@ -18,16 +24,16 @@ class TickerData extends AEntity
 		private Ticker $ticker,
 		#[Column(type: 'timestamp')]
 		private DateTimeImmutable $date,
-		#[Column(type: 'decimal(20,10)')]
-		private string $open,
-		#[Column(type: 'decimal(20,10)')]
-		private string $close,
-		#[Column(type: 'decimal(20,10)')]
-		private string $high,
-		#[Column(type: 'decimal(20,10)')]
-		private string $low,
-		#[Column(type: 'decimal(20,10)')]
-		private string $volume,
+		#[Column(type: 'decimal(20,10)', typecast: DecimalTypecast::Type)]
+		private Decimal $open,
+		#[Column(type: 'decimal(20,10)', typecast: DecimalTypecast::Type)]
+		private Decimal $close,
+		#[Column(type: 'decimal(20,10)', typecast: DecimalTypecast::Type)]
+		private Decimal $high,
+		#[Column(type: 'decimal(20,10)', typecast: DecimalTypecast::Type)]
+		private Decimal $low,
+		#[Column(type: 'decimal(20,10)', typecast: DecimalTypecast::Type)]
+		private Decimal $volume,
 	) {
 	}
 
@@ -51,52 +57,52 @@ class TickerData extends AEntity
 		$this->date = $date;
 	}
 
-	public function getOpen(): string
+	public function getOpen(): Decimal
 	{
 		return $this->open;
 	}
 
-	public function setOpen(string $open): void
+	public function setOpen(Decimal $open): void
 	{
 		$this->open = $open;
 	}
 
-	public function getClose(): string
+	public function getClose(): Decimal
 	{
 		return $this->close;
 	}
 
-	public function setClose(string $close): void
+	public function setClose(Decimal $close): void
 	{
 		$this->close = $close;
 	}
 
-	public function getHigh(): string
+	public function getHigh(): Decimal
 	{
 		return $this->high;
 	}
 
-	public function setHigh(string $high): void
+	public function setHigh(Decimal $high): void
 	{
 		$this->high = $high;
 	}
 
-	public function getLow(): string
+	public function getLow(): Decimal
 	{
 		return $this->low;
 	}
 
-	public function setLow(string $low): void
+	public function setLow(Decimal $low): void
 	{
 		$this->low = $low;
 	}
 
-	public function getVolume(): string
+	public function getVolume(): Decimal
 	{
 		return $this->volume;
 	}
 
-	public function setVolume(string $volume): void
+	public function setVolume(Decimal $volume): void
 	{
 		$this->volume = $volume;
 	}
