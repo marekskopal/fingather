@@ -6,10 +6,16 @@ namespace FinGather\Model\Entity;
 
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\RefersTo;
+use Cycle\ORM\Parser\Typecast;
 use DateTimeImmutable;
+use Decimal\Decimal;
 use FinGather\Model\Repository\GroupDataRepository;
+use FinGather\Service\Dbal\DecimalTypecast;
 
-#[Entity(repository: GroupDataRepository::class)]
+#[Entity(repository: GroupDataRepository::class, typecast: [
+	Typecast::class,
+	DecimalTypecast::class,
+])]
 class GroupData extends ADataEntity
 {
 	public function __construct(
@@ -18,18 +24,18 @@ class GroupData extends ADataEntity
 		User $user,
 		Portfolio $portfolio,
 		DateTimeImmutable $date,
-		string $value,
-		string $transactionValue,
-		string $gain,
+		Decimal $value,
+		Decimal $transactionValue,
+		Decimal $gain,
 		float $gainPercentage,
 		float $gainPercentagePerAnnum,
-		string $dividendGain,
+		Decimal $dividendGain,
 		float $dividendGainPercentage,
 		float $dividendGainPercentagePerAnnum,
-		string $fxImpact,
+		Decimal $fxImpact,
 		float $fxImpactPercentage,
 		float $fxImpactPercentagePerAnnum,
-		string $return,
+		Decimal $return,
 		float $returnPercentage,
 		float $returnPercentagePerAnnum,
 	) {

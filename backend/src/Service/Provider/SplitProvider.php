@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Service\Provider;
 
 use DateTimeImmutable;
+use Decimal\Decimal;
 use FinGather\Model\Entity\Split;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Repository\SplitRepository;
@@ -27,7 +28,7 @@ class SplitProvider
 		return $this->splitRepository->findSplit($ticker->getId(), $date);
 	}
 
-	public function createSplit(Ticker $ticker, DateTimeImmutable $date, string $factor): Split
+	public function createSplit(Ticker $ticker, DateTimeImmutable $date, Decimal $factor): Split
 	{
 		$split = new Split(ticker: $ticker, date: $date, factor: $factor);
 		$this->splitRepository->persist($split);
@@ -47,7 +48,11 @@ class SplitProvider
 				continue;
 			}
 
-			$this->createSplit(ticker: $ticker, date: $split->date, factor: (string) ($split->fromFactor / $split->toFactor));
+			$this->createSplit(
+				ticker: $ticker,
+				date: $split->date,
+				factor: (new Decimal((string) $split->fromFactor))->div(new Decimal((string) $split->toFactor)),
+			);
 		}
 	}
 }

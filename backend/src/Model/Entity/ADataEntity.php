@@ -7,6 +7,8 @@ namespace FinGather\Model\Entity;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Relation\RefersTo;
 use DateTimeImmutable;
+use Decimal\Decimal;
+use FinGather\Service\Dbal\DecimalTypecast;
 
 class ADataEntity extends AEntity
 {
@@ -17,30 +19,30 @@ class ADataEntity extends AEntity
 		protected Portfolio $portfolio,
 		#[Column(type: 'timestamp')]
 		protected DateTimeImmutable $date,
-		#[Column(type: 'decimal(11,2)')]
-		protected string $value,
-		#[Column(type: 'decimal(11,2)')]
-		protected string $transactionValue,
-		#[Column(type: 'decimal(11,2)')]
-		protected string $gain,
+		#[Column(type: 'decimal(11,2)', typecast: DecimalTypecast::Type)]
+		protected Decimal $value,
+		#[Column(type: 'decimal(11,2)', typecast: DecimalTypecast::Type)]
+		protected Decimal $transactionValue,
+		#[Column(type: 'decimal(11,2)', typecast: DecimalTypecast::Type)]
+		protected Decimal $gain,
 		#[Column(type: 'float')]
 		protected float $gainPercentage,
 		#[Column(type: 'float')]
 		protected float $gainPercentagePerAnnum,
-		#[Column(type: 'decimal(11,2)')]
-		protected string $dividendGain,
+		#[Column(type: 'decimal(11,2)', typecast: DecimalTypecast::Type)]
+		protected Decimal $dividendGain,
 		#[Column(type: 'float')]
 		protected float $dividendGainPercentage,
 		#[Column(type: 'float')]
 		protected float $dividendGainPercentagePerAnnum,
-		#[Column(type: 'decimal(11,2)')]
-		protected string $fxImpact,
+		#[Column(type: 'decimal(11,2)', typecast: DecimalTypecast::Type)]
+		protected Decimal $fxImpact,
 		#[Column(type: 'float')]
 		protected float $fxImpactPercentage,
 		#[Column(type: 'float')]
 		protected float $fxImpactPercentagePerAnnum,
-		#[Column(type: 'decimal(11,2)')]
-		protected string $return,
+		#[Column(type: 'decimal(11,2)', typecast: DecimalTypecast::Type)]
+		protected Decimal $return,
 		#[Column(type: 'float')]
 		protected float $returnPercentage,
 		#[Column(type: 'float')]
@@ -78,32 +80,32 @@ class ADataEntity extends AEntity
 		$this->date = $date;
 	}
 
-	public function getValue(): string
+	public function getValue(): Decimal
 	{
 		return $this->value;
 	}
 
-	public function setValue(string $value): void
+	public function setValue(Decimal $value): void
 	{
 		$this->value = $value;
 	}
 
-	public function getTransactionValue(): string
+	public function getTransactionValue(): Decimal
 	{
 		return $this->transactionValue;
 	}
 
-	public function setTransactionValue(string $transactionValue): void
+	public function setTransactionValue(Decimal $transactionValue): void
 	{
 		$this->transactionValue = $transactionValue;
 	}
 
-	public function getGain(): string
+	public function getGain(): Decimal
 	{
 		return $this->gain;
 	}
 
-	public function setGain(string $gain): void
+	public function setGain(Decimal $gain): void
 	{
 		$this->gain = $gain;
 	}
@@ -128,12 +130,12 @@ class ADataEntity extends AEntity
 		$this->gainPercentagePerAnnum = $gainPercentagePerAnnum;
 	}
 
-	public function getDividendGain(): string
+	public function getDividendGain(): Decimal
 	{
 		return $this->dividendGain;
 	}
 
-	public function setDividendGain(string $dividendGain): void
+	public function setDividendGain(Decimal $dividendGain): void
 	{
 		$this->dividendGain = $dividendGain;
 	}
@@ -158,12 +160,12 @@ class ADataEntity extends AEntity
 		$this->dividendGainPercentagePerAnnum = $dividendGainPercentagePerAnnum;
 	}
 
-	public function getFxImpact(): string
+	public function getFxImpact(): Decimal
 	{
 		return $this->fxImpact;
 	}
 
-	public function setFxImpact(string $fxImpact): void
+	public function setFxImpact(Decimal $fxImpact): void
 	{
 		$this->fxImpact = $fxImpact;
 	}
@@ -188,12 +190,12 @@ class ADataEntity extends AEntity
 		$this->fxImpactPercentagePerAnnum = $fxImpactPercentagePerAnnum;
 	}
 
-	public function getReturn(): string
+	public function getReturn(): Decimal
 	{
 		return $this->return;
 	}
 
-	public function setReturn(string $return): void
+	public function setReturn(Decimal $return): void
 	{
 		$this->return = $return;
 	}

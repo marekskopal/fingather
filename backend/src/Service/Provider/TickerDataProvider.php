@@ -54,11 +54,11 @@ class TickerDataProvider
 					id: $tickerData->getId(),
 					ticker: $tickerData->getTicker(),
 					date: $tickerData->getDate(),
-					open: (new Decimal($tickerData->getOpen()))->div($splitFactor),
-					close: (new Decimal($tickerData->getClose()))->div($splitFactor),
-					high: (new Decimal($tickerData->getHigh()))->div($splitFactor),
-					low: (new Decimal($tickerData->getLow()))->div($splitFactor),
-					volume: new Decimal($tickerData->getVolume()),
+					open: $tickerData->getOpen()->div($splitFactor),
+					close: $tickerData->getClose()->div($splitFactor),
+					high: $tickerData->getHigh()->div($splitFactor),
+					low: $tickerData->getLow()->div($splitFactor),
+					volume: $tickerData->getVolume(),
 				);
 			},
 			$this->getTickerDatas($ticker, $fromDate, $toDate),
@@ -161,11 +161,11 @@ class TickerDataProvider
 			$tickerData = new TickerData(
 				ticker: $ticker,
 				date: $timeSeriesValue->datetime,
-				open: $timeSeriesValue->open,
-				close: $timeSeriesValue->close,
-				high: $timeSeriesValue->high,
-				low: $timeSeriesValue->low,
-				volume: $timeSeriesValue->volume ?? '0',
+				open: new Decimal($timeSeriesValue->open),
+				close: new Decimal($timeSeriesValue->close),
+				high: new Decimal($timeSeriesValue->high),
+				low: new Decimal($timeSeriesValue->low),
+				volume: new Decimal($timeSeriesValue->volume ?? 0),
 			);
 
 			try {

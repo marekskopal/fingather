@@ -31,7 +31,7 @@ class ExchangeRateProvider
 		}
 
 		if ($currencyFrom->getId() === $currencyTo->getId()) {
-			$this->exchangeRates[$key] = new ExchangeRate(currency: $currencyTo, date: $date, rate: '1');
+			$this->exchangeRates[$key] = new ExchangeRate(currency: $currencyTo, date: $date, rate: new Decimal(1));
 
 			return $this->exchangeRates[$key];
 		}
@@ -50,7 +50,8 @@ class ExchangeRateProvider
 		}
 
 		if ($currencyFrom->getCode() === 'USD') {
-			return $this->getExchangeRateUsd($date, $currencyTo);
+			$this->exchangeRates[$key] = $this->getExchangeRateUsd($date, $currencyTo);
+			return $this->exchangeRates[$key];
 		}
 
 		$exchangeRateFromUsd = $this->getExchangeRateUsd($date, $currencyFrom);
@@ -59,7 +60,7 @@ class ExchangeRateProvider
 		$exchangeRate = new ExchangeRate(
 			currency: $currencyTo,
 			date: $date,
-			rate: (string) ((new Decimal($exchangeRateToUsd->getRate()))->div(new Decimal($exchangeRateFromUsd->getRate()))),
+			rate: $exchangeRateToUsd->getRate()->div($exchangeRateFromUsd->getRate()),
 		);
 
 		$this->exchangeRates[$key] = $exchangeRate;
@@ -87,7 +88,7 @@ class ExchangeRateProvider
 			$exchangeRate = new ExchangeRate(
 				currency: $currencyTo,
 				date: $timeSeriesValue->datetime,
-				rate: (string) ((new Decimal($timeSeriesValue->close))->mul($multiplier)),
+				rate: (new Decimal($timeSeriesValue->close))->mul($multiplier),
 			);
 			$this->exchangeRateRepository->persist($exchangeRate);
 		}
@@ -96,7 +97,7 @@ class ExchangeRateProvider
 	private function getExchangeRateUsd(DateTimeImmutable $date, Currency $currencyTo): ExchangeRate
 	{
 		if ($currencyTo->getCode() === 'USD') {
-			return new ExchangeRate(currency: $currencyTo, date: $date, rate: '1');
+			return new ExchangeRate(currency: $currencyTo, date: $date, rate: new Decimal(1));
 		}
 
 		$exchangeRate = $this->exchangeRateRepository->findExchangeRate($date, $currencyTo->getId());

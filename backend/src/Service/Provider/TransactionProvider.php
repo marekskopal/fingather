@@ -103,12 +103,12 @@ class TransactionProvider
 			createType: $createType->value,
 			created: $created,
 			modified: $created,
-			units: (string) $units,
-			price: $price !== null ? (string) $price : '0',
+			units: $units,
+			price: $price ?? new Decimal(0),
 			currency: $currency,
-			tax: $tax !== null ? (string) $tax : '0',
+			tax: $tax ?? new Decimal(0),
 			taxCurrency: $taxCurrency,
-			fee: $fee !== null ? (string) $fee : '0',
+			fee: $fee ?? new Decimal(0),
 			feeCurrency: $feeCurrency,
 			notes: $notes,
 			importIdentifier: $importIdentifier,
@@ -142,12 +142,12 @@ class TransactionProvider
 		$transaction->setActionType($actionType->value);
 		$transaction->setActionCreated($actionCreated);
 		$transaction->setModified($modified);
-		$transaction->setUnits((string) $units);
-		$transaction->setPrice($price !== null ? (string) $price : '0');
+		$transaction->setUnits($units);
+		$transaction->setPrice($price ?? new Decimal(0));
 		$transaction->setCurrency($currency);
-		$transaction->setTax($tax !== null ? (string) $tax : '0');
+		$transaction->setTax($tax ?? new Decimal(0));
 		$transaction->setTaxCurrency($taxCurrency);
-		$transaction->setFee($fee !== null ? (string) $fee : '0');
+		$transaction->setFee($fee ?? new Decimal(0));
 		$transaction->setFeeCurrency($feeCurrency);
 		$transaction->setNotes($notes);
 		$transaction->setImportIdentifier($importIdentifier);

@@ -7,10 +7,16 @@ namespace FinGather\Model\Entity;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\RefersTo;
+use Cycle\ORM\Parser\Typecast;
 use DateTimeImmutable;
+use Decimal\Decimal;
 use FinGather\Model\Repository\SplitRepository;
+use FinGather\Service\Dbal\DecimalTypecast;
 
-#[Entity(repository: SplitRepository::class)]
+#[Entity(repository: SplitRepository::class, typecast: [
+	Typecast::class,
+	DecimalTypecast::class,
+])]
 class Split extends AEntity
 {
 	public function __construct(
@@ -18,8 +24,8 @@ class Split extends AEntity
 		private Ticker $ticker,
 		#[Column(type: 'timestamp')]
 		private DateTimeImmutable $date,
-		#[Column(type: 'decimal(8,4)')]
-		private string $factor,
+		#[Column(type: 'decimal(8,4)', typecast: DecimalTypecast::Type)]
+		private Decimal $factor,
 	) {
 	}
 
@@ -43,12 +49,12 @@ class Split extends AEntity
 		$this->date = $date;
 	}
 
-	public function getFactor(): string
+	public function getFactor(): Decimal
 	{
 		return $this->factor;
 	}
 
-	public function setFactor(string $factor): void
+	public function setFactor(Decimal $factor): void
 	{
 		$this->factor = $factor;
 	}

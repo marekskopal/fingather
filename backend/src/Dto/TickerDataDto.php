@@ -29,11 +29,11 @@ final readonly class TickerDataDto
 			id: $tickerData->getId(),
 			tickerId: $tickerData->getTicker()->getId(),
 			date: DateTimeUtils::formatZulu($tickerData->getDate()),
-			open: new Decimal($tickerData->getOpen()),
-			close: new Decimal($tickerData->getClose()),
-			high: new Decimal($tickerData->getHigh()),
-			low: new Decimal($tickerData->getLow()),
-			volume: new Decimal($tickerData->getVolume()),
+			open: $tickerData->getOpen(),
+			close: $tickerData->getClose(),
+			high: $tickerData->getHigh(),
+			low: $tickerData->getLow(),
+			volume: $tickerData->getVolume(),
 		);
 	}
 

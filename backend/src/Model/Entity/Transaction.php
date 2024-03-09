@@ -7,10 +7,16 @@ namespace FinGather\Model\Entity;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\RefersTo;
+use Cycle\ORM\Parser\Typecast;
 use DateTimeImmutable;
+use Decimal\Decimal;
 use FinGather\Model\Repository\TransactionRepository;
+use FinGather\Service\Dbal\DecimalTypecast;
 
-#[Entity(repository: TransactionRepository::class)]
+#[Entity(repository: TransactionRepository::class, typecast: [
+	Typecast::class,
+	DecimalTypecast::class,
+])]
 class Transaction extends AEntity
 {
 	public function __construct(
@@ -32,18 +38,18 @@ class Transaction extends AEntity
 		private DateTimeImmutable $created,
 		#[Column(type: 'timestamp')]
 		private DateTimeImmutable $modified,
-		#[Column(type: 'decimal(18,8)')]
-		private string $units,
-		#[Column(type: 'decimal(9,2)')]
-		private string $price,
+		#[Column(type: 'decimal(18,8)', typecast: DecimalTypecast::Type)]
+		private Decimal $units,
+		#[Column(type: 'decimal(9,2)', typecast: DecimalTypecast::Type)]
+		private Decimal $price,
 		#[RefersTo(target: Currency::class)]
 		private Currency $currency,
-		#[Column(type: 'decimal(9,2)')]
-		private string $tax,
+		#[Column(type: 'decimal(9,2)', typecast: DecimalTypecast::Type)]
+		private Decimal $tax,
 		#[RefersTo(target: Currency::class, innerKey:'tax_currency_id')]
 		private Currency $taxCurrency,
-		#[Column(type: 'decimal(9,2)')]
-		private string $fee,
+		#[Column(type: 'decimal(9,2)', typecast: DecimalTypecast::Type)]
+		private Decimal $fee,
 		#[RefersTo(target: Currency::class, innerKey:'fee_currency_id')]
 		private Currency $feeCurrency,
 		#[Column(type: 'tinyText', nullable: true)]
@@ -143,22 +149,22 @@ class Transaction extends AEntity
 		$this->modified = $modified;
 	}
 
-	public function getUnits(): string
+	public function getUnits(): Decimal
 	{
 		return $this->units;
 	}
 
-	public function setUnits(string $units): void
+	public function setUnits(Decimal $units): void
 	{
 		$this->units = $units;
 	}
 
-	public function getPrice(): string
+	public function getPrice(): Decimal
 	{
 		return $this->price;
 	}
 
-	public function setPrice(string $price): void
+	public function setPrice(Decimal $price): void
 	{
 		$this->price = $price;
 	}
@@ -173,12 +179,12 @@ class Transaction extends AEntity
 		$this->currency = $currency;
 	}
 
-	public function getTax(): string
+	public function getTax(): Decimal
 	{
 		return $this->tax;
 	}
 
-	public function setTax(string $tax): void
+	public function setTax(Decimal $tax): void
 	{
 		$this->tax = $tax;
 	}
@@ -193,12 +199,12 @@ class Transaction extends AEntity
 		$this->taxCurrency = $taxCurrency;
 	}
 
-	public function getFee(): string
+	public function getFee(): Decimal
 	{
 		return $this->fee;
 	}
 
-	public function setFee(string $fee): void
+	public function setFee(Decimal $fee): void
 	{
 		$this->fee = $fee;
 	}
