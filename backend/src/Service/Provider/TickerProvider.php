@@ -159,7 +159,7 @@ class TickerProvider
 
 		// If the logo is not in the filesystem, we download it from API
 		try {
-			$logo = $ticker->getMarket()->getType() === MarketTypeEnum::Crypto->value ? $this->twelveData->getFundamentals()->logo(
+			$logo = $ticker->getMarket()->getType() === MarketTypeEnum::Crypto ? $this->twelveData->getFundamentals()->logo(
 				symbol: $ticker->getTicker() . '/USD',
 			) : $this->twelveData->getFundamentals()->logo(
 				symbol: $ticker->getTicker(),

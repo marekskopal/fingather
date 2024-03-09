@@ -52,7 +52,7 @@ class UserProvider
 			password: $hashedPassword,
 			name: $name,
 			defaultCurrency: $defaultCurrency,
-			role: $role->value,
+			role: $role,
 			isEmailVerified: $isEmailVerified,
 		);
 		$this->userRepository->persist($user);
@@ -82,7 +82,7 @@ class UserProvider
 
 		$user->setName($name);
 		$user->setDefaultCurrency($defaultCurrency);
-		$user->setRole($role->value);
+		$user->setRole($role);
 		$this->userRepository->persist($user);
 
 		return $user;

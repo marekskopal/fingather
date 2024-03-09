@@ -19,7 +19,7 @@ final readonly class BrokerDto
 			id: $entity->getId(),
 			userId: $entity->getUser()->getId(),
 			name: $entity->getName(),
-			importType: BrokerImportTypeEnum::from($entity->getImportType()),
+			importType: $entity->getImportType(),
 		);
 	}
 }

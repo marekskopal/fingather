@@ -113,7 +113,7 @@ class TickerDataProvider
 			$fromDate = DateTimeImmutable::createFromRegular($lastTickerData->getDate());
 		}
 
-		$marketType = MarketTypeEnum::from($ticker->getMarket()->getType());
+		$marketType = $ticker->getMarket()->getType();
 		match ($marketType) {
 			MarketTypeEnum::Stock => $this->createTickerDataFromStock($ticker, $fromDate),
 			MarketTypeEnum::Crypto => $this->createTickerDataFromCrypto($ticker, $fromDate),

@@ -7,6 +7,7 @@ namespace FinGather\Model\Entity;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\RefersTo;
+use FinGather\Model\Entity\Enum\UserRoleEnum;
 use FinGather\Model\Repository\UserRepository;
 
 #[Entity(repository: UserRepository::class)]
@@ -21,8 +22,8 @@ class User extends AEntity
 		private string $name,
 		#[RefersTo(target: Currency::class, innerKey:'default_currency_id')]
 		private Currency $defaultCurrency,
-		#[Column(type: 'enum(User,Admin)')]
-		private string $role,
+		#[Column(type: 'enum(User,Admin)', typecast: UserRoleEnum::class)]
+		private UserRoleEnum $role,
 		#[Column(type: 'boolean')]
 		private bool $isEmailVerified,
 	) {
@@ -68,12 +69,12 @@ class User extends AEntity
 		$this->defaultCurrency = $defaultCurrency;
 	}
 
-	public function getRole(): string
+	public function getRole(): UserRoleEnum
 	{
 		return $this->role;
 	}
 
-	public function setRole(string $role): void
+	public function setRole(UserRoleEnum $role): void
 	{
 		$this->role = $role;
 	}

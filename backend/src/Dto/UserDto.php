@@ -25,7 +25,7 @@ final readonly class UserDto
 			email: $entity->getEmail(),
 			name: $entity->getName(),
 			defaultCurrencyId: $entity->getDefaultCurrency()->getId(),
-			role: UserRoleEnum::from($entity->getRole()),
+			role: $entity->getRole(),
 		);
 	}
 

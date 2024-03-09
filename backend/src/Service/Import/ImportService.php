@@ -56,7 +56,7 @@ final class ImportService
 	/** @param array<string> $contents */
 	public function prepareImport(Broker $broker, array $contents): PrepareImport
 	{
-		$importMapper = $this->getImportMapper(BrokerImportTypeEnum::from($broker->getImportType()));
+		$importMapper = $this->getImportMapper($broker->getImportType());
 
 		$user = $broker->getUser();
 		$portfolio = $broker->getPortfolio();
@@ -133,7 +133,7 @@ final class ImportService
 	{
 		$broker = $import->getBroker();
 
-		$importMapper = $this->getImportMapper(BrokerImportTypeEnum::from($broker->getImportType()));
+		$importMapper = $this->getImportMapper($broker->getImportType());
 
 		$user = $import->getUser();
 		$portfolio = $import->getPortfolio();
