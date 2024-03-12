@@ -77,7 +77,7 @@ final class ApplicationFactory
 
 		$container->add(LoggerInterface::class, fn () => Logger::initLogger(__DIR__ . '/../../log'));
 
-		if ((bool) getenv('PROFILER_ENABLED') === true) {
+		if ((bool) getenv('PROFILER_ENABLE') === true) {
 			$container->add(XhprofMiddleware::class, fn () => new XhprofMiddleware(
 				appName: 'FinGather',
 				url: (string) getenv('PROFILER_ENDPOINT'),
@@ -86,12 +86,12 @@ final class ApplicationFactory
 
 		$container->add(
 			ResponseFactoryInterface::class,
-			fn (): ResponseFactoryInterface => Psr17FactoryDiscovery::findResponseFactory()
+			fn (): ResponseFactoryInterface => Psr17FactoryDiscovery::findResponseFactory(),
 		);
 
 		$container->add(
 			TwelveData::class,
-			fn (): TwelveData => new TwelveData(new Config((string) getenv('TWELVEDATA_API_KEY')))
+			fn (): TwelveData => new TwelveData(new Config((string) getenv('TWELVEDATA_API_KEY'))),
 		);
 
 		$container->add(ORM::class, $dbContext->getOrm());
@@ -130,7 +130,7 @@ final class ApplicationFactory
 		$router = new Router();
 		$router->setStrategy($strategy);
 
-		if ((bool) getenv('PROFILER_ENABLED') === true) {
+		if ((bool) getenv('PROFILER_ENABLE') === true) {
 			$xhprofMiddleware = $container->get(XhprofMiddleware::class);
 			assert($xhprofMiddleware instanceof XhprofMiddleware);
 			$router->middleware($xhprofMiddleware);
