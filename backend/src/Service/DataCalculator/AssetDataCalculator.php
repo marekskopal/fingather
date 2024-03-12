@@ -54,12 +54,12 @@ class AssetDataCalculator
 		foreach ($transactions as $transaction) {
 			if ($transaction->getActionType() === TransactionActionTypeEnum::Dividend) {
 				$dividendExchangeRate = $this->exchangeRateProvider->getExchangeRate(
-					DateTimeImmutable::createFromRegular($transaction->getActionCreated()),
+					$transaction->getActionCreated(),
 					$transaction->getCurrency(),
 					$tickerCurrency,
 				);
 
-				$dividendTotal = $dividendTotal->add($transaction->getPrice()->mul($dividendExchangeRate->getRate()));
+				$dividendTotal = $dividendTotal->add($transaction->getPrice()->mul($dividendExchangeRate));
 
 				continue;
 			}
@@ -81,24 +81,24 @@ class AssetDataCalculator
 
 			if ($tickerCurrency->getId() !== $transaction->getCurrency()->getId()) {
 				$transactionExchangeRate = $this->exchangeRateProvider->getExchangeRate(
-					DateTimeImmutable::createFromRegular($transaction->getActionCreated()),
+					$transaction->getActionCreated(),
 					$transaction->getCurrency(),
 					$tickerCurrency,
 				);
 
-				$transactionSum = $transactionSum->mul($transactionExchangeRate->getRate());
+				$transactionSum = $transactionSum->mul($transactionExchangeRate);
 			}
 
 			$transactionValue = $transactionValue->add($transactionSum);
 
 			$transactionExchangeRateDefaultCurrency = $this->exchangeRateProvider->getExchangeRate(
-				DateTimeImmutable::createFromRegular($transaction->getActionCreated()),
+				$transaction->getActionCreated(),
 				$tickerCurrency,
 				$user->getDefaultCurrency(),
 			);
 
 			$transactionValueDefaultCurrency = $transactionValueDefaultCurrency->add(
-				$transactionSum->mul($transactionExchangeRateDefaultCurrency->getRate()),
+				$transactionSum->mul($transactionExchangeRateDefaultCurrency),
 			);
 		}
 
@@ -106,18 +106,16 @@ class AssetDataCalculator
 		$price = $lastTickerData?->getClose() ?? new Decimal(0);
 
 		$exchangeRate = $this->exchangeRateProvider->getExchangeRate(
-			DateTimeImmutable::createFromRegular($dateTime),
+			$dateTime,
 			$tickerCurrency,
 			$user->getDefaultCurrency(),
 		);
 
-		$exchangeRateDecimal = $exchangeRate->getRate();
-
 		$value = $units->mul($price);
 		$gain = $value->sub($transactionValue);
-		$gainDefaultCurrency = $gain->mul($exchangeRateDecimal);
-		$dividendGainDefaultCurrency = $dividendTotal->mul($exchangeRateDecimal);
-		$fxImpact = $transactionValue->mul($exchangeRateDecimal)->sub($transactionValueDefaultCurrency);
+		$gainDefaultCurrency = $gain->mul($exchangeRate);
+		$dividendGainDefaultCurrency = $dividendTotal->mul($exchangeRate);
+		$fxImpact = $transactionValue->mul($exchangeRate)->sub($transactionValueDefaultCurrency);
 
 		$gainPercentage = CalculatorUtils::toPercentage($gain, $transactionValue);
 		$gainPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($gainPercentage, $fromFirstTransactionDays);
@@ -129,7 +127,7 @@ class AssetDataCalculator
 		return new AssetPropertiesDto(
 			price: $price,
 			units: $units,
-			value: $value->mul($exchangeRateDecimal),
+			value: $value->mul($exchangeRate),
 			transactionValue: $transactionValue,
 			transactionValueDefaultCurrency: $transactionValueDefaultCurrency,
 			gain: $gain,

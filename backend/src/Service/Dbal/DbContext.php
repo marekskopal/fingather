@@ -40,7 +40,8 @@ use Spiral\Tokenizer\Tokenizer;
 
 class DbContext
 {
-	private const string CacheKey = 'OrmSchema';
+	private const string CacheNamespace = 'Orm';
+	private const string CacheKey = 'Schema';
 
 	private ORMInterface $orm;
 
@@ -80,7 +81,7 @@ class DbContext
 		// Initialize annotations
 		//AnnotationRegistry::registerLoader('class_exists');
 
-		$cache = new Cache();
+		$cache = new Cache(self::CacheNamespace);
 		$schema = $cache->get(self::CacheKey);
 		if ($schema !== null && is_array($schema)) {
 			$this->orm = new ORM(new Factory($this->dbal), new Schema($schema));

@@ -5,38 +5,42 @@ declare(strict_types=1);
 namespace FinGather\Service\Provider;
 
 use DateInterval;
+use DateTimeImmutable;
 use Decimal\Decimal;
+use FinGather\Cache\Cache;
 use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\ExchangeRate;
 use FinGather\Model\Repository\ExchangeRateRepository;
 use MarekSkopal\TwelveData\TwelveData;
-use Safe\DateTimeImmutable;
 
 class ExchangeRateProvider
 {
-	/** @var array<string, ExchangeRate> */
-	private array $exchangeRates = [];
+	private readonly Cache $cache;
 
 	public function __construct(private readonly ExchangeRateRepository $exchangeRateRepository, private readonly TwelveData $twelveData,)
 	{
+		$this->cache = new Cache(self::class);
 	}
 
-	public function getExchangeRate(DateTimeImmutable $date, Currency $currencyFrom, Currency $currencyTo): ExchangeRate
+	public function getExchangeRate(DateTimeImmutable $date, Currency $currencyFrom, Currency $currencyTo): Decimal
 	{
 		$date = $date->setTime(0, 0);
 
 		$key = $date->getTimestamp() . '_' . $currencyFrom->getCode() . '_' . $currencyTo->getCode();
-		if (isset($this->exchangeRates[$key])) {
-			return $this->exchangeRates[$key];
+
+		$exchangeRate = $this->cache->get($key);
+		if ($exchangeRate instanceof Decimal) {
+			return $exchangeRate;
 		}
 
 		if ($currencyFrom->getId() === $currencyTo->getId()) {
-			$this->exchangeRates[$key] = new ExchangeRate(currency: $currencyTo, date: $date, rate: new Decimal(1));
+			$exchangeRate = new Decimal(1);
+			$this->cache->set($key, $exchangeRate);
 
-			return $this->exchangeRates[$key];
+			return $exchangeRate;
 		}
 
-		$today = new DateTimeImmutable('today');
+		$today = new \Safe\DateTimeImmutable('today');
 		if ($date->getTimestamp() === $today->getTimestamp()) {
 			$date = $date->sub(DateInterval::createFromDateString('1 day'));
 		}
@@ -50,20 +54,18 @@ class ExchangeRateProvider
 		}
 
 		if ($currencyFrom->getCode() === 'USD') {
-			$this->exchangeRates[$key] = $this->getExchangeRateUsd($date, $currencyTo);
-			return $this->exchangeRates[$key];
+			$exchangeRate = $this->getExchangeRateUsd($date, $currencyTo);
+			$this->cache->set($key, $exchangeRate);
+
+			return $exchangeRate;
 		}
 
 		$exchangeRateFromUsd = $this->getExchangeRateUsd($date, $currencyFrom);
 		$exchangeRateToUsd = $this->getExchangeRateUsd($date, $currencyTo);
 
-		$exchangeRate = new ExchangeRate(
-			currency: $currencyTo,
-			date: $date,
-			rate: $exchangeRateToUsd->getRate()->div($exchangeRateFromUsd->getRate()),
-		);
+		$exchangeRate = $exchangeRateToUsd->div($exchangeRateFromUsd);
 
-		$this->exchangeRates[$key] = $exchangeRate;
+		$this->cache->set($key, $exchangeRate);
 
 		return $exchangeRate;
 	}
@@ -82,7 +84,7 @@ class ExchangeRateProvider
 
 		$timeSeries = $this->twelveData->getCoreData()->timeSeries(
 			symbol: 'USD/' . $code,
-			startDate: $lastExchangeRate?->getDate() ?? new DateTimeImmutable('2020-01-01'),
+			startDate: $lastExchangeRate?->getDate() ?? new \Safe\DateTimeImmutable('2020-01-01'),
 		);
 		foreach ($timeSeries->values as $timeSeriesValue) {
 			$exchangeRate = new ExchangeRate(
@@ -94,15 +96,15 @@ class ExchangeRateProvider
 		}
 	}
 
-	private function getExchangeRateUsd(DateTimeImmutable $date, Currency $currencyTo): ExchangeRate
+	private function getExchangeRateUsd(DateTimeImmutable $date, Currency $currencyTo): Decimal
 	{
 		if ($currencyTo->getCode() === 'USD') {
-			return new ExchangeRate(currency: $currencyTo, date: $date, rate: new Decimal(1));
+			return new Decimal(1);
 		}
 
 		$exchangeRate = $this->exchangeRateRepository->findExchangeRate($date, $currencyTo->getId());
 		if ($exchangeRate !== null) {
-			return $exchangeRate;
+			return $exchangeRate->getRate();
 		}
 
 		$lastExchangeRate = $this->exchangeRateRepository->findLastExchangeRate($currencyTo->getId());
@@ -110,10 +112,10 @@ class ExchangeRateProvider
 		if ($date < $lastExchangeRate->getDate()) {
 			$exchangeRate = $this->exchangeRateRepository->findNearestExchangeRate($date, $currencyTo->getId());
 			if ($exchangeRate !== null) {
-				return $exchangeRate;
+				return $exchangeRate->getRate();
 			}
 		}
 
-		return $lastExchangeRate;
+		return $lastExchangeRate->getRate();
 	}
 }
