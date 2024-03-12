@@ -78,7 +78,7 @@ class BenchmarkDataProvider
 						$tickerCurrency,
 					);
 
-					$transactionPriceUnit = $transactionPriceUnit->mul($transactionExchangeRate->getRate());
+					$transactionPriceUnit = $transactionPriceUnit->mul($transactionExchangeRate);
 				}
 
 				$transactionExchangeRateDefaultCurrency = $this->exchangeRateProvider->getExchangeRate(
@@ -87,7 +87,7 @@ class BenchmarkDataProvider
 					$user->getDefaultCurrency(),
 				);
 
-				$transactionPriceUnitDefaultCurrency = $transactionPriceUnit->mul($transactionExchangeRateDefaultCurrency->getRate());
+				$transactionPriceUnitDefaultCurrency = $transactionPriceUnit->mul($transactionExchangeRateDefaultCurrency);
 
 				$benchmarkTransactionExchangeRateDefaultCurrency = $this->exchangeRateProvider->getExchangeRate(
 					$transactionActionCreated,
@@ -101,7 +101,7 @@ class BenchmarkDataProvider
 				);
 				if ($benchmarkTransactionAssetTickerData !== null) {
 					$benchmarkPrice = $benchmarkTransactionAssetTickerData->getClose();
-					$benchmarkPriceUnitDefaultCurrency = $benchmarkPrice->mul($benchmarkTransactionExchangeRateDefaultCurrency->getRate());
+					$benchmarkPriceUnitDefaultCurrency = $benchmarkPrice->mul($benchmarkTransactionExchangeRateDefaultCurrency);
 
 					$benchmarkUnits = $transactionUnits->mul($transactionPriceUnitDefaultCurrency)->div($benchmarkPriceUnitDefaultCurrency);
 				} else {
@@ -123,7 +123,7 @@ class BenchmarkDataProvider
 			$benchmarkUnitsSum = $benchmarkUnitsSum->add($benchmarkFromDateUnits);
 
 			$value = $benchmarkUnitsSum->mul(
-				$benchmarkAssetTickerData->getClose()->mul($benchmarkExchangeRateDefaultCurrency->getRate()),
+				$benchmarkAssetTickerData->getClose()->mul($benchmarkExchangeRateDefaultCurrency),
 			);
 		} else {
 			$value = new Decimal(0);
@@ -174,9 +174,7 @@ class BenchmarkDataProvider
 				$user->getDefaultCurrency(),
 			);
 
-			$benchmarkUnitPriceDefaultCurrency = $benchmarkAssetTickerData->getClose()->mul(
-				$benchmarkExchangeRateDefaultCurrency->getRate(),
-			);
+			$benchmarkUnitPriceDefaultCurrency = $benchmarkAssetTickerData->getClose()->mul($benchmarkExchangeRateDefaultCurrency);
 
 			$benchmarkUnits = $portfolioDataValue->div($benchmarkUnitPriceDefaultCurrency);
 		} else {

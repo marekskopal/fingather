@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace FinGather\Model\Repository;
 
+use DateTimeImmutable;
 use FinGather\Model\Entity\ExchangeRate;
-use Safe\DateTimeImmutable;
 
 /** @extends ARepository<ExchangeRate> */
 class ExchangeRateRepository extends ARepository

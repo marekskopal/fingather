@@ -16,7 +16,7 @@ class Cache implements CacheInterface
 {
 	private readonly StorageInterface $storage;
 
-	public function __construct()
+	public function __construct(private readonly ?string $namespace = null)
 	{
 		/** @var non-empty-string $address */
 		$address = Environment::fromGlobals()->getRPCAddress();
@@ -29,17 +29,17 @@ class Cache implements CacheInterface
 
 	public function get(string $key, mixed $default = null): mixed
 	{
-		return $this->storage->get($key);
+		return $this->storage->get($this->namespace . $key);
 	}
 
 	public function set(string $key, mixed $value, DateInterval|int|null $ttl = null): bool
 	{
-		return $this->storage->set($key, $value, $ttl);
+		return $this->storage->set($this->namespace . $key, $value, $ttl);
 	}
 
 	public function delete(string $key): bool
 	{
-		return $this->storage->delete($key);
+		return $this->storage->delete($this->namespace . $key);
 	}
 
 	public function clear(): bool
@@ -65,6 +65,6 @@ class Cache implements CacheInterface
 
 	public function has(string $key): bool
 	{
-		return $this->storage->has($key);
+		return $this->storage->has($this->namespace . $key);
 	}
 }
