@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "de3c3eb906739e23c5557dae4953d6af",
+    "content-hash": "73170f289dd7243b4fdc7b36c6790678",
     "packages": [
         {
             "name": "brick/math",
@@ -1750,6 +1750,57 @@
                 }
             ],
             "time": "2023-06-21T14:59:35+00:00"
+        },
+        {
+            "name": "marekskopal/buggregator-client",
+            "version": "v0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/marekskopal/buggregator-client.git",
+                "reference": "f3858eff5205e79a2c0f8664cb2372d24e8bea99"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/marekskopal/buggregator-client/zipball/f3858eff5205e79a2c0f8664cb2372d24e8bea99",
+                "reference": "f3858eff5205e79a2c0f8664cb2372d24e8bea99",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.2",
+                "php-http/discovery": "^1.19",
+                "psr/http-client": "^1.0",
+                "psr/http-server-middleware": "^1.0"
+            },
+            "require-dev": {
+                "phpstan/extension-installer": "^1.3",
+                "phpstan/phpstan": "^1.10",
+                "phpstan/phpstan-strict-rules": "^1.5",
+                "phpunit/phpunit": "^10.2",
+                "slevomat/coding-standard": "^8.14",
+                "spatie/ray": "^1.39"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MarekSkopal\\BuggregatorClient\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marek Skopal",
+                    "homepage": "https://www.marekskopal.cz"
+                }
+            ],
+            "description": "Buggregator client library for xhprof as PSR-15 middleware",
+            "support": {
+                "issues": "https://github.com/marekskopal/buggregator-client/issues",
+                "source": "https://github.com/marekskopal/buggregator-client/tree/v0.1.0"
+            },
+            "time": "2024-03-11T21:59:51+00:00"
         },
         {
             "name": "marekskopal/cycle-decimal",
@@ -6907,16 +6958,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "11.0.1",
+            "version": "11.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "89702be0ad026873ef3a1605fe8726254eef4e2c"
+                "reference": "9e0a298b4dc6438a1e70ac8e1b3ea4980ae5a09b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/89702be0ad026873ef3a1605fe8726254eef4e2c",
-                "reference": "89702be0ad026873ef3a1605fe8726254eef4e2c",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/9e0a298b4dc6438a1e70ac8e1b3ea4980ae5a09b",
+                "reference": "9e0a298b4dc6438a1e70ac8e1b3ea4980ae5a09b",
                 "shasum": ""
             },
             "require": {
@@ -6973,7 +7024,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
                 "security": "https://github.com/sebastianbergmann/php-code-coverage/security/policy",
-                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/11.0.1"
+                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/11.0.2"
             },
             "funding": [
                 {
@@ -6981,7 +7032,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-03-02T07:34:25+00:00"
+            "time": "2024-03-09T16:56:49+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -8253,32 +8304,32 @@
         },
         {
             "name": "slevomat/coding-standard",
-            "version": "8.14.1",
+            "version": "8.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/slevomat/coding-standard.git",
-                "reference": "fea1fd6f137cc84f9cba0ae30d549615dbc6a926"
+                "reference": "7d1d957421618a3803b593ec31ace470177d7817"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/slevomat/coding-standard/zipball/fea1fd6f137cc84f9cba0ae30d549615dbc6a926",
-                "reference": "fea1fd6f137cc84f9cba0ae30d549615dbc6a926",
+                "url": "https://api.github.com/repos/slevomat/coding-standard/zipball/7d1d957421618a3803b593ec31ace470177d7817",
+                "reference": "7d1d957421618a3803b593ec31ace470177d7817",
                 "shasum": ""
             },
             "require": {
                 "dealerdirect/phpcodesniffer-composer-installer": "^0.6.2 || ^0.7 || ^1.0",
                 "php": "^7.2 || ^8.0",
                 "phpstan/phpdoc-parser": "^1.23.1",
-                "squizlabs/php_codesniffer": "^3.7.1"
+                "squizlabs/php_codesniffer": "^3.9.0"
             },
             "require-dev": {
                 "phing/phing": "2.17.4",
                 "php-parallel-lint/php-parallel-lint": "1.3.2",
-                "phpstan/phpstan": "1.10.37",
+                "phpstan/phpstan": "1.10.60",
                 "phpstan/phpstan-deprecation-rules": "1.1.4",
-                "phpstan/phpstan-phpunit": "1.3.14",
-                "phpstan/phpstan-strict-rules": "1.5.1",
-                "phpunit/phpunit": "8.5.21|9.6.8|10.3.5"
+                "phpstan/phpstan-phpunit": "1.3.16",
+                "phpstan/phpstan-strict-rules": "1.5.2",
+                "phpunit/phpunit": "8.5.21|9.6.8|10.5.11"
             },
             "type": "phpcodesniffer-standard",
             "extra": {
@@ -8302,7 +8353,7 @@
             ],
             "support": {
                 "issues": "https://github.com/slevomat/coding-standard/issues",
-                "source": "https://github.com/slevomat/coding-standard/tree/8.14.1"
+                "source": "https://github.com/slevomat/coding-standard/tree/8.15.0"
             },
             "funding": [
                 {
@@ -8314,7 +8365,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-10-08T07:28:08+00:00"
+            "time": "2024-03-09T15:20:58+00:00"
         },
         {
             "name": "spatie/backtrace",

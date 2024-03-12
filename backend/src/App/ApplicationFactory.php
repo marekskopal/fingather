@@ -50,6 +50,7 @@ use Http\Discovery\Psr17FactoryDiscovery;
 use League\Container\Container;
 use League\Container\ReflectionContainer;
 use League\Route\Router;
+use MarekSkopal\BuggregatorClient\Middleware\XhprofMiddleware;
 use MarekSkopal\TwelveData\Config\Config;
 use MarekSkopal\TwelveData\TwelveData;
 use Psr\Container\ContainerInterface;
@@ -75,6 +76,13 @@ final class ApplicationFactory
 		$container->delegate((new ReflectionContainer(true)));
 
 		$container->add(LoggerInterface::class, fn () => Logger::initLogger(__DIR__ . '/../../log'));
+
+		if ((bool) getenv('PROFILER_ENABLED') === true) {
+			$container->add(XhprofMiddleware::class, fn () => new XhprofMiddleware(
+				appName: 'FinGather',
+				url: (string) getenv('PROFILER_ENDPOINT'),
+			));
+		}
 
 		$container->add(
 			ResponseFactoryInterface::class,
@@ -121,6 +129,12 @@ final class ApplicationFactory
 
 		$router = new Router();
 		$router->setStrategy($strategy);
+
+		if ((bool) getenv('PROFILER_ENABLED') === true) {
+			$xhprofMiddleware = $container->get(XhprofMiddleware::class);
+			assert($xhprofMiddleware instanceof XhprofMiddleware);
+			$router->middleware($xhprofMiddleware);
+		}
 
 		$authorizationMiddleware = $container->get(AuthorizationMiddleware::class);
 		assert($authorizationMiddleware instanceof AuthorizationMiddleware);
