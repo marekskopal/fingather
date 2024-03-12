@@ -19,6 +19,7 @@ class PortfolioDataProvider
 		private readonly PortfolioDataRepository $portfolioDataRepository,
 		private readonly DataCalculator $dataCalculator,
 		private readonly AssetProvider $assetProvider,
+		private readonly AssetDataProvider $assetDataProvider,
 		private readonly TransactionProvider $transactionProvider,
 	) {
 	}
@@ -36,12 +37,12 @@ class PortfolioDataProvider
 
 		$assets = $this->assetProvider->getAssets(user: $user, portfolio: $portfolio, dateTime: $dateTime);
 		foreach ($assets as $asset) {
-			$assetProperties = $this->assetProvider->getAssetProperties($user, $portfolio, $asset, $dateTime);
-			if ($assetProperties === null || $assetProperties->isClosed()) {
+			$assetData = $this->assetDataProvider->getAssetData($user, $portfolio, $asset, $dateTime);
+			if ($assetData === null || $assetData->isClosed()) {
 				continue;
 			}
 
-			$assetDtos[] = AssetWithPropertiesDto::fromEntity($asset, $assetProperties);
+			$assetDtos[] = AssetWithPropertiesDto::fromEntity($asset, $assetData);
 		}
 
 		$fistTransactionActionCreated = $this->transactionProvider->getFirstTransaction(

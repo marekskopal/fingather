@@ -6,7 +6,7 @@ namespace FinGather\Dto;
 
 use Decimal\Decimal;
 use FinGather\Model\Entity\Asset;
-use FinGather\Service\Provider\Dto\AssetPropertiesDto;
+use FinGather\Model\Entity\AssetData;
 
 final readonly class AssetWithPropertiesDto
 {
@@ -37,32 +37,32 @@ final readonly class AssetWithPropertiesDto
 	) {
 	}
 
-	public static function fromEntity(Asset $asset, AssetPropertiesDto $assetProperties): self
+	public static function fromEntity(Asset $asset, AssetData $assetData): self
 	{
 		return new self(
 			id: $asset->getId(),
 			tickerId: $asset->getTicker()->getId(),
 			ticker: TickerDto::fromEntity($asset->getTicker()),
 			groupId: $asset->getGroup()->getId(),
-			price: $assetProperties->price,
-			units: $assetProperties->units,
-			value: $assetProperties->value,
-			transactionValue: $assetProperties->transactionValue,
-			transactionValueDefaultCurrency: $assetProperties->transactionValueDefaultCurrency,
-			gain: $assetProperties->gain,
-			gainDefaultCurrency: $assetProperties->gainDefaultCurrency,
-			gainPercentage: $assetProperties->gainPercentage,
-			gainPercentagePerAnnum: $assetProperties->gainPercentagePerAnnum,
-			dividendGain: $assetProperties->dividendGain,
-			dividendGainDefaultCurrency: $assetProperties->dividendGainDefaultCurrency,
-			dividendGainPercentage: $assetProperties->dividendGainPercentage,
-			dividendGainPercentagePerAnnum: $assetProperties->dividendGainPercentagePerAnnum,
-			fxImpact: $assetProperties->fxImpact,
-			fxImpactPercentage: $assetProperties->fxImpactPercentage,
-			fxImpactPercentagePerAnnum: $assetProperties->fxImpactPercentagePerAnnum,
-			return: $assetProperties->return,
-			returnPercentage: $assetProperties->returnPercentage,
-			returnPercentagePerAnnum: $assetProperties->returnPercentagePerAnnum,
+			price: $assetData->getPrice(),
+			units: $assetData->getUnits(),
+			value: $assetData->getValue(),
+			transactionValue: $assetData->getTransactionValue(),
+			transactionValueDefaultCurrency: $assetData->getTransactionValueDefaultCurrency(),
+			gain: $assetData->getGain(),
+			gainDefaultCurrency: $assetData->getGainDefaultCurrency(),
+			gainPercentage: $assetData->getGainPercentage(),
+			gainPercentagePerAnnum: $assetData->getGainPercentagePerAnnum(),
+			dividendGain: $assetData->getDividendGain(),
+			dividendGainDefaultCurrency: $assetData->getDividendGainDefaultCurrency(),
+			dividendGainPercentage: $assetData->getDividendGainPercentage(),
+			dividendGainPercentagePerAnnum: $assetData->getDividendGainPercentagePerAnnum(),
+			fxImpact: $assetData->getFxImpact(),
+			fxImpactPercentage: $assetData->getFxImpactPercentage(),
+			fxImpactPercentagePerAnnum: $assetData->getFxImpactPercentagePerAnnum(),
+			return: $assetData->getReturn(),
+			returnPercentage: $assetData->getReturnPercentage(),
+			returnPercentagePerAnnum: $assetData->getReturnPercentagePerAnnum(),
 		);
 	}
 }

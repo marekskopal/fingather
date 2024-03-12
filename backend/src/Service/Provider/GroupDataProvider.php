@@ -20,6 +20,7 @@ class GroupDataProvider
 		private readonly GroupDataRepository $groupDataRepository,
 		private readonly DataCalculator $dataCalculator,
 		private readonly AssetProvider $assetProvider,
+		private readonly AssetDataProvider $assetDataProvider,
 	) {
 	}
 
@@ -38,16 +39,16 @@ class GroupDataProvider
 
 		$assets = $this->assetProvider->getAssets($user, $portfolio, $dateTime, $group);
 		foreach ($assets as $asset) {
-			$assetProperties = $this->assetProvider->getAssetProperties($user, $portfolio, $asset, $dateTime);
-			if ($assetProperties === null || $assetProperties->isClosed()) {
+			$assetData = $this->assetDataProvider->getAssetData($user, $portfolio, $asset, $dateTime);
+			if ($assetData === null || $assetData->isClosed()) {
 				continue;
 			}
 
-			if ($firstTransactionActionCreated > $assetProperties->firstTransactionActionCreated) {
-				$firstTransactionActionCreated = $assetProperties->firstTransactionActionCreated;
+			if ($firstTransactionActionCreated > $assetData->getFirstTransactionActionCreated()) {
+				$firstTransactionActionCreated = $assetData->getFirstTransactionActionCreated();
 			}
 
-			$assetDtos[] = AssetWithPropertiesDto::fromEntity($asset, $assetProperties);
+			$assetDtos[] = AssetWithPropertiesDto::fromEntity($asset, $assetData);
 		}
 
 		$calculatedData = $this->dataCalculator->calculate($assetDtos, $dateTime, $firstTransactionActionCreated);
