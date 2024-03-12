@@ -9,6 +9,7 @@ use FinGather\Dto\AssetsWithPropertiesDto;
 use FinGather\Dto\AssetWithPropertiesDto;
 use FinGather\Dto\TickerDto;
 use FinGather\Response\NotFoundResponse;
+use FinGather\Service\Provider\AssetDataProvider;
 use FinGather\Service\Provider\AssetProvider;
 use FinGather\Service\Provider\MarketProvider;
 use FinGather\Service\Provider\PortfolioProvider;
@@ -24,6 +25,7 @@ class AssetController
 {
 	public function __construct(
 		private readonly AssetProvider $assetProvider,
+		private readonly AssetDataProvider $assetDataProvider,
 		private readonly TickerProvider $tickerProvider,
 		private readonly TickerDataProvider $tickerDataProvider,
 		private readonly PortfolioProvider $portfolioProvider,
@@ -83,8 +85,8 @@ class AssetController
 		$watchedAssets = [];
 
 		foreach ($assets as $asset) {
-			$assetProperties = $this->assetProvider->getAssetProperties($user, $portfolio, $asset, $dateTime);
-			if ($assetProperties === null) {
+			$assetData = $this->assetDataProvider->getAssetData($user, $portfolio, $asset, $dateTime);
+			if ($assetData === null) {
 				$lastTickerData = $this->tickerDataProvider->getLastTickerData($asset->getTicker(), $dateTime);
 				assert($lastTickerData !== null);
 				$watchedAssets[] = AssetDto::fromEntity($asset, $lastTickerData->getClose());
@@ -92,9 +94,9 @@ class AssetController
 				continue;
 			}
 
-			$assetDto = AssetWithPropertiesDto::fromEntity($asset, $assetProperties);
+			$assetDto = AssetWithPropertiesDto::fromEntity($asset, $assetData);
 
-			if ($assetProperties->isClosed()) {
+			if ($assetData->isClosed()) {
 				$closedAssets[] = $assetDto;
 			} else {
 				$openAssets[] = $assetDto;
@@ -123,8 +125,8 @@ class AssetController
 
 		$dateTime = new DateTimeImmutable();
 
-		$assetProperties = $this->assetProvider->getAssetProperties($user, $asset->getPortfolio(), $asset, $dateTime);
-		if ($assetProperties === null) {
+		$assetData = $this->assetDataProvider->getAssetData($user, $asset->getPortfolio(), $asset, $dateTime);
+		if ($assetData === null) {
 			$lastTickerData = $this->tickerDataProvider->getLastTickerData($asset->getTicker(), $dateTime);
 			if ($lastTickerData === null) {
 				return new NotFoundResponse('Asset with id "' . $assetId . '" was not found.');
@@ -133,7 +135,7 @@ class AssetController
 			return new JsonResponse(AssetDto::fromEntity($asset, $lastTickerData->getClose()));
 		}
 
-		return new JsonResponse(AssetWithPropertiesDto::fromEntity($asset, $assetProperties));
+		return new JsonResponse(AssetWithPropertiesDto::fromEntity($asset, $assetData));
 	}
 
 	public function actionCreateAsset(ServerRequestInterface $request, int $portfolioId): ResponseInterface

@@ -9,7 +9,7 @@ use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
-use FinGather\Service\Provider\Dto\AssetPropertiesDto;
+use FinGather\Service\Provider\Dto\AssetDataDto;
 use FinGather\Service\Provider\ExchangeRateProvider;
 use FinGather\Service\Provider\SplitProvider;
 use FinGather\Service\Provider\TickerDataProvider;
@@ -27,7 +27,7 @@ class AssetDataCalculator
 	) {
 	}
 
-	public function calculate(User $user, Portfolio $portfolio, Asset $asset, DateTimeImmutable $dateTime): ?AssetPropertiesDto
+	public function calculate(User $user, Portfolio $portfolio, Asset $asset, DateTimeImmutable $dateTime): ?AssetDataDto
 	{
 		$transactions = $this->transactionProvider->getTransactions(
 			user: $user,
@@ -124,7 +124,7 @@ class AssetDataCalculator
 		$fxImpactPercentage = CalculatorUtils::toPercentage($fxImpact, $transactionValueDefaultCurrency);
 		$fxImpactPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($fxImpactPercentage, $fromFirstTransactionDays);
 
-		return new AssetPropertiesDto(
+		return new AssetDataDto(
 			price: $price,
 			units: $units,
 			value: $value->mul($exchangeRate),

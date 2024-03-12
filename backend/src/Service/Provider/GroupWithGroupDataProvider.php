@@ -18,6 +18,7 @@ class GroupWithGroupDataProvider
 		private readonly PortfolioDataProvider $portfolioDataProvider,
 		private readonly AssetProvider $assetProvider,
 		private readonly GroupDataProvider $groupDataProvider,
+		private readonly AssetDataProvider $assetDataProvider,
 	) {
 	}
 
@@ -31,12 +32,12 @@ class GroupWithGroupDataProvider
 
 		$assets = $this->assetProvider->getAssets(user: $user, portfolio: $portfolio, dateTime: $dateTime);
 		foreach ($assets as $asset) {
-			$assetProperties = $this->assetProvider->getAssetProperties($user, $portfolio, $asset, $dateTime);
-			if ($assetProperties === null || $assetProperties->isClosed()) {
+			$assetData = $this->assetDataProvider->getAssetData($user, $portfolio, $asset, $dateTime);
+			if ($assetData === null || $assetData->isClosed()) {
 				continue;
 			}
 
-			$assetDto = AssetWithPropertiesDto::fromEntity($asset, $assetProperties);
+			$assetDto = AssetWithPropertiesDto::fromEntity($asset, $assetData);
 
 			$group = $asset->getGroup();
 

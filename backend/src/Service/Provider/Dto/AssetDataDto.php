@@ -7,7 +7,7 @@ namespace FinGather\Service\Provider\Dto;
 use DateTimeImmutable;
 use Decimal\Decimal;
 
-readonly class AssetPropertiesDto
+readonly class AssetDataDto
 {
 	public function __construct(
 		public Decimal $price,
@@ -31,15 +31,5 @@ readonly class AssetPropertiesDto
 		public float $returnPercentagePerAnnum,
 		public DateTimeImmutable $firstTransactionActionCreated,
 	) {
-	}
-
-	public function isOpen(): bool
-	{
-		return $this->units->isPositive() && !$this->units->isZero();
-	}
-
-	public function isClosed(): bool
-	{
-		return !$this->isOpen();
 	}
 }

@@ -10,17 +10,12 @@ use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\AssetRepository;
-use FinGather\Service\DataCalculator\AssetDataCalculator;
-use FinGather\Service\Provider\Dto\AssetPropertiesDto;
 use Safe\DateTimeImmutable;
 
 class AssetProvider
 {
-	public function __construct(
-		private readonly AssetRepository $assetRepository,
-		private readonly GroupProvider $groupProvider,
-		private readonly AssetDataCalculator $assetDataCalculator,
-	) {
+	public function __construct(private readonly AssetRepository $assetRepository, private readonly GroupProvider $groupProvider,)
+	{
 	}
 
 	/** @return array<int, Asset> */
@@ -37,11 +32,6 @@ class AssetProvider
 	public function getAsset(User $user, int $assetId): ?Asset
 	{
 		return $this->assetRepository->findAsset($assetId, $user->getId());
-	}
-
-	public function getAssetProperties(User $user, Portfolio $portfolio, Asset $asset, DateTimeImmutable $dateTime): ?AssetPropertiesDto
-	{
-		return $this->assetDataCalculator->calculate($user, $portfolio, $asset, $dateTime);
 	}
 
 	public function createAsset(User $user, Portfolio $portfolio, Ticker $ticker): Asset
