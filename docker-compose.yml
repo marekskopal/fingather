@@ -57,6 +57,8 @@ services:
             SMTP_PORT: ${SMTP_PORT}
             SMTP_USER: ${SMTP_USER}
             SMTP_PASSWORD: ${SMTP_PASSWORD}
+            PROFILER_ENABLED: ${PROFILER_ENABLED}
+            PROFILER_ENDPOINT: ${PROFILER_ENDPOINT}
             AUTHORIZATION_TOKEN_KEY: ${AUTHORIZATION_TOKEN_KEY}
             ALPHAVANTAGE_API_KEY: ${ALPHAVANTAGE_API_KEY}
             TWELVEDATA_API_KEY: ${TWELVEDATA_API_KEY}
@@ -122,6 +124,18 @@ services:
         networks:
             - frontend
             - backend
+
+    buggregator:
+        image: ghcr.io/buggregator/server:dev
+        ports:
+            - 127.0.0.1:8000:8000
+            - 127.0.0.1:1025:1025
+            - 127.0.0.1:9912:9912
+            - 127.0.0.1:9913:9913
+        networks:
+            - backend
+        profiles:
+            - dev
 
 networks:
     frontend:
