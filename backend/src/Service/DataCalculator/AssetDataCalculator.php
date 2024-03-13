@@ -44,9 +44,18 @@ class AssetDataCalculator
 		$transactionValue = new Decimal(0);
 		$transactionValueDefaultCurrency = new Decimal(0);
 		$units = new Decimal(0);
-		$dividendTotal = new Decimal(0);
+		$dividendGain = new Decimal(0);
+		$dividendGainDefaultCurrency = new Decimal(0);
+		$dividendGainTickerCurrency = new Decimal(0);
 
+		$defaultCurrency = $user->getDefaultCurrency();
 		$tickerCurrency = $asset->getTicker()->getCurrency();
+
+		$exchangeRate = $this->exchangeRateProvider->getExchangeRate(
+			$dateTime,
+			$tickerCurrency,
+			$user->getDefaultCurrency(),
+		);
 
 		$firstTransaction = $transactions[array_key_last($transactions)];
 		$fromFirstTransactionDays = (int) $dateTime->diff($firstTransaction->getActionCreated())->days;
@@ -59,7 +68,15 @@ class AssetDataCalculator
 					$tickerCurrency,
 				);
 
-				$dividendTotal = $dividendTotal->add($transaction->getPrice()->mul($dividendExchangeRate));
+				$dividendTransactionValue = $transaction->getPrice()->mul($dividendExchangeRate);
+
+				$dividendGain = $dividendGain->add($dividendTransactionValue);
+
+				if ($transaction->getCurrency()->getId() === $defaultCurrency->getId()) {
+					$dividendGainDefaultCurrency = $dividendGainDefaultCurrency->add($transaction->getPrice());
+				} else {
+					$dividendGainTickerCurrency = $dividendGainTickerCurrency->add($dividendTransactionValue);
+				}
 
 				continue;
 			}
@@ -105,21 +122,15 @@ class AssetDataCalculator
 		$lastTickerData = $this->tickerDataProvider->getLastTickerData($asset->getTicker(), $dateTime);
 		$price = $lastTickerData?->getClose() ?? new Decimal(0);
 
-		$exchangeRate = $this->exchangeRateProvider->getExchangeRate(
-			$dateTime,
-			$tickerCurrency,
-			$user->getDefaultCurrency(),
-		);
-
 		$value = $units->mul($price);
 		$gain = $value->sub($transactionValue);
 		$gainDefaultCurrency = $gain->mul($exchangeRate);
-		$dividendGainDefaultCurrency = $dividendTotal->mul($exchangeRate);
+		$dividendGainDefaultCurrency = $dividendGainDefaultCurrency->add($dividendGainTickerCurrency->mul($exchangeRate));
 		$fxImpact = $transactionValue->mul($exchangeRate)->sub($transactionValueDefaultCurrency);
 
 		$gainPercentage = CalculatorUtils::toPercentage($gain, $transactionValue);
 		$gainPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($gainPercentage, $fromFirstTransactionDays);
-		$dividendGainPercentage = CalculatorUtils::toPercentage($dividendTotal, $transactionValue);
+		$dividendGainPercentage = CalculatorUtils::toPercentage($dividendGain, $transactionValue);
 		$dividendGainPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($dividendGainPercentage, $fromFirstTransactionDays);
 		$fxImpactPercentage = CalculatorUtils::toPercentage($fxImpact, $transactionValueDefaultCurrency);
 		$fxImpactPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($fxImpactPercentage, $fromFirstTransactionDays);
@@ -134,7 +145,7 @@ class AssetDataCalculator
 			gainDefaultCurrency: $gainDefaultCurrency,
 			gainPercentage: $gainPercentage,
 			gainPercentagePerAnnum: $gainPercentagePerAnnum,
-			dividendGain: $dividendTotal,
+			dividendGain: $dividendGain,
 			dividendGainDefaultCurrency: $dividendGainDefaultCurrency,
 			dividendGainPercentage: $dividendGainPercentage,
 			dividendGainPercentagePerAnnum: $dividendGainPercentagePerAnnum,
