@@ -22,26 +22,28 @@ class DataCalculator
 		$fromFirstTransactionDays = (int) $dateTime->diff($firstTransactionActionCreated)->days;
 
 		$sumAssetValue = new Decimal(0);
-		$sumAssetTransactionValue = new Decimal(0);
 		$sumAssetTransactionValueDefaultCurrency = new Decimal(0);
-		$sumGain = new Decimal(0);
 		$sumGainDefaultCurrency = new Decimal(0);
 		$sumDividendGain = new Decimal(0);
 		$sumFxImpact = new Decimal(0);
 
 		foreach ($assets as $asset) {
+			$sumDividendGain = $sumDividendGain->add($asset->dividendGainDefaultCurrency);
+
+			if ($asset->isClosed) {
+				//TOOO: think twice about this
+				continue;
+			}
+
 			$sumAssetValue = $sumAssetValue->add($asset->value);
-			$sumAssetTransactionValue = $sumAssetTransactionValue->add($asset->transactionValue);
 			$sumAssetTransactionValueDefaultCurrency = $sumAssetTransactionValueDefaultCurrency->add(
 				$asset->transactionValueDefaultCurrency,
 			);
-			$sumGain = $sumGain->add($asset->gain);
 			$sumGainDefaultCurrency = $sumGainDefaultCurrency->add($asset->gainDefaultCurrency);
-			$sumDividendGain = $sumDividendGain->add($asset->dividendGain);
 			$sumFxImpact = $sumFxImpact->add($asset->fxImpact);
 		}
 
-		$gainPercentage = CalculatorUtils::toPercentage($sumGain, $sumAssetTransactionValue);
+		$gainPercentage = CalculatorUtils::toPercentage($sumGainDefaultCurrency, $sumAssetTransactionValueDefaultCurrency);
 		$gainPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($gainPercentage, $fromFirstTransactionDays);
 		$dividendGainPercentage = CalculatorUtils::toPercentage($sumDividendGain, $sumAssetTransactionValueDefaultCurrency);
 		$dividendGainPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($dividendGainPercentage, $fromFirstTransactionDays);

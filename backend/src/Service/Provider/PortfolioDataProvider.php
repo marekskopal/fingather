@@ -38,7 +38,7 @@ class PortfolioDataProvider
 		$assets = $this->assetProvider->getAssets(user: $user, portfolio: $portfolio, dateTime: $dateTime);
 		foreach ($assets as $asset) {
 			$assetData = $this->assetDataProvider->getAssetData($user, $portfolio, $asset, $dateTime);
-			if ($assetData === null || $assetData->isClosed()) {
+			if ($assetData === null) {
 				continue;
 			}
 
