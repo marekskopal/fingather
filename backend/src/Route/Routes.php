@@ -10,6 +10,7 @@ use FinGather\Controller\AuthenticationController;
 use FinGather\Controller\BrokerController;
 use FinGather\Controller\CurrencyController;
 use FinGather\Controller\CurrentUserController;
+use FinGather\Controller\DividendDataController;
 use FinGather\Controller\EmailVerifyController;
 use FinGather\Controller\GroupController;
 use FinGather\Controller\GroupWithGroupDataController;
@@ -43,6 +44,8 @@ enum Routes: string
 	case Currencies = '/api/currency';
 
 	case CurrentUser = '/api/current-user';
+
+	case DividendDataRange = '/api/dividend-data-range/{portfolioId:number}';
 
 	case EmailVerify = '/api/email-verify';
 
@@ -102,6 +105,8 @@ enum Routes: string
 		$routeList->get(self::Currencies->value, [CurrencyController::class, 'actionGetCurrencies']);
 
 		$routeList->get(self::CurrentUser->value, [CurrentUserController::class, 'actionGetCurrentUser']);
+
+		$routeList->get(self::DividendDataRange->value, [DividendDataController::class, 'actionGetDividendDataRange']);
 
 		$routeList->post(self::EmailVerify->value, [EmailVerifyController::class, 'actionPostEmailVerify']);
 

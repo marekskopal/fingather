@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Provider;
 
+use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Broker;
@@ -14,7 +15,6 @@ use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\Transaction;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\TransactionRepository;
-use Safe\DateTimeImmutable;
 
 class TransactionProvider
 {
@@ -30,6 +30,7 @@ class TransactionProvider
 		User $user,
 		Portfolio $portfolio,
 		?Asset $asset = null,
+		?DateTimeImmutable $actionCreatedAfter = null,
 		?DateTimeImmutable $actionCreatedBefore = null,
 		?array $actionTypes = null,
 		?int $limit = null,
@@ -39,6 +40,7 @@ class TransactionProvider
 			$user->getId(),
 			$portfolio->getId(),
 			$asset?->getId(),
+			$actionCreatedAfter,
 			$actionCreatedBefore,
 			$actionTypes,
 			$limit,
@@ -51,6 +53,7 @@ class TransactionProvider
 		User $user,
 		?Portfolio $portfolio = null,
 		?Asset $asset = null,
+		?DateTimeImmutable $actionCreatedAfter = null,
 		?DateTimeImmutable $actionCreatedBefore = null,
 		?array $actionTypes = null,
 	): int {
@@ -58,6 +61,7 @@ class TransactionProvider
 			$user->getId(),
 			$portfolio?->getId(),
 			$asset?->getId(),
+			$actionCreatedAfter,
 			$actionCreatedBefore,
 			$actionTypes,
 		);
@@ -91,7 +95,7 @@ class TransactionProvider
 		?string $notes,
 		?string $importIdentifier,
 	): Transaction {
-		$created = new DateTimeImmutable();
+		$created = new \Safe\DateTimeImmutable();
 
 		$transaction = new Transaction(
 			user: $user,
@@ -135,7 +139,7 @@ class TransactionProvider
 		?string $notes,
 		?string $importIdentifier,
 	): Transaction {
-		$modified = new DateTimeImmutable();
+		$modified = new \Safe\DateTimeImmutable();
 
 		$transaction->setAsset($asset);
 		$transaction->setBroker($broker);

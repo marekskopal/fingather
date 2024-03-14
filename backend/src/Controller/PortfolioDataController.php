@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Controller;
 
-use FinGather\Dto\Enum\PortfolioDataRangeEnum;
+use FinGather\Dto\Enum\RangeEnum;
 use FinGather\Dto\PortfolioDataDto;
 use FinGather\Dto\PortfolioDataWithBenchmarkDataDto;
 use FinGather\Response\NotFoundResponse;
@@ -54,7 +54,7 @@ class PortfolioDataController
 
 	public function actionGetPortfolioDataRange(ServerRequestInterface $request, int $portfolioId): ResponseInterface
 	{
-		/** @var array{range: value-of<PortfolioDataRangeEnum>, benchmarkAssetId?: string} $queryParams */
+		/** @var array{range: value-of<RangeEnum>, benchmarkAssetId?: string} $queryParams */
 		$queryParams = $request->getQueryParams();
 
 		$user = $this->requestService->getUser($request);
@@ -68,7 +68,7 @@ class PortfolioDataController
 			return new NotFoundResponse('Portfolio with id "' . $portfolioId . '" was not found.');
 		}
 
-		$range = PortfolioDataRangeEnum::from($queryParams['range']);
+		$range = RangeEnum::from($queryParams['range']);
 
 		$benchmarkAssetId = ($queryParams['benchmarkAssetId'] ?? null) !== null ? (int) $queryParams['benchmarkAssetId'] : null;
 		$benchmarkAsset = $benchmarkAssetId !== null ? $this->assetProvider->getAsset($user, $benchmarkAssetId) : null;
