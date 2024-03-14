@@ -8,52 +8,54 @@ use DateInterval;
 use DatePeriod;
 use DateTime;
 use DateTimeImmutable;
-use FinGather\Dto\Enum\PortfolioDataRangeEnum;
+use FinGather\Dto\Enum\RangeEnum;
 
 final class DateTimeUtils
 {
-	private const FORMAT_ZULU = 'Y-m-d\TH:i:sp';
+	public const FirstDate = '2000-01-01';
+
+	private const FormatZulu = 'Y-m-d\TH:i:sp';
 
 	public static function formatZulu(DateTimeImmutable|DateTime $dateTime): string
 	{
-		return $dateTime->format(self::FORMAT_ZULU);
+		return $dateTime->format(self::FormatZulu);
 	}
 
-	public static function getDatePeriod(PortfolioDataRangeEnum $range, DateTimeImmutable $firstDate): DatePeriod
+	public static function getDatePeriod(RangeEnum $range, ?DateTimeImmutable $firstDate = null): DatePeriod
 	{
 		return match ($range) {
-			PortfolioDataRangeEnum::SevenDays => new DatePeriod(
+			RangeEnum::SevenDays => new DatePeriod(
 				new \Safe\DateTimeImmutable('-1 week'),
 				new DateInterval('P1D'),
 				new \Safe\DateTimeImmutable('today'),
 			),
-			PortfolioDataRangeEnum::OneMonth => new DatePeriod(
+			RangeEnum::OneMonth => new DatePeriod(
 				new \Safe\DateTimeImmutable('-1 month'),
 				new DateInterval('P1D'),
 				new \Safe\DateTimeImmutable('today'),
 			),
-			PortfolioDataRangeEnum::ThreeMonths => new DatePeriod(
+			RangeEnum::ThreeMonths => new DatePeriod(
 				new \Safe\DateTimeImmutable('-3 months'),
 				new DateInterval('P1D'),
 				new \Safe\DateTimeImmutable('today'),
 			),
-			PortfolioDataRangeEnum::SixMonths => new DatePeriod(
+			RangeEnum::SixMonths => new DatePeriod(
 				new \Safe\DateTimeImmutable('-3 months'),
 				new DateInterval('P1W'),
 				new \Safe\DateTimeImmutable('today'),
 			),
-			PortfolioDataRangeEnum::YTD => new DatePeriod(
+			RangeEnum::YTD => new DatePeriod(
 				new \Safe\DateTimeImmutable('first day of january this year'),
 				new DateInterval('P1W'),
 				new \Safe\DateTimeImmutable('today'),
 			),
-			PortfolioDataRangeEnum::OneYear => new DatePeriod(
+			RangeEnum::OneYear => new DatePeriod(
 				new \Safe\DateTimeImmutable('-1 year'),
 				new DateInterval('P1W'),
 				new \Safe\DateTimeImmutable('today'),
 			),
-			PortfolioDataRangeEnum::All => new DatePeriod(
-				$firstDate,
+			RangeEnum::All => new DatePeriod(
+				$firstDate ?? new \Safe\DateTimeImmutable(self::FirstDate),
 				new DateInterval('P1M'),
 				new \Safe\DateTimeImmutable('today'),
 			),

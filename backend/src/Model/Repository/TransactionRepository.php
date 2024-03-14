@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace FinGather\Model\Repository;
 
 use Cycle\ORM\Select;
+use DateTimeImmutable;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Transaction;
-use Safe\DateTimeImmutable;
 
 /** @extends ARepository<Transaction> */
 class TransactionRepository extends ARepository
@@ -20,6 +20,7 @@ class TransactionRepository extends ARepository
 		int $userId,
 		int $portfolioId,
 		?int $assetId = null,
+		?DateTimeImmutable $actionCreatedAfter = null,
 		?DateTimeImmutable $actionCreatedBefore = null,
 		?array $actionTypes = null,
 		?int $limit = null,
@@ -29,6 +30,7 @@ class TransactionRepository extends ARepository
 			$userId,
 			$portfolioId,
 			$assetId,
+			$actionCreatedAfter,
 			$actionCreatedBefore,
 			$actionTypes,
 			$limit,
@@ -41,10 +43,18 @@ class TransactionRepository extends ARepository
 		int $userId,
 		?int $portfolioId = null,
 		?int $assetId = null,
+		?DateTimeImmutable $actionCreatedAfter = null,
 		?DateTimeImmutable $actionCreatedBefore = null,
 		?array $actionTypes = null,
 	): int {
-		return $this->getTransactionsSelect($userId, $portfolioId, $assetId, $actionCreatedBefore, $actionTypes)->count();
+		return $this->getTransactionsSelect(
+			$userId,
+			$portfolioId,
+			$assetId,
+			$actionCreatedAfter,
+			$actionCreatedBefore,
+			$actionTypes,
+		)->count();
 	}
 
 	/**
@@ -55,6 +65,7 @@ class TransactionRepository extends ARepository
 		int $userId,
 		?int $portfolioId = null,
 		?int $assetId = null,
+		?DateTimeImmutable $actionCreatedAfter = null,
 		?DateTimeImmutable $actionCreatedBefore = null,
 		?array $actionTypes = null,
 		?int $limit = null,
@@ -69,6 +80,10 @@ class TransactionRepository extends ARepository
 
 		if ($assetId !== null) {
 			$transactions->where('asset_id', $assetId);
+		}
+
+		if ($actionCreatedAfter !== null) {
+			$transactions->where('action_created', '>=', $actionCreatedAfter);
 		}
 
 		if ($actionCreatedBefore !== null) {

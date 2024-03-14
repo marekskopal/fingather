@@ -65,8 +65,20 @@ class TransactionController
 			array_map(fn (string $item) => TransactionActionTypeEnum::from($item), explode('|', $queryParams['actionTypes'])) :
 			null;
 
-		$transactions = $this->transactionProvider->getTransactions($user, $portfolio, $asset, null, $actionTypes, $limit, $offset);
-		$count = $this->transactionProvider->countTransactions($user, $portfolio, $asset, null, $actionTypes);
+		$transactions = $this->transactionProvider->getTransactions(
+			user: $user,
+			portfolio: $portfolio,
+			asset: $asset,
+			actionTypes: $actionTypes,
+			limit: $limit,
+			offset: $offset,
+		);
+		$count = $this->transactionProvider->countTransactions(
+			user: $user,
+			portfolio: $portfolio,
+			asset: $asset,
+			actionTypes: $actionTypes,
+		);
 
 		$transactionDtos = array_map(
 			fn (Transaction $transaction): TransactionDto => TransactionDto::fromEntity($transaction),

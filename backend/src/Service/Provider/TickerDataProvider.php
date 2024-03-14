@@ -12,6 +12,7 @@ use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\TickerData;
 use FinGather\Model\Repository\TickerDataRepository;
 use FinGather\Service\Provider\Dto\TickerDataAdjustedDto;
+use FinGather\Utils\DateTimeUtils;
 use MarekSkopal\TwelveData\Dto\CoreData\TimeSeries;
 use MarekSkopal\TwelveData\TwelveData;
 use Safe\DateTime;
@@ -102,7 +103,7 @@ class TickerDataProvider
 			$actualDate->sub(DateInterval::createFromDateString('1 day'));
 		}
 
-		$firstDate = new DateTimeImmutable('2000-01-01 00:00:00');
+		$firstDate = new DateTimeImmutable(DateTimeUtils::FirstDate . ' 00:00:00');
 
 		if ($lastTickerData !== null && ($actualDate->getTimestamp() - $lastTickerData->getDate()->getTimestamp() < 86400)) {
 			return;
