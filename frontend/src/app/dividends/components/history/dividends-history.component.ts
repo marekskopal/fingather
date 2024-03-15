@@ -3,7 +3,7 @@ import { PortfolioDataRangeEnum } from '@app/models';
 
 @Component({ templateUrl: 'dividends-history.component.html' })
 export class DividendsHistoryComponent {
-    public range: PortfolioDataRangeEnum = PortfolioDataRangeEnum.All;
+    public range: PortfolioDataRangeEnum = PortfolioDataRangeEnum.YTD;
 
     public changeRange(range: PortfolioDataRangeEnum): void {
         this.range = range;

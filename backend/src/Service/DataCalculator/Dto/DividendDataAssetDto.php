@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace FinGather\Service\Provider\Dto;
+namespace FinGather\Service\DataCalculator\Dto;
 
 use Decimal\Decimal;
 
-class DividendDataAssetDto
+final class DividendDataAssetDto
 {
 	public function __construct(
 		public readonly int $id,

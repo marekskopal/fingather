@@ -7,6 +7,32 @@
     </div>
 </div>
 
+<div class="col-md-6">
+    <ul class="nav">
+        <li class="nav-item">
+            <a (click)="changeRange(PortfolioDataRangeEnum.SevenDays)" class="nav-link" tabindex="0">7{{ 'app.history.history.d' | translate }}</a>
+        </li>
+        <li class="nav-item">
+            <a (click)="changeRange(PortfolioDataRangeEnum.OneMonth)" class="nav-link" tabindex="0">1{{ 'app.history.history.m' | translate }}</a>
+        </li>
+        <li class="nav-item">
+            <a (click)="changeRange(PortfolioDataRangeEnum.ThreeMonths)" class="nav-link" tabindex="0">3{{ 'app.history.history.m' | translate }}</a>
+        </li>
+        <li class="nav-item">
+            <a (click)="changeRange(PortfolioDataRangeEnum.SixMonths)" class="nav-link" tabindex="0">6{{ 'app.history.history.m' | translate }}</a>
+        </li>
+        <li class="nav-item">
+            <a (click)="changeRange(PortfolioDataRangeEnum.YTD)" class="nav-link" tabindex="0">{{ 'app.history.history.ytd' | translate }}</a>
+        </li>
+        <li class="nav-item">
+            <a (click)="changeRange(PortfolioDataRangeEnum.OneYear)" class="nav-link" tabindex="0">1{{ 'app.history.history.y' | translate }}</a>
+        </li>
+        <li class="nav-item">
+            <a (click)="changeRange(PortfolioDataRangeEnum.All)" class="nav-link" tabindex="0">{{ 'app.history.history.all' | translate }}</a>
+        </li>
+    </ul>
+</div>
+
 <div class="row">
     <div class="col-12">
         <fingather-dividends-data-chart

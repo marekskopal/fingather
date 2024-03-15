@@ -1,5 +1,5 @@
 import {
-    Component, Input, OnInit, ViewChild
+    Component, Input, OnChanges, OnInit, ViewChild
 } from '@angular/core';
 import {
     DividendDataDateInterval,
@@ -27,7 +27,7 @@ export type ChartOptions = {
     templateUrl: 'dividends-data-chart.component.html',
     selector: 'fingather-dividends-data-chart',
 })
-export class DividendsDataChartComponent implements OnInit {
+export class DividendsDataChartComponent implements OnInit, OnChanges {
     @ViewChild('chart', { static: false }) public chart: ChartComponent;
     @Input() public range: PortfolioDataRangeEnum;
     public chartOptions: ChartOptions;
@@ -45,6 +45,10 @@ export class DividendsDataChartComponent implements OnInit {
         this.portfolioService.eventEmitter.subscribe(() => {
             this.refreshChart();
         });
+    }
+
+    public ngOnChanges(): void {
+        this.refreshChart();
     }
 
     private async refreshChart(): Promise<void> {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace FinGather\Service\Provider\Dto;
+namespace FinGather\Service\DataCalculator\Dto;
 
 use DateTimeImmutable;
 use Decimal\Decimal;
