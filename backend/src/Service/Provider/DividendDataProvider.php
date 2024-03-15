@@ -10,6 +10,7 @@ use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Service\Provider\Dto\DividendDataAssetDto;
+use FinGather\Service\Provider\Dto\DividendDataIntervalDto;
 use FinGather\Utils\DateTimeUtils;
 use Safe\DateTimeImmutable;
 
@@ -21,7 +22,7 @@ class DividendDataProvider
 	) {
 	}
 
-	/** @return array<string, array<int, DividendDataAssetDto>> */
+	/** @return list<DividendDataIntervalDto> */
 	public function getDividendData(User $user, Portfolio $portfolio, RangeEnum $range): array
 	{
 		$firstTransaction = $this->transactionProvider->getFirstTransaction($user, $portfolio);
@@ -61,7 +62,7 @@ class DividendDataProvider
 				$dividendGain = $transaction->getPrice()->mul($dividendExchangeRate);
 			}
 
-			$yearMonth = $transaction->getActionCreated()->format('Y-n');
+			$yearMonth = $transaction->getActionCreated()->format('Y-m');
 
 			$asset = $transaction->getAsset();
 
@@ -79,6 +80,14 @@ class DividendDataProvider
 
 		ksort($dividendData);
 
-		return $dividendData;
+		$dividendDataIntervals = [];
+		foreach ($dividendData as $yearMonth => $dividendDataAssets) {
+			$dividendDataIntervals[] = new DividendDataIntervalDto(
+				interval: $yearMonth,
+				dividendDataAssets: array_values($dividendDataAssets),
+			);
+		}
+
+		return $dividendDataIntervals;
 	}
 }

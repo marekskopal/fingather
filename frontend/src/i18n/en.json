@@ -4,6 +4,7 @@
       "dashboard": "Dashboard",
       "assets": "Assets",
       "transactions": "Transactions",
+      "dividends": "Dividends",
       "overviews": "Overviews",
       "history": "History",
       "groups": "Groups",
@@ -212,6 +213,11 @@
         "name": "Name",
         "assets": "Assets",
         "transactions": "Transactions"
+      }
+    },
+    "dividends": {
+      "dividends-history": {
+        "title": "Dividends History"
       }
     },
     "shared": {

@@ -42,11 +42,6 @@ class DividendDataController
 			RangeEnum::from($queryParams['range']) :
 			RangeEnum::All;
 
-		$dividendData = array_map(
-			fn (array $dividendDataAssets): array => array_values($dividendDataAssets),
-			$this->dividendDataProvider->getDividendData($user, $portfolio, $range),
-		);
-
-		return new JsonResponse($dividendData);
+		return new JsonResponse($this->dividendDataProvider->getDividendData($user, $portfolio, $range));
 	}
 }
