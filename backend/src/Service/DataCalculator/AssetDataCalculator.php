@@ -9,7 +9,7 @@ use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
-use FinGather\Service\Provider\Dto\AssetDataDto;
+use FinGather\Service\DataCalculator\Dto\AssetDataDto;
 use FinGather\Service\Provider\ExchangeRateProvider;
 use FinGather\Service\Provider\SplitProvider;
 use FinGather\Service\Provider\TickerDataProvider;

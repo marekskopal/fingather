@@ -7,6 +7,7 @@ import { JwtInterceptor } from '@app/core/interceptors/jwt.interceptor';
 import { AlertComponent } from '@app/shared/components/alert/alert.component';
 import { FaIconComponent, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import {
+    faCalendarDays,
     faChartLine, faChartPie, faDashboard, faEye,
     faHandshake, faLayerGroup, faList, faPowerOff,
     faUserGroup, faWallet
@@ -63,7 +64,8 @@ export class AppModule {
             faHandshake,
             faWallet,
             faUserGroup,
-            faPowerOff
+            faPowerOff,
+            faCalendarDays,
         );
 
         translateService.addLangs(['en', 'cs']);

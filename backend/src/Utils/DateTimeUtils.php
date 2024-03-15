@@ -25,39 +25,53 @@ final class DateTimeUtils
 	{
 		return match ($range) {
 			RangeEnum::SevenDays => new DatePeriod(
-				new \Safe\DateTimeImmutable('-1 week'),
+				// @phpstan-ignore-next-line
+				new DateTimeImmutable('-1 week'),
 				new DateInterval('P1D'),
-				new \Safe\DateTimeImmutable('today'),
+				// @phpstan-ignore-next-line
+				new DateTimeImmutable('today'),
 			),
 			RangeEnum::OneMonth => new DatePeriod(
-				new \Safe\DateTimeImmutable('-1 month'),
+				// @phpstan-ignore-next-line
+				new DateTimeImmutable('-1 month'),
 				new DateInterval('P1D'),
-				new \Safe\DateTimeImmutable('today'),
+				// @phpstan-ignore-next-line
+				new DateTimeImmutable('today'),
 			),
 			RangeEnum::ThreeMonths => new DatePeriod(
-				new \Safe\DateTimeImmutable('-3 months'),
+				// @phpstan-ignore-next-line
+				new DateTimeImmutable('-3 months'),
 				new DateInterval('P1D'),
-				new \Safe\DateTimeImmutable('today'),
+				// @phpstan-ignore-next-line
+				new DateTimeImmutable('today'),
 			),
 			RangeEnum::SixMonths => new DatePeriod(
-				new \Safe\DateTimeImmutable('-3 months'),
+				// @phpstan-ignore-next-line
+				new DateTimeImmutable('-3 months'),
 				new DateInterval('P1W'),
-				new \Safe\DateTimeImmutable('today'),
+				// @phpstan-ignore-next-line
+				new DateTimeImmutable('today'),
 			),
 			RangeEnum::YTD => new DatePeriod(
-				new \Safe\DateTimeImmutable('first day of january this year'),
+				// @phpstan-ignore-next-line
+				new DateTimeImmutable('first day of january this year'),
 				new DateInterval('P1W'),
-				new \Safe\DateTimeImmutable('today'),
+				// @phpstan-ignore-next-line
+				new DateTimeImmutable('today'),
 			),
 			RangeEnum::OneYear => new DatePeriod(
-				new \Safe\DateTimeImmutable('-1 year'),
+				// @phpstan-ignore-next-line
+				new DateTimeImmutable('-1 year'),
 				new DateInterval('P1W'),
-				new \Safe\DateTimeImmutable('today'),
+				// @phpstan-ignore-next-line
+				new DateTimeImmutable('today'),
 			),
 			RangeEnum::All => new DatePeriod(
-				$firstDate ?? new \Safe\DateTimeImmutable(self::FirstDate),
+				// @phpstan-ignore-next-line
+				$firstDate ?? new DateTimeImmutable(self::FirstDate),
 				new DateInterval('P1M'),
-				new \Safe\DateTimeImmutable('today'),
+				// @phpstan-ignore-next-line
+				new DateTimeImmutable('today'),
 			),
 		};
 	}
