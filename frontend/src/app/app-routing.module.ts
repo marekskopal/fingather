@@ -14,6 +14,11 @@ const routes: Routes = [
         canActivate: [AuthGuard]
     },
     {
+        path: 'dividends',
+        loadChildren: () => import('./dividends/dividends.module').then((x) => x.DividendsModule),
+        canActivate: [AuthGuard]
+    },
+    {
         path: 'transactions',
         loadChildren: () => import('./transactions/transactions.module').then((x) => x.TransactionsModule),
         canActivate: [AuthGuard]

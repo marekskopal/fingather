@@ -4,6 +4,7 @@
       "dashboard": "Dashboard",
       "assets": "Aktiva",
       "transactions": "Transakce",
+      "dividends": "Dividendy",
       "overviews": "Přehledy",
       "history": "Historie",
       "groups": "Skupiny",
@@ -212,6 +213,11 @@
         "name": "Jméno",
         "assets": "Aktiv",
         "transactions": "Transakcí"
+      }
+    },
+    "dividends": {
+      "dividends-history": {
+        "title": "Historie dividend"
       }
     },
     "shared": {
