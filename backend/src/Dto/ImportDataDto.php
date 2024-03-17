@@ -13,20 +13,20 @@ readonly class ImportDataDto
 	{
 	}
 
-	/** @param list<array{fileName: string, contents: string}> $data */
+	/** @param array{importDataFiles: list<array{fileName: string, contents: string}>} $data */
 	public static function fromArray(array $data): self
 	{
 		return new self(
 			importDataFiles: array_map(
 				fn (array $importDataFile): ImportDataFileDto => ImportDataFileDto::fromArray($importDataFile),
-				$data,
+				$data['importDataFiles'],
 			),
 		);
 	}
 
 	public static function fromJson(string $json): self
 	{
-		/** @var list<array{fileName: string, contents: string}> $data */
+		/** @var array{importDataFiles: list<array{fileName: string, contents: string}>} $data */
 		$data = json_decode($json, assoc: true);
 		return self::fromArray($data);
 	}

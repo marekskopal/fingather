@@ -55,7 +55,7 @@ enum Routes: string
 
 	case GroupsWithGroupData = '/api/groups-with-group-data/{portfolioId:number}';
 
-	case ImportPrepare = '/api/import/import-prepare';
+	case ImportPrepare = '/api/import/import-prepare/{portfolioId:number}';
 	case ImportStart = '/api/import/import-start';
 
 	case OverviewYearOverview = '/api/overview/year-overview/{portfolioId:number}';

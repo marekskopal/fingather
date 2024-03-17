@@ -11,8 +11,8 @@ export class ImportService {
         private http: HttpClient
     ) {}
 
-    public createImportPrepare(importData: ImportData): Observable<ImportPrepare> {
-        return this.http.post<ImportPrepare>(`${environment.apiUrl}/import/import-prepare`, importData);
+    public createImportPrepare(importData: ImportData, portfolioId: number): Observable<ImportPrepare> {
+        return this.http.post<ImportPrepare>(`${environment.apiUrl}/import/import-prepare/${portfolioId}`, importData);
     }
 
     public createImportStart(importStart: ImportStart): Observable<OkResponse> {
