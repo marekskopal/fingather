@@ -8,6 +8,7 @@ use Cycle\ORM\Select;
 use DateTimeImmutable;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Transaction;
+use FinGather\Model\Repository\Enum\OrderDirectionEnum;
 
 /** @extends ARepository<Transaction> */
 class TransactionRepository extends ARepository
@@ -25,6 +26,7 @@ class TransactionRepository extends ARepository
 		?array $actionTypes = null,
 		?int $limit = null,
 		?int $offset = null,
+		OrderDirectionEnum $orderDirection = OrderDirectionEnum::DESC,
 	): array {
 		return $this->getTransactionsSelect(
 			$userId,
@@ -35,6 +37,7 @@ class TransactionRepository extends ARepository
 			$actionTypes,
 			$limit,
 			$offset,
+			$orderDirection,
 		)->fetchAll();
 	}
 
@@ -70,6 +73,7 @@ class TransactionRepository extends ARepository
 		?array $actionTypes = null,
 		?int $limit = null,
 		?int $offset = null,
+		OrderDirectionEnum $orderDirection = OrderDirectionEnum::DESC,
 	): Select {
 		$transactions = $this->select()
 			->where('user_id', $userId);
@@ -102,7 +106,7 @@ class TransactionRepository extends ARepository
 			$transactions->offset($offset);
 		}
 
-		$transactions->orderBy('action_created', 'DESC');
+		$transactions->orderBy('action_created', $orderDirection->value);
 
 		return $transactions;
 	}
