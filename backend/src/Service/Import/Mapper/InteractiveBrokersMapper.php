@@ -4,8 +4,15 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Import\Mapper;
 
+use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
+
 class InteractiveBrokersMapper extends CsvMapper
 {
+	public function getImportType(): BrokerImportTypeEnum
+	{
+		return BrokerImportTypeEnum::InteractiveBrokers;
+	}
+
 	/** @return array<string, string|callable> */
 	public function getMapping(): array
 	{

@@ -4,28 +4,29 @@ declare(strict_types=1);
 
 namespace FinGather\Dto;
 
-use FinGather\Utils\Base64Utils;
 use function Safe\json_decode;
 
 readonly class ImportDataDto
 {
-	/** @param list<string> $data */
-	public function __construct(public int $brokerId, public array $data)
+	/** @param list<ImportDataFileDto> $importDataFiles */
+	public function __construct(public array $importDataFiles)
 	{
 	}
 
-	/** @param array{brokerId: int, data: list<string>} $data */
+	/** @param list<array{fileName: string, contents: string}> $data */
 	public static function fromArray(array $data): self
 	{
 		return new self(
-			brokerId: $data['brokerId'],
-			data: Base64Utils::decodeList($data['data']),
+			importDataFiles: array_map(
+				fn (array $importDataFile): ImportDataFileDto => ImportDataFileDto::fromArray($importDataFile),
+				$data,
+			),
 		);
 	}
 
 	public static function fromJson(string $json): self
 	{
-		/** @var array{brokerId: int, data: list<string>} $data */
+		/** @var list<array{fileName: string, contents: string}> $data */
 		$data = json_decode($json, assoc: true);
 		return self::fromArray($data);
 	}

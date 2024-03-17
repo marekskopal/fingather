@@ -18,7 +18,8 @@ readonly class ImportStartDto
 	 *     importId: int,
 	 *     importMappings: list<array{
 	 *         importTicker: string,
-	 *         tickerId: int
+	 *         tickerId: int,
+	 *         brokerId: int,
 	 *     }>
 	 * } $data
 	 */
@@ -40,7 +41,8 @@ readonly class ImportStartDto
 		 *     importId: int,
 		 *     importMappings: list<array{
 		 *         importTicker: string,
-		 *         tickerId: int
+		 *         tickerId: int,
+		 *         brokerId: int,
 		 *     }>
 		 * } $data
 		 */

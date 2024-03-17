@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Provider;
 
-use FinGather\Model\Entity\Broker;
 use FinGather\Model\Entity\Import;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
@@ -22,12 +21,11 @@ class ImportProvider
 		return $this->importRepository->findImport($importId, $user->getId());
 	}
 
-	public function createImport(User $user, Portfolio $portfolio, Broker $broker, string $csvContent): Import
+	public function createImport(User $user, Portfolio $portfolio, string $csvContent): Import
 	{
 		$import = new Import(
 			user: $user,
 			portfolio: $portfolio,
-			broker: $broker,
 			created: new DateTimeImmutable(),
 			csvContent: $csvContent,
 		);

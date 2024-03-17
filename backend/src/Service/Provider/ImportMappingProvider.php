@@ -12,14 +12,14 @@ use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\ImportMappingRepository;
 use FinGather\Model\Repository\ImportRepository;
-use FinGather\Model\Repository\TickerRepository;
 
 class ImportMappingProvider
 {
 	public function __construct(
 		private readonly ImportMappingRepository $importMappingRepository,
 		private readonly ImportRepository $importRepository,
-		private readonly TickerRepository $tickerRepository,
+		private readonly TickerProvider $tickerProvider,
+		private readonly BrokerProvider $brokerProvider,
 	) {
 	}
 
@@ -66,15 +66,20 @@ class ImportMappingProvider
 		}
 
 		foreach ($importStart->importMappings as $importStartImportMapping) {
-			$ticker = $this->tickerRepository->findTicker($importStartImportMapping->tickerId);
+			$ticker = $this->tickerProvider->getTicker($importStartImportMapping->tickerId);
 			if ($ticker === null) {
+				continue;
+			}
+
+			$broker = $this->brokerProvider->getBroker($user, $importStartImportMapping->brokerId);
+			if ($broker === null) {
 				continue;
 			}
 
 			$this->createImportMapping(
 				user: $import->getUser(),
 				portfolio: $import->getPortfolio(),
-				broker: $import->getBroker(),
+				broker: $broker,
 				importTicker: $importStartImportMapping->importTicker,
 				ticker: $ticker,
 			);

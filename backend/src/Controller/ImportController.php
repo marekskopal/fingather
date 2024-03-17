@@ -10,9 +10,9 @@ use FinGather\Dto\ImportStartDto;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Response\OkResponse;
 use FinGather\Service\Import\ImportService;
-use FinGather\Service\Provider\BrokerProvider;
 use FinGather\Service\Provider\ImportMappingProvider;
 use FinGather\Service\Provider\ImportProvider;
+use FinGather\Service\Provider\PortfolioProvider;
 use FinGather\Service\Request\RequestService;
 use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
@@ -24,21 +24,29 @@ class ImportController
 		private readonly ImportService $importService,
 		private readonly ImportProvider $importProvider,
 		private readonly ImportMappingProvider $importMappingProvider,
-		private readonly BrokerProvider $brokerProvider,
+		private readonly PortfolioProvider $portfolioProvider,
 		private readonly RequestService $requestService,
 	) {
 	}
 
-	public function actionImportPrepare(ServerRequestInterface $request): ResponseInterface
+	public function actionImportPrepare(ServerRequestInterface $request, int $portfolioId): ResponseInterface
 	{
 		$importData = ImportDataDto::fromJson($request->getBody()->getContents());
 
-		$broker = $this->brokerProvider->getBroker($this->requestService->getUser($request), $importData->brokerId);
-		if ($broker === null) {
-			return new NotFoundResponse('Broker was not found');
+		$user = $this->requestService->getUser($request);
+
+		if ($portfolioId < 1) {
+			return new NotFoundResponse('Portfolio id is required.');
 		}
 
-		return new JsonResponse(ImportPrepareDto::fromImportPrepare($this->importService->prepareImport($broker, $importData->data)));
+		$portfolio = $this->portfolioProvider->getPortfolio($user, $portfolioId);
+		if ($portfolio === null) {
+			return new NotFoundResponse('Portfolio with id "' . $portfolioId . '" was not found.');
+		}
+
+		return new JsonResponse(ImportPrepareDto::fromImportPrepare(
+			$this->importService->prepareImport($user, $portfolio, $importData),
+		));
 	}
 
 	public function actionImportStart(ServerRequestInterface $request): ResponseInterface

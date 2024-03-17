@@ -6,13 +6,13 @@ namespace FinGather\Dto;
 
 readonly class ImportMappingDto
 {
-	public function __construct(public string $importTicker, public int $tickerId)
+	public function __construct(public string $importTicker, public int $tickerId, public int $brokerId)
 	{
 	}
 
-	/** @param array{importTicker: string, tickerId: int} $data */
+	/** @param array{importTicker: string, tickerId: int, brokerId: int} $data */
 	public static function fromArray(array $data): self
 	{
-		return new self(importTicker: $data['importTicker'], tickerId: $data['tickerId']);
+		return new self(importTicker: $data['importTicker'], tickerId: $data['tickerId'], brokerId: $data['brokerId']);
 	}
 }

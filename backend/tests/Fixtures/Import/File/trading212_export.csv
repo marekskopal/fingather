@@ -1,0 +1,4 @@
+Action,Time,ISIN,Ticker,Name,No. of shares,Price / share,Currency (Price / share),Exchange rate,Result,Currency (Result),Total,Currency (Total),Withholding tax,Currency (Withholding tax),Stamp duty reserve tax,Currency (Stamp duty reserve tax),ID,Currency conversion fee,Currency (Currency conversion fee),French transaction tax,Currency (French transaction tax)
+Market buy,2021-01-13 18:32:05,US3453708600,F,"Ford Motor",1.0000000000,9.80,USD,0.04649,,"CZK",210.78,"CZK",,,,,EOF825270156,,,,
+Market sell,2021-01-13 18:36:52,US3453708600,F,"Ford Motor",1.0000000000,9.80,USD,0.04658,-0.39,"CZK",210.39,"CZK",,,,,EOF825272770,,,,
+Dividend (Ordinary),2021-05-17 14:18:31,US0378331005,AAPL,"Apple",0.7004315000,0.19,USD,Not available,,,2.74,"CZK",0.02,USD,,,,,,,

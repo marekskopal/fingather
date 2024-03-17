@@ -5,13 +5,17 @@ declare(strict_types=1);
 namespace FinGather\Service\Import;
 
 use Decimal\Decimal;
+use FinGather\Dto\ImportDataDto;
+use FinGather\Dto\ImportDataFileDto;
 use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Broker;
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Enum\TransactionCreateTypeEnum;
 use FinGather\Model\Entity\Import;
+use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\Ticker;
+use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\AssetRepository;
 use FinGather\Model\Repository\CurrencyRepository;
 use FinGather\Model\Repository\TransactionRepository;
@@ -25,20 +29,28 @@ use FinGather\Service\Import\Mapper\MapperInterface;
 use FinGather\Service\Import\Mapper\RevolutMapper;
 use FinGather\Service\Import\Mapper\Trading212Mapper;
 use FinGather\Service\Import\Mapper\XtbMapper;
+use FinGather\Service\Provider\BrokerProvider;
 use FinGather\Service\Provider\DataProvider;
 use FinGather\Service\Provider\GroupProvider;
 use FinGather\Service\Provider\ImportMappingProvider;
 use FinGather\Service\Provider\ImportProvider;
 use FinGather\Service\Provider\TickerProvider;
 use FinGather\Service\Provider\TransactionProvider;
-use FinGather\Utils\Base64Utils;
 use Psr\Log\LoggerInterface;
 use Safe\DateTimeImmutable;
-use function Safe\json_decode;
 use function Safe\json_encode;
 
 final class ImportService
 {
+	private const ImportMappers = [
+		BrokerImportTypeEnum::Trading212->value => Trading212Mapper::class,
+		BrokerImportTypeEnum::InteractiveBrokers->value => InteractiveBrokersMapper::class,
+		BrokerImportTypeEnum::Xtb->value => XtbMapper::class,
+		BrokerImportTypeEnum::Etoro->value => EtoroMapper::class,
+		BrokerImportTypeEnum::Revolut->value => RevolutMapper::class,
+		BrokerImportTypeEnum::Anycoin->value => AnycoinMapper::class,
+	];
+
 	public function __construct(
 		private readonly TransactionRepository $transactionRepository,
 		private readonly TransactionProvider $transactionProvider,
@@ -49,26 +61,37 @@ final class ImportService
 		private readonly DataProvider $dataProvider,
 		private readonly ImportProvider $importProvider,
 		private readonly ImportMappingProvider $importMappingProvider,
+		private readonly BrokerProvider $brokerProvider,
 		private readonly LoggerInterface $logger,
 	) {
 	}
 
-	/** @param array<string> $contents */
-	public function prepareImport(Broker $broker, array $contents): PrepareImport
+	public function prepareImport(User $user, Portfolio $portfolio, ImportDataDto $importData): PrepareImport
 	{
-		$importMapper = $this->getImportMapper($broker->getImportType());
-
-		$user = $broker->getUser();
-		$portfolio = $broker->getPortfolio();
-
-		$importMappings = $this->importMappingProvider->getImportMappings($user, $portfolio, $broker);
-
 		$notFoundTickers = [];
 		$multipleFoundTickers = [];
 		$okFoundTickers = [];
 
-		foreach ($contents as $content) {
-			foreach ($importMapper->getRecords($content) as $record) {
+		foreach ($importData->importDataFiles as $importDataFile) {
+			try {
+				$importMapper = $this->getImportMapper($importDataFile);
+			} catch (\RuntimeException) {
+				$this->logger->log('import', 'Import mapper not found');
+				continue;
+			}
+
+			$broker = $this->brokerProvider->getBrokerByImportType($user, $portfolio, $importMapper->getImportType());
+			if ($broker === null) {
+				$broker = $this->brokerProvider->createBroker(
+					user: $user,
+					portfolio: $portfolio,
+					name: $importMapper->getImportType()->value,
+					importType: $importMapper->getImportType(),
+				);
+			}
+			$importMappings = $this->importMappingProvider->getImportMappings($user, $portfolio, $broker);
+
+			foreach ($importMapper->getRecords($importDataFile->contents) as $record) {
 				/** @var array<string, string> $record */
 				$transactionRecord = $this->mapTransactionRecord($importMapper, $record);
 
@@ -117,8 +140,7 @@ final class ImportService
 		$import = $this->importProvider->createImport(
 			user: $user,
 			portfolio: $portfolio,
-			broker: $broker,
-			csvContent: json_encode(Base64Utils::encodeList($contents)),
+			csvContent: json_encode($importData),
 		);
 
 		return new PrepareImport(
@@ -131,10 +153,6 @@ final class ImportService
 
 	public function importCsv(Import $import): void
 	{
-		$broker = $import->getBroker();
-
-		$importMapper = $this->getImportMapper($broker->getImportType());
-
 		$user = $import->getUser();
 		$portfolio = $import->getPortfolio();
 		$othersGroup = $this->groupProvider->getOthersGroup($user, $portfolio);
@@ -142,13 +160,20 @@ final class ImportService
 
 		$firstDate = null;
 
-		$importMappings = $this->importMappingProvider->getImportMappings($user, $portfolio, $broker);
+		$importData = ImportDataDto::fromJson($import->getCsvContent());
+		foreach ($importData->importDataFiles as $importDataFile) {
+			try {
+				$importMapper = $this->getImportMapper($importDataFile);
+			} catch (\RuntimeException) {
+				$this->logger->log('import', 'Import mapper not found');
+				continue;
+			}
 
-		/** @var list<string> $jsonContents */
-		$jsonContents = json_decode($import->getCsvContent(), assoc: true);
-		$contents = Base64Utils::decodeList($jsonContents);
-		foreach ($contents as $content) {
-			foreach ($importMapper->getRecords($content) as $record) {
+			$broker = $this->brokerProvider->getBrokerByImportType($user, $portfolio, $importMapper->getImportType());
+			assert($broker instanceof Broker);
+			$importMappings = $this->importMappingProvider->getImportMappings($user, $portfolio, $broker);
+
+			foreach ($importMapper->getRecords($importDataFile->contents) as $record) {
 				/** @var array<string, string> $record */
 				$transactionRecord = $this->mapTransactionRecord($importMapper, $record);
 
@@ -296,16 +321,15 @@ final class ImportService
 		);
 	}
 
-	private function getImportMapper(BrokerImportTypeEnum $importType): MapperInterface
+	private function getImportMapper(ImportDataFileDto $importDataFile): MapperInterface
 	{
-		return match ($importType) {
-			BrokerImportTypeEnum::Trading212 => new Trading212Mapper(),
-			BrokerImportTypeEnum::InteractiveBrokers => new InteractiveBrokersMapper(),
-			BrokerImportTypeEnum::Xtb => new XtbMapper(),
-			BrokerImportTypeEnum::Etoro => new EtoroMapper(),
-			BrokerImportTypeEnum::Revolut => new RevolutMapper(),
-			BrokerImportTypeEnum::Anycoin => new AnycoinMapper(),
-			//default => new NullMapper(),
-		};
+		foreach (self::ImportMappers as $mapperClass) {
+			$importMapper = new $mapperClass();
+			if ($importMapper->check($importDataFile->contents, $importDataFile->fileName)) {
+				return $importMapper;
+			}
+		}
+
+		throw new \RuntimeException('Import mapper not found');
 	}
 }
