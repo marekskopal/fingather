@@ -30,7 +30,7 @@ class EtoroMapper extends XlsxMapper
 		];
 	}
 
-	protected function getSheetIndex(): int
+	public function getSheetIndex(): int
 	{
 		return 2;
 	}

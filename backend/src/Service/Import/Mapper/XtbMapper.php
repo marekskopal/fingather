@@ -54,4 +54,19 @@ class XtbMapper extends CsvMapper
 			self::Price => $price,
 		];
 	}
+
+	public function check(string $content, string $fileName): bool
+	{
+		if (!parent::check($content, $fileName)) {
+			return false;
+		}
+
+		$records = $this->getRecords($content);
+		return
+			array_key_exists('Type', $records[1]) &&
+			array_key_exists('Time', $records[1]) &&
+			array_key_exists('Symbol', $records[1]) &&
+			array_key_exists('Comment', $records[1]) &&
+			array_key_exists('ID', $records[1]);
+	}
 }

@@ -26,4 +26,21 @@ class RevolutMapper extends CsvMapper
 			'total' => 'Total Amount',
 		];
 	}
+
+	public function check(string $content, string $fileName): bool
+	{
+		if (!parent::check($content, $fileName)) {
+			return false;
+		}
+
+		$records = $this->getRecords($content);
+		return
+			array_key_exists('Date', $records[1]) &&
+			array_key_exists('Ticker', $records[1]) &&
+			array_key_exists('Type', $records[1]) &&
+			array_key_exists('Quantity', $records[1]) &&
+			array_key_exists('Price per share', $records[1]) &&
+			array_key_exists('Total Amount', $records[1]) &&
+			array_key_exists('Currency', $records[1]);
+	}
 }
