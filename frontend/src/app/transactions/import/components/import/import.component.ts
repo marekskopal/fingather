@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
-import {Broker, ImportDataFile, ImportPrepare} from '@app/models';
+import { Broker, ImportDataFile, ImportPrepare } from '@app/models';
 import {
     AlertService, BrokerService, ImportService, PortfolioService
 } from '@app/services';
