@@ -32,7 +32,7 @@ export class ImportPrepareComponent extends BaseForm implements OnInit {
             [key: string]: any;
         } = {};
         for (const importPrepareTicker of this.importPrepare.multipleFoundTickers) {
-            controlsConfig[importPrepareTicker.brokerId + '-' + importPrepareTicker.ticker] = [
+            controlsConfig[`${importPrepareTicker.brokerId}-${importPrepareTicker.ticker}`] = [
                 importPrepareTicker.tickers[0].id, Validators.required
             ];
         }
