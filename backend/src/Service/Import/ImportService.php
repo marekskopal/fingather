@@ -89,6 +89,8 @@ final class ImportService
 					importType: $importMapper->getImportType(),
 				);
 			}
+			$brokerId = $broker->getId();
+
 			$importMappings = $this->importMappingProvider->getImportMappings($user, $portfolio, $broker);
 
 			foreach ($importMapper->getRecords($importDataFile->contents) as $record) {
@@ -100,19 +102,21 @@ final class ImportService
 					continue;
 				}
 
-				if (array_key_exists($transactionRecord->ticker, $notFoundTickers)) {
+				$tickerKey = $brokerId . '-' . $transactionRecord->ticker;
+
+				if (array_key_exists($tickerKey, $notFoundTickers)) {
 					continue;
 				}
-				if (array_key_exists($transactionRecord->ticker, $multipleFoundTickers)) {
+				if (array_key_exists($tickerKey, $multipleFoundTickers)) {
 					continue;
 				}
-				if (array_key_exists($transactionRecord->ticker, $okFoundTickers)) {
+				if (array_key_exists($tickerKey, $okFoundTickers)) {
 					continue;
 				}
 
-				if (array_key_exists($transactionRecord->ticker, $importMappings)) {
-					$okFoundTickers[$transactionRecord->ticker] = new PrepareImportTicker(
-						brokerId: $broker->getId(),
+				if (array_key_exists($tickerKey, $importMappings)) {
+					$okFoundTickers[$tickerKey] = new PrepareImportTicker(
+						brokerId: $brokerId,
 						ticker: $transactionRecord->ticker,
 						tickers: [$importMappings[$transactionRecord->ticker]->getTicker()],
 					);
@@ -121,22 +125,22 @@ final class ImportService
 
 				$countTicker = $this->tickerProvider->countTickersByTicker($transactionRecord->ticker);
 				if ($countTicker === 0) {
-					$notFoundTickers[$transactionRecord->ticker] = new PrepareImportTicker(
-						brokerId: $broker->getId(),
+					$notFoundTickers[$tickerKey] = new PrepareImportTicker(
+						brokerId: $brokerId,
 						ticker: $transactionRecord->ticker,
 						tickers: [],
 					);
 				} elseif ($countTicker > 1) {
-					$multipleFoundTickers[$transactionRecord->ticker] = new PrepareImportTicker(
-						brokerId: $broker->getId(),
+					$multipleFoundTickers[$tickerKey] = new PrepareImportTicker(
+						brokerId: $brokerId,
 						ticker: $transactionRecord->ticker,
 						tickers: $this->tickerProvider->getTickersByTicker($transactionRecord->ticker),
 					);
 				} else {
 					$tickerByTicker = $this->tickerProvider->getTickerByTicker($transactionRecord->ticker);
 					assert($tickerByTicker instanceof Ticker);
-					$okFoundTickers[$transactionRecord->ticker] = new PrepareImportTicker(
-						brokerId: $broker->getId(),
+					$okFoundTickers[$tickerKey] = new PrepareImportTicker(
+						brokerId: $brokerId,
 						ticker: $transactionRecord->ticker,
 						tickers: [$tickerByTicker],
 					);
