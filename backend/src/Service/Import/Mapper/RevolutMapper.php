@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Service\Import\Mapper;
 
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
+use function Safe\preg_replace;
 
 class RevolutMapper extends CsvMapper
 {
@@ -13,7 +14,7 @@ class RevolutMapper extends CsvMapper
 		return BrokerImportTypeEnum::Revolut;
 	}
 
-	/** @return array<string, string> */
+	/** @return array<string, string|callable> */
 	public function getMapping(): array
 	{
 		return [
