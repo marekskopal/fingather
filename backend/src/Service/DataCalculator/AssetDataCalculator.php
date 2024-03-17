@@ -9,6 +9,7 @@ use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
+use FinGather\Model\Repository\Enum\OrderDirectionEnum;
 use FinGather\Service\DataCalculator\Dto\AssetDataDto;
 use FinGather\Service\Provider\ExchangeRateProvider;
 use FinGather\Service\Provider\SplitProvider;
@@ -34,6 +35,8 @@ class AssetDataCalculator
 			portfolio: $portfolio,
 			asset: $asset,
 			actionCreatedBefore: $dateTime,
+			actionTypes: [TransactionActionTypeEnum::Buy, TransactionActionTypeEnum::Sell, TransactionActionTypeEnum::Dividend],
+			orderDirection: OrderDirectionEnum::ASC,
 		);
 		if (count($transactions) === 0) {
 			return null;
@@ -57,7 +60,7 @@ class AssetDataCalculator
 			$user->getDefaultCurrency(),
 		);
 
-		$firstTransaction = $transactions[array_key_last($transactions)];
+		$firstTransaction = $transactions[array_key_first($transactions)];
 		$fromFirstTransactionDays = (int) $dateTime->diff($firstTransaction->getActionCreated())->days;
 
 		foreach ($transactions as $transaction) {
