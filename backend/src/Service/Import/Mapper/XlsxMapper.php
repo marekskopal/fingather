@@ -11,7 +11,7 @@ use function Safe\tempnam;
 use function Safe\unlink;
 use const PATHINFO_EXTENSION;
 
-abstract class XlsxMapper implements MapperInterface
+abstract class XlsxMapper implements XlsxMapperInterface
 {
 	private const TEMP_FILE_PREFIX = 'FinGatherEtoro_';
 
@@ -41,7 +41,7 @@ abstract class XlsxMapper implements MapperInterface
 		return $sheetData;
 	}
 
-	abstract protected function getSheetIndex(): int;
+	abstract public function getSheetIndex(): int;
 
 	public function check(string $content, string $fileName): bool
 	{

@@ -30,4 +30,20 @@ class AnycoinMapper extends CsvMapper
 			'importIdentifier' => 'UID',
 		];
 	}
+
+	public function check(string $content, string $fileName): bool
+	{
+		if (!parent::check($content, $fileName)) {
+			return false;
+		}
+
+		$records = $this->getRecords($content);
+		return
+			array_key_exists('ACTION', $records[1]) &&
+			array_key_exists('DATE', $records[1]) &&
+			array_key_exists('SYMBOL', $records[1]) &&
+			array_key_exists('QUANTY', $records[1]) &&
+			array_key_exists('PRICE', $records[1]) &&
+			array_key_exists('UID', $records[1]);
+	}
 }

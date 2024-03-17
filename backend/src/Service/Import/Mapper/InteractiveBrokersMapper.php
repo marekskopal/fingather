@@ -30,4 +30,20 @@ class InteractiveBrokersMapper extends CsvMapper
 			'importIdentifier' => 'TransactionID',
 		];
 	}
+
+	public function check(string $content, string $fileName): bool
+	{
+		if (!parent::check($content, $fileName)) {
+			return false;
+		}
+
+		$records = $this->getRecords($content);
+		return
+			array_key_exists('Buy/Sell', $records[1]) &&
+			array_key_exists('DateTime', $records[1]) &&
+			array_key_exists('Symbol', $records[1]) &&
+			array_key_exists('Exchange', $records[1]) &&
+			array_key_exists('Quantity', $records[1]) &&
+			array_key_exists('TradePrice', $records[1]);
+	}
 }
