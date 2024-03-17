@@ -4,12 +4,19 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Import\Mapper;
 
+use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
+
 class XtbMapper extends CsvMapper
 {
 	private const string Action = 'Action';
 	private const string Type = 'Type';
 	private const string Units = 'Units';
 	private const string Price = 'Price';
+
+	public function getImportType(): BrokerImportTypeEnum
+	{
+		return BrokerImportTypeEnum::Xtb;
+	}
 
 	/** @return array<string, string|callable> */
 	public function getMapping(): array

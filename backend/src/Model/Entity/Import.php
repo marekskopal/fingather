@@ -18,8 +18,6 @@ class Import extends AEntity
 		private User $user,
 		#[RefersTo(target: Portfolio::class)]
 		private Portfolio $portfolio,
-		#[RefersTo(target: Broker::class)]
-		private Broker $broker,
 		#[Column(type: 'timestamp')]
 		private DateTimeImmutable $created,
 		#[Column(type: 'longText')]
@@ -45,16 +43,6 @@ class Import extends AEntity
 	public function setPortfolio(Portfolio $portfolio): void
 	{
 		$this->portfolio = $portfolio;
-	}
-
-	public function getBroker(): Broker
-	{
-		return $this->broker;
-	}
-
-	public function setBroker(Broker $broker): void
-	{
-		$this->broker = $broker;
 	}
 
 	public function getCreated(): DateTimeImmutable

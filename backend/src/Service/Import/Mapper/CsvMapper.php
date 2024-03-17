@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Service\Import\Mapper;
 
 use League\Csv\Reader;
+use const PATHINFO_EXTENSION;
 
 abstract class CsvMapper implements CsvMapperInterface
 {
@@ -23,5 +24,11 @@ abstract class CsvMapper implements CsvMapperInterface
 	public function getCsvDelimiter(): string
 	{
 		return ',';
+	}
+
+	public function check(string $content, string $fileName): bool
+	{
+		$extension = pathinfo($fileName, PATHINFO_EXTENSION);
+		return $extension === 'csv';
 	}
 }

@@ -315,6 +315,7 @@
         <properties>
             <property name="rootNamespaces" type="array">
                 <element key="src" value="FinGather"/>
+                <element key="tests" value="FinGather\Tests"/>
             </property>
         </properties>
     </rule>

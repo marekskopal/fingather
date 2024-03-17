@@ -4,11 +4,17 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Import\Mapper;
 
+use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Utils\DateTimeUtils;
 use Safe\DateTimeImmutable;
 
 class AnycoinMapper extends CsvMapper
 {
+	public function getImportType(): BrokerImportTypeEnum
+	{
+		return BrokerImportTypeEnum::Anycoin;
+	}
+
 	/** @return array<string, string|callable> */
 	public function getMapping(): array
 	{

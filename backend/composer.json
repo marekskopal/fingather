@@ -53,6 +53,13 @@
             "FinGather\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "FinGather\\Tests\\": [
+                "tests/"
+            ]
+        }
+    },
     "config": {
         "platform": {
             "php": "8.3"

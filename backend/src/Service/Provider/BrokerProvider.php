@@ -27,6 +27,11 @@ class BrokerProvider
 		return $this->brokerRepository->findBroker($brokerId, $user->getId());
 	}
 
+	public function getBrokerByImportType(User $user, Portfolio $portfolio, BrokerImportTypeEnum $importType): ?Broker
+	{
+		return $this->brokerRepository->findBrokerByImportType($user->getId(), $portfolio->getId(), $importType);
+	}
+
 	public function createBroker(User $user, Portfolio $portfolio, string $name, BrokerImportTypeEnum $importType): Broker
 	{
 		$broker = new Broker(user: $user, portfolio: $portfolio, name: $name, importType: $importType);

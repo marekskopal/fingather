@@ -9,6 +9,7 @@ use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 use function Safe\file_put_contents;
 use function Safe\tempnam;
 use function Safe\unlink;
+use const PATHINFO_EXTENSION;
 
 abstract class XlsxMapper implements MapperInterface
 {
@@ -41,4 +42,10 @@ abstract class XlsxMapper implements MapperInterface
 	}
 
 	abstract protected function getSheetIndex(): int;
+
+	public function check(string $content, string $fileName): bool
+	{
+		$extension = pathinfo($fileName, PATHINFO_EXTENSION);
+		return $extension === 'xlsx';
+	}
 }

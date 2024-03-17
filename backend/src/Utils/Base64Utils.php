@@ -8,30 +8,16 @@ use function Safe\base64_decode;
 
 class Base64Utils
 {
-	/**
-	 * @param list<string> $strings
-	 * @return list<string>
-	 */
-	public static function encodeList(array $strings): array
+	public static function encode(string $string): string
 	{
-		return array_map(
-			fn (string $item): string => base64_encode($item),
-			$strings,
-		);
+		return base64_encode($string);
 	}
 
-	/**
-	 * @param list<string> $base64Strings
-	 * @return list<string>
-	 */
-	public static function decodeList(array $base64Strings): array
+	public static function decode(string $string): string
 	{
-		return array_map(
-			fn (string $item): string => base64_decode(
-				strpos($item, 'base64,') !== false ? substr($item, strpos($item, 'base64,') + 7) : $item,
-				strict: true,
-			),
-			$base64Strings,
+		return base64_decode(
+			strpos($string, 'base64,') !== false ? substr($string, strpos($string, 'base64,') + 7) : $string,
+			strict: true,
 		);
 	}
 }
