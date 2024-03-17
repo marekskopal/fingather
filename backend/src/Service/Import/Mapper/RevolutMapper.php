@@ -21,9 +21,9 @@ class RevolutMapper extends CsvMapper
 			'created' => 'Date',
 			'ticker' => 'Ticker',
 			'units' => 'Quantity',
-			'price' => 'Price per share',
+			'price' => fn (array $record): string => preg_replace('/[^0-9-.]/', '', $record['Price per share']),
 			'currency' => 'Currency',
-			'total' => 'Total Amount',
+			'total' => fn (array $record): string => preg_replace('/[^0-9-.]/', '', $record['Total Amount']),
 		];
 	}
 

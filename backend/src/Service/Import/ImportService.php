@@ -112,6 +112,7 @@ final class ImportService
 
 				if (array_key_exists($transactionRecord->ticker, $importMappings)) {
 					$okFoundTickers[$transactionRecord->ticker] = new PrepareImportTicker(
+						brokerId: $broker->getId(),
 						ticker: $transactionRecord->ticker,
 						tickers: [$importMappings[$transactionRecord->ticker]->getTicker()],
 					);
@@ -123,6 +124,7 @@ final class ImportService
 					$notFoundTickers[$transactionRecord->ticker] = new PrepareImportTicker(ticker: $transactionRecord->ticker, tickers: []);
 				} elseif ($countTicker > 1) {
 					$multipleFoundTickers[$transactionRecord->ticker] = new PrepareImportTicker(
+						brokerId: $broker->getId(),
 						ticker: $transactionRecord->ticker,
 						tickers: $this->tickerProvider->getTickersByTicker($transactionRecord->ticker),
 					);
@@ -130,6 +132,7 @@ final class ImportService
 					$tickerByTicker = $this->tickerProvider->getTickerByTicker($transactionRecord->ticker);
 					assert($tickerByTicker instanceof Ticker);
 					$okFoundTickers[$transactionRecord->ticker] = new PrepareImportTicker(
+						brokerId: $broker->getId(),
 						ticker: $transactionRecord->ticker,
 						tickers: [$tickerByTicker],
 					);

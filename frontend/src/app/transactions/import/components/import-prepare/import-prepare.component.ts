@@ -32,8 +32,8 @@ export class ImportPrepareComponent extends BaseForm implements OnInit {
             [key: string]: any;
         } = {};
         for (const importPrepareTicker of this.importPrepare.multipleFoundTickers) {
-            controlsConfig[importPrepareTicker.ticker] = [
-                importPrepareTicker.tickers[0].market.id, Validators.required
+            controlsConfig[importPrepareTicker.brokerId + '-' + importPrepareTicker.ticker] = [
+                importPrepareTicker.tickers[0].id, Validators.required
             ];
         }
 
@@ -56,30 +56,17 @@ export class ImportPrepareComponent extends BaseForm implements OnInit {
         this.createImport();
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    public onFileChange(event: any): void {
-        const reader = new FileReader();
-
-        if (event.target.files && event.target.files.length) {
-            const [file] = event.target.files;
-            reader.readAsDataURL(file);
-
-            reader.onload = (): void => {
-                this.form.patchValue({
-                    data: reader.result
-                });
-            };
-        }
-    }
-
     private createImport(): void {
         const importStart = new ImportStart();
         importStart.importId = this.importPrepare.importId;
         importStart.importMappings = [];
         // eslint-disable-next-line
         for (const property in this.form.value) {
+            const [brokerId, importTicker] = property.split('-');
+
             const importMapping = new ImportMapping();
-            importMapping.importTicker = property;
+            importMapping.brokerId = parseInt(brokerId, 10);
+            importMapping.importTicker = importTicker;
             importMapping.tickerId = this.form.value[property];
 
             importStart.importMappings.push(importMapping);

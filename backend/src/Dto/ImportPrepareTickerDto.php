@@ -10,13 +10,14 @@ use FinGather\Service\Import\Entity\PrepareImportTicker;
 readonly class ImportPrepareTickerDto
 {
 	/** @param list<TickerDto> $tickers */
-	public function __construct(public string $ticker, public array $tickers)
+	public function __construct(public int $brokerId, public string $ticker, public array $tickers)
 	{
 	}
 
 	public static function fromImportPrepareTicker(PrepareImportTicker $prepareImportTicker): self
 	{
 		return new self(
+			brokerId: $prepareImportTicker->brokerId,
 			ticker: $prepareImportTicker->ticker,
 			tickers: array_map(
 				fn (Ticker $ticker) => TickerDto::fromEntity($ticker),

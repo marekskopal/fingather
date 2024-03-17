@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
-import { Broker, ImportPrepare } from '@app/models';
+import {Broker, ImportDataFile, ImportPrepare} from '@app/models';
 import {
     AlertService, BrokerService, ImportService, PortfolioService
 } from '@app/services';
@@ -25,21 +25,16 @@ export class ImportComponent extends BaseForm implements OnInit {
         super(formBuilder, alertService);
     }
 
-    public async ngOnInit(): Promise<void> {
-        const portfolio = await this.portfolioService.getCurrentPortfolio();
-
-        this.brokerService.getBrokers(portfolio.id)
-            .pipe(first())
-            .subscribe((brokers) => this.brokers = brokers);
-
+    public ngOnInit(): void {
         this.form = this.formBuilder.group({
-            brokerId: [this.brokerId, Validators.required],
-            data: [null, Validators.required],
+            importDataFiles: [null, Validators.required],
         });
     }
 
-    public onSubmit(): void {
+    public async onSubmit(): Promise<void> {
         this.submitted = true;
+
+        const portfolio = await this.portfolioService.getCurrentPortfolio();
 
         // reset alerts on submit
         this.alertService.clear();
@@ -51,20 +46,23 @@ export class ImportComponent extends BaseForm implements OnInit {
 
         this.loading = true;
 
-        this.createImport();
+        this.createImport(portfolio.id);
     }
 
     public onFileDropped(files: NgxFileDropEntry[]): void {
         this.droppedFiles = this.droppedFiles.concat(files);
 
-        const filesContents: string[] = [];
+        const filesContents: ImportDataFile[] = [];
 
         for (const droppedFile of this.droppedFiles) {
             const reader = new FileReader();
             reader.onload = (): void => {
-                filesContents.push((reader.result as string));
+                filesContents.push({
+                    fileName: droppedFile.fileEntry.name,
+                    contents: reader.result as string
+                });
                 this.form.patchValue({
-                    data: filesContents
+                    importDataFiles: filesContents
                 });
             };
 
@@ -84,8 +82,8 @@ export class ImportComponent extends BaseForm implements OnInit {
         }
     }
 
-    private createImport(): void {
-        this.importService.createImportPrepare(this.form.value)
+    private createImport(portfolioId: number): void {
+        this.importService.createImportPrepare(this.form.value, portfolioId)
             .pipe(first())
             .subscribe((importPrepare: ImportPrepare) => {
                 this.loading = false;

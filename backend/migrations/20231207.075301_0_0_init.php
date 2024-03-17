@@ -640,19 +640,10 @@ class InitMigration extends Migration
 				'unsigned' => false,
 				'zerofill' => false,
 			])
-			->addColumn('broker_id', 'integer', [
-				'nullable' => false,
-				'defaultValue' => null,
-				'size' => 11,
-				'autoIncrement' => false,
-				'unsigned' => false,
-				'zerofill' => false,
-			])
 			->addColumn('created', 'timestamp', ['nullable' => false, 'defaultValue' => null])
 			->addColumn('csv_content', 'longText', ['nullable' => false, 'defaultValue' => null])
 			->addIndex(['user_id'], ['name' => 'imports_index_user_id_65c9e5cb4e6ba', 'unique' => false])
 			->addIndex(['portfolio_id'], ['name' => 'imports_index_portfolio_id_65c9e5cb4e6d8', 'unique' => false])
-			->addIndex(['broker_id'], ['name' => 'imports_index_broker_id_65c9e5cb4e6eb', 'unique' => false])
 			->addForeignKey(['user_id'], 'users', ['id'], [
 				'name' => 'imports_foreign_user_id_65c9e5cb4e6c0',
 				'delete' => 'CASCADE',
@@ -661,12 +652,6 @@ class InitMigration extends Migration
 			])
 			->addForeignKey(['portfolio_id'], 'portfolios', ['id'], [
 				'name' => 'imports_foreign_portfolio_id_65c9e5cb4e6db',
-				'delete' => 'CASCADE',
-				'update' => 'CASCADE',
-				'indexCreate' => true,
-			])
-			->addForeignKey(['broker_id'], 'brokers', ['id'], [
-				'name' => 'imports_foreign_broker_id_65c9e5cb4e6ee',
 				'delete' => 'CASCADE',
 				'update' => 'CASCADE',
 				'indexCreate' => true,

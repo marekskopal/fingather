@@ -5,7 +5,7 @@
         <tr>
             <td>{{ importPrepareTicker.ticker }}</td>
             <td>
-                <select formControlName="{{ importPrepareTicker.ticker }}" class="form-select">
+                <select formControlName="{{ importPrepareTicker.brokerId }}-{{ importPrepareTicker.ticker }}" class="form-select">
                     <option *ngFor="let ticker of importPrepareTicker.tickers" [ngValue]="ticker.id">
                         {{ ticker.name }}: {{ ticker.market.mic }}
                     </option>
