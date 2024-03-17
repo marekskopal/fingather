@@ -4,7 +4,7 @@ import { Portfolio } from '@app/models';
 import { OkResponse } from '@app/models/ok-response';
 import { NotifyService } from '@app/services/notify-service';
 import { environment } from '@environments/environment';
-import { Observable } from 'rxjs';
+import { lastValueFrom, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class PortfolioService extends NotifyService {
@@ -64,7 +64,9 @@ export class PortfolioService extends NotifyService {
             return this.defaultPortfolio;
         }
 
-        this.defaultPortfolio = await this.http.get<Portfolio>(`${environment.apiUrl}/portfolio/default`).toPromise();
+        this.defaultPortfolio = await lastValueFrom<Portfolio>(
+            this.http.get<Portfolio>(`${environment.apiUrl}/portfolio/default`)
+        );
 
         return this.defaultPortfolio;
     }

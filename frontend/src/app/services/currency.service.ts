@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Currency } from '@app/models';
 import { CurrentUserService } from '@app/services/current-user.service';
 import { environment } from '@environments/environment';
-import { Observable } from 'rxjs';
+import { lastValueFrom, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class CurrencyService {
@@ -23,9 +23,12 @@ export class CurrencyService {
             return this.currencies;
         }
 
-        const currencies = await this.http.get<Currency[]>(`${environment.apiUrl}/currency`).toPromise();
+        const currencies = await lastValueFrom<Currency[]>(
+            this.http.get<Currency[]>(`${environment.apiUrl}/currency`)
+        );
 
         this.currencies = new Map();
+
         for (const currency of currencies) {
             this.currencies.set(currency.id, currency);
         }
