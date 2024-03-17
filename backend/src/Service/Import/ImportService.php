@@ -121,7 +121,11 @@ final class ImportService
 
 				$countTicker = $this->tickerProvider->countTickersByTicker($transactionRecord->ticker);
 				if ($countTicker === 0) {
-					$notFoundTickers[$transactionRecord->ticker] = new PrepareImportTicker(ticker: $transactionRecord->ticker, tickers: []);
+					$notFoundTickers[$transactionRecord->ticker] = new PrepareImportTicker(
+						brokerId: $broker->getId(),
+						ticker: $transactionRecord->ticker,
+						tickers: [],
+					);
 				} elseif ($countTicker > 1) {
 					$multipleFoundTickers[$transactionRecord->ticker] = new PrepareImportTicker(
 						brokerId: $broker->getId(),
