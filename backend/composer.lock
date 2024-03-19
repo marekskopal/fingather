@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "73170f289dd7243b4fdc7b36c6790678",
+    "content-hash": "ce3526c1224ec97fed0a80e08c93d068",
     "packages": [
         {
             "name": "brick/math",
@@ -1804,16 +1804,16 @@
         },
         {
             "name": "marekskopal/cycle-decimal",
-            "version": "v0.1.0",
+            "version": "v0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/marekskopal/cycle-decimal.git",
-                "reference": "2df4ee78d7dcae844fb7ad0f1733e402be756fa4"
+                "reference": "aa2ba9e7c4263f9c3e245c31e0c71f97e068af88"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/marekskopal/cycle-decimal/zipball/2df4ee78d7dcae844fb7ad0f1733e402be756fa4",
-                "reference": "2df4ee78d7dcae844fb7ad0f1733e402be756fa4",
+                "url": "https://api.github.com/repos/marekskopal/cycle-decimal/zipball/aa2ba9e7c4263f9c3e245c31e0c71f97e068af88",
+                "reference": "aa2ba9e7c4263f9c3e245c31e0c71f97e068af88",
                 "shasum": ""
             },
             "require": {
@@ -1847,11 +1847,18 @@
                 }
             ],
             "description": "Decimal type from ext-decimal PHP extension support for Cycle ORM",
+            "keywords": [
+                "cycle",
+                "cycle-orm",
+                "decimal",
+                "ext-decimal",
+                "orm"
+            ],
             "support": {
                 "issues": "https://github.com/marekskopal/cycle-decimal/issues",
-                "source": "https://github.com/marekskopal/cycle-decimal/tree/v0.1.0"
+                "source": "https://github.com/marekskopal/cycle-decimal/tree/v0.2.0"
             },
-            "time": "2024-03-09T16:18:54+00:00"
+            "time": "2024-03-19T20:36:17+00:00"
         },
         {
             "name": "marekskopal/twelvedata",
@@ -6847,16 +6854,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.10.62",
+            "version": "1.10.63",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "cd5c8a1660ed3540b211407c77abf4af193a6af9"
+                "reference": "ad12836d9ca227301f5fb9960979574ed8628339"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/cd5c8a1660ed3540b211407c77abf4af193a6af9",
-                "reference": "cd5c8a1660ed3540b211407c77abf4af193a6af9",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/ad12836d9ca227301f5fb9960979574ed8628339",
+                "reference": "ad12836d9ca227301f5fb9960979574ed8628339",
                 "shasum": ""
             },
             "require": {
@@ -6905,7 +6912,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-03-13T12:27:20+00:00"
+            "time": "2024-03-18T16:53:53+00:00"
         },
         {
             "name": "phpstan/phpstan-strict-rules",
