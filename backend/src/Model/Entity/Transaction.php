@@ -13,6 +13,7 @@ use Decimal\Decimal;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Enum\TransactionCreateTypeEnum;
 use FinGather\Model\Repository\TransactionRepository;
+use MarekSkopal\Cycle\Decimal\ColumnDecimal;
 use MarekSkopal\Cycle\Decimal\DecimalTypecast;
 
 #[Entity(repository: TransactionRepository::class, typecast: [
@@ -44,17 +45,17 @@ class Transaction extends AEntity
 		private DateTimeImmutable $created,
 		#[Column(type: 'timestamp')]
 		private DateTimeImmutable $modified,
-		#[Column(type: 'decimal(18,8)', typecast: DecimalTypecast::Type)]
+		#[ColumnDecimal(precision: 18, scale: 8)]
 		private Decimal $units,
-		#[Column(type: 'decimal(9,2)', typecast: DecimalTypecast::Type)]
+		#[ColumnDecimal(precision: 9, scale: 2)]
 		private Decimal $price,
 		#[RefersTo(target: Currency::class)]
 		private Currency $currency,
-		#[Column(type: 'decimal(9,2)', typecast: DecimalTypecast::Type)]
+		#[ColumnDecimal(precision: 9, scale: 2)]
 		private Decimal $tax,
 		#[RefersTo(target: Currency::class, innerKey:'tax_currency_id')]
 		private Currency $taxCurrency,
-		#[Column(type: 'decimal(9,2)', typecast: DecimalTypecast::Type)]
+		#[ColumnDecimal(precision: 9, scale: 2)]
 		private Decimal $fee,
 		#[RefersTo(target: Currency::class, innerKey:'fee_currency_id')]
 		private Currency $feeCurrency,

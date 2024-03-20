@@ -11,6 +11,7 @@ use Cycle\ORM\Parser\Typecast;
 use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Model\Repository\ExchangeRateRepository;
+use MarekSkopal\Cycle\Decimal\ColumnDecimal;
 use MarekSkopal\Cycle\Decimal\DecimalTypecast;
 
 #[Entity(repository: ExchangeRateRepository::class, typecast: [
@@ -24,7 +25,7 @@ class ExchangeRate extends AEntity
 		private Currency $currency,
 		#[Column(type: 'timestamp')]
 		private DateTimeImmutable $date,
-		#[Column(type: 'decimal(9,4)', typecast: DecimalTypecast::Type)]
+		#[ColumnDecimal(precision: 9, scale: 4)]
 		private Decimal $rate,
 	) {
 	}

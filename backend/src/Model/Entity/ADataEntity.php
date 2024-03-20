@@ -8,7 +8,7 @@ use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Relation\RefersTo;
 use DateTimeImmutable;
 use Decimal\Decimal;
-use MarekSkopal\Cycle\Decimal\DecimalTypecast;
+use MarekSkopal\Cycle\Decimal\ColumnDecimal;
 
 class ADataEntity extends AEntity
 {
@@ -19,29 +19,29 @@ class ADataEntity extends AEntity
 		protected Portfolio $portfolio,
 		#[Column(type: 'timestamp')]
 		protected DateTimeImmutable $date,
-		#[Column(type: 'decimal(11,2)', typecast: DecimalTypecast::Type)]
+		#[ColumnDecimal(precision: 11, scale: 2)]
 		protected Decimal $value,
-		#[Column(type: 'decimal(11,2)', typecast: DecimalTypecast::Type)]
+		#[ColumnDecimal(precision: 11, scale: 2)]
 		protected Decimal $transactionValue,
-		#[Column(type: 'decimal(11,2)', typecast: DecimalTypecast::Type)]
+		#[ColumnDecimal(precision: 11, scale: 2)]
 		protected Decimal $gain,
 		#[Column(type: 'float')]
 		protected float $gainPercentage,
 		#[Column(type: 'float')]
 		protected float $gainPercentagePerAnnum,
-		#[Column(type: 'decimal(11,2)', typecast: DecimalTypecast::Type)]
+		#[ColumnDecimal(precision: 11, scale: 2)]
 		protected Decimal $dividendGain,
 		#[Column(type: 'float')]
 		protected float $dividendGainPercentage,
 		#[Column(type: 'float')]
 		protected float $dividendGainPercentagePerAnnum,
-		#[Column(type: 'decimal(11,2)', typecast: DecimalTypecast::Type)]
+		#[ColumnDecimal(precision: 11, scale: 2)]
 		protected Decimal $fxImpact,
 		#[Column(type: 'float')]
 		protected float $fxImpactPercentage,
 		#[Column(type: 'float')]
 		protected float $fxImpactPercentagePerAnnum,
-		#[Column(type: 'decimal(11,2)', typecast: DecimalTypecast::Type)]
+		#[ColumnDecimal(precision: 11, scale: 2)]
 		protected Decimal $return,
 		#[Column(type: 'float')]
 		protected float $returnPercentage,

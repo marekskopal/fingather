@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ce3526c1224ec97fed0a80e08c93d068",
+    "content-hash": "496099d5c76af977fdaafd3401fd276d",
     "packages": [
         {
             "name": "brick/math",
@@ -1804,16 +1804,16 @@
         },
         {
             "name": "marekskopal/cycle-decimal",
-            "version": "v0.2.0",
+            "version": "v0.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/marekskopal/cycle-decimal.git",
-                "reference": "aa2ba9e7c4263f9c3e245c31e0c71f97e068af88"
+                "reference": "7ac55c4fa845639d6932263e2575da52ec8864f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/marekskopal/cycle-decimal/zipball/aa2ba9e7c4263f9c3e245c31e0c71f97e068af88",
-                "reference": "aa2ba9e7c4263f9c3e245c31e0c71f97e068af88",
+                "url": "https://api.github.com/repos/marekskopal/cycle-decimal/zipball/7ac55c4fa845639d6932263e2575da52ec8864f3",
+                "reference": "7ac55c4fa845639d6932263e2575da52ec8864f3",
                 "shasum": ""
             },
             "require": {
@@ -1856,9 +1856,9 @@
             ],
             "support": {
                 "issues": "https://github.com/marekskopal/cycle-decimal/issues",
-                "source": "https://github.com/marekskopal/cycle-decimal/tree/v0.2.0"
+                "source": "https://github.com/marekskopal/cycle-decimal/tree/v0.3.0"
             },
-            "time": "2024-03-19T20:36:17+00:00"
+            "time": "2024-03-20T21:05:06+00:00"
         },
         {
             "name": "marekskopal/twelvedata",

@@ -11,6 +11,7 @@ use Cycle\ORM\Parser\Typecast;
 use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Model\Repository\AssetDataRepository;
+use MarekSkopal\Cycle\Decimal\ColumnDecimal;
 use MarekSkopal\Cycle\Decimal\DecimalTypecast;
 
 #[Entity(repository: AssetDataRepository::class, typecast: [
@@ -28,39 +29,39 @@ class AssetData extends AEntity
 		protected Asset $asset,
 		#[Column(type: 'timestamp')]
 		protected DateTimeImmutable $date,
-		#[Column(type: 'decimal(20,10)', typecast: DecimalTypecast::Type)]
+		#[ColumnDecimal(precision: 20, scale: 10)]
 		public Decimal $price,
-		#[Column(type: 'decimal(18,8)', typecast: DecimalTypecast::Type)]
+		#[ColumnDecimal(precision: 18, scale: 8)]
 		public Decimal $units,
-		#[Column(type: 'decimal(12,2)', typecast: DecimalTypecast::Type)]
+		#[ColumnDecimal(precision: 12, scale: 2)]
 		public Decimal $value,
-		#[Column(type: 'decimal(12,2)', typecast: DecimalTypecast::Type)]
+		#[ColumnDecimal(precision: 12, scale: 2)]
 		public Decimal $transactionValue,
-		#[Column(type: 'decimal(12,2)', typecast: DecimalTypecast::Type)]
+		#[ColumnDecimal(precision: 12, scale: 2)]
 		public Decimal $transactionValueDefaultCurrency,
-		#[Column(type: 'decimal(12,2)', typecast: DecimalTypecast::Type)]
+		#[ColumnDecimal(precision: 12, scale: 2)]
 		public Decimal $gain,
-		#[Column(type: 'decimal(12,2)', typecast: DecimalTypecast::Type)]
+		#[ColumnDecimal(precision: 12, scale: 2)]
 		public Decimal $gainDefaultCurrency,
 		#[Column(type: 'float')]
 		public float $gainPercentage,
 		#[Column(type: 'float')]
 		public float $gainPercentagePerAnnum,
-		#[Column(type: 'decimal(12,2)', typecast: DecimalTypecast::Type)]
+		#[ColumnDecimal(precision: 12, scale: 2)]
 		public Decimal $dividendGain,
-		#[Column(type: 'decimal(12,2)', typecast: DecimalTypecast::Type)]
+		#[ColumnDecimal(precision: 12, scale: 2)]
 		public Decimal $dividendGainDefaultCurrency,
 		#[Column(type: 'float')]
 		public float $dividendGainPercentage,
 		#[Column(type: 'float')]
 		public float $dividendGainPercentagePerAnnum,
-		#[Column(type: 'decimal(12,2)', typecast: DecimalTypecast::Type)]
+		#[ColumnDecimal(precision: 12, scale: 2)]
 		public Decimal $fxImpact,
 		#[Column(type: 'float')]
 		public float $fxImpactPercentage,
 		#[Column(type: 'float')]
 		public float $fxImpactPercentagePerAnnum,
-		#[Column(type: 'decimal(12,2)', typecast: DecimalTypecast::Type)]
+		#[ColumnDecimal(precision: 12, scale: 2)]
 		public Decimal $return,
 		#[Column(type: 'float')]
 		public float $returnPercentage,
