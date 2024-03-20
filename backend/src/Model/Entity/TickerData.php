@@ -11,6 +11,7 @@ use Cycle\ORM\Parser\Typecast;
 use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Model\Repository\TickerDataRepository;
+use MarekSkopal\Cycle\Decimal\ColumnDecimal;
 use MarekSkopal\Cycle\Decimal\DecimalTypecast;
 
 #[Entity(repository: TickerDataRepository::class, typecast: [
@@ -24,15 +25,15 @@ class TickerData extends AEntity
 		private Ticker $ticker,
 		#[Column(type: 'timestamp')]
 		private DateTimeImmutable $date,
-		#[Column(type: 'decimal(20,10)', typecast: DecimalTypecast::Type)]
+		#[ColumnDecimal(precision: 20, scale: 10)]
 		private Decimal $open,
-		#[Column(type: 'decimal(20,10)', typecast: DecimalTypecast::Type)]
+		#[ColumnDecimal(precision: 20, scale: 10)]
 		private Decimal $close,
-		#[Column(type: 'decimal(20,10)', typecast: DecimalTypecast::Type)]
+		#[ColumnDecimal(precision: 20, scale: 10)]
 		private Decimal $high,
-		#[Column(type: 'decimal(20,10)', typecast: DecimalTypecast::Type)]
+		#[ColumnDecimal(precision: 20, scale: 10)]
 		private Decimal $low,
-		#[Column(type: 'decimal(20,10)', typecast: DecimalTypecast::Type)]
+		#[ColumnDecimal(precision: 20, scale: 10)]
 		private Decimal $volume,
 	) {
 	}

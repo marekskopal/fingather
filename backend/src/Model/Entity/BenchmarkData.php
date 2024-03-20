@@ -11,6 +11,7 @@ use Cycle\ORM\Parser\Typecast;
 use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Model\Repository\BenchmarkDataRepository;
+use MarekSkopal\Cycle\Decimal\ColumnDecimal;
 use MarekSkopal\Cycle\Decimal\DecimalTypecast;
 
 #[Entity(repository: BenchmarkDataRepository::class, typecast: [
@@ -30,9 +31,9 @@ class BenchmarkData extends AEntity
 		protected DateTimeImmutable $date,
 		#[Column(type: 'timestamp')]
 		protected DateTimeImmutable $fromDate,
-		#[Column(type: 'decimal(11,2)', typecast: DecimalTypecast::Type)]
+		#[ColumnDecimal(precision: 11, scale: 2)]
 		protected Decimal $value,
-		#[Column(type: 'decimal(18,8)', typecast: DecimalTypecast::Type)]
+		#[ColumnDecimal(precision: 18, scale: 8)]
 		protected Decimal $units,
 	) {
 	}

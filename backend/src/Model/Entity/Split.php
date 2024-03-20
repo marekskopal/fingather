@@ -11,6 +11,7 @@ use Cycle\ORM\Parser\Typecast;
 use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Model\Repository\SplitRepository;
+use MarekSkopal\Cycle\Decimal\ColumnDecimal;
 use MarekSkopal\Cycle\Decimal\DecimalTypecast;
 
 #[Entity(repository: SplitRepository::class, typecast: [
@@ -24,7 +25,7 @@ class Split extends AEntity
 		private Ticker $ticker,
 		#[Column(type: 'timestamp')]
 		private DateTimeImmutable $date,
-		#[Column(type: 'decimal(8,4)', typecast: DecimalTypecast::Type)]
+		#[ColumnDecimal(precision: 8, scale: 4)]
 		private Decimal $factor,
 	) {
 	}
