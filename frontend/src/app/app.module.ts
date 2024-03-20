@@ -9,8 +9,8 @@ import { FaIconComponent, FaIconLibrary } from '@fortawesome/angular-fontawesome
 import {
     faCalendarDays,
     faChartLine, faChartPie, faDashboard, faEye,
-    faHandshake, faLayerGroup, faList, faPowerOff,
-    faUserGroup, faWallet
+    faLayerGroup, faList, faPowerOff, faUserGroup,
+    faWallet
 } from '@fortawesome/free-solid-svg-icons';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -61,7 +61,6 @@ export class AppModule {
             faEye,
             faChartLine,
             faLayerGroup,
-            faHandshake,
             faWallet,
             faUserGroup,
             faPowerOff,

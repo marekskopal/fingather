@@ -91,21 +91,6 @@
         "signUp": "Sign Up"
       }
     },
-    "brokers": {
-      "addEdit": {
-        "headerAdd": "Add Broker",
-        "headerEdit": "Edit Broker",
-        "name": "Name",
-        "nameRequired": "Name is required",
-        "importType": "Import Type",
-        "importTypeRequired": "Import Type is required"
-      },
-      "list": {
-        "title": "Brokers",
-        "addBroker": "Add Broker",
-        "name": "Name"
-      }
-    },
     "emailVerify": {
       "verify": {
         "emailVerified": "Email was verified.",
