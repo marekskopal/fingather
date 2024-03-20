@@ -91,21 +91,6 @@
         "signUp": "Registrovat"
       }
     },
-    "brokers": {
-      "addEdit": {
-        "headerAdd": "Přidat brokera",
-        "headerEdit": "Upravit brokera",
-        "name": "Jméno",
-        "nameRequired": "Jméno je povinné",
-        "importType": "Typ importu",
-        "importTypeRequired": "Typ importu je povinný"
-      },
-      "list": {
-        "title": "Brokeři",
-        "addBroker": "Přidat brokera",
-        "name": "Jméno"
-      }
-    },
     "emailVerify": {
       "verify": {
         "emailVerified": "Email byl verifikován.",

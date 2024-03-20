@@ -39,11 +39,6 @@ const routes: Routes = [
         canActivate: [AuthGuard]
     },
     {
-        path: 'brokers',
-        loadChildren: () => import('./brokers/brokers.module').then((x) => x.BrokersModule),
-        canActivate: [AuthGuard]
-    },
-    {
         path: 'portfolios',
         loadChildren: () => import('./portfolios/portfolios.module').then((x) => x.PortfoliosModule),
         canActivate: [AuthGuard]
