@@ -5,7 +5,7 @@ RUN npm install -g pnpm
 RUN npm install -g @angular/cli
 
 COPY ./package.json ./pnpm-lock.yaml ./
-RUN pnpm install
+RUN pnpm install --reporter=silent
 COPY ./src /app/src
 COPY ./angular.json ./tsconfig.app.json ./tsconfig.json ./tsconfig.spec.json ./
 RUN npm run build-prod
