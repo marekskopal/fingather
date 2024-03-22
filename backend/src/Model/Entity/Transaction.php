@@ -52,13 +52,25 @@ class Transaction extends AEntity
 		#[RefersTo(target: Currency::class)]
 		private Currency $currency,
 		#[ColumnDecimal(precision: 9, scale: 2)]
+		private Decimal $priceTickerCurrency,
+		#[ColumnDecimal(precision: 9, scale: 2)]
+		private Decimal $priceDefaultCurrency,
+		#[ColumnDecimal(precision: 9, scale: 2)]
 		private Decimal $tax,
 		#[RefersTo(target: Currency::class, innerKey:'tax_currency_id')]
 		private Currency $taxCurrency,
 		#[ColumnDecimal(precision: 9, scale: 2)]
+		private Decimal $taxTickerCurrency,
+		#[ColumnDecimal(precision: 9, scale: 2)]
+		private Decimal $taxDefaultCurrency,
+		#[ColumnDecimal(precision: 9, scale: 2)]
 		private Decimal $fee,
 		#[RefersTo(target: Currency::class, innerKey:'fee_currency_id')]
 		private Currency $feeCurrency,
+		#[ColumnDecimal(precision: 9, scale: 2)]
+		private Decimal $feeTickerCurrency,
+		#[ColumnDecimal(precision: 9, scale: 2)]
+		private Decimal $feeDefaultCurrency,
 		#[Column(type: 'tinyText', nullable: true)]
 		private ?string $notes,
 		#[Column(type: 'string', nullable: true)]
@@ -186,6 +198,26 @@ class Transaction extends AEntity
 		$this->currency = $currency;
 	}
 
+	public function getPriceTickerCurrency(): Decimal
+	{
+		return $this->priceTickerCurrency;
+	}
+
+	public function setPriceTickerCurrency(Decimal $priceTickerCurrency): void
+	{
+		$this->priceTickerCurrency = $priceTickerCurrency;
+	}
+
+	public function getPriceDefaultCurrency(): Decimal
+	{
+		return $this->priceDefaultCurrency;
+	}
+
+	public function setPriceDefaultCurrency(Decimal $priceDefaultCurrency): void
+	{
+		$this->priceDefaultCurrency = $priceDefaultCurrency;
+	}
+
 	public function getTax(): Decimal
 	{
 		return $this->tax;
@@ -206,6 +238,26 @@ class Transaction extends AEntity
 		$this->taxCurrency = $taxCurrency;
 	}
 
+	public function getTaxTickerCurrency(): Decimal
+	{
+		return $this->taxTickerCurrency;
+	}
+
+	public function setTaxTickerCurrency(Decimal $taxTickerCurrency): void
+	{
+		$this->taxTickerCurrency = $taxTickerCurrency;
+	}
+
+	public function getTaxDefaultCurrency(): Decimal
+	{
+		return $this->taxDefaultCurrency;
+	}
+
+	public function setTaxDefaultCurrency(Decimal $taxDefaultCurrency): void
+	{
+		$this->taxDefaultCurrency = $taxDefaultCurrency;
+	}
+
 	public function getFee(): Decimal
 	{
 		return $this->fee;
@@ -224,6 +276,26 @@ class Transaction extends AEntity
 	public function setFeeCurrency(Currency $feeCurrency): void
 	{
 		$this->feeCurrency = $feeCurrency;
+	}
+
+	public function getFeeTickerCurrency(): Decimal
+	{
+		return $this->feeTickerCurrency;
+	}
+
+	public function setFeeTickerCurrency(Decimal $feeTickerCurrency): void
+	{
+		$this->feeTickerCurrency = $feeTickerCurrency;
+	}
+
+	public function getFeeDefaultCurrency(): Decimal
+	{
+		return $this->feeDefaultCurrency;
+	}
+
+	public function setFeeDefaultCurrency(Decimal $feeDefaultCurrency): void
+	{
+		$this->feeDefaultCurrency = $feeDefaultCurrency;
 	}
 
 	public function getNotes(): ?string

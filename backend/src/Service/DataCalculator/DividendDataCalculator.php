@@ -11,17 +11,14 @@ use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Service\DataCalculator\Dto\DividendDataAssetDto;
 use FinGather\Service\DataCalculator\Dto\DividendDataIntervalDto;
-use FinGather\Service\Provider\ExchangeRateProvider;
 use FinGather\Service\Provider\TransactionProvider;
 use FinGather\Utils\DateTimeUtils;
 use Safe\DateTimeImmutable;
 
 class DividendDataCalculator
 {
-	public function __construct(
-		private readonly TransactionProvider $transactionProvider,
-		private readonly ExchangeRateProvider $exchangeRateProvider,
-	) {
+	public function __construct(private readonly TransactionProvider $transactionProvider,)
+	{
 	}
 
 	/** @return list<DividendDataIntervalDto> */
@@ -33,8 +30,6 @@ class DividendDataCalculator
 		}
 
 		$period = DateTimeUtils::getDatePeriod($range, $firstTransaction->getActionCreated());
-
-		$defaultCurrency = $user->getDefaultCurrency();
 
 		$actionCreatedAfter = $period->getStartDate();
 		assert($actionCreatedAfter instanceof DateTimeImmutable);
@@ -52,17 +47,7 @@ class DividendDataCalculator
 		$dividendData = [];
 
 		foreach ($transactions as $transaction) {
-			if ($transaction->getCurrency()->getId() === $defaultCurrency->getId()) {
-				$dividendGain = $transaction->getPrice();
-			} else {
-				$dividendExchangeRate = $this->exchangeRateProvider->getExchangeRate(
-					$transaction->getActionCreated(),
-					$transaction->getCurrency(),
-					$defaultCurrency,
-				);
-
-				$dividendGain = $transaction->getPrice()->mul($dividendExchangeRate);
-			}
+			$dividendGain = $transaction->getPriceDefaultCurrency();
 
 			$dateRangeKey = $this->getDateRangeKey($transaction->getActionCreated(), $range);
 

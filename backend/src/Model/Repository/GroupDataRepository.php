@@ -32,14 +32,21 @@ class GroupDataRepository extends ARepository
 		$deleteGroupData->run();
 	}
 
-	public function deleteUserGroupData(int $userId, int $portfolioId, DateTimeImmutable $date): void
+	public function deleteUserGroupData(int $userId, ?int $portfolioId = null, ?DateTimeImmutable $date = null): void
 	{
-		$this->orm->getSource(GroupData::class)
+		$deleteUserGroupData = $this->orm->getSource(GroupData::class)
 			->getDatabase()
 			->delete('group_datas')
-			->where('user_id', $userId)
-			->where('portfolio_id', $portfolioId)
-			->where('date', '>=', $date)
-			->run();
+			->where('user_id', $userId);
+
+		if ($portfolioId !== null) {
+			$deleteUserGroupData->where('portfolio_id', $portfolioId);
+		}
+
+		if ($date !== null) {
+			$deleteUserGroupData->where('date', '>=', $date);
+		}
+
+		$deleteUserGroupData->run();
 	}
 }

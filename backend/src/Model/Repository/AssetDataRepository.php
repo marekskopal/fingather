@@ -21,13 +21,17 @@ class AssetDataRepository extends ARepository
 		]);
 	}
 
-	public function deleteAssetData(int $userId, int $portfolioId): void
+	public function deleteAssetData(int $userId, ?int $portfolioId = null): void
 	{
-		$this->orm->getSource(PortfolioData::class)
+		$deleteAssetData = $this->orm->getSource(PortfolioData::class)
 			->getDatabase()
 			->delete('asset_datas')
-			->where('user_id', $userId)
-			->where('portfolio_id', $portfolioId)
-			->run();
+			->where('user_id', $userId);
+
+		if ($portfolioId !== null) {
+			$deleteAssetData->where('portfolio_id', $portfolioId);
+		}
+
+		$deleteAssetData->run();
 	}
 }
