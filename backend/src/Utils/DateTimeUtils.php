@@ -30,6 +30,7 @@ final class DateTimeUtils
 				new DateInterval('P1D'),
 				// @phpstan-ignore-next-line
 				new DateTimeImmutable('today'),
+				DatePeriod::INCLUDE_END_DATE,
 			),
 			RangeEnum::OneMonth => new DatePeriod(
 				// @phpstan-ignore-next-line
@@ -37,6 +38,7 @@ final class DateTimeUtils
 				new DateInterval('P1D'),
 				// @phpstan-ignore-next-line
 				new DateTimeImmutable('today'),
+				DatePeriod::INCLUDE_END_DATE,
 			),
 			RangeEnum::ThreeMonths => new DatePeriod(
 				// @phpstan-ignore-next-line
@@ -44,6 +46,7 @@ final class DateTimeUtils
 				new DateInterval('P1D'),
 				// @phpstan-ignore-next-line
 				new DateTimeImmutable('today'),
+				DatePeriod::INCLUDE_END_DATE,
 			),
 			RangeEnum::SixMonths => new DatePeriod(
 				// @phpstan-ignore-next-line
@@ -51,6 +54,7 @@ final class DateTimeUtils
 				new DateInterval('P1W'),
 				// @phpstan-ignore-next-line
 				new DateTimeImmutable('today'),
+				DatePeriod::INCLUDE_END_DATE,
 			),
 			RangeEnum::YTD => new DatePeriod(
 				// @phpstan-ignore-next-line
@@ -58,6 +62,7 @@ final class DateTimeUtils
 				new DateInterval('P1W'),
 				// @phpstan-ignore-next-line
 				new DateTimeImmutable('today'),
+				DatePeriod::INCLUDE_END_DATE,
 			),
 			RangeEnum::OneYear => new DatePeriod(
 				// @phpstan-ignore-next-line
@@ -65,6 +70,7 @@ final class DateTimeUtils
 				new DateInterval('P1W'),
 				// @phpstan-ignore-next-line
 				new DateTimeImmutable('today'),
+				DatePeriod::INCLUDE_END_DATE,
 			),
 			RangeEnum::All => new DatePeriod(
 				// @phpstan-ignore-next-line
@@ -72,6 +78,7 @@ final class DateTimeUtils
 				new DateInterval('P1M'),
 				// @phpstan-ignore-next-line
 				new DateTimeImmutable('today'),
+					DatePeriod::INCLUDE_END_DATE,
 			),
 		};
 	}
