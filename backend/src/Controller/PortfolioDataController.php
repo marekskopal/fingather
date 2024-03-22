@@ -7,6 +7,8 @@ namespace FinGather\Controller;
 use FinGather\Dto\Enum\RangeEnum;
 use FinGather\Dto\PortfolioDataDto;
 use FinGather\Dto\PortfolioDataWithBenchmarkDataDto;
+use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
+use FinGather\Model\Repository\Enum\OrderDirectionEnum;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Service\Provider\AssetProvider;
 use FinGather\Service\Provider\BenchmarkDataProvider;
@@ -73,6 +75,13 @@ class PortfolioDataController
 		$benchmarkAssetId = ($queryParams['benchmarkAssetId'] ?? null) !== null ? (int) $queryParams['benchmarkAssetId'] : null;
 		$benchmarkAsset = $benchmarkAssetId !== null ? $this->assetProvider->getAsset($user, $benchmarkAssetId) : null;
 
+		$transactions = $this->transactionProvider->getTransactions(
+			user: $user,
+			portfolio: $portfolio,
+			actionTypes: [TransactionActionTypeEnum::Buy, TransactionActionTypeEnum::Sell],
+			orderDirection: OrderDirectionEnum::ASC,
+		);
+
 		$firstTransaction = $this->transactionProvider->getFirstTransaction($user, $portfolio);
 		if ($firstTransaction === null) {
 			return new JsonResponse([]);
@@ -111,6 +120,7 @@ class PortfolioDataController
 				user: $user,
 				portfolio: $portfolio,
 				benchmarkAsset: $benchmarkAsset,
+				transactions: $transactions,
 				dateTime: $dateTimeConverted,
 				benchmarkFromDateTime: $firstDateTime,
 				benchmarkFromDateUnits: $benchmarkDataFromDate->getUnits(),
