@@ -78,7 +78,7 @@ final class DateTimeUtils
 				new DateInterval('P1M'),
 				// @phpstan-ignore-next-line
 				new DateTimeImmutable('today'),
-					DatePeriod::INCLUDE_END_DATE,
+				DatePeriod::INCLUDE_END_DATE,
 			),
 		};
 	}
