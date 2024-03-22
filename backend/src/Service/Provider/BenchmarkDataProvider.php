@@ -51,7 +51,12 @@ class BenchmarkDataProvider
 
 		$assets = $this->assetProvider->getAssets($user, $portfolio, $dateTime);
 		foreach ($assets as $asset) {
-			$transactions = $this->transactionProvider->getTransactions($user, $portfolio, $asset, $dateTime);
+			$transactions = $this->transactionProvider->getTransactions(
+				user: $user,
+				portfolio: $portfolio,
+				asset: $asset,
+				actionCreatedBefore: $dateTime
+			);
 			if (count($transactions) === 0) {
 				continue;
 			}
@@ -59,7 +64,7 @@ class BenchmarkDataProvider
 			$tickerCurrency = $asset->getTicker()->getCurrency();
 
 			foreach ($transactions as $transaction) {
-				if ($transaction->getActionType() === TransactionActionTypeEnum::Dividend) {
+				if (!in_array($transaction->getActionType(), [TransactionActionTypeEnum::Buy, TransactionActionTypeEnum::Sell])) {
 					continue;
 				}
 
