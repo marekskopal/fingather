@@ -55,44 +55,20 @@ class BenchmarkDataProvider
 				user: $user,
 				portfolio: $portfolio,
 				asset: $asset,
-				actionCreatedBefore: $dateTime
+				actionCreatedAfter: $benchmarkFromDateTime,
+				actionCreatedBefore: $dateTime,
+				actionTypes: [TransactionActionTypeEnum::Buy, TransactionActionTypeEnum::Sell],
 			);
 			if (count($transactions) === 0) {
 				continue;
 			}
 
-			$tickerCurrency = $asset->getTicker()->getCurrency();
-
 			foreach ($transactions as $transaction) {
-				if (!in_array($transaction->getActionType(), [TransactionActionTypeEnum::Buy, TransactionActionTypeEnum::Sell])) {
-					continue;
-				}
-
-				$transactionActionCreated = DateTimeImmutable::createFromRegular($transaction->getActionCreated());
-				if ($transactionActionCreated <= $benchmarkFromDateTime) {
-					continue;
-				}
+				$transactionActionCreated = $transaction->getActionCreated();
 
 				$transactionUnits = $transaction->getUnits();
-				$transactionPriceUnit = $transaction->getPrice();
 
-				if ($tickerCurrency->getId() !== $transaction->getCurrency()->getId()) {
-					$transactionExchangeRate = $this->exchangeRateProvider->getExchangeRate(
-						$transactionActionCreated,
-						$transaction->getCurrency(),
-						$tickerCurrency,
-					);
-
-					$transactionPriceUnit = $transactionPriceUnit->mul($transactionExchangeRate);
-				}
-
-				$transactionExchangeRateDefaultCurrency = $this->exchangeRateProvider->getExchangeRate(
-					$transactionActionCreated,
-					$tickerCurrency,
-					$user->getDefaultCurrency(),
-				);
-
-				$transactionPriceUnitDefaultCurrency = $transactionPriceUnit->mul($transactionExchangeRateDefaultCurrency);
+				$transactionPriceUnitDefaultCurrency = $transaction->getPriceDefaultCurrency();
 
 				$benchmarkTransactionExchangeRateDefaultCurrency = $this->exchangeRateProvider->getExchangeRate(
 					$transactionActionCreated,
@@ -201,8 +177,8 @@ class BenchmarkDataProvider
 		return $benchmarkData;
 	}
 
-	public function deleteBenchmarkData(User $user, Portfolio $portfolio, DateTimeImmutable $date): void
+	public function deleteBenchmarkData(User $user, ?Portfolio $portfolio = null, ?DateTimeImmutable $date = null): void
 	{
-		$this->benchmarkDataRepository->deleteBenchmarkData($user->getId(), $portfolio->getId(), $date);
+		$this->benchmarkDataRepository->deleteBenchmarkData($user->getId(), $portfolio?->getId(), $date);
 	}
 }

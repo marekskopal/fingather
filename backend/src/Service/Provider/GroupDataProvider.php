@@ -84,8 +84,8 @@ class GroupDataProvider
 		return $groupData;
 	}
 
-	public function deleteUserGroupData(User $user, Portfolio $portfolio, DateTimeImmutable $date): void
+	public function deleteUserGroupData(User $user, ?Portfolio $portfolio = null, ?DateTimeImmutable $date = null): void
 	{
-		$this->groupDataRepository->deleteUserGroupData($user->getId(), $portfolio->getId(), $date);
+		$this->groupDataRepository->deleteUserGroupData($user->getId(), $portfolio?->getId(), $date);
 	}
 }

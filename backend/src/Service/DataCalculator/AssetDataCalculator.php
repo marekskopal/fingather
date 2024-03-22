@@ -65,13 +65,7 @@ class AssetDataCalculator
 
 		foreach ($transactions as $transaction) {
 			if ($transaction->getActionType() === TransactionActionTypeEnum::Dividend) {
-				$dividendExchangeRate = $this->exchangeRateProvider->getExchangeRate(
-					$transaction->getActionCreated(),
-					$transaction->getCurrency(),
-					$tickerCurrency,
-				);
-
-				$dividendTransactionValue = $transaction->getPrice()->mul($dividendExchangeRate);
+				$dividendTransactionValue = $transaction->getPriceTickerCurrency();
 
 				$dividendGain = $dividendGain->add($dividendTransactionValue);
 
@@ -93,33 +87,14 @@ class AssetDataCalculator
 			}
 
 			$transactionUnits = $transaction->getUnits();
-			$transactionPriceUnit = $transaction->getPrice();
 
 			$units = $units->add($transactionUnits->mul($splitFactor));
 
-			$transactionSum = $transactionUnits->mul($transactionPriceUnit);
-
-			if ($tickerCurrency->getId() !== $transaction->getCurrency()->getId()) {
-				$transactionExchangeRate = $this->exchangeRateProvider->getExchangeRate(
-					$transaction->getActionCreated(),
-					$transaction->getCurrency(),
-					$tickerCurrency,
-				);
-
-				$transactionSum = $transactionSum->mul($transactionExchangeRate);
-			}
+			$transactionSum = $transactionUnits->mul($transaction->getPriceTickerCurrency());
+			$transactionSumDefaultCurrency = $transactionUnits->mul($transaction->getPriceDefaultCurrency());
 
 			$transactionValue = $transactionValue->add($transactionSum);
-
-			$transactionExchangeRateDefaultCurrency = $this->exchangeRateProvider->getExchangeRate(
-				$transaction->getActionCreated(),
-				$tickerCurrency,
-				$user->getDefaultCurrency(),
-			);
-
-			$transactionValueDefaultCurrency = $transactionValueDefaultCurrency->add(
-				$transactionSum->mul($transactionExchangeRateDefaultCurrency),
-			);
+			$transactionValueDefaultCurrency = $transactionValueDefaultCurrency->add($transactionSumDefaultCurrency);
 		}
 
 		$lastTickerData = $this->tickerDataProvider->getLastTickerData($asset->getTicker(), $dateTime);

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace FinGather\Model\Repository;
 
+use DateTimeImmutable;
 use FinGather\Model\Entity\TickerData;
-use Safe\DateTimeImmutable;
 
 /** @extends ARepository<TickerData> */
 class TickerDataRepository extends ARepository

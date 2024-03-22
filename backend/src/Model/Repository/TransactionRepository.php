@@ -19,7 +19,7 @@ class TransactionRepository extends ARepository
 	 */
 	public function findTransactions(
 		int $userId,
-		int $portfolioId,
+		?int $portfolioId = null,
 		?int $assetId = null,
 		?DateTimeImmutable $actionCreatedAfter = null,
 		?DateTimeImmutable $actionCreatedBefore = null,

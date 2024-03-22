@@ -18,6 +18,7 @@ class UserProvider
 		private readonly EmailVerifyProvider $emailVerifyProvider,
 		private readonly GroupProvider $groupProvider,
 		private readonly PortfolioProvider $portfolioProvider,
+		private readonly DataProvider $dataProvider,
 	) {
 	}
 
@@ -78,6 +79,10 @@ class UserProvider
 		if ($password !== '') {
 			$hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 			$user->setPassword($hashedPassword);
+		}
+
+		if ($defaultCurrency->getId() !== $user->getDefaultCurrency()->getId()) {
+			$this->dataProvider->deleteUserData(user: $user, recalculateTransactions: true);
 		}
 
 		$user->setName($name);

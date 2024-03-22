@@ -6,6 +6,7 @@ namespace FinGather\Service\Provider;
 
 use Cycle\Database\Exception\StatementException\ConstrainException;
 use DateInterval;
+use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Model\Entity\Enum\MarketTypeEnum;
 use FinGather\Model\Entity\Ticker;
@@ -16,7 +17,6 @@ use FinGather\Utils\DateTimeUtils;
 use MarekSkopal\TwelveData\Dto\CoreData\TimeSeries;
 use MarekSkopal\TwelveData\TwelveData;
 use Safe\DateTime;
-use Safe\DateTimeImmutable;
 
 class TickerDataProvider
 {
@@ -103,7 +103,7 @@ class TickerDataProvider
 			$actualDate->sub(DateInterval::createFromDateString('1 day'));
 		}
 
-		$firstDate = new DateTimeImmutable(DateTimeUtils::FirstDate . ' 00:00:00');
+		$firstDate = new \Safe\DateTimeImmutable(DateTimeUtils::FirstDate . ' 00:00:00');
 
 		if ($lastTickerData !== null && ($actualDate->getTimestamp() - $lastTickerData->getDate()->getTimestamp() < 86400)) {
 			return;
@@ -111,7 +111,7 @@ class TickerDataProvider
 
 		$fromDate = $firstDate;
 		if ($lastTickerData !== null) {
-			$fromDate = DateTimeImmutable::createFromRegular($lastTickerData->getDate());
+			$fromDate = $lastTickerData->getDate();
 		}
 
 		$marketType = $ticker->getMarket()->getType();
@@ -132,7 +132,7 @@ class TickerDataProvider
 		$this->createTickerData($ticker, $timeSeries);
 
 		if (count($timeSeries->values) === self::TwelveDataTimeSeriesMaxResults) {
-			$this->createTickerDataFromStock($ticker, $fromDate, DateTimeImmutable::createFromRegular($timeSeries->values[4999]->datetime));
+			$this->createTickerDataFromStock($ticker, $fromDate, $timeSeries->values[4999]->datetime);
 		}
 	}
 
@@ -149,11 +149,7 @@ class TickerDataProvider
 			return;
 		}
 
-		$this->createTickerDataFromCrypto(
-			$ticker,
-			$fromDate,
-			DateTimeImmutable::createFromRegular($timeSeries->values[4999]->datetime),
-		);
+		$this->createTickerDataFromCrypto($ticker, $fromDate, $timeSeries->values[4999]->datetime);
 	}
 
 	private function createTickerData(Ticker $ticker, TimeSeries $timeSeries): void

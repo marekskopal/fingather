@@ -83,8 +83,8 @@ class AssetDataProvider
 		return $assetData;
 	}
 
-	public function deleteAssetData(User $user, Portfolio $portfolio): void
+	public function deleteAssetData(User $user, ?Portfolio $portfolio = null): void
 	{
-		$this->assetDataRepository->deleteAssetData($user->getId(), $portfolio->getId());
+		$this->assetDataRepository->deleteAssetData($user->getId(), $portfolio?->getId());
 	}
 }
