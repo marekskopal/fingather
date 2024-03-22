@@ -47,6 +47,10 @@ class Cache implements CacheInterface
 		return $this->storage->clear();
 	}
 
+	/**
+	 * @param iterable<string> $keys
+	 * @return iterable<string, mixed>
+	 */
 	public function getMultiple(iterable $keys, mixed $default = null): iterable
 	{
 		return $this->storage->getMultiple($keys, $default);
@@ -58,6 +62,7 @@ class Cache implements CacheInterface
 		return $this->storage->setMultiple($values, $ttl);
 	}
 
+	/** @param iterable<string> $keys */
 	public function deleteMultiple(iterable $keys): bool
 	{
 		return $this->storage->deleteMultiple($keys);

@@ -43,6 +43,7 @@ class XtbMapper extends CsvMapper
 			$action,
 			$type,
 			$units,
+			//@phpcs:ignore
 			$divider,
 			$price,
 		] = explode(' ', $comment);
