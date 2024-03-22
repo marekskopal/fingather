@@ -92,7 +92,9 @@
         <exclude name="Squiz.Arrays.ArrayDeclaration.SingleLineNotAllowed"/><!-- multiple values can be written on a single line -->
         <exclude name="Squiz.Arrays.ArrayDeclaration.ValueNotAligned"/><!-- we don't want spacing with alignment -->
     </rule>
-    <rule ref="Squiz.Classes.ClassFileName"/>
+    <rule ref="Squiz.Classes.ClassFileName">
+        <exclude-pattern>migrations/</exclude-pattern>
+    </rule>
     <rule ref="Squiz.Classes.SelfMemberReference"/>
     <rule ref="Squiz.Classes.ValidClassName"/>
     <rule ref="Squiz.Commenting.DocCommentAlignment">
@@ -318,6 +320,7 @@
                 <element key="tests" value="FinGather\Tests"/>
             </property>
         </properties>
+        <exclude-pattern>migrations/</exclude-pattern>
     </rule>
 
     <rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInCall"/>
@@ -404,6 +407,7 @@
     <rule ref="SlevomatCodingStandard.TypeHints.NullTypeHintOnLastPosition"/>
     <rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHint">
         <exclude name="SlevomatCodingStandard.TypeHints.ParameterTypeHint.UselessAnnotation"/>
+        <exclude name="SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint"/>
     </rule>
     <rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHintSpacing"/>
     <rule ref="SlevomatCodingStandard.TypeHints.PropertyTypeHint"/>
