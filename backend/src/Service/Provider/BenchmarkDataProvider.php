@@ -8,6 +8,7 @@ use Decimal\Decimal;
 use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\BenchmarkData;
 use FinGather\Model\Entity\Portfolio;
+use FinGather\Model\Entity\Transaction;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\BenchmarkDataRepository;
 use FinGather\Service\DataCalculator\BenchmarkDataCalculator;
@@ -23,10 +24,12 @@ class BenchmarkDataProvider
 	) {
 	}
 
+	/** @param list<Transaction> $transactions */
 	public function getBenchmarkData(
 		User $user,
 		Portfolio $portfolio,
 		Asset $benchmarkAsset,
+		array $transactions,
 		DateTimeImmutable $dateTime,
 		DateTimeImmutable $benchmarkFromDateTime,
 		Decimal $benchmarkFromDateUnits,
@@ -46,7 +49,7 @@ class BenchmarkDataProvider
 
 		$benchmarkDataDto = $this->benchmarkDataCalculator->calculate(
 			$user,
-			$portfolio,
+			$transactions,
 			$benchmarkAsset,
 			$dateTime,
 			$benchmarkFromDateTime,

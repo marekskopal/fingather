@@ -7,29 +7,29 @@ namespace FinGather\Service\DataCalculator;
 use Decimal\Decimal;
 use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Currency;
-use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
-use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\Transaction;
 use FinGather\Model\Entity\User;
 use FinGather\Service\DataCalculator\Dto\BenchmarkDataDto;
 use FinGather\Service\Provider\ExchangeRateProvider;
 use FinGather\Service\Provider\TickerDataProvider;
-use FinGather\Service\Provider\TransactionProvider;
 use Safe\DateTimeImmutable;
 
 class BenchmarkDataCalculator
 {
+	/** @var array<string, Decimal> */
+	private array $transactionBenchmarkUnits = [];
+
 	public function __construct(
-		private readonly TransactionProvider $transactionProvider,
 		private readonly ExchangeRateProvider $exchangeRateProvider,
 		private readonly TickerDataProvider $tickerDataProvider,
 	) {
 	}
 
+	/** @param list<Transaction> $transactions */
 	public function calculate(
 		User $user,
-		Portfolio $portfolio,
+		array $transactions,
 		Asset $benchmarkAsset,
 		DateTimeImmutable $dateTime,
 		DateTimeImmutable $benchmarkFromDateTime,
@@ -40,15 +40,15 @@ class BenchmarkDataCalculator
 
 		$benchmarkUnitsSum = new Decimal(0);
 
-		$transactions = $this->transactionProvider->getTransactions(
-			user: $user,
-			portfolio: $portfolio,
-			actionCreatedAfter: $benchmarkFromDateTime,
-			actionCreatedBefore: $dateTime,
-			actionTypes: [TransactionActionTypeEnum::Buy, TransactionActionTypeEnum::Sell],
-		);
-
 		foreach ($transactions as $transaction) {
+			if ($transaction->getActionCreated() < $benchmarkFromDateTime) {
+				continue;
+			}
+
+			if ($transaction->getActionCreated() > $dateTime) {
+				break;
+			}
+
 			$benchmarkUnitsSum = $benchmarkUnitsSum->add($this->calculateTransactionBenchmarkUnits(
 				$transaction,
 				$benchmarkAsset->getTicker(),
@@ -83,6 +83,11 @@ class BenchmarkDataCalculator
 		Currency $benchmarkTickerCurrency,
 		Currency $defaultCurrency,
 	): Decimal {
+		$key = $transaction->getId() . '-' . $benchmarkAssetTicker->getId() . '-' . $defaultCurrency->getId();
+		if (isset($this->transactionBenchmarkUnits[$key])) {
+			return $this->transactionBenchmarkUnits[$key];
+		}
+
 		$transactionActionCreated = $transaction->getActionCreated();
 
 		$benchmarkTransactionAssetTickerData = $this->tickerDataProvider->getLastTickerData(
@@ -106,6 +111,10 @@ class BenchmarkDataCalculator
 		$benchmarkPrice = $benchmarkTransactionAssetTickerData->getClose();
 		$benchmarkPriceUnitDefaultCurrency = $benchmarkPrice->mul($benchmarkTransactionExchangeRateDefaultCurrency);
 
-		return $transactionUnits->mul($transactionPriceUnitDefaultCurrency)->div($benchmarkPriceUnitDefaultCurrency);
+		$this->transactionBenchmarkUnits[$key] = $transactionUnits->mul($transactionPriceUnitDefaultCurrency)->div(
+			$benchmarkPriceUnitDefaultCurrency,
+		);
+
+		return $this->transactionBenchmarkUnits[$key];
 	}
 }
