@@ -5,8 +5,14 @@ declare(strict_types=1);
 namespace FinGather\Helper;
 
 use ArrayIterator;
+use DateTimeImmutable;
 use Iterator;
 
+/**
+ * @method DateTimeImmutable current()
+ * @method DateTimeImmutable getStartDate()
+ * @method DateTimeImmutable getEndDate()
+ */
 class DatePeriod extends \DatePeriod
 {
 	public function getIterator(): Iterator

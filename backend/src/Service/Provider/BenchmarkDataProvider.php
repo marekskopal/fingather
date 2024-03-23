@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Provider;
 
+use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\BenchmarkData;
@@ -12,7 +13,6 @@ use FinGather\Model\Entity\Transaction;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\BenchmarkDataRepository;
 use FinGather\Service\DataCalculator\BenchmarkDataCalculator;
-use Safe\DateTimeImmutable;
 
 class BenchmarkDataProvider
 {
@@ -77,8 +77,7 @@ class BenchmarkDataProvider
 		Asset $benchmarkAsset,
 		DateTimeImmutable $benchmarkFromDateTime,
 		Decimal $portfolioDataValue,
-	): BenchmarkData
-	{
+	): BenchmarkData {
 		$benchmarkFromDateTime = $benchmarkFromDateTime->setTime(0, 0);
 
 		$benchmarkData = $this->benchmarkDataRepository->findBenchmarkData(

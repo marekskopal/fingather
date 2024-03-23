@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Service\DataCalculator;
 
+use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Currency;
@@ -13,7 +14,6 @@ use FinGather\Model\Entity\User;
 use FinGather\Service\DataCalculator\Dto\BenchmarkDataDto;
 use FinGather\Service\Provider\ExchangeRateProvider;
 use FinGather\Service\Provider\TickerDataProvider;
-use Safe\DateTimeImmutable;
 
 class BenchmarkDataCalculator
 {
