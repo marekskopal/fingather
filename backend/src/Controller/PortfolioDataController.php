@@ -82,17 +82,18 @@ class PortfolioDataController
 			orderDirection: OrderDirectionEnum::ASC,
 		);
 
-		$firstTransaction = $this->transactionProvider->getFirstTransaction($user, $portfolio);
-		if ($firstTransaction === null) {
+		if (count($transactions) === 0) {
 			return new JsonResponse([]);
 		}
 
+		$firstTransaction = $transactions[array_key_first($transactions)];
+
 		$portfolioDatas = [];
 
-		$firstDateTime = null;
 		$benchmarkDataFromDate = null;
 
-		foreach (DateTimeUtils::getDatePeriod($range, $firstTransaction->getActionCreated()) as $dateTime) {
+		$datePeriod = DateTimeUtils::getDatePeriod($range, $firstTransaction->getActionCreated());
+		foreach ($datePeriod as $dateTime) {
 			/** @var \DateTimeImmutable $dateTime */
 			$dateTimeConverted = DateTimeImmutable::createFromRegular($dateTime);
 
@@ -103,13 +104,12 @@ class PortfolioDataController
 				continue;
 			}
 
-			if ($firstDateTime === null || $benchmarkDataFromDate === null) {
-				$firstDateTime = $dateTimeConverted;
+			if ($benchmarkDataFromDate === null) {
 				$benchmarkDataFromDate = $this->benchmarkDataProvider->getBenchmarkDataFromDate(
 					user: $user,
 					portfolio: $portfolio,
 					benchmarkAsset: $benchmarkAsset,
-					benchmarkFromDateTime: $firstDateTime,
+					benchmarkFromDateTime: $datePeriod->getStartDate(),
 					portfolioDataValue: $portfolioData->getValue(),
 				);
 
@@ -122,7 +122,7 @@ class PortfolioDataController
 				benchmarkAsset: $benchmarkAsset,
 				transactions: $transactions,
 				dateTime: $dateTimeConverted,
-				benchmarkFromDateTime: $firstDateTime,
+				benchmarkFromDateTime: $datePeriod->getStartDate(),
 				benchmarkFromDateUnits: $benchmarkDataFromDate->getUnits(),
 			);
 
