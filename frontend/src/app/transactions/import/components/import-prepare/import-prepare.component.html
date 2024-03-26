@@ -1,4 +1,6 @@
-﻿<p>please select right asset for those tickers</p>
+﻿@if (this.importPrepare.multipleFoundTickers.length > 0) {
+    <p>{{ 'app.transactions.import.import.selectTicker' | translate }}</p>
+}
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <table>
     @for (importPrepareTicker of this.importPrepare.multipleFoundTickers; track importPrepareTicker) {

@@ -118,7 +118,7 @@ final class ImportService
 					$okFoundTickers[$tickerKey] = new PrepareImportTicker(
 						brokerId: $brokerId,
 						ticker: $transactionRecord->ticker,
-						tickers: [$importMappings[$transactionRecord->ticker]->getTicker()],
+						tickers: [$importMappings[$tickerKey]->getTicker()],
 					);
 					continue;
 				}
@@ -204,8 +204,9 @@ final class ImportService
 					continue;
 				}
 
-				$ticker = array_key_exists($transactionRecord->ticker, $importMappings)
-					? $importMappings[$transactionRecord->ticker]->getTicker()
+				$tickerKey = $broker->getId() . '-' . $transactionRecord->ticker;
+				$ticker = array_key_exists($tickerKey, $importMappings)
+					? $importMappings[$tickerKey]->getTicker()
 					: $this->tickerProvider->getTickerByTicker($transactionRecord->ticker);
 				if ($ticker === null) {
 					$this->logger->log('import', 'Ticker not created: ' . implode(',', $record));

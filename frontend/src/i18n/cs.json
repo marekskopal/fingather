@@ -170,7 +170,8 @@
           "brokerRequired": "Broker je povinný",
           "fileDropText": "Přesuň CSV soubory sem, nebo klikni pro výběr",
           "fileDropButton": "Vybrat soubory",
-          "import": "Importovat"
+          "import": "Importovat",
+          "selectTicker": "prosím zvolte správná aktiva pro následující značky"
         }
       }
     },

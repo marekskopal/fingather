@@ -170,7 +170,8 @@
           "brokerRequired": "Broker is required",
           "fileDropText": "Drop CSV Files here or click to upload",
           "fileDropButton": "Choose files",
-          "import": "Import"
+          "import": "Import",
+          "selectTicker": "please select right asset for those tickers"
         }
       }
     },

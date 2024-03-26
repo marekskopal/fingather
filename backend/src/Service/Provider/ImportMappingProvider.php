@@ -33,7 +33,7 @@ class ImportMappingProvider
 			$portfolio->getId(),
 			$broker->getId(),
 		) as $importMapping) {
-			$importMappings[$importMapping->getImportTicker()] = $importMapping;
+			$importMappings[$broker->getId() . '-' . $importMapping->getImportTicker()] = $importMapping;
 		}
 
 		return $importMappings;
