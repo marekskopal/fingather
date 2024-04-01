@@ -134,16 +134,16 @@
         },
         {
             "name": "cycle/database",
-            "version": "2.8.1",
+            "version": "2.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cycle/database.git",
-                "reference": "f9f70c8067ce436d0090118a1e75f8363d05048e"
+                "reference": "9eb666942d654b29d5ede4501f2c32205eedeaeb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cycle/database/zipball/f9f70c8067ce436d0090118a1e75f8363d05048e",
-                "reference": "f9f70c8067ce436d0090118a1e75f8363d05048e",
+                "url": "https://api.github.com/repos/cycle/database/zipball/9eb666942d654b29d5ede4501f2c32205eedeaeb",
+                "reference": "9eb666942d654b29d5ede4501f2c32205eedeaeb",
                 "shasum": ""
             },
             "require": {
@@ -221,7 +221,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-02-08T16:04:55+00:00"
+            "time": "2024-03-27T10:54:26+00:00"
         },
         {
             "name": "cycle/entity-behavior",
@@ -2469,16 +2469,16 @@
         },
         {
             "name": "php-http/discovery",
-            "version": "1.19.2",
+            "version": "1.19.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-http/discovery.git",
-                "reference": "61e1a1eb69c92741f5896d9e05fb8e9d7e8bb0cb"
+                "reference": "0700efda8d7526335132360167315fdab3aeb599"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-http/discovery/zipball/61e1a1eb69c92741f5896d9e05fb8e9d7e8bb0cb",
-                "reference": "61e1a1eb69c92741f5896d9e05fb8e9d7e8bb0cb",
+                "url": "https://api.github.com/repos/php-http/discovery/zipball/0700efda8d7526335132360167315fdab3aeb599",
+                "reference": "0700efda8d7526335132360167315fdab3aeb599",
                 "shasum": ""
             },
             "require": {
@@ -2502,7 +2502,8 @@
                 "php-http/httplug": "^1.0 || ^2.0",
                 "php-http/message-factory": "^1.0",
                 "phpspec/phpspec": "^5.1 || ^6.1 || ^7.3",
-                "symfony/phpunit-bridge": "^6.2"
+                "sebastian/comparator": "^3.0.5 || ^4.0.8",
+                "symfony/phpunit-bridge": "^6.4.4 || ^7.0.1"
             },
             "type": "composer-plugin",
             "extra": {
@@ -2541,9 +2542,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-http/discovery/issues",
-                "source": "https://github.com/php-http/discovery/tree/1.19.2"
+                "source": "https://github.com/php-http/discovery/tree/1.19.4"
             },
-            "time": "2023-11-30T16:49:05+00:00"
+            "time": "2024-03-29T13:00:05+00:00"
         },
         {
             "name": "phpoffice/phpspreadsheet",
@@ -3403,16 +3404,16 @@
         },
         {
             "name": "roadrunner-php/roadrunner-api-dto",
-            "version": "v1.5.0",
+            "version": "v1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/roadrunner-php/roadrunner-api-dto.git",
-                "reference": "473066245acde1038c557cc855a6030f07731f44"
+                "reference": "c4536eff3177e041e0d1231fc18d6ab5685f37d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/roadrunner-php/roadrunner-api-dto/zipball/473066245acde1038c557cc855a6030f07731f44",
-                "reference": "473066245acde1038c557cc855a6030f07731f44",
+                "url": "https://api.github.com/repos/roadrunner-php/roadrunner-api-dto/zipball/c4536eff3177e041e0d1231fc18d6ab5685f37d4",
+                "reference": "c4536eff3177e041e0d1231fc18d6ab5685f37d4",
                 "shasum": ""
             },
             "require": {
@@ -3458,7 +3459,7 @@
                 "docs": "https://docs.roadrunner.dev",
                 "forum": "https://forum.roadrunner.dev",
                 "issues": "https://github.com/roadrunner-server/roadrunner/issues",
-                "source": "https://github.com/roadrunner-php/roadrunner-api-dto/tree/v1.5.0"
+                "source": "https://github.com/roadrunner-php/roadrunner-api-dto/tree/v1.6.0"
             },
             "funding": [
                 {
@@ -3466,7 +3467,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-03-06T09:50:04+00:00"
+            "time": "2024-03-29T08:15:12+00:00"
         },
         {
             "name": "spiral/attributes",
@@ -4267,16 +4268,16 @@
         },
         {
             "name": "spiral/roadrunner-worker",
-            "version": "v3.4.0",
+            "version": "v3.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/roadrunner-php/worker.git",
-                "reference": "8efc721a3ced27fd6ef6bca347a69010ff7930cb"
+                "reference": "7c7411a301b9dade863634ab17ef01929adada6b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/roadrunner-php/worker/zipball/8efc721a3ced27fd6ef6bca347a69010ff7930cb",
-                "reference": "8efc721a3ced27fd6ef6bca347a69010ff7930cb",
+                "url": "https://api.github.com/repos/roadrunner-php/worker/zipball/7c7411a301b9dade863634ab17ef01929adada6b",
+                "reference": "7c7411a301b9dade863634ab17ef01929adada6b",
                 "shasum": ""
             },
             "require": {
@@ -4284,9 +4285,9 @@
                 "ext-json": "*",
                 "ext-sockets": "*",
                 "php": ">=8.1",
-                "psr/log": "^2.0|^3.0",
+                "psr/log": "^2.0 || ^3.0",
                 "spiral/goridge": "^4.1.0",
-                "spiral/roadrunner": "^2023.1"
+                "spiral/roadrunner": "^2023.1 || ^2024.1"
             },
             "require-dev": {
                 "jetbrains/phpstorm-attributes": "^1.0",
@@ -4340,7 +4341,7 @@
                 "docs": "https://docs.roadrunner.dev",
                 "forum": "https://forum.roadrunner.dev/",
                 "issues": "https://github.com/roadrunner-server/roadrunner/issues",
-                "source": "https://github.com/roadrunner-php/worker/tree/v3.4.0"
+                "source": "https://github.com/roadrunner-php/worker/tree/v3.5.0"
             },
             "funding": [
                 {
@@ -4348,7 +4349,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-02-26T11:59:06+00:00"
+            "time": "2024-03-29T08:06:36+00:00"
         },
         {
             "name": "spiral/tokenizer",
@@ -5983,16 +5984,16 @@
         },
         {
             "name": "tracy/tracy",
-            "version": "v2.10.5",
+            "version": "v2.10.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/tracy.git",
-                "reference": "86bdba4aa0f707d3f125933931d3df6e5c7aad79"
+                "reference": "64435e3d5d5e3172e48c026b6b57349d49cbfd49"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/tracy/zipball/86bdba4aa0f707d3f125933931d3df6e5c7aad79",
-                "reference": "86bdba4aa0f707d3f125933931d3df6e5c7aad79",
+                "url": "https://api.github.com/repos/nette/tracy/zipball/64435e3d5d5e3172e48c026b6b57349d49cbfd49",
+                "reference": "64435e3d5d5e3172e48c026b6b57349d49cbfd49",
                 "shasum": ""
             },
             "require": {
@@ -6052,9 +6053,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/tracy/issues",
-                "source": "https://github.com/nette/tracy/tree/v2.10.5"
+                "source": "https://github.com/nette/tracy/tree/v2.10.6"
             },
-            "time": "2023-10-16T21:54:18+00:00"
+            "time": "2024-03-31T17:03:25+00:00"
         },
         {
             "name": "voku/anti-xss",
@@ -6854,16 +6855,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.10.65",
+            "version": "1.10.66",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "3c657d057a0b7ecae19cb12db446bbc99d8839c6"
+                "reference": "94779c987e4ebd620025d9e5fdd23323903950bd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/3c657d057a0b7ecae19cb12db446bbc99d8839c6",
-                "reference": "3c657d057a0b7ecae19cb12db446bbc99d8839c6",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/94779c987e4ebd620025d9e5fdd23323903950bd",
+                "reference": "94779c987e4ebd620025d9e5fdd23323903950bd",
                 "shasum": ""
             },
             "require": {
@@ -6912,7 +6913,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-03-23T10:30:26+00:00"
+            "time": "2024-03-28T16:17:31+00:00"
         },
         {
             "name": "phpstan/phpstan-strict-rules",
@@ -7288,16 +7289,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "11.0.8",
+            "version": "11.0.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "48ea58408879a9aad630022186398364051482fc"
+                "reference": "591bbfe416400385527d5086b346b92c06de404b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/48ea58408879a9aad630022186398364051482fc",
-                "reference": "48ea58408879a9aad630022186398364051482fc",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/591bbfe416400385527d5086b346b92c06de404b",
+                "reference": "591bbfe416400385527d5086b346b92c06de404b",
                 "shasum": ""
             },
             "require": {
@@ -7368,7 +7369,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/11.0.8"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/11.0.9"
             },
             "funding": [
                 {
@@ -7384,7 +7385,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-03-22T04:21:01+00:00"
+            "time": "2024-03-28T10:09:42+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -8568,16 +8569,16 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "3.9.0",
+            "version": "3.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPCSStandards/PHP_CodeSniffer.git",
-                "reference": "d63cee4890a8afaf86a22e51ad4d97c91dd4579b"
+                "reference": "267a4405fff1d9c847134db3a3c92f1ab7f77909"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/d63cee4890a8afaf86a22e51ad4d97c91dd4579b",
-                "reference": "d63cee4890a8afaf86a22e51ad4d97c91dd4579b",
+                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/267a4405fff1d9c847134db3a3c92f1ab7f77909",
+                "reference": "267a4405fff1d9c847134db3a3c92f1ab7f77909",
                 "shasum": ""
             },
             "require": {
@@ -8644,7 +8645,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2024-02-16T15:06:51+00:00"
+            "time": "2024-03-31T21:03:09+00:00"
         },
         {
             "name": "symfony/stopwatch",
