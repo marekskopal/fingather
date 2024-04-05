@@ -29,6 +29,10 @@ readonly class AssetDataDto
 		public Decimal $return,
 		public float $returnPercentage,
 		public float $returnPercentagePerAnnum,
+		public Decimal $tax,
+		public Decimal $taxDefaultCurrency,
+		public Decimal $fee,
+		public Decimal $feeDefaultCurrency,
 		public DateTimeImmutable $firstTransactionActionCreated,
 	) {
 	}

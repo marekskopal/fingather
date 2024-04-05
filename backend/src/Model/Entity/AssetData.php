@@ -67,6 +67,14 @@ class AssetData extends AEntity
 		public float $returnPercentage,
 		#[Column(type: 'float')]
 		public float $returnPercentagePerAnnum,
+		#[ColumnDecimal(precision: 12, scale: 2)]
+		public Decimal $tax,
+		#[ColumnDecimal(precision: 12, scale: 2)]
+		public Decimal $taxDefaultCurrency,
+		#[ColumnDecimal(precision: 12, scale: 2)]
+		public Decimal $fee,
+		#[ColumnDecimal(precision: 12, scale: 2)]
+		public Decimal $feeDefaultCurrency,
 		#[Column(type: 'timestamp')]
 		public DateTimeImmutable $firstTransactionActionCreated,
 	) {
@@ -310,6 +318,46 @@ class AssetData extends AEntity
 	public function setReturnPercentagePerAnnum(float $returnPercentagePerAnnum): void
 	{
 		$this->returnPercentagePerAnnum = $returnPercentagePerAnnum;
+	}
+
+	public function getTax(): Decimal
+	{
+		return $this->tax;
+	}
+
+	public function setTax(Decimal $tax): void
+	{
+		$this->tax = $tax;
+	}
+
+	public function getTaxDefaultCurrency(): Decimal
+	{
+		return $this->taxDefaultCurrency;
+	}
+
+	public function setTaxDefaultCurrency(Decimal $taxDefaultCurrency): void
+	{
+		$this->taxDefaultCurrency = $taxDefaultCurrency;
+	}
+
+	public function getFee(): Decimal
+	{
+		return $this->fee;
+	}
+
+	public function setFee(Decimal $fee): void
+	{
+		$this->fee = $fee;
+	}
+
+	public function getFeeDefaultCurrency(): Decimal
+	{
+		return $this->feeDefaultCurrency;
+	}
+
+	public function setFeeDefaultCurrency(Decimal $feeDefaultCurrency): void
+	{
+		$this->feeDefaultCurrency = $feeDefaultCurrency;
 	}
 
 	public function getFirstTransactionActionCreated(): DateTimeImmutable

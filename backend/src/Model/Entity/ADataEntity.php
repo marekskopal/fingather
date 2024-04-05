@@ -47,6 +47,10 @@ class ADataEntity extends AEntity
 		protected float $returnPercentage,
 		#[Column(type: 'float')]
 		protected float $returnPercentagePerAnnum,
+		#[ColumnDecimal(precision: 12, scale: 2)]
+		public Decimal $tax,
+		#[ColumnDecimal(precision: 12, scale: 2)]
+		public Decimal $fee,
 	) {
 	}
 
@@ -218,5 +222,25 @@ class ADataEntity extends AEntity
 	public function setReturnPercentagePerAnnum(float $returnPercentagePerAnnum): void
 	{
 		$this->returnPercentagePerAnnum = $returnPercentagePerAnnum;
+	}
+
+	public function getTax(): Decimal
+	{
+		return $this->tax;
+	}
+
+	public function setTax(Decimal $tax): void
+	{
+		$this->tax = $tax;
+	}
+
+	public function getFee(): Decimal
+	{
+		return $this->fee;
+	}
+
+	public function setFee(Decimal $fee): void
+	{
+		$this->fee = $fee;
 	}
 }

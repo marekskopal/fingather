@@ -65,6 +65,10 @@ class AssetDataProvider
 			return: $assetDataDto->return,
 			returnPercentage: $assetDataDto->returnPercentage,
 			returnPercentagePerAnnum: $assetDataDto->returnPercentagePerAnnum,
+			tax: $assetDataDto->tax,
+			taxDefaultCurrency: $assetDataDto->taxDefaultCurrency,
+			fee: $assetDataDto->fee,
+			feeDefaultCurrency: $assetDataDto->feeDefaultCurrency,
 			firstTransactionActionCreated: $assetDataDto->firstTransactionActionCreated,
 		);
 

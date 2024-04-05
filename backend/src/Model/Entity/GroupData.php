@@ -38,6 +38,8 @@ class GroupData extends ADataEntity
 		Decimal $return,
 		float $returnPercentage,
 		float $returnPercentagePerAnnum,
+		Decimal $tax,
+		Decimal $fee,
 	) {
 		parent::__construct(
 			$user,
@@ -57,6 +59,8 @@ class GroupData extends ADataEntity
 			$return,
 			$returnPercentage,
 			$returnPercentagePerAnnum,
+			$tax,
+			$fee,
 		);
 	}
 

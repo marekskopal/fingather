@@ -26,9 +26,13 @@ class DataCalculator
 		$sumGainDefaultCurrency = new Decimal(0);
 		$sumDividendGain = new Decimal(0);
 		$sumFxImpact = new Decimal(0);
+		$sumTax = new Decimal(0);
+		$sumFee = new Decimal(0);
 
 		foreach ($assets as $asset) {
 			$sumDividendGain = $sumDividendGain->add($asset->dividendGainDefaultCurrency);
+			$sumTax = $sumTax->add($asset->taxDefaultCurrency);
+			$sumFee = $sumFee->add($asset->feeDefaultCurrency);
 
 			if ($asset->isClosed) {
 				//TOOO: think twice about this
@@ -65,6 +69,8 @@ class DataCalculator
 			return: $sumGainDefaultCurrency->add($sumDividendGain)->add($sumFxImpact),
 			returnPercentage: round($gainPercentage + $dividendGainPercentage + $fxImpactPercentage, 2),
 			returnPercentagePerAnnum: round($gainPercentagePerAnnum + $dividendGainPercentagePerAnnum + $fxImpactPercentagePerAnnum, 2),
+			tax: $sumTax,
+			fee: $sumFee,
 		);
 	}
 }
