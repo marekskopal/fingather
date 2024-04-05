@@ -12,7 +12,7 @@ class TaxFeeMigration extends Migration
 
 	public function up(): void
 	{
-		$this->database()->query('TRUNCATE ?', ['asset_datas']);
+		$this->database()->query('TRUNCATE `asset_datas`');
 		$this->table('asset_datas')
 			->addColumn('tax', 'decimal', ['nullable' => false, 'defaultValue' => null, 'precision' => 12, 'scale' => 2])
 			->addColumn('tax_default_currency', 'decimal', [
@@ -30,13 +30,13 @@ class TaxFeeMigration extends Migration
 			])
 			->update();
 
-		$this->database()->query('TRUNCATE ?', ['group_datas']);
+		$this->database()->query('TRUNCATE `group_datas`');
 		$this->table('group_datas')
 			->addColumn('tax', 'decimal', ['nullable' => false, 'defaultValue' => null, 'precision' => 12, 'scale' => 2])
 			->addColumn('fee', 'decimal', ['nullable' => false, 'defaultValue' => null, 'precision' => 12, 'scale' => 2])
 			->update();
 
-		$this->database()->query('TRUNCATE ?', ['portfolio_datas']);
+		$this->database()->query('TRUNCATE `portfolio_datas`');
 		$this->table('portfolio_datas')
 			->addColumn('tax', 'decimal', ['nullable' => false, 'defaultValue' => null, 'precision' => 12, 'scale' => 2])
 			->addColumn('fee', 'decimal', ['nullable' => false, 'defaultValue' => null, 'precision' => 12, 'scale' => 2])
