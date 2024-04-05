@@ -44,15 +44,14 @@ use FinGather\Model\Repository\TickerDataRepository;
 use FinGather\Model\Repository\TickerRepository;
 use FinGather\Model\Repository\TransactionRepository;
 use FinGather\Model\Repository\UserRepository;
-use FinGather\Route\Routes;
 use FinGather\Route\Strategy\JsonStrategy;
 use FinGather\Service\Dbal\DbContext;
 use FinGather\Service\Logger\Logger;
 use Http\Discovery\Psr17FactoryDiscovery;
 use League\Container\Container;
 use League\Container\ReflectionContainer;
-use League\Route\Router;
 use MarekSkopal\BuggregatorClient\Middleware\XhprofMiddleware;
+use MarekSkopal\Router\Builder\RouterBuilder;
 use MarekSkopal\TwelveData\Config\Config;
 use MarekSkopal\TwelveData\TwelveData;
 use Psr\Container\ContainerInterface;
@@ -130,7 +129,11 @@ final class ApplicationFactory
 		assert($strategy instanceof JsonStrategy);
 		$strategy->setContainer($container);
 
-		$router = new Router();
+		$router = (new RouterBuilder())
+			->setClassDirectories([__DIR__ . '/../Controller'])
+			->setCache(null)
+			->build();
+
 		$router->setStrategy($strategy);
 
 		if ((bool) getenv('PROFILER_ENABLE') === true) {
@@ -142,9 +145,6 @@ final class ApplicationFactory
 		$authorizationMiddleware = $container->get(AuthorizationMiddleware::class);
 		assert($authorizationMiddleware instanceof AuthorizationMiddleware);
 		$router->middleware($authorizationMiddleware);
-
-		$routeList = Routes::getRouteList();
-		$routeList->setRouteListToRouter($router);
 
 		return $router;
 	}

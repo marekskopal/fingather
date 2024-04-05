@@ -12,6 +12,7 @@ use FinGather\Model\Entity\Enum\TransactionCreateTypeEnum;
 use FinGather\Model\Entity\Transaction;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Response\OkResponse;
+use FinGather\Route\Routes;
 use FinGather\Service\Provider\AssetProvider;
 use FinGather\Service\Provider\BrokerProvider;
 use FinGather\Service\Provider\CurrencyProvider;
@@ -20,6 +21,10 @@ use FinGather\Service\Provider\PortfolioProvider;
 use FinGather\Service\Provider\TransactionProvider;
 use FinGather\Service\Request\RequestService;
 use Laminas\Diactoros\Response\JsonResponse;
+use MarekSkopal\Router\Attribute\RouteDelete;
+use MarekSkopal\Router\Attribute\RouteGet;
+use MarekSkopal\Router\Attribute\RoutePost;
+use MarekSkopal\Router\Attribute\RoutePut;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Safe\DateTimeImmutable;
@@ -37,6 +42,7 @@ class TransactionController
 	) {
 	}
 
+	#[RouteGet(Routes::Transactions->value)]
 	public function actionGetTransactions(ServerRequestInterface $request, int $portfolioId): ResponseInterface
 	{
 		/** @var array{assetId?: string, limit?: string, offset?: string, actionTypes?: string} $queryParams */
@@ -88,6 +94,7 @@ class TransactionController
 		return new JsonResponse(new TransactionListDto($transactionDtos, $count));
 	}
 
+	#[RouteGet(Routes::Transaction->value)]
 	public function actionGetTransaction(ServerRequestInterface $request, int $transactionId): ResponseInterface
 	{
 		if ($transactionId < 1) {
@@ -105,6 +112,7 @@ class TransactionController
 		return new JsonResponse(TransactionDto::fromEntity($transaction));
 	}
 
+	#[RoutePost(Routes::Transactions->value)]
 	public function actionCreateTransaction(ServerRequestInterface $request, int $portfolioId): ResponseInterface
 	{
 		$transactionDto = TransactionCreateDto::fromJson($request->getBody()->getContents());
@@ -169,6 +177,7 @@ class TransactionController
 		return new JsonResponse(TransactionDto::fromEntity($transaction));
 	}
 
+	#[RoutePut(Routes::Transaction->value)]
 	public function actionUpdateTransaction(ServerRequestInterface $request, int $transactionId): ResponseInterface
 	{
 		if ($transactionId < 1) {
@@ -234,6 +243,7 @@ class TransactionController
 		return new JsonResponse(TransactionDto::fromEntity($transaction));
 	}
 
+	#[RouteDelete(Routes::Transaction->value)]
 	public function actionDeleteTransaction(ServerRequestInterface $request, int $transactionId): ResponseInterface
 	{
 		if ($transactionId < 1) {

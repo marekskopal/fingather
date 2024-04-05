@@ -9,6 +9,7 @@ use FinGather\Dto\AssetsWithPropertiesDto;
 use FinGather\Dto\AssetWithPropertiesDto;
 use FinGather\Dto\TickerDto;
 use FinGather\Response\NotFoundResponse;
+use FinGather\Route\Routes;
 use FinGather\Service\Provider\AssetDataProvider;
 use FinGather\Service\Provider\AssetProvider;
 use FinGather\Service\Provider\MarketProvider;
@@ -17,6 +18,8 @@ use FinGather\Service\Provider\TickerDataProvider;
 use FinGather\Service\Provider\TickerProvider;
 use FinGather\Service\Request\RequestService;
 use Laminas\Diactoros\Response\JsonResponse;
+use MarekSkopal\Router\Attribute\RouteGet;
+use MarekSkopal\Router\Attribute\RoutePost;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Safe\DateTimeImmutable;
@@ -34,6 +37,7 @@ class AssetController
 	) {
 	}
 
+	#[RouteGet(Routes::Assets->value)]
 	public function actionGetAssets(ServerRequestInterface $request, int $portfolioId): ResponseInterface
 	{
 		$user = $this->requestService->getUser($request);
@@ -64,6 +68,7 @@ class AssetController
 		return new JsonResponse($assetDtos);
 	}
 
+	#[RouteGet(Routes::AssetsWithProperties->value)]
 	public function actionGetAssetsWithProperties(ServerRequestInterface $request, int $portfolioId): ResponseInterface
 	{
 		$user = $this->requestService->getUser($request);
@@ -110,6 +115,7 @@ class AssetController
 		));
 	}
 
+	#[RouteGet(Routes::Asset->value)]
 	public function actionGetAsset(ServerRequestInterface $request, int $assetId): ResponseInterface
 	{
 		if ($assetId < 1) {
@@ -138,6 +144,7 @@ class AssetController
 		return new JsonResponse(AssetWithPropertiesDto::fromEntity($asset, $assetData));
 	}
 
+	#[RoutePost(Routes::Assets->value)]
 	public function actionCreateAsset(ServerRequestInterface $request, int $portfolioId): ResponseInterface
 	{
 		$user = $this->requestService->getUser($request);

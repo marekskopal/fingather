@@ -10,6 +10,7 @@ use FinGather\Dto\PortfolioDataWithBenchmarkDataDto;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Repository\Enum\OrderDirectionEnum;
 use FinGather\Response\NotFoundResponse;
+use FinGather\Route\Routes;
 use FinGather\Service\Provider\AssetProvider;
 use FinGather\Service\Provider\BenchmarkDataProvider;
 use FinGather\Service\Provider\PortfolioDataProvider;
@@ -18,6 +19,7 @@ use FinGather\Service\Provider\TransactionProvider;
 use FinGather\Service\Request\RequestService;
 use FinGather\Utils\DateTimeUtils;
 use Laminas\Diactoros\Response\JsonResponse;
+use MarekSkopal\Router\Attribute\RouteGet;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Safe\DateTimeImmutable;
@@ -34,6 +36,7 @@ class PortfolioDataController
 	) {
 	}
 
+	#[RouteGet(Routes::PortfolioData->value)]
 	public function actionGetPortfolioData(ServerRequestInterface $request, int $portfolioId): ResponseInterface
 	{
 		$user = $this->requestService->getUser($request);
@@ -54,6 +57,7 @@ class PortfolioDataController
 		return new JsonResponse(PortfolioDataDto::fromEntity($portfolioData));
 	}
 
+	#[RouteGet(Routes::PortfolioDataRange->value)]
 	public function actionGetPortfolioDataRange(ServerRequestInterface $request, int $portfolioId): ResponseInterface
 	{
 		/** @var array{range: value-of<RangeEnum>, benchmarkAssetId?: string} $queryParams */

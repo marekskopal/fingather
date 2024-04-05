@@ -6,8 +6,10 @@ namespace FinGather\Controller;
 
 use FinGather\Dto\TickerDto;
 use FinGather\Model\Entity\Ticker;
+use FinGather\Route\Routes;
 use FinGather\Service\Provider\TickerProvider;
 use Laminas\Diactoros\Response\JsonResponse;
+use MarekSkopal\Router\Attribute\RouteGet;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -17,6 +19,7 @@ class TickerController
 	{
 	}
 
+	#[RouteGet(Routes::Tickers->value)]
 	public function actionGetTickers(ServerRequestInterface $request): ResponseInterface
 	{
 		/** @var array{search?: string, limit?: string, offset?: string, actionTypes?: string} $queryParams */

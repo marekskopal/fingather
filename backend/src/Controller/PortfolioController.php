@@ -8,9 +8,14 @@ use FinGather\Dto\PortfolioDto;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Response\OkResponse;
+use FinGather\Route\Routes;
 use FinGather\Service\Provider\PortfolioProvider;
 use FinGather\Service\Request\RequestService;
 use Laminas\Diactoros\Response\JsonResponse;
+use MarekSkopal\Router\Attribute\RouteDelete;
+use MarekSkopal\Router\Attribute\RouteGet;
+use MarekSkopal\Router\Attribute\RoutePost;
+use MarekSkopal\Router\Attribute\RoutePut;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use function Safe\json_decode;
@@ -21,6 +26,7 @@ class PortfolioController
 	{
 	}
 
+	#[RouteGet(Routes::Portfolios->value)]
 	public function actionGetPortfolios(ServerRequestInterface $request): ResponseInterface
 	{
 		$user = $this->requestService->getUser($request);
@@ -33,6 +39,7 @@ class PortfolioController
 		return new JsonResponse($portfolios);
 	}
 
+	#[RouteGet(Routes::Portfolio->value)]
 	public function actionGetPortfolio(ServerRequestInterface $request, int $portfolioId): ResponseInterface
 	{
 		if ($portfolioId < 1) {
@@ -50,6 +57,7 @@ class PortfolioController
 		return new JsonResponse(PortfolioDto::fromEntity($portfolio));
 	}
 
+	#[RouteGet(Routes::PortfolioDefault->value)]
 	public function actionGetDefaultPortfolio(ServerRequestInterface $request): ResponseInterface
 	{
 		$user = $this->requestService->getUser($request);
@@ -57,6 +65,7 @@ class PortfolioController
 		return new JsonResponse(PortfolioDto::fromEntity($this->portfolioProvider->getDefaultPortfolio($user)));
 	}
 
+	#[RoutePost(Routes::Portfolios->value)]
 	public function actionPostPortfolio(ServerRequestInterface $request): ResponseInterface
 	{
 		$user = $this->requestService->getUser($request);
@@ -71,6 +80,7 @@ class PortfolioController
 		)));
 	}
 
+	#[RoutePut(Routes::Portfolio->value)]
 	public function actionPutPortfolio(ServerRequestInterface $request, int $portfolioId): ResponseInterface
 	{
 		if ($portfolioId < 1) {
@@ -95,6 +105,7 @@ class PortfolioController
 		)));
 	}
 
+	#[RouteDelete(Routes::Portfolio->value)]
 	public function actionDeletePortfolio(ServerRequestInterface $request, int $portfolioId): ResponseInterface
 	{
 		if ($portfolioId < 1) {
