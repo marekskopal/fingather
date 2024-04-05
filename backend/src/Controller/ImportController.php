@@ -9,12 +9,14 @@ use FinGather\Dto\ImportPrepareDto;
 use FinGather\Dto\ImportStartDto;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Response\OkResponse;
+use FinGather\Route\Routes;
 use FinGather\Service\Import\ImportService;
 use FinGather\Service\Provider\ImportMappingProvider;
 use FinGather\Service\Provider\ImportProvider;
 use FinGather\Service\Provider\PortfolioProvider;
 use FinGather\Service\Request\RequestService;
 use Laminas\Diactoros\Response\JsonResponse;
+use MarekSkopal\Router\Attribute\RoutePost;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -29,6 +31,7 @@ class ImportController
 	) {
 	}
 
+	#[RoutePost(Routes::ImportPrepare->value)]
 	public function actionImportPrepare(ServerRequestInterface $request, int $portfolioId): ResponseInterface
 	{
 		$importData = ImportDataDto::fromJson($request->getBody()->getContents());
@@ -49,6 +52,7 @@ class ImportController
 		));
 	}
 
+	#[RoutePost(Routes::ImportStart->value)]
 	public function actionImportStart(ServerRequestInterface $request): ResponseInterface
 	{
 		$importStart = ImportStartDto::fromJson($request->getBody()->getContents());

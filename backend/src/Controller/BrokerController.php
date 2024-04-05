@@ -9,10 +9,15 @@ use FinGather\Model\Entity\Broker;
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Response\OkResponse;
+use FinGather\Route\Routes;
 use FinGather\Service\Provider\BrokerProvider;
 use FinGather\Service\Provider\PortfolioProvider;
 use FinGather\Service\Request\RequestService;
 use Laminas\Diactoros\Response\JsonResponse;
+use MarekSkopal\Router\Attribute\RouteDelete;
+use MarekSkopal\Router\Attribute\RouteGet;
+use MarekSkopal\Router\Attribute\RoutePost;
+use MarekSkopal\Router\Attribute\RoutePut;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use function Safe\json_decode;
@@ -23,10 +28,10 @@ class BrokerController
 		private readonly BrokerProvider $brokerProvider,
 		private readonly PortfolioProvider $portfolioProvider,
 		private readonly RequestService $requestService,
-	)
-	{
+	) {
 	}
 
+	#[RouteGet(Routes::Brokers->value)]
 	public function actionGetBrokers(ServerRequestInterface $request, int $portfolioId): ResponseInterface
 	{
 		$user = $this->requestService->getUser($request);
@@ -48,6 +53,7 @@ class BrokerController
 		return new JsonResponse($brokers);
 	}
 
+	#[RouteGet(Routes::Broker->value)]
 	public function actionGetBroker(ServerRequestInterface $request, int $brokerId): ResponseInterface
 	{
 		if ($brokerId < 1) {
@@ -65,6 +71,7 @@ class BrokerController
 		return new JsonResponse(BrokerDto::fromEntity($broker));
 	}
 
+	#[RoutePost(Routes::Brokers->value)]
 	public function actionCreateBroker(ServerRequestInterface $request, int $portfolioId): ResponseInterface
 	{
 		$user = $this->requestService->getUser($request);
@@ -89,6 +96,7 @@ class BrokerController
 		)));
 	}
 
+	#[RoutePut(Routes::Broker->value)]
 	public function actionUpdateBroker(ServerRequestInterface $request, int $brokerId): ResponseInterface
 	{
 		if ($brokerId < 1) {
@@ -113,6 +121,7 @@ class BrokerController
 		)));
 	}
 
+	#[RouteDelete(Routes::Broker->value)]
 	public function actionDeleteBroker(ServerRequestInterface $request, int $brokerId): ResponseInterface
 	{
 		if ($brokerId < 1) {

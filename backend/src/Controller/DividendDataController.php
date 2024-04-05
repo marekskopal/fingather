@@ -6,10 +6,12 @@ namespace FinGather\Controller;
 
 use FinGather\Dto\Enum\RangeEnum;
 use FinGather\Response\NotFoundResponse;
+use FinGather\Route\Routes;
 use FinGather\Service\Provider\DividendDataProvider;
 use FinGather\Service\Provider\PortfolioProvider;
 use FinGather\Service\Request\RequestService;
 use Laminas\Diactoros\Response\JsonResponse;
+use MarekSkopal\Router\Attribute\RouteGet;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -22,6 +24,7 @@ class DividendDataController
 	) {
 	}
 
+	#[RouteGet(Routes::DividendDataRange->value)]
 	public function actionGetDividendDataRange(ServerRequestInterface $request, int $portfolioId): ResponseInterface
 	{
 		/** @var array{range?: value-of<RangeEnum>} $queryParams */

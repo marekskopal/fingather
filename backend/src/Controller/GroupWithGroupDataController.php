@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace FinGather\Controller;
 
 use FinGather\Response\NotFoundResponse;
+use FinGather\Route\Routes;
 use FinGather\Service\Provider\GroupWithGroupDataProvider;
 use FinGather\Service\Provider\PortfolioProvider;
 use FinGather\Service\Request\RequestService;
 use Laminas\Diactoros\Response\JsonResponse;
+use MarekSkopal\Router\Attribute\RouteGet;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Safe\DateTimeImmutable;
@@ -22,6 +24,7 @@ class GroupWithGroupDataController
 	) {
 	}
 
+	#[RouteGet(Routes::GroupsWithGroupData->value)]
 	public function actionGetGroupsWithGroupData(ServerRequestInterface $request, int $portfolioId): ResponseInterface
 	{
 		$user = $this->requestService->getUser($request);

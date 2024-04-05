@@ -8,10 +8,15 @@ use FinGather\Dto\GroupDto;
 use FinGather\Model\Entity\Group;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Response\OkResponse;
+use FinGather\Route\Routes;
 use FinGather\Service\Provider\GroupProvider;
 use FinGather\Service\Provider\PortfolioProvider;
 use FinGather\Service\Request\RequestService;
 use Laminas\Diactoros\Response\JsonResponse;
+use MarekSkopal\Router\Attribute\RouteDelete;
+use MarekSkopal\Router\Attribute\RouteGet;
+use MarekSkopal\Router\Attribute\RoutePost;
+use MarekSkopal\Router\Attribute\RoutePut;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use function Safe\json_decode;
@@ -25,6 +30,7 @@ class GroupController
 	) {
 	}
 
+	#[RouteGet(Routes::Groups->value)]
 	public function actionGetGroups(ServerRequestInterface $request, int $portfolioId): ResponseInterface
 	{
 		$user = $this->requestService->getUser($request);
@@ -46,6 +52,7 @@ class GroupController
 		return new JsonResponse($groups);
 	}
 
+	#[RouteGet(Routes::Group->value)]
 	public function actionGetGroup(ServerRequestInterface $request, int $groupId): ResponseInterface
 	{
 		if ($groupId < 1) {
@@ -63,6 +70,7 @@ class GroupController
 		return new JsonResponse(GroupDto::fromEntity($group));
 	}
 
+	#[RouteGet(Routes::GroupOthers->value)]
 	public function actionGetOthersGroup(ServerRequestInterface $request, int $portfolioId): ResponseInterface
 	{
 		$user = $this->requestService->getUser($request);
@@ -81,6 +89,7 @@ class GroupController
 		return new JsonResponse(GroupDto::fromEntity($othersGroup));
 	}
 
+	#[RoutePost(Routes::Groups->value)]
 	public function actionPostGroup(ServerRequestInterface $request, int $portfolioId): ResponseInterface
 	{
 		$user = $this->requestService->getUser($request);
@@ -106,6 +115,7 @@ class GroupController
 		)));
 	}
 
+	#[RoutePut(Routes::Group->value)]
 	public function actionPutGroup(ServerRequestInterface $request, int $groupId): ResponseInterface
 	{
 		if ($groupId < 1) {
@@ -131,6 +141,7 @@ class GroupController
 		)));
 	}
 
+	#[RouteDelete(Routes::Group->value)]
 	public function actionDeleteGroup(ServerRequestInterface $request, int $groupId): ResponseInterface
 	{
 		if ($groupId < 1) {

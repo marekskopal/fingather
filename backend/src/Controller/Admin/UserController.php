@@ -12,12 +12,17 @@ use FinGather\Model\Entity\User;
 use FinGather\Response\ConflictResponse;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Response\OkResponse;
+use FinGather\Route\Routes;
 use FinGather\Service\Provider\AssetProvider;
 use FinGather\Service\Provider\CurrencyProvider;
 use FinGather\Service\Provider\TransactionProvider;
 use FinGather\Service\Provider\UserProvider;
 use FinGather\Service\Request\RequestService;
 use Laminas\Diactoros\Response\JsonResponse;
+use MarekSkopal\Router\Attribute\RouteDelete;
+use MarekSkopal\Router\Attribute\RouteGet;
+use MarekSkopal\Router\Attribute\RoutePost;
+use MarekSkopal\Router\Attribute\RoutePut;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use function Safe\json_decode;
@@ -34,6 +39,7 @@ class UserController extends AdminController
 		parent::__construct($requestService);
 	}
 
+	#[RouteGet(Routes::AdminUsers->value)]
 	public function actionGetUsers(ServerRequestInterface $request): ResponseInterface
 	{
 		$this->checkAdminRole($request);
@@ -52,6 +58,7 @@ class UserController extends AdminController
 		return new JsonResponse($brokers);
 	}
 
+	#[RouteGet(Routes::AdminUser->value)]
 	public function actionGetUser(ServerRequestInterface $request, int $userId): ResponseInterface
 	{
 		$this->checkAdminRole($request);
@@ -68,6 +75,7 @@ class UserController extends AdminController
 		return new JsonResponse(UserDto::fromEntity($user));
 	}
 
+	#[RoutePost(Routes::AdminUsers->value)]
 	public function actionCreateUser(ServerRequestInterface $request): ResponseInterface
 	{
 		$this->checkAdminRole($request);
@@ -97,6 +105,7 @@ class UserController extends AdminController
 		)));
 	}
 
+	#[RoutePut(Routes::AdminUser->value)]
 	public function actionUpdateUser(ServerRequestInterface $request, int $userId): ResponseInterface
 	{
 		$this->checkAdminRole($request);
@@ -127,6 +136,7 @@ class UserController extends AdminController
 		)));
 	}
 
+	#[RouteDelete(Routes::AdminUser->value)]
 	public function actionDeleteUser(ServerRequestInterface $request, int $userId): ResponseInterface
 	{
 		$this->checkAdminRole($request);

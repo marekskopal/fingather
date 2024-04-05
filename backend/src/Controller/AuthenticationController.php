@@ -11,12 +11,14 @@ use FinGather\Response\BoolResponse;
 use FinGather\Response\ConflictResponse;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Response\OkResponse;
+use FinGather\Route\Routes;
 use FinGather\Service\Authentication\AuthenticationService;
 use FinGather\Service\Authentication\Exceptions\AuthenticationException;
 use FinGather\Service\Provider\CurrencyProvider;
 use FinGather\Service\Provider\UserProvider;
 use FinGather\Service\Request\RequestService;
 use Laminas\Diactoros\Response\JsonResponse;
+use MarekSkopal\Router\Attribute\RoutePost;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use function Safe\json_decode;
@@ -31,6 +33,7 @@ class AuthenticationController
 	) {
 	}
 
+	#[RoutePost(Routes::AuthenticationLogin->value)]
 	public function actionPostLogin(ServerRequestInterface $request): ResponseInterface
 	{
 		/** @var array{email: string, password:string} $requestBody*/
@@ -45,6 +48,7 @@ class AuthenticationController
 		}
 	}
 
+	#[RoutePost(Routes::AuthenticationRefreshToken->value)]
 	public function actionPostRefreshToken(ServerRequestInterface $request): ResponseInterface
 	{
 		$user = $this->requestService->getUser($request);
@@ -52,6 +56,7 @@ class AuthenticationController
 		return new JsonResponse($this->authenticationService->createAuthentication($user));
 	}
 
+	#[RoutePost(Routes::AuthenticationSignUp->value)]
 	public function actionPostSignUp(ServerRequestInterface $request): ResponseInterface
 	{
 		/**
@@ -88,6 +93,7 @@ class AuthenticationController
 		return new OkResponse();
 	}
 
+	#[RoutePost(Routes::AuthenticationEmailExists->value)]
 	public function actionPostEmailExists(ServerRequestInterface $request): ResponseInterface
 	{
 		/**

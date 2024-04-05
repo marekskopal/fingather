@@ -7,10 +7,12 @@ namespace FinGather\Controller;
 use DateInterval;
 use FinGather\Dto\TickerDataDto;
 use FinGather\Response\NotFoundResponse;
+use FinGather\Route\Routes;
 use FinGather\Service\Provider\Dto\TickerDataAdjustedDto;
 use FinGather\Service\Provider\TickerDataProvider;
 use FinGather\Service\Provider\TickerProvider;
 use Laminas\Diactoros\Response\JsonResponse;
+use MarekSkopal\Router\Attribute\RouteGet;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Safe\DateTimeImmutable;
@@ -21,6 +23,7 @@ class TickerDataController
 	{
 	}
 
+	#[RouteGet(Routes::TickerData->value)]
 	public function actionGetTickerData(ServerRequestInterface $request, int $tickerId): ResponseInterface
 	{
 		if ($tickerId < 1) {

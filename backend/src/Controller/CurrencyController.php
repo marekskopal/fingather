@@ -6,8 +6,10 @@ namespace FinGather\Controller;
 
 use FinGather\Dto\CurrencyDto;
 use FinGather\Model\Entity\Currency;
+use FinGather\Route\Routes;
 use FinGather\Service\Provider\CurrencyProvider;
 use Laminas\Diactoros\Response\JsonResponse;
+use MarekSkopal\Router\Attribute\RouteGet;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -17,6 +19,7 @@ class CurrencyController
 	{
 	}
 
+	#[RouteGet(Routes::Currencies->value)]
 	public function actionGetCurrencies(ServerRequestInterface $request): ResponseInterface
 	{
 		$brokers = array_map(
