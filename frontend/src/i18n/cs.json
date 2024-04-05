@@ -211,7 +211,8 @@
         "portfolioValue": "Hodnota portfólia",
         "gain": "Zisk/Ztráta",
         "dividend": "Dividenda",
-        "fxImpact": "FX dopad"
+        "fxImpact": "FX dopad",
+        "taxFee": "Daně/Poplatky"
       },
       "dividendDialog": {
         "headerAdd": "Přidat dividendu",

@@ -16,4 +16,6 @@ export class ADataEntity extends AEntity {
     public return: number;
     public returnPercentage: number;
     public returnPercentagePerAnnum: number;
+    public tax: number;
+    public fee: number;
 }
