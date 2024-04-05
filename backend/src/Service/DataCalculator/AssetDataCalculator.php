@@ -50,6 +50,10 @@ class AssetDataCalculator
 		$dividendGain = new Decimal(0);
 		$dividendGainDefaultCurrency = new Decimal(0);
 		$dividendGainTickerCurrency = new Decimal(0);
+		$tax = new Decimal(0);
+		$taxDefaultCurrency = new Decimal(0);
+		$fee = new Decimal(0);
+		$feeDefaultCurrency = new Decimal(0);
 
 		$defaultCurrency = $user->getDefaultCurrency();
 		$tickerCurrency = $asset->getTicker()->getCurrency();
@@ -64,6 +68,11 @@ class AssetDataCalculator
 		$fromFirstTransactionDays = (int) $dateTime->diff($firstTransaction->getActionCreated())->days;
 
 		foreach ($transactions as $transaction) {
+			$tax = $tax->add($transaction->getTaxTickerCurrency());
+			$taxDefaultCurrency = $taxDefaultCurrency->add($transaction->getTaxDefaultCurrency());
+			$fee = $fee->add($transaction->getFeeTickerCurrency());
+			$feeDefaultCurrency = $feeDefaultCurrency->add($transaction->getFeeDefaultCurrency());
+
 			if ($transaction->getActionType() === TransactionActionTypeEnum::Dividend) {
 				$dividendTransactionValue = $transaction->getPriceTickerCurrency();
 
@@ -133,6 +142,10 @@ class AssetDataCalculator
 			return: $gainDefaultCurrency->add($dividendGainDefaultCurrency)->add($fxImpact),
 			returnPercentage: round($gainPercentage + $dividendGainPercentage + $fxImpactPercentage, 2),
 			returnPercentagePerAnnum: round($gainPercentagePerAnnum + $dividendGainPercentagePerAnnum + $fxImpactPercentagePerAnnum, 2),
+			tax: $tax,
+			taxDefaultCurrency: $taxDefaultCurrency,
+			fee: $fee,
+			feeDefaultCurrency: $feeDefaultCurrency,
 			firstTransactionActionCreated: $firstTransaction->getActionCreated(),
 		);
 	}

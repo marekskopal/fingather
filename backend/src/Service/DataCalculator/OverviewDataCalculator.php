@@ -67,6 +67,8 @@ class OverviewDataCalculator
 					return: $portfolioDataToDate->return,
 					returnPercentage: $portfolioDataToDate->returnPercentage,
 					returnPercentagePerAnnum: $portfolioDataToDate->returnPercentagePerAnnum,
+					tax: $portfolioDataToDate->tax,
+					fee: $portfolioDataToDate->fee,
 				);
 				continue;
 			}
@@ -80,6 +82,8 @@ class OverviewDataCalculator
 			$dividendGain = $portfolioDataToDate->dividendGain->sub($portfolioDataFromDate->dividendGain);
 			$fxImpact = $portfolioDataToDate->fxImpact->sub($portfolioDataFromDate->fxImpact);
 			$return = $portfolioDataToDate->return->sub($portfolioDataFromDate->return);
+			$tax = $portfolioDataToDate->tax->sub($portfolioDataFromDate->tax);
+			$fee = $portfolioDataToDate->fee->sub($portfolioDataFromDate->fee);
 
 			$gainPercentage = CalculatorUtils::toPercentage($gain, $investSum);
 			$gainPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($gainPercentage, $fromFirstTransactionDays);
@@ -104,6 +108,8 @@ class OverviewDataCalculator
 				return: $return,
 				returnPercentage: round($gainPercentage + $dividendGainPercentage + $fxImpactPercentage, 2),
 				returnPercentagePerAnnum: round($gainPercentagePerAnnum + $dividendGainPercentagePerAnnum + $fxImpactPercentagePerAnnum, 2),
+				tax: $tax,
+				fee: $fee,
 			);
 		}
 

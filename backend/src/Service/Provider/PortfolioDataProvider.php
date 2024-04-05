@@ -70,6 +70,8 @@ class PortfolioDataProvider
 			return: $calculatedData->return,
 			returnPercentage: $calculatedData->returnPercentage,
 			returnPercentagePerAnnum: $calculatedData->returnPercentagePerAnnum,
+			tax: $calculatedData->tax,
+			fee: $calculatedData->fee,
 		);
 
 		try {

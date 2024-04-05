@@ -35,6 +35,10 @@ final readonly class AssetWithPropertiesDto
 		public Decimal $return,
 		public float $returnPercentage,
 		public float $returnPercentagePerAnnum,
+		public Decimal $tax,
+		public Decimal $taxDefaultCurrency,
+		public Decimal $fee,
+		public Decimal $feeDefaultCurrency,
 	) {
 	}
 
@@ -65,6 +69,10 @@ final readonly class AssetWithPropertiesDto
 			return: $assetData->getReturn(),
 			returnPercentage: $assetData->getReturnPercentage(),
 			returnPercentagePerAnnum: $assetData->getReturnPercentagePerAnnum(),
+			tax: $assetData->getTax(),
+			taxDefaultCurrency: $assetData->getTaxDefaultCurrency(),
+			fee: $assetData->getFee(),
+			feeDefaultCurrency: $assetData->getFeeDefaultCurrency(),
 		);
 	}
 }

@@ -23,6 +23,8 @@ readonly class CalculatedDataDto
 		public Decimal $return,
 		public float $returnPercentage,
 		public float $returnPercentagePerAnnum,
+		public Decimal $tax,
+		public Decimal $fee,
 	) {
 	}
 }

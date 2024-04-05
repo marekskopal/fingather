@@ -27,6 +27,8 @@ final readonly class PortfolioDataDto
 		public Decimal $return,
 		public float $returnPercentage,
 		public float $returnPercentagePerAnnum,
+		public Decimal $tax,
+		public Decimal $fee,
 	) {
 	}
 
@@ -49,6 +51,8 @@ final readonly class PortfolioDataDto
 			return: $portfolioData->getReturn(),
 			returnPercentage: $portfolioData->getReturnPercentage(),
 			returnPercentagePerAnnum: $portfolioData->getReturnPercentagePerAnnum(),
+			tax: $portfolioData->getTax(),
+			fee: $portfolioData->getFee(),
 		);
 	}
 }

@@ -24,6 +24,8 @@ final readonly class YearCalculatedDataDto extends CalculatedDataDto
 		Decimal $return,
 		float $returnPercentage,
 		float $returnPercentagePerAnnum,
+		Decimal $tax,
+		Decimal $fee,
 	) {
 		parent::__construct(
 			$value,
@@ -40,6 +42,8 @@ final readonly class YearCalculatedDataDto extends CalculatedDataDto
 			$return,
 			$returnPercentage,
 			$returnPercentagePerAnnum,
+			$tax,
+			$fee,
 		);
 	}
 }
