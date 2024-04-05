@@ -165,11 +165,11 @@ class InitDataMigration extends Migration
 
 	public function down(): void
 	{
-		$this->database()->query('TRUNCATE ?', ['groups']);
-		$this->database()->query('TRUNCATE ?', ['tickers']);
-		$this->database()->query('TRUNCATE ?', ['brokers']);
-		$this->database()->query('TRUNCATE ?', ['markets']);
-		$this->database()->query('TRUNCATE ?', ['users']);
-		$this->database()->query('TRUNCATE ?', ['currencies']);
+		$this->database()->query('TRUNCATE `groups`');
+		$this->database()->query('TRUNCATE `tickers`');
+		$this->database()->query('TRUNCATE `brokers`');
+		$this->database()->query('TRUNCATE `markets`');
+		$this->database()->query('TRUNCATE `users`');
+		$this->database()->query('TRUNCATE `currencies`');
 	}
 }
