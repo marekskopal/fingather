@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FinGather\App;
 
 use Cycle\ORM\ORM;
+use FinGather\Cache\Cache;
 use FinGather\Middleware\AuthorizationMiddleware;
 use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\AssetData;
@@ -131,7 +132,7 @@ final class ApplicationFactory
 
 		$router = (new RouterBuilder())
 			->setClassDirectories([__DIR__ . '/../Controller'])
-			->setCache(null)
+			->setCache(new Cache())
 			->build();
 
 		$router->setStrategy($strategy);
