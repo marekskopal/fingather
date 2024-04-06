@@ -1862,16 +1862,16 @@
         },
         {
             "name": "marekskopal/router",
-            "version": "v1.0.0",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/marekskopal/router.git",
-                "reference": "0da0128d5fe2ec077183272650101f98e81cf0fa"
+                "reference": "242f3ca96b584479dab969c101587e31ddfbeab0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/marekskopal/router/zipball/0da0128d5fe2ec077183272650101f98e81cf0fa",
-                "reference": "0da0128d5fe2ec077183272650101f98e81cf0fa",
+                "url": "https://api.github.com/repos/marekskopal/router/zipball/242f3ca96b584479dab969c101587e31ddfbeab0",
+                "reference": "242f3ca96b584479dab969c101587e31ddfbeab0",
                 "shasum": ""
             },
             "require": {
@@ -1913,9 +1913,9 @@
             ],
             "support": {
                 "issues": "https://github.com/marekskopal/router/issues",
-                "source": "https://github.com/marekskopal/router/tree/v1.0.0"
+                "source": "https://github.com/marekskopal/router/tree/v1.0.1"
             },
-            "time": "2024-04-05T22:55:21+00:00"
+            "time": "2024-04-06T15:17:41+00:00"
         },
         {
             "name": "marekskopal/twelvedata",
@@ -6977,21 +6977,21 @@
         },
         {
             "name": "phpstan/phpstan-strict-rules",
-            "version": "1.5.2",
+            "version": "1.5.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan-strict-rules.git",
-                "reference": "7a50e9662ee9f3942e4aaaf3d603653f60282542"
+                "reference": "568210bd301f94a0d4b1e5a0808c374c1b9cf11b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-strict-rules/zipball/7a50e9662ee9f3942e4aaaf3d603653f60282542",
-                "reference": "7a50e9662ee9f3942e4aaaf3d603653f60282542",
+                "url": "https://api.github.com/repos/phpstan/phpstan-strict-rules/zipball/568210bd301f94a0d4b1e5a0808c374c1b9cf11b",
+                "reference": "568210bd301f94a0d4b1e5a0808c374c1b9cf11b",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2 || ^8.0",
-                "phpstan/phpstan": "^1.10.34"
+                "phpstan/phpstan": "^1.10.60"
             },
             "require-dev": {
                 "nikic/php-parser": "^4.13.0",
@@ -7020,9 +7020,9 @@
             "description": "Extra strict and opinionated rules for PHPStan",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan-strict-rules/issues",
-                "source": "https://github.com/phpstan/phpstan-strict-rules/tree/1.5.2"
+                "source": "https://github.com/phpstan/phpstan-strict-rules/tree/1.5.3"
             },
-            "time": "2023-10-30T14:35:06+00:00"
+            "time": "2024-04-06T07:43:25+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -7349,16 +7349,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "11.1.0",
+            "version": "11.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "882c5bf7aa85328d1010da2a76f4bb10c43778c6"
+                "reference": "816cb6070af901c0548aa5f18f2132fd8a6e4ade"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/882c5bf7aa85328d1010da2a76f4bb10c43778c6",
-                "reference": "882c5bf7aa85328d1010da2a76f4bb10c43778c6",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/816cb6070af901c0548aa5f18f2132fd8a6e4ade",
+                "reference": "816cb6070af901c0548aa5f18f2132fd8a6e4ade",
                 "shasum": ""
             },
             "require": {
@@ -7429,7 +7429,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/11.1.0"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/11.1.1"
             },
             "funding": [
                 {
@@ -7445,7 +7445,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-04-05T04:44:29+00:00"
+            "time": "2024-04-06T06:20:21+00:00"
         },
         {
             "name": "sebastian/cli-parser",
