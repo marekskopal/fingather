@@ -3,6 +3,7 @@ import { AddAssetComponent } from '@app/assets/components/add-asset/add-asset.co
 import {
     Asset, AssetsWithProperties, Currency, GroupWithGroupData
 } from '@app/models';
+import { AssetsOrder } from '@app/models/enums/assets-order';
 import {
     AssetService, CurrencyService, GroupWithGroupDataService, PortfolioService
 } from '@app/services';
@@ -22,6 +23,9 @@ export class ListComponent implements OnInit, OnDestroy {
 
     public withGroups: boolean = false;
     public showPerAnnum: boolean = false;
+
+    protected readonly AssetsOrder = AssetsOrder;
+    public openedAssetsOrderBy: AssetsOrder = AssetsOrder.TickerName;
 
     public constructor(
         private readonly assetService: AssetService,
@@ -48,14 +52,14 @@ export class ListComponent implements OnInit, OnDestroy {
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
         if (this.withGroups) {
-            this.groupWithGroupDataService.getGroupWithGroupData(portfolio.id)
+            this.groupWithGroupDataService.getGroupWithGroupData(portfolio.id, this.openedAssetsOrderBy)
                 .pipe(first())
                 .subscribe(
                     (openedGroupedAssets: GroupWithGroupData[]) => this.openedGroupedAssets = openedGroupedAssets
                 );
         }
 
-        this.assetService.getAssetsWithProperties(portfolio.id)
+        this.assetService.getAssetsWithProperties(portfolio.id, this.openedAssetsOrderBy)
             .pipe(first())
             .subscribe(
                 (assetsWithProperties: AssetsWithProperties) => this.assetsWithProperties = assetsWithProperties
@@ -80,5 +84,11 @@ export class ListComponent implements OnInit, OnDestroy {
 
     public changeShowPerAnnum(): void {
         this.showPerAnnum = !this.showPerAnnum;
+    }
+
+    public changeOpenedAssetsOrderBy(orderBy: AssetsOrder): void {
+        this.openedAssetsOrderBy = orderBy;
+
+        this.refreshOpenedAssets();
     }
 }

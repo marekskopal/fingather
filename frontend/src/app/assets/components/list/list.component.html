@@ -32,14 +32,72 @@
                             <caption *ngIf="group.id !== null">{{group.name}}</caption>
                             <thead>
                                 <tr>
-                                    <th style="width: 24%">{{ 'app.assets.list.name' | translate }}</th>
-                                    <th style="width: 9.5%">{{ 'app.assets.list.price' | translate }}</th>
-                                    <th style="width: 9.5%">{{ 'app.assets.list.units' | translate }}</th>
-                                    <th style="width: 9.5%">{{ 'app.assets.list.value' | translate }}</th>
-                                    <th style="width: 9.5%">{{ 'app.assets.list.gain' | translate }}</th>
-                                    <th style="width: 9.5%">{{ 'app.assets.list.dividend' | translate }}</th>
-                                    <th style="width: 9.5%">{{ 'app.assets.list.fxImpact' | translate }}</th>
-                                    <th style="width: 9.5%"><strong>{{ 'app.assets.list.return' | translate }}</strong></th>
+                                    <th style="width: 24%">
+                                        <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.TickerName)" tabindex="0">
+                                            {{ 'app.assets.list.name' | translate }}
+                                            @if(openedAssetsOrderBy === AssetsOrder.TickerName) {
+                                                &nbsp;<fa-icon icon="arrow-up-a-z" />
+                                            }
+                                        </a>
+                                    </th>
+                                    <th style="width: 9.5%">
+                                        <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.Price)" tabindex="0">
+                                            {{ 'app.assets.list.price' | translate }}
+                                            @if(openedAssetsOrderBy === AssetsOrder.Price) {
+                                                &nbsp;<fa-icon icon="arrow-down-9-1" />
+                                            }
+                                        </a>
+                                    </th>
+                                    <th style="width: 9.5%">
+                                        <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.Units)" tabindex="0">
+                                            {{ 'app.assets.list.units' | translate }}
+                                            @if(openedAssetsOrderBy === AssetsOrder.Units) {
+                                                &nbsp;<fa-icon icon="arrow-down-9-1" />
+                                            }
+                                        </a>
+                                    </th>
+                                    <th style="width: 9.5%">
+                                        <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.Value)" tabindex="0">
+                                            {{ 'app.assets.list.value' | translate }}
+                                            @if(openedAssetsOrderBy === AssetsOrder.Value) {
+                                                &nbsp;<fa-icon icon="arrow-down-9-1" />
+                                            }
+                                        </a>
+                                    </th>
+                                    <th style="width: 9.5%">
+                                        <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.Gain)" tabindex="0">
+                                            {{ 'app.assets.list.gain' | translate }}
+                                            @if(openedAssetsOrderBy === AssetsOrder.Gain) {
+                                                &nbsp;<fa-icon icon="arrow-down-9-1" />
+                                            }
+                                        </a>
+                                    </th>
+                                    <th style="width: 9.5%">
+                                        <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.DividendGain)" tabindex="0">
+                                            {{ 'app.assets.list.dividend' | translate }}
+                                            @if(openedAssetsOrderBy === AssetsOrder.DividendGain) {
+                                                &nbsp;<fa-icon icon="arrow-down-9-1" />
+                                            }
+                                        </a>
+                                    </th>
+                                    <th style="width: 9.5%">
+                                        <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.FxImpact)" tabindex="0">
+                                            {{ 'app.assets.list.fxImpact' | translate }}
+                                            @if(openedAssetsOrderBy === AssetsOrder.FxImpact) {
+                                                &nbsp;<fa-icon icon="arrow-down-9-1" />
+                                            }
+                                        </a>
+                                    </th>
+                                    <th style="width: 9.5%">
+                                        <strong>
+                                            <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.Return)" tabindex="0">
+                                                {{ 'app.assets.list.return' | translate }}
+                                                @if(openedAssetsOrderBy === AssetsOrder.Return) {
+                                                    &nbsp;<fa-icon icon="arrow-down-9-1" />
+                                                }
+                                            </a>
+                                        </strong>
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -152,14 +210,72 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th style="width: 24%">{{ 'app.assets.list.name' | translate }}</th>
-                                <th style="width: 9.5%">{{ 'app.assets.list.price' | translate }}</th>
-                                <th style="width: 9.5%">{{ 'app.assets.list.units' | translate }}</th>
-                                <th style="width: 9.5%">{{ 'app.assets.list.value' | translate }}</th>
-                                <th style="width: 9.5%">{{ 'app.assets.list.gain' | translate }}</th>
-                                <th style="width: 9.5%">{{ 'app.assets.list.dividend' | translate }}</th>
-                                <th style="width: 9.5%">{{ 'app.assets.list.fxImpact' | translate }}</th>
-                                <th style="width: 9.5%"><strong>{{ 'app.assets.list.return' | translate }}</strong></th>
+                                <th style="width: 24%">
+                                    <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.TickerName)" tabindex="0">
+                                        {{ 'app.assets.list.name' | translate }}
+                                        @if(openedAssetsOrderBy === AssetsOrder.TickerName) {
+                                            &nbsp;<fa-icon icon="arrow-up-a-z" />
+                                        }
+                                    </a>
+                                </th>
+                                <th style="width: 9.5%">
+                                    <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.Price)" tabindex="0">
+                                        {{ 'app.assets.list.price' | translate }}
+                                        @if(openedAssetsOrderBy === AssetsOrder.Price) {
+                                            &nbsp;<fa-icon icon="arrow-down-9-1" />
+                                        }
+                                    </a>
+                                </th>
+                                <th style="width: 9.5%">
+                                    <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.Units)" tabindex="0">
+                                        {{ 'app.assets.list.units' | translate }}
+                                        @if(openedAssetsOrderBy === AssetsOrder.Units) {
+                                            &nbsp;<fa-icon icon="arrow-down-9-1" />
+                                        }
+                                    </a>
+                                </th>
+                                <th style="width: 9.5%">
+                                    <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.Value)" tabindex="0">
+                                        {{ 'app.assets.list.value' | translate }}
+                                        @if(openedAssetsOrderBy === AssetsOrder.Value) {
+                                            &nbsp;<fa-icon icon="arrow-down-9-1" />
+                                        }
+                                    </a>
+                                </th>
+                                <th style="width: 9.5%">
+                                    <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.Gain)" tabindex="0">
+                                        {{ 'app.assets.list.gain' | translate }}
+                                        @if(openedAssetsOrderBy === AssetsOrder.Gain) {
+                                            &nbsp;<fa-icon icon="arrow-down-9-1" />
+                                        }
+                                    </a>
+                                </th>
+                                <th style="width: 9.5%">
+                                    <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.DividendGain)" tabindex="0">
+                                        {{ 'app.assets.list.dividend' | translate }}
+                                        @if(openedAssetsOrderBy === AssetsOrder.DividendGain) {
+                                            &nbsp;<fa-icon icon="arrow-down-9-1" />
+                                        }
+                                    </a>
+                                </th>
+                                <th style="width: 9.5%">
+                                    <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.FxImpact)" tabindex="0">
+                                        {{ 'app.assets.list.fxImpact' | translate }}
+                                        @if(openedAssetsOrderBy === AssetsOrder.FxImpact) {
+                                            &nbsp;<fa-icon icon="arrow-down-9-1" />
+                                        }
+                                    </a>
+                                </th>
+                                <th style="width: 9.5%">
+                                    <strong>
+                                        <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.Return)" tabindex="0">
+                                            {{ 'app.assets.list.return' | translate }}
+                                            @if(openedAssetsOrderBy === AssetsOrder.Return) {
+                                                &nbsp;<fa-icon icon="arrow-down-9-1" />
+                                            }
+                                        </a>
+                                    </strong>
+                                </th>
                                 <th style="width: 9.5%"></th>
                             </tr>
                         </thead>
