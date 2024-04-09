@@ -15,18 +15,43 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th style="width: 16%">{{ 'app.transactions.list.date' | translate }}</th>
-                <th style="width: 14%">{{ 'app.transactions.list.created' | translate }}</th>
-                <th style="width: 14%">{{ 'app.transactions.list.type' | translate }}</th>
+                <th style="width: 15%">{{ 'app.transactions.list.date' | translate }}</th>
+                <th style="width: 15%">{{ 'app.transactions.list.created' | translate }}</th>
+                <th style="width: 10%">{{ 'app.transactions.list.type' | translate }}</th>
+                <th style="width: 40%">{{ 'app.transactions.list.asset' | translate }}</th>
                 <th style="width: 20%"></th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let transaction of transactionList?.transactions">
-                <td>{{transaction.actionCreated | amFromUtc | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm'}}</td>
-                <td>{{transaction.created | amFromUtc | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm'}}</td>
-                <td>{{transaction.actionType}}</td>
-                <td class="text-end" style="white-space: nowrap">
+                <td class="align-middle">
+                    <div>{{transaction.actionCreated | amFromUtc | amLocal | amDateFormat: 'YYYY-MM-DD'}}</div>
+                    <div class="small">{{transaction.actionCreated | amFromUtc | amLocal | amDateFormat: 'HH:mm'}}</div>
+                <td class="align-middle">
+                    <div>{{transaction.created | amFromUtc | amLocal | amDateFormat: 'YYYY-MM-DD'}}</div>
+                    <div class="small">{{transaction.created | amFromUtc | amLocal | amDateFormat: 'HH:mm'}}</div>
+                </td>
+                <td class="align-middle">
+                    <div class="tag">
+                        @if (transaction.actionType === TransactionActionType.Buy) {
+                            <span class="buy">{{transaction.actionType}}</span>
+                        } @else if (transaction.actionType === TransactionActionType.Sell) {
+                            <span class="sell">{{transaction.actionType}}</span>
+                        } @else if (transaction.actionType === TransactionActionType.Dividend) {
+                            <span class="dividend">{{transaction.actionType}}</span>
+                        }
+                    </div>
+                </td>
+                <td>
+                    <div class="d-flex align-items-center">
+                        <fingather-ticker-logo [ticker]="transaction.ticker" />
+                        <div>
+                            <div><strong>{{transaction.ticker.ticker}}</strong></div>
+                            <div>{{transaction.ticker.name}}</div>
+                        </div>
+                    </div>
+                </td>
+                <td class="align-middle text-end" style="white-space: nowrap">
                     <a (click)="editTransaction(transaction.id)" class="btn btn-sm btn-primary me-2" tabindex="0"><fa-icon icon="edit"></fa-icon> {{ 'app.common.edit' | translate }}</a>
                     <button (click)="deleteTransaction(transaction.id)" class="btn btn-sm btn-danger btn-delete-user" [disabled]="transaction.isDeleting">
                         @if (transaction.isDeleting) {

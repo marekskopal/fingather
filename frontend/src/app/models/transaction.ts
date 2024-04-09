@@ -1,4 +1,5 @@
 import { AEntity } from '@app/models/AEntity';
+import {Ticker} from "@app/models/ticker";
 
 export class Transaction extends AEntity {
     public assetId: string;
@@ -16,6 +17,8 @@ export class Transaction extends AEntity {
     public fee: number;
     public feeCurrencyId: number;
     public notes: string;
+    public importIdentifier: string;
+    public ticker: Ticker;
 }
 
 export enum TransactionActionType {
