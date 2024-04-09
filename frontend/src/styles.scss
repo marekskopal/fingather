@@ -3,6 +3,10 @@ $link-color-dark: #fdfdfd;
 $card-bg: #1f2c2d;
 $font-family-sans-serif: 'Nunito', sans-serif;
 
+$color-green: #64ee85;
+$color-red: #ff6b6b;
+$color-blue: #62cbee;
+
 $content-background-color: #1b2627;
 
 $table-bg: $content-background-color;
@@ -32,11 +36,11 @@ a {
 }
 
 .red {
-    color: red !important;
+    color: $color-red !important;
 }
 
 .green {
-    color: #64ee85 !important;
+    color: $color-green !important;
 }
 
 .content {
@@ -167,5 +171,27 @@ a {
 
     .file-drop-text {
         margin-right: 10px;
+    }
+}
+
+.tag {
+    display: inline-block;
+    background-color: $body-bg-dark;
+    color: #fff;
+    border-radius: 20px;
+    padding: 2px 10px;
+    margin-right: 5px;
+    font-size: 0.875rem;
+
+    .buy {
+        color: $color-green;
+    }
+
+    .sell {
+        color: $color-red;
+    }
+
+    .dividend {
+        color: $color-blue;
     }
 }

@@ -30,6 +30,7 @@ final readonly class TransactionDto
 		public int $feeCurrencyId,
 		public ?string $notes,
 		public ?string $importIdentifier,
+		public TickerDto $ticker,
 	) {
 	}
 
@@ -53,6 +54,7 @@ final readonly class TransactionDto
 			feeCurrencyId: $transaction->getFeeCurrency()->getId(),
 			notes: $transaction->getNotes(),
 			importIdentifier: $transaction->getImportIdentifier(),
+			ticker: TickerDto::fromEntity($transaction->getAsset()->getTicker()),
 		);
 	}
 }

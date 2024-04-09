@@ -6,6 +6,7 @@ import { DividendDialogComponent } from '@app/shared/components/dividend-dialog/
 import { TransactionDialogComponent } from '@app/shared/components/transaction-dialog/transaction-dialog.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { first } from 'rxjs/operators';
+import {TransactionActionType} from "@app/models";
 
 @Component({
     templateUrl: './list.component.html',
@@ -93,4 +94,6 @@ export class ListComponent implements OnInit, OnDestroy {
             .pipe(first())
             .subscribe(() => this.refreshTransactions());
     }
+
+    protected readonly TransactionActionType = TransactionActionType;
 }

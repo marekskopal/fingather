@@ -161,6 +161,7 @@
         "date": "Date",
         "created": "Created",
         "type": "Type",
+        "asset": "Asset",
         "itemsPerPage": "items per page"
       },
       "import": {

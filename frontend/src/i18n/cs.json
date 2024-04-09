@@ -161,6 +161,7 @@
         "date": "Datum",
         "created": "Vytvořeno",
         "type": "Typ",
+        "asset": "Aktivum",
         "itemsPerPage": "záznamů na stranu"
       },
       "import": {
