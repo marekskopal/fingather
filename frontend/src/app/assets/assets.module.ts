@@ -7,6 +7,8 @@ import { LayoutComponent } from '@app/assets/components/layout/layout.component'
 import { ListComponent } from '@app/assets/components/list/list.component';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
+    faArrowDown91,
+    faArrowUpAZ,
     faEdit, faExpand, faPlus, faTrash
 } from '@fortawesome/free-solid-svg-icons';
 import { NgbNavModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
@@ -46,6 +48,6 @@ export class AssetsModule {
     public constructor(
         private readonly faIconLibrary: FaIconLibrary
     ) {
-        faIconLibrary.addIcons(faPlus, faEdit, faTrash, faExpand);
+        faIconLibrary.addIcons(faPlus, faEdit, faTrash, faExpand, faArrowUpAZ, faArrowDown91);
     }
 }

@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Asset, AssetsWithProperties, AssetWithProperties } from '@app/models';
 import { AssetCreate } from '@app/models/asset-create';
+import { AssetsOrder } from '@app/models/enums/assets-order';
 import { NotifyService } from '@app/services/notify-service';
 import { environment } from '@environments/environment';
 import { Observable } from 'rxjs';
@@ -22,8 +23,15 @@ export class AssetService extends NotifyService {
         return this.http.get<Asset[]>(`${environment.apiUrl}/assets/${portfolioId}`);
     }
 
-    public getAssetsWithProperties(portfolioId: number): Observable<AssetsWithProperties> {
-        return this.http.get<AssetsWithProperties>(`${environment.apiUrl}/assets/with-properties/${portfolioId}`);
+    public getAssetsWithProperties(portfolioId: number, orderBy: AssetsOrder): Observable<AssetsWithProperties> {
+        let params = new HttpParams();
+
+        params = params.set('orderBy', orderBy.toString());
+
+        return this.http.get<AssetsWithProperties>(
+            `${environment.apiUrl}/assets/with-properties/${portfolioId}`,
+            { params },
+        );
     }
 
     public getAsset(id: number): Observable<AssetWithProperties> {

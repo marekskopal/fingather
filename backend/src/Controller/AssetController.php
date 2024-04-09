@@ -7,6 +7,7 @@ namespace FinGather\Controller;
 use FinGather\Dto\AssetDto;
 use FinGather\Dto\AssetsWithPropertiesDto;
 use FinGather\Dto\AssetWithPropertiesDto;
+use FinGather\Dto\Enum\AssetOrderEnum;
 use FinGather\Dto\TickerDto;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Route\Routes;
@@ -107,6 +108,47 @@ class AssetController
 				$openAssets[] = $assetDto;
 			}
 		}
+
+		/** @var array{orderBy?: string} $queryParams */
+		$queryParams = $request->getQueryParams();
+		$orderBy = ($queryParams['orderBy'] ?? null) !== null ?
+			AssetOrderEnum::from($queryParams['orderBy']) :
+			AssetOrderEnum::TickerName;
+
+		match ($orderBy) {
+			AssetOrderEnum::TickerName => usort(
+				$openAssets,
+				fn (AssetWithPropertiesDto $a, AssetWithPropertiesDto $b) => $a->ticker->ticker <=> $b->ticker->ticker,
+			),
+			AssetOrderEnum::Price => usort(
+				$openAssets,
+				fn (AssetWithPropertiesDto $a, AssetWithPropertiesDto $b) => $b->price <=> $a->price,
+			),
+			AssetOrderEnum::Units => usort(
+				$openAssets,
+				fn (AssetWithPropertiesDto $a, AssetWithPropertiesDto $b) => $b->units <=> $a->units,
+			),
+			AssetOrderEnum::Value => usort(
+				$openAssets,
+				fn (AssetWithPropertiesDto $a, AssetWithPropertiesDto $b) => $b->value <=> $a->value,
+			),
+			AssetOrderEnum::Gain => usort(
+				$openAssets,
+				fn (AssetWithPropertiesDto $a, AssetWithPropertiesDto $b) => $b->gainDefaultCurrency <=> $a->gainDefaultCurrency,
+			),
+			AssetOrderEnum::DividendGain => usort(
+				$openAssets,
+				fn (AssetWithPropertiesDto $a, AssetWithPropertiesDto $b) => $b->dividendGainDefaultCurrency <=> $a->dividendGainDefaultCurrency,
+			),
+			AssetOrderEnum::FxImpact => usort(
+				$openAssets,
+				fn (AssetWithPropertiesDto $a, AssetWithPropertiesDto $b) => $b->fxImpact <=> $a->fxImpact,
+			),
+			AssetOrderEnum::Return => usort(
+				$openAssets,
+				fn (AssetWithPropertiesDto $a, AssetWithPropertiesDto $b) => $b->return <=> $a->return,
+			),
+		};
 
 		return new JsonResponse(new AssetsWithPropertiesDto(
 			openAssets: $openAssets,
