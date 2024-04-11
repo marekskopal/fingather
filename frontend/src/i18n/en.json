@@ -132,7 +132,8 @@
         "year": "Year",
         "value": "Value",
         "transactionValue": "Transaction Value",
-        "gain": "Gain/Loss",
+        "unrealizedGain": "Unrealized Gain/Loss",
+        "realizedGain": "Realized Gain/Loss",
         "dividend": "Dividend",
         "fxImpact": "FX Impact",
         "return": "Return"
@@ -210,9 +211,11 @@
     "shared": {
       "portfolioTotal": {
         "portfolioValue": "Portfolio Value",
-        "gain": "Gain/Loss",
-        "dividend": "Dividend",
-        "fxImpact": "FX Impact",
+        "gain": "Unrealized Gain/Loss",
+        "gainRealized": "Realized Gain/Loss",
+        "dividend": "Dividend Yield",
+        "investedValue": "Invested Value",
+        "fxImpact": "Forex Impact",
         "taxFee": "Tax/Fee"
       },
       "dividendDialog": {

@@ -14,7 +14,8 @@
                 <th style="width: 16%">{{ 'app.overviews.list.year' | translate }}</th>
                 <th style="width: 14%">{{ 'app.overviews.list.value' | translate }}</th>
                 <th style="width: 14%">{{ 'app.overviews.list.transactionValue' | translate }}</th>
-                <th style="width: 14%">{{ 'app.overviews.list.gain' | translate }}</th>
+                <th style="width: 14%">{{ 'app.overviews.list.unrealizedGain' | translate }}</th>
+                <th style="width: 14%">{{ 'app.overviews.list.realizedGain' | translate }}</th>
                 <th style="width: 14%">{{ 'app.overviews.list.dividend' | translate }}</th>
                 <th style="width: 14%">{{ 'app.overviews.list.fxImpact' | translate }}</th>
                 <th style="width: 14%"><strong>{{ 'app.overviews.list.return' | translate }}</strong></th>
@@ -30,6 +31,7 @@
                     <div>{{yearCalculatedData.gainPercentage}}%</div>
                     <div>{{yearCalculatedData.gainPercentagePerAnnum}}%&nbsp;p.a.</div>
                 </td>
+                <td class="text-end">{{yearCalculatedData.realizedGain | number:'1.2-2' | currency: defaultCurrency.id | async}}</td>
                 <td class="text-end" style="color:{{yearCalculatedData.dividendGain > 0 ? 'green' : (yearCalculatedData.dividendGain < 0 ? 'red' : '')}}">
                     <div class="small">{{yearCalculatedData.dividendGain | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
                     <div>{{yearCalculatedData.dividendGainPercentage}}%</div>

@@ -30,6 +30,8 @@ class ADataEntity extends AEntity
 		#[Column(type: 'float')]
 		protected float $gainPercentagePerAnnum,
 		#[ColumnDecimal(precision: 11, scale: 2)]
+		protected Decimal $realizedGain,
+		#[ColumnDecimal(precision: 11, scale: 2)]
 		protected Decimal $dividendGain,
 		#[Column(type: 'float')]
 		protected float $dividendGainPercentage,
@@ -132,6 +134,11 @@ class ADataEntity extends AEntity
 	public function setGainPercentagePerAnnum(float $gainPercentagePerAnnum): void
 	{
 		$this->gainPercentagePerAnnum = $gainPercentagePerAnnum;
+	}
+
+	public function getRealizedGain(): Decimal
+	{
+		return $this->realizedGain;
 	}
 
 	public function getDividendGain(): Decimal

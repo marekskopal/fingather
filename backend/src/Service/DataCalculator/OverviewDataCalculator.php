@@ -58,6 +58,7 @@ class OverviewDataCalculator
 					gain: $portfolioDataToDate->gain,
 					gainPercentage: $portfolioDataToDate->gainPercentage,
 					gainPercentagePerAnnum: $portfolioDataToDate->gainPercentagePerAnnum,
+					realizedGain: $portfolioDataToDate->realizedGain,
 					dividendGain: $portfolioDataToDate->dividendGain,
 					dividendGainPercentage: $portfolioDataToDate->dividendGainPercentage,
 					dividendGainPercentagePerAnnum: $portfolioDataToDate->dividendGainPercentagePerAnnum,
@@ -79,6 +80,7 @@ class OverviewDataCalculator
 
 			$transactionValue = $portfolioDataToDate->transactionValue->sub($portfolioDataFromDate->transactionValue);
 			$gain = $portfolioDataToDate->gain->sub($portfolioDataFromDate->gain);
+			$realizedGain = $portfolioDataToDate->realizedGain->sub($portfolioDataFromDate->realizedGain);
 			$dividendGain = $portfolioDataToDate->dividendGain->sub($portfolioDataFromDate->dividendGain);
 			$fxImpact = $portfolioDataToDate->fxImpact->sub($portfolioDataFromDate->fxImpact);
 			$return = $portfolioDataToDate->return->sub($portfolioDataFromDate->return);
@@ -99,6 +101,7 @@ class OverviewDataCalculator
 				gain: $gain,
 				gainPercentage: $gainPercentage,
 				gainPercentagePerAnnum: $gainPercentagePerAnnum,
+				realizedGain: $realizedGain,
 				dividendGain: $dividendGain,
 				dividendGainPercentage: $dividendGainPercentage,
 				dividendGainPercentagePerAnnum: $dividendGainPercentagePerAnnum,

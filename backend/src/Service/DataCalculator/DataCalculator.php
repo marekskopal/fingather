@@ -24,12 +24,14 @@ class DataCalculator
 		$sumAssetValue = new Decimal(0);
 		$sumAssetTransactionValueDefaultCurrency = new Decimal(0);
 		$sumGainDefaultCurrency = new Decimal(0);
+		$sumRealizedGainDefaultCurrency = new Decimal(0);
 		$sumDividendGain = new Decimal(0);
 		$sumFxImpact = new Decimal(0);
 		$sumTax = new Decimal(0);
 		$sumFee = new Decimal(0);
 
 		foreach ($assets as $asset) {
+			$sumRealizedGainDefaultCurrency = $sumRealizedGainDefaultCurrency->add($asset->realizedGainDefaultCurrency);
 			$sumDividendGain = $sumDividendGain->add($asset->dividendGainDefaultCurrency);
 			$sumTax = $sumTax->add($asset->taxDefaultCurrency);
 			$sumFee = $sumFee->add($asset->feeDefaultCurrency);
@@ -71,6 +73,7 @@ class DataCalculator
 			returnPercentagePerAnnum: round($gainPercentagePerAnnum + $dividendGainPercentagePerAnnum + $fxImpactPercentagePerAnnum, 2),
 			tax: $sumTax,
 			fee: $sumFee,
+			realizedGain: $sumRealizedGainDefaultCurrency,
 		);
 	}
 }

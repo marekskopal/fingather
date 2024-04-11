@@ -29,6 +29,7 @@ final readonly class PortfolioDataDto
 		public float $returnPercentagePerAnnum,
 		public Decimal $tax,
 		public Decimal $fee,
+		public Decimal $realizedGain,
 	) {
 	}
 
@@ -42,6 +43,7 @@ final readonly class PortfolioDataDto
 			gain: $portfolioData->getGain(),
 			gainPercentage: $portfolioData->getGainPercentage(),
 			gainPercentagePerAnnum: $portfolioData->getGainPercentagePerAnnum(),
+			realizedGain: $portfolioData->getRealizedGain(),
 			dividendGain: $portfolioData->getDividendGain(),
 			dividendGainPercentage: $portfolioData->getDividendGainPercentage(),
 			dividendGainPercentagePerAnnum: $portfolioData->getDividendGainPercentagePerAnnum(),

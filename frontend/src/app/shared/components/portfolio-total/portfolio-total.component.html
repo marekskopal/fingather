@@ -1,6 +1,6 @@
 ﻿<div class="row">
     <div class="col-lg-3 mb-4">
-        <div class="card h-100">
+        <div class="card h-100 portfolio-value">
             <div class="card-header">
                 {{ 'app.shared.portfolioTotal.portfolioValue' | translate }}
             </div>
@@ -16,9 +16,9 @@
         </div>
     </div>
 
-    <div class="col-lg-9">
+    <div class="col-lg-6">
         <div class="row">
-            <div class="col-md-6 col-lg-3 mb-4">
+            <div class="col-lg-6 mb-4">
                 <div class="card h-100">
                     <div class="card-header">
                         {{ 'app.shared.portfolioTotal.gain' | translate }}
@@ -43,21 +43,15 @@
                 </div>
             </div>
 
-            <div class="col-md-6 col-lg-3 mb-4">
+            <div class="col-lg-6 mb-4">
                 <div class="card h-100">
                     <div class="card-header">
-                        {{ 'app.shared.portfolioTotal.dividend' | translate }}
+                        {{ 'app.shared.portfolioTotal.gainRealized' | translate }}
                     </div>
                     @if (portfolioData) {
-                        <div class="card-body {{portfolioData.dividendGain > 0 ? 'green' : (portfolioData.dividendGain < 0 ? 'red' : '')}}">
+                        <div class="card-body {{portfolioData.realizedGain > 0 ? 'green' : (portfolioData.realizedGain < 0 ? 'red' : '')}}">
                             <div>
-                                {{portfolioData.dividendGain | number:'1.2-2' | currency: defaultCurrency.id | async}}
-                            </div>
-                            <div>
-                                {{portfolioData.dividendGainPercentage | number:'1.2-2'}}%
-                            </div>
-                            <div>
-                                {{portfolioData.dividendGainPercentagePerAnnum | number:'1.2-2'}}%&nbsp;p.a.
+                                {{portfolioData.realizedGain | number:'1.2-2' | currency: defaultCurrency.id | async}}
                             </div>
                         </div>
                     } @else {
@@ -67,8 +61,27 @@
                     }
                 </div>
             </div>
+        </div>
 
-            <div class="col-md-6 col-lg-3 mb-4">
+        <div class="row">
+            <div class="col-lg-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-header">
+                        {{ 'app.shared.portfolioTotal.investedValue' | translate }}
+                    </div>
+                    @if (portfolioData) {
+                        <div class="card-body">
+
+                        </div>
+                    } @else {
+                        <div class="card-body text-center">
+                            <span class="spinner-border spinner-border-lg"></span>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="col-lg-6 mb-4">
                 <div class="card h-100">
                     <div class="card-header">
                         {{ 'app.shared.portfolioTotal.fxImpact' | translate }}
@@ -92,8 +105,38 @@
                     }
                 </div>
             </div>
+        </div>
+    </div>
 
-            <div class="col-md-6 col-lg-3 mb-4">
+    <div class="col-lg-3">
+        <div class="row">
+            <div class="col-12 mb-4">
+                <div class="card h-100">
+                    <div class="card-header">
+                        {{ 'app.shared.portfolioTotal.dividend' | translate }}
+                    </div>
+                    @if (portfolioData) {
+                        <div class="card-body {{portfolioData.dividendGain > 0 ? 'green' : (portfolioData.dividendGain < 0 ? 'red' : '')}}">
+                            <div>
+                                {{portfolioData.dividendGain | number:'1.2-2' | currency: defaultCurrency.id | async}}
+                            </div>
+                            <div>
+                                {{portfolioData.dividendGainPercentage | number:'1.2-2'}}%
+                            </div>
+                            <div>
+                                {{portfolioData.dividendGainPercentagePerAnnum | number:'1.2-2'}}%&nbsp;p.a.
+                            </div>
+                        </div>
+                    } @else {
+                        <div class="card-body text-center">
+                            <span class="spinner-border spinner-border-lg"></span>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
                 <div class="card h-100">
                     <div class="card-header">
                         {{ 'app.shared.portfolioTotal.taxFee' | translate }}
