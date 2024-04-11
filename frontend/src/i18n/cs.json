@@ -132,7 +132,8 @@
         "year": "Rok",
         "value": "Hodnota",
         "transactionValue": "Hodnota transakcí",
-        "gain": "Zisk/Ztráta",
+        "unrealizedGain": "Nerealizovaný Zisk/Ztráta",
+        "realizedGain": "Realizovaný Zisk/Ztráta",
         "dividend": "Dividenda",
         "fxImpact": "FX dopad",
         "return": "Návratnost"
@@ -210,9 +211,11 @@
     "shared": {
       "portfolioTotal": {
         "portfolioValue": "Hodnota portfólia",
-        "gain": "Zisk/Ztráta",
+        "gain": "Nerealizovaný Zisk/Ztráta",
+        "gainRealized": "Realizovaný Zisk/Ztráta",
         "dividend": "Dividenda",
-        "fxImpact": "FX dopad",
+        "investedValue": "Investovaná částka",
+        "fxImpact": "Měnový dopad",
         "taxFee": "Daně/Poplatky"
       },
       "dividendDialog": {

@@ -11,6 +11,7 @@ use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\Enum\OrderDirectionEnum;
 use FinGather\Service\DataCalculator\Dto\AssetDataDto;
+use FinGather\Service\DataCalculator\Dto\TransactionBuyDto;
 use FinGather\Service\Provider\ExchangeRateProvider;
 use FinGather\Service\Provider\SplitProvider;
 use FinGather\Service\Provider\TickerDataProvider;
@@ -54,6 +55,8 @@ class AssetDataCalculator
 		$taxDefaultCurrency = new Decimal(0);
 		$fee = new Decimal(0);
 		$feeDefaultCurrency = new Decimal(0);
+		$realizedGain = new Decimal(0);
+		$realizedGainDefaultCurrency = new Decimal(0);
 
 		$defaultCurrency = $user->getDefaultCurrency();
 		$tickerCurrency = $asset->getTicker()->getCurrency();
@@ -66,6 +69,8 @@ class AssetDataCalculator
 
 		$firstTransaction = $transactions[array_key_first($transactions)];
 		$fromFirstTransactionDays = (int) $dateTime->diff($firstTransaction->getActionCreated())->days;
+
+		$buys = [];
 
 		foreach ($transactions as $transaction) {
 			$tax = $tax->add($transaction->getTaxTickerCurrency());
@@ -96,8 +101,52 @@ class AssetDataCalculator
 			}
 
 			$transactionUnits = $transaction->getUnits();
+			$transactionUnitsWithSplit = $transactionUnits->mul($splitFactor);
 
-			$units = $units->add($transactionUnits->mul($splitFactor));
+			$units = $units->add($transactionUnitsWithSplit);
+
+			if ($transaction->getActionType() === TransactionActionTypeEnum::Buy) {
+				$buys[] = new TransactionBuyDto(
+					units: $transactionUnitsWithSplit,
+					priceTickerCurrency: $transaction->getPriceTickerCurrency(),
+					priceDefaultCurrency: $transaction->getPriceDefaultCurrency(),
+				);
+			}
+
+			if ($transaction->getActionType() === TransactionActionTypeEnum::Sell) {
+				$transactionRealizedGain = new Decimal(0);
+				$transactionRealizedGainDefaultCurrency = new Decimal(0);
+
+				$sumBuyUnits = new Decimal(0);
+
+				foreach ($buys as $buyKey => $buy) {
+					$sellValue = $buy->units->mul($transaction->getPriceTickerCurrency());
+					$sellValueDefaultCurrency = $buy->units->mul($transaction->getPriceDefaultCurrency());
+
+					$buyValue = $buy->units->mul($buy->priceTickerCurrency);
+					$buyValueDefaultCurrency = $buy->units->mul($buy->priceDefaultCurrency);
+
+					$transactionRealizedGain = $transactionRealizedGain->add($sellValue->sub($buyValue));
+					$transactionRealizedGainDefaultCurrency = $transactionRealizedGainDefaultCurrency->add(
+						$sellValueDefaultCurrency->sub($buyValueDefaultCurrency),
+					);
+
+					$sumBuyUnits = $sumBuyUnits->add($buy->units);
+					$transactionUnits = $transaction->getUnits()->abs();
+
+					if ($sumBuyUnits <= $transactionUnits) {
+						unset($buys[$buyKey]);
+					} else {
+						$buys[$buyKey]->units = $sumBuyUnits->sub($transaction->getUnits());
+					}
+					if ($sumBuyUnits >= $transactionUnits) {
+						break;
+					}
+				}
+
+				$realizedGain = $realizedGain->add($transactionRealizedGain);
+				$realizedGainDefaultCurrency = $realizedGainDefaultCurrency->add($transactionRealizedGainDefaultCurrency);
+			}
 
 			$transactionSum = $transactionUnits->mul($transaction->getPriceTickerCurrency());
 			$transactionSumDefaultCurrency = $transactionUnits->mul($transaction->getPriceDefaultCurrency());
@@ -132,6 +181,8 @@ class AssetDataCalculator
 			gainDefaultCurrency: $gainDefaultCurrency,
 			gainPercentage: $gainPercentage,
 			gainPercentagePerAnnum: $gainPercentagePerAnnum,
+			realizedGain: $realizedGain,
+			realizedGainDefaultCurrency: $realizedGainDefaultCurrency,
 			dividendGain: $dividendGain,
 			dividendGainDefaultCurrency: $dividendGainDefaultCurrency,
 			dividendGainPercentage: $dividendGainPercentage,

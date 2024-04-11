@@ -14,6 +14,7 @@ readonly class CalculatedDataDto
 		public Decimal $gain,
 		public float $gainPercentage,
 		public float $gainPercentagePerAnnum,
+		public Decimal $realizedGain,
 		public Decimal $dividendGain,
 		public float $dividendGainPercentage,
 		public float $dividendGainPercentagePerAnnum,

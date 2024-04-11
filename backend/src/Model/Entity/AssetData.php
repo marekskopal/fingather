@@ -48,6 +48,10 @@ class AssetData extends AEntity
 		#[Column(type: 'float')]
 		public float $gainPercentagePerAnnum,
 		#[ColumnDecimal(precision: 12, scale: 2)]
+		public Decimal $realizedGain,
+		#[ColumnDecimal(precision: 12, scale: 2)]
+		public Decimal $realizedGainDefaultCurrency,
+		#[ColumnDecimal(precision: 12, scale: 2)]
 		public Decimal $dividendGain,
 		#[ColumnDecimal(precision: 12, scale: 2)]
 		public Decimal $dividendGainDefaultCurrency,
@@ -218,6 +222,26 @@ class AssetData extends AEntity
 	public function setGainPercentagePerAnnum(float $gainPercentagePerAnnum): void
 	{
 		$this->gainPercentagePerAnnum = $gainPercentagePerAnnum;
+	}
+
+	public function getRealizedGain(): Decimal
+	{
+		return $this->realizedGain;
+	}
+
+	public function setRealizedGain(Decimal $realizedGain): void
+	{
+		$this->realizedGain = $realizedGain;
+	}
+
+	public function getRealizedGainDefaultCurrency(): Decimal
+	{
+		return $this->realizedGainDefaultCurrency;
+	}
+
+	public function setRealizedGainDefaultCurrency(Decimal $realizedGainDefaultCurrency): void
+	{
+		$this->realizedGainDefaultCurrency = $realizedGainDefaultCurrency;
 	}
 
 	public function getDividendGain(): Decimal

@@ -5,6 +5,7 @@ export class YearCalculatedData {
     public gain: number;
     public gainPercentage: number;
     public gainPercentagePerAnnum: number;
+    public realizedGain: number;
     public dividendGain: number;
     public dividendGainPercentage: number;
     public dividendGainPercentagePerAnnum: number;

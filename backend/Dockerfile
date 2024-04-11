@@ -37,9 +37,9 @@ COPY ./docker/etc/php /etc/php
 COPY ./bin /app/bin
 COPY ./migrations /app/migrations
 COPY ./src /app/src
-COPY ./.rr.yaml ./composer.json ./composer.lock /app/
+COPY ./.rr.yaml ./composer.json ./ray.php ./composer.lock /app/
 
 WORKDIR /app/
 
 RUN rm -rf /app/vendor \
-    && COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --no-progress --classmap-authoritative -d /app/
+    && COMPOSER_ALLOW_SUPERUSER=1 composer install  --no-progress --classmap-authoritative -d /app/

@@ -55,6 +55,8 @@ class AssetDataProvider
 			gainDefaultCurrency: $assetDataDto->gainDefaultCurrency,
 			gainPercentage: $assetDataDto->gainPercentage,
 			gainPercentagePerAnnum: $assetDataDto->gainPercentagePerAnnum,
+			realizedGain: $assetDataDto->realizedGain,
+			realizedGainDefaultCurrency: $assetDataDto->realizedGainDefaultCurrency,
 			dividendGain: $assetDataDto->dividendGain,
 			dividendGainDefaultCurrency: $assetDataDto->dividendGainDefaultCurrency,
 			dividendGainPercentage: $assetDataDto->dividendGainPercentage,

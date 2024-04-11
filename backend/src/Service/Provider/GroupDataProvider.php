@@ -63,6 +63,7 @@ class GroupDataProvider
 			gain: $calculatedData->gain,
 			gainPercentage: $calculatedData->gainPercentage,
 			gainPercentagePerAnnum: $calculatedData->gainPercentagePerAnnum,
+			realizedGain: $calculatedData->realizedGain,
 			dividendGain: $calculatedData->dividendGain,
 			dividendGainPercentage: $calculatedData->dividendGainPercentage,
 			dividendGainPercentagePerAnnum: $calculatedData->dividendGainPercentagePerAnnum,
