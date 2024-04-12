@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Service\DataCalculator;
 
+use Decimal\Decimal;
 use FinGather\Dto\PortfolioDataDto;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
@@ -79,7 +80,11 @@ class OverviewDataCalculator
 			);
 
 			$transactionValue = $portfolioDataToDate->transactionValue->sub($portfolioDataFromDate->transactionValue);
-			$gain = $portfolioDataToDate->gain->sub($portfolioDataFromDate->gain);
+			if ($portfolioDataToDate->value->isZero()) {
+				$gain = new Decimal(0);
+			} else {
+				$gain = $portfolioDataToDate->gain->sub($portfolioDataFromDate->gain);
+			}
 			$realizedGain = $portfolioDataToDate->realizedGain->sub($portfolioDataFromDate->realizedGain);
 			$dividendGain = $portfolioDataToDate->dividendGain->sub($portfolioDataFromDate->dividendGain);
 			$fxImpact = $portfolioDataToDate->fxImpact->sub($portfolioDataFromDate->fxImpact);
