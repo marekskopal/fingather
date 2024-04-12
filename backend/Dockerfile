@@ -1,4 +1,4 @@
-FROM spiralscout/roadrunner:2023.3.12 AS roadrunner
+FROM spiralscout/roadrunner:2024.1.0 AS roadrunner
 FROM composer:2.7.2 AS composer
 FROM phusion/baseimage:jammy-1.0.3 AS php
 
