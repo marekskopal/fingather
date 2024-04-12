@@ -71,7 +71,7 @@
                     </div>
                     @if (portfolioData) {
                         <div class="card-body">
-
+                            {{portfolioData.transactionValue | number:'1.2-2' | currency: defaultCurrency.id | async}}
                         </div>
                     } @else {
                         <div class="card-body text-center">
