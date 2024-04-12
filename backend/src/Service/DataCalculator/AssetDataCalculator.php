@@ -92,7 +92,7 @@ class AssetDataCalculator
 				continue;
 			}
 
-			$splitFactor = new Decimal(1);
+			$splitFactor = new Decimal(1, 8);
 
 			foreach ($splits as $split) {
 				if ($split->getDate() >= $transaction->getActionCreated() && $split->getDate() <= $dateTime) {
@@ -113,43 +113,47 @@ class AssetDataCalculator
 				);
 			}
 
-			if ($transaction->getActionType() === TransactionActionTypeEnum::Sell) {
-				$transactionRealizedGain = new Decimal(0);
-				$transactionRealizedGainDefaultCurrency = new Decimal(0);
-
-				$sumBuyUnits = new Decimal(0);
-
-				foreach ($buys as $buyKey => $buy) {
-					$sellValue = $buy->units->mul($transaction->getPriceTickerCurrency());
-					$sellValueDefaultCurrency = $buy->units->mul($transaction->getPriceDefaultCurrency());
-
-					$buyValue = $buy->units->mul($buy->priceTickerCurrency);
-					$buyValueDefaultCurrency = $buy->units->mul($buy->priceDefaultCurrency);
-
-					$transactionRealizedGain = $transactionRealizedGain->add($sellValue->sub($buyValue));
-					$transactionRealizedGainDefaultCurrency = $transactionRealizedGainDefaultCurrency->add(
-						$sellValueDefaultCurrency->sub($buyValueDefaultCurrency),
-					);
-
-					$sumBuyUnits = $sumBuyUnits->add($buy->units);
-					$transactionUnits = $transaction->getUnits()->abs();
-
-					if ($sumBuyUnits <= $transactionUnits) {
-						unset($buys[$buyKey]);
-					} else {
-						$buys[$buyKey]->units = $sumBuyUnits->sub($transaction->getUnits());
-					}
-					if ($sumBuyUnits >= $transactionUnits) {
-						break;
-					}
-				}
-
-				$realizedGain = $realizedGain->add($transactionRealizedGain);
-				$realizedGainDefaultCurrency = $realizedGainDefaultCurrency->add($transactionRealizedGainDefaultCurrency);
+			if ($transaction->getActionType() !== TransactionActionTypeEnum::Sell) {
+				continue;
 			}
 
-			$transactionSum = $transactionUnits->mul($transaction->getPriceTickerCurrency());
-			$transactionSumDefaultCurrency = $transactionUnits->mul($transaction->getPriceDefaultCurrency());
+			$transactionRealizedGain = new Decimal(0);
+			$transactionRealizedGainDefaultCurrency = new Decimal(0);
+
+			$sumBuyUnits = new Decimal(0, 18);
+
+			foreach ($buys as $buyKey => $buy) {
+				$sellValue = $buy->units->mul($transaction->getPriceTickerCurrency());
+				$sellValueDefaultCurrency = $buy->units->mul($transaction->getPriceDefaultCurrency());
+
+				$buyValue = $buy->units->mul($buy->priceTickerCurrency);
+				$buyValueDefaultCurrency = $buy->units->mul($buy->priceDefaultCurrency);
+
+				$transactionRealizedGain = $transactionRealizedGain->add($sellValue->sub($buyValue));
+				$transactionRealizedGainDefaultCurrency = $transactionRealizedGainDefaultCurrency->add(
+					$sellValueDefaultCurrency->sub($buyValueDefaultCurrency),
+				);
+
+				$sumBuyUnits = $sumBuyUnits->add($buy->units);
+				$transactionUnitsAbs = $transactionUnits->abs();
+
+				if ($sumBuyUnits <= $transactionUnitsAbs) {
+					unset($buys[$buyKey]);
+				} else {
+					$buys[$buyKey]->units = $sumBuyUnits->sub($transactionUnitsAbs);
+				}
+				if ($sumBuyUnits >= $transactionUnitsAbs) {
+					break;
+				}
+			}
+
+			$realizedGain = $realizedGain->add($transactionRealizedGain);
+			$realizedGainDefaultCurrency = $realizedGainDefaultCurrency->add($transactionRealizedGainDefaultCurrency);
+		}
+
+		foreach ($buys as $buy) {
+			$transactionSum = $buy->units->mul($buy->priceTickerCurrency);
+			$transactionSumDefaultCurrency = $buy->units->mul($buy->priceDefaultCurrency);
 
 			$transactionValue = $transactionValue->add($transactionSum);
 			$transactionValueDefaultCurrency = $transactionValueDefaultCurrency->add($transactionSumDefaultCurrency);

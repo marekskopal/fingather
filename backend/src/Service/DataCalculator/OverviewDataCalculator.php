@@ -80,11 +80,7 @@ class OverviewDataCalculator
 			);
 
 			$transactionValue = $portfolioDataToDate->transactionValue->sub($portfolioDataFromDate->transactionValue);
-			if ($portfolioDataToDate->value->isZero()) {
-				$gain = new Decimal(0);
-			} else {
-				$gain = $portfolioDataToDate->gain->sub($portfolioDataFromDate->gain);
-			}
+			$gain = $portfolioDataToDate->value->isZero() ? new Decimal(0) : $portfolioDataToDate->gain->sub($portfolioDataFromDate->gain);
 			$realizedGain = $portfolioDataToDate->realizedGain->sub($portfolioDataFromDate->realizedGain);
 			$dividendGain = $portfolioDataToDate->dividendGain->sub($portfolioDataFromDate->dividendGain);
 			$fxImpact = $portfolioDataToDate->fxImpact->sub($portfolioDataFromDate->fxImpact);

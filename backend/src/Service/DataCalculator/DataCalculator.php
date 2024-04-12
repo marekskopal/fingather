@@ -36,10 +36,10 @@ class DataCalculator
 			$sumTax = $sumTax->add($asset->taxDefaultCurrency);
 			$sumFee = $sumFee->add($asset->feeDefaultCurrency);
 
-			if ($asset->isClosed) {
-				//TOOO: think twice about this
-				continue;
-			}
+			//if ($asset->isClosed) {
+			//	//TOOO: think twice about this
+			//	continue;
+			//}
 
 			$sumAssetValue = $sumAssetValue->add($asset->value);
 			$sumAssetTransactionValueDefaultCurrency = $sumAssetTransactionValueDefaultCurrency->add(
