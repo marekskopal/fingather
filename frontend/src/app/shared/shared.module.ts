@@ -10,6 +10,8 @@ import { CurrencyPipe } from '@app/shared/pipes/currency.pipe';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { PortfolioTotalComponent } from './components/portfolio-total/portfolio-total.component';
+import {ValueColorComponent} from "@app/shared/components/value-color/value-color.component";
+import {TableValueComponent} from "@app/shared/components/table-value/table-value.component";
 
 @NgModule({
     imports: [
@@ -25,6 +27,8 @@ import { PortfolioTotalComponent } from './components/portfolio-total/portfolio-
         DividendDialogComponent,
         ConfirmDialogComponent,
         TickerLogoComponent,
+        ValueColorComponent,
+        TableValueComponent,
     ],
     exports: [
         PortfolioTotalComponent,
@@ -32,6 +36,8 @@ import { PortfolioTotalComponent } from './components/portfolio-total/portfolio-
         CurrencyPipe,
         TranslateModule,
         TickerLogoComponent,
+        ValueColorComponent,
+        TableValueComponent,
     ]
 })
 export class SharedModule { }

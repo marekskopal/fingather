@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Currency, YearCalculatedData } from '@app/models';
 import { CurrencyService, OverviewService, PortfolioService } from '@app/services';
 import { first } from 'rxjs/operators';
+import {ModeEnum} from "@app/overviews/components/list/enum/mode-enum";
 
 @Component({
     templateUrl: './list.component.html'
@@ -9,6 +10,9 @@ import { first } from 'rxjs/operators';
 export class ListComponent implements OnInit {
     public yearCalculatedDatas: YearCalculatedData[] | null = null;
     public defaultCurrency: Currency;
+
+    protected readonly ModeEnum = ModeEnum;
+    protected mode: ModeEnum = ModeEnum.Interannually;
 
     public constructor(
         private readonly overviewService: OverviewService,
@@ -36,4 +40,10 @@ export class ListComponent implements OnInit {
             .pipe(first())
             .subscribe((yearCalculatedDatas) => this.yearCalculatedDatas = yearCalculatedDatas);
     }
+
+    public changeMode(): void {
+        this.mode = this.mode === ModeEnum.Interannually ? ModeEnum.Total : ModeEnum.Interannually;
+    }
+
+
 }

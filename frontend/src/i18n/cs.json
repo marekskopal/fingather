@@ -129,13 +129,14 @@
     "overviews": {
       "list": {
         "title": "Přehledy",
+        "interannually": "Meziročně",
         "year": "Rok",
         "value": "Hodnota",
-        "transactionValue": "Hodnota transakcí",
+        "investedValue": "Investovaná částka",
         "unrealizedGain": "Nerealizovaný Zisk/Ztráta",
         "realizedGain": "Realizovaný Zisk/Ztráta",
         "dividend": "Dividenda",
-        "fxImpact": "FX dopad",
+        "fxImpact": "Měnový dopad",
         "return": "Návratnost"
       }
     },
