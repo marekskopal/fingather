@@ -134,8 +134,8 @@ devDependencies:
     specifier: ^2.29.1
     version: 2.29.1(@typescript-eslint/parser@7.6.0)(eslint-import-resolver-typescript@3.6.1)(eslint@9.0.0)
   eslint-plugin-simple-import-sort:
-    specifier: ^12.0.0
-    version: 12.0.0(eslint@9.0.0)
+    specifier: ^12.1.0
+    version: 12.1.0(eslint@9.0.0)
   eslint-plugin-unused-imports:
     specifier: ^3.1.0
     version: 3.1.0(@typescript-eslint/eslint-plugin@7.6.0)(eslint@9.0.0)
@@ -2563,14 +2563,14 @@ packages:
       semver: 7.6.0
     dev: true
 
-  /@npmcli/git@5.0.5:
-    resolution: {integrity: sha512-x8hXItC8OFOwdgERzRIxg0ic1lQqW6kSZFFQtZTCNYOeGb9UqzVcod02TYljI9UBl4RtfcyQ0A7ygmcGFvEqWw==}
+  /@npmcli/git@5.0.6:
+    resolution: {integrity: sha512-4x/182sKXmQkf0EtXxT26GEsaOATpD7WVtza5hrYivWZeo6QefC6xq9KAXrnjtFKBZ4rZwR7aX/zClYYXgtwLw==}
     engines: {node: ^16.14.0 || >=18.0.0}
     dependencies:
       '@npmcli/promise-spawn': 7.0.1
       lru-cache: 10.2.0
       npm-pick-manifest: 9.0.0
-      proc-log: 3.0.0
+      proc-log: 4.0.0
       promise-inflight: 1.0.1
       promise-retry: 2.0.1
       semver: 7.6.0
@@ -2593,16 +2593,16 @@ packages:
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
     dev: true
 
-  /@npmcli/package-json@5.0.2:
-    resolution: {integrity: sha512-LmW+tueGSK+FCM3OpcKtwKKo3igpefh6HHiw23sGd8OdJ8l0GrfGfVdGOFVtJRMaXVnvI1RUdEPlB9VUln5Wbw==}
+  /@npmcli/package-json@5.0.3:
+    resolution: {integrity: sha512-cgsjCvld2wMqkUqvY+SZI+1ZJ7umGBYc9IAKfqJRKJCcs7hCQYxScUgdsyrRINk3VmdCYf9TXiLBHQ6ECTxhtg==}
     engines: {node: ^16.14.0 || >=18.0.0}
     dependencies:
-      '@npmcli/git': 5.0.5
+      '@npmcli/git': 5.0.6
       glob: 10.3.12
       hosted-git-info: 7.0.1
       json-parse-even-better-errors: 3.0.1
       normalize-package-data: 6.0.0
-      proc-log: 3.0.0
+      proc-log: 4.0.0
       semver: 7.6.0
     transitivePeerDependencies:
       - bluebird
@@ -2625,7 +2625,7 @@ packages:
     engines: {node: ^16.14.0 || >=18.0.0}
     dependencies:
       '@npmcli/node-gyp': 3.0.0
-      '@npmcli/package-json': 5.0.2
+      '@npmcli/package-json': 5.0.3
       '@npmcli/promise-spawn': 7.0.1
       node-gyp: 10.1.0
       which: 4.0.0
@@ -2660,7 +2660,7 @@ packages:
       nx: '>= 16 <= 18'
     dependencies:
       '@nrwl/devkit': 18.2.4(nx@18.2.4)
-      ejs: 3.1.9
+      ejs: 3.1.10
       enquirer: 2.3.6
       ignore: 5.3.1
       nx: 18.2.4
@@ -3986,7 +3986,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001609
-      electron-to-chromium: 1.4.735
+      electron-to-chromium: 1.4.736
       node-releases: 2.0.14
       update-browserslist-db: 1.0.13(browserslist@4.23.0)
 
@@ -4632,16 +4632,16 @@ packages:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
     dev: true
 
-  /ejs@3.1.9:
-    resolution: {integrity: sha512-rC+QVNMJWv+MtPgkt0y+0rVEIdbtxVADApW9JXrUVlzHetgcyczP/E7DJmWJ4fJCZF2cPcBk0laWO9ZHMG3DmQ==}
+  /ejs@3.1.10:
+    resolution: {integrity: sha512-UeJmFfOrAQS8OJWPZ4qtgHyWExa088/MtK5UEyoJGFH67cDEXkZSviOiKRCZ4Xij0zxI3JECgYs3oKx+AizQBA==}
     engines: {node: '>=0.10.0'}
     hasBin: true
     dependencies:
       jake: 10.8.7
     dev: true
 
-  /electron-to-chromium@1.4.735:
-    resolution: {integrity: sha512-pkYpvwg8VyOTQAeBqZ7jsmpCjko1Qc6We1ZtZCjRyYbT5v4AIUKDy5cQTRotQlSSZmMr8jqpEt6JtOj5k7lR7A==}
+  /electron-to-chromium@1.4.736:
+    resolution: {integrity: sha512-Rer6wc3ynLelKNM4lOCg7/zPQj8tPOCB2hzD32PX9wd3hgRRi9MxEbmkFCokzcEhRVMiOVLjnL9ig9cefJ+6+Q==}
 
   /emoji-regex@8.0.0:
     resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==}
@@ -5059,8 +5059,8 @@ packages:
       - supports-color
     dev: true
 
-  /eslint-plugin-simple-import-sort@12.0.0(eslint@9.0.0):
-    resolution: {integrity: sha512-8o0dVEdAkYap0Cn5kNeklaKcT1nUsa3LITWEuFk3nJifOoD+5JQGoyDUW2W/iPWwBsNBJpyJS9y4je/BgxLcyQ==}
+  /eslint-plugin-simple-import-sort@12.1.0(eslint@9.0.0):
+    resolution: {integrity: sha512-Y2fqAfC11TcG/WP3TrI1Gi3p3nc8XJyEOJYHyEPEGI/UAgNx6akxxlX74p7SbAQdLcgASKhj8M0GKvH3vq/+ig==}
     peerDependencies:
       eslint: '>=5.0.0'
     dependencies:
@@ -7119,8 +7119,8 @@ packages:
       semver: 7.6.0
     dev: true
 
-  /npm-registry-fetch@16.2.0:
-    resolution: {integrity: sha512-zVH+G0q1O2hqgQBUvQ2LWp6ujr6VJAeDnmWxqiMlCguvLexEzBnuQIwC70r04vcvCMAcYEIpA/rO9YyVi+fmJQ==}
+  /npm-registry-fetch@16.2.1:
+    resolution: {integrity: sha512-8l+7jxhim55S85fjiDGJ1rZXBWGtRLi1OSb4Z3BPLObPuIaeKRlPRiYMSHU4/81ck3t71Z+UwDDl47gcpmfQQA==}
     engines: {node: ^16.14.0 || >=18.0.0}
     dependencies:
       '@npmcli/redact': 1.1.0
@@ -7130,7 +7130,7 @@ packages:
       minipass-json-stream: 1.0.1
       minizlib: 2.1.2
       npm-package-arg: 11.0.1
-      proc-log: 3.0.0
+      proc-log: 4.0.0
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -7437,7 +7437,7 @@ packages:
     engines: {node: ^16.14.0 || >=18.0.0}
     hasBin: true
     dependencies:
-      '@npmcli/git': 5.0.5
+      '@npmcli/git': 5.0.6
       '@npmcli/installed-package-contents': 2.0.2
       '@npmcli/promise-spawn': 7.0.1
       '@npmcli/run-script': 7.0.4
@@ -7447,7 +7447,7 @@ packages:
       npm-package-arg: 11.0.1
       npm-packlist: 8.0.2
       npm-pick-manifest: 9.0.0
-      npm-registry-fetch: 16.2.0
+      npm-registry-fetch: 16.2.1
       proc-log: 3.0.0
       promise-retry: 2.0.1
       read-package-json: 7.0.0
@@ -7688,6 +7688,11 @@ packages:
 
   /proc-log@3.0.0:
     resolution: {integrity: sha512-++Vn7NS4Xf9NacaU9Xq3URUuqZETPsf8L4j5/ckhaRYsfPeRyzGw+iDjFhV/Jr3uNmTvvddEJFWh5R1gRgUH8A==}
+    engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
+    dev: true
+
+  /proc-log@4.0.0:
+    resolution: {integrity: sha512-v1lzmYxGDs2+OZnmYtYZK3DG8zogt+CbQ+o/iqqtTfpyCmGWulCTEQu5GIbivf7OjgIkH2Nr8SH8UxAGugZNbg==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
     dev: true
 
@@ -8360,7 +8365,7 @@ packages:
       btoa: 1.2.1
       chalk: 4.1.2
       convert-source-map: 1.9.0
-      ejs: 3.1.9
+      ejs: 3.1.10
       escape-html: 1.0.3
       glob: 7.2.3
       gzip-size: 6.0.0
