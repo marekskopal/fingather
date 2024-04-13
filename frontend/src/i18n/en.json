@@ -129,13 +129,14 @@
     "overviews": {
       "list": {
         "title": "Overviews",
+        "interannually": "Interannually",
         "year": "Year",
         "value": "Value",
-        "transactionValue": "Transaction Value",
+        "investedValue": "Invested Value",
         "unrealizedGain": "Unrealized Gain/Loss",
         "realizedGain": "Realized Gain/Loss",
         "dividend": "Dividend",
-        "fxImpact": "FX Impact",
+        "fxImpact": "Forex Impact",
         "return": "Return"
       }
     },

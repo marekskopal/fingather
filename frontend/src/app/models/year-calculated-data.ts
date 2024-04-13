@@ -1,18 +1,33 @@
 export class YearCalculatedData {
     public year: number;
     public value: number;
+    public valueInterannually: number|null;
     public transactionValue: number;
+    public transactionValueInterannually: number|null;
     public gain: number;
+    public gainInterannually: number|null;
     public gainPercentage: number;
+    public gainPercentageInterannually: number|null;
     public gainPercentagePerAnnum: number;
+    public gainPercentagePerAnnumInterannually: number|null;
     public realizedGain: number;
+    public realizedGainInterannually: number|null;
     public dividendGain: number;
+    public dividendGainInterannually: number|null;
     public dividendGainPercentage: number;
+    public dividendGainPercentageInterannually: number|null;
     public dividendGainPercentagePerAnnum: number;
+    public dividendGainPercentagePerAnnumInterannually: number|null;
     public fxImpact: number;
+    public fxImpactInterannually: number|null;
     public fxImpactPercentage: number;
+    public fxImpactPercentageInterannually: number|null;
     public fxImpactPercentagePerAnnum: number;
+    public fxImpactPercentagePerAnnumInterannually: number|null;
     public return: number;
+    public returnInterannually: number|null;
     public returnPercentage: number;
+    public returnPercentageInterannually: number|null;
     public returnPercentagePerAnnum: number;
+    public returnPercentagePerAnnumInterannually: number|null;
 }

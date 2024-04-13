@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace FinGather\Service\DataCalculator;
 
-use Decimal\Decimal;
 use FinGather\Dto\PortfolioDataDto;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
@@ -38,16 +37,21 @@ class OverviewDataCalculator
 
 		$yearCalculatedData = [];
 
+		$yearFromDate = null;
+
 		for ($i = $fromDateYear; $i <= $toDateYear; $i++) {
-			$yearFromDate = (new DateTimeImmutable('first day of january ' . $i))->setTime(0, 0);
 			$yearToDate = $i === $toDateYear ? $toDate : (new DateTimeImmutable('last day of december ' . $i))->setTime(0, 0);
 
-			$portfolioDataFromDate = PortfolioDataDto::fromEntity(
-				$this->portfolioDataProvider->getPortfolioData($user, $portfolio, $yearFromDate),
-			);
+			$portfolioDataFromDate = null;
+			if ($yearFromDate !== null) {
+				$portfolioDataFromDate = PortfolioDataDto::fromEntity(
+					$this->portfolioDataProvider->getPortfolioData($user, $portfolio, $yearFromDate),
+				);
+			}
 			$portfolioDataToDate = PortfolioDataDto::fromEntity(
 				$this->portfolioDataProvider->getPortfolioData($user, $portfolio, $yearToDate),
 			);
+			$yearFromDate = $yearToDate;
 
 			$fromFirstTransactionDays = (int) $yearToDate->diff($firstTransaction->getActionCreated())->days;
 
@@ -55,32 +59,50 @@ class OverviewDataCalculator
 				$yearCalculatedData[$i] = new YearCalculatedDataDto(
 					year: $i,
 					value: $portfolioDataToDate->value,
+					valueInterannually: null,
 					transactionValue: $portfolioDataToDate->transactionValue,
+					transactionValueInterannually: null,
 					gain: $portfolioDataToDate->gain,
+					gainInterannually: null,
 					gainPercentage: $portfolioDataToDate->gainPercentage,
+					gainPercentageInterannually: null,
 					gainPercentagePerAnnum: $portfolioDataToDate->gainPercentagePerAnnum,
+					gainPercentagePerAnnumInterannually: null,
 					realizedGain: $portfolioDataToDate->realizedGain,
+					realizedGainInterannually: null,
 					dividendGain: $portfolioDataToDate->dividendGain,
+					dividendGainInterannually: null,
 					dividendGainPercentage: $portfolioDataToDate->dividendGainPercentage,
+					dividendGainPercentageInterannually: null,
 					dividendGainPercentagePerAnnum: $portfolioDataToDate->dividendGainPercentagePerAnnum,
+					dividendGainPercentagePerAnnumInterannually: null,
 					fxImpact: $portfolioDataToDate->fxImpact,
+					fxImpactInterannually: null,
 					fxImpactPercentage: $portfolioDataToDate->fxImpactPercentage,
+					fxImpactPercentageInterannually: null,
 					fxImpactPercentagePerAnnum: $portfolioDataToDate->fxImpactPercentagePerAnnum,
+					fxImpactPercentagePerAnnumInterannually: null,
 					return: $portfolioDataToDate->return,
+					returnInterannually: null,
 					returnPercentage: $portfolioDataToDate->returnPercentage,
+					returnPercentageInterannually: null,
 					returnPercentagePerAnnum: $portfolioDataToDate->returnPercentagePerAnnum,
+					returnPercentagePerAnnumInterannually: null,
 					tax: $portfolioDataToDate->tax,
+					taxInterannually: null,
 					fee: $portfolioDataToDate->fee,
+					feeInterannually: null,
 				);
 				continue;
 			}
 
-			$investSum = $portfolioDataFromDate->value->add(
-				$portfolioDataToDate->transactionValue->sub($portfolioDataFromDate->transactionValue),
-			);
+			if ($portfolioDataFromDate === null) {
+				continue;
+			}
 
+			$value = $portfolioDataToDate->value->sub($portfolioDataFromDate->value);
 			$transactionValue = $portfolioDataToDate->transactionValue->sub($portfolioDataFromDate->transactionValue);
-			$gain = $portfolioDataToDate->value->isZero() ? new Decimal(0) : $portfolioDataToDate->gain->sub($portfolioDataFromDate->gain);
+			$gain = $portfolioDataToDate->gain->sub($portfolioDataFromDate->gain);
 			$realizedGain = $portfolioDataToDate->realizedGain->sub($portfolioDataFromDate->realizedGain);
 			$dividendGain = $portfolioDataToDate->dividendGain->sub($portfolioDataFromDate->dividendGain);
 			$fxImpact = $portfolioDataToDate->fxImpact->sub($portfolioDataFromDate->fxImpact);
@@ -88,32 +110,54 @@ class OverviewDataCalculator
 			$tax = $portfolioDataToDate->tax->sub($portfolioDataFromDate->tax);
 			$fee = $portfolioDataToDate->fee->sub($portfolioDataFromDate->fee);
 
-			$gainPercentage = CalculatorUtils::toPercentage($gain, $investSum);
+			$gainPercentage = CalculatorUtils::diffToPercentage($portfolioDataToDate->gain, $portfolioDataFromDate->gain);
 			$gainPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($gainPercentage, $fromFirstTransactionDays);
-			$dividendGainPercentage = CalculatorUtils::toPercentage($dividendGain, $investSum);
+			$dividendGainPercentage = CalculatorUtils::diffToPercentage(
+				$portfolioDataToDate->dividendGain,
+				$portfolioDataFromDate->dividendGain,
+			);
 			$dividendGainPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($dividendGainPercentage, $fromFirstTransactionDays);
-			$fxImpactPercentage = CalculatorUtils::toPercentage($fxImpact, $investSum);
+			$fxImpactPercentage = CalculatorUtils::diffToPercentage($portfolioDataToDate->fxImpact, $portfolioDataFromDate->fxImpact);
 			$fxImpactPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($fxImpactPercentage, $fromFirstTransactionDays);
+			$returnPercentage = CalculatorUtils::diffToPercentage($portfolioDataToDate->return, $portfolioDataFromDate->return);
+			$returnPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($returnPercentage, $fromFirstTransactionDays);
 
 			$yearCalculatedData[$i] = new YearCalculatedDataDto(
 				year: $i,
 				value: $portfolioDataToDate->value,
-				transactionValue: $transactionValue,
-				gain: $gain,
-				gainPercentage: $gainPercentage,
-				gainPercentagePerAnnum: $gainPercentagePerAnnum,
-				realizedGain: $realizedGain,
-				dividendGain: $dividendGain,
-				dividendGainPercentage: $dividendGainPercentage,
-				dividendGainPercentagePerAnnum: $dividendGainPercentagePerAnnum,
-				fxImpact: $fxImpact,
-				fxImpactPercentage: $fxImpactPercentage,
-				fxImpactPercentagePerAnnum: $fxImpactPercentagePerAnnum,
-				return: $return,
-				returnPercentage: round($gainPercentage + $dividendGainPercentage + $fxImpactPercentage, 2),
-				returnPercentagePerAnnum: round($gainPercentagePerAnnum + $dividendGainPercentagePerAnnum + $fxImpactPercentagePerAnnum, 2),
-				tax: $tax,
-				fee: $fee,
+				valueInterannually: $value,
+				transactionValue: $portfolioDataToDate->transactionValue,
+				transactionValueInterannually: $transactionValue,
+				gain: $portfolioDataToDate->gain,
+				gainInterannually: $gain,
+				gainPercentage: $portfolioDataToDate->gainPercentage,
+				gainPercentageInterannually: $gainPercentage,
+				gainPercentagePerAnnum: $portfolioDataToDate->gainPercentagePerAnnum,
+				gainPercentagePerAnnumInterannually: $gainPercentagePerAnnum,
+				realizedGain: $portfolioDataToDate->realizedGain,
+				realizedGainInterannually: $realizedGain,
+				dividendGain: $portfolioDataToDate->dividendGain,
+				dividendGainInterannually: $dividendGain,
+				dividendGainPercentage: $portfolioDataToDate->dividendGainPercentage,
+				dividendGainPercentageInterannually: $dividendGainPercentage,
+				dividendGainPercentagePerAnnum: $portfolioDataToDate->dividendGainPercentagePerAnnum,
+				dividendGainPercentagePerAnnumInterannually: $dividendGainPercentagePerAnnum,
+				fxImpact: $portfolioDataToDate->fxImpact,
+				fxImpactInterannually: $fxImpact,
+				fxImpactPercentage: $portfolioDataToDate->fxImpactPercentage,
+				fxImpactPercentageInterannually: $fxImpactPercentage,
+				fxImpactPercentagePerAnnum: $portfolioDataToDate->fxImpactPercentagePerAnnum,
+				fxImpactPercentagePerAnnumInterannually: $fxImpactPercentagePerAnnum,
+				return: $portfolioDataToDate->return,
+				returnInterannually: $return,
+				returnPercentage: $portfolioDataToDate->returnPercentage,
+				returnPercentageInterannually: $returnPercentage,
+				returnPercentagePerAnnum: $portfolioDataToDate->returnPercentagePerAnnum,
+				returnPercentagePerAnnumInterannually: $returnPercentagePerAnnum,
+				tax: $portfolioDataToDate->tax,
+				taxInterannually: $tax,
+				fee: $portfolioDataToDate->fee,
+				feeInterannually: $fee,
 			);
 		}
 
