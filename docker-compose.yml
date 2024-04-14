@@ -73,7 +73,7 @@ services:
         volumes:
             - fingather_logos:/app/public/images/logos
             - ./log:/app/log
-            - ./backend/migrations:/app/migrations
+            #- ./backend/migrations:/app/migrations
             #- ./backend/src:/app/src
 
     db:
@@ -126,7 +126,7 @@ services:
             - backend
 
     buggregator:
-        image: ghcr.io/buggregator/server:1.6.3
+        image: butschster/buggregator:1.7.4
         ports:
             - 127.0.0.1:8000:8000
             - 127.0.0.1:1025:1025
