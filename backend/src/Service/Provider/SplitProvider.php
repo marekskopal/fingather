@@ -9,6 +9,7 @@ use Decimal\Decimal;
 use FinGather\Model\Entity\Split;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Repository\SplitRepository;
+use MarekSkopal\TwelveData\Enum\RangeEnum;
 use MarekSkopal\TwelveData\TwelveData;
 
 class SplitProvider
@@ -17,8 +18,8 @@ class SplitProvider
 	{
 	}
 
-	/** @return iterable<Split> */
-	public function getSplits(Ticker $ticker): iterable
+	/** @return array<Split> */
+	public function getSplits(Ticker $ticker): array
 	{
 		return $this->splitRepository->findSplits($ticker->getId());
 	}
@@ -41,6 +42,7 @@ class SplitProvider
 		$splits = $this->twelveData->getFundamentals()->splits(
 			symbol: $ticker->getTicker(),
 			micCode: $ticker->getMarket()->getMic(),
+			range: RangeEnum::Full,
 		);
 
 		foreach ($splits->splits as $split) {
