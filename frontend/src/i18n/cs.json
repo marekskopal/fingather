@@ -122,6 +122,7 @@
         "y": "r",
         "ytd": "tento rok",
         "all": "celá historie",
+        "portfolioValue": "Hodnota portfolia",
         "benchmarkAsset": "Srovnávací aktivum",
         "choose": "Vybrat"
       }

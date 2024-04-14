@@ -51,9 +51,11 @@
 </div>
 <div class="row">
     <div class="col-12">
-        <fingather-history-portfolio-value-chart
+        <fingather-portfolio-value-chart
+            [height]="'500px'"
+            [title]="'app.history.history.portfolioValue' | translate"
             [range]="range"
             [benchmarkAssetId]="benchmarkAssetId"
-        ></fingather-history-portfolio-value-chart>
+        ></fingather-portfolio-value-chart>
     </div>
 </div>

@@ -12,12 +12,17 @@ import { TranslateModule } from '@ngx-translate/core';
 import { PortfolioTotalComponent } from './components/portfolio-total/portfolio-total.component';
 import {ValueColorComponent} from "@app/shared/components/value-color/value-color.component";
 import {TableValueComponent} from "@app/shared/components/table-value/table-value.component";
+import {
+    PortfolioValueChartComponent
+} from "@app/shared/components/portfolio-value-chart/portfolio-value-chart.component";
+import {NgApexchartsModule} from "ng-apexcharts";
 
 @NgModule({
     imports: [
         CommonModule,
         ReactiveFormsModule,
-        TranslateModule
+        TranslateModule,
+        NgApexchartsModule,
     ],
     declarations: [
         PortfolioTotalComponent,
@@ -29,6 +34,7 @@ import {TableValueComponent} from "@app/shared/components/table-value/table-valu
         TickerLogoComponent,
         ValueColorComponent,
         TableValueComponent,
+        PortfolioValueChartComponent,
     ],
     exports: [
         PortfolioTotalComponent,
@@ -38,6 +44,7 @@ import {TableValueComponent} from "@app/shared/components/table-value/table-valu
         TickerLogoComponent,
         ValueColorComponent,
         TableValueComponent,
+        PortfolioValueChartComponent,
     ]
 })
 export class SharedModule { }
