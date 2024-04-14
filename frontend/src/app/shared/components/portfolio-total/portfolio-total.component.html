@@ -6,6 +6,11 @@
             </div>
             @if (portfolioData) {
                 <div class="card-body">
+                    <fingather-portfolio-value-chart
+                            [range]="PortfolioDataRangeEnum.All"
+                            [showLabels]="false"
+                    ></fingather-portfolio-value-chart>
+
                     <strong>{{portfolioData.value | number:'1.2-2' | currency: defaultCurrency.id | async}}</strong>
                 </div>
             } @else {

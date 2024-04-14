@@ -122,6 +122,7 @@
         "y": "y",
         "ytd": "YTD",
         "all": "all",
+        "portfolioValue": "Portfolio Value",
         "benchmarkAsset": "Benchmark Asset",
         "choose": "Choose"
       }

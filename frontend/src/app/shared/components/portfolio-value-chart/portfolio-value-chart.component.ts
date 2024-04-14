@@ -1,11 +1,12 @@
 import {
+    booleanAttribute,
     Component, Input, OnChanges, OnInit, ViewChild
 } from '@angular/core';
 import { PortfolioDataRangeEnum, PortfolioDataWithBenchmarkData } from '@app/models';
 import { PortfolioDataService, PortfolioService } from '@app/services';
 import {
-    ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexGrid, ApexStroke, ApexTheme,
-    ApexTitleSubtitle, ApexXAxis, ChartComponent
+    ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexGrid, ApexLegend, ApexStroke, ApexTheme,
+    ApexTitleSubtitle, ApexXAxis, ApexYAxis, ChartComponent
 } from 'ng-apexcharts';
 import { first } from 'rxjs/operators';
 
@@ -13,10 +14,12 @@ export type ChartOptions = {
     series: ApexAxisChartSeries;
     chart: ApexChart;
     xaxis: ApexXAxis;
+    yaxis: ApexYAxis;
     dataLabels: ApexDataLabels;
     grid: ApexGrid;
     stroke: ApexStroke;
     title: ApexTitleSubtitle;
+    legend: ApexLegend;
     theme: ApexTheme;
     fill: ApexFill;
     colors: string[];
@@ -24,12 +27,15 @@ export type ChartOptions = {
 
 @Component({
     templateUrl: 'portfolio-value-chart.component.html',
-    selector: 'fingather-history-portfolio-value-chart',
+    selector: 'fingather-portfolio-value-chart',
 })
 export class PortfolioValueChartComponent implements OnInit, OnChanges {
     @ViewChild('chart', { static: false }) public chart: ChartComponent;
-    @Input() public range: PortfolioDataRangeEnum;
+    @Input({required: true}) public range: PortfolioDataRangeEnum;
     @Input() public benchmarkAssetId: number | null;
+    @Input() public height: string = 'auto';
+    @Input() public showLabels: boolean | null;
+    @Input() public title: string | null;
     public chartOptions: ChartOptions;
     public loading: boolean = true;
 
@@ -37,10 +43,11 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
         private readonly portfolioDataService: PortfolioDataService,
         private readonly portfolioService: PortfolioService,
     ) {
-        this.initializeChartOptions();
     }
 
     public ngOnInit(): void {
+        this.initializeChartOptions();
+
         this.refreshChart();
 
         this.portfolioService.eventEmitter.subscribe(() => {
@@ -83,7 +90,7 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
                 },
             ],
             chart: {
-                height: '500',
+                height: this.height,
                 type: 'area',
                 zoom: {
                     enabled: false
@@ -99,7 +106,7 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
                 curve: 'smooth'
             },
             title: {
-                text: 'Portfolio Value',
+                text: this.title ?? '',
                 align: 'left'
             },
             grid: {
@@ -110,7 +117,18 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
             },
             xaxis: {
                 type: 'datetime',
-                categories: []
+                labels: {
+                    show: this.showLabels ?? true,
+                },
+                categories: [],
+            },
+            yaxis: {
+                labels: {
+                    show: this.showLabels ?? true,
+                }
+            },
+            legend: {
+                show: this.showLabels ?? true,
             },
             theme: {
                 mode: 'dark',
