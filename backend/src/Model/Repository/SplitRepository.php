@@ -10,12 +10,15 @@ use FinGather\Model\Entity\Split;
 /** @extends ARepository<Split> */
 class SplitRepository extends ARepository
 {
-	/** @return iterable<Split> */
-	public function findSplits(int $tickerId): iterable
+	/** @return array<Split> */
+	public function findSplits(int $tickerId): array
 	{
-		return $this->findAll([
-			'ticker_id' => $tickerId,
-		]);
+		return $this->select()
+			->where([
+				'ticker_id' => $tickerId,
+			])
+			->orderBy('date')
+			->fetchAll();
 	}
 
 	public function findSplit(int $tickerId, ?DateTimeImmutable $date = null): ?Split
