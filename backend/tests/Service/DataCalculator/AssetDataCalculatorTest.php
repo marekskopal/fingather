@@ -44,8 +44,20 @@ class AssetDataCalculatorTest extends TestCase
 	public function testCalculate(): void
 	{
 		$transactions = [
-			TransactionFixture::getTransaction(actionType: TransactionActionTypeEnum::Buy, units: new Decimal(1)),
-			TransactionFixture::getTransaction(actionType: TransactionActionTypeEnum::Sell, units: new Decimal(-1)),
+			TransactionFixture::getTransaction(
+				actionType: TransactionActionTypeEnum::Buy,
+				units: new Decimal(1),
+				price: new Decimal(10),
+				priceTickerCurrency: new Decimal(10),
+				priceDefaultCurrency: new Decimal(10),
+			),
+			TransactionFixture::getTransaction(
+				actionType: TransactionActionTypeEnum::Sell,
+				units: new Decimal(-1),
+				price: new Decimal(20),
+				priceTickerCurrency: new Decimal(20),
+				priceDefaultCurrency: new Decimal(20),
+			),
 		];
 
 		$assetDataCalculator = $this->createAssetDataCalculator($transactions);
@@ -57,12 +69,18 @@ class AssetDataCalculatorTest extends TestCase
 
 		$assetData = $assetDataCalculator->calculate($user, $portfolio, $asset, $dateTime);
 
+		$this->assertSame(0.0, $assetData->units->toFloat());
 		$this->assertSame(0.0, $assetData->value->toFloat());
 		$this->assertSame(0.0, $assetData->transactionValue->toFloat());
 		$this->assertSame(0.0, $assetData->transactionValueDefaultCurrency->toFloat());
-		$this->assertSame(0.0, $assetData->units->toFloat());
+		$this->assertSame(0.0, $assetData->gain->toFloat());
+		$this->assertSame(0.0, $assetData->gainDefaultCurrency->toFloat());
+		$this->assertSame(0.0, $assetData->gainPercentage);
+		$this->assertSame(10.0, $assetData->realizedGain->toFloat());
+		$this->assertSame(10.0, $assetData->realizedGainDefaultCurrency->toFloat());
 		$this->assertSame(0.0, $assetData->dividendGain->toFloat());
 		$this->assertSame(0.0, $assetData->dividendGainDefaultCurrency->toFloat());
+
 	}
 
 	private function createAssetDataCalculator(array $transactions): AssetDataCalculator
