@@ -8,7 +8,12 @@ use Decimal\Decimal;
 
 class TransactionBuyDto
 {
-	public function __construct(public Decimal $units, public Decimal $priceTickerCurrency, public Decimal $priceDefaultCurrency)
-	{
+	public function __construct(
+		public Decimal $units,
+		public Decimal $unitsWithSplits,
+		public Decimal $splitFactor,
+		public Decimal $priceTickerCurrency,
+		public Decimal $priceDefaultCurrency,
+	) {
 	}
 }

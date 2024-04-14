@@ -107,7 +107,9 @@ class AssetDataCalculator
 
 			if ($transaction->getActionType() === TransactionActionTypeEnum::Buy) {
 				$buys[] = new TransactionBuyDto(
-					units: $transactionUnitsWithSplit,
+					units: $transactionUnits,
+					unitsWithSplits: $transactionUnitsWithSplit,
+					splitFactor: $splitFactor,
 					priceTickerCurrency: $transaction->getPriceTickerCurrency(),
 					priceDefaultCurrency: $transaction->getPriceDefaultCurrency(),
 				);
@@ -123,8 +125,8 @@ class AssetDataCalculator
 			$sumBuyUnits = new Decimal(0, 18);
 
 			foreach ($buys as $buyKey => $buy) {
-				$sellValue = $buy->units->mul($transaction->getPriceTickerCurrency());
-				$sellValueDefaultCurrency = $buy->units->mul($transaction->getPriceDefaultCurrency());
+				$sellValue = $buy->unitsWithSplits->mul($transaction->getPriceTickerCurrency());
+				$sellValueDefaultCurrency = $buy->unitsWithSplits->mul($transaction->getPriceDefaultCurrency());
 
 				$buyValue = $buy->units->mul($buy->priceTickerCurrency);
 				$buyValueDefaultCurrency = $buy->units->mul($buy->priceDefaultCurrency);
@@ -134,13 +136,16 @@ class AssetDataCalculator
 					$sellValueDefaultCurrency->sub($buyValueDefaultCurrency),
 				);
 
-				$sumBuyUnits = $sumBuyUnits->add($buy->units);
+				$sumBuyUnits = $sumBuyUnits->add($buy->unitsWithSplits);
 				$transactionUnitsAbs = $transactionUnits->abs();
 
 				if ($sumBuyUnits <= $transactionUnitsAbs) {
 					unset($buys[$buyKey]);
 				} else {
-					$buys[$buyKey]->units = $sumBuyUnits->sub($transactionUnitsAbs);
+					$unitsDiffWithSplit = $sumBuyUnits->sub($transactionUnitsAbs);
+
+					$buys[$buyKey]->units = $unitsDiffWithSplit->div($buy->splitFactor);
+					$buys[$buyKey]->unitsWithSplits = $unitsDiffWithSplit;
 				}
 				if ($sumBuyUnits >= $transactionUnitsAbs) {
 					break;
