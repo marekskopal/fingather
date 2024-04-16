@@ -9,6 +9,7 @@ use FinGather\Dto\PortfolioDataDto;
 use FinGather\Dto\PortfolioDataWithBenchmarkDataDto;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Repository\Enum\OrderDirectionEnum;
+use FinGather\Model\Repository\Enum\TransactionOrderByEnum;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Route\Routes;
 use FinGather\Service\Provider\AssetProvider;
@@ -83,7 +84,7 @@ class PortfolioDataController
 			user: $user,
 			portfolio: $portfolio,
 			actionTypes: [TransactionActionTypeEnum::Buy, TransactionActionTypeEnum::Sell],
-			orderDirection: OrderDirectionEnum::ASC,
+			orderBy: [TransactionOrderByEnum::ActionCreated->value => OrderDirectionEnum::ASC],
 		);
 
 		if (count($transactions) === 0) {
