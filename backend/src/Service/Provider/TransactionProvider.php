@@ -117,7 +117,7 @@ class TransactionProvider
 			user: $user,
 			portfolio: $portfolio,
 			asset: $asset,
-			broker: $broker,
+			brokerId: $broker->getId(),
 			actionType: $actionType,
 			actionCreated: $actionCreated,
 			createType: $createType,
@@ -171,7 +171,7 @@ class TransactionProvider
 		$fee ??= new Decimal(0);
 
 		$transaction->setAsset($asset);
-		$transaction->setBroker($broker);
+		$transaction->setBrokerId($broker->getId());
 		$transaction->setActionType($actionType);
 		$transaction->setActionCreated($actionCreated);
 		$transaction->setModified($modified);

@@ -278,6 +278,7 @@ class AssetDataCalculatorTest extends TestCase
 			'Real data: Tesla' => [
 				'transactions' => [
 					TransactionFixture::getTransaction(
+						brokerId: 2,
 						actionType: TransactionActionTypeEnum::Buy,
 						actionCreated: new DateTimeImmutable('2020-07-27'),
 						units: new Decimal('0.02628947', 18),
@@ -286,6 +287,7 @@ class AssetDataCalculatorTest extends TestCase
 						priceDefaultCurrency: new Decimal('34300.90'),
 					),
 					TransactionFixture::getTransaction(
+						brokerId: 2,
 						actionType: TransactionActionTypeEnum::Sell,
 						actionCreated: new DateTimeImmutable('2020-10-14'),
 						units: new Decimal('-0.13144735', 18),
@@ -294,20 +296,13 @@ class AssetDataCalculatorTest extends TestCase
 						priceDefaultCurrency: new Decimal('10413.21'),
 					),
 					TransactionFixture::getTransaction(
+						brokerId: 2,
 						actionType: TransactionActionTypeEnum::Buy,
 						actionCreated: new DateTimeImmutable('2021-01-13'),
 						units: new Decimal('0.23817746', 18),
 						price: new Decimal('839.71'),
 						priceTickerCurrency: new Decimal('839.71'),
 						priceDefaultCurrency: new Decimal('18047.89'),
-					),
-					TransactionFixture::getTransaction(
-						actionType: TransactionActionTypeEnum::Sell,
-						actionCreated: new DateTimeImmutable('2022-03-23'),
-						units: new Decimal('-0.23817746', 18),
-						price: new Decimal('1025.41'),
-						priceTickerCurrency: new Decimal('1025.41'),
-						priceDefaultCurrency: new Decimal('22957.90'),
 					),
 					TransactionFixture::getTransaction(
 						actionType: TransactionActionTypeEnum::Buy,
@@ -325,7 +320,15 @@ class AssetDataCalculatorTest extends TestCase
 						priceTickerCurrency: new Decimal('665.35'),
 						priceDefaultCurrency: new Decimal('14415.47'),
 					),
-
+					TransactionFixture::getTransaction(
+						brokerId: 2,
+						actionType: TransactionActionTypeEnum::Sell,
+						actionCreated: new DateTimeImmutable('2022-03-23'),
+						units: new Decimal('-0.23817746', 18),
+						price: new Decimal('1025.41'),
+						priceTickerCurrency: new Decimal('1025.41'),
+						priceDefaultCurrency: new Decimal('22957.90'),
+					),
 					TransactionFixture::getTransaction(
 						actionType: TransactionActionTypeEnum::Buy,
 						actionCreated: new DateTimeImmutable('2022-05-18'),

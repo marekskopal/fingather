@@ -39,7 +39,7 @@ final readonly class TransactionDto
 		return new self(
 			id: $transaction->getId(),
 			assetId: $transaction->getAsset()->getId(),
-			brokerId: $transaction->getBroker()->getId(),
+			brokerId: $transaction->getBrokerId(),
 			actionType: $transaction->getActionType(),
 			actionCreated: DateTimeUtils::formatZulu($transaction->getActionCreated()),
 			createType: $transaction->getCreateType(),
