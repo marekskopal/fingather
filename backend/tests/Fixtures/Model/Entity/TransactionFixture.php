@@ -7,7 +7,6 @@ namespace FinGather\Tests\Fixtures\Model\Entity;
 use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Model\Entity\Asset;
-use FinGather\Model\Entity\Broker;
 use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Enum\TransactionCreateTypeEnum;
@@ -21,7 +20,7 @@ class TransactionFixture
 		?User $user = null,
 		?Portfolio $portfolio = null,
 		?Asset $asset = null,
-		?Broker $broker = null,
+		?int $brokerId = null,
 		?TransactionActionTypeEnum $actionType = null,
 		?DateTimeImmutable $actionCreated = null,
 		?TransactionCreateTypeEnum $createType = null,
@@ -47,7 +46,7 @@ class TransactionFixture
 			user: $user ?? UserFixture::getUser(),
 			portfolio: $portfolio ?? PortfolioFixture::getPortfolio(),
 			asset: $asset ?? AssetFixture::getAsset(),
-			broker: $broker ?? BrokerFixture::getBroker(),
+			brokerId: $brokerId ?? 1,
 			actionType: $actionType ?? TransactionActionTypeEnum::Buy,
 			actionCreated: $actionCreated ?? new DateTimeImmutable('2021-01-01'),
 			createType: $createType ?? TransactionCreateTypeEnum::Manual,

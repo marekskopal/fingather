@@ -106,6 +106,7 @@ class AssetDataCalculator
 
 			if ($transaction->getActionType() === TransactionActionTypeEnum::Buy) {
 				$buys[] = new TransactionBuyDto(
+					brokerId: $transaction->getBrokerId(),
 					actionCreated: $transaction->getActionCreated(),
 					units: $transactionUnits,
 					priceTickerCurrency: $transaction->getPriceTickerCurrency(),
@@ -122,7 +123,9 @@ class AssetDataCalculator
 
 			$sumBuyUnits = new Decimal(0, 18);
 
-			foreach ($buys as $buyKey => $buy) {
+			$buysForBroker = array_filter($buys, fn(TransactionBuyDto $buy) => $buy->brokerId === $transaction->getBrokerId());
+
+			foreach ($buysForBroker as $buyKey => $buy) {
 				$buySplitFactor = $this->countSplitFactor($buy->actionCreated, $transaction->getActionCreated(), $splits);
 
 				$buyUnitsWithSplits = $buy->units->mul($buySplitFactor);

@@ -6,6 +6,7 @@ namespace FinGather\Model\Entity;
 
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
+use Cycle\Annotated\Annotation\ForeignKey;
 use Cycle\Annotated\Annotation\Relation\RefersTo;
 use Cycle\ORM\Parser\Typecast;
 use DateTimeImmutable;
@@ -29,8 +30,9 @@ class Transaction extends AEntity
 		private Portfolio $portfolio,
 		#[RefersTo(target: Asset::class)]
 		private Asset $asset,
-		#[RefersTo(target: Broker::class)]
-		private Broker $broker,
+		#[Column(type: 'integer')]
+		#[ForeignKey(target: Broker::class)]
+		private int $brokerId,
 		#[Column(type: 'enum(Undefined,Buy,Sell,Dividend)', typecast: TransactionActionTypeEnum::class)]
 		private TransactionActionTypeEnum $actionType,
 		#[Column(type: 'timestamp')]
@@ -108,14 +110,14 @@ class Transaction extends AEntity
 		$this->asset = $asset;
 	}
 
-	public function getBroker(): Broker
+	public function getBrokerId(): int
 	{
-		return $this->broker;
+		return $this->brokerId;
 	}
 
-	public function setBroker(Broker $broker): void
+	public function setBrokerId(int $brokerId): void
 	{
-		$this->broker = $broker;
+		$this->brokerId = $brokerId;
 	}
 
 	public function getActionType(): TransactionActionTypeEnum

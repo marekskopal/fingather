@@ -10,6 +10,7 @@ use Decimal\Decimal;
 class TransactionBuyDto
 {
 	public function __construct(
+		public int $brokerId,
 		public DateTimeImmutable $actionCreated,
 		public Decimal $units,
 		public Decimal $priceTickerCurrency,
