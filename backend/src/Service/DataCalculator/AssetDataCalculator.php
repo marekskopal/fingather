@@ -8,8 +8,10 @@ use Decimal\Decimal;
 use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Portfolio;
+use FinGather\Model\Entity\Split;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\Enum\OrderDirectionEnum;
+use FinGather\Model\Repository\Enum\TransactionOrderByEnum;
 use FinGather\Service\DataCalculator\Dto\AssetDataDto;
 use FinGather\Service\DataCalculator\Dto\TransactionBuyDto;
 use FinGather\Service\Provider\ExchangeRateProvider;
@@ -37,7 +39,10 @@ class AssetDataCalculator
 			asset: $asset,
 			actionCreatedBefore: $dateTime,
 			actionTypes: [TransactionActionTypeEnum::Buy, TransactionActionTypeEnum::Sell, TransactionActionTypeEnum::Dividend],
-			orderDirection: OrderDirectionEnum::ASC,
+			orderBy: [
+				TransactionOrderByEnum::BrokerId->value => OrderDirectionEnum::ASC,
+				TransactionOrderByEnum::ActionCreated->value => OrderDirectionEnum::ASC,
+			],
 		);
 		if (count($transactions) === 0) {
 			return null;
@@ -92,13 +97,7 @@ class AssetDataCalculator
 				continue;
 			}
 
-			$splitFactor = new Decimal(1, 8);
-
-			foreach ($splits as $split) {
-				if ($split->getDate() >= $transaction->getActionCreated() && $split->getDate() <= $dateTime) {
-					$splitFactor = $splitFactor->mul($split->getFactor());
-				}
-			}
+			$splitFactor = $this->countSplitFactor($transaction->getActionCreated(), $dateTime, $splits);
 
 			$transactionUnits = $transaction->getUnits();
 			$transactionUnitsWithSplit = $transactionUnits->mul($splitFactor);
@@ -107,9 +106,8 @@ class AssetDataCalculator
 
 			if ($transaction->getActionType() === TransactionActionTypeEnum::Buy) {
 				$buys[] = new TransactionBuyDto(
+					actionCreated: $transaction->getActionCreated(),
 					units: $transactionUnits,
-					unitsWithSplits: $transactionUnitsWithSplit,
-					splitFactor: $splitFactor,
 					priceTickerCurrency: $transaction->getPriceTickerCurrency(),
 					priceDefaultCurrency: $transaction->getPriceDefaultCurrency(),
 				);
@@ -125,8 +123,12 @@ class AssetDataCalculator
 			$sumBuyUnits = new Decimal(0, 18);
 
 			foreach ($buys as $buyKey => $buy) {
-				$sellValue = $buy->unitsWithSplits->mul($transaction->getPriceTickerCurrency());
-				$sellValueDefaultCurrency = $buy->unitsWithSplits->mul($transaction->getPriceDefaultCurrency());
+				$buySplitFactor = $this->countSplitFactor($buy->actionCreated, $transaction->getActionCreated(), $splits);
+
+				$buyUnitsWithSplits = $buy->units->mul($buySplitFactor);
+
+				$sellValue = $buyUnitsWithSplits->mul($transaction->getPriceTickerCurrency());
+				$sellValueDefaultCurrency = $buyUnitsWithSplits->mul($transaction->getPriceDefaultCurrency());
 
 				$buyValue = $buy->units->mul($buy->priceTickerCurrency);
 				$buyValueDefaultCurrency = $buy->units->mul($buy->priceDefaultCurrency);
@@ -136,16 +138,15 @@ class AssetDataCalculator
 					$sellValueDefaultCurrency->sub($buyValueDefaultCurrency),
 				);
 
-				$sumBuyUnits = $sumBuyUnits->add($buy->unitsWithSplits);
-				$transactionUnitsAbs = $transactionUnits->abs();
+				$sumBuyUnits = $sumBuyUnits->add($buyUnitsWithSplits);
+				$transactionUnitsAbs = $transactionUnitsWithSplit->abs();
 
 				if ($sumBuyUnits <= $transactionUnitsAbs) {
 					unset($buys[$buyKey]);
 				} else {
 					$unitsDiffWithSplit = $sumBuyUnits->sub($transactionUnitsAbs);
 
-					$buys[$buyKey]->units = $unitsDiffWithSplit->div($buy->splitFactor);
-					$buys[$buyKey]->unitsWithSplits = $unitsDiffWithSplit;
+					$buys[$buyKey]->units = $unitsDiffWithSplit->div($buySplitFactor);
 				}
 				if ($sumBuyUnits >= $transactionUnitsAbs) {
 					break;
@@ -208,5 +209,19 @@ class AssetDataCalculator
 			feeDefaultCurrency: $feeDefaultCurrency,
 			firstTransactionActionCreated: $firstTransaction->getActionCreated(),
 		);
+	}
+
+	/** @param list<Split> $splits */
+	private function countSplitFactor(\DateTimeImmutable $dateFrom, \DateTimeImmutable $dateTo, array $splits): Decimal
+	{
+		$splitFactor = new Decimal(1, 8);
+
+		foreach ($splits as $split) {
+			if ($split->getDate() >= $dateFrom && $split->getDate() <= $dateTo) {
+				$splitFactor = $splitFactor->mul($split->getFactor());
+			}
+		}
+
+		return $splitFactor;
 	}
 }
