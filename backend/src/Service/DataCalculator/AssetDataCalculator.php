@@ -200,17 +200,19 @@ class AssetDataCalculator
 			$transactionValueDefaultCurrency = $transactionValueDefaultCurrency->add($transactionSumDefaultCurrency);
 		}
 
-		return new ValueDto(
-			value: $transactionValue,
-			valueDefaultCurrency: $transactionValueDefaultCurrency,
-		);
+		return new ValueDto(value: $transactionValue, valueDefaultCurrency: $transactionValueDefaultCurrency);
 	}
 
 	/**
 	 * @param list<TransactionBuyDto> $buys
 	 * @param list<Split> $splits
 	 */
-	private function countTransactionRealizedGain(array &$buys, Transaction $transaction, Decimal $transactionUnitsWithSplit, array $splits): ValueDto
+	private function countTransactionRealizedGain(
+		array &$buys,
+		Transaction $transaction,
+		Decimal $transactionUnitsWithSplit,
+		array $splits,
+	): ValueDto
 	{
 		$transactionRealizedGain = new Decimal(0);
 		$transactionRealizedGainDefaultCurrency = new Decimal(0);
@@ -250,9 +252,6 @@ class AssetDataCalculator
 			}
 		}
 
-		return new ValueDto(
-			value: $transactionRealizedGain,
-			valueDefaultCurrency: $transactionRealizedGainDefaultCurrency,
-		);
+		return new ValueDto(value: $transactionRealizedGain, valueDefaultCurrency: $transactionRealizedGainDefaultCurrency);
 	}
 }

@@ -5,9 +5,21 @@ declare(strict_types=1);
 namespace FinGather\Tests\Service\DataCalculator;
 
 use Decimal\Decimal;
+use FinGather\Model\Entity\Asset;
+use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
+use FinGather\Model\Entity\Group;
+use FinGather\Model\Entity\Market;
+use FinGather\Model\Entity\Portfolio;
+use FinGather\Model\Entity\Split;
+use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\TickerData;
+use FinGather\Model\Entity\Transaction;
+use FinGather\Model\Entity\User;
 use FinGather\Service\DataCalculator\AssetDataCalculator;
+use FinGather\Service\DataCalculator\Dto\AssetDataDto;
+use FinGather\Service\DataCalculator\Dto\TransactionBuyDto;
+use FinGather\Service\DataCalculator\Dto\ValueDto;
 use FinGather\Service\Provider\ExchangeRateProvider;
 use FinGather\Service\Provider\SplitProvider;
 use FinGather\Service\Provider\TickerDataProvider;
@@ -18,12 +30,28 @@ use FinGather\Tests\Fixtures\Model\Entity\SplitFixture;
 use FinGather\Tests\Fixtures\Model\Entity\TickerDataFixture;
 use FinGather\Tests\Fixtures\Model\Entity\TransactionFixture;
 use FinGather\Tests\Fixtures\Model\Entity\UserFixture;
+use FinGather\Utils\CalculatorUtils;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use Safe\DateTimeImmutable;
 
 #[CoversClass(AssetDataCalculator::class)]
+#[UsesClass(Asset::class)]
+#[UsesClass(Currency::class)]
+#[UsesClass(Group::class)]
+#[UsesClass(Market::class)]
+#[UsesClass(Portfolio::class)]
+#[UsesClass(Split::class)]
+#[UsesClass(Ticker::class)]
+#[UsesClass(TickerData::class)]
+#[UsesClass(Transaction::class)]
+#[UsesClass(User::class)]
+#[UsesClass(AssetDataDto::class)]
+#[UsesClass(TransactionBuyDto::class)]
+#[UsesClass(ValueDto::class)]
+#[UsesClass(CalculatorUtils::class)]
 class AssetDataCalculatorTest extends TestCase
 {
 	public function testCalculateNull(): void
