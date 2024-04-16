@@ -26,6 +26,18 @@ class EtoroMapperTest extends TestCase
 		$this->assertIsArray($mapper->getMapping());
 	}
 
+	public function testGetRecords(): void
+	{
+		$mapper = new EtoroMapper();
+
+		$fileContent = file_get_contents(__DIR__ . '/../../../Fixtures/Import/File/etoro_export.xlsx');
+
+		$records = $mapper->getRecords($fileContent);
+
+		$this->assertIsArray($records);
+		$this->assertCount(3, $records);
+	}
+
 	#[TestWith(['etoro_export.xlsx', true])]
 	#[TestWith(['anycoin_export.csv', false])]
 	#[TestWith(['interactive_brokers_export.csv', false])]
