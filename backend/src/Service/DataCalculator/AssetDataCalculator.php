@@ -9,11 +9,13 @@ use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\Split;
+use FinGather\Model\Entity\Transaction;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\Enum\OrderDirectionEnum;
 use FinGather\Model\Repository\Enum\TransactionOrderByEnum;
 use FinGather\Service\DataCalculator\Dto\AssetDataDto;
 use FinGather\Service\DataCalculator\Dto\TransactionBuyDto;
+use FinGather\Service\DataCalculator\Dto\ValueDto;
 use FinGather\Service\Provider\ExchangeRateProvider;
 use FinGather\Service\Provider\SplitProvider;
 use FinGather\Service\Provider\TickerDataProvider;
@@ -50,8 +52,6 @@ class AssetDataCalculator
 
 		$splits = $this->splitProvider->getSplits($asset->getTicker());
 
-		$transactionValue = new Decimal(0);
-		$transactionValueDefaultCurrency = new Decimal(0);
 		$units = new Decimal(0);
 		$dividendGain = new Decimal(0);
 		$dividendGainDefaultCurrency = new Decimal(0);
@@ -118,78 +118,36 @@ class AssetDataCalculator
 				continue;
 			}
 
-			$transactionRealizedGain = new Decimal(0);
-			$transactionRealizedGainDefaultCurrency = new Decimal(0);
+			$transactionRealizedGain = $this->countTransactionRealizedGain($buys, $transaction, $transactionUnitsWithSplit, $splits);
 
-			$sumBuyUnits = new Decimal(0, 18);
-
-			$buysForBroker = array_filter($buys, fn(TransactionBuyDto $buy) => $buy->brokerId === $transaction->getBrokerId());
-
-			foreach ($buysForBroker as $buyKey => $buy) {
-				$buySplitFactor = $this->countSplitFactor($buy->actionCreated, $transaction->getActionCreated(), $splits);
-
-				$buyUnitsWithSplits = $buy->units->mul($buySplitFactor);
-
-				$sellValue = $buyUnitsWithSplits->mul($transaction->getPriceTickerCurrency());
-				$sellValueDefaultCurrency = $buyUnitsWithSplits->mul($transaction->getPriceDefaultCurrency());
-
-				$buyValue = $buy->units->mul($buy->priceTickerCurrency);
-				$buyValueDefaultCurrency = $buy->units->mul($buy->priceDefaultCurrency);
-
-				$transactionRealizedGain = $transactionRealizedGain->add($sellValue->sub($buyValue));
-				$transactionRealizedGainDefaultCurrency = $transactionRealizedGainDefaultCurrency->add(
-					$sellValueDefaultCurrency->sub($buyValueDefaultCurrency),
-				);
-
-				$sumBuyUnits = $sumBuyUnits->add($buyUnitsWithSplits);
-				$transactionUnitsAbs = $transactionUnitsWithSplit->abs();
-
-				if ($sumBuyUnits <= $transactionUnitsAbs) {
-					unset($buys[$buyKey]);
-				} else {
-					$unitsDiffWithSplit = $sumBuyUnits->sub($transactionUnitsAbs);
-
-					$buys[$buyKey]->units = $unitsDiffWithSplit->div($buySplitFactor);
-				}
-				if ($sumBuyUnits >= $transactionUnitsAbs) {
-					break;
-				}
-			}
-
-			$realizedGain = $realizedGain->add($transactionRealizedGain);
-			$realizedGainDefaultCurrency = $realizedGainDefaultCurrency->add($transactionRealizedGainDefaultCurrency);
+			$realizedGain = $realizedGain->add($transactionRealizedGain->value);
+			$realizedGainDefaultCurrency = $realizedGainDefaultCurrency->add($transactionRealizedGain->valueDefaultCurrency);
 		}
 
-		foreach ($buys as $buy) {
-			$transactionSum = $buy->units->mul($buy->priceTickerCurrency);
-			$transactionSumDefaultCurrency = $buy->units->mul($buy->priceDefaultCurrency);
-
-			$transactionValue = $transactionValue->add($transactionSum);
-			$transactionValueDefaultCurrency = $transactionValueDefaultCurrency->add($transactionSumDefaultCurrency);
-		}
+		$transactionValue = $this->countTransactionValue($buys);
 
 		$lastTickerData = $this->tickerDataProvider->getLastTickerData($asset->getTicker(), $dateTime);
 		$price = $lastTickerData?->getClose() ?? new Decimal(0);
 
 		$value = $units->mul($price);
-		$gain = $value->sub($transactionValue);
+		$gain = $value->sub($transactionValue->value);
 		$gainDefaultCurrency = $gain->mul($exchangeRate);
 		$dividendGainDefaultCurrency = $dividendGainDefaultCurrency->add($dividendGainTickerCurrency->mul($exchangeRate));
-		$fxImpact = $transactionValue->mul($exchangeRate)->sub($transactionValueDefaultCurrency);
+		$fxImpact = $transactionValue->value->mul($exchangeRate)->sub($transactionValue->valueDefaultCurrency);
 
-		$gainPercentage = CalculatorUtils::toPercentage($gain, $transactionValue);
+		$gainPercentage = CalculatorUtils::toPercentage($gain, $transactionValue->value);
 		$gainPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($gainPercentage, $fromFirstTransactionDays);
-		$dividendGainPercentage = CalculatorUtils::toPercentage($dividendGain, $transactionValue);
+		$dividendGainPercentage = CalculatorUtils::toPercentage($dividendGain, $transactionValue->value);
 		$dividendGainPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($dividendGainPercentage, $fromFirstTransactionDays);
-		$fxImpactPercentage = CalculatorUtils::toPercentage($fxImpact, $transactionValueDefaultCurrency);
+		$fxImpactPercentage = CalculatorUtils::toPercentage($fxImpact, $transactionValue->valueDefaultCurrency);
 		$fxImpactPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($fxImpactPercentage, $fromFirstTransactionDays);
 
 		return new AssetDataDto(
 			price: $price,
 			units: $units,
 			value: $value->mul($exchangeRate),
-			transactionValue: $transactionValue,
-			transactionValueDefaultCurrency: $transactionValueDefaultCurrency,
+			transactionValue: $transactionValue->value,
+			transactionValueDefaultCurrency: $transactionValue->valueDefaultCurrency,
 			gain: $gain,
 			gainDefaultCurrency: $gainDefaultCurrency,
 			gainPercentage: $gainPercentage,
@@ -226,5 +184,75 @@ class AssetDataCalculator
 		}
 
 		return $splitFactor;
+	}
+
+	/** @param list<TransactionBuyDto> $buys */
+	private function countTransactionValue(array $buys): ValueDto
+	{
+		$transactionValue = new Decimal(0);
+		$transactionValueDefaultCurrency = new Decimal(0);
+
+		foreach ($buys as $buy) {
+			$transactionSum = $buy->units->mul($buy->priceTickerCurrency);
+			$transactionSumDefaultCurrency = $buy->units->mul($buy->priceDefaultCurrency);
+
+			$transactionValue = $transactionValue->add($transactionSum);
+			$transactionValueDefaultCurrency = $transactionValueDefaultCurrency->add($transactionSumDefaultCurrency);
+		}
+
+		return new ValueDto(
+			value: $transactionValue,
+			valueDefaultCurrency: $transactionValueDefaultCurrency,
+		);
+	}
+
+	/**
+	 * @param list<TransactionBuyDto> $buys
+	 * @param list<Split> $splits
+	 */
+	private function countTransactionRealizedGain(array &$buys, Transaction $transaction, Decimal $transactionUnitsWithSplit, array $splits): ValueDto
+	{
+		$transactionRealizedGain = new Decimal(0);
+		$transactionRealizedGainDefaultCurrency = new Decimal(0);
+
+		$sumBuyUnits = new Decimal(0, 18);
+
+		$buysForBroker = array_filter($buys, fn(TransactionBuyDto $buy) => $buy->brokerId === $transaction->getBrokerId());
+
+		foreach ($buysForBroker as $buyKey => $buy) {
+			$buySplitFactor = $this->countSplitFactor($buy->actionCreated, $transaction->getActionCreated(), $splits);
+
+			$buyUnitsWithSplits = $buy->units->mul($buySplitFactor);
+
+			$sellValue = $buyUnitsWithSplits->mul($transaction->getPriceTickerCurrency());
+			$sellValueDefaultCurrency = $buyUnitsWithSplits->mul($transaction->getPriceDefaultCurrency());
+
+			$buyValue = $buy->units->mul($buy->priceTickerCurrency);
+			$buyValueDefaultCurrency = $buy->units->mul($buy->priceDefaultCurrency);
+
+			$transactionRealizedGain = $transactionRealizedGain->add($sellValue->sub($buyValue));
+			$transactionRealizedGainDefaultCurrency = $transactionRealizedGainDefaultCurrency->add(
+				$sellValueDefaultCurrency->sub($buyValueDefaultCurrency),
+			);
+
+			$sumBuyUnits = $sumBuyUnits->add($buyUnitsWithSplits);
+			$transactionUnitsAbs = $transactionUnitsWithSplit->abs();
+
+			if ($sumBuyUnits <= $transactionUnitsAbs) {
+				unset($buys[$buyKey]);
+			} else {
+				$unitsDiffWithSplit = $sumBuyUnits->sub($transactionUnitsAbs);
+
+				$buys[$buyKey]->units = $unitsDiffWithSplit->div($buySplitFactor);
+			}
+			if ($sumBuyUnits >= $transactionUnitsAbs) {
+				break;
+			}
+		}
+
+		return new ValueDto(
+			value: $transactionRealizedGain,
+			valueDefaultCurrency: $transactionRealizedGainDefaultCurrency,
+		);
 	}
 }
