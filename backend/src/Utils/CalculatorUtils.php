@@ -10,15 +10,15 @@ class CalculatorUtils
 {
 	private const int DaysInYear = 365;
 
-	public static function diffToPercentage(Decimal $valueA, Decimal $valueB): float
+	public static function diffToPercentage(Decimal $valueOld, Decimal $valueNew): float
 	{
-		if ($valueB->isZero()) {
+		if ($valueOld->isZero()) {
 			return 0.0;
 		}
 
-		$percentage = abs(self::toPercentage($valueA->sub($valueB), $valueB));
+		$percentage = abs(self::toPercentage($valueOld->sub($valueNew), $valueOld));
 
-		if ($valueA < $valueB) {
+		if ($valueOld > $valueNew) {
 			return -$percentage;
 		}
 

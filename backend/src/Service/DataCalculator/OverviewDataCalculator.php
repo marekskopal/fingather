@@ -110,16 +110,16 @@ class OverviewDataCalculator
 			$tax = $portfolioDataToDate->tax->sub($portfolioDataFromDate->tax);
 			$fee = $portfolioDataToDate->fee->sub($portfolioDataFromDate->fee);
 
-			$gainPercentage = CalculatorUtils::diffToPercentage($portfolioDataToDate->gain, $portfolioDataFromDate->gain);
+			$gainPercentage = CalculatorUtils::diffToPercentage($portfolioDataFromDate->gain, $portfolioDataToDate->gain);
 			$gainPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($gainPercentage, $fromFirstTransactionDays);
 			$dividendGainPercentage = CalculatorUtils::diffToPercentage(
-				$portfolioDataToDate->dividendGain,
 				$portfolioDataFromDate->dividendGain,
+				$portfolioDataToDate->dividendGain,
 			);
 			$dividendGainPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($dividendGainPercentage, $fromFirstTransactionDays);
-			$fxImpactPercentage = CalculatorUtils::diffToPercentage($portfolioDataToDate->fxImpact, $portfolioDataFromDate->fxImpact);
+			$fxImpactPercentage = CalculatorUtils::diffToPercentage($portfolioDataFromDate->fxImpact, $portfolioDataToDate->fxImpact);
 			$fxImpactPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($fxImpactPercentage, $fromFirstTransactionDays);
-			$returnPercentage = CalculatorUtils::diffToPercentage($portfolioDataToDate->return, $portfolioDataFromDate->return);
+			$returnPercentage = CalculatorUtils::diffToPercentage($portfolioDataFromDate->return, $portfolioDataToDate->return);
 			$returnPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($returnPercentage, $fromFirstTransactionDays);
 
 			$yearCalculatedData[$i] = new YearCalculatedDataDto(
