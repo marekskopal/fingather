@@ -6,6 +6,7 @@ namespace FinGather\Service\DataCalculator;
 
 use Decimal\Decimal;
 use FinGather\Model\Entity\Asset;
+use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\Split;
@@ -78,50 +79,23 @@ class AssetDataCalculator
 		$buys = [];
 
 		foreach ($transactions as $transaction) {
-			$tax = $tax->add($transaction->getTaxTickerCurrency());
-			$taxDefaultCurrency = $taxDefaultCurrency->add($transaction->getTaxDefaultCurrency());
-			$fee = $fee->add($transaction->getFeeTickerCurrency());
-			$feeDefaultCurrency = $feeDefaultCurrency->add($transaction->getFeeDefaultCurrency());
-
-			if ($transaction->getActionType() === TransactionActionTypeEnum::Dividend) {
-				$dividendTransactionValue = $transaction->getPriceTickerCurrency();
-
-				$dividendGain = $dividendGain->add($dividendTransactionValue);
-
-				if ($transaction->getCurrency()->getId() === $defaultCurrency->getId()) {
-					$dividendGainDefaultCurrency = $dividendGainDefaultCurrency->add($transaction->getPrice());
-				} else {
-					$dividendGainTickerCurrency = $dividendGainTickerCurrency->add($dividendTransactionValue);
-				}
-
-				continue;
-			}
-
-			$splitFactor = $this->countSplitFactor($transaction->getActionCreated(), $dateTime, $splits);
-
-			$transactionUnits = $transaction->getUnits();
-			$transactionUnitsWithSplit = $transactionUnits->mul($splitFactor);
-
-			$units = $units->add($transactionUnitsWithSplit);
-
-			if ($transaction->getActionType() === TransactionActionTypeEnum::Buy) {
-				$buys[] = new TransactionBuyDto(
-					brokerId: $transaction->getBrokerId(),
-					actionCreated: $transaction->getActionCreated(),
-					units: $transactionUnits,
-					priceTickerCurrency: $transaction->getPriceTickerCurrency(),
-					priceDefaultCurrency: $transaction->getPriceDefaultCurrency(),
-				);
-			}
-
-			if ($transaction->getActionType() !== TransactionActionTypeEnum::Sell) {
-				continue;
-			}
-
-			$transactionRealizedGain = $this->countTransactionRealizedGain($buys, $transaction, $transactionUnitsWithSplit, $splits);
-
-			$realizedGain = $realizedGain->add($transactionRealizedGain->value);
-			$realizedGainDefaultCurrency = $realizedGainDefaultCurrency->add($transactionRealizedGain->valueDefaultCurrency);
+			$this->processTransaction(
+				$transaction,
+				$dateTime,
+				$defaultCurrency,
+				$splits,
+				$buys,
+				$units,
+				$realizedGain,
+				$realizedGainDefaultCurrency,
+				$dividendGain,
+				$dividendGainDefaultCurrency,
+				$dividendGainTickerCurrency,
+				$tax,
+				$taxDefaultCurrency,
+				$fee,
+				$feeDefaultCurrency,
+			);
 		}
 
 		$transactionValue = $this->countTransactionValue($buys);
@@ -170,6 +144,73 @@ class AssetDataCalculator
 			feeDefaultCurrency: $feeDefaultCurrency,
 			firstTransactionActionCreated: $firstTransaction->getActionCreated(),
 		);
+	}
+
+	/**
+	 * @param list<Split> $splits
+	 * @param list<TransactionBuyDto> $buys
+	 */
+	private function processTransaction(
+		Transaction $transaction,
+		DateTimeImmutable $dateTime,
+		Currency $defaultCurrency,
+		array $splits,
+		array &$buys,
+		Decimal &$units,
+		Decimal &$realizedGain,
+		Decimal &$realizedGainDefaultCurrency,
+		Decimal &$dividendGain,
+		Decimal &$dividendGainDefaultCurrency,
+		Decimal &$dividendGainTickerCurrency,
+		Decimal &$tax,
+		Decimal &$taxDefaultCurrency,
+		Decimal &$fee,
+		Decimal &$feeDefaultCurrency,
+	): void {
+		$tax = $tax->add($transaction->getTaxTickerCurrency());
+		$taxDefaultCurrency = $taxDefaultCurrency->add($transaction->getTaxDefaultCurrency());
+		$fee = $fee->add($transaction->getFeeTickerCurrency());
+		$feeDefaultCurrency = $feeDefaultCurrency->add($transaction->getFeeDefaultCurrency());
+
+		if ($transaction->getActionType() === TransactionActionTypeEnum::Dividend) {
+			$dividendTransactionValue = $transaction->getPriceTickerCurrency();
+
+			$dividendGain = $dividendGain->add($dividendTransactionValue);
+
+			if ($transaction->getCurrency()->getId() === $defaultCurrency->getId()) {
+				$dividendGainDefaultCurrency = $dividendGainDefaultCurrency->add($transaction->getPrice());
+			} else {
+				$dividendGainTickerCurrency = $dividendGainTickerCurrency->add($dividendTransactionValue);
+			}
+
+			return;
+		}
+
+		$splitFactor = $this->countSplitFactor($transaction->getActionCreated(), $dateTime, $splits);
+
+		$transactionUnits = $transaction->getUnits();
+		$transactionUnitsWithSplit = $transactionUnits->mul($splitFactor);
+
+		$units = $units->add($transactionUnitsWithSplit);
+
+		if ($transaction->getActionType() === TransactionActionTypeEnum::Buy) {
+			$buys[] = new TransactionBuyDto(
+				brokerId: $transaction->getBrokerId(),
+				actionCreated: $transaction->getActionCreated(),
+				units: $transactionUnits,
+				priceTickerCurrency: $transaction->getPriceTickerCurrency(),
+				priceDefaultCurrency: $transaction->getPriceDefaultCurrency(),
+			);
+		}
+
+		if ($transaction->getActionType() !== TransactionActionTypeEnum::Sell) {
+			return;
+		}
+
+		$transactionRealizedGain = $this->countTransactionRealizedGain($buys, $transaction, $transactionUnitsWithSplit, $splits);
+
+		$realizedGain = $realizedGain->add($transactionRealizedGain->value);
+		$realizedGainDefaultCurrency = $realizedGainDefaultCurrency->add($transactionRealizedGain->valueDefaultCurrency);
 	}
 
 	/** @param list<Split> $splits */
