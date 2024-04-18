@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace FinGather\Service\Provider;
 
 use Cycle\Database\Exception\StatementException\ConstrainException;
-use FinGather\Dto\AssetWithPropertiesDto;
 use FinGather\Model\Entity\Group;
 use FinGather\Model\Entity\GroupData;
 use FinGather\Model\Entity\Portfolio;
@@ -33,7 +32,7 @@ class GroupDataProvider
 			return $groupData;
 		}
 
-		$assetDtos = [];
+		$assetDatas = [];
 
 		$firstTransactionActionCreated = $dateTime;
 
@@ -48,10 +47,10 @@ class GroupDataProvider
 				$firstTransactionActionCreated = $assetData->getFirstTransactionActionCreated();
 			}
 
-			$assetDtos[] = AssetWithPropertiesDto::fromEntity($asset, $assetData);
+			$assetDatas[] = $assetData;
 		}
 
-		$calculatedData = $this->dataCalculator->calculate($assetDtos, $dateTime, $firstTransactionActionCreated);
+		$calculatedData = $this->dataCalculator->calculate($assetDatas, $dateTime, $firstTransactionActionCreated);
 
 		$groupData = new GroupData(
 			group: $group,

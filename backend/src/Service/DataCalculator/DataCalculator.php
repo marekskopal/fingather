@@ -6,19 +6,18 @@ namespace FinGather\Service\DataCalculator;
 
 use DateTimeImmutable;
 use Decimal\Decimal;
-use FinGather\Dto\AssetWithPropertiesDto;
+use FinGather\Model\Entity\AssetData;
 use FinGather\Service\DataCalculator\Dto\CalculatedDataDto;
 use FinGather\Utils\CalculatorUtils;
 
 class DataCalculator
 {
-	/** @param array<int, AssetWithPropertiesDto> $assets */
+	/** @param array<int, AssetData> $assets */
 	public function calculate(
 		array $assets,
 		DateTimeImmutable $dateTime,
 		DateTimeImmutable $firstTransactionActionCreated,
-	): CalculatedDataDto
-	{
+	): CalculatedDataDto {
 		$fromFirstTransactionDays = (int) $dateTime->diff($firstTransactionActionCreated)->days;
 
 		$sumAssetValue = new Decimal(0);
@@ -35,12 +34,6 @@ class DataCalculator
 			$sumDividendGain = $sumDividendGain->add($asset->dividendGainDefaultCurrency);
 			$sumTax = $sumTax->add($asset->taxDefaultCurrency);
 			$sumFee = $sumFee->add($asset->feeDefaultCurrency);
-
-			//if ($asset->isClosed) {
-			//	//TOOO: think twice about this
-			//	continue;
-			//}
-
 			$sumAssetValue = $sumAssetValue->add($asset->value);
 			$sumAssetTransactionValueDefaultCurrency = $sumAssetTransactionValueDefaultCurrency->add(
 				$asset->transactionValueDefaultCurrency,
