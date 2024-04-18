@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace FinGather\Service\Provider;
 
 use Cycle\Database\Exception\StatementException\ConstrainException;
-use FinGather\Dto\AssetWithPropertiesDto;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\PortfolioData;
 use FinGather\Model\Entity\User;
@@ -33,7 +32,7 @@ class PortfolioDataProvider
 			return $portfolioData;
 		}
 
-		$assetDtos = [];
+		$assetDatas = [];
 
 		$assets = $this->assetProvider->getAssets(user: $user, portfolio: $portfolio, dateTime: $dateTime);
 		foreach ($assets as $asset) {
@@ -42,7 +41,7 @@ class PortfolioDataProvider
 				continue;
 			}
 
-			$assetDtos[] = AssetWithPropertiesDto::fromEntity($asset, $assetData);
+			$assetDatas[] = $assetData;
 		}
 
 		$fistTransactionActionCreated = $this->transactionProvider->getFirstTransaction(
@@ -50,7 +49,7 @@ class PortfolioDataProvider
 			$portfolio,
 		)?->getActionCreated() ?? $dateTime;
 
-		$calculatedData = $this->dataCalculator->calculate($assetDtos, $dateTime, $fistTransactionActionCreated);
+		$calculatedData = $this->dataCalculator->calculate($assetDatas, $dateTime, $fistTransactionActionCreated);
 
 		$portfolioData = new PortfolioData(
 			user: $user,
