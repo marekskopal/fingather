@@ -6,6 +6,7 @@ namespace FinGather\Service\Provider;
 
 use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\Enum\MarketTypeEnum;
+use FinGather\Model\Entity\Enum\TickerTypeEnum;
 use FinGather\Model\Entity\Market;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Repository\CurrencyRepository;
@@ -87,7 +88,19 @@ class TickerProvider
 					continue;
 				}
 
-				$ticker = new Ticker(ticker: $stock->symbol, name: $stock->name, market: $market, currency: $currency, logo: null);
+				$ticker = new Ticker(
+					ticker: $stock->symbol,
+					name: $stock->name,
+					market: $market,
+					currency: $currency,
+					type: TickerTypeEnum::Stock,
+					logo: null,
+					sector: null,
+					industry: null,
+					website: null,
+					description: null,
+					country: null,
+				);
 				$this->tickerRepository->persist($ticker);
 			}
 
@@ -107,7 +120,19 @@ class TickerProvider
 					continue;
 				}
 
-				$ticker = new Ticker(ticker: $etf->symbol, name: $etf->name, market: $market, currency: $currency, logo: null);
+				$ticker = new Ticker(
+					ticker: $etf->symbol,
+					name: $etf->name,
+					market: $market,
+					currency: $currency,
+					type: TickerTypeEnum::Etf,
+					logo: null,
+					sector: null,
+					industry: null,
+					website: null,
+					description: null,
+					country: null,
+				);
 				$this->tickerRepository->persist($ticker);
 			}
 		}
@@ -137,10 +162,48 @@ class TickerProvider
 				name: $cryptocurrency->currencyBase,
 				market: $market,
 				currency: $currencyUsd,
+				type: TickerTypeEnum::Crypto,
 				logo: null,
+				sector: null,
+				industry: null,
+				website: null,
+				description: null,
+				country: null,
 			);
 			$this->tickerRepository->persist($ticker);
 		}
+	}
+
+	public function updateTicker(Ticker $ticker): void
+	{
+		if ($ticker->getMarket()->getType() === MarketTypeEnum::Crypto) {
+			if ($ticker->getType() !== TickerTypeEnum::Crypto) {
+				$ticker->setType(TickerTypeEnum::Crypto);
+				$this->tickerRepository->persist($ticker);
+			}
+
+			return;
+		}
+
+		try {
+			$profile = $this->twelveData->getFundamentals()->profile(
+				symbol: $ticker->getTicker(),
+				micCode: $ticker->getMarket()->getMic(),
+			);
+		} catch (NotFoundException) {
+			return;
+		}
+
+		if ($profile->type === 'ETF' && $ticker->getType() !== TickerTypeEnum::Etf) {
+			$ticker->setType(TickerTypeEnum::Etf);
+		}
+
+		$ticker->setSector($profile->sector);
+		$ticker->setIndustry($profile->industry);
+		$ticker->setWebsite($profile->website);
+		$ticker->setDescription($profile->description);
+		$ticker->setCountry($profile->country);
+		$this->tickerRepository->persist($ticker);
 	}
 
 	public function updateTickerLogo(Ticker $ticker): void
