@@ -15,6 +15,8 @@ class TransactionBuyDto
 		public Decimal $units,
 		public Decimal $priceTickerCurrency,
 		public Decimal $priceDefaultCurrency,
+		public Decimal $priceWithSplitTickerCurrency,
+		public Decimal $priceWithSplitDefaultCurrency,
 	) {
 	}
 }

@@ -19,6 +19,7 @@ use FinGather\Model\Entity\User;
 use FinGather\Service\DataCalculator\AssetDataCalculator;
 use FinGather\Service\DataCalculator\Dto\AssetDataDto;
 use FinGather\Service\DataCalculator\Dto\TransactionBuyDto;
+use FinGather\Service\DataCalculator\Dto\TransactionValueDto;
 use FinGather\Service\DataCalculator\Dto\ValueDto;
 use FinGather\Service\Provider\ExchangeRateProvider;
 use FinGather\Service\Provider\SplitProvider;
@@ -52,6 +53,7 @@ use Safe\DateTimeImmutable;
 #[UsesClass(TransactionBuyDto::class)]
 #[UsesClass(ValueDto::class)]
 #[UsesClass(CalculatorUtils::class)]
+#[UsesClass(TransactionValueDto::class)]
 class AssetDataCalculatorTest extends TestCase
 {
 	public function testCalculateNull(): void
@@ -99,10 +101,13 @@ class AssetDataCalculatorTest extends TestCase
 				'splits' => [],
 				'lastTickerDataClose' => 10.0,
 				'exchangeRate' => 1.0,
+				'price' => 10.0,
 				'units' => 0.0,
 				'value' => 0.0,
 				'transactionValue' => 0.0,
 				'transactionValueDefaultCurrency' => 0.0,
+				'averagePrice' => 0.0,
+				'averagePriceDefaultCurrency' => 0.0,
 				'gain' => 0.0,
 				'gainDefaultCurrency' => 0.0,
 				'gainPercentage' => 0.0,
@@ -146,10 +151,13 @@ class AssetDataCalculatorTest extends TestCase
 				],
 				'lastTickerDataClose' => 10.0,
 				'exchangeRate' => 1.0,
+				'price' => 10.0,
 				'units' => 0.0,
 				'value' => 0.0,
 				'transactionValue' => 0.0,
 				'transactionValueDefaultCurrency' => 0.0,
+				'averagePrice' => 0.0,
+				'averagePriceDefaultCurrency' => 0.0,
 				'gain' => 0.0,
 				'gainDefaultCurrency' => 0.0,
 				'gainPercentage' => 0.0,
@@ -193,10 +201,13 @@ class AssetDataCalculatorTest extends TestCase
 						factor: new Decimal(2),
 					),
 				],
+				'price' => 5.0,
 				'units' => 2.0,
 				'value' => 10.0,
 				'transactionValue' => 10.0,
 				'transactionValueDefaultCurrency' => 10.0,
+				'averagePrice' => 5.0,
+				'averagePriceDefaultCurrency' => 5.0,
 				'gain' => 0.0,
 				'gainDefaultCurrency' => 0.0,
 				'gainPercentage' => 0.0,
@@ -244,10 +255,13 @@ class AssetDataCalculatorTest extends TestCase
 				],
 				'lastTickerDataClose' => 7.5,
 				'exchangeRate' => 1.0,
+				'price' => 7.5,
 				'units' => 0.0,
 				'value' => 0.0,
 				'transactionValue' => 0.0,
 				'transactionValueDefaultCurrency' => 0.0,
+				'averagePrice' => 0.0,
+				'averagePriceDefaultCurrency' => 0.0,
 				'gain' => 0.0,
 				'gainDefaultCurrency' => 0.0,
 				'gainPercentage' => 0.0,
@@ -291,10 +305,13 @@ class AssetDataCalculatorTest extends TestCase
 						factor: new Decimal(2),
 					),
 				],
+				'price' => 7.5,
 				'units' => 2.0,
 				'value' => 15.0,
 				'transactionValue' => 10.0,
 				'transactionValueDefaultCurrency' => 10.0,
+				'averagePrice' => 5.0,
+				'averagePriceDefaultCurrency' => 5.0,
 				'gain' => 5.0,
 				'gainDefaultCurrency' => 5.0,
 				'gainPercentage' => 50.0,
@@ -442,10 +459,13 @@ class AssetDataCalculatorTest extends TestCase
 						factor: new Decimal(3),
 					),
 				],
+				'price' => 171.05,
 				'units' => 6.5817376,
 				'value' => 26713.355065880736,
 				'transactionValue' => 1178.896286177,
 				'transactionValueDefaultCurrency' => 26448.651147783,
+				'averagePrice' => 189.39363636363638,
+				'averagePriceDefaultCurrency' => 4291.666969696969,
 				'gain' => -53.090069697,
 				'gainDefaultCurrency' => -1259.7317917843554,
 				'gainPercentage' => -4.5,
@@ -463,10 +483,13 @@ class AssetDataCalculatorTest extends TestCase
 		array $splits,
 		float $lastTickerDataClose,
 		float $exchangeRate,
+		float $price,
 		float $units,
 		float $value,
 		float $transactionValue,
 		float $transactionValueDefaultCurrency,
+		float $averagePrice,
+		float $averagePriceDefaultCurrency,
 		float $gain,
 		float $gainDefaultCurrency,
 		float $gainPercentage,
@@ -492,10 +515,13 @@ class AssetDataCalculatorTest extends TestCase
 
 		$assetData = $assetDataCalculator->calculate($user, $portfolio, $asset, $dateTime);
 
+		$this->assertSame($price, $assetData->price->toFloat());
 		$this->assertSame($units, $assetData->units->toFloat());
 		$this->assertSame($value, $assetData->value->toFloat());
 		$this->assertSame($transactionValue, $assetData->transactionValue->toFloat());
 		$this->assertSame($transactionValueDefaultCurrency, $assetData->transactionValueDefaultCurrency->toFloat());
+		$this->assertSame($averagePrice, $assetData->averagePrice->toFloat());
+		$this->assertSame($averagePriceDefaultCurrency, $assetData->averagePriceDefaultCurrency->toFloat());
 		$this->assertSame($gain, $assetData->gain->toFloat());
 		$this->assertSame($gainDefaultCurrency, $assetData->gainDefaultCurrency->toFloat());
 		$this->assertSame($gainPercentage, $assetData->gainPercentage);

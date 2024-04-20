@@ -16,6 +16,7 @@ use FinGather\Model\Repository\Enum\OrderDirectionEnum;
 use FinGather\Model\Repository\Enum\TransactionOrderByEnum;
 use FinGather\Service\DataCalculator\Dto\AssetDataDto;
 use FinGather\Service\DataCalculator\Dto\TransactionBuyDto;
+use FinGather\Service\DataCalculator\Dto\TransactionValueDto;
 use FinGather\Service\DataCalculator\Dto\ValueDto;
 use FinGather\Service\Provider\ExchangeRateProvider;
 use FinGather\Service\Provider\SplitProvider;
@@ -122,6 +123,8 @@ class AssetDataCalculator
 			value: $value->mul($exchangeRate),
 			transactionValue: $transactionValue->value,
 			transactionValueDefaultCurrency: $transactionValue->valueDefaultCurrency,
+			averagePrice: $transactionValue->averagePrice,
+			averagePriceDefaultCurrency: $transactionValue->averagePriceDefaultCurrency,
 			gain: $gain,
 			gainDefaultCurrency: $gainDefaultCurrency,
 			gainPercentage: $gainPercentage,
@@ -200,6 +203,8 @@ class AssetDataCalculator
 				units: $transactionUnits,
 				priceTickerCurrency: $transaction->getPriceTickerCurrency(),
 				priceDefaultCurrency: $transaction->getPriceDefaultCurrency(),
+				priceWithSplitTickerCurrency: $transaction->getPriceTickerCurrency()->div($splitFactor),
+				priceWithSplitDefaultCurrency: $transaction->getPriceDefaultCurrency()->div($splitFactor),
 			);
 		}
 
@@ -228,20 +233,38 @@ class AssetDataCalculator
 	}
 
 	/** @param list<TransactionBuyDto> $buys */
-	private function countTransactionValue(array $buys): ValueDto
+	private function countTransactionValue(array $buys): TransactionValueDto
 	{
 		$transactionValue = new Decimal(0);
 		$transactionValueDefaultCurrency = new Decimal(0);
+		$averagePrice = new Decimal(0);
+		$averagePriceDefaultCurrency = new Decimal(0);
+		$priceSum = new Decimal(0);
+		$priceSumDefaultCurrency = new Decimal(0);
 
 		foreach ($buys as $buy) {
 			$transactionSum = $buy->units->mul($buy->priceTickerCurrency);
 			$transactionSumDefaultCurrency = $buy->units->mul($buy->priceDefaultCurrency);
 
+			$priceSum = $priceSum->add($buy->priceWithSplitTickerCurrency);
+			$priceSumDefaultCurrency = $priceSumDefaultCurrency->add($buy->priceWithSplitDefaultCurrency);
+
 			$transactionValue = $transactionValue->add($transactionSum);
 			$transactionValueDefaultCurrency = $transactionValueDefaultCurrency->add($transactionSumDefaultCurrency);
 		}
 
-		return new ValueDto(value: $transactionValue, valueDefaultCurrency: $transactionValueDefaultCurrency);
+		$buysCount = count($buys);
+		if ($buysCount > 0) {
+			$averagePrice = $priceSum->div($buysCount);
+			$averagePriceDefaultCurrency = $priceSumDefaultCurrency->div($buysCount);
+		}
+
+		return new TransactionValueDto(
+			value: $transactionValue,
+			valueDefaultCurrency: $transactionValueDefaultCurrency,
+			averagePrice: $averagePrice,
+			averagePriceDefaultCurrency: $averagePriceDefaultCurrency,
+		);
 	}
 
 	/**
