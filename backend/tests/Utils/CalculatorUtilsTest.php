@@ -37,7 +37,7 @@ class CalculatorUtilsTest extends TestCase
 
 	#[TestWith([10.0, 50, 10.0])]
 	#[TestWith([10.0, 730, 5.0])]
-	public function testToPercentagePerAnnum(float $percentage, float $days, float $expected): void
+	public function testToPercentagePerAnnum(float $percentage, int $days, float $expected): void
 	{
 		$toPercentage = CalculatorUtils::toPercentagePerAnnum($percentage, $days);
 

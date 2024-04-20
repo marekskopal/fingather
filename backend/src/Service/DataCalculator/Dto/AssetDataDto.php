@@ -15,6 +15,8 @@ readonly class AssetDataDto
 		public Decimal $value,
 		public Decimal $transactionValue,
 		public Decimal $transactionValueDefaultCurrency,
+		public Decimal $averagePrice,
+		public Decimal $averagePriceDefaultCurrency,
 		public Decimal $gain,
 		public Decimal $gainDefaultCurrency,
 		public Decimal $realizedGain,

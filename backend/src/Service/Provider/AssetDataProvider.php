@@ -51,6 +51,8 @@ class AssetDataProvider
 			value: $assetDataDto->value,
 			transactionValue: $assetDataDto->transactionValue,
 			transactionValueDefaultCurrency: $assetDataDto->transactionValueDefaultCurrency,
+			averagePrice: $assetDataDto->averagePrice,
+			averagePriceDefaultCurrency: $assetDataDto->averagePriceDefaultCurrency,
 			gain: $assetDataDto->gain,
 			gainDefaultCurrency: $assetDataDto->gainDefaultCurrency,
 			gainPercentage: $assetDataDto->gainPercentage,
