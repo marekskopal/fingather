@@ -28,6 +28,11 @@ class TickerUpdateCommand extends Command
 
 		$tickerProvider->updateTickers();
 
+		$activeTickers = $tickerProvider->getActiveTickers();
+		foreach ($activeTickers as $ticker) {
+			$tickerProvider->updateTicker($ticker);
+		}
+
 		$output->writeln('Tickers was updated.');
 
 		return 0;
