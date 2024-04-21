@@ -7,8 +7,14 @@ export class AssetWithProperties {
     public price: number;
     public units: number;
     public value: number;
+    public transactionValue: number;
+    public transactionValueDefaultCurrency: number;
+    public averagePrice: number;
+    public averagePriceDefaultCurrency: number;
     public gain: number;
     public gainDefaultCurrency: number;
+    public realizedGain: number;
+    public realizedGainDefaultCurrency: number;
     public gainPercentage: number;
     public gainPercentagePerAnnum: number;
     public dividendGain: number;
@@ -21,6 +27,10 @@ export class AssetWithProperties {
     public return: number;
     public returnPercentage: number;
     public returnPercentagePerAnnum: number;
+    public tax: number;
+    public taxDefaultCurrency: number;
+    public fee: number;
+    public feeDefaultCurrency: number;
 
     public ticker: Ticker;
 }
