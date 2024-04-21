@@ -1,15 +1,15 @@
 import {
     Component, Input, OnInit, ViewChild
 } from '@angular/core';
-import { TickerData } from '@app/models';
-import { TickerDataService } from '@app/services';
+import {AssetWithProperties, TickerData} from '@app/models';
+import {AssetService, TickerDataService} from '@app/services';
 import {
+    ApexAnnotations,
     ApexAxisChartSeries,
-    ApexChart,
+    ApexChart, ApexDataLabels, ApexFill, ApexStroke,
     ApexTheme,
     ApexTitleSubtitle,
     ApexXAxis,
-    ApexYAxis,
     ChartComponent
 } from 'ng-apexcharts';
 import { first } from 'rxjs/operators';
@@ -17,10 +17,14 @@ import { first } from 'rxjs/operators';
 export type ChartOptions = {
     series: ApexAxisChartSeries;
     chart: ApexChart;
+    dataLabels: ApexDataLabels,
+    stroke: ApexStroke,
     xaxis: ApexXAxis;
-    yaxis: ApexYAxis;
+    annotations: ApexAnnotations;
     title: ApexTitleSubtitle;
     theme: ApexTheme,
+    fill: ApexFill,
+    colors: string[],
 };
 
 @Component({
@@ -29,23 +33,45 @@ export type ChartOptions = {
 })
 export class AssetTickerChartComponent implements OnInit {
     @ViewChild('chart', { static: false }) public chart: ChartComponent;
-    @Input() public assetTickerId: string;
-    public assetTickerDatas: TickerData[] | null = null;
+    @Input() public assetId: number;
+    @Input() public assetTickerId: number;
     public chartOptions: ChartOptions;
+    public loading: boolean = true;
 
     public constructor(
-        private assetTickerDataService: TickerDataService,
+        private readonly tickerDataService: TickerDataService,
+        private readonly assetService: AssetService,
     ) {
-        this.initializeChartOptions();
     }
 
     public ngOnInit(): void {
-        this.assetTickerDataService.getTickerDatas(parseInt(this.assetTickerId, 10))
+        this.initializeChartOptions();
+
+        this.refreshChart();
+    }
+
+    private async refreshChart(): Promise<void> {
+        this.loading = true;
+
+        this.tickerDataService.getTickerDatas(this.assetTickerId)
             .pipe(first())
             .subscribe((assetTickerDatas) => {
-                this.chartOptions.series = [{
-                    data: this.mapAssetTickerData(assetTickerDatas)
-                }];
+                const assetTickerData = this.mapAssetTickerData(assetTickerDatas);
+
+                this.chartOptions.xaxis.categories = assetTickerData.categories;
+                this.chartOptions.series[0].data = assetTickerData.series;
+
+                this.assetService.getAsset(this.assetId)
+                    .pipe(first())
+                    .subscribe((asset: AssetWithProperties) => {
+                        console.log(asset.averagePrice);
+                        // @ts-ignore
+                        this.chartOptions.annotations.yaxis[0].y = asset.averagePrice;
+                        // @ts-ignore
+                        this.chartOptions.annotations.yaxis[0].label.text = 'Average Buy Price - ' + asset.averagePrice;
+
+                        this.loading = false;
+                    });
             });
     }
 
@@ -53,46 +79,79 @@ export class AssetTickerChartComponent implements OnInit {
         this.chartOptions = {
             series: [
                 {
-                    data: []
-                }
+                    name: 'Price',
+                    data: [],
+                },
             ],
             chart: {
-                type: 'candlestick',
-                height: 500
+                height: 500,
+                type: 'area',
+                zoom: {
+                    enabled: false
+                },
+                toolbar: {
+                    show: false
+                }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                curve: 'smooth'
             },
             title: {
-                text: 'CandleStick Chart',
+                text: '',
                 align: 'left'
             },
             xaxis: {
-                type: 'datetime'
+                type: 'datetime',
+                categories: [],
             },
-            yaxis: {
-                tooltip: {
-                    enabled: true
-                }
+            annotations: {
+                yaxis: [
+                    {
+                        y: 0,
+                        borderColor: '#6bf5ff',
+                        label: {
+                            borderColor: '#6bf5ff',
+                            style: {
+                                color: '#1b2627',
+                                background: '#6bf5ff',
+                            },
+                            text: 'Average Buy Price - ',
+                        }
+                    }
+                ]
             },
             theme: {
                 mode: 'dark'
-            }
+            },
+            fill: {
+                type: 'gradient',
+                gradient: {
+                    shadeIntensity: 1,
+                    inverseColors: false,
+                    opacityFrom: 0.5,
+                    opacityTo: 0,
+                    stops: [0, 90, 100]
+                },
+            },
+            colors: ['#64ee85']
         };
     }
 
-    private mapAssetTickerData(assetTickerDatas: TickerData[]): { x: Date, y: number[] }[] {
-        const chartData = [];
+    private mapAssetTickerData(assetTickerDatas: TickerData[]): { series: number[], categories: string[] } {
+        const series: number[] = [];
+        const categories: string[] = [];
 
         for (const assetTickerData of assetTickerDatas) {
-            chartData.push({
-                x: new Date(assetTickerData.date),
-                y: [
-                    parseFloat(assetTickerData.open),
-                    parseFloat(assetTickerData.high),
-                    parseFloat(assetTickerData.low),
-                    parseFloat(assetTickerData.close),
-                ]
-            });
+            series.push(parseFloat(assetTickerData.close));
+            categories.push(assetTickerData.date);
         }
 
-        return chartData;
+        return {
+            series,
+            categories,
+        };
     }
 }
