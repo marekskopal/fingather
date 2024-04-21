@@ -10,6 +10,6 @@ COPY ./src /app/src
 COPY ./angular.json ./tsconfig.app.json ./tsconfig.json ./tsconfig.spec.json ./
 RUN npm run build-prod
 
-FROM nginx:1.25.4-alpine as runtime
+FROM nginx:1.25.5-alpine as runtime
 COPY --from=build /app/dist/fingather /usr/share/nginx/html
 COPY ["./conf/default.conf","/etc/nginx/conf.d/default.conf"]

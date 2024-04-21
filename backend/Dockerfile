@@ -1,6 +1,6 @@
 FROM spiralscout/roadrunner:2024.1.0 AS roadrunner
 FROM composer:2.7.2 AS composer
-FROM phusion/baseimage:jammy-1.0.3 AS php
+FROM phusion/baseimage:jammy-1.0.4 AS php
 
 RUN LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php && \
     apt-get update && \
