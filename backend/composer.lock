@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b4a64ffff07bfe7292ec35065c3cd532",
+    "content-hash": "85d7f97451cd7ae336503d3b02c9ad72",
     "packages": [
         {
             "name": "brick/math",
@@ -1919,16 +1919,16 @@
         },
         {
             "name": "marekskopal/twelvedata",
-            "version": "v0.2.1",
+            "version": "v0.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/marekskopal/twelvedata.git",
-                "reference": "f1f466af47c398e957ae204f77d2e4d8d7573547"
+                "reference": "b69f69f86d30ba961dcc5315c372a9f8eda1d783"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/marekskopal/twelvedata/zipball/f1f466af47c398e957ae204f77d2e4d8d7573547",
-                "reference": "f1f466af47c398e957ae204f77d2e4d8d7573547",
+                "url": "https://api.github.com/repos/marekskopal/twelvedata/zipball/b69f69f86d30ba961dcc5315c372a9f8eda1d783",
+                "reference": "b69f69f86d30ba961dcc5315c372a9f8eda1d783",
                 "shasum": ""
             },
             "require": {
@@ -1971,9 +1971,9 @@
             "homepage": "https://www.fingather.com",
             "support": {
                 "issues": "https://github.com/marekskopal/twelvedata/issues",
-                "source": "https://github.com/marekskopal/twelvedata/tree/v0.2.1"
+                "source": "https://github.com/marekskopal/twelvedata/tree/v0.3.0"
             },
-            "time": "2024-02-12T15:37:56+00:00"
+            "time": "2024-04-20T08:43:28+00:00"
         },
         {
             "name": "markbaker/complex",
