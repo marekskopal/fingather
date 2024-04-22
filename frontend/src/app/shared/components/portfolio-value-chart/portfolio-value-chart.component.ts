@@ -1,5 +1,4 @@
 import {
-    booleanAttribute,
     Component, Input, OnChanges, OnInit, ViewChild
 } from '@angular/core';
 import { PortfolioDataRangeEnum, PortfolioDataWithBenchmarkData } from '@app/models';
@@ -47,6 +46,7 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
 
     public ngOnInit(): void {
         this.initializeChartOptions();
+        this.initializeBenchmarkChartOptions();
 
         this.refreshChart();
 
@@ -56,6 +56,7 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
     }
 
     public ngOnChanges(): void {
+        this.initializeBenchmarkChartOptions();
         this.refreshChart();
     }
 
@@ -82,10 +83,6 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
             series: [
                 {
                     name: 'Value',
-                    data: [],
-                },
-                {
-                    name: 'Benchmark',
                     data: [],
                 },
             ],
@@ -143,8 +140,30 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
                     stops: [0, 90, 100]
                 },
             },
-            colors: ['#64ee85', '#6bf5ff']
+            colors: ['#64ee85']
         };
+
+        if (this.benchmarkAssetId !== undefined && this.benchmarkAssetId !== null) {
+            this.chartOptions.series[1] = {
+                name: 'Benchmark',
+                data: [],
+            };
+
+            this.chartOptions.colors[1] = '#6bf5ff';
+        }
+    }
+
+    private initializeBenchmarkChartOptions() {
+        if (this.benchmarkAssetId === undefined || this.benchmarkAssetId === null) {
+            return;
+        }
+
+        this.chartOptions.series[1] = {
+            name: 'Benchmark',
+            data: [],
+        };
+
+        this.chartOptions.colors[1] = '#6bf5ff';
     }
 
     private mapChart(
