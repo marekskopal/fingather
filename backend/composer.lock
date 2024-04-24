@@ -1919,16 +1919,16 @@
         },
         {
             "name": "marekskopal/twelvedata",
-            "version": "v0.3.0",
+            "version": "v0.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/marekskopal/twelvedata.git",
-                "reference": "b69f69f86d30ba961dcc5315c372a9f8eda1d783"
+                "reference": "faad97c0afdc269853439c895d95e263da0d96b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/marekskopal/twelvedata/zipball/b69f69f86d30ba961dcc5315c372a9f8eda1d783",
-                "reference": "b69f69f86d30ba961dcc5315c372a9f8eda1d783",
+                "url": "https://api.github.com/repos/marekskopal/twelvedata/zipball/faad97c0afdc269853439c895d95e263da0d96b8",
+                "reference": "faad97c0afdc269853439c895d95e263da0d96b8",
                 "shasum": ""
             },
             "require": {
@@ -1971,9 +1971,9 @@
             "homepage": "https://www.fingather.com",
             "support": {
                 "issues": "https://github.com/marekskopal/twelvedata/issues",
-                "source": "https://github.com/marekskopal/twelvedata/tree/v0.3.0"
+                "source": "https://github.com/marekskopal/twelvedata/tree/v0.3.1"
             },
-            "time": "2024-04-20T08:43:28+00:00"
+            "time": "2024-04-24T10:46:44+00:00"
         },
         {
             "name": "markbaker/complex",

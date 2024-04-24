@@ -5,3 +5,4 @@ BASH_ENV=/etc/profile.d/container_environment.sh
 00 2 * * *  root /app/bin/console tickerData:update >> /app/log/cron.log 2>&1
 30 2 * * *  root /app/bin/console split:update >> /app/log/cron.log 2>&1
 0 1 * * 7   root /app/bin/console tickerLogo:update >> /app/log/cron.log 2>&1
+00 3 * * *  root /app/bin/console tickerFundamental:update >> /app/log/cron.log 2>&1
