@@ -83,4 +83,11 @@ class TickerRepository extends ARepository
 
 		return $tickerSelect->fetchOne();
 	}
+
+	public function findTickerByIsin(string $isin): ?Ticker
+	{
+		return $this->findOne([
+			'isin' => $isin,
+		]);
+	}
 }

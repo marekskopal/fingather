@@ -54,6 +54,7 @@ use Http\Discovery\Psr17FactoryDiscovery;
 use League\Container\Container;
 use League\Container\ReflectionContainer;
 use MarekSkopal\BuggregatorClient\Middleware\XhprofMiddleware;
+use MarekSkopal\OpenFigi\OpenFigi;
 use MarekSkopal\Router\Builder\RouterBuilder;
 use MarekSkopal\TwelveData\Config\Config;
 use MarekSkopal\TwelveData\TwelveData;
@@ -96,6 +97,12 @@ final class ApplicationFactory
 		$container->add(
 			TwelveData::class,
 			fn (): TwelveData => new TwelveData(new Config((string) getenv('TWELVEDATA_API_KEY'))),
+		);
+
+		$openfigiApiKey = (string) getenv('OPENFIGI_API_KEY');
+		$container->add(
+			OpenFigi::class,
+			fn (): OpenFigi => new OpenFigi(new \MarekSkopal\OpenFigi\Config\Config($openfigiApiKey !== '' ? $openfigiApiKey : null)),
 		);
 
 		$container->add(ORM::class, $dbContext->getOrm());

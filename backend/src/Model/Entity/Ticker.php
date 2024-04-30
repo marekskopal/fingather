@@ -25,6 +25,8 @@ class Ticker extends AEntity
 		#[Column(type: 'enum(Stock,Etf,Crypto)', default: TickerTypeEnum::Stock->value, typecast: TickerTypeEnum::class)]
 		private TickerTypeEnum $type,
 		#[Column(type: 'string', nullable: true)]
+		private ?string $isin,
+		#[Column(type: 'string', nullable: true)]
 		private ?string $logo,
 		#[Column(type: 'string', nullable: true)]
 		private ?string $sector,
@@ -67,6 +69,16 @@ class Ticker extends AEntity
 	public function setMarket(Market $market): void
 	{
 		$this->market = $market;
+	}
+
+	public function getIsin(): ?string
+	{
+		return $this->isin;
+	}
+
+	public function setIsin(?string $isin): void
+	{
+		$this->isin = $isin;
 	}
 
 	public function getCurrency(): Currency

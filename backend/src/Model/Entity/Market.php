@@ -23,6 +23,8 @@ class Market extends AEntity
 		#[Column(type: 'string(5)')]
 		private string $mic,
 		#[Column(type: 'string(2)')]
+		private string $exchangeCode,
+		#[Column(type: 'string(2)')]
 		private string $country,
 		#[Column(type: 'string')]
 		private string $city,
@@ -71,6 +73,16 @@ class Market extends AEntity
 	public function setMic(string $mic): void
 	{
 		$this->mic = $mic;
+	}
+
+	public function getExchangeCode(): string
+	{
+		return $this->exchangeCode;
+	}
+
+	public function setExchangeCode(string $exchangeCode): void
+	{
+		$this->exchangeCode = $exchangeCode;
 	}
 
 	public function getCountry(): string

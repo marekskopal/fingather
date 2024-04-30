@@ -11,6 +11,7 @@ readonly class TransactionRecord
 {
 	public function __construct(
 		public ?string $ticker = null,
+		public ?string $isin = null,
 		public ?string $marketMic = null,
 		public ?string $actionType = null,
 		public ?DateTimeImmutable $created = null,

@@ -38,7 +38,8 @@
         "spiral/roadrunner-kv": "^4.0",
         "marekskopal/cycle-decimal": "^0.3",
         "marekskopal/buggregator-client": "^0.1.0",
-        "marekskopal/router": "^1.0"
+        "marekskopal/router": "^1.0",
+        "marekskopal/openfigi": "^0.2"
     },
     "require-dev": {
         "phpstan/phpstan": "^1.10",
