@@ -11,6 +11,9 @@ use FinGather\Model\Entity\Market;
 /** @extends Repository<Market> */
 class MarketRepository extends Repository
 {
+	/** @var array<string,Market|null> */
+	private array $marketsByExchangeCode = [];
+
 	/** @return iterable<Market> */
 	public function findMarkets(?MarketTypeEnum $type = null): iterable
 	{
@@ -35,5 +38,18 @@ class MarketRepository extends Repository
 		return $this->findOne([
 			'type' => $type->value,
 		]);
+	}
+
+	public function findMarketByExchangeCode(string $exchangeCode): ?Market
+	{
+		if (isset($this->marketsByExchangeCode[$exchangeCode])) {
+			return $this->marketsByExchangeCode[$exchangeCode];
+		}
+
+		$this->marketsByExchangeCode[$exchangeCode] = $this->findOne([
+			'exchange_code' => $exchangeCode,
+		]);
+
+		return $this->marketsByExchangeCode[$exchangeCode];
 	}
 }

@@ -93,12 +93,38 @@ final class ImportService
 
 			$importMappings = $this->importMappingProvider->getImportMappings($user, $portfolio, $broker);
 
+			$transactionRecords = [];
 			foreach ($importMapper->getRecords($importDataFile->contents) as $record) {
 				/** @var array<string, string> $record */
 				$transactionRecord = $this->mapTransactionRecord($importMapper, $record);
 
+				if (!isset($transactionRecord->ticker) && !isset($transactionRecord->isin)) {
+					$this->logger->log('import', 'Ticker or ISIN not found: ' . implode(',', $record));
+					continue;
+				}
+
+				$transactionRecords[] = $transactionRecord;
+			}
+
+			$isinsToCreate = [];
+			foreach ($transactionRecords as $transactionRecord) {
+				if (!isset($transactionRecord->isin)) {
+					continue;
+				}
+
+				if ($this->tickerProvider->getTickerByIsin($transactionRecord->isin) !== null) {
+					continue;
+				}
+
+				$isinsToCreate[] = $transactionRecord->isin;
+			}
+
+			if (count($isinsToCreate) > 0) {
+				$this->tickerProvider->updateTickerIsins($isinsToCreate);
+			}
+
+			foreach ($transactionRecords as $transactionRecord) {
 				if (!isset($transactionRecord->ticker)) {
-					$this->logger->log('import', 'Ticker not found: ' . implode(',', $record));
 					continue;
 				}
 
@@ -199,18 +225,25 @@ final class ImportService
 					continue;
 				}
 
-				if (!isset($transactionRecord->ticker)) {
-					$this->logger->log('import', 'Ticker not found: ' . implode(',', $record));
-					continue;
+				$ticker = null;
+				if ($transactionRecord->isin !== null) {
+					$ticker = $this->tickerProvider->getTickerByIsin($transactionRecord->isin);
 				}
 
-				$tickerKey = $broker->getId() . '-' . $transactionRecord->ticker;
-				$ticker = array_key_exists($tickerKey, $importMappings)
-					? $importMappings[$tickerKey]->getTicker()
-					: $this->tickerProvider->getTickerByTicker($transactionRecord->ticker);
 				if ($ticker === null) {
-					$this->logger->log('import', 'Ticker not created: ' . implode(',', $record));
-					continue;
+					if (!isset($transactionRecord->ticker)) {
+						$this->logger->log('import', 'Ticker not found: ' . implode(',', $record));
+						continue;
+					}
+
+					$tickerKey = $broker->getId() . '-' . $transactionRecord->ticker;
+					$ticker = array_key_exists($tickerKey, $importMappings)
+						? $importMappings[$tickerKey]->getTicker()
+						: $this->tickerProvider->getTickerByTicker($transactionRecord->ticker);
+					if ($ticker === null) {
+						$this->logger->log('import', 'Ticker not created: ' . implode(',', $record));
+						continue;
+					}
 				}
 
 				$asset = $this->assetRepository->findAssetByTickerId($user->getId(), $portfolio->getId(), $ticker->getId());

@@ -12,6 +12,9 @@ use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Repository\CurrencyRepository;
 use FinGather\Model\Repository\MarketRepository;
 use FinGather\Model\Repository\TickerRepository;
+use MarekSkopal\OpenFigi\Dto\MappingJob;
+use MarekSkopal\OpenFigi\Enum\IdTypeEnum;
+use MarekSkopal\OpenFigi\OpenFigi;
 use MarekSkopal\TwelveData\Exception\NotFoundException;
 use MarekSkopal\TwelveData\TwelveData;
 use Safe\Exceptions\FilesystemException;
@@ -29,6 +32,7 @@ class TickerProvider
 		private readonly MarketRepository $marketRepository,
 		private readonly CurrencyRepository $currencyRepository,
 		private readonly TwelveData $twelveData,
+		private readonly OpenFigi $openFigi,
 	) {
 	}
 
@@ -65,6 +69,11 @@ class TickerProvider
 		return $this->tickerRepository->findTickerByTicker($ticker, $market?->getId());
 	}
 
+	public function getTickerByIsin(string $isin): ?Ticker
+	{
+		return $this->tickerRepository->findTickerByIsin($isin);
+	}
+
 	public function updateTickers(): void
 	{
 		$markets = $this->marketRepository->findMarkets(type: MarketTypeEnum::Stock);
@@ -94,6 +103,7 @@ class TickerProvider
 					market: $market,
 					currency: $currency,
 					type: TickerTypeEnum::Stock,
+					isin: null,
 					logo: null,
 					sector: null,
 					industry: null,
@@ -126,6 +136,7 @@ class TickerProvider
 					market: $market,
 					currency: $currency,
 					type: TickerTypeEnum::Etf,
+					isin: null,
 					logo: null,
 					sector: null,
 					industry: null,
@@ -163,6 +174,7 @@ class TickerProvider
 				market: $market,
 				currency: $currencyUsd,
 				type: TickerTypeEnum::Crypto,
+				isin: null,
 				logo: null,
 				sector: null,
 				industry: null,
@@ -259,5 +271,63 @@ class TickerProvider
 
 		$ticker->setLogo(self::LOGOS_API_DIR . $filename);
 		$this->tickerRepository->persist($ticker);
+	}
+
+	/** @param list<string> $isins */
+	public function updateTickerIsins(array $isins): void
+	{
+		$maxJobsPerRequest = $this->openFigi->getMaxJobsPerRequest();
+
+		$i = 0;
+		$remains = count($isins);
+		$batchIsins = [];
+		foreach ($isins as $isin) {
+			$i++;
+			$batchIsins[] = $isin;
+
+			$batchSize = min($maxJobsPerRequest, $remains);
+			if ($i !== $batchSize) {
+				continue;
+			}
+
+			$batchMappingResults = $this->openFigi->mapping(
+				array_map(
+					fn(string $isin): MappingJob => new MappingJob(
+						idType: IdTypeEnum::Isin,
+						idValue: $isin,
+					),
+					$batchIsins,
+				),
+			);
+
+			$j = 0;
+			foreach ($batchMappingResults as $mappingResults) {
+				if ($mappingResults === null) {
+					continue;
+				}
+
+				foreach ($mappingResults as $mappingResult) {
+					$market = $this->marketRepository->findMarketByExchangeCode($mappingResult->exchCode);
+					if ($market === null) {
+						continue;
+					}
+
+					$ticker = $this->tickerRepository->findTickerByTicker($mappingResult->ticker, $market->getId());
+					if ($ticker === null) {
+						continue;
+					}
+
+					$ticker->setIsin($batchIsins[$j]);
+					$this->tickerRepository->persist($ticker);
+				}
+
+				$j++;
+			}
+
+			$i = 0;
+			$batchIsins = [];
+
+			$remains -= $batchSize;
+		}
 	}
 }
