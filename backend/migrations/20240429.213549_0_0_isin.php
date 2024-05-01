@@ -30,7 +30,7 @@ class IsinMigration extends Migration
 		$this->database()->update('markets')->set('exchange_code', 'PQ')->where('id', 12)->run();
 		$this->database()->update('markets')->set('exchange_code', 'UF')->where('id', 13)->run();
 		$this->database()->update('markets')->set('exchange_code', '')->where('id', 14)->run();
-		$this->database()->update('markets')->set('exchange_code', 'LI')->where('id', 15)->run();
+		$this->database()->update('markets')->set('exchange_code', 'LN')->where('id', 15)->run();
 		$this->database()->update('markets')->set('exchange_code', 'FP')->where('id', 16)->run();
 		$this->database()->update('markets')->set('exchange_code', 'BB')->where('id', 17)->run();
 		$this->database()->update('markets')->set('exchange_code', 'NA')->where('id', 18)->run();
@@ -44,6 +44,7 @@ class IsinMigration extends Migration
 		$this->database()->update('markets')->set('exchange_code', 'GD')->where('id', 26)->run();
 		$this->database()->update('markets')->set('exchange_code', 'GH')->where('id', 27)->run();
 		$this->database()->update('markets')->set('exchange_code', 'AV')->where('id', 28)->run();
+		$this->database()->update('markets')->set('exchange_code', 'FH')->where('id', 29)->run();
 		$this->database()->update('markets')->set('exchange_code', 'ID')->where('id', 30)->run();
 		$this->database()->update('markets')->set('exchange_code', '')->where('id', 31)->run();
 		$this->database()->update('markets')->set('exchange_code', '')->where('id', 32)->run();
@@ -87,7 +88,7 @@ class IsinMigration extends Migration
 		$this->database()->update('markets')->set('exchange_code', 'MK')->where('id', 70)->run();
 		$this->database()->update('markets')->set('exchange_code', 'QD')->where('id', 71)->run();
 
-		$this->database()->update('markets')->set('ticker', 'XSAU')->where('id', 72)->run();
+		$this->database()->update('markets')->set('mic', 'XSAU')->where('id', 72)->run();
 		$this->database()->update('markets')->set('exchange_code', 'AB')->where('id', 72)->run();
 
 		$this->database()->update('markets')->set('exchange_code', 'SP')->where('id', 73)->run();

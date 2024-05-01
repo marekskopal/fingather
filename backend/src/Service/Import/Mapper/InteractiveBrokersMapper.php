@@ -20,6 +20,7 @@ class InteractiveBrokersMapper extends CsvMapper
 			'actionType' => 'Buy/Sell',
 			'created' => fn (array $record): string => str_replace(';', ' ', $record['DateTime']),
 			'ticker' => 'Symbol',
+			'isin' => 'ISIN',
 			'marketMic' => fn (array $record): string => 'X' . $record['Exchange'],
 			'units' => 'Quantity',
 			'price' => 'TradePrice',

@@ -13,6 +13,7 @@ use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Enum\TransactionCreateTypeEnum;
 use FinGather\Model\Entity\Import;
+use FinGather\Model\Entity\ImportMapping;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\User;
@@ -93,85 +94,18 @@ final class ImportService
 
 			$importMappings = $this->importMappingProvider->getImportMappings($user, $portfolio, $broker);
 
-			$transactionRecords = [];
-			foreach ($importMapper->getRecords($importDataFile->contents) as $record) {
-				/** @var array<string, string> $record */
-				$transactionRecord = $this->mapTransactionRecord($importMapper, $record);
+			$transactionRecords = $this->getTransactionRecords($importMapper, $importDataFile);
 
-				if (!isset($transactionRecord->ticker) && !isset($transactionRecord->isin)) {
-					$this->logger->log('import', 'Ticker or ISIN not found: ' . implode(',', $record));
-					continue;
-				}
+			$this->createIsinsFromTransactionRecords($transactionRecords);
 
-				$transactionRecords[] = $transactionRecord;
-			}
-
-			$isinsToCreate = [];
-			foreach ($transactionRecords as $transactionRecord) {
-				if (!isset($transactionRecord->isin)) {
-					continue;
-				}
-
-				if ($this->tickerProvider->getTickerByIsin($transactionRecord->isin) !== null) {
-					continue;
-				}
-
-				$isinsToCreate[] = $transactionRecord->isin;
-			}
-
-			if (count($isinsToCreate) > 0) {
-				$this->tickerProvider->updateTickerIsins($isinsToCreate);
-			}
-
-			foreach ($transactionRecords as $transactionRecord) {
-				if (!isset($transactionRecord->ticker)) {
-					continue;
-				}
-
-				$tickerKey = $brokerId . '-' . $transactionRecord->ticker;
-
-				if (array_key_exists($tickerKey, $notFoundTickers)) {
-					continue;
-				}
-				if (array_key_exists($tickerKey, $multipleFoundTickers)) {
-					continue;
-				}
-				if (array_key_exists($tickerKey, $okFoundTickers)) {
-					continue;
-				}
-
-				if (array_key_exists($tickerKey, $importMappings)) {
-					$okFoundTickers[$tickerKey] = new PrepareImportTicker(
-						brokerId: $brokerId,
-						ticker: $transactionRecord->ticker,
-						tickers: [$importMappings[$tickerKey]->getTicker()],
-					);
-					continue;
-				}
-
-				$countTicker = $this->tickerProvider->countTickersByTicker($transactionRecord->ticker);
-				if ($countTicker === 0) {
-					$notFoundTickers[$tickerKey] = new PrepareImportTicker(
-						brokerId: $brokerId,
-						ticker: $transactionRecord->ticker,
-						tickers: [],
-					);
-				} elseif ($countTicker > 1) {
-					$multipleFoundTickers[$tickerKey] = new PrepareImportTicker(
-						brokerId: $brokerId,
-						ticker: $transactionRecord->ticker,
-						tickers: $this->tickerProvider->getTickersByTicker($transactionRecord->ticker),
-					);
-				} else {
-					$tickerByTicker = $this->tickerProvider->getTickerByTicker($transactionRecord->ticker);
-					assert($tickerByTicker instanceof Ticker);
-					$okFoundTickers[$tickerKey] = new PrepareImportTicker(
-						brokerId: $brokerId,
-						ticker: $transactionRecord->ticker,
-						tickers: [$tickerByTicker],
-					);
-				}
-			}
+			$this->prepareImportTickers(
+				transactionRecords: $transactionRecords,
+				brokerId: $brokerId,
+				importMappings: $importMappings,
+				okFoundTickers: $okFoundTickers,
+				notFoundTickers: $notFoundTickers,
+				multipleFoundTickers: $multipleFoundTickers,
+			);
 		}
 
 		$import = $this->importProvider->createImport(
@@ -328,6 +262,25 @@ final class ImportService
 		$this->dataProvider->deleteUserData($user, $portfolio, DateTimeImmutable::createFromRegular($firstDate));
 	}
 
+	/** @return list<TransactionRecord> */
+	private function getTransactionRecords(MapperInterface $importMapper, ImportDataFileDto $importDataFile): array
+	{
+		$transactionRecords = [];
+		foreach ($importMapper->getRecords($importDataFile->contents) as $record) {
+			/** @var array<string, string> $record */
+			$transactionRecord = $this->mapTransactionRecord($importMapper, $record);
+
+			if (!isset($transactionRecord->ticker) && !isset($transactionRecord->isin)) {
+				$this->logger->log('import', 'Ticker or ISIN not found: ' . implode(',', $record));
+				continue;
+			}
+
+			$transactionRecords[] = $transactionRecord;
+		}
+
+		return $transactionRecords;
+	}
+
 	/** @param array<string, string> $csvRecord */
 	private function mapTransactionRecord(MapperInterface $mapper, array $csvRecord): TransactionRecord
 	{
@@ -347,22 +300,23 @@ final class ImportService
 			$mappedRecord[$attribute] = $csvRecord[$recordKey] ?? null;
 		}
 
-		$ticker = ($mappedRecord['ticker'] ?? '') !== '' ? ($mappedRecord['ticker'] ?? null) : null;
+		$mappedRecord = array_map(fn(?string $item): ?string => $item !== '' ? $item : null, $mappedRecord);
 
 		return new TransactionRecord(
-			ticker: $ticker,
-			marketMic: $mappedRecord['marketMic'] ? strtoupper($mappedRecord['marketMic']) : null,
+			ticker: $mappedRecord['ticker'] ?? null,
+			isin: $mappedRecord['isin'] ?? null,
+			marketMic: isset($mappedRecord['marketMic']) ? strtoupper($mappedRecord['marketMic']) : null,
 			actionType: strtolower($mappedRecord['actionType'] ?? ''),
 			created: new DateTimeImmutable($mappedRecord['created'] ?? ''),
-			units: $mappedRecord['units'] ? new Decimal($mappedRecord['units']) : null,
-			price: $mappedRecord['price'] ? new Decimal($mappedRecord['price']) : null,
+			units: isset($mappedRecord['units']) ? new Decimal($mappedRecord['units']) : null,
+			price: isset($mappedRecord['price']) ? new Decimal($mappedRecord['price']) : null,
 			currency: $mappedRecord['currency'],
-			tax: $mappedRecord['tax'] ? new Decimal($mappedRecord['tax']) : null,
+			tax: isset($mappedRecord['tax']) ? new Decimal($mappedRecord['tax']) : null,
 			taxCurrency: $mappedRecord['taxCurrency'] ?? null,
-			fee: $mappedRecord['fee'] ? new Decimal($mappedRecord['fee']) : null,
+			fee: isset($mappedRecord['fee']) ? new Decimal($mappedRecord['fee']) : null,
 			feeCurrency: $mappedRecord['feeCurrency'] ?? null,
 			notes: $mappedRecord['notes'] ?? null,
-			importIdentifier: ($mappedRecord['importIdentifier'] ?? '') !== '' ? ($mappedRecord['importIdentifier'] ?? null) : null,
+			importIdentifier: $mappedRecord['importIdentifier'] ?? null,
 		);
 	}
 
@@ -376,5 +330,198 @@ final class ImportService
 		}
 
 		throw new \RuntimeException('Import mapper not found');
+	}
+
+	/** @param list<TransactionRecord> $transactionRecords */
+	private function createIsinsFromTransactionRecords(array $transactionRecords): void
+	{
+		$isins = [];
+		foreach ($transactionRecords as $transactionRecord) {
+			if (!isset($transactionRecord->isin)) {
+				continue;
+			}
+
+			if ($this->tickerProvider->getTickerByIsin($transactionRecord->isin) !== null) {
+				continue;
+			}
+
+			$isins[] = $transactionRecord->isin;
+		}
+
+		if (count($isins) === 0) {
+			return;
+		}
+
+		$this->tickerProvider->updateTickerIsins($isins);
+	}
+
+	/**
+	 * @param list<TransactionRecord> $transactionRecords
+	 * @param array<string, ImportMapping> $importMappings
+	 * @param array<string, PrepareImportTicker> $notFoundTickers
+	 * @param array<string, PrepareImportTicker> $multipleFoundTickers
+	 * @param array<string, PrepareImportTicker> $okFoundTickers
+	 */
+	private function prepareImportTickers(
+		array $transactionRecords,
+		int $brokerId,
+		array $importMappings,
+		array &$okFoundTickers,
+		array &$multipleFoundTickers,
+		array &$notFoundTickers,
+	): void
+	{
+		foreach ($transactionRecords as $transactionRecord) {
+			if ($transactionRecord->ticker === null && $transactionRecord->isin !== null) {
+				$this->prepareImportTickersFromIsin(
+					isin: $transactionRecord->isin,
+					brokerId: $brokerId,
+					importMappings: $importMappings,
+					okFoundTickers: $okFoundTickers,
+					multipleFoundTickers: $multipleFoundTickers,
+					notFoundTickers: $notFoundTickers,
+				);
+				continue;
+			}
+
+			if ($transactionRecord->ticker === null) {
+				continue;
+			}
+
+			$this->prepareImportTickersFromTicker(
+				ticker: $transactionRecord->ticker,
+				isin: $transactionRecord->isin,
+				brokerId: $brokerId,
+				importMappings: $importMappings,
+				okFoundTickers: $okFoundTickers,
+				multipleFoundTickers: $multipleFoundTickers,
+				notFoundTickers: $notFoundTickers,
+			);
+		}
+	}
+
+	/**
+	 * @param array<string, ImportMapping> $importMappings
+	 * @param array<string, PrepareImportTicker> $notFoundTickers
+	 * @param array<string, PrepareImportTicker> $multipleFoundTickers
+	 * @param array<string, PrepareImportTicker> $okFoundTickers
+	 */
+	public function prepareImportTickersFromTicker(
+		string $ticker,
+		?string $isin,
+		int $brokerId,
+		array $importMappings,
+		array &$okFoundTickers,
+		array &$multipleFoundTickers,
+		array &$notFoundTickers,
+	): void
+	{
+		$tickerKey = $brokerId . '-' . $ticker;
+
+		if (array_key_exists($tickerKey, $notFoundTickers)) {
+			return;
+		}
+		if (array_key_exists($tickerKey, $multipleFoundTickers)) {
+			return;
+		}
+		if (array_key_exists($tickerKey, $okFoundTickers)) {
+			return;
+		}
+
+		if (array_key_exists($tickerKey, $importMappings)) {
+			$okFoundTickers[$tickerKey] = new PrepareImportTicker(
+				brokerId: $brokerId,
+				ticker: $ticker,
+				tickers: [$importMappings[$tickerKey]->getTicker()],
+			);
+			return;
+		}
+
+		$countTicker = $this->tickerProvider->countTickersByTicker(ticker: $ticker, isin: $isin);
+		if ($countTicker === 0 && $isin !== null) {
+			$isin = null;
+			$countTicker = $this->tickerProvider->countTickersByTicker(ticker: $ticker, isin: $isin);
+		}
+		if ($countTicker === 0) {
+			$notFoundTickers[$tickerKey] = new PrepareImportTicker(
+				brokerId: $brokerId,
+				ticker: $ticker,
+				tickers: [],
+			);
+		} elseif ($countTicker > 1) {
+			$multipleFoundTickers[$tickerKey] = new PrepareImportTicker(
+				brokerId: $brokerId,
+				ticker: $ticker,
+				tickers: $this->tickerProvider->getTickersByTicker(ticker: $ticker, isin: $isin),
+			);
+		} else {
+			$tickerByTicker = $this->tickerProvider->getTickerByTicker(ticker: $ticker, isin: $isin);
+			assert($tickerByTicker instanceof Ticker);
+			$okFoundTickers[$tickerKey] = new PrepareImportTicker(
+				brokerId: $brokerId,
+				ticker: $ticker,
+				tickers: [$tickerByTicker],
+			);
+		}
+	}
+
+	/**
+	 * @param array<string, ImportMapping> $importMappings
+	 * @param array<string, PrepareImportTicker> $notFoundTickers
+	 * @param array<string, PrepareImportTicker> $multipleFoundTickers
+	 * @param array<string, PrepareImportTicker> $okFoundTickers
+	 */
+	public function prepareImportTickersFromIsin(
+		string $isin,
+		int $brokerId,
+		array $importMappings,
+		array &$okFoundTickers,
+		array &$multipleFoundTickers,
+		array &$notFoundTickers,
+	): void
+	{
+		$tickerKey = $brokerId . '-' . $isin;
+
+		if (array_key_exists($tickerKey, $notFoundTickers)) {
+			return;
+		}
+		if (array_key_exists($tickerKey, $multipleFoundTickers)) {
+			return;
+		}
+		if (array_key_exists($tickerKey, $okFoundTickers)) {
+			return;
+		}
+
+		if (array_key_exists($tickerKey, $importMappings)) {
+			$okFoundTickers[$tickerKey] = new PrepareImportTicker(
+				brokerId: $brokerId,
+				ticker: $isin,
+				tickers: [$importMappings[$tickerKey]->getTicker()],
+			);
+			return;
+		}
+
+		$countTicker = $this->tickerProvider->countTickersByIsin($isin);
+		if ($countTicker === 0) {
+			$notFoundTickers[$tickerKey] = new PrepareImportTicker(
+				brokerId: $brokerId,
+				ticker: $isin,
+				tickers: [],
+			);
+		} elseif ($countTicker > 1) {
+			$multipleFoundTickers[$tickerKey] = new PrepareImportTicker(
+				brokerId: $brokerId,
+				ticker: $isin,
+				tickers: $this->tickerProvider->getTickersByIsin($isin),
+			);
+		} else {
+			$tickerByTicker = $this->tickerProvider->getTickerByIsin($isin);
+			assert($tickerByTicker instanceof Ticker);
+			$okFoundTickers[$tickerKey] = new PrepareImportTicker(
+				brokerId: $brokerId,
+				ticker: $isin,
+				tickers: [$tickerByTicker],
+			);
+		}
 	}
 }
