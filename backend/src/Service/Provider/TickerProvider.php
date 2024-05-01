@@ -54,19 +54,30 @@ class TickerProvider
 	}
 
 	/** @return array<Ticker> */
-	public function getTickersByTicker(string $ticker): array
+	public function getTickersByTicker(string $ticker, ?Market $market = null, ?string $isin = null): array
 	{
-		return $this->tickerRepository->findTickersByTicker($ticker);
+		return $this->tickerRepository->findTickersByTicker($ticker, $market?->getId(), $isin);
 	}
 
-	public function countTickersByTicker(string $ticker): int
+	public function countTickersByTicker(string $ticker, ?Market $market = null, ?string $isin = null): int
 	{
-		return $this->tickerRepository->countTickersByTicker($ticker);
+		return $this->tickerRepository->countTickersByTicker($ticker, $market?->getId(), $isin);
 	}
 
-	public function getTickerByTicker(string $ticker, ?Market $market = null): ?Ticker
+	public function getTickerByTicker(string $ticker, ?Market $market = null, ?string $isin = null): ?Ticker
 	{
-		return $this->tickerRepository->findTickerByTicker($ticker, $market?->getId());
+		return $this->tickerRepository->findTickerByTicker($ticker, $market?->getId(), $isin);
+	}
+
+	/** @return array<Ticker> */
+	public function getTickersByIsin(string $isin): array
+	{
+		return $this->tickerRepository->findTickersByIsin($isin);
+	}
+
+	public function countTickersByIsin(string $isin): int
+	{
+		return $this->tickerRepository->countTickersByIsin($isin);
 	}
 
 	public function getTickerByIsin(string $isin): ?Ticker
@@ -312,7 +323,7 @@ class TickerProvider
 						continue;
 					}
 
-					$ticker = $this->tickerRepository->findTickerByTicker($mappingResult->ticker, $market->getId());
+					$ticker = $this->tickerRepository->findTickerByTicker(str_replace('/', '.', $mappingResult->ticker), $market->getId());
 					if ($ticker === null) {
 						continue;
 					}

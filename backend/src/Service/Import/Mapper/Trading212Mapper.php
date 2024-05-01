@@ -20,6 +20,7 @@ class Trading212Mapper extends CsvMapper
 			'actionType' => 'Action',
 			'created' => 'Time',
 			'ticker' => 'Ticker',
+			'isin' => 'ISIN',
 			'units' => 'No. of shares',
 			'price' => fn (array $record): string => str_starts_with(
 				$record['Action'],
