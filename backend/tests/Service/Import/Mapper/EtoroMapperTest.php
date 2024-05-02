@@ -40,6 +40,7 @@ class EtoroMapperTest extends TestCase
 
 	#[TestWith(['etoro_export.xlsx', true])]
 	#[TestWith(['anycoin_export.csv', false])]
+	#[TestWith(['degiro_export.csv', false])]
 	#[TestWith(['interactive_brokers_export.csv', false])]
 	#[TestWith(['revolut_export.csv', false])]
 	#[TestWith(['trading212_export.csv', false])]

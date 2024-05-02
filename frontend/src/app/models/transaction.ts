@@ -26,6 +26,9 @@ export enum TransactionActionType {
     Buy = 'Buy',
     Sell = 'Sell',
     Dividend = 'Dividend',
+    Tax = 'Tax',
+    Fee = 'Fee',
+    DividendTax = 'DividendTax',
 }
 
 export enum TransactionCreateType {

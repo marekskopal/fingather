@@ -42,7 +42,14 @@ class AssetDataCalculator
 			portfolio: $portfolio,
 			asset: $asset,
 			actionCreatedBefore: $dateTime,
-			actionTypes: [TransactionActionTypeEnum::Buy, TransactionActionTypeEnum::Sell, TransactionActionTypeEnum::Dividend],
+			actionTypes: [
+				TransactionActionTypeEnum::Buy,
+				TransactionActionTypeEnum::Sell,
+				TransactionActionTypeEnum::Dividend,
+				TransactionActionTypeEnum::Tax,
+				TransactionActionTypeEnum::Fee,
+				TransactionActionTypeEnum::DividendTax,
+			],
 			orderBy: [
 				TransactionOrderByEnum::BrokerId->value => OrderDirectionEnum::ASC,
 				TransactionOrderByEnum::ActionCreated->value => OrderDirectionEnum::ASC,
@@ -174,6 +181,14 @@ class AssetDataCalculator
 		$taxDefaultCurrency = $taxDefaultCurrency->add($transaction->getTaxDefaultCurrency());
 		$fee = $fee->add($transaction->getFeeTickerCurrency());
 		$feeDefaultCurrency = $feeDefaultCurrency->add($transaction->getFeeDefaultCurrency());
+
+		if (
+			$transaction->getActionType() === TransactionActionTypeEnum::Tax
+			|| $transaction->getActionType() === TransactionActionTypeEnum::Fee
+			|| $transaction->getActionType() === TransactionActionTypeEnum::DividendTax
+		) {
+			return;
+		}
 
 		if ($transaction->getActionType() === TransactionActionTypeEnum::Dividend) {
 			$dividendTransactionValue = $transaction->getPriceTickerCurrency();

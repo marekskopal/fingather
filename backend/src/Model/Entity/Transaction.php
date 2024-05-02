@@ -33,7 +33,7 @@ class Transaction extends AEntity
 		#[Column(type: 'integer')]
 		#[ForeignKey(target: Broker::class)]
 		private int $brokerId,
-		#[Column(type: 'enum(Undefined,Buy,Sell,Dividend)', typecast: TransactionActionTypeEnum::class)]
+		#[Column(type: 'enum(Undefined,Buy,Sell,Dividend,Tax,Fee,DividendTax)', typecast: TransactionActionTypeEnum::class)]
 		private TransactionActionTypeEnum $actionType,
 		#[Column(type: 'timestamp')]
 		private DateTimeImmutable $actionCreated,

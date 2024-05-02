@@ -40,6 +40,8 @@ class InteractiveBrokersMapper extends CsvMapper
 
 		$records = $this->getRecords($content);
 		return
+			// Check if there is at least one record (header is not counted)
+			isset($records[1]) &&
 			array_key_exists('Buy/Sell', $records[1]) &&
 			array_key_exists('DateTime', $records[1]) &&
 			array_key_exists('Symbol', $records[1]) &&

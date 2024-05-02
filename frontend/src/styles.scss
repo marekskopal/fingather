@@ -187,11 +187,11 @@ a {
         color: $color-green;
     }
 
-    .sell {
+    .sell, .tax, .fee {
         color: $color-red;
     }
 
-    .dividend {
+    .dividend, .dividend-tax {
         color: $color-blue;
     }
 }

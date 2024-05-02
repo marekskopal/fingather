@@ -10,6 +10,9 @@ enum TransactionActionTypeEnum: string
 	case Buy = 'Buy';
 	case Sell = 'Sell';
 	case Dividend = 'Dividend';
+	case Tax = 'Tax';
+	case Fee = 'Fee';
+	case DividendTax = 'DividendTax';
 
 	public static function fromString(string $string): self
 	{
@@ -29,11 +32,29 @@ enum TransactionActionTypeEnum: string
 			return TransactionActionTypeEnum::Sell;
 		}
 
-		if (
-			str_contains($string, 'dividend')
-			|| str_contains($string, 'dividenda')
-		) {
+		if (str_contains($string, 'dividend')) {
+			if (
+				str_contains($string, 'tax')
+				|| str_contains($string, 'daň')
+			) {
+				return TransactionActionTypeEnum::DividendTax;
+			}
+
 			return TransactionActionTypeEnum::Dividend;
+		}
+
+		if (
+			str_contains($string, 'tax')
+			|| str_contains($string, 'daň')
+		) {
+			return TransactionActionTypeEnum::Tax;
+		}
+
+		if (
+			str_contains($string, 'fee')
+			|| str_contains($string, 'poplatek')
+		) {
+			return TransactionActionTypeEnum::Fee;
 		}
 
 		return TransactionActionTypeEnum::Undefined;
