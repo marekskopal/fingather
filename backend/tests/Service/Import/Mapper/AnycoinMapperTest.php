@@ -27,6 +27,7 @@ class AnycoinMapperTest extends TestCase
 	}
 
 	#[TestWith(['anycoin_export.csv', true])]
+	#[TestWith(['degiro_export.csv', false])]
 	#[TestWith(['interactive_brokers_export.csv', false])]
 	#[TestWith(['etoro_export.xlsx', false])]
 	#[TestWith(['revolut_export.csv', false])]

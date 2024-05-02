@@ -39,6 +39,8 @@ class AnycoinMapper extends CsvMapper
 
 		$records = $this->getRecords($content);
 		return
+			// Check if there is at least one record (header is not counted)
+			isset($records[1]) &&
 			array_key_exists('ACTION', $records[1]) &&
 			array_key_exists('DATE', $records[1]) &&
 			array_key_exists('SYMBOL', $records[1]) &&

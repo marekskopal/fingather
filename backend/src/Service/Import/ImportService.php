@@ -24,6 +24,7 @@ use FinGather\Service\Import\Entity\PrepareImport;
 use FinGather\Service\Import\Entity\PrepareImportTicker;
 use FinGather\Service\Import\Entity\TransactionRecord;
 use FinGather\Service\Import\Mapper\AnycoinMapper;
+use FinGather\Service\Import\Mapper\DegiroMapper;
 use FinGather\Service\Import\Mapper\EtoroMapper;
 use FinGather\Service\Import\Mapper\InteractiveBrokersMapper;
 use FinGather\Service\Import\Mapper\MapperInterface;
@@ -50,6 +51,7 @@ final class ImportService
 		BrokerImportTypeEnum::Etoro->value => EtoroMapper::class,
 		BrokerImportTypeEnum::Revolut->value => RevolutMapper::class,
 		BrokerImportTypeEnum::Anycoin->value => AnycoinMapper::class,
+		BrokerImportTypeEnum::Degiro->value => DegiroMapper::class,
 	];
 
 	public function __construct(

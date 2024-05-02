@@ -36,6 +36,8 @@ class RevolutMapper extends CsvMapper
 
 		$records = $this->getRecords($content);
 		return
+			// Check if there is at least one record (header is not counted)
+			isset($records[1]) &&
 			array_key_exists('Date', $records[1]) &&
 			array_key_exists('Ticker', $records[1]) &&
 			array_key_exists('Type', $records[1]) &&

@@ -39,6 +39,12 @@
                             <span class="sell">{{transaction.actionType}}</span>
                         } @else if (transaction.actionType === TransactionActionType.Dividend) {
                             <span class="dividend">{{transaction.actionType}}</span>
+                        } @else if (transaction.actionType === TransactionActionType.Tax) {
+                            <span class="tax">{{transaction.actionType}}</span>
+                        } @else if (transaction.actionType === TransactionActionType.Fee) {
+                            <span class="fee">{{transaction.actionType}}</span>
+                        } @else if (transaction.actionType === TransactionActionType.DividendTax) {
+                            <span class="dividend-tax">{{transaction.actionType}}</span>
                         }
                     </div>
                 </td>
