@@ -122,16 +122,10 @@ class UserController extends AdminController
 		/** @var array{name: string, password: string, defaultCurrencyId: int, role: value-of<UserRoleEnum>} $requestBody */
 		$requestBody = json_decode($request->getBody()->getContents(), assoc: true);
 
-		$defaultCurrency = $this->currencyProvider->getCurrency($requestBody['defaultCurrencyId']);
-		if ($defaultCurrency === null) {
-			return new NotFoundResponse('Currency with id "' . $requestBody['defaultCurrencyId'] . '" was not found.');
-		}
-
 		return new JsonResponse(UserDto::fromEntity($this->userProvider->updateUser(
 			user: $user,
 			password: $requestBody['password'],
 			name: $requestBody['name'],
-			defaultCurrency: $defaultCurrency,
 			role: UserRoleEnum::from($requestBody['role']),
 		)));
 	}

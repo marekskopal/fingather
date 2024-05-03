@@ -39,19 +39,21 @@
                 </div>
             </div>
         </div>
-        <div class="form-row">
-            <div class="form-group col">
-                <label for="defaultCurrencyId" class="form-label">{{ 'app.users.addEdit.defaultCurrency' | translate }}</label>
-                <select id="defaultCurrencyId" formControlName="defaultCurrencyId" class="form-select">
-                    <option *ngFor="let currency of currencies" [ngValue]="currency.id">
-                        {{ currency.code }}
-                    </option>
-                </select>
-                <div *ngIf="submitted && f['defaultCurrencyId'].errors" class="invalid-feedback">
-                    <div *ngIf="f['defaultCurrencyId'].errors['required']">{{ 'app.users.addEdit.defaultCurrencyRequired' | translate }}</div>
+        @if (isAddMode) {
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="defaultCurrencyId" class="form-label">{{ 'app.users.addEdit.defaultCurrency' | translate }}</label>
+                    <select id="defaultCurrencyId" formControlName="defaultCurrencyId" class="form-select">
+                        <option *ngFor="let currency of currencies" [ngValue]="currency.id">
+                            {{ currency.code }}
+                        </option>
+                    </select>
+                    <div *ngIf="submitted && f['defaultCurrencyId'].errors" class="invalid-feedback">
+                        <div *ngIf="f['defaultCurrencyId'].errors['required']">{{ 'app.users.addEdit.defaultCurrencyRequired' | translate }}</div>
+                    </div>
                 </div>
             </div>
-        </div>
+        }
         <div class="form-row">
             <div class="form-group col">
                 <label for="role" class="form-label">{{ 'app.users.addEdit.role' | translate }}</label>

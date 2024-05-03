@@ -16,6 +16,17 @@
             </div>
         </div>
         <div class="mb-3">
+            <label for="currencyId" class="form-label">{{ 'app.portfolios.addEdit.currency' | translate }}</label>
+            <select id="currencyId" formControlName="currencyId" class="form-select">
+                <option *ngFor="let currency of currencies" [ngValue]="currency.id">
+                    {{ currency.code }}
+                </option>
+            </select>
+            <div *ngIf="submitted && f['currencyId'].errors" class="invalid-feedback">
+                <div *ngIf="f['currencyId'].errors['required']">{{ 'app.portfolios.addEdit.currencyRequired' | translate }}</div>
+            </div>
+        </div>
+        <div class="mb-3">
             <div class="form-check">
                 <input id="isDefault" type="checkbox" formControlName="isDefault" class="form-check-input">
                 <label for="isDefault" class="form-check-label">

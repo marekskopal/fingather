@@ -18,7 +18,6 @@ class UserProvider
 		private readonly EmailVerifyProvider $emailVerifyProvider,
 		private readonly GroupProvider $groupProvider,
 		private readonly PortfolioProvider $portfolioProvider,
-		private readonly DataProvider $dataProvider,
 	) {
 	}
 
@@ -48,17 +47,10 @@ class UserProvider
 	): User {
 		$hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
-		$user = new User(
-			email: $email,
-			password: $hashedPassword,
-			name: $name,
-			defaultCurrency: $defaultCurrency,
-			role: $role,
-			isEmailVerified: $isEmailVerified,
-		);
+		$user = new User(email: $email, password: $hashedPassword, name: $name, role: $role, isEmailVerified: $isEmailVerified);
 		$this->userRepository->persist($user);
 
-		$defaultPortfolio = $this->portfolioProvider->createDefaultPortfolio($user);
+		$defaultPortfolio = $this->portfolioProvider->createDefaultPortfolio($user, $defaultCurrency);
 
 		$this->groupProvider->createOthersGroup($user, $defaultPortfolio);
 
@@ -69,24 +61,14 @@ class UserProvider
 		return $user;
 	}
 
-	public function updateUser(
-		User $user,
-		#[SensitiveParameter] string $password,
-		string $name,
-		Currency $defaultCurrency,
-		UserRoleEnum $role,
-	): User {
+	public function updateUser(User $user, #[SensitiveParameter] string $password, string $name, UserRoleEnum $role,): User
+	{
 		if ($password !== '') {
 			$hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 			$user->setPassword($hashedPassword);
 		}
 
-		if ($defaultCurrency->getId() !== $user->getDefaultCurrency()->getId()) {
-			$this->dataProvider->deleteUserData(user: $user, recalculateTransactions: true);
-		}
-
 		$user->setName($name);
-		$user->setDefaultCurrency($defaultCurrency);
 		$user->setRole($role);
 		$this->userRepository->persist($user);
 

@@ -129,7 +129,7 @@ final class ImportService
 		$user = $import->getUser();
 		$portfolio = $import->getPortfolio();
 		$othersGroup = $this->groupProvider->getOthersGroup($user, $portfolio);
-		$defaultCurrency = $user->getDefaultCurrency();
+		$defaultCurrency = $portfolio->getCurrency();
 
 		$firstDate = null;
 

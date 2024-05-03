@@ -8,7 +8,7 @@ use FinGather\Model\Entity\Portfolio;
 
 final readonly class PortfolioDto
 {
-	public function __construct(public int $id, public string $name, public bool $isDefault)
+	public function __construct(public int $id, public int $currencyId, public string $name, public bool $isDefault)
 	{
 	}
 
@@ -16,6 +16,7 @@ final readonly class PortfolioDto
 	{
 		return new self(
 			id: $entity->getId(),
+			currencyId: $entity->getCurrency()->getId(),
 			name: $entity->getName(),
 			isDefault: $entity->getIsDefault(),
 		);

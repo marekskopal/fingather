@@ -4,13 +4,18 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Provider;
 
+use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\PortfolioRepository;
 
 class PortfolioProvider
 {
-	public function __construct(private readonly PortfolioRepository $portfolioRepository, private readonly GroupProvider $groupProvider)
+	public function __construct(
+		private readonly PortfolioRepository $portfolioRepository,
+		private readonly GroupProvider $groupProvider,
+		private readonly DataProvider $dataProvider,
+	)
 	{
 	}
 
@@ -30,7 +35,7 @@ class PortfolioProvider
 		return $this->portfolioRepository->findDefaultPortfolio($user->getId());
 	}
 
-	public function createPortfolio(User $user, string $name, bool $isDefault): Portfolio
+	public function createPortfolio(User $user, Currency $currency, string $name, bool $isDefault): Portfolio
 	{
 		if ($isDefault) {
 			foreach ($this->getPortfolios($user) as $portfolio) {
@@ -39,7 +44,7 @@ class PortfolioProvider
 			}
 		}
 
-		$portfolio = new Portfolio(user: $user, name: $name, isDefault: $isDefault);
+		$portfolio = new Portfolio(user: $user, currency: $currency, name: $name, isDefault: $isDefault);
 		$this->portfolioRepository->persist($portfolio);
 
 		$this->groupProvider->createOthersGroup(user: $user, portfolio: $portfolio);
@@ -47,12 +52,12 @@ class PortfolioProvider
 		return $portfolio;
 	}
 
-	public function createDefaultPortfolio(User $user): Portfolio
+	public function createDefaultPortfolio(User $user, Currency $currency): Portfolio
 	{
-		return $this->createPortfolio(user: $user, name: 'My Portfolio', isDefault: true);
+		return $this->createPortfolio(user: $user, currency: $currency, name: 'My Portfolio', isDefault: true);
 	}
 
-	public function updatePortfolio(Portfolio $portfolio, string $name, bool $isDefault): Portfolio
+	public function updatePortfolio(Portfolio $portfolio, Currency $currency, string $name, bool $isDefault): Portfolio
 	{
 		$otherPortfolios = iterator_to_array($this->getPortfolios($portfolio->getUser()));
 		if (!$isDefault && count($otherPortfolios) === 0) {
@@ -70,9 +75,19 @@ class PortfolioProvider
 			}
 		}
 
+		$recalculateTransactions = false;
+		if ($currency->getId() !== $portfolio->getCurrency()->getId()) {
+			$recalculateTransactions = true;
+		}
+
+		$portfolio->setCurrency($currency);
 		$portfolio->setName($name);
 		$portfolio->setIsDefault($isDefault);
 		$this->portfolioRepository->persist($portfolio);
+
+		if ($recalculateTransactions) {
+			$this->dataProvider->deleteUserData(user: $portfolio->getUser(), portfolio: $portfolio, recalculateTransactions: true);
+		}
 
 		return $portfolio;
 	}
