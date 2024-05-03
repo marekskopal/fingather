@@ -147,6 +147,8 @@
         "headerEdit": "Upravit portfólio",
         "name": "Jméno",
         "nameRequired": "Jméno je povinné",
+        "currency": "Měna",
+        "currencyRequired": "Měna je povinná",
         "default": "Výchozí"
       },
       "list": {

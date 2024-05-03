@@ -9,6 +9,7 @@ use FinGather\Model\Entity\Portfolio;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Response\OkResponse;
 use FinGather\Route\Routes;
+use FinGather\Service\Provider\CurrencyProvider;
 use FinGather\Service\Provider\PortfolioProvider;
 use FinGather\Service\Request\RequestService;
 use Laminas\Diactoros\Response\JsonResponse;
@@ -22,7 +23,11 @@ use function Safe\json_decode;
 
 class PortfolioController
 {
-	public function __construct(private readonly PortfolioProvider $portfolioProvider, private readonly RequestService $requestService,)
+	public function __construct(
+		private readonly PortfolioProvider $portfolioProvider,
+		private readonly CurrencyProvider $currencyProvider,
+		private readonly RequestService $requestService,
+	)
 	{
 	}
 
@@ -70,11 +75,17 @@ class PortfolioController
 	{
 		$user = $this->requestService->getUser($request);
 
-		/** @var array{name: string, isDefault: bool} $requestBody */
+		/** @var array{currencyId: int, name: string, isDefault: bool} $requestBody */
 		$requestBody = json_decode($request->getBody()->getContents(), assoc: true);
+
+		$currency = $this->currencyProvider->getCurrency($requestBody['currencyId']);
+		if ($currency === null) {
+			return new NotFoundResponse('Currency with id "' . $requestBody['currencyId'] . '" was not found.');
+		}
 
 		return new JsonResponse(PortfolioDto::fromEntity($this->portfolioProvider->createPortfolio(
 			user: $user,
+			currency: $currency,
 			name: $requestBody['name'],
 			isDefault: $requestBody['isDefault'],
 		)));
@@ -95,11 +106,17 @@ class PortfolioController
 			return new NotFoundResponse('Portfolio with id "' . $portfolioId . '" was not found.');
 		}
 
-		/** @var array{name: string, isDefault: bool} $requestBody */
+		/** @var array{currencyId: int, name: string, isDefault: bool} $requestBody */
 		$requestBody = json_decode($request->getBody()->getContents(), assoc: true);
+
+		$currency = $this->currencyProvider->getCurrency($requestBody['currencyId']);
+		if ($currency === null) {
+			return new NotFoundResponse('Currency with id "' . $requestBody['currencyId'] . '" was not found.');
+		}
 
 		return new JsonResponse(PortfolioDto::fromEntity($this->portfolioProvider->updatePortfolio(
 			portfolio: $portfolio,
+			currency: $currency,
 			name: $requestBody['name'],
 			isDefault: $requestBody['isDefault'],
 		)));

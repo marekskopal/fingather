@@ -15,6 +15,8 @@ class Portfolio extends AEntity
 	public function __construct(
 		#[RefersTo(target: User::class)]
 		private User $user,
+		#[RefersTo(target: Currency::class)]
+		private Currency $currency,
 		#[Column(type: 'string')]
 		private string $name,
 		#[Column(type: 'boolean')]
@@ -30,6 +32,16 @@ class Portfolio extends AEntity
 	public function setUser(User $user): void
 	{
 		$this->user = $user;
+	}
+
+	public function getCurrency(): Currency
+	{
+		return $this->currency;
+	}
+
+	public function setCurrency(Currency $currency): void
+	{
+		$this->currency = $currency;
 	}
 
 	public function getName(): string

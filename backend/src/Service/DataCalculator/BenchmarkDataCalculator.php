@@ -8,9 +8,9 @@ use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Currency;
+use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\Transaction;
-use FinGather\Model\Entity\User;
 use FinGather\Service\DataCalculator\Dto\BenchmarkDataDto;
 use FinGather\Service\Provider\ExchangeRateProvider;
 use FinGather\Service\Provider\TickerDataProvider;
@@ -28,7 +28,7 @@ class BenchmarkDataCalculator
 
 	/** @param list<Transaction> $transactions */
 	public function calculate(
-		User $user,
+		Portfolio $portfolio,
 		array $transactions,
 		Asset $benchmarkAsset,
 		DateTimeImmutable $dateTime,
@@ -36,7 +36,7 @@ class BenchmarkDataCalculator
 		Decimal $benchmarkFromDateUnits,
 	): BenchmarkDataDto {
 		$benchmarkTickerCurrency = $benchmarkAsset->getTicker()->getCurrency();
-		$defaultCurrency = $user->getDefaultCurrency();
+		$defaultCurrency = $portfolio->getCurrency();
 
 		$benchmarkUnitsSum = new Decimal(0);
 
@@ -62,7 +62,7 @@ class BenchmarkDataCalculator
 			$benchmarkExchangeRateDefaultCurrency = $this->exchangeRateProvider->getExchangeRate(
 				$dateTime,
 				$benchmarkTickerCurrency,
-				$user->getDefaultCurrency(),
+				$defaultCurrency,
 			);
 
 			$benchmarkUnitsSum = $benchmarkUnitsSum->add($benchmarkFromDateUnits);

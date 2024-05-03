@@ -107,7 +107,7 @@ class TransactionProvider
 		$created = new \Safe\DateTimeImmutable();
 
 		$tickerCurrency = $asset->getTicker()->getCurrency();
-		$defaultCurrency = $user->getDefaultCurrency();
+		$defaultCurrency = $portfolio->getCurrency();
 
 		$price ??= new Decimal(0);
 		$tax ??= new Decimal(0);
@@ -164,7 +164,7 @@ class TransactionProvider
 		$modified = new \Safe\DateTimeImmutable();
 
 		$tickerCurrency = $asset->getTicker()->getCurrency();
-		$defaultCurrency = $transaction->getUser()->getDefaultCurrency();
+		$defaultCurrency = $transaction->getPortfolio()->getCurrency();
 
 		$price ??= new Decimal(0);
 		$tax ??= new Decimal(0);
@@ -198,7 +198,7 @@ class TransactionProvider
 
 	public function updateTransactionDefaultCurrency(Transaction $transaction): Transaction
 	{
-		$defaultCurrency = $transaction->getUser()->getDefaultCurrency();
+		$defaultCurrency = $transaction->getPortfolio()->getCurrency();
 		$actionCreated = $transaction->getActionCreated();
 
 		$transaction->setPriceDefaultCurrency(

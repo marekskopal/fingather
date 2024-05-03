@@ -1,17 +1,20 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
-import { AlertService, PortfolioService } from '@app/services';
+import {AlertService, CurrencyService, PortfolioService} from '@app/services';
 import { BaseForm } from '@app/shared/components/form/base-form';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { first } from 'rxjs/operators';
+import {Currency} from "@app/models";
 
 @Component({ templateUrl: 'add-edit.component.html' })
 export class AddEditComponent extends BaseForm implements OnInit {
     @Input() public id: number;
     public isAddMode: boolean;
+    public currencies: Currency[];
 
     public constructor(
         private readonly portfolioService: PortfolioService,
+        private readonly currencyService: CurrencyService,
         public activeModal: NgbActiveModal,
         formBuilder: UntypedFormBuilder,
         alertService: AlertService,
@@ -24,8 +27,16 @@ export class AddEditComponent extends BaseForm implements OnInit {
 
         this.form = this.formBuilder.group({
             name: ['My Portfolio', Validators.required],
+            currencyId: ['', Validators.required],
             isDefault: [false, Validators.required],
         });
+
+        this.currencyService.getCurrencies()
+            .pipe(first())
+            .subscribe((currencies: Currency[]) => {
+                this.currencies = currencies;
+                this.f['defaultCurrencyId'].patchValue(currencies[0].id);
+            });
 
         if (!this.isAddMode) {
             this.portfolioService.getPortfolio(this.id)

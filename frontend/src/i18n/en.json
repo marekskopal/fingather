@@ -147,6 +147,8 @@
         "headerEdit": "Edit Portfolio",
         "name": "Name",
         "nameRequired": "Name is required",
+        "currency": "Currency",
+        "currencyRequired": "Currency is required",
         "default": "Default"
       },
       "list": {

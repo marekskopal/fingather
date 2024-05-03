@@ -19,10 +19,8 @@ export class AddEditComponent extends BaseForm implements OnInit {
     ];
 
     public constructor(
-        private route: ActivatedRoute,
-        private router: Router,
-        private userService: UserService,
-        private currencyService: CurrencyService,
+        private readonly userService: UserService,
+        private readonly currencyService: CurrencyService,
         public activeModal: NgbActiveModal,
         formBuilder: UntypedFormBuilder,
         alertService: AlertService,

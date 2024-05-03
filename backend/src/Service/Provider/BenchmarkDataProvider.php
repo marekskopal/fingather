@@ -38,7 +38,7 @@ class BenchmarkDataProvider
 		$benchmarkFromDateTime = $benchmarkFromDateTime->setTime(0, 0);
 
 		$benchmarkData = $this->benchmarkDataRepository->findBenchmarkData(
-			$user->getId(),
+			$portfolio->getId(),
 			$benchmarkAsset->getId(),
 			$dateTime,
 			$benchmarkFromDateTime,
@@ -48,7 +48,7 @@ class BenchmarkDataProvider
 		}
 
 		$benchmarkDataDto = $this->benchmarkDataCalculator->calculate(
-			$user,
+			$portfolio,
 			$transactions,
 			$benchmarkAsset,
 			$dateTime,
@@ -81,7 +81,7 @@ class BenchmarkDataProvider
 		$benchmarkFromDateTime = $benchmarkFromDateTime->setTime(0, 0);
 
 		$benchmarkData = $this->benchmarkDataRepository->findBenchmarkData(
-			$user->getId(),
+			$portfolio->getId(),
 			$benchmarkAsset->getId(),
 			$benchmarkFromDateTime,
 			$benchmarkFromDateTime,
@@ -97,7 +97,7 @@ class BenchmarkDataProvider
 			$benchmarkExchangeRateDefaultCurrency = $this->exchangeRateProvider->getExchangeRate(
 				$benchmarkFromDateTime,
 				$benchmarkTickerCurrency,
-				$user->getDefaultCurrency(),
+				$portfolio->getCurrency(),
 			);
 
 			$benchmarkUnitPriceDefaultCurrency = $benchmarkAssetTickerData->getClose()->mul($benchmarkExchangeRateDefaultCurrency);

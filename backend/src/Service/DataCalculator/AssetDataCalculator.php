@@ -72,13 +72,13 @@ class AssetDataCalculator
 		$realizedGain = new Decimal(0);
 		$realizedGainDefaultCurrency = new Decimal(0);
 
-		$defaultCurrency = $user->getDefaultCurrency();
+		$defaultCurrency = $portfolio->getCurrency();
 		$tickerCurrency = $asset->getTicker()->getCurrency();
 
 		$exchangeRate = $this->exchangeRateProvider->getExchangeRate(
 			$dateTime,
 			$tickerCurrency,
-			$user->getDefaultCurrency(),
+			$portfolio->getCurrency(),
 		);
 
 		$firstTransaction = $transactions[array_key_first($transactions)];

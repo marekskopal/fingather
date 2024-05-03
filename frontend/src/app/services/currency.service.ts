@@ -1,17 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Currency } from '@app/models';
-import { CurrentUserService } from '@app/services/current-user.service';
 import { environment } from '@environments/environment';
 import { lastValueFrom, Observable } from 'rxjs';
+import { PortfolioService } from "@app/services/portfolio.service";
 
 @Injectable({ providedIn: 'root' })
 export class CurrencyService {
     private currencies: Map<number, Currency> | null = null;
 
     public constructor(
-        private http: HttpClient,
-        private currentUserService: CurrentUserService,
+        private readonly http: HttpClient,
+        private readonly portfolioService: PortfolioService,
     ) {}
 
     public getCurrencies(): Observable<Currency[]> {
@@ -37,9 +37,9 @@ export class CurrencyService {
     }
 
     public async getDefaultCurrency(): Promise<Currency> {
-        const currentUser = await this.currentUserService.getCurrentUser();
+        const currentPortfolio = await this.portfolioService.getCurrentPortfolio();
         const currencies = await this.getCurrenciesMap();
-        const defaultCurrency = currencies.get((currentUser.defaultCurrencyId));
+        const defaultCurrency = currencies.get((currentPortfolio.currencyId));
         if (defaultCurrency === undefined) {
             throw new Error('Default currency not exists.');
         }
