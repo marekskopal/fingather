@@ -7,7 +7,7 @@ namespace FinGather\Dto;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Service\Import\Entity\PrepareImportTicker;
 
-readonly class ImportPrepareTickerDto
+final readonly class ImportPrepareTickerDto
 {
 	/** @param list<TickerDto> $tickers */
 	public function __construct(public int $brokerId, public string $ticker, public array $tickers)

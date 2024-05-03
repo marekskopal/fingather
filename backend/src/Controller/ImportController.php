@@ -20,7 +20,7 @@ use MarekSkopal\Router\Attribute\RoutePost;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-class ImportController
+final class ImportController
 {
 	public function __construct(
 		private readonly ImportService $importService,

@@ -13,7 +13,7 @@ use FinGather\Service\Provider\TransactionProvider;
 use FinGather\Utils\CalculatorUtils;
 use Safe\DateTimeImmutable;
 
-class OverviewDataCalculator
+final class OverviewDataCalculator
 {
 	public function __construct(
 		private readonly TransactionProvider $transactionProvider,

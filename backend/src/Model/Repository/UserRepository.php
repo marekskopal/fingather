@@ -7,7 +7,7 @@ namespace FinGather\Model\Repository;
 use FinGather\Model\Entity\User;
 
 /** @extends ARepository<User> */
-class UserRepository extends ARepository
+final class UserRepository extends ARepository
 {
 	/** @return iterable<User> */
 	public function findUsers(): iterable

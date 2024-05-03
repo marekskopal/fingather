@@ -38,16 +38,16 @@ use FinGather\Cache\Cache;
 use Spiral\Tokenizer\Config\TokenizerConfig;
 use Spiral\Tokenizer\Tokenizer;
 
-class DbContext
+final readonly class DbContext
 {
 	private const string CacheNamespace = 'Orm';
 	private const string CacheKey = 'Schema';
 
 	private ORMInterface $orm;
 
-	private readonly DatabaseProviderInterface $dbal;
+	private DatabaseProviderInterface $dbal;
 
-	private readonly Registry $registry;
+	private Registry $registry;
 
 	/**
 	 * @param non-empty-string $dsn

@@ -13,7 +13,7 @@ use Symfony\Component\Mailer\Transport;
 use Symfony\Component\Mime\Email;
 use function Safe\json_decode;
 
-class EmailVerifyHandler implements JobHandler
+final class EmailVerifyHandler implements JobHandler
 {
 	public function __construct(private readonly LoggerInterface $logger)
 	{

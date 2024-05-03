@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 
 #[CoversClass(DateTimeUtils::class)]
 #[CoversClass(DatePeriod::class)]
-class DateTimeUtilsTest extends TestCase
+final class DateTimeUtilsTest extends TestCase
 {
 	public function testFormatZulu(): void
 	{

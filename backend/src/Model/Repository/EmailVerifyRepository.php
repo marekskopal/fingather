@@ -7,7 +7,7 @@ namespace FinGather\Model\Repository;
 use FinGather\Model\Entity\EmailVerify;
 
 /** @extends ARepository<EmailVerify> */
-class EmailVerifyRepository extends ARepository
+final class EmailVerifyRepository extends ARepository
 {
 	public function findEmailVerifyByToken(string $token): ?EmailVerify
 	{

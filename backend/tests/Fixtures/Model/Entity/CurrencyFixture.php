@@ -6,7 +6,7 @@ namespace FinGather\Tests\Fixtures\Model\Entity;
 
 use FinGather\Model\Entity\Currency;
 
-class CurrencyFixture
+final class CurrencyFixture
 {
 	public static function getCurrency(
 		?string $code = null,

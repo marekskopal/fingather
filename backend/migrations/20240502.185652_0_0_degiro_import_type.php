@@ -6,7 +6,7 @@ namespace Migration;
 
 use Cycle\Migrations\Migration;
 
-class DegiroImportTypeMigration extends Migration
+final class DegiroImportTypeMigration extends Migration
 {
 	protected const DATABASE = 'default';
 

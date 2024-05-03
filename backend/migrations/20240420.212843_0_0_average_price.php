@@ -6,7 +6,7 @@ namespace Migration;
 
 use Cycle\Migrations\Migration;
 
-class AveragePriceMigration extends Migration
+final class AveragePriceMigration extends Migration
 {
 	protected const DATABASE = 'default';
 

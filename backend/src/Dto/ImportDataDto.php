@@ -6,7 +6,7 @@ namespace FinGather\Dto;
 
 use function Safe\json_decode;
 
-readonly class ImportDataDto
+final readonly class ImportDataDto
 {
 	/** @param list<ImportDataFileDto> $importDataFiles */
 	public function __construct(public array $importDataFiles)

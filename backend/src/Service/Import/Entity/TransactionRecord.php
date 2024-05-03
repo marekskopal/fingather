@@ -7,7 +7,7 @@ namespace FinGather\Service\Import\Entity;
 use Decimal\Decimal;
 use Safe\DateTimeImmutable;
 
-readonly class TransactionRecord
+final readonly class TransactionRecord
 {
 	public function __construct(
 		public ?string $ticker = null,

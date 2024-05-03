@@ -54,7 +54,7 @@ use Safe\DateTimeImmutable;
 #[UsesClass(ValueDto::class)]
 #[UsesClass(CalculatorUtils::class)]
 #[UsesClass(TransactionValueDto::class)]
-class AssetDataCalculatorTest extends TestCase
+final class AssetDataCalculatorTest extends TestCase
 {
 	public function testCalculateNull(): void
 	{

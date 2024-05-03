@@ -14,7 +14,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use function Safe\json_decode;
 
-class EmailVerifyController
+final class EmailVerifyController
 {
 	public function __construct(private readonly EmailVerifyProvider $emailVerifyProvider, private readonly UserProvider $userProvider,)
 	{

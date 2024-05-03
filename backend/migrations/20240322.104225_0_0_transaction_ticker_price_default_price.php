@@ -6,7 +6,7 @@ namespace Migration;
 
 use Cycle\Migrations\Migration;
 
-class TransactionTickerPriceDefaultPriceMigration extends Migration
+final class TransactionTickerPriceDefaultPriceMigration extends Migration
 {
 	protected const DATABASE = 'default';
 

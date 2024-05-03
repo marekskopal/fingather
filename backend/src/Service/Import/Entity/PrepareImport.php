@@ -6,7 +6,7 @@ namespace FinGather\Service\Import\Entity;
 
 use FinGather\Model\Entity\Import;
 
-readonly class PrepareImport
+final readonly class PrepareImport
 {
 	/**
 	 * @param array<string, PrepareImportTicker> $notFoundTickers

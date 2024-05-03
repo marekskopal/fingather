@@ -9,7 +9,7 @@ use Decimal\Decimal;
 use FinGather\Model\Entity\Split;
 use FinGather\Model\Entity\Ticker;
 
-class SplitFixture
+final class SplitFixture
 {
 	public static function getSplit(?Ticker $ticker = null, ?DateTimeImmutable $date = null, ?Decimal $factor = null,): Split
 	{

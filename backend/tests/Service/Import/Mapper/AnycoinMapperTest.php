@@ -11,7 +11,7 @@ use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(AnycoinMapper::class)]
-class AnycoinMapperTest extends TestCase
+final class AnycoinMapperTest extends TestCase
 {
 	public function testGetImportType(): void
 	{

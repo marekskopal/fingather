@@ -9,7 +9,7 @@ use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 
-class BrokerFixture
+final class BrokerFixture
 {
 	public static function getBroker(
 		?User $user = null,

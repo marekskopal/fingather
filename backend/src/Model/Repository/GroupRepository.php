@@ -7,7 +7,7 @@ namespace FinGather\Model\Repository;
 use FinGather\Model\Entity\Group;
 
 /** @extends ARepository<Group> */
-class GroupRepository extends ARepository
+final class GroupRepository extends ARepository
 {
 	/** @return iterable<Group> */
 	public function findGroups(int $userId, int $portfolioId): iterable

@@ -6,7 +6,7 @@ namespace FinGather\Service\Import\Mapper;
 
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 
-class Trading212Mapper extends CsvMapper
+final class Trading212Mapper extends CsvMapper
 {
 	public function getImportType(): BrokerImportTypeEnum
 	{

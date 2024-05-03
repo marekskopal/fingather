@@ -14,7 +14,7 @@ use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\Transaction;
 use FinGather\Model\Entity\User;
 
-class TransactionFixture
+final class TransactionFixture
 {
 	public static function getTransaction(
 		?User $user = null,

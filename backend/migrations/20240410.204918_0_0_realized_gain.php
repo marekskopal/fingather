@@ -6,7 +6,7 @@ namespace Migration;
 
 use Cycle\Migrations\Migration;
 
-class RealizedGainMigration extends Migration
+final class RealizedGainMigration extends Migration
 {
 	protected const DATABASE = 'default';
 

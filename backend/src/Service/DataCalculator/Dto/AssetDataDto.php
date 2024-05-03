@@ -7,7 +7,7 @@ namespace FinGather\Service\DataCalculator\Dto;
 use DateTimeImmutable;
 use Decimal\Decimal;
 
-readonly class AssetDataDto
+final readonly class AssetDataDto
 {
 	public function __construct(
 		public Decimal $price,

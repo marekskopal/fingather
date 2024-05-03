@@ -11,7 +11,7 @@ use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(RevolutMapper::class)]
-class RevolutMapperTest extends TestCase
+final class RevolutMapperTest extends TestCase
 {
 	public function testGetImportType(): void
 	{

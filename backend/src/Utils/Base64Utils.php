@@ -6,7 +6,7 @@ namespace FinGather\Utils;
 
 use function Safe\base64_decode;
 
-class Base64Utils
+final class Base64Utils
 {
 	public static function encode(string $string): string
 	{

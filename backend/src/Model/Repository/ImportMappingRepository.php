@@ -7,7 +7,7 @@ namespace FinGather\Model\Repository;
 use FinGather\Model\Entity\ImportMapping;
 
 /** @extends ARepository<ImportMapping> */
-class ImportMappingRepository extends ARepository
+final class ImportMappingRepository extends ARepository
 {
 	/** @return iterable<ImportMapping> */
 	public function findImportMappings(int $userId, int $portfolioId, int $brokerId): iterable

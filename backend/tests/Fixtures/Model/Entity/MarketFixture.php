@@ -8,7 +8,7 @@ use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\Enum\MarketTypeEnum;
 use FinGather\Model\Entity\Market;
 
-class MarketFixture
+final class MarketFixture
 {
 	public static function getMarket(
 		?MarketTypeEnum $type = null,

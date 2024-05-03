@@ -7,7 +7,7 @@ namespace FinGather\Model\Repository;
 use FinGather\Model\Entity\TickerFundamental;
 
 /** @extends ARepository<TickerFundamental> */
-class TickerFundamentalRepository extends ARepository
+final class TickerFundamentalRepository extends ARepository
 {
 	public function findTickerFundamental(int $tickerId): ?TickerFundamental
 	{

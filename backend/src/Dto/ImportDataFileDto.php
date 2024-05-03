@@ -7,7 +7,7 @@ namespace FinGather\Dto;
 use FinGather\Utils\Base64Utils;
 use JsonSerializable;
 
-readonly class ImportDataFileDto implements JsonSerializable
+final readonly class ImportDataFileDto implements JsonSerializable
 {
 	public function __construct(public string $fileName, public string $contents)
 	{

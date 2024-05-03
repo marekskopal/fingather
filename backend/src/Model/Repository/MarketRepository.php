@@ -9,7 +9,7 @@ use FinGather\Model\Entity\Enum\MarketTypeEnum;
 use FinGather\Model\Entity\Market;
 
 /** @extends Repository<Market> */
-class MarketRepository extends Repository
+final class MarketRepository extends Repository
 {
 	/** @var array<string,Market|null> */
 	private array $marketsByExchangeCode = [];

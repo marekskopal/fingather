@@ -10,7 +10,7 @@ use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use Safe\DateTimeImmutable;
 
 /** @extends ARepository<Asset> */
-class AssetRepository extends ARepository
+final class AssetRepository extends ARepository
 {
 	/** @return array<int, Asset> */
 	public function findAssets(int $userId, ?int $portfolioId = null, ?DateTimeImmutable $dateTime = null, ?int $groupId = null): array

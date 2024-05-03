@@ -21,7 +21,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use function Safe\json_decode;
 
-class PortfolioController
+final class PortfolioController
 {
 	public function __construct(
 		private readonly PortfolioProvider $portfolioProvider,

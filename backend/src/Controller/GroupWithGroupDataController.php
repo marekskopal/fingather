@@ -15,7 +15,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Safe\DateTimeImmutable;
 
-class GroupWithGroupDataController
+final class GroupWithGroupDataController
 {
 	public function __construct(
 		private readonly GroupWithGroupDataProvider $groupWithGroupDataProvider,

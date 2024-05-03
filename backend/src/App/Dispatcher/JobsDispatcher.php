@@ -11,7 +11,7 @@ use Spiral\RoadRunner\Environment\Mode;
 use Spiral\RoadRunner\EnvironmentInterface;
 use Spiral\RoadRunner\Jobs\Consumer;
 
-class JobsDispatcher implements Dispatcher
+final class JobsDispatcher implements Dispatcher
 {
 	public function canServe(EnvironmentInterface $env): bool
 	{

@@ -6,7 +6,7 @@ namespace Migration;
 
 use Cycle\Migrations\Migration;
 
-class TransactionTypeTaxFee extends Migration
+final class TransactionTypeTaxFee extends Migration
 {
 	protected const DATABASE = 'default';
 

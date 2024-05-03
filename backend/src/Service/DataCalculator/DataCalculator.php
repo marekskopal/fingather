@@ -10,7 +10,7 @@ use FinGather\Model\Entity\AssetData;
 use FinGather\Service\DataCalculator\Dto\CalculatedDataDto;
 use FinGather\Utils\CalculatorUtils;
 
-class DataCalculator
+final class DataCalculator
 {
 	/** @param array<int, AssetData> $assets */
 	public function calculate(

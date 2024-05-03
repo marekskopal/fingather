@@ -27,7 +27,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use function Safe\json_decode;
 
-class UserController extends AdminController
+final class UserController extends AdminController
 {
 	public function __construct(
 		RequestService $requestService,

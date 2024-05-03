@@ -6,7 +6,7 @@ namespace Migration;
 
 use Cycle\Migrations\Migration;
 
-class TickerFundamentalsMigration extends Migration
+final class TickerFundamentalsMigration extends Migration
 {
 	protected const DATABASE = 'default';
 

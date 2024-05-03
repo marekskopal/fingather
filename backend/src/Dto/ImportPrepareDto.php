@@ -7,7 +7,7 @@ namespace FinGather\Dto;
 use FinGather\Service\Import\Entity\PrepareImport;
 use FinGather\Service\Import\Entity\PrepareImportTicker;
 
-readonly class ImportPrepareDto
+final readonly class ImportPrepareDto
 {
 	/**
 	 * @param list<ImportPrepareTickerDto> $notFoundTickers

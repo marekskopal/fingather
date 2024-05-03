@@ -11,7 +11,7 @@ use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(DegiroMapper::class)]
-class DegiroMapperTest extends TestCase
+final class DegiroMapperTest extends TestCase
 {
 	public function testGetImportType(): void
 	{

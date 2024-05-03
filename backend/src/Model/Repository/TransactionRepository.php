@@ -12,7 +12,7 @@ use FinGather\Model\Repository\Enum\OrderDirectionEnum;
 use FinGather\Model\Repository\Enum\TransactionOrderByEnum;
 
 /** @extends ARepository<Transaction> */
-class TransactionRepository extends ARepository
+final class TransactionRepository extends ARepository
 {
 	/**
 	 * @param list<TransactionActionTypeEnum> $actionTypes

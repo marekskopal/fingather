@@ -7,7 +7,7 @@ namespace FinGather\Service\Import\Mapper;
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use Safe\DateTimeImmutable;
 
-class EtoroMapper extends XlsxMapper
+final class EtoroMapper extends XlsxMapper
 {
 	public function getImportType(): BrokerImportTypeEnum
 	{
