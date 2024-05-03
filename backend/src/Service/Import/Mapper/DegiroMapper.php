@@ -7,7 +7,7 @@ namespace FinGather\Service\Import\Mapper;
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use function Safe\preg_match;
 
-class DegiroMapper extends CsvMapper
+final class DegiroMapper extends CsvMapper
 {
 	private const DecsriptionRegex = '/(?<action>[^ ]+) (?<units>[0-9]+) (?<name>[^ ]+) - [^@]+@(?<price>[0-9]+,[0-9]+) (?<currency>[^ ]+)/';
 

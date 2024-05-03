@@ -15,7 +15,7 @@ use MarekSkopal\Router\Attribute\RouteGet;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-class DividendDataController
+final class DividendDataController
 {
 	public function __construct(
 		private readonly DividendDataProvider $dividendDataProvider,

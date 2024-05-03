@@ -7,7 +7,7 @@ namespace FinGather\Service\Import\Mapper;
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use function Safe\preg_replace;
 
-class RevolutMapper extends CsvMapper
+final class RevolutMapper extends CsvMapper
 {
 	public function getImportType(): BrokerImportTypeEnum
 	{

@@ -11,7 +11,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(DatePeriod::class)]
-class DatePeriodTest extends TestCase
+final class DatePeriodTest extends TestCase
 {
 	public function testGetIterator(): void
 	{

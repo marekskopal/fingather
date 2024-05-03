@@ -8,7 +8,7 @@ use FinGather\Model\Entity\Group;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 
-class GroupFixture
+final class GroupFixture
 {
 	public static function getGroup(
 		?User $user = null,

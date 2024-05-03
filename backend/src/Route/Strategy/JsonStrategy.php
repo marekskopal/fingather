@@ -16,7 +16,7 @@ use Psr\Log\LoggerInterface;
 use function Safe\json_encode;
 use const FILTER_VALIDATE_INT;
 
-class JsonStrategy extends \League\Route\Strategy\JsonStrategy
+final class JsonStrategy extends \League\Route\Strategy\JsonStrategy
 {
 	public function __construct(private readonly LoggerInterface $logger, ResponseFactoryInterface $responseFactory, int $jsonFlags = 0)
 	{

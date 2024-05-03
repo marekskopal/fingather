@@ -7,7 +7,7 @@ namespace FinGather\Model\Repository;
 use FinGather\Model\Entity\Portfolio;
 
 /** @extends ARepository<Portfolio> */
-class PortfolioRepository extends ARepository
+final class PortfolioRepository extends ARepository
 {
 	/** @return iterable<Portfolio> */
 	public function findPortfolios(int $userId): iterable

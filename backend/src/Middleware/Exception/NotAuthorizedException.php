@@ -6,7 +6,7 @@ namespace FinGather\Middleware\Exception;
 
 use Psr\Http\Message\RequestInterface;
 
-class NotAuthorizedException extends \RuntimeException
+final class NotAuthorizedException extends \RuntimeException
 {
 	public function __construct(string $message, private readonly RequestInterface $request, int $code = 401, ?\Throwable $previous = null,)
 	{

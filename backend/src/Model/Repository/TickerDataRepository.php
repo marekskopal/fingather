@@ -8,7 +8,7 @@ use DateTimeImmutable;
 use FinGather\Model\Entity\TickerData;
 
 /** @extends ARepository<TickerData> */
-class TickerDataRepository extends ARepository
+final class TickerDataRepository extends ARepository
 {
 	/** @return array<TickerData> */
 	public function findTickerDatas(int $tickerId, DateTimeImmutable $fromDate, DateTimeImmutable $toDate): array

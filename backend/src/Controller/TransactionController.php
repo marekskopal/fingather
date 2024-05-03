@@ -29,7 +29,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Safe\DateTimeImmutable;
 
-class TransactionController
+final class TransactionController
 {
 	public function __construct(
 		private readonly TransactionProvider $transactionProvider,

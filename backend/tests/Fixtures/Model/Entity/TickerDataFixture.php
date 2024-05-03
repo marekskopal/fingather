@@ -9,7 +9,7 @@ use Decimal\Decimal;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\TickerData;
 
-class TickerDataFixture
+final class TickerDataFixture
 {
 	public static function getTickerData(
 		?Ticker $ticker = null,

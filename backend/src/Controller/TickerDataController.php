@@ -17,7 +17,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Safe\DateTimeImmutable;
 
-class TickerDataController
+final class TickerDataController
 {
 	public function __construct(private readonly TickerDataProvider $tickerDataProvider, private readonly TickerProvider $tickerProvider,)
 	{

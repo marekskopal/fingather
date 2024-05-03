@@ -11,7 +11,7 @@ use Spiral\RoadRunner\Jobs\Options;
 use Spiral\RoadRunner\Jobs\Task\QueuedTaskInterface;
 use function Safe\json_encode;
 
-class QueuePublisher
+final class QueuePublisher
 {
 	private readonly Jobs $jobs;
 

@@ -17,7 +17,7 @@ use Spiral\RoadRunner\Worker;
 use function Safe\file_put_contents;
 use const FILE_APPEND;
 
-class HttpDispatcher implements Dispatcher
+final class HttpDispatcher implements Dispatcher
 {
 	private PSR7Worker $psr7;
 

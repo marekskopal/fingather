@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Dto;
 
-readonly class ImportMappingDto
+final readonly class ImportMappingDto
 {
 	public function __construct(public string $importTicker, public int $tickerId, public int $brokerId)
 	{

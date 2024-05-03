@@ -13,7 +13,7 @@ use Iterator;
  * @method DateTimeImmutable getStartDate()
  * @method DateTimeImmutable getEndDate()
  */
-class DatePeriod extends \DatePeriod
+final class DatePeriod extends \DatePeriod
 {
 	public function getIterator(): Iterator
 	{

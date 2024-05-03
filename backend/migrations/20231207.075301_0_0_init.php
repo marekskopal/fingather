@@ -6,7 +6,7 @@ namespace Migration;
 
 use Cycle\Migrations\Migration;
 
-class InitMigration extends Migration
+final class InitMigration extends Migration
 {
 	protected const DATABASE = 'default';
 

@@ -11,7 +11,7 @@ use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(CalculatorUtils::class)]
-class CalculatorUtilsTest extends TestCase
+final class CalculatorUtilsTest extends TestCase
 {
 	#[TestWith([198442.53, 243315.52, 22.61])]
 	#[TestWith([243315.52, 198442.53, -18.44])]

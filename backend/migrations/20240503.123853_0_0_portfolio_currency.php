@@ -6,7 +6,7 @@ namespace Migration;
 
 use Cycle\Migrations\Migration;
 
-class PortfolioCurrencyMigration extends Migration
+final class PortfolioCurrencyMigration extends Migration
 {
 	protected const DATABASE = 'default';
 

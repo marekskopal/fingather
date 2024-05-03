@@ -11,7 +11,7 @@ use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(EtoroMapper::class)]
-class EtoroMapperTest extends TestCase
+final class EtoroMapperTest extends TestCase
 {
 	public function testGetImportType(): void
 	{

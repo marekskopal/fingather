@@ -9,7 +9,7 @@ use FinGather\Model\Entity\BenchmarkData;
 use FinGather\Model\Entity\PortfolioData;
 
 /** @extends ARepository<BenchmarkData> */
-class BenchmarkDataRepository extends ARepository
+final class BenchmarkDataRepository extends ARepository
 {
 	public function findBenchmarkData(int $portfolioId, int $assetId, DateTimeImmutable $date, DateTimeImmutable $fromDate): ?BenchmarkData
 	{

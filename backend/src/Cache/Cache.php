@@ -12,7 +12,7 @@ use Spiral\RoadRunner\KeyValue\Factory;
 use Spiral\RoadRunner\KeyValue\Serializer\IgbinarySerializer;
 use Spiral\RoadRunner\KeyValue\StorageInterface;
 
-class Cache implements CacheInterface
+final class Cache implements CacheInterface
 {
 	private readonly StorageInterface $storage;
 

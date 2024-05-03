@@ -7,7 +7,7 @@ namespace FinGather\Tests\Fixtures\Model\Entity;
 use FinGather\Model\Entity\Enum\UserRoleEnum;
 use FinGather\Model\Entity\User;
 
-class UserFixture
+final class UserFixture
 {
 	public static function getUser(
 		?string $email = null,

@@ -15,7 +15,7 @@ use FinGather\Service\Provider\TransactionProvider;
 use FinGather\Utils\DateTimeUtils;
 use Safe\DateTimeImmutable;
 
-class DividendDataCalculator
+final class DividendDataCalculator
 {
 	public function __construct(private readonly TransactionProvider $transactionProvider,)
 	{

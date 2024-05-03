@@ -15,7 +15,7 @@ use FinGather\Service\DataCalculator\Dto\BenchmarkDataDto;
 use FinGather\Service\Provider\ExchangeRateProvider;
 use FinGather\Service\Provider\TickerDataProvider;
 
-class BenchmarkDataCalculator
+final class BenchmarkDataCalculator
 {
 	/** @var array<string, Decimal> */
 	private array $transactionBenchmarkUnits = [];

@@ -8,7 +8,7 @@ use Cycle\ORM\Select\Repository;
 use FinGather\Model\Entity\Currency;
 
 /** @extends Repository<Currency> */
-class CurrencyRepository extends Repository
+final class CurrencyRepository extends Repository
 {
 	/** @return iterable<Currency> */
 	public function findCurrencies(): iterable

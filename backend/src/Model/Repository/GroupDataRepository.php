@@ -8,7 +8,7 @@ use DateTimeImmutable;
 use FinGather\Model\Entity\GroupData;
 
 /** @extends ARepository<GroupData> */
-class GroupDataRepository extends ARepository
+final class GroupDataRepository extends ARepository
 {
 	public function findGroupData(int $groupId, DateTimeImmutable $date): ?GroupData
 	{

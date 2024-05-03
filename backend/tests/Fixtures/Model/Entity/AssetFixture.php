@@ -10,7 +10,7 @@ use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\User;
 
-class AssetFixture
+final class AssetFixture
 {
 	public static function getAsset(
 		?User $user = null,

@@ -6,7 +6,7 @@ namespace FinGather\Service\Import\Mapper;
 
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 
-class XtbMapper extends CsvMapper
+final class XtbMapper extends CsvMapper
 {
 	private const string Action = 'Action';
 	private const string Type = 'Type';

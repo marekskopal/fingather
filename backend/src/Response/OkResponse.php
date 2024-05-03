@@ -6,7 +6,7 @@ namespace FinGather\Response;
 
 use Laminas\Diactoros\Response\JsonResponse;
 
-class OkResponse extends JsonResponse
+final class OkResponse extends JsonResponse
 {
 	/** @param array<string> $headers */
 	public function __construct(

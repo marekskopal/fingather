@@ -8,7 +8,7 @@ use Cycle\ORM\Select;
 use FinGather\Model\Entity\Ticker;
 
 /** @extends ARepository<Ticker> */
-class TickerRepository extends ARepository
+final class TickerRepository extends ARepository
 {
 	/** @return array<Ticker> */
 	public function findTickers(?int $marketId = null, ?string $search = null, ?int $limit = null, ?int $offset = null,): array

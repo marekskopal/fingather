@@ -10,7 +10,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class TickerLogoUpdateCommand extends Command
+final class TickerLogoUpdateCommand extends Command
 {
 	protected function configure(): void
 	{

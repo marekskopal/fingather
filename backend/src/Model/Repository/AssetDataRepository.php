@@ -9,7 +9,7 @@ use FinGather\Model\Entity\AssetData;
 use FinGather\Model\Entity\PortfolioData;
 
 /** @extends ARepository<AssetData> */
-class AssetDataRepository extends ARepository
+final class AssetDataRepository extends ARepository
 {
 	public function findAssetData(int $userId, int $portfolioId, int $assetId, DateTimeImmutable $date): ?AssetData
 	{

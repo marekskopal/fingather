@@ -12,7 +12,7 @@ use MarekSkopal\Router\Attribute\RouteGet;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-class CurrentUserController
+final class CurrentUserController
 {
 	public function __construct(private readonly RequestService $requestService)
 	{

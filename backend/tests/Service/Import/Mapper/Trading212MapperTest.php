@@ -11,7 +11,7 @@ use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Trading212Mapper::class)]
-class Trading212MapperTest extends TestCase
+final class Trading212MapperTest extends TestCase
 {
 	public function testGetImportType(): void
 	{

@@ -9,7 +9,7 @@ use FinGather\Model\Entity\Enum\TickerTypeEnum;
 use FinGather\Model\Entity\Market;
 use FinGather\Model\Entity\Ticker;
 
-class TickerFixture
+final class TickerFixture
 {
 	public static function getTicker(
 		?string $ticker = null,

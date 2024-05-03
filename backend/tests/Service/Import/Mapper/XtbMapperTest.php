@@ -11,7 +11,7 @@ use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(XtbMapper::class)]
-class XtbMapperTest extends TestCase
+final class XtbMapperTest extends TestCase
 {
 	public function testGetImportType(): void
 	{

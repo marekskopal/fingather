@@ -8,7 +8,7 @@ use DateTimeImmutable;
 use FinGather\Model\Entity\ExchangeRate;
 
 /** @extends ARepository<ExchangeRate> */
-class ExchangeRateRepository extends ARepository
+final class ExchangeRateRepository extends ARepository
 {
 	public function findExchangeRate(DateTimeImmutable $date, int $currencyId): ?ExchangeRate
 	{

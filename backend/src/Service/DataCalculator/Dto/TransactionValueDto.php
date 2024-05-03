@@ -6,14 +6,13 @@ namespace FinGather\Service\DataCalculator\Dto;
 
 use Decimal\Decimal;
 
-readonly class TransactionValueDto
+final readonly class TransactionValueDto
 {
 	public function __construct(
 		public Decimal $value,
 		public Decimal $valueDefaultCurrency,
 		public Decimal $averagePrice,
 		public Decimal $averagePriceDefaultCurrency,
-	)
-	{
+	) {
 	}
 }

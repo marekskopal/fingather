@@ -11,7 +11,7 @@ use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(InteractiveBrokersMapper::class)]
-class InteractiveBrokersMapperTest extends TestCase
+final class InteractiveBrokersMapperTest extends TestCase
 {
 	public function testGetImportType(): void
 	{

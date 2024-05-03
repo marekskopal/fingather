@@ -8,7 +8,7 @@ use DateTimeImmutable;
 use FinGather\Model\Entity\PortfolioData;
 
 /** @extends ARepository<PortfolioData> */
-class PortfolioDataRepository extends ARepository
+final class PortfolioDataRepository extends ARepository
 {
 	public function findPortfolioData(int $userId, int $portfolioId, DateTimeImmutable $date): ?PortfolioData
 	{

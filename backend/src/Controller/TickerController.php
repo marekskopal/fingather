@@ -13,7 +13,7 @@ use MarekSkopal\Router\Attribute\RouteGet;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-class TickerController
+final class TickerController
 {
 	public function __construct(private readonly TickerProvider $tickerProvider)
 	{

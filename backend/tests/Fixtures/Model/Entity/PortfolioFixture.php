@@ -8,7 +8,7 @@ use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 
-class PortfolioFixture
+final class PortfolioFixture
 {
 	public static function getPortfolio(
 		?User $user = null,

@@ -6,7 +6,7 @@ namespace FinGather\Utils;
 
 use Decimal\Decimal;
 
-class CalculatorUtils
+final class CalculatorUtils
 {
 	private const int DaysInYear = 365;
 

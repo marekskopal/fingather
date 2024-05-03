@@ -25,7 +25,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Safe\DateTimeImmutable;
 
-class AssetController
+final class AssetController
 {
 	public function __construct(
 		private readonly AssetProvider $assetProvider,

@@ -7,7 +7,7 @@ namespace FinGather\Model\Repository;
 use FinGather\Model\Entity\Import;
 
 /** @extends ARepository<Import> */
-class ImportRepository extends ARepository
+final class ImportRepository extends ARepository
 {
 	public function findImport(int $importId, int $userId): ?Import
 	{

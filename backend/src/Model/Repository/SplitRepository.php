@@ -8,7 +8,7 @@ use DateTimeImmutable;
 use FinGather\Model\Entity\Split;
 
 /** @extends ARepository<Split> */
-class SplitRepository extends ARepository
+final class SplitRepository extends ARepository
 {
 	/** @return array<Split> */
 	public function findSplits(int $tickerId): array

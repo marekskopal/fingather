@@ -25,7 +25,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Safe\DateTimeImmutable;
 
-class PortfolioDataController
+final class PortfolioDataController
 {
 	public function __construct(
 		private readonly PortfolioDataProvider $portfolioDataProvider,
