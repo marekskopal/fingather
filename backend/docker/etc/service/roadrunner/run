@@ -1,2 +1,0 @@
-#!/bin/sh
-exec rr serve -w /app/ -c /app/.rr.yaml
