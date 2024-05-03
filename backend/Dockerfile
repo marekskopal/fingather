@@ -1,38 +1,43 @@
 FROM spiralscout/roadrunner:2024.1.1 AS roadrunner
 FROM composer:2.7.2 AS composer
-FROM phusion/baseimage:jammy-1.0.4 AS php
+FROM php:8.3.6-cli-alpine AS php
 
-RUN LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php && \
-    apt-get update && \
-    apt-get upgrade -y && \
-    apt-get install -y --no-install-recommends \
-        php8.3 \
-        php8.3-curl \
-        php8.3-mysql \
-        php8.3-opcache \
-        php8.3-bcmath \
-        php8.3-sockets \
-        php8.3-mbstring \
-        php8.3-zip \
-        php8.3-decimal \
-        php8.3-simplexml \
-        php8.3-gd \
-        php8.3-protobuf \
-        php8.3-igbinary \
-        php8.3-xhprof \
-        curl \
-        tzdata && \
-    apt-get autoremove -y && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+ENV DOCKER_PHP_EXT_INSTALLER_VERSION 2.1.76
+
+ADD https://github.com/mlocati/docker-php-extension-installer/releases/download/$DOCKER_PHP_EXT_INSTALLER_VERSION/install-php-extensions /usr/local/bin/
+RUN chmod +x /usr/local/bin/install-php-extensions && install-php-extensions \
+    curl \
+    pdo_mysql \
+    opcache \
+    bcmath \
+    sockets \
+    mbstring \
+    zip \
+    decimal \
+    simplexml \
+    gd \
+    protobuf \
+    igbinary \
+    xhprof
+
+RUN set -x \
+    && apk add --no-cache \
+        supervisor \
+   		supercronic \
+    	curl \
+    	tzdata
 
 COPY --from=roadrunner /usr/bin/rr /usr/local/bin/rr
 COPY --from=composer /usr/bin/composer /usr/local/bin/composer
 
+COPY ./docker/etc/supervisor/supervisor.conf /etc/supervisor/supervisor.conf
+
+ENTRYPOINT /usr/bin/supervisord -c /etc/supervisor/supervisor.conf
+
 COPY ./docker/etc/cron.d /etc/cron.d
 RUN chmod 0600 /etc/cron.d/*
-COPY ./docker/etc/service /etc/service
-COPY ./docker/etc/php /etc/php
+
+COPY ./docker/docker-php.ini /usr/local/etc/php/conf.d/docker-php.ini
 
 COPY ./bin /app/bin
 COPY ./migrations /app/migrations
