@@ -6,7 +6,7 @@ import { AssetService, PortfolioService } from '@app/services';
 export class HistoryComponent implements OnInit {
     public range: PortfolioDataRangeEnum = PortfolioDataRangeEnum.SevenDays;
     public assets: Asset[] = [];
-    public benchmarkAssetId: number | null;
+    public benchmarkAssetId: number | null = null;
 
     public constructor(
         private readonly assetService: AssetService,
