@@ -30,21 +30,6 @@ class Broker extends AEntity
 		return $this->user;
 	}
 
-	public function setUser(User $user): void
-	{
-		$this->user = $user;
-	}
-
-	public function getPortfolio(): Portfolio
-	{
-		return $this->portfolio;
-	}
-
-	public function setPortfolio(Portfolio $portfolio): void
-	{
-		$this->portfolio = $portfolio;
-	}
-
 	public function getName(): string
 	{
 		return $this->name;

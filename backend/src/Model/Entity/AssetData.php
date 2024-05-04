@@ -98,26 +98,6 @@ class AssetData extends AEntity
 		return !$this->isOpen();
 	}
 
-	public function getUser(): User
-	{
-		return $this->user;
-	}
-
-	public function getPortfolio(): Portfolio
-	{
-		return $this->portfolio;
-	}
-
-	public function getAsset(): Asset
-	{
-		return $this->asset;
-	}
-
-	public function getDate(): DateTimeImmutable
-	{
-		return $this->date;
-	}
-
 	public function getPrice(): Decimal
 	{
 		return $this->price;

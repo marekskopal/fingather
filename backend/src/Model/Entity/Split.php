@@ -30,33 +30,13 @@ class Split extends AEntity
 	) {
 	}
 
-	public function getTicker(): Ticker
-	{
-		return $this->ticker;
-	}
-
-	public function setTicker(Ticker $ticker): void
-	{
-		$this->ticker = $ticker;
-	}
-
 	public function getDate(): DateTimeImmutable
 	{
 		return $this->date;
 	}
 
-	public function setDate(DateTimeImmutable $date): void
-	{
-		$this->date = $date;
-	}
-
 	public function getFactor(): Decimal
 	{
 		return $this->factor;
-	}
-
-	public function setFactor(Decimal $factor): void
-	{
-		$this->factor = $factor;
 	}
 }

@@ -21,18 +21,8 @@ class EmailVerify extends AEntity
 		return $this->user;
 	}
 
-	public function setUser(User $user): void
-	{
-		$this->user = $user;
-	}
-
 	public function getToken(): string
 	{
 		return $this->token;
-	}
-
-	public function setToken(string $token): void
-	{
-		$this->token = $token;
 	}
 }

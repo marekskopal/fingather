@@ -8,7 +8,7 @@ use FinGather\Model\Entity\Currency;
 
 final readonly class CurrencyDto
 {
-	public function __construct(public int $id, public string $code, public string $name, public string $symbol,)
+	public function __construct(public int $id, public string $code, public string $name, public string $symbol, public bool $isSelectable)
 	{
 	}
 
@@ -19,6 +19,7 @@ final readonly class CurrencyDto
 			code: $entity->getCode(),
 			name: $entity->getName(),
 			symbol: $entity->getSymbol(),
+			isSelectable: $entity->getIsSelectable(),
 		);
 	}
 }

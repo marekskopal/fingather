@@ -38,19 +38,9 @@ class Group extends AEntity
 		return $this->user;
 	}
 
-	public function setUser(User $user): void
-	{
-		$this->user = $user;
-	}
-
 	public function getPortfolio(): Portfolio
 	{
 		return $this->portfolio;
-	}
-
-	public function setPortfolio(Portfolio $portfolio): void
-	{
-		$this->portfolio = $portfolio;
 	}
 
 	public function getName(): string
@@ -73,25 +63,9 @@ class Group extends AEntity
 		$this->color = $color;
 	}
 
-	public function isOthers(): bool
-	{
-		return $this->isOthers;
-	}
-
-	public function setIsOthers(bool $isOthers): void
-	{
-		$this->isOthers = $isOthers;
-	}
-
 	/** @return array<int, Asset> */
 	public function getAssets(): array
 	{
 		return $this->assets;
-	}
-
-	/** @param array<int, Asset> $assets */
-	public function setAssets(array $assets): void
-	{
-		$this->assets = $assets;
 	}
 }

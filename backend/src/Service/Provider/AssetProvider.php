@@ -38,13 +38,7 @@ class AssetProvider
 	{
 		$group = $this->groupProvider->getOthersGroup($user, $portfolio);
 
-		$asset = new Asset(
-			user: $user,
-			portfolio: $portfolio,
-			ticker: $ticker,
-			group: $group,
-			transactions: [],
-		);
+		$asset = new Asset(user: $user, portfolio: $portfolio, ticker: $ticker, group: $group);
 
 		$this->assetRepository->persist($asset);
 

@@ -43,19 +43,9 @@ class TickerData extends AEntity
 		return $this->ticker;
 	}
 
-	public function setTicker(Ticker $ticker): void
-	{
-		$this->ticker = $ticker;
-	}
-
 	public function getDate(): DateTimeImmutable
 	{
 		return $this->date;
-	}
-
-	public function setDate(DateTimeImmutable $date): void
-	{
-		$this->date = $date;
 	}
 
 	public function getOpen(): Decimal
@@ -63,19 +53,9 @@ class TickerData extends AEntity
 		return $this->open;
 	}
 
-	public function setOpen(Decimal $open): void
-	{
-		$this->open = $open;
-	}
-
 	public function getClose(): Decimal
 	{
 		return $this->close;
-	}
-
-	public function setClose(Decimal $close): void
-	{
-		$this->close = $close;
 	}
 
 	public function getHigh(): Decimal
@@ -83,28 +63,13 @@ class TickerData extends AEntity
 		return $this->high;
 	}
 
-	public function setHigh(Decimal $high): void
-	{
-		$this->high = $high;
-	}
-
 	public function getLow(): Decimal
 	{
 		return $this->low;
 	}
 
-	public function setLow(Decimal $low): void
-	{
-		$this->low = $low;
-	}
-
 	public function getVolume(): Decimal
 	{
 		return $this->volume;
-	}
-
-	public function setVolume(Decimal $volume): void
-	{
-		$this->volume = $volume;
 	}
 }

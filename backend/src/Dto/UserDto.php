@@ -9,7 +9,13 @@ use FinGather\Model\Entity\User;
 
 final readonly class UserDto
 {
-	public function __construct(public int $id, public string $email, public string $name, public UserRoleEnum $role,)
+	public function __construct(
+		public int $id,
+		public string $email,
+		public string $name,
+		public UserRoleEnum $role,
+		public bool $isEmailVerified,
+	)
 	{
 	}
 
@@ -20,6 +26,7 @@ final readonly class UserDto
 			email: $entity->getEmail(),
 			name: $entity->getName(),
 			role: $entity->getRole(),
+			isEmailVerified: $entity->isEmailVerified(),
 		);
 	}
 
@@ -38,6 +45,7 @@ final readonly class UserDto
 			email: $data['email'],
 			name: $data['name'],
 			role: UserRoleEnum::from($data['role']),
+			isEmailVerified: false,
 		);
 	}
 }

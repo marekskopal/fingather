@@ -48,7 +48,8 @@
         "spatie/ray": "^1.39",
         "thecodingmachine/phpstan-safe-rule": "^1.2",
         "slevomat/coding-standard": "^8.14",
-        "phpstan/phpstan-strict-rules": "^1.5"
+        "phpstan/phpstan-strict-rules": "^1.5",
+        "tomasvotruba/unused-public": "^0.3.9"
     },
     "autoload": {
         "psr-4": {

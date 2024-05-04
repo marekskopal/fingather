@@ -85,19 +85,9 @@ class Transaction extends AEntity
 		return $this->user;
 	}
 
-	public function setUser(User $user): void
-	{
-		$this->user = $user;
-	}
-
 	public function getPortfolio(): Portfolio
 	{
 		return $this->portfolio;
-	}
-
-	public function setPortfolio(Portfolio $portfolio): void
-	{
-		$this->portfolio = $portfolio;
 	}
 
 	public function getAsset(): Asset
@@ -145,19 +135,9 @@ class Transaction extends AEntity
 		return $this->createType;
 	}
 
-	public function setCreateType(TransactionCreateTypeEnum $createType): void
-	{
-		$this->createType = $createType;
-	}
-
 	public function getCreated(): DateTimeImmutable
 	{
 		return $this->created;
-	}
-
-	public function setCreated(DateTimeImmutable $created): void
-	{
-		$this->created = $created;
 	}
 
 	public function getModified(): DateTimeImmutable

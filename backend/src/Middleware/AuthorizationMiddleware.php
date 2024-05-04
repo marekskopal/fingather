@@ -17,6 +17,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 final class AuthorizationMiddleware implements MiddlewareInterface
 {
+	/** @api */
 	public const AttributeToken = 'token';
 	public const AttributeUser = 'user';
 

@@ -184,13 +184,7 @@ final class ImportService
 
 				$asset = $this->assetRepository->findAssetByTickerId($user->getId(), $portfolio->getId(), $ticker->getId());
 				if ($asset === null) {
-					$asset = new Asset(
-						user: $user,
-						portfolio: $portfolio,
-						ticker: $ticker,
-						group: $othersGroup,
-						transactions: [],
-					);
+					$asset = new Asset(user: $user, portfolio: $portfolio, ticker: $ticker, group: $othersGroup);
 					$this->assetRepository->persist($asset);
 				}
 

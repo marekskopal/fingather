@@ -23,7 +23,7 @@ final readonly class ImportStartDto
 	 *     }>
 	 * } $data
 	 */
-	public static function fromArray(array $data): self
+	private static function fromArray(array $data): self
 	{
 		return new self(
 			importId: $data['importId'],

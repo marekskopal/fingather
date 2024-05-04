@@ -30,33 +30,13 @@ class ExchangeRate extends AEntity
 	) {
 	}
 
-	public function getCurrency(): Currency
-	{
-		return $this->currency;
-	}
-
-	public function setCurrency(Currency $currency): void
-	{
-		$this->currency = $currency;
-	}
-
 	public function getDate(): DateTimeImmutable
 	{
 		return $this->date;
 	}
 
-	public function setDate(DateTimeImmutable $date): void
-	{
-		$this->date = $date;
-	}
-
 	public function getRate(): Decimal
 	{
 		return $this->rate;
-	}
-
-	public function setRate(Decimal $rate): void
-	{
-		$this->rate = $rate;
 	}
 }

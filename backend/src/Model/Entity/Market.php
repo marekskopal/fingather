@@ -40,19 +40,9 @@ class Market extends AEntity
 		return $this->type;
 	}
 
-	public function setType(MarketTypeEnum $type): void
-	{
-		$this->type = $type;
-	}
-
 	public function getName(): string
 	{
 		return $this->name;
-	}
-
-	public function setName(string $name): void
-	{
-		$this->name = $name;
 	}
 
 	public function getAcronym(): string
@@ -60,19 +50,9 @@ class Market extends AEntity
 		return $this->acronym;
 	}
 
-	public function setAcronym(string $acronym): void
-	{
-		$this->acronym = $acronym;
-	}
-
 	public function getMic(): string
 	{
 		return $this->mic;
-	}
-
-	public function setMic(string $mic): void
-	{
-		$this->mic = $mic;
 	}
 
 	public function getExchangeCode(): string
@@ -80,19 +60,9 @@ class Market extends AEntity
 		return $this->exchangeCode;
 	}
 
-	public function setExchangeCode(string $exchangeCode): void
-	{
-		$this->exchangeCode = $exchangeCode;
-	}
-
 	public function getCountry(): string
 	{
 		return $this->country;
-	}
-
-	public function setCountry(string $country): void
-	{
-		$this->country = $country;
 	}
 
 	public function getCity(): string
@@ -100,28 +70,13 @@ class Market extends AEntity
 		return $this->city;
 	}
 
-	public function setCity(string $city): void
-	{
-		$this->city = $city;
-	}
-
 	public function getTimezone(): string
 	{
 		return $this->timezone;
 	}
 
-	public function setTimezone(string $timezone): void
-	{
-		$this->timezone = $timezone;
-	}
-
 	public function getCurrency(): Currency
 	{
 		return $this->currency;
-	}
-
-	public function setCurrency(Currency $currency): void
-	{
-		$this->currency = $currency;
 	}
 }

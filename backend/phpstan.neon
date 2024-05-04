@@ -7,3 +7,9 @@ parameters:
         uuid: string
     paths:
        - src
+
+services:
+    -
+        class: FinGather\PhpStan\CycleReadWritePropertiesExtension
+        tags:
+            - phpstan.properties.readWriteExtension

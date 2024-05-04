@@ -33,19 +33,9 @@ class Currency extends AEntity
 		return $this->code;
 	}
 
-	public function setCode(string $code): void
-	{
-		$this->code = $code;
-	}
-
 	public function getName(): string
 	{
 		return $this->name;
-	}
-
-	public function setName(string $name): void
-	{
-		$this->name = $name;
 	}
 
 	public function getSymbol(): string
@@ -53,19 +43,9 @@ class Currency extends AEntity
 		return $this->symbol;
 	}
 
-	public function setSymbol(string $symbol): void
-	{
-		$this->symbol = $symbol;
-	}
-
 	public function getMultiplyCurrency(): ?Currency
 	{
 		return $this->multiplyCurrency;
-	}
-
-	public function setMultiplyCurrency(?Currency $multiplyCurrency): void
-	{
-		$this->multiplyCurrency = $multiplyCurrency;
 	}
 
 	public function getMultiplier(): int
@@ -73,18 +53,8 @@ class Currency extends AEntity
 		return $this->multiplier;
 	}
 
-	public function setMultiplier(int $multiplier): void
-	{
-		$this->multiplier = $multiplier;
-	}
-
 	public function getIsSelectable(): bool
 	{
 		return $this->isSelectable;
-	}
-
-	public function setIsSelectable(bool $isSelectable): void
-	{
-		$this->isSelectable = $isSelectable;
 	}
 }

@@ -46,29 +46,14 @@ class Ticker extends AEntity
 		return $this->ticker;
 	}
 
-	public function setTicker(string $ticker): void
-	{
-		$this->ticker = $ticker;
-	}
-
 	public function getName(): string
 	{
 		return $this->name;
 	}
 
-	public function setName(string $name): void
-	{
-		$this->name = $name;
-	}
-
 	public function getMarket(): Market
 	{
 		return $this->market;
-	}
-
-	public function setMarket(Market $market): void
-	{
-		$this->market = $market;
 	}
 
 	public function getIsin(): ?string
@@ -84,11 +69,6 @@ class Ticker extends AEntity
 	public function getCurrency(): Currency
 	{
 		return $this->currency;
-	}
-
-	public function setCurrency(Currency $currency): void
-	{
-		$this->currency = $currency;
 	}
 
 	public function getType(): TickerTypeEnum

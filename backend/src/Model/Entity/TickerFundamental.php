@@ -132,11 +132,6 @@ class TickerFundamental extends AEntity
 		return $this->ticker;
 	}
 
-	public function setTicker(Ticker $ticker): void
-	{
-		$this->ticker = $ticker;
-	}
-
 	public function getMarketCapitalization(): ?int
 	{
 		return $this->marketCapitalization;
