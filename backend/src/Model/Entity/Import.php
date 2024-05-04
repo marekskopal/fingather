@@ -30,38 +30,13 @@ class Import extends AEntity
 		return $this->user;
 	}
 
-	public function setUser(User $user): void
-	{
-		$this->user = $user;
-	}
-
 	public function getPortfolio(): Portfolio
 	{
 		return $this->portfolio;
 	}
 
-	public function setPortfolio(Portfolio $portfolio): void
-	{
-		$this->portfolio = $portfolio;
-	}
-
-	public function getCreated(): DateTimeImmutable
-	{
-		return $this->created;
-	}
-
-	public function setCreated(DateTimeImmutable $created): void
-	{
-		$this->created = $created;
-	}
-
 	public function getCsvContent(): string
 	{
 		return $this->csvContent;
-	}
-
-	public function setCsvContent(string $csvContent): void
-	{
-		$this->csvContent = $csvContent;
 	}
 }

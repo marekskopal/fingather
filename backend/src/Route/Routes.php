@@ -51,6 +51,8 @@ enum Routes: string
 
 	case Tickers = '/api/ticker';
 
+	case TickerFundamental = '/api/ticker-fundamental/{tickerId:number}';
+
 	case TickerData = '/api/ticker-data/{tickerId:number}';
 
 	case Transactions = '/api/transactions/{portfolioId:number}';

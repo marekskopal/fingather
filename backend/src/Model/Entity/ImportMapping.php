@@ -26,48 +26,13 @@ class ImportMapping extends AEntity
 	) {
 	}
 
-	public function getUser(): User
-	{
-		return $this->user;
-	}
-
-	public function setUser(User $user): void
-	{
-		$this->user = $user;
-	}
-
-	public function getPortfolio(): Portfolio
-	{
-		return $this->portfolio;
-	}
-
-	public function getBroker(): Broker
-	{
-		return $this->broker;
-	}
-
-	public function setBroker(Broker $broker): void
-	{
-		$this->broker = $broker;
-	}
-
 	public function getImportTicker(): string
 	{
 		return $this->importTicker;
 	}
 
-	public function setImportTicker(string $importTicker): void
-	{
-		$this->importTicker = $importTicker;
-	}
-
 	public function getTicker(): Ticker
 	{
 		return $this->ticker;
-	}
-
-	public function setTicker(Ticker $ticker): void
-	{
-		$this->ticker = $ticker;
 	}
 }

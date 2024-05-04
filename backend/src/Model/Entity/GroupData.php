@@ -65,14 +65,4 @@ class GroupData extends ADataEntity
 			$fee,
 		);
 	}
-
-	public function getGroup(): Group
-	{
-		return $this->group;
-	}
-
-	public function setGroup(Group $group): void
-	{
-		$this->group = $group;
-	}
 }

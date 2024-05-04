@@ -12,19 +12,13 @@ use FinGather\Model\Entity\User;
 
 final class AssetFixture
 {
-	public static function getAsset(
-		?User $user = null,
-		?Portfolio $portfolio = null,
-		?Ticker $ticker = null,
-		?Group $group = null,
-		?array $transactions = null,
-	): Asset {
+	public static function getAsset(?User $user = null, ?Portfolio $portfolio = null, ?Ticker $ticker = null, ?Group $group = null,): Asset
+	{
 		return new Asset(
 			user: $user ?? UserFixture::getUser(),
 			portfolio: $portfolio ?? PortfolioFixture::getPortfolio(),
 			ticker: $ticker ?? TickerFixture::getTicker(),
 			group: $group ?? GroupFixture::getGroup(),
-			transactions: $transactions ?? [],
 		);
 	}
 }

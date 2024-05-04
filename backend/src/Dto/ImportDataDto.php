@@ -14,7 +14,7 @@ final readonly class ImportDataDto
 	}
 
 	/** @param array{importDataFiles: list<array{fileName: string, contents: string}>} $data */
-	public static function fromArray(array $data): self
+	private static function fromArray(array $data): self
 	{
 		return new self(
 			importDataFiles: array_map(

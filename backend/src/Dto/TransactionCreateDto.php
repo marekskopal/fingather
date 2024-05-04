@@ -44,7 +44,7 @@ final readonly class TransactionCreateDto
 	 *     importIdentifier?: string|null
 	 * } $data
 	 */
-	public static function fromArray(array $data): self
+	private static function fromArray(array $data): self
 	{
 		return new self(
 			assetId: $data['assetId'],

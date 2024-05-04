@@ -38,34 +38,9 @@ class BenchmarkData extends AEntity
 	) {
 	}
 
-	public function getUser(): User
-	{
-		return $this->user;
-	}
-
-	public function setUser(User $user): void
-	{
-		$this->user = $user;
-	}
-
-	public function getPortfolio(): Portfolio
-	{
-		return $this->portfolio;
-	}
-
-	public function setPortfolio(Portfolio $portfolio): void
-	{
-		$this->portfolio = $portfolio;
-	}
-
 	public function getAsset(): Asset
 	{
 		return $this->asset;
-	}
-
-	public function setAsset(Asset $asset): void
-	{
-		$this->asset = $asset;
 	}
 
 	public function getDate(): DateTimeImmutable
@@ -73,38 +48,13 @@ class BenchmarkData extends AEntity
 		return $this->date;
 	}
 
-	public function setDate(DateTimeImmutable $date): void
-	{
-		$this->date = $date;
-	}
-
-	public function getFromDate(): DateTimeImmutable
-	{
-		return $this->fromDate;
-	}
-
-	public function setFromDate(DateTimeImmutable $beforeDate): void
-	{
-		$this->fromDate = $beforeDate;
-	}
-
 	public function getValue(): Decimal
 	{
 		return $this->value;
 	}
 
-	public function setValue(Decimal $value): void
-	{
-		$this->value = $value;
-	}
-
 	public function getUnits(): Decimal
 	{
 		return $this->units;
-	}
-
-	public function setUnits(Decimal $units): void
-	{
-		$this->units = $units;
 	}
 }

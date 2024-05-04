@@ -13,6 +13,7 @@ final class NotAuthorizedException extends \RuntimeException
 		parent::__construct($message, $code, $previous);
 	}
 
+	/** @api */
 	public function getRequest(): RequestInterface
 	{
 		return $this->request;
