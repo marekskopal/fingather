@@ -1,5 +1,5 @@
 import {
-    Component, Input, OnInit, ViewChild
+    Component, input, InputSignal, OnInit,
 } from '@angular/core';
 import {AssetWithProperties, TickerData} from '@app/models';
 import {AssetService, TickerDataService} from '@app/services';
@@ -32,9 +32,8 @@ export type ChartOptions = {
     selector: 'fingather-asset-ticker-chart',
 })
 export class AssetTickerChartComponent implements OnInit {
-    @ViewChild('chart', { static: false }) public chart: ChartComponent;
-    @Input() public assetId: number;
-    @Input() public assetTickerId: number;
+    public assetId: InputSignal<number> = input.required<number>();
+    public assetTickerId: InputSignal<number> = input.required<number>();
     public chartOptions: ChartOptions;
     public loading: boolean = true;
 
@@ -53,7 +52,7 @@ export class AssetTickerChartComponent implements OnInit {
     private async refreshChart(): Promise<void> {
         this.loading = true;
 
-        this.tickerDataService.getTickerDatas(this.assetTickerId)
+        this.tickerDataService.getTickerDatas(this.assetTickerId())
             .pipe(first())
             .subscribe((assetTickerDatas) => {
                 const assetTickerData = this.mapAssetTickerData(assetTickerDatas);
@@ -61,10 +60,9 @@ export class AssetTickerChartComponent implements OnInit {
                 this.chartOptions.xaxis.categories = assetTickerData.categories;
                 this.chartOptions.series[0].data = assetTickerData.series;
 
-                this.assetService.getAsset(this.assetId)
+                this.assetService.getAsset(this.assetId())
                     .pipe(first())
                     .subscribe((asset: AssetWithProperties) => {
-                        console.log(asset.averagePrice);
                         // @ts-ignore
                         this.chartOptions.annotations.yaxis[0].y = asset.averagePrice;
                         // @ts-ignore

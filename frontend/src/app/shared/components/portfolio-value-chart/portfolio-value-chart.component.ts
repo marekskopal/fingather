@@ -1,11 +1,11 @@
 import {
-    Component, Input, OnChanges, OnInit, ViewChild
+    Component, input, InputSignal, OnChanges, OnInit
 } from '@angular/core';
 import { PortfolioDataRangeEnum, PortfolioDataWithBenchmarkData } from '@app/models';
 import { PortfolioDataService, PortfolioService } from '@app/services';
 import {
     ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexGrid, ApexLegend, ApexStroke, ApexTheme,
-    ApexTitleSubtitle, ApexXAxis, ApexYAxis, ChartComponent
+    ApexTitleSubtitle, ApexXAxis, ApexYAxis
 } from 'ng-apexcharts';
 import { first } from 'rxjs/operators';
 
@@ -29,12 +29,11 @@ export type ChartOptions = {
     selector: 'fingather-portfolio-value-chart',
 })
 export class PortfolioValueChartComponent implements OnInit, OnChanges {
-    @ViewChild('chart', { static: false }) public chart: ChartComponent;
-    @Input({required: true}) public range: PortfolioDataRangeEnum;
-    @Input() public benchmarkAssetId: number | null;
-    @Input() public height: string = 'auto';
-    @Input() public showLabels: boolean | null;
-    @Input() public title: string | null;
+    public range: InputSignal<PortfolioDataRangeEnum> = input.required<PortfolioDataRangeEnum>();
+    public benchmarkAssetId: InputSignal<number|null> = input<number|null>(null);
+    public height: InputSignal<string> = input<string>('auto');
+    public showLabels: InputSignal<boolean|null> = input<boolean|null>(null);
+    public title: InputSignal<string|null> = input<string|null>(null);
     public chartOptions: ChartOptions;
     public loading: boolean = true;
 
@@ -65,7 +64,7 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
 
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
-        this.portfolioDataService.getPortfolioDataRange(portfolio.id, this.range, this.benchmarkAssetId)
+        this.portfolioDataService.getPortfolioDataRange(portfolio.id, this.range(), this.benchmarkAssetId())
             .pipe(first())
             .subscribe((portfolioData: PortfolioDataWithBenchmarkData[]) => {
                 const chartMap = this.mapChart(portfolioData);
@@ -87,7 +86,7 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
                 },
             ],
             chart: {
-                height: this.height,
+                height: this.height(),
                 type: 'area',
                 zoom: {
                     enabled: false
@@ -103,7 +102,7 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
                 curve: 'smooth'
             },
             title: {
-                text: this.title ?? '',
+                text: this.title() ?? '',
                 align: 'left'
             },
             grid: {
@@ -115,17 +114,17 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
             xaxis: {
                 type: 'datetime',
                 labels: {
-                    show: this.showLabels ?? true,
+                    show: this.showLabels() ?? true,
                 },
                 categories: [],
             },
             yaxis: {
                 labels: {
-                    show: this.showLabels ?? true,
+                    show: this.showLabels() ?? true,
                 }
             },
             legend: {
-                show: this.showLabels ?? true,
+                show: this.showLabels() ?? true,
             },
             theme: {
                 mode: 'dark',
@@ -143,7 +142,7 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
             colors: ['#64ee85']
         };
 
-        if (this.benchmarkAssetId !== undefined && this.benchmarkAssetId !== null) {
+        if (this.benchmarkAssetId() !== null) {
             this.chartOptions.series[1] = {
                 name: 'Benchmark',
                 data: [],
@@ -154,7 +153,7 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
     }
 
     private initializeBenchmarkChartOptions() {
-        if (this.benchmarkAssetId === undefined || this.benchmarkAssetId === null) {
+        if (this.benchmarkAssetId() === null) {
             return;
         }
 
