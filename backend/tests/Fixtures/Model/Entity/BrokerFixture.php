@@ -11,6 +11,7 @@ use FinGather\Model\Entity\User;
 
 final class BrokerFixture
 {
+	/** @api */
 	public static function getBroker(
 		?User $user = null,
 		?Portfolio $portfolio = null,

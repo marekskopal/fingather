@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace FinGather\Tests\Fixtures\Model\Entity;
 
+use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Group;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 
 final class GroupFixture
 {
+	/** @param list<Asset>|null $assets */
 	public static function getGroup(
 		?User $user = null,
 		?Portfolio $portfolio = null,

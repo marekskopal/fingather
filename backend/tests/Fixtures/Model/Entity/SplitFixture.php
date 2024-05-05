@@ -11,11 +11,12 @@ use FinGather\Model\Entity\Ticker;
 
 final class SplitFixture
 {
+	/** @api */
 	public static function getSplit(?Ticker $ticker = null, ?DateTimeImmutable $date = null, ?Decimal $factor = null,): Split
 	{
 		return new Split(
 			ticker: $ticker ?? TickerFixture::getTicker(),
-			date: $date ?? new DateTimeImmutable(),
+			date: $date ?? new \Safe\DateTimeImmutable(),
 			factor: $factor ?? new Decimal(1),
 		);
 	}

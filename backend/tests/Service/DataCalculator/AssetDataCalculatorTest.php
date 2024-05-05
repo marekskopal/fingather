@@ -70,7 +70,7 @@ final class AssetDataCalculatorTest extends TestCase
 		$asset = AssetFixture::getAsset();
 		$dateTime = new DateTimeImmutable();
 
-		$this->assertNull($assetDataCalculator->calculate(
+		self::assertNull($assetDataCalculator->calculate(
 			$user,
 			$portfolio,
 			$asset,
@@ -78,6 +78,28 @@ final class AssetDataCalculatorTest extends TestCase
 		));
 	}
 
+	/**
+	 * @return array<string, array{
+	 *     transactions: Transaction[],
+	 *     splits: Split[],
+	 *     lastTickerDataClose: float,
+	 *     exchangeRate: float,
+	 *     price: float,
+	 *     units: float,
+	 *     value: float,
+	 *     transactionValue: float,
+	 *     transactionValueDefaultCurrency: float,
+	 *     averagePrice: float,
+	 *     averagePriceDefaultCurrency: float,
+	 *     gain: float,
+	 *     gainDefaultCurrency: float,
+	 *     gainPercentage: float,
+	 *     realizedGain: float,
+	 *     realizedGainDefaultCurrency: float,
+	 *     dividendGain: float,
+	 *     dividendGainDefaultCurrency: float,
+	 * }>
+	 */
 	public static function calculateDataProvider(): array
 	{
 		return [
@@ -477,6 +499,10 @@ final class AssetDataCalculatorTest extends TestCase
 		];
 	}
 
+	/**
+	 * @param list<Transaction> $transactions
+	 * @param list<Split> $splits
+	 */
 	#[DataProvider('calculateDataProvider')]
 	public function testCalculate(
 		array $transactions,
@@ -515,22 +541,28 @@ final class AssetDataCalculatorTest extends TestCase
 
 		$assetData = $assetDataCalculator->calculate($user, $portfolio, $asset, $dateTime);
 
-		$this->assertSame($price, $assetData->price->toFloat());
-		$this->assertSame($units, $assetData->units->toFloat());
-		$this->assertSame($value, $assetData->value->toFloat());
-		$this->assertSame($transactionValue, $assetData->transactionValue->toFloat());
-		$this->assertSame($transactionValueDefaultCurrency, $assetData->transactionValueDefaultCurrency->toFloat());
-		$this->assertSame($averagePrice, $assetData->averagePrice->toFloat());
-		$this->assertSame($averagePriceDefaultCurrency, $assetData->averagePriceDefaultCurrency->toFloat());
-		$this->assertSame($gain, $assetData->gain->toFloat());
-		$this->assertSame($gainDefaultCurrency, $assetData->gainDefaultCurrency->toFloat());
-		$this->assertSame($gainPercentage, $assetData->gainPercentage);
-		$this->assertSame($realizedGain, $assetData->realizedGain->toFloat());
-		$this->assertSame($realizedGainDefaultCurrency, $assetData->realizedGainDefaultCurrency->toFloat());
-		$this->assertSame($dividendGain, $assetData->dividendGain->toFloat());
-		$this->assertSame($dividendGainDefaultCurrency, $assetData->dividendGainDefaultCurrency->toFloat());
+		self::assertInstanceOf(AssetDataDto::class, $assetData);
+
+		self::assertSame($price, $assetData->price->toFloat());
+		self::assertSame($units, $assetData->units->toFloat());
+		self::assertSame($value, $assetData->value->toFloat());
+		self::assertSame($transactionValue, $assetData->transactionValue->toFloat());
+		self::assertSame($transactionValueDefaultCurrency, $assetData->transactionValueDefaultCurrency->toFloat());
+		self::assertSame($averagePrice, $assetData->averagePrice->toFloat());
+		self::assertSame($averagePriceDefaultCurrency, $assetData->averagePriceDefaultCurrency->toFloat());
+		self::assertSame($gain, $assetData->gain->toFloat());
+		self::assertSame($gainDefaultCurrency, $assetData->gainDefaultCurrency->toFloat());
+		self::assertSame($gainPercentage, $assetData->gainPercentage);
+		self::assertSame($realizedGain, $assetData->realizedGain->toFloat());
+		self::assertSame($realizedGainDefaultCurrency, $assetData->realizedGainDefaultCurrency->toFloat());
+		self::assertSame($dividendGain, $assetData->dividendGain->toFloat());
+		self::assertSame($dividendGainDefaultCurrency, $assetData->dividendGainDefaultCurrency->toFloat());
 	}
 
+	/**
+	 * @param list<Transaction> $transactions
+	 * @param list<Split> $splits
+	 */
 	private function createAssetDataCalculator(
 		array $transactions,
 		array $splits,
@@ -546,7 +578,7 @@ final class AssetDataCalculatorTest extends TestCase
 		$splitProvider->method('getSplits')
 			->willReturn($splits);
 
-		$tickerDataProvider = $this->createStub(TickerDataProvider::class);
+		$tickerDataProvider = self::createStub(TickerDataProvider::class);
 		$tickerDataProvider->method('getLastTickerData')
 			->willReturn($lastTickerData);
 
