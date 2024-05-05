@@ -44,4 +44,17 @@ class AssetProvider
 
 		return $asset;
 	}
+
+	public function getOrCreateAsset(User $user, Portfolio $portfolio, Ticker $ticker, Group $othersGroup): Asset
+	{
+		$asset = $this->assetRepository->findAssetByTickerId($user->getId(), $portfolio->getId(), $ticker->getId());
+		if ($asset !== null) {
+			return $asset;
+		}
+
+		$asset = new Asset(user: $user, portfolio: $portfolio, ticker: $ticker, group: $othersGroup);
+		$this->assetRepository->persist($asset);
+
+		return $asset;
+	}
 }

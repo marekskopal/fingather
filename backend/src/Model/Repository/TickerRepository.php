@@ -13,28 +13,40 @@ final class TickerRepository extends ARepository
 	/** @return array<Ticker> */
 	public function findTickers(?int $marketId = null, ?string $search = null, ?int $limit = null, ?int $offset = null,): array
 	{
-		$tickers = $this->select();
+		return $this->getTickersSelect($marketId, $search, $limit, $offset)->fetchAll();
+	}
+
+	/** @return array<string> */
+	public function findTickersTicker(?int $marketId = null, ?string $search = null, ?int $limit = null, ?int $offset = null): array
+	{
+		return $this->getTickersSelect($marketId, $search, $limit, $offset)->buildQuery()->columns(['ticker'])->fetchAll();
+	}
+
+	/** @return Select<Ticker> */
+	private function getTickersSelect(?int $marketId = null, ?string $search = null, ?int $limit = null, ?int $offset = null): Select
+	{
+		$tickersSelect = $this->select();
 
 		if ($marketId !== null) {
-			$tickers->where('market_id', $marketId);
+			$tickersSelect->where('market_id', $marketId);
 		}
 
 		if ($search !== null) {
-			$tickers->where('ticker', 'like', $search . '%');
+			$tickersSelect->where('ticker', 'like', $search . '%');
 		}
 
 		if ($limit !== null) {
-			$tickers->limit($limit);
+			$tickersSelect->limit($limit);
 		}
 
 		if ($offset !== null) {
-			$tickers->offset($offset);
+			$tickersSelect->offset($offset);
 		}
 
-		$tickers->orderBy('ticker');
-		$tickers->orderBy('market_id');
+		$tickersSelect->orderBy('ticker');
+		$tickersSelect->orderBy('market_id');
 
-		return $tickers->fetchAll();
+		return $tickersSelect;
 	}
 
 	public function findTicker(int $tickerId): ?Ticker
