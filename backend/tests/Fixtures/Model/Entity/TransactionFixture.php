@@ -16,6 +16,7 @@ use FinGather\Model\Entity\User;
 
 final class TransactionFixture
 {
+	/** @api */
 	public static function getTransaction(
 		?User $user = null,
 		?Portfolio $portfolio = null,
@@ -48,10 +49,10 @@ final class TransactionFixture
 			asset: $asset ?? AssetFixture::getAsset(),
 			brokerId: $brokerId ?? 1,
 			actionType: $actionType ?? TransactionActionTypeEnum::Buy,
-			actionCreated: $actionCreated ?? new DateTimeImmutable('2021-01-01'),
+			actionCreated: $actionCreated ?? new \Safe\DateTimeImmutable('2021-01-01'),
 			createType: $createType ?? TransactionCreateTypeEnum::Manual,
-			created: $created ?? new DateTimeImmutable('2021-01-01'),
-			modified: $modified ?? new DateTimeImmutable('2021-01-01'),
+			created: $created ?? new \Safe\DateTimeImmutable('2021-01-01'),
+			modified: $modified ?? new \Safe\DateTimeImmutable('2021-01-01'),
 			units: $units ?? new Decimal(10),
 			price: $price ?? new Decimal(100),
 			currency: $currency ?? CurrencyFixture::getCurrency(),

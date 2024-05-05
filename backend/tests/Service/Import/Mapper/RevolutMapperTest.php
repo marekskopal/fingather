@@ -9,6 +9,7 @@ use FinGather\Service\Import\Mapper\RevolutMapper;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\TestCase;
+use function Safe\file_get_contents;
 
 #[CoversClass(RevolutMapper::class)]
 final class RevolutMapperTest extends TestCase
@@ -16,14 +17,22 @@ final class RevolutMapperTest extends TestCase
 	public function testGetImportType(): void
 	{
 		$mapper = new RevolutMapper();
-		$this->assertSame(BrokerImportTypeEnum::Revolut, $mapper->getImportType());
+		self::assertSame(BrokerImportTypeEnum::Revolut, $mapper->getImportType());
 	}
 
 	public function testGetMapping(): void
 	{
 		$mapper = new RevolutMapper();
 
-		$this->assertIsArray($mapper->getMapping());
+		$mappings = $mapper->getMapping();
+
+		self::assertArrayHasKey('actionType', $mappings);
+		self::assertArrayHasKey('created', $mappings);
+		self::assertArrayHasKey('ticker', $mappings);
+		self::assertArrayHasKey('units', $mappings);
+		self::assertArrayHasKey('price', $mappings);
+		self::assertArrayHasKey('currency', $mappings);
+		self::assertArrayHasKey('total', $mappings);
 	}
 
 	#[TestWith(['revolut_export.csv', true])]
@@ -39,12 +48,12 @@ final class RevolutMapperTest extends TestCase
 
 		$fileContent = file_get_contents(__DIR__ . '/../../../Fixtures/Import/File/' . $fileName);
 
-		$this->assertSame($expected, $mapper->check($fileContent, $fileName));
+		self::assertSame($expected, $mapper->check($fileContent, $fileName));
 	}
 
 	public function testGetCsvDelimiter(): void
 	{
 		$mapper = new RevolutMapper();
-		$this->assertSame(',', $mapper->getCsvDelimiter());
+		self::assertSame(',', $mapper->getCsvDelimiter());
 	}
 }

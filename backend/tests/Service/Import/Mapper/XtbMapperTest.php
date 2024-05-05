@@ -9,6 +9,7 @@ use FinGather\Service\Import\Mapper\XtbMapper;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\TestCase;
+use function Safe\file_get_contents;
 
 #[CoversClass(XtbMapper::class)]
 final class XtbMapperTest extends TestCase
@@ -16,14 +17,21 @@ final class XtbMapperTest extends TestCase
 	public function testGetImportType(): void
 	{
 		$mapper = new XtbMapper();
-		$this->assertSame(BrokerImportTypeEnum::Xtb, $mapper->getImportType());
+		self::assertSame(BrokerImportTypeEnum::Xtb, $mapper->getImportType());
 	}
 
 	public function testGetMapping(): void
 	{
 		$mapper = new XtbMapper();
 
-		$this->assertIsArray($mapper->getMapping());
+		$mapping = $mapper->getMapping();
+
+		self::assertArrayHasKey('actionType', $mapping);
+		self::assertArrayHasKey('created', $mapping);
+		self::assertArrayHasKey('ticker', $mapping);
+		self::assertArrayHasKey('units', $mapping);
+		self::assertArrayHasKey('price', $mapping);
+		self::assertArrayHasKey('importIdentifier', $mapping);
 	}
 
 	#[TestWith(['xtb_export.csv', true])]
@@ -39,12 +47,12 @@ final class XtbMapperTest extends TestCase
 
 		$fileContent = file_get_contents(__DIR__ . '/../../../Fixtures/Import/File/' . $fileName);
 
-		$this->assertSame($expected, $mapper->check($fileContent, $fileName));
+		self::assertSame($expected, $mapper->check($fileContent, $fileName));
 	}
 
 	public function testGetCsvDelimiter(): void
 	{
 		$mapper = new XtbMapper();
-		$this->assertSame(';', $mapper->getCsvDelimiter());
+		self::assertSame(';', $mapper->getCsvDelimiter());
 	}
 }

@@ -9,6 +9,7 @@ use FinGather\Service\Import\Mapper\DegiroMapper;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\TestCase;
+use function Safe\file_get_contents;
 
 #[CoversClass(DegiroMapper::class)]
 final class DegiroMapperTest extends TestCase
@@ -16,14 +17,26 @@ final class DegiroMapperTest extends TestCase
 	public function testGetImportType(): void
 	{
 		$mapper = new DegiroMapper();
-		$this->assertSame(BrokerImportTypeEnum::Degiro, $mapper->getImportType());
+		self::assertSame(BrokerImportTypeEnum::Degiro, $mapper->getImportType());
 	}
 
 	public function testGetMapping(): void
 	{
 		$mapper = new DegiroMapper();
 
-		$this->assertIsArray($mapper->getMapping());
+		$mapping = $mapper->getMapping();
+
+		self::assertArrayHasKey('actionType', $mapping);
+		self::assertArrayHasKey('created', $mapping);
+		self::assertArrayHasKey('isin', $mapping);
+		self::assertArrayHasKey('units', $mapping);
+		self::assertArrayHasKey('price', $mapping);
+		self::assertArrayHasKey('currency', $mapping);
+		self::assertArrayHasKey('tax', $mapping);
+		self::assertArrayHasKey('taxCurrency', $mapping);
+		self::assertArrayHasKey('fee', $mapping);
+		self::assertArrayHasKey('feeCurrency', $mapping);
+		self::assertArrayHasKey('importIdentifier', $mapping);
 	}
 
 	#[TestWith(['degiro_export.csv', true])]
@@ -39,12 +52,12 @@ final class DegiroMapperTest extends TestCase
 
 		$fileContent = file_get_contents(__DIR__ . '/../../../Fixtures/Import/File/' . $fileName);
 
-		$this->assertSame($expected, $mapper->check($fileContent, $fileName));
+		self::assertSame($expected, $mapper->check($fileContent, $fileName));
 	}
 
 	public function testGetCsvDelimiter(): void
 	{
 		$mapper = new DegiroMapper();
-		$this->assertSame(',', $mapper->getCsvDelimiter());
+		self::assertSame(',', $mapper->getCsvDelimiter());
 	}
 }

@@ -11,6 +11,7 @@ use FinGather\Model\Entity\TickerData;
 
 final class TickerDataFixture
 {
+	/** @api */
 	public static function getTickerData(
 		?Ticker $ticker = null,
 		?DateTimeImmutable $date = null,
@@ -22,7 +23,7 @@ final class TickerDataFixture
 	): TickerData {
 		return new TickerData(
 			ticker: $ticker ?? TickerFixture::getTicker(),
-			date: $date ?? new DateTimeImmutable(),
+			date: $date ?? new \Safe\DateTimeImmutable(),
 			open: $open ?? new Decimal(10),
 			high: $high ?? new Decimal(20),
 			low: $low ?? new Decimal(5),

@@ -9,6 +9,7 @@ use FinGather\Service\Import\Mapper\EtoroMapper;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\TestCase;
+use function Safe\file_get_contents;
 
 #[CoversClass(EtoroMapper::class)]
 final class EtoroMapperTest extends TestCase
@@ -16,14 +17,22 @@ final class EtoroMapperTest extends TestCase
 	public function testGetImportType(): void
 	{
 		$mapper = new EtoroMapper();
-		$this->assertSame(BrokerImportTypeEnum::Etoro, $mapper->getImportType());
+		self::assertSame(BrokerImportTypeEnum::Etoro, $mapper->getImportType());
 	}
 
 	public function testGetMapping(): void
 	{
 		$mapper = new EtoroMapper();
 
-		$this->assertIsArray($mapper->getMapping());
+		$mapping = $mapper->getMapping();
+
+		self::assertArrayHasKey('actionType', $mapping);
+		self::assertArrayHasKey('created', $mapping);
+		self::assertArrayHasKey('ticker', $mapping);
+		self::assertArrayHasKey('units', $mapping);
+		self::assertArrayHasKey('price', $mapping);
+		self::assertArrayHasKey('currency', $mapping);
+		self::assertArrayHasKey('importIdentifier', $mapping);
 	}
 
 	public function testGetRecords(): void
@@ -34,8 +43,7 @@ final class EtoroMapperTest extends TestCase
 
 		$records = $mapper->getRecords($fileContent);
 
-		$this->assertIsArray($records);
-		$this->assertCount(3, $records);
+		self::assertCount(3, $records);
 	}
 
 	#[TestWith(['etoro_export.xlsx', true])]
@@ -51,12 +59,12 @@ final class EtoroMapperTest extends TestCase
 
 		$fileContent = file_get_contents(__DIR__ . '/../../../Fixtures/Import/File/' . $fileName);
 
-		$this->assertSame($expected, $mapper->check($fileContent, $fileName));
+		self::assertSame($expected, $mapper->check($fileContent, $fileName));
 	}
 
 	public function testGetSheetIndex(): void
 	{
 		$mapper = new EtoroMapper();
-		$this->assertSame(2, $mapper->getSheetIndex());
+		self::assertSame(2, $mapper->getSheetIndex());
 	}
 }

@@ -23,7 +23,7 @@ final class CalculatorUtilsTest extends TestCase
 			new Decimal((string) $valueNew),
 		);
 
-		$this->assertSame($expected, $diffToPercentage);
+		self::assertSame($expected, $diffToPercentage);
 	}
 
 	#[TestWith([198442.53, 243315.52, 81.56])]
@@ -32,7 +32,7 @@ final class CalculatorUtilsTest extends TestCase
 	{
 		$toPercentage = CalculatorUtils::toPercentage(new Decimal((string) $value), new Decimal((string) $total));
 
-		$this->assertSame($expected, $toPercentage);
+		self::assertSame($expected, $toPercentage);
 	}
 
 	#[TestWith([10.0, 50, 10.0])]
@@ -41,6 +41,6 @@ final class CalculatorUtilsTest extends TestCase
 	{
 		$toPercentage = CalculatorUtils::toPercentagePerAnnum($percentage, $days);
 
-		$this->assertSame($expected, $toPercentage);
+		self::assertSame($expected, $toPercentage);
 	}
 }
