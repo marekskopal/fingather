@@ -25,6 +25,15 @@ class PortfolioProvider
 		return $this->portfolioRepository->findPortfolios($user->getId());
 	}
 
+	/** @return list<Portfolio> */
+	public function getOtherPortfolios(User $user, Portfolio $portfolio): array
+	{
+		return array_filter(
+			iterator_to_array($this->getPortfolios($user)),
+			fn (Portfolio $otherPortfolio) => $otherPortfolio->getId() !== $portfolio->getId(),
+		);
+	}
+
 	public function getPortfolio(User $user, int $portfolioId): ?Portfolio
 	{
 		return $this->portfolioRepository->findPortfolio($user->getId(), $portfolioId);
@@ -59,17 +68,13 @@ class PortfolioProvider
 
 	public function updatePortfolio(Portfolio $portfolio, Currency $currency, string $name, bool $isDefault): Portfolio
 	{
-		$otherPortfolios = iterator_to_array($this->getPortfolios($portfolio->getUser()));
+		$otherPortfolios = $this->getOtherPortfolios(user: $portfolio->getUser(), portfolio: $portfolio);
 		if (!$isDefault && count($otherPortfolios) === 0) {
 			$isDefault = true;
 		}
 
 		if ($isDefault && $portfolio->getIsDefault() !== $isDefault) {
 			foreach ($otherPortfolios as $otherPortfolio) {
-				if ($otherPortfolio->getId() === $portfolio->getId()) {
-					continue;
-				}
-
 				$otherPortfolio->setIsDefault(false);
 				$this->portfolioRepository->persist($otherPortfolio);
 			}

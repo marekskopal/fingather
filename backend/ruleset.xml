@@ -226,6 +226,10 @@
 					@var,
 					@param,
 					@return,
+					@template,
+					@extends,
+					@method,
+					@phpstan-ignore-next-line
 				"/>
             </property>
         </properties>

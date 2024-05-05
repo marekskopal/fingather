@@ -10,6 +10,7 @@ use FinGather\Dto\ImportStartDto;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Response\OkResponse;
 use FinGather\Route\Routes;
+use FinGather\Service\Import\ImportPrepareService;
 use FinGather\Service\Import\ImportService;
 use FinGather\Service\Provider\ImportMappingProvider;
 use FinGather\Service\Provider\ImportProvider;
@@ -24,6 +25,7 @@ final class ImportController
 {
 	public function __construct(
 		private readonly ImportService $importService,
+		private readonly ImportPrepareService $importPrepareService,
 		private readonly ImportProvider $importProvider,
 		private readonly ImportMappingProvider $importMappingProvider,
 		private readonly PortfolioProvider $portfolioProvider,
@@ -48,7 +50,7 @@ final class ImportController
 		}
 
 		return new JsonResponse(ImportPrepareDto::fromImportPrepare(
-			$this->importService->prepareImport($user, $portfolio, $importData),
+			$this->importPrepareService->prepareImport($user, $portfolio, $importData),
 		));
 	}
 
@@ -66,7 +68,7 @@ final class ImportController
 
 		$this->importMappingProvider->createImportMappingFromImportStart($user, $importStart);
 
-		$this->importService->importCsv($import);
+		$this->importService->importDataFiles($import);
 
 		return new OkResponse();
 	}
