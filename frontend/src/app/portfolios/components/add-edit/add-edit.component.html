@@ -1,5 +1,5 @@
 ﻿<div class="modal-header">
-    @if (isAddMode) {
+    @if (id() === null) {
         <h4 class="modal-title">{{ 'app.portfolios.addEdit.headerAdd' | translate }}</h4>
     } @else {
         <h4 class="modal-title">{{ 'app.portfolios.addEdit.headerEdit' | translate }}</h4>

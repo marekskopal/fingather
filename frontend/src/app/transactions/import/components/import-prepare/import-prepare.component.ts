@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {Component, input, Input, InputSignal, OnInit} from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ImportPrepare, ImportStart } from '@app/models';
@@ -14,7 +14,7 @@ import { first } from 'rxjs/operators';
     selector: 'fingather-import-import-prepare',
 })
 export class ImportPrepareComponent extends BaseForm implements OnInit {
-    @Input() public importPrepare: ImportPrepare;
+    public importPrepare: InputSignal<ImportPrepare> = input.required<ImportPrepare>();
 
     public constructor(
         private readonly router: Router,
@@ -31,7 +31,7 @@ export class ImportPrepareComponent extends BaseForm implements OnInit {
         const controlsConfig: {
             [key: string]: any;
         } = {};
-        for (const importPrepareTicker of this.importPrepare.multipleFoundTickers) {
+        for (const importPrepareTicker of this.importPrepare().multipleFoundTickers) {
             controlsConfig[`${importPrepareTicker.brokerId}-${importPrepareTicker.ticker}`] = [
                 importPrepareTicker.tickers[0].id, Validators.required
             ];
@@ -58,7 +58,7 @@ export class ImportPrepareComponent extends BaseForm implements OnInit {
 
     private createImport(): void {
         const importStart = new ImportStart();
-        importStart.importId = this.importPrepare.importId;
+        importStart.importId = this.importPrepare().importId;
         importStart.importMappings = [];
         // eslint-disable-next-line
         for (const property in this.form.value) {

@@ -1,9 +1,9 @@
-import {Component, Input} from '@angular/core';
+import {Component, input, InputSignal} from '@angular/core';
 
 @Component({
     selector: 'fingather-value-color',
     templateUrl: 'value-color.component.html'
 })
 export class ValueColorComponent {
-    @Input() public value: number;
+    public value: InputSignal<number> = input.required<number>();
 }

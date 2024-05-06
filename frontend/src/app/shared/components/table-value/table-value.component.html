@@ -1,5 +1,5 @@
-﻿@if (value !== null) {
-    <fingather-value-color [value]="value">
+﻿@if (value() !== null) {
+    <fingather-value-color [value]="value()??0">
         <ng-content></ng-content>
     </fingather-value-color>
 } @else {

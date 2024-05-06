@@ -15,10 +15,10 @@ export class ConfirmDialogService {
         btnCancelText: string = 'Cancel',
     ): Promise<boolean> {
         const modalRef = this.modalService.open(ConfirmDialogComponent, { size: 'sm' });
-        modalRef.componentInstance.title = title;
-        modalRef.componentInstance.message = message;
-        modalRef.componentInstance.btnOkText = btnOkText;
-        modalRef.componentInstance.btnCancelText = btnCancelText;
+        modalRef.componentInstance.title.set(title);
+        modalRef.componentInstance.message.set(message);
+        modalRef.componentInstance.btnOkText.set(btnOkText);
+        modalRef.componentInstance.btnCancelText.set(btnCancelText);
 
         return modalRef.result;
     }

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import {Component, signal, WritableSignal} from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -6,10 +6,10 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
     templateUrl: 'confirm-dialog.component.html'
 })
 export class ConfirmDialogComponent {
-    @Input() public title: string;
-    @Input() public message: string;
-    @Input() public btnOkText: string;
-    @Input() public btnCancelText: string;
+    public title: WritableSignal<string> = signal<string>('');
+    public message: WritableSignal<string> = signal<string>('');
+    public btnOkText: WritableSignal<string> = signal<string>('OK');
+    public btnCancelText: WritableSignal<string> = signal<string>('Cancel');
 
     public constructor(
         private activeModal: NgbActiveModal

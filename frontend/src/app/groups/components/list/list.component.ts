@@ -49,7 +49,7 @@ export class ListComponent implements OnInit, OnDestroy {
 
     public editGroup(id: number): void {
         const addEditComponent = this.modalService.open(AddEditComponent);
-        addEditComponent.componentInstance.id = id;
+        addEditComponent.componentInstance.id.set(id);
     }
 
     public async deleteGroup(id: number): Promise<void> {

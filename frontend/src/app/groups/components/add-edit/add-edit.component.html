@@ -1,5 +1,5 @@
 ﻿<div class="modal-header">
-    @if (isAddMode) {
+    @if (id() === null) {
         <h4 class="modal-title">{{ 'app.groups.addEdit.headerAdd' | translate }}</h4>
     } @else {
         <h4 class="modal-title">{{ 'app.groups.addEdit.headerEdit' | translate }}</h4>
@@ -25,7 +25,7 @@
         <div class="mb-3">
             <label for="assetIds" class="form-label">{{ 'app.groups.addEdit.assets' | translate }}</label>
             <select multiple id="assetIds" formControlName="assetIds" class="form-select">
-                <option *ngFor="let asset of assets" [ngValue]="asset.id" [disabled]="asset.groupId !== othersGroup.id && asset.groupId !== id">
+                <option *ngFor="let asset of assets" [ngValue]="asset.id" [disabled]="asset.groupId !== othersGroup.id && asset.groupId !== id()">
                     {{ asset.ticker.name }}
                 </option>
             </select>

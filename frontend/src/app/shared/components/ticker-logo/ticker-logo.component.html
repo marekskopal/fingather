@@ -1,11 +1,11 @@
 ﻿<div class="ticker-logo">
-    @if (ticker.logo !== null) {
+    @if (ticker().logo !== null) {
         <div class="logo">
-            <img [src]="logoSrc" class="img-fluid" alt="{{ticker.name}} logo" />
+            <img [src]="logoSrc" class="img-fluid" alt="{{ticker().name}} logo" />
         </div>
     } @else {
         <div class="logo-placeholder">
-            <span class="logo-placeholder-text">{{ticker.name.charAt(0)}}</span>
+            <span class="logo-placeholder-text">{{ticker().name.charAt(0)}}</span>
         </div>
     }
 </div>
