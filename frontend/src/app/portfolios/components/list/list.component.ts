@@ -43,7 +43,7 @@ export class ListComponent implements OnInit, OnDestroy {
 
     public editPortfolio(id: number): void {
         const addEditComponent = this.modalService.open(AddEditComponent);
-        addEditComponent.componentInstance.id = id;
+        addEditComponent.componentInstance.id.set(id);
     }
 
     public async deletePortfolio(id: number): Promise<void> {

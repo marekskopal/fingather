@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import {Component, input, Input, InputSignal} from '@angular/core';
 import { Ticker } from '@app/models';
 
 @Component({
@@ -6,9 +6,9 @@ import { Ticker } from '@app/models';
     templateUrl: 'ticker-logo.component.html'
 })
 export class TickerLogoComponent {
-    @Input() public ticker: Ticker;
+    public ticker: InputSignal<Ticker> = input.required<Ticker>();
 
     public get logoSrc(): string {
-        return `/images/logos/${this.ticker.logo}`;
+        return `/images/logos/${this.ticker().logo}`;
     }
 }

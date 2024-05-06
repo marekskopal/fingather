@@ -1,5 +1,5 @@
 ﻿<div class="modal-header">
-    @if (isAddMode) {
+    @if (id() === null) {
         <h4 class="modal-title">{{ 'app.users.addEdit.headerAdd' | translate }}</h4>
     } @else {
         <h4 class="modal-title">{{ 'app.users.addEdit.headerAdd' | translate }}</h4>
@@ -30,7 +30,7 @@
             <div class="form-group col">
                 <label for="password">
                     {{ 'app.users.addEdit.password' | translate }}
-                    <em *ngIf="!isAddMode">{{ 'app.users.addEdit.passwordLeaveBlank' | translate }}</em>
+                    <em *ngIf="id() !== null">{{ 'app.users.addEdit.passwordLeaveBlank' | translate }}</em>
                 </label>
                 <input id="password" type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['password'].errors }" />
                 <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
@@ -39,7 +39,7 @@
                 </div>
             </div>
         </div>
-        @if (isAddMode) {
+        @if (id() === null) {
             <div class="form-row">
                 <div class="form-group col">
                     <label for="defaultCurrencyId" class="form-label">{{ 'app.users.addEdit.defaultCurrency' | translate }}</label>

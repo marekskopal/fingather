@@ -1,6 +1,4 @@
-import {
-    Component, Input, OnInit, ViewChild
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { GroupWithGroupData } from '@app/models';
 import { GroupWithGroupDataService, PortfolioService } from '@app/services';
 import {
@@ -28,8 +26,6 @@ export type ChartOptions = {
     selector: 'fingather-dashboard-group-chart',
 })
 export class GroupChartComponent implements OnInit {
-    @ViewChild('chart', { static: false }) public chart: ChartComponent;
-    @Input() public assetTickerId: string;
     public chartOptions: ChartOptions;
     public loading: boolean = true;
 

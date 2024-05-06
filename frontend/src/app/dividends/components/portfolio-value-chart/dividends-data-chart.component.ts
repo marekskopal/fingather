@@ -1,5 +1,5 @@
 import {
-    Component, Input, OnChanges, OnInit, ViewChild
+    Component, input, InputSignal, OnChanges, OnInit,
 } from '@angular/core';
 import {
     DividendDataDateInterval,
@@ -8,7 +8,7 @@ import {
 import { DividendDataService, PortfolioService } from '@app/services';
 import {
     ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexLegend, ApexPlotOptions,
-    ApexTheme, ApexXAxis, ChartComponent
+    ApexTheme, ApexXAxis,
 } from 'ng-apexcharts';
 import { first } from 'rxjs/operators';
 
@@ -28,8 +28,7 @@ export type ChartOptions = {
     selector: 'fingather-dividends-data-chart',
 })
 export class DividendsDataChartComponent implements OnInit, OnChanges {
-    @ViewChild('chart', { static: false }) public chart: ChartComponent;
-    @Input() public range: PortfolioDataRangeEnum;
+    public range: InputSignal<PortfolioDataRangeEnum> = input.required<PortfolioDataRangeEnum>();
     public chartOptions: ChartOptions;
     public loading: boolean = true;
 
@@ -56,7 +55,7 @@ export class DividendsDataChartComponent implements OnInit, OnChanges {
 
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
-        this.dividendDataService.getDividendDataRange(portfolio.id, this.range)
+        this.dividendDataService.getDividendDataRange(portfolio.id, this.range())
             .pipe(first())
             .subscribe((dividendData: DividendDataDateInterval[]) => {
                 const chartMap = this.mapChart(dividendData);

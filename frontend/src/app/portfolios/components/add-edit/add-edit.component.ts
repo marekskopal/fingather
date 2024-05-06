@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {Component, Input, OnInit, signal, WritableSignal} from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import {AlertService, CurrencyService, PortfolioService} from '@app/services';
 import { BaseForm } from '@app/shared/components/form/base-form';
@@ -8,8 +8,8 @@ import {Currency} from "@app/models";
 
 @Component({ templateUrl: 'add-edit.component.html' })
 export class AddEditComponent extends BaseForm implements OnInit {
-    @Input() public id: number;
-    public isAddMode: boolean;
+    public id: WritableSignal<number | null> = signal<number | null>(null);
+
     public currencies: Currency[];
 
     public constructor(
@@ -23,8 +23,6 @@ export class AddEditComponent extends BaseForm implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.isAddMode = !this.id;
-
         this.form = this.formBuilder.group({
             name: ['My Portfolio', Validators.required],
             currencyId: ['', Validators.required],
@@ -38,8 +36,9 @@ export class AddEditComponent extends BaseForm implements OnInit {
                 this.f['defaultCurrencyId'].patchValue(currencies[0].id);
             });
 
-        if (!this.isAddMode) {
-            this.portfolioService.getPortfolio(this.id)
+        const id = this.id();
+        if (id !== null) {
+            this.portfolioService.getPortfolio(id)
                 .pipe(first())
                 .subscribe((x) => this.form.patchValue(x));
         }
@@ -57,7 +56,7 @@ export class AddEditComponent extends BaseForm implements OnInit {
         }
 
         this.loading = true;
-        if (this.isAddMode) {
+        if (this.id() === null) {
             this.createPortfolio();
         } else {
             this.updatePortfolio();
@@ -81,7 +80,12 @@ export class AddEditComponent extends BaseForm implements OnInit {
     }
 
     private updatePortfolio(): void {
-        this.portfolioService.updatePortfolio(this.id, this.form.value)
+        const id = this.id();
+        if (id === null) {
+            return;
+        }
+
+        this.portfolioService.updatePortfolio(id, this.form.value)
             .pipe(first())
             .subscribe({
                 next: () => {

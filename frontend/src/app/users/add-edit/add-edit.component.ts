@@ -1,6 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {Component, Input, OnInit, signal, WritableSignal} from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Currency } from '@app/models';
 import { UserRoleEnum } from '@app/models/enums/user-role-enum';
 import { AlertService, CurrencyService, UserService } from '@app/services';
@@ -10,8 +9,8 @@ import { first } from 'rxjs/operators';
 
 @Component({ templateUrl: 'add-edit.component.html' })
 export class AddEditComponent extends BaseForm implements OnInit {
-    @Input() public id: number;
-    public isAddMode: boolean;
+    public id: WritableSignal<number | null> = signal<number | null>(null);
+
     public currencies: Currency[];
     public roles = [
         { name: 'User', key: UserRoleEnum.User },
@@ -29,11 +28,11 @@ export class AddEditComponent extends BaseForm implements OnInit {
     }
 
     public async ngOnInit(): Promise<void> {
-        this.isAddMode = !this.id;
-
         const emailValidators = [Validators.email];
         const passwordValidators = [Validators.minLength(6)];
-        if (this.isAddMode) {
+
+        const id = this.id();
+        if (id === null) {
             emailValidators.push(Validators.required);
             passwordValidators.push(Validators.required);
         }
@@ -53,8 +52,8 @@ export class AddEditComponent extends BaseForm implements OnInit {
                 this.f['defaultCurrencyId'].patchValue(currencies[0].id);
             });
 
-        if (!this.isAddMode) {
-            this.userService.getUser(this.id)
+        if (id !== null) {
+            this.userService.getUser(id)
                 .pipe(first())
                 .subscribe((x) => this.form.patchValue(x));
         }
@@ -72,7 +71,7 @@ export class AddEditComponent extends BaseForm implements OnInit {
         }
 
         this.loading = true;
-        if (this.isAddMode) {
+        if (this.id() === null) {
             this.createUser();
         } else {
             this.updateUser();
@@ -96,7 +95,12 @@ export class AddEditComponent extends BaseForm implements OnInit {
     }
 
     private updateUser(): void {
-        this.userService.updateUser(this.id, this.form.value)
+        const id = this.id();
+        if (id === null) {
+            return;
+        }
+
+        this.userService.updateUser(id, this.form.value)
             .pipe(first())
             .subscribe({
                 next: () => {

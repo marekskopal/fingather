@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {Component, input, Input, InputSignal, OnInit, signal, WritableSignal} from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { Asset, Group } from '@app/models';
 import {
@@ -10,8 +10,8 @@ import { first } from 'rxjs/operators';
 
 @Component({ templateUrl: 'add-edit.component.html' })
 export class AddEditComponent extends BaseForm implements OnInit {
-    @Input() public id: number;
-    public isAddMode: boolean;
+    public id: WritableSignal<number|null> = signal<number|null>(null);
+
     public assets: Asset[];
     public othersGroup: Group;
 
@@ -27,8 +27,6 @@ export class AddEditComponent extends BaseForm implements OnInit {
     }
 
     public async ngOnInit(): Promise<void> {
-        this.isAddMode = !this.id;
-
         this.form = this.formBuilder.group({
             name: ['', Validators.required],
             color: ['#64ee85', Validators.required],
@@ -47,8 +45,9 @@ export class AddEditComponent extends BaseForm implements OnInit {
                 this.othersGroup = group;
             });
 
-        if (!this.isAddMode) {
-            this.groupService.getGroup(this.id)
+        const id = this.id();
+        if (id !== null) {
+            this.groupService.getGroup(id)
                 .pipe(first())
                 .subscribe((x) => this.form.patchValue(x));
         }
@@ -68,7 +67,7 @@ export class AddEditComponent extends BaseForm implements OnInit {
         }
 
         this.loading = true;
-        if (this.isAddMode) {
+        if (this.id() === null) {
             this.createGroup(portfolio.id);
         } else {
             this.updateGroup();
@@ -92,7 +91,12 @@ export class AddEditComponent extends BaseForm implements OnInit {
     }
 
     private updateGroup(): void {
-        this.groupService.updateGroup(this.id, this.form.value)
+        const id = this.id();
+        if (id === null) {
+            return;
+        }
+
+        this.groupService.updateGroup(id, this.form.value)
             .pipe(first())
             .subscribe({
                 next: () => {

@@ -1,5 +1,5 @@
 import {
-    Component, Input, OnDestroy, OnInit
+    Component, input, InputSignal, OnDestroy, OnInit
 } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { Alert, AlertType } from '@app/models';
@@ -8,8 +8,8 @@ import { Subscription } from 'rxjs';
 
 @Component({ selector: 'fingather-alert', templateUrl: 'alert.component.html' })
 export class AlertComponent implements OnInit, OnDestroy {
-    @Input() public id = 'default-alert';
-    @Input() public fade = true;
+    public id: InputSignal<string> = input('default-alert');
+    public fade: InputSignal<boolean> = input(true);
 
     public alerts: Alert[] = [];
     public alertSubscription: Subscription;
@@ -19,7 +19,7 @@ export class AlertComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         // subscribe to new alert notifications
-        this.alertSubscription = this.alertService.onAlert(this.id)
+        this.alertSubscription = this.alertService.onAlert(this.id())
             .subscribe((alert) => {
                 // clear alerts when an empty alert is received
                 if (!alert.message) {
@@ -43,7 +43,7 @@ export class AlertComponent implements OnInit, OnDestroy {
         // clear alerts on location change
         this.routeSubscription = this.router.events.subscribe((event) => {
             if (event instanceof NavigationStart) {
-                this.alertService.clear(this.id);
+                this.alertService.clear(this.id());
             }
         });
     }
@@ -58,7 +58,7 @@ export class AlertComponent implements OnInit, OnDestroy {
         // check if already removed to prevent error on auto close
         if (!this.alerts.includes(alert)) return;
 
-        if (this.fade) {
+        if (this.fade()) {
             // fade out alert
             alert.fade = true;
 
