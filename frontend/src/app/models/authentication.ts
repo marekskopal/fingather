@@ -1,5 +1,5 @@
-export class Authentication {
-    public token: string;
-    public tokenExpirationTime: number;
-    public userId: number;
+export interface Authentication {
+    token: string;
+    tokenExpirationTime: number;
+    userId: number;
 }

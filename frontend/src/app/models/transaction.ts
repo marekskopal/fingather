@@ -1,24 +1,24 @@
-import { AEntity } from '@app/models/AEntity';
+import { AbstractEntity } from '@app/models/abstract-entity';
 import {Ticker} from "@app/models/ticker";
 
-export class Transaction extends AEntity {
-    public assetId: string;
-    public brokerId: string;
-    public actionType: TransactionActionType;
-    public actionCreated: string;
-    public createType: TransactionCreateType;
-    public created: Date;
-    public modified: Date;
-    public units: number;
-    public price: number;
-    public currencyId: number;
-    public tax: number;
-    public taxCurrencyId: number;
-    public fee: number;
-    public feeCurrencyId: number;
-    public notes: string;
-    public importIdentifier: string;
-    public ticker: Ticker;
+export interface Transaction extends AbstractEntity {
+    assetId: string;
+    brokerId: string;
+    actionType: TransactionActionType;
+    actionCreated: string;
+    createType: TransactionCreateType;
+    created: Date;
+    modified: Date;
+    units: number;
+    price: number;
+    currencyId: number;
+    tax: number;
+    taxCurrencyId: number;
+    fee: number;
+    feeCurrencyId: number;
+    notes: string;
+    importIdentifier: string;
+    ticker: Ticker;
 }
 
 export enum TransactionActionType {

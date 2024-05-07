@@ -57,17 +57,19 @@ export class ImportPrepareComponent extends BaseForm implements OnInit {
     }
 
     private createImport(): void {
-        const importStart = new ImportStart();
-        importStart.importId = this.importPrepare().importId;
-        importStart.importMappings = [];
+        const importStart: ImportStart = {
+            importId: this.importPrepare().importId,
+            importMappings: [],
+        };
         // eslint-disable-next-line
         for (const property in this.form.value) {
             const [brokerId, importTicker] = property.split('-');
 
-            const importMapping = new ImportMapping();
-            importMapping.brokerId = parseInt(brokerId, 10);
-            importMapping.importTicker = importTicker;
-            importMapping.tickerId = this.form.value[property];
+            const importMapping: ImportMapping = {
+                brokerId: parseInt(brokerId, 10),
+                importTicker: importTicker,
+                tickerId: this.form.value[property],
+            }
 
             importStart.importMappings.push(importMapping);
         }

@@ -1,3 +1,3 @@
-export class AssetCreate {
-    public ticker: string;
+export interface AssetCreate {
+    ticker: string;
 }

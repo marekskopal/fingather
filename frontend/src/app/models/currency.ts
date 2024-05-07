@@ -1,7 +1,7 @@
-import { AEntity } from '@app/models/AEntity';
+import { AbstractEntity } from '@app/models/abstract-entity';
 
-export class Currency extends AEntity {
-    public code: string;
-    public name: string;
-    public symbol: string;
+export interface Currency extends AbstractEntity {
+    code: string;
+    name: string;
+    symbol: string;
 }

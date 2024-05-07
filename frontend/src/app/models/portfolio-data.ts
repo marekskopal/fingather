@@ -1,6 +1,6 @@
-import { ADataEntity } from '@app/models/ADataEntity';
+import { AbstractDataEntity } from '@app/models/abstract-data-entity';
 
-export class PortfolioData extends ADataEntity {
+export interface PortfolioData extends AbstractDataEntity {
 }
 
 export enum PortfolioDataRangeEnum {

@@ -1,5 +1,5 @@
-export * from './ADataEntity';
-export * from './AEntity';
+export * from './abstract-data-entity';
+export * from './abstract-entity';
 export * from './alert';
 export * from './asset';
 export * from './asset-with-properties';

@@ -1,10 +1,10 @@
-import { AEntity } from '@app/models/AEntity';
+import { AbstractEntity } from '@app/models/abstract-entity';
 import { UserRoleEnum } from '@app/models/enums/user-role-enum';
 
-export class User extends AEntity {
-    public email: string;
-    public password: string;
-    public name: string;
-    public defaultCurrencyId: number;
-    public role: UserRoleEnum;
+export interface User extends AbstractEntity {
+    email: string;
+    password: string;
+    name: string;
+    defaultCurrencyId: number;
+    role: UserRoleEnum;
 }

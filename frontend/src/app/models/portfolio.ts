@@ -1,7 +1,7 @@
-import { AEntity } from '@app/models/AEntity';
+import { AbstractEntity } from '@app/models/abstract-entity';
 
-export class Portfolio extends AEntity {
-    public currencyId: number;
-    public name: string;
-    public isDefault: boolean;
+export interface Portfolio extends AbstractEntity {
+    currencyId: number;
+    name: string;
+    isDefault: boolean;
 }

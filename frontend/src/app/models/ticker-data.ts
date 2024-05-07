@@ -1,11 +1,11 @@
-export class TickerData {
-    public id: number;
-    public tickerId: number;
-    public date: string;
-    public open: string;
-    public close: string;
-    public high: string;
-    public low: string;
-    public volume: number;
-    public performance: number;
+export interface TickerData {
+    id: number;
+    tickerId: number;
+    date: string;
+    open: string;
+    close: string;
+    high: string;
+    low: string;
+    volume: number;
+    performance: number;
 }

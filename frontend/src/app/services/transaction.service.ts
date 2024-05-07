@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Transaction, TransactionActionType } from '@app/models';
 import { OkResponse } from '@app/models/ok-response';
-import { TransactionList } from '@app/models/TransactionList';
+import { TransactionList } from '@app/models/transaction-list';
 import { NotifyService } from '@app/services/notify-service';
 import { environment } from '@environments/environment';
 import { Observable } from 'rxjs';

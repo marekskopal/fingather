@@ -1,5 +1,5 @@
-export class ImportMapping {
-    public brokerId: number;
-    public importTicker: string;
-    public tickerId: number;
+export interface ImportMapping {
+    brokerId: number;
+    importTicker: string;
+    tickerId: number;
 }

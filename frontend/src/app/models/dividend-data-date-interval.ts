@@ -1,6 +1,6 @@
 import { DividendDataAsset } from '@app/models/dividend-data-asset';
 
-export class DividendDataDateInterval {
-    public interval: string;
-    public dividendDataAssets: DividendDataAsset[];
+export interface DividendDataDateInterval {
+    interval: string;
+    dividendDataAssets: DividendDataAsset[];
 }
