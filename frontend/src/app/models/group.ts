@@ -1,8 +1,8 @@
 import { AssetWithProperties } from '@app/models';
-import { AEntity } from '@app/models/AEntity';
+import { AbstractEntity } from '@app/models/abstract-entity';
 
-export class Group extends AEntity {
-    public name: string;
-    public color: string;
-    public assets: AssetWithProperties[];
+export interface Group extends AbstractEntity {
+    name: string;
+    color: string;
+    assets: AssetWithProperties[];
 }

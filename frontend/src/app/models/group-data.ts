@@ -1,5 +1,5 @@
-import { ADataEntity } from '@app/models/ADataEntity';
+import { AbstractDataEntity } from '@app/models/abstract-data-entity';
 
-export class GroupData extends ADataEntity {
-    public groupId: number;
+export interface GroupData extends AbstractDataEntity {
+    groupId: number;
 }

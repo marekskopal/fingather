@@ -1,4 +1,4 @@
-export class OkResponse {
-    public code: number;
-    public message: string;
+export interface OkResponse {
+    code: number;
+    message: string;
 }

@@ -1,7 +1,7 @@
-import { AEntity } from '@app/models/AEntity';
+import { AbstractEntity } from '@app/models/abstract-entity';
 
-export class BenchmarkData extends AEntity {
-    public assetId: number;
-    public date: string;
-    public value: number;
+export interface BenchmarkData extends AbstractEntity {
+    assetId: number;
+    date: string;
+    value: number;
 }

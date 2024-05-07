@@ -1,3 +1,3 @@
-export class DividendData {
+export interface DividendData {
 
 }

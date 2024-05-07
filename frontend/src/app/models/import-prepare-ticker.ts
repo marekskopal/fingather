@@ -1,7 +1,7 @@
 import { Ticker } from '@app/models/ticker';
 
-export class ImportPrepareTicker {
-    public brokerId: number;
-    public ticker: string;
-    public tickers: Ticker[];
+export interface ImportPrepareTicker {
+    brokerId: number;
+    ticker: string;
+    tickers: Ticker[];
 }

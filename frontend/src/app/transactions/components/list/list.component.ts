@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { TransactionList } from '@app/models/TransactionList';
+import { TransactionList } from '@app/models/transaction-list';
 import { PortfolioService, TransactionService } from '@app/services';
 import { ConfirmDialogService } from '@app/services/confirm-dialog.service';
 import { DividendDialogComponent } from '@app/shared/components/dividend-dialog/dividend-dialog.component';

@@ -1,16 +1,8 @@
-import { AEntity } from '@app/models/AEntity';
+import { AbstractEntity } from '@app/models/abstract-entity';
+import { BrokerImportTypes } from "@app/models/enums/broker-import-type-enum";
 
-export class Broker extends AEntity {
-    public userId: number;
-    public name: string;
-    public importType: BrokerImportTypes;
-}
-
-export enum BrokerImportTypes {
-    Trading212 = 'Trading212',
-    InteractiveBrokers = 'InteractiveBrokers',
-    Xtb = 'Xtb',
-    Etoro = 'Etoro',
-    Revolut = 'Revolut',
-    Anycoin = 'Anycoin',
+export interface Broker extends AbstractEntity {
+    userId: number;
+    name: string;
+    importType: BrokerImportTypes;
 }

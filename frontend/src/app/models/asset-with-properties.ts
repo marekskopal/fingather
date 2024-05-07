@@ -1,36 +1,36 @@
 import { Ticker } from '@app/models/ticker';
 
-export class AssetWithProperties {
-    public id: number;
-    public tickerId: number;
-    public groupId: number;
-    public price: number;
-    public units: number;
-    public value: number;
-    public transactionValue: number;
-    public transactionValueDefaultCurrency: number;
-    public averagePrice: number;
-    public averagePriceDefaultCurrency: number;
-    public gain: number;
-    public gainDefaultCurrency: number;
-    public realizedGain: number;
-    public realizedGainDefaultCurrency: number;
-    public gainPercentage: number;
-    public gainPercentagePerAnnum: number;
-    public dividendGain: number;
-    public dividendGainDefaultCurrency: number;
-    public dividendGainPercentage: number;
-    public dividendGainPercentagePerAnnum: number;
-    public fxImpact: number;
-    public fxImpactPercentage: number;
-    public fxImpactPercentagePerAnnum: number;
-    public return: number;
-    public returnPercentage: number;
-    public returnPercentagePerAnnum: number;
-    public tax: number;
-    public taxDefaultCurrency: number;
-    public fee: number;
-    public feeDefaultCurrency: number;
+export interface AssetWithProperties {
+    id: number;
+    tickerId: number;
+    groupId: number;
+    price: number;
+    units: number;
+    value: number;
+    transactionValue: number;
+    transactionValueDefaultCurrency: number;
+    averagePrice: number;
+    averagePriceDefaultCurrency: number;
+    gain: number;
+    gainDefaultCurrency: number;
+    realizedGain: number;
+    realizedGainDefaultCurrency: number;
+    gainPercentage: number;
+    gainPercentagePerAnnum: number;
+    dividendGain: number;
+    dividendGainDefaultCurrency: number;
+    dividendGainPercentage: number;
+    dividendGainPercentagePerAnnum: number;
+    fxImpact: number;
+    fxImpactPercentage: number;
+    fxImpactPercentagePerAnnum: number;
+    return: number;
+    returnPercentage: number;
+    returnPercentagePerAnnum: number;
+    tax: number;
+    taxDefaultCurrency: number;
+    fee: number;
+    feeDefaultCurrency: number;
 
-    public ticker: Ticker;
+    ticker: Ticker;
 }

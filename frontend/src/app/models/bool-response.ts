@@ -1,3 +1,3 @@
-export class BoolResponse {
-    public value: boolean;
+export interface BoolResponse {
+    value: boolean;
 }

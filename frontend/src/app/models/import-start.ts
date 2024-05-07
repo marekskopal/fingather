@@ -1,6 +1,6 @@
 import { ImportMapping } from '@app/models/import-mapping';
 
-export class ImportStart {
-    public importId: number;
-    public importMappings: ImportMapping[];
+export interface ImportStart {
+    importId: number;
+    importMappings: ImportMapping[];
 }
