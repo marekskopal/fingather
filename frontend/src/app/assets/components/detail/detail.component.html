@@ -6,6 +6,8 @@
         [assetTickerId]="asset.ticker.id"
     ></fingather-asset-ticker-chart>
 
+    <fingather-ticker-fundamentals [tickerId]="asset.ticker.id" />
+
     <div class="row">
         <div class="col-lg-6">
             <fingather-transaction-list></fingather-transaction-list>
