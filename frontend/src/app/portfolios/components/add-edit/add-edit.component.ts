@@ -1,10 +1,12 @@
-import {Component, Input, OnInit, signal, WritableSignal} from '@angular/core';
+import {
+    Component, OnInit, signal, WritableSignal
+} from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
-import {AlertService, CurrencyService, PortfolioService} from '@app/services';
+import { Currency } from '@app/models';
+import { AlertService, CurrencyService, PortfolioService } from '@app/services';
 import { BaseForm } from '@app/shared/components/form/base-form';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { first } from 'rxjs/operators';
-import {Currency} from "@app/models";
 
 @Component({ templateUrl: 'add-edit.component.html' })
 export class AddEditComponent extends BaseForm implements OnInit {

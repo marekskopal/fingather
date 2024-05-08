@@ -1,5 +1,5 @@
 import { AbstractEntity } from '@app/models/abstract-entity';
-import {Ticker} from "@app/models/ticker";
+import { Ticker } from '@app/models/ticker';
 
 export interface Transaction extends AbstractEntity {
     assetId: string;

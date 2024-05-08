@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Currency, PortfolioData, PortfolioDataRangeEnum} from '@app/models';
+import { Currency, PortfolioData, PortfolioDataRangeEnum } from '@app/models';
 import { CurrencyService, PortfolioDataService, PortfolioService } from '@app/services';
 import { first } from 'rxjs/operators';
 

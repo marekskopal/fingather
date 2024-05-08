@@ -1,4 +1,4 @@
-import {Component, input, InputSignal} from '@angular/core';
+import { Component, input, InputSignal } from '@angular/core';
 
 @Component({
     selector: 'fingather-value-color',

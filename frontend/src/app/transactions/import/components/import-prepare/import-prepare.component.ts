@@ -1,4 +1,6 @@
-import {Component, input, Input, InputSignal, OnInit} from '@angular/core';
+import {
+    Component, input, InputSignal, OnInit
+} from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ImportPrepare, ImportStart } from '@app/models';
@@ -67,9 +69,9 @@ export class ImportPrepareComponent extends BaseForm implements OnInit {
 
             const importMapping: ImportMapping = {
                 brokerId: parseInt(brokerId, 10),
-                importTicker: importTicker,
+                importTicker,
                 tickerId: this.form.value[property],
-            }
+            };
 
             importStart.importMappings.push(importMapping);
         }

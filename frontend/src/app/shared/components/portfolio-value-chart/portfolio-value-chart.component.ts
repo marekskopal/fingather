@@ -30,10 +30,10 @@ export type ChartOptions = {
 })
 export class PortfolioValueChartComponent implements OnInit, OnChanges {
     public range: InputSignal<PortfolioDataRangeEnum> = input.required<PortfolioDataRangeEnum>();
-    public benchmarkAssetId: InputSignal<number|null> = input<number|null>(null);
+    public benchmarkAssetId: InputSignal<number | null> = input<number | null>(null);
     public height: InputSignal<string> = input<string>('auto');
-    public showLabels: InputSignal<boolean|null> = input<boolean|null>(null);
-    public title: InputSignal<string|null> = input<string|null>(null);
+    public showLabels: InputSignal<boolean | null> = input<boolean | null>(null);
+    public title: InputSignal<string | null> = input<string | null>(null);
     public chartOptions: ChartOptions;
     public loading: boolean = true;
 
@@ -152,7 +152,7 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
         }
     }
 
-    private initializeBenchmarkChartOptions() {
+    private initializeBenchmarkChartOptions(): void {
         if (this.benchmarkAssetId() === null) {
             return;
         }

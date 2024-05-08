@@ -1,4 +1,4 @@
-import {Component, input, Input, InputSignal} from '@angular/core';
+import { Component, input, InputSignal } from '@angular/core';
 import { Ticker } from '@app/models';
 
 @Component({

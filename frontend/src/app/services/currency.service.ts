@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Currency } from '@app/models';
+import { PortfolioService } from '@app/services/portfolio.service';
 import { environment } from '@environments/environment';
 import { lastValueFrom, Observable } from 'rxjs';
-import { PortfolioService } from "@app/services/portfolio.service";
 
 @Injectable({ providedIn: 'root' })
 export class CurrencyService {
