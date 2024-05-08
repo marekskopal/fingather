@@ -1,4 +1,6 @@
-import {Component, input, Input, InputSignal, OnInit, signal, WritableSignal} from '@angular/core';
+import {
+    Component, OnInit, signal, WritableSignal
+} from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { Asset, Group } from '@app/models';
 import {
@@ -10,7 +12,7 @@ import { first } from 'rxjs/operators';
 
 @Component({ templateUrl: 'add-edit.component.html' })
 export class AddEditComponent extends BaseForm implements OnInit {
-    public id: WritableSignal<number|null> = signal<number|null>(null);
+    public id: WritableSignal<number | null> = signal<number | null>(null);
 
     public assets: Asset[];
     public othersGroup: Group;

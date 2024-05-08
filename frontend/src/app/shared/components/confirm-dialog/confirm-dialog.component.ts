@@ -1,4 +1,4 @@
-import {Component, signal, WritableSignal} from '@angular/core';
+import { Component, signal, WritableSignal } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({

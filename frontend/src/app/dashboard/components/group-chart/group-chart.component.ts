@@ -3,7 +3,7 @@ import { GroupWithGroupData } from '@app/models';
 import { GroupWithGroupDataService, PortfolioService } from '@app/services';
 import {
     ApexChart, ApexFill, ApexLegend,
-    ApexNonAxisChartSeries, ApexPlotOptions, ApexStates, ApexStroke, ApexTheme, ApexYAxis, ChartComponent
+    ApexNonAxisChartSeries, ApexPlotOptions, ApexStates, ApexStroke, ApexTheme, ApexYAxis
 } from 'ng-apexcharts';
 import { first } from 'rxjs/operators';
 

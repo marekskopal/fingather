@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Currency, YearCalculatedData } from '@app/models';
+import { ModeEnum } from '@app/overviews/components/list/enum/mode-enum';
 import { CurrencyService, OverviewService, PortfolioService } from '@app/services';
 import { first } from 'rxjs/operators';
-import {ModeEnum} from "@app/overviews/components/list/enum/mode-enum";
 
 @Component({
     templateUrl: './list.component.html'
@@ -44,6 +44,4 @@ export class ListComponent implements OnInit {
     public changeMode(): void {
         this.mode = this.mode === ModeEnum.Interannually ? ModeEnum.Total : ModeEnum.Interannually;
     }
-
-
 }

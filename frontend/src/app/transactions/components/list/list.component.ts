@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { TransactionActionType } from '@app/models';
 import { TransactionList } from '@app/models/transaction-list';
 import { PortfolioService, TransactionService } from '@app/services';
 import { ConfirmDialogService } from '@app/services/confirm-dialog.service';
@@ -6,7 +7,6 @@ import { DividendDialogComponent } from '@app/shared/components/dividend-dialog/
 import { TransactionDialogComponent } from '@app/shared/components/transaction-dialog/transaction-dialog.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { first } from 'rxjs/operators';
-import {TransactionActionType} from "@app/models";
 
 @Component({
     templateUrl: './list.component.html',

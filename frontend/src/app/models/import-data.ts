@@ -1,4 +1,4 @@
-export class ImportData {
+export interface ImportData {
     brokerId: number;
     data: string[];
 }
