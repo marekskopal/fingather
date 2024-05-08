@@ -41,6 +41,9 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
+.eslintcache
+.stylelintcache
+/.nx
 
 # System Files
 .DS_Store
