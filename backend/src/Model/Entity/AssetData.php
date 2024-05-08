@@ -98,6 +98,11 @@ class AssetData extends AEntity
 		return !$this->isOpen();
 	}
 
+	public function getDate(): DateTimeImmutable
+	{
+		return $this->date;
+	}
+
 	public function getPrice(): Decimal
 	{
 		return $this->price;

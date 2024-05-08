@@ -15,6 +15,8 @@ enum Routes: string
 	case AssetsWithProperties = '/api/assets/with-properties/{portfolioId:number}';
 	case Asset = '/api/asset/{assetId:number}';
 
+	case AssetDataRange = '/api/asset-data-range/{assetId:number}';
+
 	case AuthenticationLogin = '/api/authentication/login';
 	case AuthenticationRefreshToken = '/api/authentication/refresh-token';
 	case AuthenticationSignUp = '/api/authentication/sign-up';

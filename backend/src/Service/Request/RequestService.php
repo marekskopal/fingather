@@ -8,7 +8,7 @@ use FinGather\Middleware\AuthorizationMiddleware;
 use FinGather\Model\Entity\User;
 use Psr\Http\Message\ServerRequestInterface;
 
-final class RequestService
+final class RequestService implements RequestServiceInterface
 {
 	public function getUser(ServerRequestInterface $request): User
 	{

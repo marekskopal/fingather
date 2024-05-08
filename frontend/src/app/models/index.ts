@@ -2,6 +2,7 @@ export * from './abstract-data-entity';
 export * from './abstract-entity';
 export * from './alert';
 export * from './asset';
+export * from './asset-data';
 export * from './asset-with-properties';
 export * from './assets-with-properties';
 export * from './benchmark-data';

@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { PortfolioData, PortfolioDataRangeEnum } from '@app/models';
+import { PortfolioData } from '@app/models';
+import { RangeEnum } from '@app/models/enums/range-enum';
 import { PortfolioDataWithBenchmarkData } from '@app/models/portfolio-data-with-benchmark-data';
 import { environment } from '@environments/environment';
 import { Observable } from 'rxjs';
@@ -17,7 +18,7 @@ export class PortfolioDataService {
 
     public getPortfolioDataRange(
         portfolioId: number,
-        range: PortfolioDataRangeEnum,
+        range: RangeEnum,
         benchmarkAssetId: number | null = null
     ): Observable<PortfolioDataWithBenchmarkData[]> {
         let params = new HttpParams();

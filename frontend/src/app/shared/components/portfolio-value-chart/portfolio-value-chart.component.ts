@@ -1,7 +1,8 @@
 import {
     Component, input, InputSignal, OnChanges, OnInit
 } from '@angular/core';
-import { PortfolioDataRangeEnum, PortfolioDataWithBenchmarkData } from '@app/models';
+import { PortfolioDataWithBenchmarkData } from '@app/models';
+import { RangeEnum } from '@app/models/enums/range-enum';
 import { PortfolioDataService, PortfolioService } from '@app/services';
 import {
     ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexGrid, ApexLegend, ApexStroke, ApexTheme,
@@ -29,7 +30,7 @@ export type ChartOptions = {
     selector: 'fingather-portfolio-value-chart',
 })
 export class PortfolioValueChartComponent implements OnInit, OnChanges {
-    public range: InputSignal<PortfolioDataRangeEnum> = input.required<PortfolioDataRangeEnum>();
+    public range: InputSignal<RangeEnum> = input.required<RangeEnum>();
     public benchmarkAssetId: InputSignal<number | null> = input<number | null>(null);
     public height: InputSignal<string> = input<string>('auto');
     public showLabels: InputSignal<boolean | null> = input<boolean | null>(null);

@@ -81,9 +81,9 @@ class TransactionProvider
 		return $this->transactionRepository->findTransaction($transactionId, $user->getId());
 	}
 
-	public function getFirstTransaction(User $user, Portfolio $portfolio): ?Transaction
+	public function getFirstTransaction(User $user, Portfolio $portfolio, ?Asset $asset = null): ?Transaction
 	{
-		return $this->transactionRepository->findFirstTransaction($user->getId(), $portfolio->getId());
+		return $this->transactionRepository->findFirstTransaction($user->getId(), $portfolio->getId(), $asset?->getId());
 	}
 
 	public function createTransaction(

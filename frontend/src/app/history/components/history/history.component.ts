@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Asset, PortfolioDataRangeEnum } from '@app/models';
+import { Asset } from '@app/models';
+import { RangeEnum } from '@app/models/enums/range-enum';
 import { AssetService, PortfolioService } from '@app/services';
 
 @Component({ templateUrl: 'history.component.html' })
 export class HistoryComponent implements OnInit {
-    public range: PortfolioDataRangeEnum = PortfolioDataRangeEnum.SevenDays;
+    public range: RangeEnum = RangeEnum.SevenDays;
     public assets: Asset[] = [];
     public benchmarkAssetId: number | null = null;
 
@@ -32,7 +33,7 @@ export class HistoryComponent implements OnInit {
         });
     }
 
-    public changeRange(range: PortfolioDataRangeEnum): void {
+    public changeRange(range: RangeEnum): void {
         this.range = range;
     }
 
@@ -41,5 +42,5 @@ export class HistoryComponent implements OnInit {
         this.benchmarkAssetId = eventTarget.value.length > 0 ? parseInt(eventTarget.value, 10) : null;
     }
 
-    protected readonly PortfolioDataRangeEnum = PortfolioDataRangeEnum;
+    protected readonly PortfolioDataRangeEnum = RangeEnum;
 }

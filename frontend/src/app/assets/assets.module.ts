@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddAssetComponent } from '@app/assets/components/add-asset/add-asset.component';
+import { AssetValueChartComponent } from '@app/assets/components/asset-value-chart/asset-value-chart.component';
 import { DetailComponent } from '@app/assets/components/detail/detail.component';
 import {
     FundamentalRowComponent
@@ -48,6 +49,7 @@ import { TransactionListComponent } from './components/transactions/transaction-
         AssetTickerChartComponent,
         FundamentalsComponent,
         FundamentalRowComponent,
+        AssetValueChartComponent,
     ]
 })
 export class AssetsModule {

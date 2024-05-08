@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
-import { PortfolioDataRangeEnum } from '@app/models';
+import { RangeEnum } from '@app/models/enums/range-enum';
 
 @Component({ templateUrl: 'dividends-history.component.html' })
 export class DividendsHistoryComponent {
-    public range: PortfolioDataRangeEnum = PortfolioDataRangeEnum.YTD;
+    public range: RangeEnum = RangeEnum.YTD;
 
-    public changeRange(range: PortfolioDataRangeEnum): void {
+    public changeRange(range: RangeEnum): void {
         this.range = range;
     }
 
-    protected readonly PortfolioDataRangeEnum = PortfolioDataRangeEnum;
+    protected readonly PortfolioDataRangeEnum = RangeEnum;
 }
