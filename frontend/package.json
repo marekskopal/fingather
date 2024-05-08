@@ -48,6 +48,7 @@
     "@angular/cli": "^17.3.6",
     "@angular/compiler-cli": "^17.3.7",
     "@babel/runtime": "^7.24.5",
+    "@krema/angular-eslint-stylelint-builder": "^1.4.0",
     "@types/jasmine": "^5.1.4",
     "@typescript-eslint/eslint-plugin": "^7.8.0",
     "@typescript-eslint/parser": "^7.8.0",
@@ -65,7 +66,11 @@
     "karma-jasmine": "^5.1.0",
     "karma-jasmine-html-reporter": "^2.1.0",
     "node:^20.0.0": "link:@types/node:^20.0.0",
+    "postcss": "^8.4.38",
     "source-map-explorer": "^2.5.3",
+    "stylelint": "^16.5.0",
+    "stylelint-config-sass-guidelines": "^11.1.0",
+    "stylelint-config-standard-scss": "^13.1.0",
     "typescript": "^5.4.5"
   }
 }
