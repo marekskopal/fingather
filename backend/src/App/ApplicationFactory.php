@@ -50,6 +50,8 @@ use FinGather\Model\Repository\UserRepository;
 use FinGather\Route\Strategy\JsonStrategy;
 use FinGather\Service\Dbal\DbContext;
 use FinGather\Service\Logger\Logger;
+use FinGather\Service\Request\RequestService;
+use FinGather\Service\Request\RequestServiceInterface;
 use Http\Discovery\Psr17FactoryDiscovery;
 use League\Container\Container;
 use League\Container\ReflectionContainer;
@@ -130,6 +132,8 @@ final class ApplicationFactory
 		$container->add(TickerRepository::class, fn () => $orm->getRepository(Ticker::class));
 		$container->add(TransactionRepository::class, fn () => $orm->getRepository(Transaction::class));
 		$container->add(UserRepository::class, fn () => $orm->getRepository(User::class));
+
+		$container->add(RequestServiceInterface::class, fn () => new RequestService());
 
 		return $container;
 	}

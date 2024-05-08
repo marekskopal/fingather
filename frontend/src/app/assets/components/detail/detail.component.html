@@ -6,6 +6,11 @@
         [assetTickerId]="asset.ticker.id"
     ></fingather-asset-ticker-chart>
 
+    <fingather-asset-value-chart
+        [assetId]="asset.id"
+        [height]="'400px'"
+    />
+
     <fingather-ticker-fundamentals [tickerId]="asset.ticker.id" />
 
     <div class="row">

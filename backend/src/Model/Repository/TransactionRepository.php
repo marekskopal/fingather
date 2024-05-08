@@ -136,12 +136,18 @@ final class TransactionRepository extends ARepository
 		]);
 	}
 
-	public function findFirstTransaction(int $userId, int $portfolioId): ?Transaction
+	public function findFirstTransaction(int $userId, int $portfolioId, ?int $assetId = null): ?Transaction
 	{
-		return $this->select()
+		$firstTransactionSelect = $this->select()
 			->where('user_id', $userId)
-			->where('portfolio_id', $portfolioId)
-			->orderBy('action_created')
-			->fetchOne();
+			->where('portfolio_id', $portfolioId);
+
+		if ($assetId !== null) {
+			$firstTransactionSelect->where('asset_id', $assetId);
+		}
+
+		$firstTransactionSelect->orderBy('action_created');
+
+		return $firstTransactionSelect->fetchOne();
 	}
 }

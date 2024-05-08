@@ -2,9 +2,9 @@ import {
     Component, input, InputSignal, OnChanges, OnInit,
 } from '@angular/core';
 import {
-    DividendDataDateInterval,
-    PortfolioDataRangeEnum
+    DividendDataDateInterval
 } from '@app/models';
+import { RangeEnum } from '@app/models/enums/range-enum';
 import { DividendDataService, PortfolioService } from '@app/services';
 import {
     ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexLegend, ApexPlotOptions,
@@ -28,7 +28,7 @@ export type ChartOptions = {
     selector: 'fingather-dividends-data-chart',
 })
 export class DividendsDataChartComponent implements OnInit, OnChanges {
-    public range: InputSignal<PortfolioDataRangeEnum> = input.required<PortfolioDataRangeEnum>();
+    public range: InputSignal<RangeEnum> = input.required<RangeEnum>();
     public chartOptions: ChartOptions;
     public loading: boolean = true;
 

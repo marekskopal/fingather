@@ -2,8 +2,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
     DividendDataDateInterval,
-    PortfolioDataRangeEnum
 } from '@app/models';
+import { RangeEnum } from '@app/models/enums/range-enum';
 import { NotifyService } from '@app/services/notify-service';
 import { environment } from '@environments/environment';
 import { Observable } from 'rxjs';
@@ -18,7 +18,7 @@ export class DividendDataService extends NotifyService {
 
     public getDividendDataRange(
         portfolioId: number,
-        range: PortfolioDataRangeEnum,
+        range: RangeEnum,
     ): Observable<DividendDataDateInterval[]> {
         let params = new HttpParams();
         params = params.set('range', range);
