@@ -3,6 +3,10 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddAssetComponent } from '@app/assets/components/add-asset/add-asset.component';
 import { DetailComponent } from '@app/assets/components/detail/detail.component';
+import {
+    FundamentalRowComponent
+} from '@app/assets/components/funtamentals/components/fundamental-row/fundamental-row.component';
+import { FundamentalsComponent } from '@app/assets/components/funtamentals/fundamentals.component';
 import { LayoutComponent } from '@app/assets/components/layout/layout.component';
 import { ListComponent } from '@app/assets/components/list/list.component';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -42,6 +46,8 @@ import { TransactionListComponent } from './components/transactions/transaction-
         TransactionListComponent,
         DividendListComponent,
         AssetTickerChartComponent,
+        FundamentalsComponent,
+        FundamentalRowComponent,
     ]
 })
 export class AssetsModule {

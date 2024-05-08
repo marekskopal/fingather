@@ -23,7 +23,7 @@ final class TickerFundamentalController
 	{
 	}
 
-	#[RouteGet(Routes::Tickers->value)]
+	#[RouteGet(Routes::TickerFundamental->value)]
 	public function actionGetTickerFundamental(ServerRequestInterface $request, int $tickerId): ResponseInterface
 	{
 		if ($tickerId < 1) {
