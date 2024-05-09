@@ -10,14 +10,14 @@ use FinGather\Model\Entity\Ticker;
 /** @extends ARepository<Ticker> */
 final class TickerRepository extends ARepository
 {
-	/** @return array<Ticker> */
-	public function findTickers(?int $marketId = null, ?string $search = null, ?int $limit = null, ?int $offset = null,): array
+	/** @return list<Ticker> */
+	public function findTickers(?int $marketId = null, ?string $search = null, ?int $limit = null, ?int $offset = null,): iterable
 	{
 		return $this->getTickersSelect($marketId, $search, $limit, $offset)->fetchAll();
 	}
 
-	/** @return array<string> */
-	public function findTickersTicker(?int $marketId = null, ?string $search = null, ?int $limit = null, ?int $offset = null): array
+	/** @return list<string> */
+	public function findTickersTicker(?int $marketId = null, ?string $search = null, ?int $limit = null, ?int $offset = null): iterable
 	{
 		return $this->getTickersSelect($marketId, $search, $limit, $offset)->buildQuery()->columns(['ticker'])->fetchAll();
 	}
@@ -56,8 +56,8 @@ final class TickerRepository extends ARepository
 		]);
 	}
 
-	/** @return array<Ticker> */
-	public function findActiveTickers(): array
+	/** @return list<Ticker> */
+	public function findActiveTickers(): iterable
 	{
 		$activeTickersSelect = $this->orm->getSource(Ticker::class)
 			->getDatabase()
@@ -70,8 +70,8 @@ final class TickerRepository extends ARepository
 			->fetchAll();
 	}
 
-	/** @return array<Ticker> */
-	public function findTickersByTicker(string $ticker, ?int $marketId = null, ?string $isin = null): array
+	/** @return list<Ticker> */
+	public function findTickersByTicker(string $ticker, ?int $marketId = null, ?string $isin = null): iterable
 	{
 		return $this->getTickerByTickerSelect($ticker, $marketId, $isin)
 			->fetchAll();
@@ -106,8 +106,8 @@ final class TickerRepository extends ARepository
 		return $tickerSelect;
 	}
 
-	/** @return array<Ticker> */
-	public function findTickersByIsin(string $isin): array
+	/** @return list<Ticker> */
+	public function findTickersByIsin(string $isin): iterable
 	{
 		return $this->getTickerByIsinSelect($isin)
 			->fetchAll();

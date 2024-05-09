@@ -12,8 +12,8 @@ use Safe\DateTimeImmutable;
 /** @extends ARepository<Asset> */
 final class AssetRepository extends ARepository
 {
-	/** @return array<int, Asset> */
-	public function findAssets(int $userId, ?int $portfolioId = null, ?DateTimeImmutable $dateTime = null, ?int $groupId = null): array
+	/** @return list<Asset> */
+	public function findAssets(int $userId, ?int $portfolioId = null, ?DateTimeImmutable $dateTime = null, ?int $groupId = null): iterable
 	{
 		return $this->getAssetsSelect($userId, $portfolioId, $dateTime, $groupId)->fetchAll();
 	}

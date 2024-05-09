@@ -21,7 +21,7 @@ class AssetProvider
 	/** @return array<int, Asset> */
 	public function getAssets(User $user, Portfolio $portfolio, ?DateTimeImmutable $dateTime = null, ?Group $group = null): array
 	{
-		return $this->assetRepository->findAssets($user->getId(), $portfolio->getId(), $dateTime, $group?->getId());
+		return iterator_to_array($this->assetRepository->findAssets($user->getId(), $portfolio->getId(), $dateTime, $group?->getId()));
 	}
 
 	public function countAssets(User $user, ?Portfolio $portfolio = null, ?DateTimeImmutable $dateTime = null, ?int $groupId = null): int
