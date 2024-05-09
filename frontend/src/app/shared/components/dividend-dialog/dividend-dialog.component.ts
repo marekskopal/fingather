@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import {
-    Asset, Broker, Currency, Transaction, TransactionActionType
+    Asset, Broker, Currency, TransactionActionType
 } from '@app/models';
 import {
     AlertService,
@@ -15,7 +15,6 @@ import {
 import { BaseForm } from '@app/shared/components/form/base-form';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
-import { first } from 'rxjs/operators';
 
 @Component({ templateUrl: 'dividend-dialog.component.html' })
 export class DividendDialogComponent extends BaseForm implements OnInit {
@@ -69,12 +68,9 @@ export class DividendDialogComponent extends BaseForm implements OnInit {
         });
 
         if (this.id !== null) {
-            this.transactionService.getTransaction(this.id)
-                .pipe(first())
-                .subscribe((transaction: Transaction) => {
-                    transaction.actionCreated = moment(transaction.actionCreated).format('YYYY-MM-DDTHH:mm');
-                    this.form.patchValue(transaction);
-                });
+            const transaction = await this.transactionService.getTransaction(this.id);
+            transaction.actionCreated = moment(transaction.actionCreated).format('YYYY-MM-DDTHH:mm');
+            this.form.patchValue(transaction);
         }
     }
 
@@ -98,45 +94,45 @@ export class DividendDialogComponent extends BaseForm implements OnInit {
         }
     }
 
-    private createTransaction(portfolioId: number): void {
+    private async createTransaction(portfolioId: number): Promise<void> {
         const values = this.form.value;
         values.assetId = parseInt(values.assetId, 10);
         values.units = 0;
         values.actionType = TransactionActionType.Dividend;
 
-        this.transactionService.createTransaction(values, portfolioId)
-            .pipe(first())
-            .subscribe({
-                next: () => {
-                    this.alertService.success('Dividend added successfully');
-                    this.activeModal.dismiss();
-                    this.transactionService.notify();
-                },
-                error: (error) => {
-                    this.alertService.error(error);
-                    this.loading = false;
-                }
-            });
+        try {
+            await this.transactionService.createTransaction(values, portfolioId);
+
+            this.alertService.success('Dividend added successfully');
+            this.activeModal.dismiss();
+            this.transactionService.notify();
+        } catch (error) {
+            if (error instanceof Error) {
+                this.alertService.error(error.message);
+            }
+
+            this.loading = false;
+        }
     }
 
-    private updateTransaction(id: number): void {
+    private async updateTransaction(id: number): Promise<void> {
         const values = this.form.value;
         values.actionCreated = (new Date(values.actionCreated)).toJSON();
         values.units = 0;
         values.actionType = TransactionActionType.Dividend;
 
-        this.transactionService.updateTransaction(id, values)
-            .pipe(first())
-            .subscribe({
-                next: () => {
-                    this.alertService.success('Update successful');
-                    this.activeModal.dismiss();
-                    this.transactionService.notify();
-                },
-                error: (error) => {
-                    this.alertService.error(error);
-                    this.loading = false;
-                }
-            });
+        try {
+            await this.transactionService.updateTransaction(id, values);
+
+            this.alertService.success('Update successful');
+            this.activeModal.dismiss();
+            this.transactionService.notify();
+        } catch (error) {
+            if (error instanceof Error) {
+                this.alertService.error(error.message);
+            }
+
+            this.loading = false;
+        }
     }
 }

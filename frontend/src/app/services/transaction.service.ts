@@ -5,8 +5,7 @@ import { OkResponse } from '@app/models/ok-response';
 import { TransactionList } from '@app/models/transaction-list';
 import { NotifyService } from '@app/services/notify-service';
 import { environment } from '@environments/environment';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class TransactionService extends NotifyService {
@@ -16,8 +15,10 @@ export class TransactionService extends NotifyService {
         super();
     }
 
-    public createTransaction(transaction: Transaction, portfolioId: number): Observable<Transaction> {
-        return this.http.post<Transaction>(`${environment.apiUrl}/transactions/${portfolioId}`, transaction);
+    public createTransaction(transaction: Transaction, portfolioId: number): Promise<Transaction> {
+        return firstValueFrom<Transaction>(
+            this.http.post<Transaction>(`${environment.apiUrl}/transactions/${portfolioId}`, transaction)
+        );
     }
 
     public getTransactions(
@@ -26,7 +27,7 @@ export class TransactionService extends NotifyService {
         actionTypes: TransactionActionType[] | null = null,
         limit: number | null = null,
         offset: number | null = null,
-    ): Observable<TransactionList> {
+    ): Promise<TransactionList> {
         let params = new HttpParams();
 
         if (assetId !== null) {
@@ -45,20 +46,24 @@ export class TransactionService extends NotifyService {
             params = params.set('offset', offset);
         }
 
-        return this.http.get<TransactionList>(`${environment.apiUrl}/transactions/${portfolioId}`, { params });
+        return firstValueFrom<TransactionList>(
+            this.http.get<TransactionList>(`${environment.apiUrl}/transactions/${portfolioId}`, { params })
+        );
     }
 
-    public getTransaction(id: number): Observable<Transaction> {
-        return this.http.get<Transaction>(`${environment.apiUrl}/transaction/${id}`);
+    public getTransaction(id: number): Promise<Transaction> {
+        return firstValueFrom<Transaction>(
+            this.http.get<Transaction>(`${environment.apiUrl}/transaction/${id}`)
+        );
     }
 
-    public updateTransaction(id: number, transaction: Transaction): Observable<Transaction> {
-        return this.http.put<Transaction>(`${environment.apiUrl}/transaction/${id}`, transaction)
-            .pipe(map((x) => x));
+    public updateTransaction(id: number, transaction: Transaction): Promise<Transaction> {
+        return firstValueFrom<Transaction>(
+            this.http.put<Transaction>(`${environment.apiUrl}/transaction/${id}`, transaction)
+        );
     }
 
-    public deleteTransaction(id: number): Observable<OkResponse> {
-        return this.http.delete<OkResponse>(`${environment.apiUrl}/transaction/${id}`)
-            .pipe(map((x) => x));
+    public deleteTransaction(id: number): Promise<OkResponse> {
+        return firstValueFrom<OkResponse>(this.http.delete<OkResponse>(`${environment.apiUrl}/transaction/${id}`));
     }
 }

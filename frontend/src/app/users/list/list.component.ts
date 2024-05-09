@@ -4,7 +4,6 @@ import { CurrentUserService, UserService } from '@app/services';
 import { ConfirmDialogService } from '@app/services/confirm-dialog.service';
 import { AddEditComponent } from '@app/users/add-edit/add-edit.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { first } from 'rxjs/operators';
 
 @Component({ templateUrl: 'list.component.html' })
 export class ListComponent implements OnInit, OnDestroy {
@@ -32,10 +31,8 @@ export class ListComponent implements OnInit, OnDestroy {
         this.userService.eventEmitter.unsubscribe();
     }
 
-    public refreshUsers(): void {
-        this.userService.getUsers()
-            .pipe(first())
-            .subscribe((users) => (this.users = users));
+    public async refreshUsers(): Promise<void> {
+        this.users = await this.userService.getUsers();
     }
 
     public addUser(): void {
@@ -68,8 +65,8 @@ export class ListComponent implements OnInit, OnDestroy {
             return;
         }
 
-        this.userService.deleteUser(id)
-            .pipe(first())
-            .subscribe(() => this.users = this.users.filter((x) => x.id !== id));
+        await this.userService.deleteUser(id);
+
+        this.users = this.users.filter((x) => x.id !== id);
     }
 }

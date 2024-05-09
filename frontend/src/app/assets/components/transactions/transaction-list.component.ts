@@ -5,7 +5,6 @@ import { PortfolioService, TransactionService } from '@app/services';
 import { ConfirmDialogService } from '@app/services/confirm-dialog.service';
 import { TransactionDialogComponent } from '@app/shared/components/transaction-dialog/transaction-dialog.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { first } from 'rxjs/operators';
 
 @Component({
     templateUrl: 'transaction-list.component.html',
@@ -40,12 +39,12 @@ export class TransactionListComponent implements OnInit, OnDestroy {
     public async refreshTransactions(): Promise<void> {
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
-        this.transactionService.getTransactions(portfolio.id, this.assetId, [
+        const transactions = await this.transactionService.getTransactions(portfolio.id, this.assetId, [
             TransactionActionType.Buy,
             TransactionActionType.Sell
-        ])
-            .pipe(first())
-            .subscribe((transactions) => this.transactions = transactions.transactions);
+        ]);
+
+        this.transactions = transactions.transactions;
     }
 
     public addTransaction(assetId: number): void {
@@ -79,8 +78,8 @@ export class TransactionListComponent implements OnInit, OnDestroy {
             return;
         }
 
-        this.transactionService.deleteTransaction(id)
-            .pipe(first())
-            .subscribe(() => this.refreshTransactions());
+        await this.transactionService.deleteTransaction(id);
+
+        this.refreshTransactions();
     }
 }
