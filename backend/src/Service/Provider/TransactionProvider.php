@@ -29,7 +29,7 @@ class TransactionProvider
 	/**
 	 * @param list<TransactionActionTypeEnum> $actionTypes
 	 * @param array<value-of<TransactionOrderByEnum>,OrderDirectionEnum> $orderBy
-	 * @return array<Transaction>
+	 * @return list<Transaction>
 	 */
 	public function getTransactions(
 		User $user,
@@ -44,7 +44,7 @@ class TransactionProvider
 			TransactionOrderByEnum::ActionCreated->value => OrderDirectionEnum::DESC,
 		],
 	): array {
-		return $this->transactionRepository->findTransactions(
+		return iterator_to_array($this->transactionRepository->findTransactions(
 			$user->getId(),
 			$portfolio?->getId(),
 			$asset?->getId(),
@@ -54,7 +54,7 @@ class TransactionProvider
 			$limit,
 			$offset,
 			$orderBy,
-		);
+		));
 	}
 
 	/** @param list<TransactionActionTypeEnum> $actionTypes */

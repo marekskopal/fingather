@@ -416,16 +416,16 @@
         },
         {
             "name": "cycle/orm",
-            "version": "v2.7.1",
+            "version": "v2.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cycle/orm.git",
-                "reference": "230dc9fa30a1aa6ca4e207e567a1b2500c528fb3"
+                "reference": "0677d297878ac8a9fe1254340ef4be7b6172b77c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cycle/orm/zipball/230dc9fa30a1aa6ca4e207e567a1b2500c528fb3",
-                "reference": "230dc9fa30a1aa6ca4e207e567a1b2500c528fb3",
+                "url": "https://api.github.com/repos/cycle/orm/zipball/0677d297878ac8a9fe1254340ef4be7b6172b77c",
+                "reference": "0677d297878ac8a9fe1254340ef4be7b6172b77c",
                 "shasum": ""
             },
             "require": {
@@ -487,7 +487,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-02-13T10:06:41+00:00"
+            "time": "2024-05-09T14:50:55+00:00"
         },
         {
             "name": "cycle/schema-builder",
@@ -4304,23 +4304,23 @@
         },
         {
             "name": "spiral/roadrunner-kv",
-            "version": "v4.1.0",
+            "version": "v4.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/roadrunner-php/kv.git",
-                "reference": "5abd8c03b5b76a6eb8737c028d0725176bb1bf72"
+                "reference": "a9e13c87913d07e850434d12cffb8d56d6313870"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/roadrunner-php/kv/zipball/5abd8c03b5b76a6eb8737c028d0725176bb1bf72",
-                "reference": "5abd8c03b5b76a6eb8737c028d0725176bb1bf72",
+                "url": "https://api.github.com/repos/roadrunner-php/kv/zipball/a9e13c87913d07e850434d12cffb8d56d6313870",
+                "reference": "a9e13c87913d07e850434d12cffb8d56d6313870",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "google/protobuf": "^3.7",
                 "php": ">=8.1",
-                "psr/simple-cache": "3",
+                "psr/simple-cache": "2 - 3",
                 "roadrunner-php/roadrunner-api-dto": "^1.0",
                 "spiral/goridge": "^4.0",
                 "spiral/roadrunner": "^2023.1 || ^2024.1"
@@ -4377,7 +4377,7 @@
                 "docs": "https://docs.roadrunner.dev",
                 "forum": "https://forum.roadrunner.dev/",
                 "issues": "https://github.com/roadrunner-server/roadrunner/issues",
-                "source": "https://github.com/roadrunner-php/kv/tree/v4.1.0"
+                "source": "https://github.com/roadrunner-php/kv/tree/v4.2.0"
             },
             "funding": [
                 {
@@ -4385,7 +4385,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-04-12T08:21:16+00:00"
+            "time": "2024-05-09T16:52:20+00:00"
         },
         {
             "name": "spiral/roadrunner-worker",
@@ -6931,16 +6931,16 @@
         },
         {
             "name": "phpstan/phpdoc-parser",
-            "version": "1.28.0",
+            "version": "1.29.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpdoc-parser.git",
-                "reference": "cd06d6b1a1b3c75b0b83f97577869fd85a3cd4fb"
+                "reference": "536889f2b340489d328f5ffb7b02bb6b183ddedc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/cd06d6b1a1b3c75b0b83f97577869fd85a3cd4fb",
-                "reference": "cd06d6b1a1b3c75b0b83f97577869fd85a3cd4fb",
+                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/536889f2b340489d328f5ffb7b02bb6b183ddedc",
+                "reference": "536889f2b340489d328f5ffb7b02bb6b183ddedc",
                 "shasum": ""
             },
             "require": {
@@ -6972,9 +6972,9 @@
             "description": "PHPDoc parser with support for nullable, intersection and generic types",
             "support": {
                 "issues": "https://github.com/phpstan/phpdoc-parser/issues",
-                "source": "https://github.com/phpstan/phpdoc-parser/tree/1.28.0"
+                "source": "https://github.com/phpstan/phpdoc-parser/tree/1.29.0"
             },
-            "time": "2024-04-03T18:51:33+00:00"
+            "time": "2024-05-06T12:04:23+00:00"
         },
         {
             "name": "phpstan/phpstan",

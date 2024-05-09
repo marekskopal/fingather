@@ -17,7 +17,7 @@ final class TransactionRepository extends ARepository
 	/**
 	 * @param list<TransactionActionTypeEnum> $actionTypes
 	 * @param array<value-of<TransactionOrderByEnum>,OrderDirectionEnum> $orderBy
-	 * @return array<int,Transaction>
+	 * @return list<Transaction>
 	 */
 	public function findTransactions(
 		int $userId,
@@ -31,7 +31,7 @@ final class TransactionRepository extends ARepository
 		array $orderBy = [
 			TransactionOrderByEnum::ActionCreated->value => OrderDirectionEnum::DESC,
 		],
-	): array {
+	): iterable {
 		return $this->getTransactionsSelect(
 			$userId,
 			$portfolioId,

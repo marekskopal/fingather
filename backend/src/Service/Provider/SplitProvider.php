@@ -18,10 +18,10 @@ class SplitProvider
 	{
 	}
 
-	/** @return array<Split> */
+	/** @return list<Split> */
 	public function getSplits(Ticker $ticker): array
 	{
-		return $this->splitRepository->findSplits($ticker->getId());
+		return iterator_to_array($this->splitRepository->findSplits($ticker->getId()));
 	}
 
 	public function getSplit(Ticker $ticker, ?DateTimeImmutable $date = null): ?Split

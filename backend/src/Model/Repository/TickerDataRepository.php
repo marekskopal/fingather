@@ -10,8 +10,8 @@ use FinGather\Model\Entity\TickerData;
 /** @extends ARepository<TickerData> */
 final class TickerDataRepository extends ARepository
 {
-	/** @return array<TickerData> */
-	public function findTickerDatas(int $tickerId, DateTimeImmutable $fromDate, DateTimeImmutable $toDate): array
+	/** @return list<TickerData> */
+	public function findTickerDatas(int $tickerId, DateTimeImmutable $fromDate, DateTimeImmutable $toDate): iterable
 	{
 		return $this->select()
 			->where('ticker_id', $tickerId)
