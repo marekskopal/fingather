@@ -133,17 +133,9 @@ export class AssetTickerChartComponent implements OnInit {
     }
 
     private mapAssetTickerData(assetTickerDatas: TickerData[]): { series: number[], categories: string[] } {
-        const series: number[] = [];
-        const categories: string[] = [];
-
-        for (const assetTickerData of assetTickerDatas) {
-            series.push(parseFloat(assetTickerData.close));
-            categories.push(assetTickerData.date);
-        }
-
         return {
-            series,
-            categories,
+            series: assetTickerDatas.map(data => parseFloat(data.close)),
+            categories: assetTickerDatas.map(data => data.date)
         };
     }
 }
