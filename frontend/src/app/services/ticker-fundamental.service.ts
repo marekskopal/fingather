@@ -13,7 +13,7 @@ export class TickerFundamentalService extends NotifyService {
         super();
     }
 
-    public async getTickerFundamental(tickerId: number): Promise<TickerFundamental> {
+    public getTickerFundamental(tickerId: number): Promise<TickerFundamental> {
         return firstValueFrom<TickerFundamental>(
             this.http.get<TickerFundamental>(`${environment.apiUrl}/ticker-fundamental/${tickerId}`)
         );

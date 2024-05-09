@@ -31,10 +31,4 @@ export class TickerService {
 
         return this.http.get<Ticker[]>(`${environment.apiUrl}/ticker`, { params });
     }
-
-    public getTicker(ticker: string): Observable<Ticker> {
-        const params = new HttpParams().set('ticker', ticker);
-
-        return this.http.get<Ticker>(`${environment.apiUrl}/ticker`, { params });
-    }
 }

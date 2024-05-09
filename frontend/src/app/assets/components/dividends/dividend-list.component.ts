@@ -5,7 +5,6 @@ import { PortfolioService, TransactionService } from '@app/services';
 import { ConfirmDialogService } from '@app/services/confirm-dialog.service';
 import { DividendDialogComponent } from '@app/shared/components/dividend-dialog/dividend-dialog.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { first } from 'rxjs/operators';
 
 @Component({
     templateUrl: 'dividend-list.component.html',
@@ -40,9 +39,13 @@ export class DividendListComponent implements OnInit, OnDestroy {
     public async refreshTransactions(): Promise<void> {
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
-        this.transactionService.getTransactions(portfolio.id, this.assetId, [TransactionActionType.Dividend])
-            .pipe(first())
-            .subscribe((dividends) => this.dividends = dividends.transactions);
+        const transactions = await this.transactionService.getTransactions(
+            portfolio.id,
+            this.assetId,
+            [TransactionActionType.Dividend]
+        );
+
+        this.dividends = transactions.transactions;
     }
 
     public addDividend(): void {
@@ -76,8 +79,8 @@ export class DividendListComponent implements OnInit, OnDestroy {
             return;
         }
 
-        this.transactionService.deleteTransaction(id)
-            .pipe(first())
-            .subscribe(() => this.refreshTransactions());
+        await this.transactionService.deleteTransaction(id);
+
+        this.refreshTransactions();
     }
 }

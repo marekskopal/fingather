@@ -7,7 +7,6 @@ import { UserRoleEnum } from '@app/models/enums/user-role-enum';
 import { AlertService, CurrencyService, UserService } from '@app/services';
 import { BaseForm } from '@app/shared/components/form/base-form';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { first } from 'rxjs/operators';
 
 @Component({ templateUrl: 'add-edit.component.html' })
 export class AddEditComponent extends BaseForm implements OnInit {
@@ -51,9 +50,8 @@ export class AddEditComponent extends BaseForm implements OnInit {
         this.f['defaultCurrencyId'].patchValue(this.currencies[0].id);
 
         if (id !== null) {
-            this.userService.getUser(id)
-                .pipe(first())
-                .subscribe((x) => this.form.patchValue(x));
+            const user = await this.userService.getUser(id);
+            this.form.patchValue(user);
         }
     }
 
@@ -76,40 +74,38 @@ export class AddEditComponent extends BaseForm implements OnInit {
         }
     }
 
-    private createUser(): void {
-        this.userService.createUser(this.form.value)
-            .pipe(first())
-            .subscribe({
-                next: () => {
-                    this.alertService.success('User added successfully', { keepAfterRouteChange: true });
-                    this.activeModal.dismiss();
-                    this.userService.notify();
-                },
-                error: (error) => {
-                    this.alertService.error(error);
-                    this.loading = false;
-                }
-            });
+    private async createUser(): Promise<void> {
+        try {
+            await this.userService.createUser(this.form.value);
+
+            this.alertService.success('User added successfully', { keepAfterRouteChange: true });
+            this.activeModal.dismiss();
+            this.userService.notify();
+        } catch (error) {
+            if (error instanceof Error) {
+                this.alertService.error(error.message);
+            }
+            this.loading = false;
+        }
     }
 
-    private updateUser(): void {
+    private async updateUser(): Promise<void> {
         const id = this.id();
         if (id === null) {
             return;
         }
 
-        this.userService.updateUser(id, this.form.value)
-            .pipe(first())
-            .subscribe({
-                next: () => {
-                    this.alertService.success('Update successful', { keepAfterRouteChange: true });
-                    this.activeModal.dismiss();
-                    this.userService.notify();
-                },
-                error: (error) => {
-                    this.alertService.error(error);
-                    this.loading = false;
-                }
-            });
+        try {
+            await this.userService.updateUser(id, this.form.value);
+
+            this.alertService.success('Update successful', { keepAfterRouteChange: true });
+            this.activeModal.dismiss();
+            this.userService.notify();
+        } catch (error) {
+            if (error instanceof Error) {
+                this.alertService.error(error.message);
+            }
+            this.loading = false;
+        }
     }
 }

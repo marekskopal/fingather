@@ -6,7 +6,6 @@ import { ConfirmDialogService } from '@app/services/confirm-dialog.service';
 import { DividendDialogComponent } from '@app/shared/components/dividend-dialog/dividend-dialog.component';
 import { TransactionDialogComponent } from '@app/shared/components/transaction-dialog/transaction-dialog.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { first } from 'rxjs/operators';
 
 @Component({
     templateUrl: './list.component.html',
@@ -45,15 +44,13 @@ export class ListComponent implements OnInit, OnDestroy {
 
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
-        this.transactionService.getTransactions(
+        this.transactionList = await this.transactionService.getTransactions(
             portfolio.id,
             null,
             null,
             this.pageSize,
             (this.page - 1) * this.pageSize
-        )
-            .pipe(first())
-            .subscribe((transactionList) => this.transactionList = transactionList);
+        );
     }
 
     public addTransaction(): void {
@@ -90,9 +87,9 @@ export class ListComponent implements OnInit, OnDestroy {
             return;
         }
 
-        this.transactionService.deleteTransaction(id)
-            .pipe(first())
-            .subscribe(() => this.refreshTransactions());
+        await this.transactionService.deleteTransaction(id);
+
+        this.refreshTransactions();
     }
 
     protected readonly TransactionActionType = TransactionActionType;

@@ -11,7 +11,6 @@ import {
     ApexTitleSubtitle,
     ApexXAxis
 } from 'ng-apexcharts';
-import { first } from 'rxjs/operators';
 
 export type ChartOptions = {
     series: ApexAxisChartSeries;
@@ -51,23 +50,21 @@ export class AssetTickerChartComponent implements OnInit {
     private async refreshChart(): Promise<void> {
         this.loading = true;
 
-        this.tickerDataService.getTickerDatas(this.assetTickerId())
-            .pipe(first())
-            .subscribe((assetTickerDatas) => {
-                const assetTickerData = this.mapAssetTickerData(assetTickerDatas);
+        const assetTickerDatas = await this.tickerDataService.getTickerDatas(this.assetTickerId());
 
-                this.chartOptions.xaxis.categories = assetTickerData.categories;
-                this.chartOptions.series[0].data = assetTickerData.series;
+        const assetTickerData = this.mapAssetTickerData(assetTickerDatas);
 
-                const asset = this.assetService.getAsset(this.assetId());
+        this.chartOptions.xaxis.categories = assetTickerData.categories;
+        this.chartOptions.series[0].data = assetTickerData.series;
 
-                // @ts-expect-error yaxis is always an array
-                this.chartOptions.annotations.yaxis[0].y = asset.averagePrice;
-                // @ts-expect-error yaxis is always an array
-                this.chartOptions.annotations.yaxis[0].label.text = `Average Buy Price - ${asset.averagePrice}`;
+        const asset = await this.assetService.getAsset(this.assetId());
 
-                this.loading = false;
-            });
+        // @ts-expect-error yaxis is always an array
+        this.chartOptions.annotations.yaxis[0].y = asset.averagePrice;
+        // @ts-expect-error yaxis is always an array
+        this.chartOptions.annotations.yaxis[0].label.text = `Average Buy Price - ${asset.averagePrice}`;
+
+        this.loading = false;
     }
 
     private initializeChartOptions(): void {
