@@ -4,7 +4,7 @@ import { Portfolio } from '@app/models';
 import { OkResponse } from '@app/models/ok-response';
 import { NotifyService } from '@app/services/notify-service';
 import { environment } from '@environments/environment';
-import { lastValueFrom, Observable } from 'rxjs';
+import { firstValueFrom, lastValueFrom } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class PortfolioService extends NotifyService {
@@ -17,16 +17,16 @@ export class PortfolioService extends NotifyService {
         super();
     }
 
-    public createPortfolio(portfolio: Portfolio): Observable<Portfolio> {
-        return this.http.post<Portfolio>(`${environment.apiUrl}/portfolios`, portfolio);
+    public createPortfolio(portfolio: Portfolio): Promise<Portfolio> {
+        return firstValueFrom<Portfolio>(this.http.post<Portfolio>(`${environment.apiUrl}/portfolios`, portfolio));
     }
 
-    public getPortfolios(): Observable<Portfolio[]> {
-        return this.http.get<Portfolio[]>(`${environment.apiUrl}/portfolios`);
+    public getPortfolios(): Promise<Portfolio[]> {
+        return firstValueFrom<Portfolio[]>(this.http.get<Portfolio[]>(`${environment.apiUrl}/portfolios`));
     }
 
-    public getPortfolio(id: number): Observable<Portfolio> {
-        return this.http.get<Portfolio>(`${environment.apiUrl}/portfolio/${id}`);
+    public getPortfolio(id: number): Promise<Portfolio> {
+        return firstValueFrom<Portfolio>(this.http.get<Portfolio>(`${environment.apiUrl}/portfolio/${id}`));
     }
 
     public async getCurrentPortfolio(): Promise<Portfolio> {
@@ -71,11 +71,13 @@ export class PortfolioService extends NotifyService {
         return this.defaultPortfolio;
     }
 
-    public updatePortfolio(id: number, portfolio: Portfolio): Observable<Portfolio> {
-        return this.http.put<Portfolio>(`${environment.apiUrl}/portfolio/${id}`, portfolio);
+    public updatePortfolio(id: number, portfolio: Portfolio): Promise<Portfolio> {
+        return firstValueFrom<Portfolio>(
+            this.http.put<Portfolio>(`${environment.apiUrl}/portfolio/${id}`, portfolio)
+        );
     }
 
-    public deletePortfolio(id: number): Observable<OkResponse> {
-        return this.http.delete<OkResponse>(`${environment.apiUrl}/portfolio/${id}`);
+    public deletePortfolio(id: number): Promise<OkResponse> {
+        return firstValueFrom<OkResponse>(this.http.delete<OkResponse>(`${environment.apiUrl}/portfolio/${id}`));
     }
 }

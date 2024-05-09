@@ -47,12 +47,8 @@ export class AddEditComponent extends BaseForm implements OnInit {
             role: ['User', Validators.required],
         });
 
-        this.currencyService.getCurrencies()
-            .pipe(first())
-            .subscribe((currencies: Currency[]) => {
-                this.currencies = currencies;
-                this.f['defaultCurrencyId'].patchValue(currencies[0].id);
-            });
+        this.currencies = await this.currencyService.getCurrencies();
+        this.f['defaultCurrencyId'].patchValue(this.currencies[0].id);
 
         if (id !== null) {
             this.userService.getUser(id)

@@ -1,11 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Broker } from '@app/models';
-import { OkResponse } from '@app/models/ok-response';
 import { NotifyService } from '@app/services/notify-service';
 import { environment } from '@environments/environment';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class BrokerService extends NotifyService {
@@ -15,25 +13,7 @@ export class BrokerService extends NotifyService {
         super();
     }
 
-    public createBroker(broker: Broker, portfolioId: number): Observable<Broker> {
-        return this.http.post<Broker>(`${environment.apiUrl}/brokers/${portfolioId}`, broker);
-    }
-
-    public getBrokers(portfolioId: number): Observable<Broker[]> {
-        return this.http.get<Broker[]>(`${environment.apiUrl}/brokers/${portfolioId}`);
-    }
-
-    public getBroker(id: number): Observable<Broker> {
-        return this.http.get<Broker>(`${environment.apiUrl}/broker/${id}`);
-    }
-
-    public updateBroker(id: number, broker: Broker): Observable<Broker> {
-        return this.http.put<Broker>(`${environment.apiUrl}/broker/${id}`, broker)
-            .pipe(map((x) => x));
-    }
-
-    public deleteBroker(id: number): Observable<OkResponse> {
-        return this.http.delete<OkResponse>(`${environment.apiUrl}/broker/${id}`)
-            .pipe(map((x) => x));
+    public getBrokers(portfolioId: number): Promise<Broker[]> {
+        return firstValueFrom<Broker[]>(this.http.get<Broker[]>(`${environment.apiUrl}/brokers/${portfolioId}`));
     }
 }

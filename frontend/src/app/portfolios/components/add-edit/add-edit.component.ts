@@ -6,7 +6,6 @@ import { Currency } from '@app/models';
 import { AlertService, CurrencyService, PortfolioService } from '@app/services';
 import { BaseForm } from '@app/shared/components/form/base-form';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { first } from 'rxjs/operators';
 
 @Component({ templateUrl: 'add-edit.component.html' })
 export class AddEditComponent extends BaseForm implements OnInit {
@@ -24,25 +23,20 @@ export class AddEditComponent extends BaseForm implements OnInit {
         super(formBuilder, alertService);
     }
 
-    public ngOnInit(): void {
+    public async ngOnInit(): Promise<void> {
         this.form = this.formBuilder.group({
             name: ['My Portfolio', Validators.required],
             currencyId: ['', Validators.required],
             isDefault: [false, Validators.required],
         });
 
-        this.currencyService.getCurrencies()
-            .pipe(first())
-            .subscribe((currencies: Currency[]) => {
-                this.currencies = currencies;
-                this.f['defaultCurrencyId'].patchValue(currencies[0].id);
-            });
+        this.currencies = await this.currencyService.getCurrencies();
+        this.f['defaultCurrencyId'].patchValue(this.currencies[0].id);
 
         const id = this.id();
         if (id !== null) {
-            this.portfolioService.getPortfolio(id)
-                .pipe(first())
-                .subscribe((x) => this.form.patchValue(x));
+            const portfolio = await this.portfolioService.getPortfolio(id);
+            this.form.patchValue(portfolio);
         }
     }
 
@@ -65,40 +59,38 @@ export class AddEditComponent extends BaseForm implements OnInit {
         }
     }
 
-    private createPortfolio(): void {
-        this.portfolioService.createPortfolio(this.form.value)
-            .pipe(first())
-            .subscribe({
-                next: () => {
-                    this.alertService.success('Group added successfully', { keepAfterRouteChange: true });
-                    this.activeModal.dismiss();
-                    this.portfolioService.notify();
-                },
-                error: (error) => {
-                    this.alertService.error(error);
-                    this.loading = false;
-                }
-            });
+    private async createPortfolio(): Promise<void> {
+        try {
+            await this.portfolioService.createPortfolio(this.form.value);
+
+            this.alertService.success('Group added successfully', { keepAfterRouteChange: true });
+            this.activeModal.dismiss();
+            this.portfolioService.notify();
+        } catch (error) {
+            if (error instanceof Error) {
+                this.alertService.error(error.message);
+            }
+            this.loading = false;
+        }
     }
 
-    private updatePortfolio(): void {
+    private async updatePortfolio(): Promise<void> {
         const id = this.id();
         if (id === null) {
             return;
         }
 
-        this.portfolioService.updatePortfolio(id, this.form.value)
-            .pipe(first())
-            .subscribe({
-                next: () => {
-                    this.alertService.success('Update successful', { keepAfterRouteChange: true });
-                    this.activeModal.dismiss();
-                    this.portfolioService.notify();
-                },
-                error: (error) => {
-                    this.alertService.error(error);
-                    this.loading = false;
-                }
-            });
+        try {
+            await this.portfolioService.updatePortfolio(id, this.form.value);
+
+            this.alertService.success('Update successful', { keepAfterRouteChange: true });
+            this.activeModal.dismiss();
+            this.portfolioService.notify();
+        } catch (error) {
+            if (error instanceof Error) {
+                this.alertService.error(error.message);
+            }
+            this.loading = false;
+        }
     }
 }

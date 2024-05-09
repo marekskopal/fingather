@@ -4,7 +4,6 @@ import { AddEditComponent } from '@app/portfolios/components/add-edit/add-edit.c
 import { PortfolioService } from '@app/services';
 import { ConfirmDialogService } from '@app/services/confirm-dialog.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { first } from 'rxjs/operators';
 
 @Component({ templateUrl: 'list.component.html' })
 export class ListComponent implements OnInit, OnDestroy {
@@ -31,10 +30,8 @@ export class ListComponent implements OnInit, OnDestroy {
         this.portfolioService.eventEmitter.unsubscribe();
     }
 
-    public refreshPortfolios(): void {
-        this.portfolioService.getPortfolios()
-            .pipe(first())
-            .subscribe((portfolios: Portfolio[]) => this.portfolios = portfolios);
+    public async refreshPortfolios(): Promise<void> {
+        this.portfolios = await this.portfolioService.getPortfolios();
     }
 
     public addPortfolio(): void {
@@ -67,10 +64,9 @@ export class ListComponent implements OnInit, OnDestroy {
             return;
         }
 
-        this.portfolioService.deletePortfolio(id)
-            .pipe(first())
-            .subscribe(() => this.portfolios = this.portfolios !== null
-                ? this.portfolios.filter((x) => x.id !== id)
-                : null);
+        await this.portfolioService.deletePortfolio(id);
+        this.portfolios = this.portfolios !== null
+            ? this.portfolios.filter((x) => x.id !== id)
+            : null;
     }
 }

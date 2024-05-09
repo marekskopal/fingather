@@ -8,7 +8,6 @@ import {
     AssetService, CurrencyService, GroupWithGroupDataService, PortfolioService
 } from '@app/services';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { first } from 'rxjs/operators';
 
 @Component({ templateUrl: 'list.component.html' })
 export class ListComponent implements OnInit, OnDestroy {
@@ -52,11 +51,10 @@ export class ListComponent implements OnInit, OnDestroy {
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
         if (this.withGroups) {
-            this.groupWithGroupDataService.getGroupWithGroupData(portfolio.id, this.openedAssetsOrderBy)
-                .pipe(first())
-                .subscribe(
-                    (openedGroupedAssets: GroupWithGroupData[]) => this.openedGroupedAssets = openedGroupedAssets
-                );
+            this.openedGroupedAssets = await this.groupWithGroupDataService.getGroupWithGroupData(
+                portfolio.id,
+                this.openedAssetsOrderBy,
+            );
         }
 
         this.assetsWithProperties = await this.assetService.getAssetsWithProperties(

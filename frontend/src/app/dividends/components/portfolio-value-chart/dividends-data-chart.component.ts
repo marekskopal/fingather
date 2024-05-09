@@ -10,7 +10,6 @@ import {
     ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexLegend, ApexPlotOptions,
     ApexTheme, ApexXAxis,
 } from 'ng-apexcharts';
-import { first } from 'rxjs/operators';
 
 export type ChartOptions = {
     series: ApexAxisChartSeries;
@@ -55,16 +54,14 @@ export class DividendsDataChartComponent implements OnInit, OnChanges {
 
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
-        this.dividendDataService.getDividendDataRange(portfolio.id, this.range())
-            .pipe(first())
-            .subscribe((dividendData: DividendDataDateInterval[]) => {
-                const chartMap = this.mapChart(dividendData);
-                const chartOptions = this.initializeChartOptions();
-                chartOptions.xaxis.categories = chartMap.categories;
-                chartOptions.series = chartMap.series;
-                this.chartOptions = chartOptions;
-                this.loading = false;
-            });
+        const dividendData = await this.dividendDataService.getDividendDataRange(portfolio.id, this.range());
+
+        const chartMap = this.mapChart(dividendData);
+        const chartOptions = this.initializeChartOptions();
+        chartOptions.xaxis.categories = chartMap.categories;
+        chartOptions.series = chartMap.series;
+        this.chartOptions = chartOptions;
+        this.loading = false;
     }
 
     private initializeChartOptions(): ChartOptions {
