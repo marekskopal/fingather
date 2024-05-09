@@ -48,9 +48,7 @@ export class DividendDialogComponent extends BaseForm implements OnInit {
 
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
-        this.assetService.getAssets(portfolio.id)
-            .pipe(first())
-            .subscribe((assets: Asset[]) => this.assets = assets);
+        this.assets = await this.assetService.getAssets(portfolio.id);
 
         this.brokerService.getBrokers(portfolio.id)
             .pipe(first())

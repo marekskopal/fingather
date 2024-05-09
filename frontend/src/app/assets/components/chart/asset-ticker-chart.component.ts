@@ -1,7 +1,7 @@
 import {
     Component, input, InputSignal, OnInit,
 } from '@angular/core';
-import { AssetWithProperties, TickerData } from '@app/models';
+import { TickerData } from '@app/models';
 import { AssetService, TickerDataService } from '@app/services';
 import {
     ApexAnnotations,
@@ -59,16 +59,14 @@ export class AssetTickerChartComponent implements OnInit {
                 this.chartOptions.xaxis.categories = assetTickerData.categories;
                 this.chartOptions.series[0].data = assetTickerData.series;
 
-                this.assetService.getAsset(this.assetId())
-                    .pipe(first())
-                    .subscribe((asset: AssetWithProperties) => {
-                        // @ts-expect-error yaxis is always an array
-                        this.chartOptions.annotations.yaxis[0].y = asset.averagePrice;
-                        // @ts-expect-error yaxis is always an array
-                        this.chartOptions.annotations.yaxis[0].label.text = `Average Buy Price - ${asset.averagePrice}`;
+                const asset = this.assetService.getAsset(this.assetId());
 
-                        this.loading = false;
-                    });
+                // @ts-expect-error yaxis is always an array
+                this.chartOptions.annotations.yaxis[0].y = asset.averagePrice;
+                // @ts-expect-error yaxis is always an array
+                this.chartOptions.annotations.yaxis[0].label.text = `Average Buy Price - ${asset.averagePrice}`;
+
+                this.loading = false;
             });
     }
 

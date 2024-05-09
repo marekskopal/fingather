@@ -28,9 +28,7 @@ export class HistoryComponent implements OnInit {
 
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
-        this.assetService.getAssets(portfolio.id).subscribe((assets: Asset[]) => {
-            this.assets = assets;
-        });
+        this.assets = await this.assetService.getAssets(portfolio.id);
     }
 
     public changeRange(range: RangeEnum): void {
