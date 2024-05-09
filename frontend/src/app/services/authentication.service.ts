@@ -7,8 +7,7 @@ import { BoolResponse } from '@app/models/bool-response';
 import { OkResponse } from '@app/models/ok-response';
 import { PortfolioService } from '@app/services/portfolio.service';
 import { environment } from '@environments/environment';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, firstValueFrom, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -32,19 +31,21 @@ export class AuthenticationService {
         return this.authenticationSubject.value;
     }
 
-    public login(email: string, password: string): Observable<Authentication> {
-        return this.http.post<Authentication>(`${environment.apiUrl}/authentication/login`, {
-            email,
-            password,
-        })
-            .pipe(map((authentication: Authentication) => {
-                // store user details and jwt token in local storage to keep user logged in between page refreshes
-                localStorage.setItem('authentication', JSON.stringify(authentication));
-                this.authenticationSubject.next(authentication);
-                this.startRefreshTokenTimer();
-                this.portfolioService.cleanCurrentPortfolio();
-                return authentication;
-            }));
+    public async login(email: string, password: string): Promise<Authentication> {
+        const authentication = await firstValueFrom<Authentication>(
+            this.http.post<Authentication>(`${environment.apiUrl}/authentication/login`, {
+                email,
+                password,
+            })
+        );
+
+        // store user details and jwt token in local storage to keep user logged in between page refreshes
+        localStorage.setItem('authentication', JSON.stringify(authentication));
+        this.authenticationSubject.next(authentication);
+        this.startRefreshTokenTimer();
+        this.portfolioService.cleanCurrentPortfolio();
+
+        return authentication;
     }
 
     public logout(): void {
@@ -56,30 +57,36 @@ export class AuthenticationService {
         this.router.navigate(['/authentication/login']);
     }
 
-    public signUp(signUp: SignUp): Observable<OkResponse> {
-        return this.http.post<OkResponse>(`${environment.apiUrl}/authentication/sign-up`, signUp);
-    }
-
-    public isEmailExists(email: string): Observable<boolean> {
-        return this.http.post<BoolResponse>(`${environment.apiUrl}/authentication/email-exists`, {
-            email,
-        }).pipe(
-            map((response) => response.value)
+    public signUp(signUp: SignUp): Promise<OkResponse> {
+        return firstValueFrom<OkResponse>(
+            this.http.post<OkResponse>(`${environment.apiUrl}/authentication/sign-up`, signUp)
         );
     }
 
-    public refreshToken(): Observable<Authentication> {
-        return this.http.post<Authentication>(
-            `${environment.apiUrl}/authentication/refresh-token`,
-            {},
-            { withCredentials: true }
-        )
-            .pipe(map((authentication: Authentication) => {
-                localStorage.setItem('authentication', JSON.stringify(authentication));
-                this.authenticationSubject.next(authentication);
-                this.startRefreshTokenTimer();
-                return authentication;
-            }));
+    public async isEmailExists(email: string): Promise<boolean> {
+        const response = await firstValueFrom<BoolResponse>(
+            this.http.post<BoolResponse>(`${environment.apiUrl}/authentication/email-exists`, {
+                email,
+            })
+        );
+
+        return response.value;
+    }
+
+    public async refreshToken(): Promise<Authentication> {
+        const authentication = await firstValueFrom<Authentication>(
+            this.http.post<Authentication>(
+                `${environment.apiUrl}/authentication/refresh-token`,
+                {},
+                { withCredentials: true }
+            )
+        );
+
+        localStorage.setItem('authentication', JSON.stringify(authentication));
+        this.authenticationSubject.next(authentication);
+        this.startRefreshTokenTimer();
+
+        return authentication;
     }
 
     private startRefreshTokenTimer(): void {
@@ -90,7 +97,7 @@ export class AuthenticationService {
         // set a timeout to refresh the token a minute before it expires
         const expires = new Date(jwtToken.exp * 1000);
         const timeout = expires.getTime() - Date.now() - (60 * 1000);
-        this.refreshTokenTimeout = setTimeout(() => this.refreshToken().subscribe(), timeout);
+        this.refreshTokenTimeout = setTimeout(() => this.refreshToken(), timeout);
     }
 
     private stopRefreshTokenTimer(): void {

@@ -45,7 +45,7 @@ export class SignUpComponent extends BaseForm implements OnInit {
             });
     }
 
-    public onSubmit(): void {
+    public async onSubmit(): Promise<void> {
         this.submitted = true;
 
         // reset alerts on submit
@@ -57,17 +57,17 @@ export class SignUpComponent extends BaseForm implements OnInit {
         }
 
         this.loading = true;
-        this.authenticationService.signUp(this.form.value)
-            .pipe(first())
-            .subscribe({
-                next: () => {
-                    this.alertService.success('Registration successful', { keepAfterRouteChange: true });
-                    this.router.navigate(['../login'], { relativeTo: this.route });
-                },
-                error: (error) => {
-                    this.alertService.error(error);
-                    this.loading = false;
-                }
-            });
+        try {
+            await this.authenticationService.signUp(this.form.value);
+
+            this.alertService.success('Registration successful', { keepAfterRouteChange: true });
+            this.router.navigate(['../login'], { relativeTo: this.route });
+        } catch (error) {
+            if (error instanceof Error) {
+                this.alertService.error(error.message);
+            }
+
+            this.loading = false;
+        }
     }
 }

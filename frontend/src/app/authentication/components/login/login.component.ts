@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from '@app/services';
 import { AuthenticationService } from '@app/services/authentication.service';
 import { BaseForm } from '@app/shared/components/form/base-form';
-import { first } from 'rxjs/operators';
 
 @Component({ templateUrl: 'login.component.html' })
 export class LoginComponent extends BaseForm implements OnInit {
@@ -25,7 +24,7 @@ export class LoginComponent extends BaseForm implements OnInit {
         });
     }
 
-    public onSubmit(): void {
+    public async onSubmit(): Promise<void> {
         this.submitted = true;
 
         // reset alerts on submit
@@ -37,18 +36,18 @@ export class LoginComponent extends BaseForm implements OnInit {
         }
 
         this.loading = true;
-        this.authorizationService.login(this.f['email'].value, this.f['password'].value)
-            .pipe(first())
-            .subscribe({
-                next: () => {
-                    // get return url from query parameters or default to home page
-                    const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-                    this.router.navigateByUrl(returnUrl);
-                },
-                error: (error) => {
-                    this.alertService.error(error);
-                    this.loading = false;
-                }
-            });
+        try {
+            await this.authorizationService.login(this.f['email'].value, this.f['password'].value);
+
+            // get return url from query parameters or default to home page
+            const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+            this.router.navigateByUrl(returnUrl);
+        } catch (error) {
+            if (error instanceof Error) {
+                this.alertService.error(error.message);
+            }
+
+            this.loading = false;
+        }
     }
 }
