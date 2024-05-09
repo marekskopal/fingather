@@ -54,13 +54,9 @@ export class TransactionDialogComponent extends BaseForm implements OnInit {
 
         this.assets = await this.assetService.getAssets(portfolio.id);
 
-        this.brokerService.getBrokers(portfolio.id)
-            .pipe(first())
-            .subscribe((brokers: Broker[]) => this.brokers = brokers);
+        this.brokers = await this.brokerService.getBrokers(portfolio.id);
 
-        this.currencyService.getCurrencies()
-            .pipe(first())
-            .subscribe((currencies: Currency[]) => this.currencies = currencies);
+        this.currencies = await this.currencyService.getCurrencies();
 
         const defaultCurrency = await this.currencyService.getDefaultCurrency();
 

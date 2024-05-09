@@ -4,7 +4,6 @@ import { Group } from '@app/models';
 import { GroupService, PortfolioService } from '@app/services';
 import { ConfirmDialogService } from '@app/services/confirm-dialog.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { first } from 'rxjs/operators';
 
 @Component({ templateUrl: 'list.component.html' })
 export class ListComponent implements OnInit, OnDestroy {
@@ -38,9 +37,7 @@ export class ListComponent implements OnInit, OnDestroy {
 
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
-        this.groupService.getGroups(portfolio.id)
-            .pipe(first())
-            .subscribe((groups) => this.groups = groups);
+        this.groups = await this.groupService.getGroups(portfolio.id);
     }
 
     public addGroup(): void {
@@ -73,10 +70,10 @@ export class ListComponent implements OnInit, OnDestroy {
             return;
         }
 
-        this.groupService.deleteGroup(id)
-            .pipe(first())
-            .subscribe(() => this.groups = this.groups !== null
-                ? this.groups.filter((x) => x.id !== id)
-                : null);
+        await this.groupService.deleteGroup(id);
+
+        this.groups = this.groups !== null
+            ? this.groups.filter((x) => x.id !== id)
+            : null;
     }
 }

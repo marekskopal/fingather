@@ -6,7 +6,6 @@ import { Currency } from '@app/models';
 import { AlertService, CurrencyService } from '@app/services';
 import { AuthenticationService } from '@app/services/authentication.service';
 import { BaseForm } from '@app/shared/components/form/base-form';
-import { first } from 'rxjs/operators';
 
 @Component({ templateUrl: 'sign-up.component.html' })
 export class SignUpComponent extends BaseForm implements OnInit {
@@ -37,12 +36,8 @@ export class SignUpComponent extends BaseForm implements OnInit {
             defaultCurrencyId: ['', Validators.required],
         });
 
-        this.currencyService.getCurrencies()
-            .pipe(first())
-            .subscribe((currencies: Currency[]) => {
-                this.currencies = currencies;
-                this.f['defaultCurrencyId'].patchValue(currencies[0].id);
-            });
+        this.currencies = await this.currencyService.getCurrencies();
+        this.f['defaultCurrencyId'].patchValue(this.currencies[0].id);
     }
 
     public async onSubmit(): Promise<void> {

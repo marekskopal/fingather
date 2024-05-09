@@ -6,7 +6,7 @@ import {
 import { RangeEnum } from '@app/models/enums/range-enum';
 import { NotifyService } from '@app/services/notify-service';
 import { environment } from '@environments/environment';
-import { Observable } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class DividendDataService extends NotifyService {
@@ -19,13 +19,15 @@ export class DividendDataService extends NotifyService {
     public getDividendDataRange(
         portfolioId: number,
         range: RangeEnum,
-    ): Observable<DividendDataDateInterval[]> {
+    ): Promise<DividendDataDateInterval[]> {
         let params = new HttpParams();
         params = params.set('range', range);
 
-        return this.http.get<DividendDataDateInterval[]>(
-            `${environment.apiUrl}/dividend-data-range/${portfolioId}`,
-            { params }
+        return firstValueFrom<DividendDataDateInterval[]>(
+            this.http.get<DividendDataDateInterval[]>(
+                `${environment.apiUrl}/dividend-data-range/${portfolioId}`,
+                { params }
+            )
         );
     }
 }

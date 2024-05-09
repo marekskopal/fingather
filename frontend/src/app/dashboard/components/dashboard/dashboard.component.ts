@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Currency, GroupWithGroupData } from '@app/models';
 import { CurrencyService, GroupWithGroupDataService, PortfolioService } from '@app/services';
-import { first } from 'rxjs/operators';
 
 @Component({ templateUrl: 'dashboard.component.html' })
 export class DashboardComponent implements OnInit {
@@ -29,8 +28,6 @@ export class DashboardComponent implements OnInit {
 
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
-        this.groupWithGroupDataService.getGroupWithGroupData(portfolio.id)
-            .pipe(first())
-            .subscribe((groupsWithGroupData: GroupWithGroupData[]) => this.groupsWithGroupData = groupsWithGroupData);
+        this.groupsWithGroupData = await this.groupWithGroupDataService.getGroupWithGroupData(portfolio.id);
     }
 }

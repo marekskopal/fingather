@@ -8,7 +8,6 @@ import {
 } from '@app/services';
 import { BaseForm } from '@app/shared/components/form/base-form';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { first } from 'rxjs/operators';
 
 @Component({ templateUrl: 'add-edit.component.html' })
 export class AddEditComponent extends BaseForm implements OnInit {
@@ -39,16 +38,12 @@ export class AddEditComponent extends BaseForm implements OnInit {
 
         this.assets = await this.assetService.getAssets(portfolio.id);
 
-        this.groupService.getOthersGroup(portfolio.id)
-            .subscribe((group) => {
-                this.othersGroup = group;
-            });
+        this.othersGroup = await this.groupService.getOthersGroup(portfolio.id);
 
         const id = this.id();
         if (id !== null) {
-            this.groupService.getGroup(id)
-                .pipe(first())
-                .subscribe((x) => this.form.patchValue(x));
+            const group = await this.groupService.getGroup(id);
+            this.form.patchValue(group);
         }
     }
 
@@ -73,40 +68,38 @@ export class AddEditComponent extends BaseForm implements OnInit {
         }
     }
 
-    private createGroup(portfolioId: number): void {
-        this.groupService.createGroup(this.form.value, portfolioId)
-            .pipe(first())
-            .subscribe({
-                next: () => {
-                    this.alertService.success('Group added successfully', { keepAfterRouteChange: true });
-                    this.activeModal.dismiss();
-                    this.groupService.notify();
-                },
-                error: (error) => {
-                    this.alertService.error(error);
-                    this.loading = false;
-                }
-            });
+    private async createGroup(portfolioId: number): Promise<void> {
+        try {
+            await this.groupService.createGroup(this.form.value, portfolioId);
+
+            this.alertService.success('Group added successfully', { keepAfterRouteChange: true });
+            this.activeModal.dismiss();
+            this.groupService.notify();
+        } catch (error) {
+            if (error instanceof Error) {
+                this.alertService.error(error.message);
+            }
+            this.loading = false;
+        }
     }
 
-    private updateGroup(): void {
+    private async updateGroup(): Promise<void> {
         const id = this.id();
         if (id === null) {
             return;
         }
 
-        this.groupService.updateGroup(id, this.form.value)
-            .pipe(first())
-            .subscribe({
-                next: () => {
-                    this.alertService.success('Update successful', { keepAfterRouteChange: true });
-                    this.activeModal.dismiss();
-                    this.groupService.notify();
-                },
-                error: (error) => {
-                    this.alertService.error(error);
-                    this.loading = false;
-                }
-            });
+        try {
+            await this.groupService.updateGroup(id, this.form.value);
+
+            this.alertService.success('Update successful', { keepAfterRouteChange: true });
+            this.activeModal.dismiss();
+            this.groupService.notify();
+        } catch (error) {
+            if (error instanceof Error) {
+                this.alertService.error(error.message);
+            }
+            this.loading = false;
+        }
     }
 }

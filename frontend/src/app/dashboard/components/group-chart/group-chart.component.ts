@@ -5,7 +5,6 @@ import {
     ApexChart, ApexFill, ApexLegend,
     ApexNonAxisChartSeries, ApexPlotOptions, ApexStates, ApexStroke, ApexTheme, ApexYAxis
 } from 'ng-apexcharts';
-import { first } from 'rxjs/operators';
 
 export type ChartOptions = {
     series: ApexNonAxisChartSeries;
@@ -49,15 +48,13 @@ export class GroupChartComponent implements OnInit {
 
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
-        this.groupWithGroupDataService.getGroupWithGroupData(portfolio.id)
-            .pipe(first())
-            .subscribe((groupsWithGroupData: GroupWithGroupData[]) => {
-                const chartMap = this.mapChart(groupsWithGroupData);
-                this.chartOptions.series = chartMap.series;
-                this.chartOptions.labels = chartMap.labels;
-                this.chartOptions.colors = chartMap.colors;
-                this.loading = false;
-            });
+        const groupsWithGroupData = await this.groupWithGroupDataService.getGroupWithGroupData(portfolio.id);
+
+        const chartMap = this.mapChart(groupsWithGroupData);
+        this.chartOptions.series = chartMap.series;
+        this.chartOptions.labels = chartMap.labels;
+        this.chartOptions.colors = chartMap.colors;
+        this.loading = false;
     }
 
     private initializeChartOptions(): void {

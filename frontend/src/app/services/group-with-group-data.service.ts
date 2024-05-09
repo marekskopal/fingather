@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { GroupWithGroupData } from '@app/models';
 import { AssetsOrder } from '@app/models/enums/assets-order';
 import { environment } from '@environments/environment';
-import { Observable } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class GroupWithGroupDataService {
@@ -14,16 +14,18 @@ export class GroupWithGroupDataService {
     public getGroupWithGroupData(
         portfolioId: number,
         orderBy: AssetsOrder | null = null
-    ): Observable<GroupWithGroupData[]> {
+    ): Promise<GroupWithGroupData[]> {
         let params = new HttpParams();
 
         if (orderBy !== null) {
             params = params.set('orderBy', orderBy.toString());
         }
 
-        return this.http.get<GroupWithGroupData[]>(
-            `${environment.apiUrl}/groups-with-group-data/${portfolioId}`,
-            { params }
+        return firstValueFrom<GroupWithGroupData[]>(
+            this.http.get<GroupWithGroupData[]>(
+                `${environment.apiUrl}/groups-with-group-data/${portfolioId}`,
+                { params }
+            )
         );
     }
 }

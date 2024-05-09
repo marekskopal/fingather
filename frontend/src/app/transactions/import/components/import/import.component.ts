@@ -6,7 +6,6 @@ import {
 } from '@app/services';
 import { BaseForm } from '@app/shared/components/form/base-form';
 import { NgxFileDropEntry } from 'ngx-file-drop';
-import { first } from 'rxjs/operators';
 
 @Component({ templateUrl: 'import.component.html' })
 export class ImportComponent extends BaseForm implements OnInit {
@@ -82,12 +81,9 @@ export class ImportComponent extends BaseForm implements OnInit {
         }
     }
 
-    private createImport(portfolioId: number): void {
-        this.importService.createImportPrepare(this.form.value, portfolioId)
-            .pipe(first())
-            .subscribe((importPrepare: ImportPrepare) => {
-                this.loading = false;
-                this.importPrepare = importPrepare;
-            });
+    private async createImport(portfolioId: number): Promise<void> {
+        this.importPrepare = await this.importService.createImportPrepare(this.form.value, portfolioId);
+
+        this.loading = false;
     }
 }

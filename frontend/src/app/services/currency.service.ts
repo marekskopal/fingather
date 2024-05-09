@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Currency } from '@app/models';
 import { PortfolioService } from '@app/services/portfolio.service';
 import { environment } from '@environments/environment';
-import { lastValueFrom, Observable } from 'rxjs';
+import { firstValueFrom, lastValueFrom } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class CurrencyService {
@@ -14,8 +14,8 @@ export class CurrencyService {
         private readonly portfolioService: PortfolioService,
     ) {}
 
-    public getCurrencies(): Observable<Currency[]> {
-        return this.http.get<Currency[]>(`${environment.apiUrl}/currency`);
+    public getCurrencies(): Promise<Currency[]> {
+        return firstValueFrom<Currency[]>(this.http.get<Currency[]>(`${environment.apiUrl}/currency`));
     }
 
     public async getCurrenciesMap(): Promise<Map<number, Currency>> {

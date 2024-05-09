@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { ImportData, ImportPrepare, ImportStart } from '@app/models';
 import { OkResponse } from '@app/models/ok-response';
 import { environment } from '@environments/environment';
-import { Observable } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ImportService {
@@ -11,11 +11,15 @@ export class ImportService {
         private http: HttpClient
     ) {}
 
-    public createImportPrepare(importData: ImportData, portfolioId: number): Observable<ImportPrepare> {
-        return this.http.post<ImportPrepare>(`${environment.apiUrl}/import/import-prepare/${portfolioId}`, importData);
+    public createImportPrepare(importData: ImportData, portfolioId: number): Promise<ImportPrepare> {
+        return firstValueFrom<ImportPrepare>(
+            this.http.post<ImportPrepare>(`${environment.apiUrl}/import/import-prepare/${portfolioId}`, importData)
+        );
     }
 
-    public createImportStart(importStart: ImportStart): Observable<OkResponse> {
-        return this.http.post<OkResponse>(`${environment.apiUrl}/import/import-start`, importStart);
+    public createImportStart(importStart: ImportStart): Promise<OkResponse> {
+        return firstValueFrom<OkResponse>(
+            this.http.post<OkResponse>(`${environment.apiUrl}/import/import-start`, importStart)
+        );
     }
 }

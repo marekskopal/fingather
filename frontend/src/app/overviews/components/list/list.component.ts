@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Currency, YearCalculatedData } from '@app/models';
 import { ModeEnum } from '@app/overviews/components/list/enum/mode-enum';
 import { CurrencyService, OverviewService, PortfolioService } from '@app/services';
-import { first } from 'rxjs/operators';
 
 @Component({
     templateUrl: './list.component.html'
@@ -36,9 +35,7 @@ export class ListComponent implements OnInit {
 
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
-        this.overviewService.getYearCalculatedData(portfolio.id)
-            .pipe(first())
-            .subscribe((yearCalculatedDatas) => this.yearCalculatedDatas = yearCalculatedDatas);
+        this.yearCalculatedDatas = await this.overviewService.getYearCalculatedData(portfolio.id);
     }
 
     public changeMode(): void {

@@ -9,7 +9,6 @@ import {
     AlertService, BrokerService, ImportService
 } from '@app/services';
 import { BaseForm } from '@app/shared/components/form/base-form';
-import { first } from 'rxjs/operators';
 
 @Component({
     templateUrl: 'import-prepare.component.html',
@@ -58,7 +57,7 @@ export class ImportPrepareComponent extends BaseForm implements OnInit {
         this.createImport();
     }
 
-    private createImport(): void {
+    private async createImport(): Promise<void> {
         const importStart: ImportStart = {
             importId: this.importPrepare().importId,
             importMappings: [],
@@ -76,17 +75,16 @@ export class ImportPrepareComponent extends BaseForm implements OnInit {
             importStart.importMappings.push(importMapping);
         }
 
-        this.importDataService.createImportStart(importStart)
-            .pipe(first())
-            .subscribe({
-                next: () => {
-                    this.alertService.success('Transactions was imported successfully', { keepAfterRouteChange: true });
-                    this.router.navigate(['../'], { relativeTo: this.route });
-                },
-                error: (error) => {
-                    this.alertService.error(error);
-                    this.loading = false;
-                }
-            });
+        try {
+            await this.importDataService.createImportStart(importStart);
+
+            this.alertService.success('Transactions was imported successfully', { keepAfterRouteChange: true });
+            this.router.navigate(['../'], { relativeTo: this.route });
+        } catch (error) {
+            if (error instanceof Error) {
+                this.alertService.error(error.message);
+            }
+            this.loading = false;
+        }
     }
 }
