@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AssetWithProperties } from '@app/models';
 import { AssetService } from '@app/services';
-import { first } from 'rxjs/operators';
 
 @Component({ templateUrl: 'detail.component.html' })
 export class DetailComponent implements OnInit {
@@ -14,11 +13,9 @@ export class DetailComponent implements OnInit {
         private route: ActivatedRoute,
     ) {}
 
-    public ngOnInit(): void {
+    public async ngOnInit(): Promise<void> {
         this.id = this.route.snapshot.params['id'];
 
-        this.assetService.getAsset(this.id)
-            .pipe(first())
-            .subscribe((asset) => this.asset = asset);
+        this.asset = await this.assetService.getAsset(this.id);
     }
 }

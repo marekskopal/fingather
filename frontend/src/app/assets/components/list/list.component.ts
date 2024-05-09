@@ -59,11 +59,10 @@ export class ListComponent implements OnInit, OnDestroy {
                 );
         }
 
-        this.assetService.getAssetsWithProperties(portfolio.id, this.openedAssetsOrderBy)
-            .pipe(first())
-            .subscribe(
-                (assetsWithProperties: AssetsWithProperties) => this.assetsWithProperties = assetsWithProperties
-            );
+        this.assetsWithProperties = await this.assetService.getAssetsWithProperties(
+            portfolio.id,
+            this.openedAssetsOrderBy,
+        );
     }
 
     public ngOnDestroy(): void {

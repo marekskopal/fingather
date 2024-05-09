@@ -37,10 +37,7 @@ export class AddEditComponent extends BaseForm implements OnInit {
 
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
-        this.assetService.getAssets(portfolio.id)
-            .subscribe((assets) => {
-                this.assets = assets;
-            });
+        this.assets = await this.assetService.getAssets(portfolio.id);
 
         this.groupService.getOthersGroup(portfolio.id)
             .subscribe((group) => {

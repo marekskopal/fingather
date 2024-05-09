@@ -8,7 +8,7 @@ import { BaseDialog } from '@app/shared/components/dialog/base-dialog';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, of, OperatorFunction } from 'rxjs';
 import {
-    catchError, debounceTime, distinctUntilChanged, first, map, switchMap, tap
+    catchError, debounceTime, distinctUntilChanged, map, switchMap, tap
 } from 'rxjs/operators';
 
 @Component({ templateUrl: 'add-asset.component.html' })
@@ -71,19 +71,19 @@ export class AddAssetComponent extends BaseDialog implements OnInit {
         this.createAsset(portfolio.id);
     }
 
-    private createAsset(portfolioId: number): void {
-        this.assetService.createAsset(this.form.value.ticker, portfolioId)
-            .pipe(first())
-            .subscribe({
-                next: () => {
-                    this.alertService.success('Asset added successfully', { keepAfterRouteChange: true });
-                    this.activeModal.dismiss();
-                    this.assetService.notify();
-                },
-                error: (error) => {
-                    this.alertService.error(error);
-                    this.loading = false;
-                }
-            });
+    private async createAsset(portfolioId: number): Promise<void> {
+        try {
+            await this.assetService.createAsset(this.form.value.ticker, portfolioId);
+
+            this.alertService.success('Asset added successfully', { keepAfterRouteChange: true });
+            this.activeModal.dismiss();
+            this.assetService.notify();
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                this.alertService.error(error.message);
+            }
+
+            this.loading = false;
+        }
     }
 }
