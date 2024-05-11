@@ -16,7 +16,7 @@
     </thead>
     <tbody>
         <tr *ngFor="let transaction of transactions">
-            <td>{{transaction.actionCreated | amFromUtc | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm'}}</td>
+            <td>{{transaction.actionCreated | date: 'y-MM-dd HH:mm'}}</td>
             <td>{{transaction.actionType}}</td>
             <td style="white-space: nowrap">
                 <a (click)="editTransaction(transaction.id)" class="btn btn-sm btn-primary mr-1" tabindex="0">{{ 'app.common.edit' | translate }}</a>

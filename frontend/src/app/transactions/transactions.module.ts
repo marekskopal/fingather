@@ -10,7 +10,6 @@ import {
     faEdit, faFileImport, faPlus, faTrash
 } from '@fortawesome/free-solid-svg-icons';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
-import { MomentModule } from 'ngx-moment';
 
 @NgModule({
     declarations: [
@@ -25,7 +24,6 @@ import { MomentModule } from 'ngx-moment';
         FormsModule,
         ReactiveFormsModule,
         FontAwesomeModule,
-        MomentModule,
     ]
 })
 export class TransactionsModule {

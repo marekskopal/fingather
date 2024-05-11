@@ -18,7 +18,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { NgbNavModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgApexchartsModule } from 'ng-apexcharts';
-import { MomentModule } from 'ngx-moment';
 
 import { SharedModule } from '../shared/shared.module';
 import { AssetsRoutingModule } from './assets-routing.module';
@@ -32,7 +31,6 @@ import { TransactionListComponent } from './components/transactions/transaction-
         ReactiveFormsModule,
         SharedModule,
         AssetsRoutingModule,
-        MomentModule,
         NgApexchartsModule,
         NgbTypeaheadModule,
         FormsModule,
