@@ -25,11 +25,11 @@
         <tbody>
             <tr *ngFor="let transaction of transactionList?.transactions">
                 <td class="align-middle">
-                    <div>{{transaction.actionCreated | amFromUtc | amLocal | amDateFormat: 'YYYY-MM-DD'}}</div>
-                    <div class="small">{{transaction.actionCreated | amFromUtc | amLocal | amDateFormat: 'HH:mm'}}</div>
+                    <div>{{transaction.actionCreated | date: 'y-MM-dd'}}</div>
+                    <div class="small">{{transaction.actionCreated | date: 'HH:mm'}}</div>
                 <td class="align-middle">
-                    <div>{{transaction.created | amFromUtc | amLocal | amDateFormat: 'YYYY-MM-DD'}}</div>
-                    <div class="small">{{transaction.created | amFromUtc | amLocal | amDateFormat: 'HH:mm'}}</div>
+                    <div>{{transaction.created | date: 'y-MM-dd'}}</div>
+                    <div class="small">{{transaction.created | date: 'HH:mm'}}</div>
                 </td>
                 <td class="align-middle">
                     <div class="tag">

@@ -14,7 +14,7 @@ import {
 } from '@app/services';
 import { BaseForm } from '@app/shared/components/form/base-form';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import * as moment from 'moment';
+import {formatDate} from "@angular/common";
 
 @Component({ templateUrl: 'dividend-dialog.component.html' })
 export class DividendDialogComponent extends BaseForm implements OnInit {
@@ -43,7 +43,7 @@ export class DividendDialogComponent extends BaseForm implements OnInit {
             this.id = this.route.snapshot.params['id'];
         }
 
-        const currentDate = moment().format('YYYY-MM-DDTHH:mm');
+        const currentDate = formatDate((new Date()), 'y-MM-ddTHH:mm', 'en');
 
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
@@ -69,7 +69,7 @@ export class DividendDialogComponent extends BaseForm implements OnInit {
 
         if (this.id !== null) {
             const transaction = await this.transactionService.getTransaction(this.id);
-            transaction.actionCreated = moment(transaction.actionCreated).format('YYYY-MM-DDTHH:mm');
+            transaction.actionCreated = formatDate(Date.parse(transaction.actionCreated), 'y-MM-ddTHH:mm', 'en');
             this.form.patchValue(transaction);
         }
     }
