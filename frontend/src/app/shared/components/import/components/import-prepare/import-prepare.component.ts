@@ -12,7 +12,7 @@ import { BaseForm } from '@app/shared/components/form/base-form';
 
 @Component({
     templateUrl: 'import-prepare.component.html',
-    selector: 'fingather-import-import-prepare',
+    selector: 'fingather-import-prepare',
 })
 export class ImportPrepareComponent extends BaseForm implements OnInit {
     public importPrepare: InputSignal<ImportPrepare> = input.required<ImportPrepare>();

@@ -106,7 +106,7 @@ final class PortfolioController
 			return new NotFoundResponse('Portfolio with id "' . $portfolioId . '" was not found.');
 		}
 
-		/** @var array{currencyId: int, name: string, isDefault: bool} $requestBody */
+		/** @var array{currencyId: int, name: string, isDefault?: bool} $requestBody */
 		$requestBody = json_decode($request->getBody()->getContents(), assoc: true);
 
 		$currency = $this->currencyProvider->getCurrency($requestBody['currencyId']);
@@ -118,7 +118,7 @@ final class PortfolioController
 			portfolio: $portfolio,
 			currency: $currency,
 			name: $requestBody['name'],
-			isDefault: $requestBody['isDefault'],
+			isDefault: $requestBody['isDefault'] ?? true,
 		)));
 	}
 

@@ -134,8 +134,8 @@ export class AssetTickerChartComponent implements OnInit {
 
     private mapAssetTickerData(assetTickerDatas: TickerData[]): { series: number[], categories: string[] } {
         return {
-            series: assetTickerDatas.map(data => parseFloat(data.close)),
-            categories: assetTickerDatas.map(data => data.date)
+            series: assetTickerDatas.map((data) => parseFloat(data.close)),
+            categories: assetTickerDatas.map((data) => data.date)
         };
     }
 }

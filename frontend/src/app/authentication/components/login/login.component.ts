@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AlertService } from '@app/services';
+import { Router } from '@angular/router';
+import { AlertService, CurrentUserService } from '@app/services';
 import { AuthenticationService } from '@app/services/authentication.service';
 import { BaseForm } from '@app/shared/components/form/base-form';
 
 @Component({ templateUrl: 'login.component.html' })
 export class LoginComponent extends BaseForm implements OnInit {
     public constructor(
-        private route: ActivatedRoute,
-        private router: Router,
-        private authorizationService: AuthenticationService,
+        private readonly router: Router,
+        private readonly authorizationService: AuthenticationService,
+        private readonly currentUserService: CurrentUserService,
         formBuilder: UntypedFormBuilder,
         alertService: AlertService,
     ) {
@@ -39,8 +39,9 @@ export class LoginComponent extends BaseForm implements OnInit {
         try {
             await this.authorizationService.login(this.f['email'].value, this.f['password'].value);
 
-            // get return url from query parameters or default to home page
-            const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+            const currentUser = await this.currentUserService.getCurrentUser();
+            const returnUrl = currentUser.isOnboardingCompleted ? '/' : '/onboarding';
+
             this.router.navigateByUrl(returnUrl);
         } catch (error) {
             if (error instanceof Error) {

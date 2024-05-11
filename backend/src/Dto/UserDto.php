@@ -15,8 +15,8 @@ final readonly class UserDto
 		public string $name,
 		public UserRoleEnum $role,
 		public bool $isEmailVerified,
-	)
-	{
+		public bool $isOnboardingCompleted,
+	) {
 	}
 
 	public static function fromEntity(User $entity): self
@@ -27,6 +27,7 @@ final readonly class UserDto
 			name: $entity->getName(),
 			role: $entity->getRole(),
 			isEmailVerified: $entity->isEmailVerified(),
+			isOnboardingCompleted: $entity->isOnboardingCompleted(),
 		);
 	}
 
@@ -46,6 +47,7 @@ final readonly class UserDto
 			name: $data['name'],
 			role: UserRoleEnum::from($data['role']),
 			isEmailVerified: false,
+			isOnboardingCompleted: false,
 		);
 	}
 }
