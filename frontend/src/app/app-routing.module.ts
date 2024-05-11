@@ -49,6 +49,11 @@ const routes: Routes = [
         canActivate: [AuthGuard]
     },
     {
+        path: 'onboarding',
+        loadChildren: () => import('./onboarding/onboarding.module').then((x) => x.OnboardingModule),
+        canActivate: [AuthGuard]
+    },
+    {
         path: 'email-verify',
         loadChildren: () => import('./email-verify/email-verify.module').then((x) => x.EmailVerifyModule)
     },

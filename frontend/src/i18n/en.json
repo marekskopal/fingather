@@ -270,6 +270,18 @@
         "title": "Dividends History"
       }
     },
+    "onboarding": {
+      "onboarding": {
+        "title": "Welcome to FinGather",
+        "subtitle": "Let's get started by importing your assets."
+      },
+      "portfolioForm": {
+        "name": "Name of your's first portfolio",
+        "nameRequired": "Name is required",
+        "currency": "Currency",
+        "currencyRequired": "Currency is required"
+      }
+    },
     "shared": {
       "portfolioTotal": {
         "portfolioValue": "Portfolio Value",

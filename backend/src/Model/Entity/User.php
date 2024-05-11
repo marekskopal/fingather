@@ -21,8 +21,10 @@ class User extends AEntity
 		private string $name,
 		#[Column(type: 'enum(User,Admin)', typecast: UserRoleEnum::class)]
 		private UserRoleEnum $role,
-		#[Column(type: 'boolean')]
+		#[Column(type: 'boolean', default: false)]
 		private bool $isEmailVerified,
+		#[Column(type: 'boolean', default: false)]
+		private bool $isOnboardingCompleted,
 	) {
 	}
 
@@ -69,5 +71,15 @@ class User extends AEntity
 	public function setIsEmailVerified(bool $isEmailVerified): void
 	{
 		$this->isEmailVerified = $isEmailVerified;
+	}
+
+	public function isOnboardingCompleted(): bool
+	{
+		return $this->isOnboardingCompleted;
+	}
+
+	public function setIsOnboardingCompleted(bool $isOnboardingCompleted): void
+	{
+		$this->isOnboardingCompleted = $isOnboardingCompleted;
 	}
 }

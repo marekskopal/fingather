@@ -1,0 +1,34 @@
+﻿@if (form) {
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="form-row">
+            <div class="form-group col">
+                <label for="name">{{ 'app.onboarding.portfolioForm.name' | translate }}</label>
+                <input id="name" type="text" formControlName="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['name'].errors }" />
+                <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+                    <div *ngIf="f['name'].errors['required']">{{ 'app.users.addEdit.nameRequired' | translate }}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col">
+                <label for="currencyId" class="form-label">{{ 'app.onboarding.portfolioForm.currency' | translate }}</label>
+                <select id="currencyId" formControlName="currencyId" class="form-select">
+                    <option *ngFor="let currency of currencies" [ngValue]="currency.id">
+                        {{ currency.code }}
+                    </option>
+                </select>
+                <div *ngIf="submitted && f['currencyId'].errors" class="invalid-feedback">
+                    <div *ngIf="f['currencyId'].errors['required']">{{ 'app.onboarding.portfolioForm.currencyRequired' | translate }}</div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <button [disabled]="loading" class="btn btn-primary">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                {{ 'app.common.save' | translate }}
+            </button>
+        </div>
+    </form>
+}

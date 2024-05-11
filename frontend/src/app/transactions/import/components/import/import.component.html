@@ -1,35 +1,4 @@
 ﻿<h1>{{ 'app.transactions.import.import.title' | translate }}</h1>
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div class="form-row mb-4">
-        <div class="form-group col">
-            <ngx-file-drop dropZoneLabel="Drop files here" dropZoneClassName="file-drop" (onFileDrop)="onFileDropped($event)" accept=".csv,.xlsx">
-                <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
-                    <div class="file-drop-text">{{ 'app.transactions.import.import.fileDropText' | translate }}</div>
-                    <button type="button" class="btn btn-primary" (click)="openFileSelector()">{{ 'app.transactions.import.import.fileDropButton' | translate }}</button>
-                </ng-template>
-            </ngx-file-drop>
-            @if (droppedFiles.length > 0) {
-                @for (droppedFile of droppedFiles; track droppedFile) {
-                    <div class="alert alert-primary" role="alert">
-                        {{ droppedFile.fileEntry.name }}
-                    </div>
-                }
-            }
-        </div>
-    </div>
-    @if (importPrepare === null) {
-        <div class="form-row">
-            <div class="form-group">
-                <button [disabled]="loading" class="btn btn-primary">
-                    <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                    {{ 'app.transactions.import.import.import' | translate }}
-                </button>
-                <a routerLink="/transactions" class="btn btn-link">{{ 'app.common.cancel' | translate }}</a>
-            </div>
-        </div>
-    }
-</form>
 
-@if (importPrepare !== null) {
-    <fingather-import-import-prepare [importPrepare]="importPrepare" />
-}
+<fingather-import  />
+

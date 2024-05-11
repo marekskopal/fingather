@@ -47,7 +47,14 @@ class UserProvider
 	): User {
 		$hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
-		$user = new User(email: $email, password: $hashedPassword, name: $name, role: $role, isEmailVerified: $isEmailVerified);
+		$user = new User(
+			email: $email,
+			password: $hashedPassword,
+			name: $name,
+			role: $role,
+			isEmailVerified: $isEmailVerified,
+			isOnboardingCompleted: false,
+		);
 		$this->userRepository->persist($user);
 
 		$defaultPortfolio = $this->portfolioProvider->createDefaultPortfolio($user, $defaultCurrency);
@@ -78,6 +85,15 @@ class UserProvider
 	public function emailVerifyUser(User $user): User
 	{
 		$user->setIsEmailVerified(true);
+
+		$this->userRepository->persist($user);
+
+		return $user;
+	}
+
+	public function onboardingCompleteUser(User $user): User
+	{
+		$user->setIsOnboardingCompleted(true);
 
 		$this->userRepository->persist($user);
 

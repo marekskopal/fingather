@@ -3,6 +3,10 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ConfirmDialogComponent } from '@app/shared/components/confirm-dialog/confirm-dialog.component';
 import { DividendDialogComponent } from '@app/shared/components/dividend-dialog/dividend-dialog.component';
+import {
+    ImportPrepareComponent
+} from '@app/shared/components/import/components/import-prepare/import-prepare.component';
+import { ImportComponent } from '@app/shared/components/import/import.component';
 import { PortfolioSelectorComponent } from '@app/shared/components/portfolio-selector/portfolio-selector.component';
 import {
     PortfolioValueChartComponent
@@ -14,6 +18,7 @@ import { ValueColorComponent } from '@app/shared/components/value-color/value-co
 import { CurrencyPipe } from '@app/shared/pipes/currency.pipe';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { NgxFileDropModule } from 'ngx-file-drop';
 
 import { PortfolioTotalComponent } from './components/portfolio-total/portfolio-total.component';
 
@@ -23,6 +28,7 @@ import { PortfolioTotalComponent } from './components/portfolio-total/portfolio-
         ReactiveFormsModule,
         TranslateModule,
         NgApexchartsModule,
+        NgxFileDropModule,
     ],
     declarations: [
         PortfolioTotalComponent,
@@ -35,6 +41,8 @@ import { PortfolioTotalComponent } from './components/portfolio-total/portfolio-
         ValueColorComponent,
         TableValueComponent,
         PortfolioValueChartComponent,
+        ImportComponent,
+        ImportPrepareComponent,
     ],
     exports: [
         PortfolioTotalComponent,
@@ -45,6 +53,8 @@ import { PortfolioTotalComponent } from './components/portfolio-total/portfolio-
         ValueColorComponent,
         TableValueComponent,
         PortfolioValueChartComponent,
+        ImportComponent,
+        ImportPrepareComponent,
     ]
 })
 export class SharedModule { }

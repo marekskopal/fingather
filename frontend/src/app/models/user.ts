@@ -7,4 +7,6 @@ export interface User extends AbstractEntity {
     name: string;
     defaultCurrencyId: number;
     role: UserRoleEnum;
+    isEmailVerified: boolean;
+    isOnboardingCompleted: boolean;
 }

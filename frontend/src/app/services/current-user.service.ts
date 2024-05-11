@@ -24,4 +24,8 @@ export class CurrentUserService {
 
         return this.currentUser;
     }
+
+    public cleanCurrentUser(): void {
+        this.currentUser = null;
+    }
 }

@@ -5,6 +5,7 @@ import { SignUp } from '@app/models';
 import { Authentication } from '@app/models/authentication';
 import { BoolResponse } from '@app/models/bool-response';
 import { OkResponse } from '@app/models/ok-response';
+import { CurrentUserService } from '@app/services/current-user.service';
 import { PortfolioService } from '@app/services/portfolio.service';
 import { environment } from '@environments/environment';
 import { BehaviorSubject, firstValueFrom, Observable } from 'rxjs';
@@ -19,6 +20,7 @@ export class AuthenticationService {
         private readonly router: Router,
         private readonly http: HttpClient,
         private readonly portfolioService: PortfolioService,
+        private readonly currentUserService: CurrentUserService,
     ) {
         const localStorageAuthentication = localStorage.getItem('authentication');
         const authentication = localStorageAuthentication !== null ? JSON.parse(localStorageAuthentication) : null;
@@ -44,6 +46,7 @@ export class AuthenticationService {
         this.authenticationSubject.next(authentication);
         this.startRefreshTokenTimer();
         this.portfolioService.cleanCurrentPortfolio();
+        this.currentUserService.cleanCurrentUser();
 
         return authentication;
     }
@@ -54,6 +57,7 @@ export class AuthenticationService {
         this.authenticationSubject.next(null);
         this.stopRefreshTokenTimer();
         this.portfolioService.cleanCurrentPortfolio();
+        this.currentUserService.cleanCurrentUser();
         this.router.navigate(['/authentication/login']);
     }
 

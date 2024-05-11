@@ -15,14 +15,15 @@ final class UserFixture
 		?string $name = null,
 		?UserRoleEnum $role = null,
 		?bool $isEmailVerified = null,
-	): User
-	{
+		?bool $isOnboardingCompleted = null,
+	): User {
 		return new User(
 			email: $email ?? 'test@fingather.com',
 			password: $password ?? '$2y$10$1q2w3e4r5t6y7u8i9o0p1q2w3e4r5t6y7u8i9o0p1q2w3e4r5t6y7u8i9o0p',
 			name: $name ?? 'Test User',
 			role: $role ?? UserRoleEnum::Admin,
 			isEmailVerified: $isEmailVerified ?? false,
+			isOnboardingCompleted: $isOnboardingCompleted ?? false,
 		);
 	}
 }
