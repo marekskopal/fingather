@@ -80,20 +80,20 @@ devDependencies:
     specifier: ^17.3.7
     version: 17.3.7(@angular/compiler-cli@17.3.9)(@angular/localize@17.3.9)(karma@6.4.3)(typescript@5.4.5)
   '@angular-eslint/builder':
-    specifier: 17.4.0
-    version: 17.4.0(eslint@8.57.0)(typescript@5.4.5)
+    specifier: 17.4.1
+    version: 17.4.1(eslint@8.57.0)(typescript@5.4.5)
   '@angular-eslint/eslint-plugin':
-    specifier: 17.4.0
-    version: 17.4.0(eslint@8.57.0)(typescript@5.4.5)
+    specifier: 17.4.1
+    version: 17.4.1(eslint@8.57.0)(typescript@5.4.5)
   '@angular-eslint/eslint-plugin-template':
-    specifier: 17.4.0
-    version: 17.4.0(eslint@8.57.0)(typescript@5.4.5)
+    specifier: 17.4.1
+    version: 17.4.1(eslint@8.57.0)(typescript@5.4.5)
   '@angular-eslint/schematics':
-    specifier: 17.4.0
-    version: 17.4.0(@angular/cli@17.3.7)(eslint@8.57.0)(typescript@5.4.5)
+    specifier: 17.4.1
+    version: 17.4.1(@angular/cli@17.3.7)(eslint@8.57.0)(typescript@5.4.5)
   '@angular-eslint/template-parser':
-    specifier: 17.4.0
-    version: 17.4.0(eslint@8.57.0)(typescript@5.4.5)
+    specifier: 17.4.1
+    version: 17.4.1(eslint@8.57.0)(typescript@5.4.5)
   '@angular/cli':
     specifier: ^17.3.7
     version: 17.3.7
@@ -370,15 +370,15 @@ packages:
       - chokidar
     dev: true
 
-  /@angular-eslint/builder@17.4.0(eslint@8.57.0)(typescript@5.4.5):
-    resolution: {integrity: sha512-+3ujbi+ar/iqAAwnJ2bTdWzQpHh9iVEPgjHUOeQhrEM8gcaOLnZXMlUyZL7D+NlXg7aDoEIxETb73dgbIBm55A==}
+  /@angular-eslint/builder@17.4.1(eslint@8.57.0)(typescript@5.4.5):
+    resolution: {integrity: sha512-UVnErsAGXTi8OChkoSxDVVGV2jkFpTaXQT+0fgapSwaOt3Ki7BVwJJoNaX0Zs01c64bjNPZ5ONb/i6nC8QiP9Q==}
     peerDependencies:
       eslint: ^7.20.0 || ^8.0.0
       typescript: '*'
     dependencies:
-      '@nx/devkit': 18.3.5(nx@18.3.5)
+      '@nx/devkit': 19.0.4(nx@19.0.4)
       eslint: 8.57.0
-      nx: 18.3.5
+      nx: 19.0.4
       typescript: 5.4.5
     transitivePeerDependencies:
       - '@swc-node/register'
@@ -386,18 +386,18 @@ packages:
       - debug
     dev: true
 
-  /@angular-eslint/bundled-angular-compiler@17.4.0:
-    resolution: {integrity: sha512-cYEJs4PO+QLDt1wfgWh9q8OjOphnoe1OTTFtMqm9lHl0AkBynPnFA6ghiiG5NaT03l7HXi2TQ23rLFlXl3JOBg==}
+  /@angular-eslint/bundled-angular-compiler@17.4.1:
+    resolution: {integrity: sha512-QKQGspxsyMHRwvzqo+Fj42TS/vmnwOHuWC6EN+5KBx3cuImahqFHQW842zVy9f65jfH2xDnNWJ+NW+Tzcgg+pQ==}
     dev: true
 
-  /@angular-eslint/eslint-plugin-template@17.4.0(eslint@8.57.0)(typescript@5.4.5):
-    resolution: {integrity: sha512-o1Vb7rt3TpPChVzaxswOKBDWRboMcpC4qUUyoHfeSYa7sDuQHMeIQlCS5QXuykR/RYnIQJSKd89FOd28nGmmRw==}
+  /@angular-eslint/eslint-plugin-template@17.4.1(eslint@8.57.0)(typescript@5.4.5):
+    resolution: {integrity: sha512-oYP7yzOpn63g1Mpwc8F8ERiywaGRhAs27ttI9t+5NXaLrwHSfc/AJleC7jjkB5xu1p88JY1mb4oIYOjeZAhHIg==}
     peerDependencies:
       eslint: ^7.20.0 || ^8.0.0
       typescript: '*'
     dependencies:
-      '@angular-eslint/bundled-angular-compiler': 17.4.0
-      '@angular-eslint/utils': 17.4.0(eslint@8.57.0)(typescript@5.4.5)
+      '@angular-eslint/bundled-angular-compiler': 17.4.1
+      '@angular-eslint/utils': 17.4.1(eslint@8.57.0)(typescript@5.4.5)
       '@typescript-eslint/type-utils': 7.8.0(eslint@8.57.0)(typescript@5.4.5)
       '@typescript-eslint/utils': 7.8.0(eslint@8.57.0)(typescript@5.4.5)
       aria-query: 5.3.0
@@ -408,14 +408,14 @@ packages:
       - supports-color
     dev: true
 
-  /@angular-eslint/eslint-plugin@17.4.0(eslint@8.57.0)(typescript@5.4.5):
-    resolution: {integrity: sha512-E+/O83PXttQUACurGEskLDU+wboBqMMVqvo4T8C/iMcpLx+01M5UBzqpCmfz6ri609G96Au7uDbUEedU1hwqmQ==}
+  /@angular-eslint/eslint-plugin@17.4.1(eslint@8.57.0)(typescript@5.4.5):
+    resolution: {integrity: sha512-05bN1UB4H2CuX7Sw6fz+rMobsa+Bl3g15IYldH08hbJSnVemO8mf86bIjRN2Th79sO9WOiXXimnfIt7KRf8l0Q==}
     peerDependencies:
       eslint: ^7.20.0 || ^8.0.0
       typescript: '*'
     dependencies:
-      '@angular-eslint/bundled-angular-compiler': 17.4.0
-      '@angular-eslint/utils': 17.4.0(eslint@8.57.0)(typescript@5.4.5)
+      '@angular-eslint/bundled-angular-compiler': 17.4.1
+      '@angular-eslint/utils': 17.4.1(eslint@8.57.0)(typescript@5.4.5)
       '@typescript-eslint/utils': 7.8.0(eslint@8.57.0)(typescript@5.4.5)
       eslint: 8.57.0
       typescript: 5.4.5
@@ -423,17 +423,17 @@ packages:
       - supports-color
     dev: true
 
-  /@angular-eslint/schematics@17.4.0(@angular/cli@17.3.7)(eslint@8.57.0)(typescript@5.4.5):
-    resolution: {integrity: sha512-3WQQbwwBD1N3dZbbx1a1KY/jRujUQgz5778Ac21LU+AdCtvbjnmSpxRfsE3HH8MAreqr8Lv1kjLyiRzPTS5GQQ==}
+  /@angular-eslint/schematics@17.4.1(@angular/cli@17.3.7)(eslint@8.57.0)(typescript@5.4.5):
+    resolution: {integrity: sha512-CYpsGc0B/ZGO/RKYlyfeAi1pOvFmVs4pvoHU13uOdhdFJ6nAUTujHiBaULloIrUmuIhGW9S0g6w4ecD6ZP680w==}
     peerDependencies:
       '@angular/cli': '>= 17.0.0 < 18.0.0'
     dependencies:
-      '@angular-eslint/eslint-plugin': 17.4.0(eslint@8.57.0)(typescript@5.4.5)
-      '@angular-eslint/eslint-plugin-template': 17.4.0(eslint@8.57.0)(typescript@5.4.5)
+      '@angular-eslint/eslint-plugin': 17.4.1(eslint@8.57.0)(typescript@5.4.5)
+      '@angular-eslint/eslint-plugin-template': 17.4.1(eslint@8.57.0)(typescript@5.4.5)
       '@angular/cli': 17.3.7
-      '@nx/devkit': 18.3.5(nx@18.3.5)
+      '@nx/devkit': 19.0.4(nx@19.0.4)
       ignore: 5.3.1
-      nx: 18.3.5
+      nx: 19.0.4
       strip-json-comments: 3.1.1
       tmp: 0.2.3
     transitivePeerDependencies:
@@ -445,25 +445,25 @@ packages:
       - typescript
     dev: true
 
-  /@angular-eslint/template-parser@17.4.0(eslint@8.57.0)(typescript@5.4.5):
-    resolution: {integrity: sha512-vT/Tg8dl6Uy++MS9lPS0l37SynH3EaMcggDiTJqn15pIb4ePO65fafOIIKKYG+BN6R6iFe/g9mH/9nb8ohlzdQ==}
+  /@angular-eslint/template-parser@17.4.1(eslint@8.57.0)(typescript@5.4.5):
+    resolution: {integrity: sha512-fJQpwQXexgs7Z3yYpQAfuAkFB2Y5H8SSlo+eAPPafOOPpPSIm/yP4dQ2e06tE8zWB5yjYnVBMJnUKSmG5GJSDw==}
     peerDependencies:
       eslint: ^7.20.0 || ^8.0.0
       typescript: '*'
     dependencies:
-      '@angular-eslint/bundled-angular-compiler': 17.4.0
+      '@angular-eslint/bundled-angular-compiler': 17.4.1
       eslint: 8.57.0
       eslint-scope: 8.0.1
       typescript: 5.4.5
     dev: true
 
-  /@angular-eslint/utils@17.4.0(eslint@8.57.0)(typescript@5.4.5):
-    resolution: {integrity: sha512-lHgRXyT878fauDITygraICDM6RHLb51QAJ3gWNZLr7SXcywsZg5d3rxRPCjrCnjgdxNPU0fJ+VJZ5AMt5Ibn7w==}
+  /@angular-eslint/utils@17.4.1(eslint@8.57.0)(typescript@5.4.5):
+    resolution: {integrity: sha512-ptpWSrN7hfLtbStOB5vlwjh088WRu+sT1XIXCROrX5uXR5sQMu5ZitnoObSe+Of+1lugguPvMvFm/pzTMp3LIg==}
     peerDependencies:
       eslint: ^7.20.0 || ^8.0.0
       typescript: '*'
     dependencies:
-      '@angular-eslint/bundled-angular-compiler': 17.4.0
+      '@angular-eslint/bundled-angular-compiler': 17.4.1
       '@typescript-eslint/utils': 7.8.0(eslint@8.57.0)(typescript@5.4.5)
       eslint: 8.57.0
       typescript: 5.4.5
@@ -2702,19 +2702,19 @@ packages:
       - supports-color
     dev: true
 
-  /@nrwl/devkit@18.3.5(nx@18.3.5):
-    resolution: {integrity: sha512-DIvChKMe4q8CtIsbrumL/aYgf85H5vlT6eF3jnCCWORj6LTwoHtK8Q9ky1+uM82KIM0gaKd32NVDw+w64scHyg==}
+  /@nrwl/devkit@19.0.4(nx@19.0.4):
+    resolution: {integrity: sha512-wOb7qiluWjVgmfhIGxWXAgJ61ZoL7rDYfx0mibPhbBlqm+86NHJ9CbKTfbfamS20fkzCYdhYeE6xd7sdpcZIZA==}
     dependencies:
-      '@nx/devkit': 18.3.5(nx@18.3.5)
+      '@nx/devkit': 19.0.4(nx@19.0.4)
     transitivePeerDependencies:
       - nx
     dev: true
 
-  /@nrwl/tao@18.3.5:
-    resolution: {integrity: sha512-gB7Vxa6FReZZEGva03Eh+84W8BSZOjsNyXboglOINu6d8iZZ0eotSXGziKgjpkj3feZ1ofKZMs0PRObVAOROVw==}
+  /@nrwl/tao@19.0.4:
+    resolution: {integrity: sha512-ZoHM5hbj0fOaWiiQoN/Wjozc6lbBCCcH7jCIX7amN6aztmcwNYk+Q3NKJE5Jh0/Js5M78VTnLRG2h4KHPzKSKg==}
     hasBin: true
     dependencies:
-      nx: 18.3.5
+      nx: 19.0.4
       tslib: 2.6.2
     transitivePeerDependencies:
       - '@swc-node/register'
@@ -2722,24 +2722,25 @@ packages:
       - debug
     dev: true
 
-  /@nx/devkit@18.3.5(nx@18.3.5):
-    resolution: {integrity: sha512-9I0L17t0MN87fL4m4MjDiBxJIx7h5RQY/pTYtt5TBjye0ANb165JeE4oh3ibzfjMzXv42Aej2Gm+cOuSPwzT9g==}
+  /@nx/devkit@19.0.4(nx@19.0.4):
+    resolution: {integrity: sha512-nsD0RaL61nZLHSJbog2XwxcI8bML5GlI69Z1k2rvd2zvylqdjNS4SXakMPl/Ar9xX2mAW3Qbup850V0jG87y/Q==}
     peerDependencies:
-      nx: '>= 16 <= 19'
+      nx: '>= 17 <= 20'
     dependencies:
-      '@nrwl/devkit': 18.3.5(nx@18.3.5)
+      '@nrwl/devkit': 19.0.4(nx@19.0.4)
       ejs: 3.1.10
       enquirer: 2.3.6
       ignore: 5.3.1
-      nx: 18.3.5
+      minimatch: 9.0.3
+      nx: 19.0.4
       semver: 7.6.2
       tmp: 0.2.3
       tslib: 2.6.2
       yargs-parser: 21.1.1
     dev: true
 
-  /@nx/nx-darwin-arm64@18.3.5:
-    resolution: {integrity: sha512-4I5UpZ/x2WO9OQyETXKjaYhXiZKUTYcLPewruRMODWu6lgTM9hHci0SqMQB+TWe3f80K8VT8J8x3+uJjvllGlg==}
+  /@nx/nx-darwin-arm64@19.0.4:
+    resolution: {integrity: sha512-EwTMKVFdMF42b+DG3ACtrGVE3iiAgOw+VJ4Vekm59+ZkTg6GrZly2VNbthoNSJd6/uPQssoljx36NZH953ieBw==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [darwin]
@@ -2747,8 +2748,8 @@ packages:
     dev: true
     optional: true
 
-  /@nx/nx-darwin-x64@18.3.5:
-    resolution: {integrity: sha512-Drn6jOG237AD/s6OWPt06bsMj0coGKA5Ce1y5gfLhptOGk4S4UPE/Ay5YCjq+/yhTo1gDHzCHxH0uW2X9MN9Fg==}
+  /@nx/nx-darwin-x64@19.0.4:
+    resolution: {integrity: sha512-W+SVaYOHWRHcws7wZVcWyxoT57r1qXLMUBvpTVBf5PsVfsI+t9sINwzZjcXWaGNVcPGrVYUZF6Cp3/exkPNUBw==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [darwin]
@@ -2756,8 +2757,8 @@ packages:
     dev: true
     optional: true
 
-  /@nx/nx-freebsd-x64@18.3.5:
-    resolution: {integrity: sha512-8tA8Yw0Iir4liFjffIFS5THTS3TtWY/No2tkVj91gwy/QQ/otvKbOyc5RCIPpbZU6GS3ZWfG92VyCSm06dtMFg==}
+  /@nx/nx-freebsd-x64@19.0.4:
+    resolution: {integrity: sha512-8Wl2+TOXiRDLbI8mwsbx1sHQLKAaNvfTm2e5Kf+4ay4W/UsrHONRDRA4d/LhMOLQMo+2+q2q+u8DziqT0w0Vaw==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [freebsd]
@@ -2765,8 +2766,8 @@ packages:
     dev: true
     optional: true
 
-  /@nx/nx-linux-arm-gnueabihf@18.3.5:
-    resolution: {integrity: sha512-BrPGAHM9FCGkB9/hbvlJhe+qtjmvpjIjYixGIlUxL3gGc8E/ucTyCnz5pRFFPFQlBM7Z/9XmbHvGPoUi/LYn5A==}
+  /@nx/nx-linux-arm-gnueabihf@19.0.4:
+    resolution: {integrity: sha512-C3PBsyNM5Npq8G8h/WHjUwwlKZpfWK4tK1ZeNseb6LtoNIgNF0PVrJQERqXABt29lanoQ4SeJ8RPgppB3xgCwg==}
     engines: {node: '>= 10'}
     cpu: [arm]
     os: [linux]
@@ -2774,8 +2775,8 @@ packages:
     dev: true
     optional: true
 
-  /@nx/nx-linux-arm64-gnu@18.3.5:
-    resolution: {integrity: sha512-/Xd0Q3LBgJeigJqXC/Jck/9l5b+fK+FCM0nRFMXgPXrhZPhoxWouFkoYl2F1Ofr+AQf4jup4DkVTB5r98uxSCA==}
+  /@nx/nx-linux-arm64-gnu@19.0.4:
+    resolution: {integrity: sha512-d7gJv/QlaaBKTHpN+DmnQvo1FBNOGfh9b819WMaNXgDLSNpw9CpaOBZPbPgduee3OaGwbfWmll8VDYzUZgKWuw==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
@@ -2783,8 +2784,8 @@ packages:
     dev: true
     optional: true
 
-  /@nx/nx-linux-arm64-musl@18.3.5:
-    resolution: {integrity: sha512-r18qd7pUrl1haAZ/e9Q+xaFTsLJnxGARQcf/Y76q+K2psKmiUXoRlqd3HAOw43KTllaUJ5HkzLq2pIwg3p+xBw==}
+  /@nx/nx-linux-arm64-musl@19.0.4:
+    resolution: {integrity: sha512-lQ76O4AtXAQJ6r1MdVDVp4GG+o2vylWFjcyZvZpclhjag+fWKSdO0igL/14HsqNwCPmcPtaHmgqQNlw3MMtL3w==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
@@ -2792,8 +2793,8 @@ packages:
     dev: true
     optional: true
 
-  /@nx/nx-linux-x64-gnu@18.3.5:
-    resolution: {integrity: sha512-vYrikG6ff4I9cvr3Ysk3y3gjQ9cDcvr3iAr+4qqcQ4qVE+OLL2++JDS6xfPvG/TbS3GTQpyy2STRBwiHgxTeJw==}
+  /@nx/nx-linux-x64-gnu@19.0.4:
+    resolution: {integrity: sha512-1K95WMdKHM4pMACzsO9m9TWqSXwL5cg9/1UuS9LUKhjY/bX2y3iTtzT0tFBptCVzRVLZG8wAZphxwQfBIQvnCQ==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
@@ -2801,8 +2802,8 @@ packages:
     dev: true
     optional: true
 
-  /@nx/nx-linux-x64-musl@18.3.5:
-    resolution: {integrity: sha512-6np86lcYy3+x6kkW/HrBHIdNWbUu/MIsvMuNH5UXgyFs60l5Z7Cocay2f7WOaAbTLVAr0W7p4RxRPamHLRwWFA==}
+  /@nx/nx-linux-x64-musl@19.0.4:
+    resolution: {integrity: sha512-iZ+TH/qT2R6nb+bqL8oJDDeUUEJmzYxtacFlf5yLjaiG5nvOxq7cu/lUw/LEqT+BUgK33T7acr3BDC0/q2bFZQ==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
@@ -2810,8 +2811,8 @@ packages:
     dev: true
     optional: true
 
-  /@nx/nx-win32-arm64-msvc@18.3.5:
-    resolution: {integrity: sha512-H3p2ZVhHV1WQWTICrQUTplOkNId0y3c23X3A2fXXFDbWSBs0UgW7m55LhMcA9p0XZ7wDHgh+yFtVgu55TXLjug==}
+  /@nx/nx-win32-arm64-msvc@19.0.4:
+    resolution: {integrity: sha512-YiRyGZecH4hIy5shZz8SNX5NwY+dZC3Xs09QlMeLKNhf6klfmjJYNtd+9250V4cjJS3opKYf08uG4x+EtuEB5A==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [win32]
@@ -2819,8 +2820,8 @@ packages:
     dev: true
     optional: true
 
-  /@nx/nx-win32-x64-msvc@18.3.5:
-    resolution: {integrity: sha512-xFwKVTIXSgjdfxkpriqHv5NpmmFILTrWLEkUGSoimuRaAm1u15YWx/VmaUQ+UWuJnmgqvB/so4SMHSfNkq3ijA==}
+  /@nx/nx-win32-x64-msvc@19.0.4:
+    resolution: {integrity: sha512-eHEdPjV0GlblyBM501xfe47tPRzugw2U+YOkZh++Ago9MDOrs/ULS9+RM3NhvZl2WnkpNYDbQMjzbQ0r7rxlTA==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [win32]
@@ -7347,8 +7348,8 @@ packages:
       boolbase: 1.0.0
     dev: true
 
-  /nx@18.3.5:
-    resolution: {integrity: sha512-wWcvwoTgiT5okdrG0RIWm1tepC17bDmSpw+MrOxnjfBjARQNTURkiq4U6cxjCVsCxNHxCrlAaBSQLZeBgJZTzQ==}
+  /nx@19.0.4:
+    resolution: {integrity: sha512-E+wkP3H+23Vu9jso6Xw7cbXPzy2PMyrPukrEUDWkQrr/eCqf0Npkj5zky1/lKFSBaLtNYgsFD21co+b4rwxtdw==}
     hasBin: true
     requiresBuild: true
     peerDependencies:
@@ -7360,7 +7361,7 @@ packages:
       '@swc/core':
         optional: true
     dependencies:
-      '@nrwl/tao': 18.3.5
+      '@nrwl/tao': 19.0.4
       '@yarnpkg/lockfile': 1.1.0
       '@yarnpkg/parsers': 3.0.0-rc.46
       '@zkochan/js-yaml': 0.0.6
@@ -7395,16 +7396,16 @@ packages:
       yargs: 17.7.2
       yargs-parser: 21.1.1
     optionalDependencies:
-      '@nx/nx-darwin-arm64': 18.3.5
-      '@nx/nx-darwin-x64': 18.3.5
-      '@nx/nx-freebsd-x64': 18.3.5
-      '@nx/nx-linux-arm-gnueabihf': 18.3.5
-      '@nx/nx-linux-arm64-gnu': 18.3.5
-      '@nx/nx-linux-arm64-musl': 18.3.5
-      '@nx/nx-linux-x64-gnu': 18.3.5
-      '@nx/nx-linux-x64-musl': 18.3.5
-      '@nx/nx-win32-arm64-msvc': 18.3.5
-      '@nx/nx-win32-x64-msvc': 18.3.5
+      '@nx/nx-darwin-arm64': 19.0.4
+      '@nx/nx-darwin-x64': 19.0.4
+      '@nx/nx-freebsd-x64': 19.0.4
+      '@nx/nx-linux-arm-gnueabihf': 19.0.4
+      '@nx/nx-linux-arm64-gnu': 19.0.4
+      '@nx/nx-linux-arm64-musl': 19.0.4
+      '@nx/nx-linux-x64-gnu': 19.0.4
+      '@nx/nx-linux-x64-musl': 19.0.4
+      '@nx/nx-win32-arm64-msvc': 19.0.4
+      '@nx/nx-win32-x64-msvc': 19.0.4
     transitivePeerDependencies:
       - debug
     dev: true
