@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -14,7 +15,6 @@ import {
 } from '@app/services';
 import { BaseForm } from '@app/shared/components/form/base-form';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import {formatDate} from "@angular/common";
 
 @Component({ templateUrl: 'dividend-dialog.component.html' })
 export class DividendDialogComponent extends BaseForm implements OnInit {
