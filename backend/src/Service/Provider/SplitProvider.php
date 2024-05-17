@@ -10,6 +10,7 @@ use FinGather\Model\Entity\Split;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Repository\SplitRepository;
 use MarekSkopal\TwelveData\Enum\RangeEnum;
+use MarekSkopal\TwelveData\Exception\NotFoundException;
 use MarekSkopal\TwelveData\TwelveData;
 
 class SplitProvider
@@ -39,11 +40,15 @@ class SplitProvider
 
 	public function updateSplits(Ticker $ticker): void
 	{
-		$splits = $this->twelveData->getFundamentals()->splits(
-			symbol: $ticker->getTicker(),
-			micCode: $ticker->getMarket()->getMic(),
-			range: RangeEnum::Full,
-		);
+		try {
+			$splits = $this->twelveData->getFundamentals()->splits(
+				symbol: $ticker->getTicker(),
+				micCode: $ticker->getMarket()->getMic(),
+				range: RangeEnum::Full,
+			);
+		} catch (NotFoundException) {
+			return;
+		}
 
 		foreach ($splits->splits as $split) {
 			if ($this->getSplit(ticker: $ticker, date: $split->date) !== null) {
