@@ -8,7 +8,8 @@
     "build-prod": "ng build --configuration production",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "analyze": "webpack-bundle-analyzer dist/fingather/stats.json"
   },
   "private": true,
   "dependencies": {
@@ -69,6 +70,7 @@
     "stylelint": "^16.5.0",
     "stylelint-config-sass-guidelines": "^11.1.0",
     "stylelint-config-standard-scss": "^13.1.0",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "webpack-bundle-analyzer": "^4.10.2"
   }
 }
