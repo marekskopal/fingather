@@ -15,6 +15,7 @@ use FinGather\Model\Repository\TickerDataRepository;
 use FinGather\Service\Provider\Dto\TickerDataAdjustedDto;
 use FinGather\Utils\DateTimeUtils;
 use MarekSkopal\TwelveData\Dto\CoreData\TimeSeries;
+use MarekSkopal\TwelveData\Exception\NotFoundException;
 use MarekSkopal\TwelveData\TwelveData;
 use Safe\DateTime;
 
@@ -123,12 +124,17 @@ class TickerDataProvider
 
 	private function createTickerDataFromStock(Ticker $ticker, DateTimeImmutable $fromDate, ?DateTimeImmutable $toDate = null): void
 	{
-		$timeSeries = $this->twelveData->getCoreData()->timeSeries(
-			symbol: $ticker->getTicker(),
-			micCode: $ticker->getMarket()->getMic(),
-			startDate: $fromDate,
-			endDate: $toDate,
-		);
+		try {
+			$timeSeries = $this->twelveData->getCoreData()->timeSeries(
+				symbol: $ticker->getTicker(),
+				micCode: $ticker->getMarket()->getMic(),
+				startDate: $fromDate,
+				endDate: $toDate,
+			);
+		} catch (NotFoundException) {
+			return;
+		}
+
 		$this->createTickerData($ticker, $timeSeries);
 
 		if (count($timeSeries->values) === self::TwelveDataTimeSeriesMaxResults) {
@@ -138,12 +144,16 @@ class TickerDataProvider
 
 	private function createTickerDataFromCrypto(Ticker $ticker, DateTimeImmutable $fromDate, ?DateTimeImmutable $toDate = null): void
 	{
-		$timeSeries = $this->twelveData->getCoreData()->timeSeries(
-			symbol: $ticker->getTicker() . '/USD',
-			startDate: $fromDate,
-			endDate: $toDate,
-		);
-		$this->createTickerData($ticker, $timeSeries);
+		try {
+			$timeSeries = $this->twelveData->getCoreData()->timeSeries(
+				symbol: $ticker->getTicker() . '/USD',
+				startDate: $fromDate,
+				endDate: $toDate,
+			);
+			$this->createTickerData($ticker, $timeSeries);
+		} catch (NotFoundException) {
+			return;
+		}
 
 		if (count($timeSeries->values) !== self::TwelveDataTimeSeriesMaxResults) {
 			return;
