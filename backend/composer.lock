@@ -4083,16 +4083,16 @@
         },
         {
             "name": "spiral/roadrunner",
-            "version": "v2024.1.1",
+            "version": "v2024.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/roadrunner-server/roadrunner.git",
-                "reference": "9d73edf285ec84beb6673d59823aa654b12aefff"
+                "reference": "8e80f7ce055a7c56dedbb6af281ec2531e0c403f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/roadrunner-server/roadrunner/zipball/9d73edf285ec84beb6673d59823aa654b12aefff",
-                "reference": "9d73edf285ec84beb6673d59823aa654b12aefff",
+                "url": "https://api.github.com/repos/roadrunner-server/roadrunner/zipball/8e80f7ce055a7c56dedbb6af281ec2531e0c403f",
+                "reference": "8e80f7ce055a7c56dedbb6af281ec2531e0c403f",
                 "shasum": ""
             },
             "type": "metapackage",
@@ -4121,7 +4121,7 @@
                 "docs": "https://roadrunner.dev/docs",
                 "forum": "https://forum.roadrunner.dev/",
                 "issues": "https://github.com/roadrunner-server/roadrunner/issues",
-                "source": "https://github.com/roadrunner-server/roadrunner/tree/v2024.1.1"
+                "source": "https://github.com/roadrunner-server/roadrunner/tree/v2024.1.2"
             },
             "funding": [
                 {
@@ -4129,7 +4129,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-05-02T16:33:48+00:00"
+            "time": "2024-05-16T19:38:52+00:00"
         },
         {
             "name": "spiral/roadrunner-http",
