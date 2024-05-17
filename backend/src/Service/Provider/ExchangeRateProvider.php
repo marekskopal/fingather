@@ -11,6 +11,7 @@ use FinGather\Cache\Cache;
 use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\ExchangeRate;
 use FinGather\Model\Repository\ExchangeRateRepository;
+use MarekSkopal\TwelveData\Exception\NotFoundException;
 use MarekSkopal\TwelveData\TwelveData;
 
 class ExchangeRateProvider
@@ -82,10 +83,15 @@ class ExchangeRateProvider
 
 		$lastExchangeRate = $this->exchangeRateRepository->findLastExchangeRate($currencyTo->getId());
 
-		$timeSeries = $this->twelveData->getCoreData()->timeSeries(
-			symbol: 'USD/' . $code,
-			startDate: $lastExchangeRate?->getDate() ?? new \Safe\DateTimeImmutable('2020-01-01'),
-		);
+		try {
+			$timeSeries = $this->twelveData->getCoreData()->timeSeries(
+				symbol: 'USD/' . $code,
+				startDate: $lastExchangeRate?->getDate() ?? new \Safe\DateTimeImmutable('2020-01-01'),
+			);
+		} catch (NotFoundException) {
+			return;
+		}
+
 		foreach ($timeSeries->values as $timeSeriesValue) {
 			$exchangeRate = new ExchangeRate(
 				currency: $currencyTo,
