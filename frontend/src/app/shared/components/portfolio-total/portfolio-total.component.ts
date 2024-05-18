@@ -7,7 +7,6 @@ import { first } from 'rxjs/operators';
 @Component({ selector: 'fingather-portfolio-total', templateUrl: 'portfolio-total.component.html' })
 export class PortfolioTotalComponent implements OnInit {
     public portfolioData: PortfolioData | null;
-    public currencies: Map<number, Currency>;
     public defaultCurrency: Currency;
 
     public constructor(
@@ -17,7 +16,6 @@ export class PortfolioTotalComponent implements OnInit {
     ) { }
 
     public async ngOnInit(): Promise<void> {
-        this.currencies = await this.currencyService.getCurrenciesMap();
         this.defaultCurrency = await this.currencyService.getDefaultCurrency();
 
         this.refreshPortfolioData();
