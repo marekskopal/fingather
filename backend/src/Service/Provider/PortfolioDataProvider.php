@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace FinGather\Service\Provider;
 
 use Cycle\Database\Exception\StatementException\ConstrainException;
+use DateTimeImmutable;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\PortfolioData;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\PortfolioDataRepository;
 use FinGather\Service\DataCalculator\DataCalculator;
-use Safe\DateTimeImmutable;
 
 class PortfolioDataProvider
 {
@@ -84,8 +84,8 @@ class PortfolioDataProvider
 		return $portfolioData;
 	}
 
-	public function deletePortfolioData(User $user, ?Portfolio $portfolio = null, ?DateTimeImmutable $date = null): void
+	public function deletePortfolioData(?User $user = null, ?Portfolio $portfolio = null, ?DateTimeImmutable $date = null): void
 	{
-		$this->portfolioDataRepository->deletePortfolioData($user->getId(), $portfolio?->getId(), $date);
+		$this->portfolioDataRepository->deletePortfolioData($user?->getId(), $portfolio?->getId(), $date);
 	}
 }

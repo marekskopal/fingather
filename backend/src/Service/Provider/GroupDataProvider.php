@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace FinGather\Service\Provider;
 
 use Cycle\Database\Exception\StatementException\ConstrainException;
+use DateTimeImmutable;
 use FinGather\Model\Entity\Group;
 use FinGather\Model\Entity\GroupData;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\GroupDataRepository;
 use FinGather\Service\DataCalculator\DataCalculator;
-use Safe\DateTimeImmutable;
 
 class GroupDataProvider
 {
@@ -86,8 +86,8 @@ class GroupDataProvider
 		return $groupData;
 	}
 
-	public function deleteUserGroupData(User $user, ?Portfolio $portfolio = null, ?DateTimeImmutable $date = null): void
+	public function deleteUserGroupData(?User $user = null, ?Portfolio $portfolio = null, ?DateTimeImmutable $date = null): void
 	{
-		$this->groupDataRepository->deleteUserGroupData($user->getId(), $portfolio?->getId(), $date);
+		$this->groupDataRepository->deleteUserGroupData($user?->getId(), $portfolio?->getId(), $date);
 	}
 }

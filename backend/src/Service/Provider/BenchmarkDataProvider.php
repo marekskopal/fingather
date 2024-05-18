@@ -122,8 +122,8 @@ class BenchmarkDataProvider
 		return $benchmarkData;
 	}
 
-	public function deleteBenchmarkData(User $user, ?Portfolio $portfolio = null, ?DateTimeImmutable $date = null): void
+	public function deleteBenchmarkData(?User $user = null, ?Portfolio $portfolio = null, ?DateTimeImmutable $date = null): void
 	{
-		$this->benchmarkDataRepository->deleteBenchmarkData($user->getId(), $portfolio?->getId(), $date);
+		$this->benchmarkDataRepository->deleteBenchmarkData($user?->getId(), $portfolio?->getId(), $date);
 	}
 }
