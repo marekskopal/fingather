@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {
+    Component, input, InputSignal, OnInit
+} from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { Broker, ImportDataFile, ImportPrepare } from '@app/models';
 import {
@@ -16,6 +18,8 @@ export class ImportComponent extends BaseForm implements OnInit {
     public brokers: Broker[];
     public importPrepare: ImportPrepare | null = null;
     public droppedFiles: NgxFileDropEntry[] = [];
+    public showCancel: InputSignal<boolean> = input<boolean>(true);
+    public onImportFinish: InputSignal<(() => void) | null> = input<((() => void) | null)>(null);
 
     public constructor(
         private readonly brokerService: BrokerService,

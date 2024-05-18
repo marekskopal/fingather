@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ImportPrepare, ImportStart } from '@app/models';
 import { ImportMapping } from '@app/models/import-mapping';
 import {
-    AlertService, BrokerService, ImportService
+    AlertService, ImportService
 } from '@app/services';
 import { BaseForm } from '@app/shared/components/form/base-form';
 
@@ -16,10 +16,10 @@ import { BaseForm } from '@app/shared/components/form/base-form';
 })
 export class ImportPrepareComponent extends BaseForm implements OnInit {
     public importPrepare: InputSignal<ImportPrepare> = input.required<ImportPrepare>();
+    public onImportFinish: InputSignal<(() => void) | null> = input<((() => void) | null)>(null);
 
     public constructor(
         private readonly router: Router,
-        private readonly brokerService: BrokerService,
         private readonly importDataService: ImportService,
         private route: ActivatedRoute,
         formBuilder: UntypedFormBuilder,
@@ -79,7 +79,13 @@ export class ImportPrepareComponent extends BaseForm implements OnInit {
             await this.importDataService.createImportStart(importStart);
 
             this.alertService.success('Transactions was imported successfully', { keepAfterRouteChange: true });
-            this.router.navigate(['../'], { relativeTo: this.route });
+
+            const onImportFinish = this.onImportFinish();
+            if (onImportFinish !== null) {
+                onImportFinish();
+            } else {
+                this.router.navigate(['../'], { relativeTo: this.route });
+            }
         } catch (error) {
             if (error instanceof Error) {
                 this.alertService.error(error.message);

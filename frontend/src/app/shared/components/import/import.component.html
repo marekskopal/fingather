@@ -23,12 +23,14 @@
                     <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
                     {{ 'app.transactions.import.import.import' | translate }}
                 </button>
-                <a routerLink="/transactions" class="btn btn-link">{{ 'app.common.cancel' | translate }}</a>
+                @if (showCancel()) {
+                    <a routerLink="/transactions" class="btn btn-link">{{ 'app.common.cancel' | translate }}</a>
+                }
             </div>
         </div>
     }
 </form>
 
 @if (importPrepare !== null) {
-    <fingather-import-prepare [importPrepare]="importPrepare" />
+    <fingather-import-prepare [importPrepare]="importPrepare" [onImportFinish]="onImportFinish()" />
 }
