@@ -1,5 +1,14 @@
 ﻿<div *ngIf="asset">
-    <h1>{{asset.ticker.name}}</h1>
+    <div class="row">
+        <div class="col-lg-6">
+            <h1>{{asset.ticker.name}}</h1>
+            <h2>{{asset.ticker.ticker}}</h2>
+        </div>
+        <div class="col-lg-6 text-end">
+            <div class="h2">{{asset.ticker.market.mic}}</div>
+            <div class="h2">{{asset.ticker.type}}</div>
+        </div>
+    </div>
 
     <fingather-asset-ticker-chart
         [assetId]="asset.id"
@@ -10,6 +19,77 @@
         [assetId]="asset.id"
         [height]="'400px'"
     />
+
+    <div class="row mb-4">
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    {{ 'app.assets.detail.value' | translate }}
+                </div>
+
+                <div class="card-body">
+                    {{asset.value | number:'1.2-2' | currency: defaultCurrency.id | async}}
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    {{ 'app.assets.detail.investedValue' | translate }}
+                </div>
+
+                <div class="card-body">
+                    {{asset.transactionValueDefaultCurrency | number:'1.2-2' | currency: defaultCurrency.id | async}}
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    {{ 'app.assets.detail.gain' | translate }}
+                </div>
+
+                <div class="card-body">
+                    {{asset.gainDefaultCurrency | number:'1.2-2' | currency: defaultCurrency.id | async}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    {{ 'app.assets.detail.dividend' | translate }}
+                </div>
+
+                <div class="card-body">
+                    {{asset.dividendGainDefaultCurrency | number:'1.2-2' | currency: defaultCurrency.id | async}}
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    {{ 'app.assets.detail.fxImpact' | translate }}
+                </div>
+
+                <div class="card-body">
+                    {{asset.fxImpact | number:'1.2-2' | currency: defaultCurrency.id | async}}
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    {{ 'app.assets.detail.return' | translate }}
+                </div>
+
+                <div class="card-body">
+                    {{asset.return | number:'1.2-2' | currency: defaultCurrency.id | async}}
+                </div>
+            </div>
+        </div>
+    </div>
 
     <fingather-ticker-fundamentals [tickerId]="asset.ticker.id" />
 

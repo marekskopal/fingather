@@ -65,6 +65,12 @@
         "action": "Akce"
       },
       "detail": {
+        "value": "Hodnota",
+        "investedValue": "Investovaná částka",
+        "gain": "Zisk/Ztráta",
+        "dividend": "Dividenda",
+        "fxImpact": "FX dopad",
+        "return": "Návratnost",
         "fundamentals": {
           "marketCapitalization": "Market Capitalization",
           "enterpriseValue": "Enterprise Value",
@@ -274,7 +280,7 @@
       "onboarding": {
         "title": "Vítejte ve FinGather",
         "subtitle": "Můžete začít importováním vašich aktiv.",
-        "skip": "Přeskočit",
+        "skip": "Přeskočit"
       },
       "portfolioForm": {
         "name": "Jméno vašeho prvního portfolia",

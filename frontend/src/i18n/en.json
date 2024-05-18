@@ -65,6 +65,12 @@
         "action": "Action"
       },
       "detail": {
+        "value": "Value",
+        "investedValue": "Invested Value",
+        "gain": "Gain/Loss",
+        "dividend": "Dividend",
+        "fxImpact": "FX Impact",
+        "return": "Return",
         "fundamentals": {
           "marketCapitalization": "Market Capitalization",
           "enterpriseValue": "Enterprise Value",
