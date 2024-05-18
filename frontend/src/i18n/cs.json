@@ -273,7 +273,8 @@
     "onboarding": {
       "onboarding": {
         "title": "Vítejte ve FinGather",
-        "subtitle": "Můžete začít importováním vašich aktiv."
+        "subtitle": "Můžete začít importováním vašich aktiv.",
+        "skip": "Přeskočit",
       },
       "portfolioForm": {
         "name": "Jméno vašeho prvního portfolia",

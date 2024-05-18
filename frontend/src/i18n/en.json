@@ -273,7 +273,8 @@
     "onboarding": {
       "onboarding": {
         "title": "Welcome to FinGather",
-        "subtitle": "Let's get started by importing your assets."
+        "subtitle": "Let's get started by importing your assets.",
+        "skip": "Skip"
       },
       "portfolioForm": {
         "name": "Name of your's first portfolio",

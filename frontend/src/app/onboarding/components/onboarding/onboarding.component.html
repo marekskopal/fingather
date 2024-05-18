@@ -17,6 +17,12 @@
 
 <div class="row">
     <div class="col">
-        <fingather-import />
+        <fingather-import [showCancel]="false" [onImportFinish]="onImportFinish" />
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <a (click)="onSkip()" class="btn btn-secondary" tabindex="-1">{{ 'app.onboarding.onboarding.skip' | translate }}</a>
     </div>
 </div>
