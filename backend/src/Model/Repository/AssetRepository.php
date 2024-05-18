@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace FinGather\Model\Repository;
 
 use Cycle\ORM\Select;
+use DateTimeImmutable;
 use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
-use Safe\DateTimeImmutable;
 
 /** @extends ARepository<Asset> */
 final class AssetRepository extends ARepository

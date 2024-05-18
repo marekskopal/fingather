@@ -6,7 +6,9 @@ namespace FinGather\Command;
 
 use FinGather\App\ApplicationFactory;
 use FinGather\Service\Provider\CurrencyProvider;
+use FinGather\Service\Provider\DataProvider;
 use FinGather\Service\Provider\ExchangeRateProvider;
+use Safe\DateTimeImmutable;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -30,13 +32,24 @@ final class ExchangeRateUpdateCommand extends Command
 		$currencyProvider = $application->container->get(CurrencyProvider::class);
 		assert($currencyProvider instanceof CurrencyProvider);
 
+		$dataProvider = $application->container->get(DataProvider::class);
+		assert($dataProvider instanceof DataProvider);
+
+		$firstDate = new DateTimeImmutable('today');
+
 		foreach ($currencyProvider->getCurrencies() as $currency) {
 			if ($currency->getCode() === 'USD') {
 				continue;
 			}
 
-			$exchangeRateProvider->updateExchangeRates($currency);
+			$exchangeRateFirstDate = $exchangeRateProvider->updateExchangeRates($currency);
+
+			if ($exchangeRateFirstDate !== null && $exchangeRateFirstDate < $firstDate) {
+				$firstDate = $exchangeRateFirstDate;
+			}
 		}
+
+		$dataProvider->deleteData(date: $firstDate);
 
 		$output->writeln('Exchange Rates was updated.');
 

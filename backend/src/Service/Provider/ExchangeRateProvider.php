@@ -71,7 +71,7 @@ class ExchangeRateProvider
 		return $exchangeRate;
 	}
 
-	public function updateExchangeRates(Currency $currencyTo): void
+	public function updateExchangeRates(Currency $currencyTo): ?DateTimeImmutable
 	{
 		$code = $currencyTo->getCode();
 		$multiplier = 1;
@@ -82,14 +82,12 @@ class ExchangeRateProvider
 		}
 
 		$lastExchangeRate = $this->exchangeRateRepository->findLastExchangeRate($currencyTo->getId());
+		$startDate = $lastExchangeRate?->getDate() ?? new \Safe\DateTimeImmutable('2020-01-01');
 
 		try {
-			$timeSeries = $this->twelveData->getCoreData()->timeSeries(
-				symbol: 'USD/' . $code,
-				startDate: $lastExchangeRate?->getDate() ?? new \Safe\DateTimeImmutable('2020-01-01'),
-			);
+			$timeSeries = $this->twelveData->getCoreData()->timeSeries(symbol: 'USD/' . $code, startDate: $startDate);
 		} catch (NotFoundException) {
-			return;
+			return null;
 		}
 
 		foreach ($timeSeries->values as $timeSeriesValue) {
@@ -100,6 +98,8 @@ class ExchangeRateProvider
 			);
 			$this->exchangeRateRepository->persist($exchangeRate);
 		}
+
+		return $startDate;
 	}
 
 	private function getExchangeRateUsd(DateTimeImmutable $date, Currency $currencyTo): Decimal

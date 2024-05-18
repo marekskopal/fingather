@@ -87,11 +87,11 @@ class TickerDataProvider
 		return $this->tickerDataRepository->findLastTickerData($ticker->getId(), $beforeDate);
 	}
 
-	public function updateTickerData(Ticker $ticker, bool $fullHistory = false): void
+	public function updateTickerData(Ticker $ticker, bool $fullHistory = false): ?DateTimeImmutable
 	{
 		$lastTickerData = $this->tickerDataRepository->findLastTickerData($ticker->getId());
 		if ($lastTickerData !== null && $fullHistory) {
-			return;
+			return null;
 		}
 
 		$actualDate = new DateTime('today');
@@ -107,7 +107,7 @@ class TickerDataProvider
 		$firstDate = new \Safe\DateTimeImmutable(DateTimeUtils::FirstDate . ' 00:00:00');
 
 		if ($lastTickerData !== null && ($actualDate->getTimestamp() - $lastTickerData->getDate()->getTimestamp() < 86400)) {
-			return;
+			return null;
 		}
 
 		$fromDate = $firstDate;
@@ -120,6 +120,8 @@ class TickerDataProvider
 			MarketTypeEnum::Stock => $this->createTickerDataFromStock($ticker, $fromDate),
 			MarketTypeEnum::Crypto => $this->createTickerDataFromCrypto($ticker, $fromDate),
 		};
+
+		return $fromDate;
 	}
 
 	private function createTickerDataFromStock(Ticker $ticker, DateTimeImmutable $fromDate, ?DateTimeImmutable $toDate = null): void

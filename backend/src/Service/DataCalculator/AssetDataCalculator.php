@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Service\DataCalculator;
 
+use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Currency;
@@ -23,7 +24,6 @@ use FinGather\Service\Provider\SplitProvider;
 use FinGather\Service\Provider\TickerDataProvider;
 use FinGather\Service\Provider\TransactionProvider;
 use FinGather\Utils\CalculatorUtils;
-use Safe\DateTimeImmutable;
 
 final class AssetDataCalculator
 {
@@ -234,7 +234,7 @@ final class AssetDataCalculator
 	}
 
 	/** @param list<Split> $splits */
-	private function countSplitFactor(\DateTimeImmutable $dateFrom, \DateTimeImmutable $dateTo, array $splits): Decimal
+	private function countSplitFactor(DateTimeImmutable $dateFrom, DateTimeImmutable $dateTo, array $splits): Decimal
 	{
 		$splitFactor = new Decimal(1, 8);
 

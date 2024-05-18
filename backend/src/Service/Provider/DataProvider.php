@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Provider;
 
+use DateTimeImmutable;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
-use Safe\DateTimeImmutable;
 
 class DataProvider
 {
@@ -19,6 +19,14 @@ class DataProvider
 	) {
 	}
 
+	public function deleteData(?User $user = null, ?Portfolio $portfolio = null, ?DateTimeImmutable $date = null,): void
+	{
+		$this->assetDataProvider->deleteAssetData($user, $portfolio, $date);
+		$this->groupDataProvider->deleteUserGroupData($user, $portfolio, $date);
+		$this->portfolioDataProvider->deletePortfolioData($user, $portfolio, $date);
+		$this->benchmarkDataProvider->deleteBenchmarkData($user, $portfolio, $date);
+	}
+
 	public function deleteUserData(
 		User $user,
 		?Portfolio $portfolio = null,
@@ -26,10 +34,7 @@ class DataProvider
 		bool $recalculateTransactions = false,
 	): void
 	{
-		$this->assetDataProvider->deleteAssetData($user, $portfolio);
-		$this->groupDataProvider->deleteUserGroupData($user, $portfolio, $date);
-		$this->portfolioDataProvider->deletePortfolioData($user, $portfolio, $date);
-		$this->benchmarkDataProvider->deleteBenchmarkData($user, $portfolio, $date);
+		$this->deleteData(user: $user, portfolio: $portfolio, date: $date);
 
 		if (!$recalculateTransactions) {
 			return;

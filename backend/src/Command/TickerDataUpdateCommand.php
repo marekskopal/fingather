@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace FinGather\Command;
 
 use FinGather\App\ApplicationFactory;
+use FinGather\Service\Provider\DataProvider;
 use FinGather\Service\Provider\TickerDataProvider;
 use FinGather\Service\Provider\TickerProvider;
+use Safe\DateTimeImmutable;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -30,10 +32,21 @@ final class TickerDataUpdateCommand extends Command
 		$tickerProvider = $application->container->get(TickerProvider::class);
 		assert($tickerProvider instanceof TickerProvider);
 
+		$dataProvider = $application->container->get(DataProvider::class);
+		assert($dataProvider instanceof DataProvider);
+
+		$firstDate = new DateTimeImmutable('today');
+
 		$activeTickers = $tickerProvider->getActiveTickers();
 		foreach ($activeTickers as $ticker) {
-			$tickerDataProvider->updateTickerData($ticker);
+			$tickerFirstDate = $tickerDataProvider->updateTickerData($ticker);
+
+			if ($tickerFirstDate !== null && $tickerFirstDate < $firstDate) {
+				$firstDate = $tickerFirstDate;
+			}
 		}
+
+		$dataProvider->deleteData(date: $firstDate);
 
 		$output->writeln('Updated "' . count($activeTickers) . '" Tickers.');
 

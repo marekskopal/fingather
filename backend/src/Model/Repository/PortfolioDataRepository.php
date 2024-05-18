@@ -19,12 +19,15 @@ final class PortfolioDataRepository extends ARepository
 		]);
 	}
 
-	public function deletePortfolioData(int $userId, ?int $portfolioId = null, ?DateTimeImmutable $date = null): void
+	public function deletePortfolioData(?int $userId = null, ?int $portfolioId = null, ?DateTimeImmutable $date = null): void
 	{
 		$deletePortfolioData = $this->orm->getSource(PortfolioData::class)
 			->getDatabase()
-			->delete('portfolio_datas')
-			->where('user_id', $userId);
+			->delete('portfolio_datas');
+
+		if ($userId !== null) {
+			$deletePortfolioData->where('user_id', $userId);
+		}
 
 		if ($portfolioId !== null) {
 			$deletePortfolioData->where('portfolio_id', $portfolioId);
