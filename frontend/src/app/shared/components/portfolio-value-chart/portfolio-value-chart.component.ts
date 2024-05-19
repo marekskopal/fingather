@@ -70,9 +70,10 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
             .subscribe((portfolioData: PortfolioDataWithBenchmarkData[]) => {
                 const chartMap = this.mapChart(portfolioData);
                 this.chartOptions.xaxis.categories = chartMap.categories;
-                this.chartOptions.series[0].data = chartMap.series;
+                this.chartOptions.series[0].data = chartMap.valueSeries;
+                this.chartOptions.series[1].data = chartMap.investedValueSeries;
                 if (chartMap.benchmarkSeries.length > 0) {
-                    this.chartOptions.series[1].data = chartMap.benchmarkSeries;
+                    this.chartOptions.series[2].data = chartMap.benchmarkSeries;
                 }
                 this.loading = false;
             });
@@ -83,6 +84,10 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
             series: [
                 {
                     name: 'Value',
+                    data: [],
+                },
+                {
+                    name: 'Invested Value',
                     data: [],
                 },
             ],
@@ -140,7 +145,7 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
                     stops: [0, 90, 100]
                 },
             },
-            colors: ['#64ee85']
+            colors: ['#64ee85', '#6bf5ff']
         };
 
         if (this.benchmarkAssetId() !== null) {
@@ -149,7 +154,7 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
                 data: [],
             };
 
-            this.chartOptions.colors[1] = '#6bf5ff';
+            this.chartOptions.colors[1] = '#d063ee';
         }
     }
 
@@ -158,34 +163,31 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
             return;
         }
 
-        this.chartOptions.series[1] = {
+        this.chartOptions.series[2] = {
             name: 'Benchmark',
             data: [],
         };
 
-        this.chartOptions.colors[1] = '#6bf5ff';
+        this.chartOptions.colors[2] = '#d063ee';
     }
 
     private mapChart(
         portfolioDatas: PortfolioDataWithBenchmarkData[]
-    ): { series: number[], benchmarkSeries: number[], categories: string[] } {
-        const series: number[] = [];
-        const benchmarkSeries: number[] = [];
-        const categories: string[] = [];
-
-        for (const portfolioData of portfolioDatas) {
-            series.push(portfolioData.value);
-            categories.push(portfolioData.date);
-
-            if (portfolioData.benchmarkData !== null) {
-                benchmarkSeries.push(portfolioData.benchmarkData.value);
-            }
-        }
-
+    ): {
+            valueSeries: number[],
+            investedValueSeries: number[],
+            benchmarkSeries: number[],
+            categories: string[]
+        } {
         return {
-            series,
-            benchmarkSeries,
-            categories,
+            valueSeries: portfolioDatas.map((portfolioData) => parseFloat(portfolioData.value)),
+            investedValueSeries: portfolioDatas.map(
+                (portfolioData) => parseFloat(portfolioData.transactionValue)
+            ),
+            benchmarkSeries: this.benchmarkAssetId() !== null
+                ? portfolioDatas.map((portfolioData) => parseFloat(portfolioData.benchmarkData?.value ?? '0.0'))
+                : [],
+            categories: portfolioDatas.map((portfolioData) => portfolioData.date)
         };
     }
 }

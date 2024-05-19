@@ -2,8 +2,8 @@ import { AbstractEntity } from '@app/models/abstract-entity';
 
 export interface AbstractDataEntity extends AbstractEntity {
     date: string;
-    value: number;
-    transactionValue: number;
+    value: string;
+    transactionValue: string;
     gain: number;
     gainPercentage: number;
     gainPercentagePerAnnum: number;
