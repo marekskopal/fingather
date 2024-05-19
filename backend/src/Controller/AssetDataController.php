@@ -61,7 +61,11 @@ final class AssetDataController
 
 		$assetDatas = [];
 
-		$datePeriod = DateTimeUtils::getDatePeriod($range, $firstTransaction->getActionCreated());
+		$datePeriod = DateTimeUtils::getDatePeriod(
+			$range,
+			$firstTransaction->getActionCreated(),
+			shiftStartDate: $range === RangeEnum::All,
+		);
 		foreach ($datePeriod as $dateTime) {
 			/** @var \DateTimeImmutable $dateTime */
 			$dateTimeConverted = DateTimeImmutable::createFromRegular($dateTime);
@@ -72,7 +76,9 @@ final class AssetDataController
 				asset: $asset,
 				dateTime: $dateTimeConverted,
 			);
+
 			if ($assetData === null) {
+				$assetDatas[] = AssetDataDto::fromNull($dateTime);
 				continue;
 			}
 

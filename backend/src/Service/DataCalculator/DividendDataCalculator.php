@@ -29,7 +29,7 @@ final class DividendDataCalculator
 			return [];
 		}
 
-		$period = DateTimeUtils::getDatePeriod($range, $firstTransaction->getActionCreated());
+		$period = DateTimeUtils::getDatePeriod($range, $firstTransaction->getActionCreated(), shiftStartDate: $range === RangeEnum::All);
 
 		$actionCreatedAfter = $period->getStartDate();
 		assert($actionCreatedAfter instanceof DateTimeImmutable);

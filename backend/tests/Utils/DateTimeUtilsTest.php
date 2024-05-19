@@ -8,6 +8,7 @@ use FinGather\Dto\Enum\RangeEnum;
 use FinGather\Helper\DatePeriod;
 use FinGather\Utils\DateTimeUtils;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\TestCase;
 use Safe\DateTimeImmutable;
 
@@ -22,11 +23,15 @@ final class DateTimeUtilsTest extends TestCase
 		self::assertSame('2021-01-01T12:01:02Z', DateTimeUtils::formatZulu($dateTime));
 	}
 
-	public function testGetDatePeriod(): void
+	#[TestWith([RangeEnum::SevenDays, null, false, 8])]
+	#[TestWith([RangeEnum::SevenDays, null, true, 9])]
+	#[TestWith([RangeEnum::All, new DateTimeImmutable('-1 year'), false, 13])]
+	#[TestWith([RangeEnum::All, new DateTimeImmutable('-1 year'), true, 14])]
+	public function testGetDatePeriod(RangeEnum $range, ?DateTimeImmutable $firstDate, bool $shiftStartDate, int $expectedCount): void
 	{
-		$datePeriod = DateTimeUtils::getDatePeriod(RangeEnum::SevenDays);
+		$datePeriod = DateTimeUtils::getDatePeriod($range, $firstDate, $shiftStartDate);
 		$array = iterator_to_array($datePeriod->getIterator());
 
-		self::assertCount(8, $array);
+		self::assertCount($expectedCount, $array);
 	}
 }
