@@ -9,11 +9,10 @@ use FinGather\Service\Provider\DataProvider;
 use FinGather\Service\Provider\TickerDataProvider;
 use FinGather\Service\Provider\TickerProvider;
 use Safe\DateTimeImmutable;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-final class TickerDataUpdateCommand extends Command
+final class TickerDataUpdateCommand extends AbstractCommand
 {
 	protected function configure(): void
 	{
@@ -22,7 +21,7 @@ final class TickerDataUpdateCommand extends Command
 
 	protected function execute(InputInterface $input, OutputInterface $output): int
 	{
-		$output->writeln('Ticker Data update was started.');
+		$this->writeln('Ticker Data update was started.', $output);
 
 		$application = ApplicationFactory::create();
 
@@ -48,7 +47,7 @@ final class TickerDataUpdateCommand extends Command
 
 		$dataProvider->deleteData(date: $firstDate);
 
-		$output->writeln('Updated "' . count($activeTickers) . '" Tickers.');
+		$this->writeln('Updated "' . count($activeTickers) . '" Tickers.', $output);
 
 		return 0;
 	}

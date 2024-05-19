@@ -7,11 +7,10 @@ namespace FinGather\Command;
 use FinGather\App\ApplicationFactory;
 use FinGather\Service\Provider\TickerFundamentalProvider;
 use FinGather\Service\Provider\TickerProvider;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-final class TickerFundamentalUpdateCommand extends Command
+final class TickerFundamentalUpdateCommand extends AbstractCommand
 {
 	protected function configure(): void
 	{
@@ -20,7 +19,7 @@ final class TickerFundamentalUpdateCommand extends Command
 
 	protected function execute(InputInterface $input, OutputInterface $output): int
 	{
-		$output->writeln('Ticker Data update was started.');
+		$this->writeln('Ticker Data update was started.', $output);
 
 		$application = ApplicationFactory::create();
 
@@ -41,7 +40,7 @@ final class TickerFundamentalUpdateCommand extends Command
 			$tickerFundamentalProvider->updateTickerFundamental($tickerFundamental);
 		}
 
-		$output->writeln('Updated "' . count($activeTickers) . '" Tickers.');
+		$this->writeln('Updated "' . count($activeTickers) . '" Tickers.', $output);
 
 		return 0;
 	}

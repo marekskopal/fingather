@@ -9,11 +9,10 @@ use FinGather\Service\Provider\CurrencyProvider;
 use FinGather\Service\Provider\DataProvider;
 use FinGather\Service\Provider\ExchangeRateProvider;
 use Safe\DateTimeImmutable;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-final class ExchangeRateUpdateCommand extends Command
+final class ExchangeRateUpdateCommand extends AbstractCommand
 {
 	protected function configure(): void
 	{
@@ -22,7 +21,7 @@ final class ExchangeRateUpdateCommand extends Command
 
 	protected function execute(InputInterface $input, OutputInterface $output): int
 	{
-		$output->writeln('Exchange Rates update was started.');
+		$this->writeln('Exchange Rates update was started.', $output);
 
 		$application = ApplicationFactory::create();
 
@@ -51,7 +50,7 @@ final class ExchangeRateUpdateCommand extends Command
 
 		$dataProvider->deleteData(date: $firstDate);
 
-		$output->writeln('Exchange Rates was updated.');
+		$this->writeln('Exchange Rates was updated.', $output);
 
 		return 0;
 	}
