@@ -23,7 +23,7 @@ class AssetDataProvider
 
 	public function getAssetData(User $user, Portfolio $portfolio, Asset $asset, DateTimeImmutable $dateTime): ?AssetData
 	{
-		$dateTime = $dateTime->setTime(0, 0);
+		$dateTime = $dateTime->setTime(23, 59, 59, 999999);
 
 		$assetData = $this->assetDataRepository->findAssetData(
 			userId: $user->getId(),

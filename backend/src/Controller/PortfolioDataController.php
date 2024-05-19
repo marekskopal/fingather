@@ -97,7 +97,11 @@ final class PortfolioDataController
 
 		$benchmarkDataFromDate = null;
 
-		$datePeriod = DateTimeUtils::getDatePeriod($range, $firstTransaction->getActionCreated());
+		$datePeriod = DateTimeUtils::getDatePeriod(
+			$range,
+			$firstTransaction->getActionCreated(),
+			shiftStartDate: $range === RangeEnum::All,
+		);
 		foreach ($datePeriod as $dateTime) {
 			/** @var \DateTimeImmutable $dateTime */
 			$dateTimeConverted = DateTimeImmutable::createFromRegular($dateTime);
