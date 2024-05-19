@@ -33,7 +33,7 @@ class TickerData extends AEntity
 		private Decimal $high,
 		#[ColumnDecimal(precision: 20, scale: 10)]
 		private Decimal $low,
-		#[ColumnDecimal(precision: 20, scale: 10)]
+		#[ColumnDecimal(precision: 22, scale: 10)]
 		private Decimal $volume,
 	) {
 	}
