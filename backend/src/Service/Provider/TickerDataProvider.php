@@ -15,6 +15,7 @@ use FinGather\Model\Repository\TickerDataRepository;
 use FinGather\Service\Provider\Dto\TickerDataAdjustedDto;
 use FinGather\Utils\DateTimeUtils;
 use MarekSkopal\TwelveData\Dto\CoreData\TimeSeries;
+use MarekSkopal\TwelveData\Enum\AdjustEnum;
 use MarekSkopal\TwelveData\Exception\NotFoundException;
 use MarekSkopal\TwelveData\TwelveData;
 use Safe\DateTime;
@@ -132,6 +133,7 @@ class TickerDataProvider
 				micCode: $ticker->getMarket()->getMic(),
 				startDate: $fromDate,
 				endDate: $toDate,
+				adjust: [AdjustEnum::None],
 			);
 		} catch (NotFoundException) {
 			return;
