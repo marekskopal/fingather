@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bb4d1fb7d472006f9b9b287259ed8731",
+    "content-hash": "65c4380016a5db3cd6a4a5e35d4ec9a2",
     "packages": [
         {
             "name": "brick/math",
@@ -227,148 +227,6 @@
                 }
             ],
             "time": "2024-04-04T19:58:00+00:00"
-        },
-        {
-            "name": "cycle/entity-behavior",
-            "version": "1.3.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/cycle/entity-behavior.git",
-                "reference": "fd6de37bcee0d8e753805f83c574762e82426490"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/cycle/entity-behavior/zipball/fd6de37bcee0d8e753805f83c574762e82426490",
-                "reference": "fd6de37bcee0d8e753805f83c574762e82426490",
-                "shasum": ""
-            },
-            "require": {
-                "cycle/orm": "^2.7",
-                "cycle/schema-builder": "^2.8",
-                "php": ">=8.0",
-                "psr/container": "^1.0|^2.0",
-                "psr/event-dispatcher": "^1",
-                "yiisoft/injector": "^1.0"
-            },
-            "require-dev": {
-                "cycle/annotated": "^3.0",
-                "phpunit/phpunit": "^9.5",
-                "ramsey/uuid": "^4.5",
-                "spiral/tokenizer": "^2.8 || ^3.0",
-                "vimeo/psalm": "^5.11"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Cycle\\ORM\\Entity\\Behavior\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Anton Titov (wolfy-j)",
-                    "email": "wolfy-j@spiralscout.com"
-                },
-                {
-                    "name": "Aleksei Gagarin (roxblnfk)",
-                    "email": "alexey.gagarin@spiralscout.com"
-                },
-                {
-                    "name": "Pavel Butchnev (butschster)",
-                    "email": "pavel.buchnev@spiralscout.com"
-                },
-                {
-                    "name": "Maksim Smakouz (msmakouz)",
-                    "email": "maksim.smakouz@spiralscout.com"
-                }
-            ],
-            "description": "Provides a collection of attributes that add behaviors to Cycle ORM entities",
-            "homepage": "https://cycle-orm.dev",
-            "support": {
-                "chat": "https://discord.gg/spiralphp",
-                "docs": "https://cycle-orm.dev/docs",
-                "issues": "https://github.com/cycle/entity-behavior/issues",
-                "source": "https://github.com/cycle/entity-behavior"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/sponsors/cycle",
-                    "type": "github"
-                }
-            ],
-            "time": "2024-02-08T19:35:15+00:00"
-        },
-        {
-            "name": "cycle/entity-behavior-uuid",
-            "version": "1.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/cycle/entity-behavior-uuid.git",
-                "reference": "04b27fcd5e0b7bce9a596889215f6a999d8cb2e9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/cycle/entity-behavior-uuid/zipball/04b27fcd5e0b7bce9a596889215f6a999d8cb2e9",
-                "reference": "04b27fcd5e0b7bce9a596889215f6a999d8cb2e9",
-                "shasum": ""
-            },
-            "require": {
-                "cycle/entity-behavior": "^1.3",
-                "php": ">=8.0",
-                "ramsey/uuid": "^4.5"
-            },
-            "require-dev": {
-                "cycle/annotated": "^3.0",
-                "phpunit/phpunit": "^9.5",
-                "spiral/tokenizer": "^2.8",
-                "vimeo/psalm": "^5.11"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Cycle\\ORM\\Entity\\Behavior\\Uuid\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Anton Titov (wolfy-j)",
-                    "email": "wolfy-j@spiralscout.com"
-                },
-                {
-                    "name": "Aleksei Gagarin (roxblnfk)",
-                    "email": "alexey.gagarin@spiralscout.com"
-                },
-                {
-                    "name": "Pavel Butchnev (butschster)",
-                    "email": "pavel.buchnev@spiralscout.com"
-                },
-                {
-                    "name": "Maksim Smakouz (msmakouz)",
-                    "email": "maksim.smakouz@spiralscout.com"
-                }
-            ],
-            "description": "Provides an ability to use ramsey/uuid as a Cycle ORM entity column type",
-            "homepage": "https://cycle-orm.dev",
-            "support": {
-                "chat": "https://discord.gg/spiralphp",
-                "docs": "https://cycle-orm.dev/docs",
-                "issues": "https://github.com/cycle/entity-behavior-uuid/issues",
-                "source": "https://github.com/cycle/entity-behavior-uuid"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/sponsors/cycle",
-                    "type": "github"
-                }
-            ],
-            "time": "2024-02-08T19:43:45+00:00"
         },
         {
             "name": "cycle/migrations",
@@ -6158,76 +6016,6 @@
                 }
             ],
             "time": "2021-10-26T21:43:25+00:00"
-        },
-        {
-            "name": "yiisoft/injector",
-            "version": "1.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/yiisoft/injector.git",
-                "reference": "0dc0127a7542341bdaabda7b85204e992938b83e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/injector/zipball/0dc0127a7542341bdaabda7b85204e992938b83e",
-                "reference": "0dc0127a7542341bdaabda7b85204e992938b83e",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.4|^8.0"
-            },
-            "require-dev": {
-                "maglnet/composer-require-checker": "^3.8|^4.2",
-                "phpbench/phpbench": "^1.1",
-                "phpunit/phpunit": "^9.5",
-                "psr/container": "^1.0|^2.0",
-                "rector/rector": "^0.18.12",
-                "roave/infection-static-analysis-plugin": "^1.16",
-                "spatie/phpunit-watcher": "^1.23",
-                "vimeo/psalm": "^4.30|^5.7",
-                "yiisoft/test-support": "^1.2"
-            },
-            "suggest": {
-                "psr/container": "For automatic resolving of dependencies"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Yiisoft\\Injector\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "description": "PSR-11 compatible injector. Executes a callable and makes an instances by injecting dependencies from a given DI container.",
-            "homepage": "https://www.yiiframework.com/",
-            "keywords": [
-                "PSR-11",
-                "dependency injection",
-                "di",
-                "injector",
-                "reflection"
-            ],
-            "support": {
-                "chat": "https://t.me/yii3en",
-                "forum": "https://www.yiiframework.com/forum/",
-                "irc": "irc://irc.freenode.net/yii",
-                "issues": "https://github.com/yiisoft/injector/issues?state=open",
-                "source": "https://github.com/yiisoft/injector",
-                "wiki": "https://www.yiiframework.com/wiki/"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/yiisoft",
-                    "type": "github"
-                },
-                {
-                    "url": "https://opencollective.com/yiisoft",
-                    "type": "open_collective"
-                }
-            ],
-            "time": "2023-12-20T09:39:03+00:00"
         }
     ],
     "packages-dev": [
@@ -8139,6 +7927,72 @@
                 }
             ],
             "time": "2024-02-02T06:10:47+00:00"
+        },
+        {
+            "name": "shipmonk/composer-dependency-analyser",
+            "version": "1.5.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/shipmonk-rnd/composer-dependency-analyser.git",
+                "reference": "00b5023bcc0c9c4f34c9246b3faf5b780e144622"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/shipmonk-rnd/composer-dependency-analyser/zipball/00b5023bcc0c9c4f34c9246b3faf5b780e144622",
+                "reference": "00b5023bcc0c9c4f34c9246b3faf5b780e144622",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-tokenizer": "*",
+                "php": "^7.2 || ^8.0"
+            },
+            "require-dev": {
+                "editorconfig-checker/editorconfig-checker": "^10.3.0",
+                "ergebnis/composer-normalize": "^2.19",
+                "ext-dom": "*",
+                "ext-libxml": "*",
+                "phpcompatibility/php-compatibility": "^9.3",
+                "phpstan/phpstan": "^1.10.63",
+                "phpstan/phpstan-phpunit": "^1.1.1",
+                "phpstan/phpstan-strict-rules": "^1.2.3",
+                "phpunit/phpunit": "^8.5.28 || ^9.5.20",
+                "shipmonk/name-collision-detector": "^2.0.0",
+                "slevomat/coding-standard": "^8.0.1"
+            },
+            "bin": [
+                "bin/composer-dependency-analyser"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ShipMonk\\ComposerDependencyAnalyser\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Fast detection of composer dependency issues (dead dependencies, shadow dependencies, misplaced dependencies)",
+            "keywords": [
+                "analyser",
+                "composer",
+                "composer dependency",
+                "dead code",
+                "dead dependency",
+                "detector",
+                "dev",
+                "misplaced dependency",
+                "shadow dependency",
+                "static analysis",
+                "unused code",
+                "unused dependency"
+            ],
+            "support": {
+                "issues": "https://github.com/shipmonk-rnd/composer-dependency-analyser/issues",
+                "source": "https://github.com/shipmonk-rnd/composer-dependency-analyser/tree/1.5.3"
+            },
+            "time": "2024-04-22T13:28:23+00:00"
         },
         {
             "name": "slevomat/coding-standard",
