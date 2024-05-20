@@ -28,16 +28,16 @@ class Ticker extends AEntity
 		private ?string $isin,
 		#[Column(type: 'string', nullable: true)]
 		private ?string $logo,
-		#[Column(type: 'string', nullable: true)]
-		private ?string $sector,
-		#[Column(type: 'string', nullable: true)]
-		private ?string $industry,
+		#[RefersTo(target: TickerSector::class, nullable: true)]
+		private ?TickerSector $sector,
+		#[RefersTo(target: TickerIndustry::class, nullable: true)]
+		private ?TickerIndustry $industry,
 		#[Column(type: 'string', nullable: true)]
 		private ?string $website,
 		#[Column(type: 'text', nullable: true)]
 		private ?string $description,
-		#[Column(type: 'string', nullable: true)]
-		private ?string $country,
+		#[RefersTo(target: Country::class, nullable: true)]
+		private ?Country $country,
 	) {
 	}
 
@@ -91,22 +91,22 @@ class Ticker extends AEntity
 		$this->logo = $logo;
 	}
 
-	public function getSector(): ?string
+	public function getSector(): ?TickerSector
 	{
 		return $this->sector;
 	}
 
-	public function setSector(?string $sector): void
+	public function setSector(?TickerSector $sector): void
 	{
 		$this->sector = $sector;
 	}
 
-	public function getIndustry(): ?string
+	public function getIndustry(): ?TickerIndustry
 	{
 		return $this->industry;
 	}
 
-	public function setIndustry(?string $industry): void
+	public function setIndustry(?TickerIndustry $industry): void
 	{
 		$this->industry = $industry;
 	}
@@ -131,12 +131,12 @@ class Ticker extends AEntity
 		$this->description = $description;
 	}
 
-	public function getCountry(): ?string
+	public function getCountry(): ?Country
 	{
 		return $this->country;
 	}
 
-	public function setCountry(?string $country): void
+	public function setCountry(?Country $country): void
 	{
 		$this->country = $country;
 	}
