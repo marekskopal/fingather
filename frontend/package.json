@@ -35,7 +35,7 @@
     "ngx-file-drop": "^16.0.0",
     "rxjs": "^7.8.1",
     "tslib": "^2.6.2",
-    "zone.js": "~0.14.5"
+    "zone.js": "~0.14.6"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^17.3.7",
@@ -49,8 +49,8 @@
     "@babel/runtime": "^7.24.5",
     "@krema/angular-eslint-stylelint-builder": "^1.4.0",
     "@types/jasmine": "^5.1.4",
-    "@typescript-eslint/eslint-plugin": "^7.9.0",
-    "@typescript-eslint/parser": "^7.9.0",
+    "@typescript-eslint/eslint-plugin": "^7.10.0",
+    "@typescript-eslint/parser": "^7.10.0",
     "eslint": "^8.57.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-airbnb-typescript": "^18.0.0",
