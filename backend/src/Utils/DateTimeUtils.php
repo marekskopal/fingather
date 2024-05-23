@@ -81,4 +81,9 @@ final class DateTimeUtils
 			),
 		};
 	}
+
+	public static function setEndOfDateTime(DateTimeImmutable $dateTime): DateTimeImmutable
+	{
+		return $dateTime->setTime(23, 59, 59, 999999);
+	}
 }
