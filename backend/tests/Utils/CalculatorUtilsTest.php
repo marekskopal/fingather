@@ -13,6 +13,7 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(CalculatorUtils::class)]
 final class CalculatorUtilsTest extends TestCase
 {
+	#[TestWith([0.0, 0.0, 0.0])]
 	#[TestWith([198442.53, 243315.52, 22.61])]
 	#[TestWith([243315.52, 198442.53, -18.44])]
 	#[TestWith([-530.50, -5723.64, -978.91])]
@@ -26,6 +27,7 @@ final class CalculatorUtilsTest extends TestCase
 		self::assertSame($expected, $diffToPercentage);
 	}
 
+	#[TestWith([0.0, 0.0, 0.0])]
 	#[TestWith([198442.53, 243315.52, 81.56])]
 	#[TestWith([243315.52, 198442.53, 122.61])]
 	public function testToPercentage(float $value, float $total, float $expected): void
@@ -35,6 +37,7 @@ final class CalculatorUtilsTest extends TestCase
 		self::assertSame($expected, $toPercentage);
 	}
 
+	#[TestWith([0.0, 50, 0.0])]
 	#[TestWith([10.0, 50, 10.0])]
 	#[TestWith([10.0, 730, 5.0])]
 	public function testToPercentagePerAnnum(float $percentage, int $days, float $expected): void
