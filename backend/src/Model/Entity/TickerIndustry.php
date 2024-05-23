@@ -6,9 +6,9 @@ namespace FinGather\Model\Entity;
 
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
-use FinGather\Model\Repository\TickerRepository;
+use FinGather\Model\Repository\TickerIndustryRepository;
 
-#[Entity(repository: TickerRepository::class)]
+#[Entity(repository: TickerIndustryRepository::class)]
 class TickerIndustry extends AEntity
 {
 	public function __construct(#[Column(type: 'string')] private string $name,)

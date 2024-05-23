@@ -7,11 +7,14 @@ namespace FinGather\Tests\Controller;
 use FinGather\Controller\AssetDataController;
 use FinGather\Dto\Enum\RangeEnum;
 use FinGather\Model\Entity\Asset;
+use FinGather\Model\Entity\Country;
 use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\Group;
 use FinGather\Model\Entity\Market;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\Ticker;
+use FinGather\Model\Entity\TickerIndustry;
+use FinGather\Model\Entity\TickerSector;
 use FinGather\Model\Entity\User;
 use FinGather\Response\ErrorResponse;
 use FinGather\Response\NotFoundResponse;
@@ -29,11 +32,14 @@ use Psr\Http\Message\ServerRequestInterface;
 
 #[CoversClass(AssetDataController::class)]
 #[UsesClass(Asset::class)]
+#[UsesClass(Country::class)]
 #[UsesClass(Currency::class)]
 #[UsesClass(Group::class)]
 #[UsesClass(Market::class)]
 #[UsesClass(Portfolio::class)]
 #[UsesClass(Ticker::class)]
+#[UsesClass(TickerIndustry::class)]
+#[UsesClass(TickerSector::class)]
 #[UsesClass(User::class)]
 #[UsesClass(ErrorResponse::class)]
 #[UsesClass(NotFoundResponse::class)]

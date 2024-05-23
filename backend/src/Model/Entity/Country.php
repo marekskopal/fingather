@@ -6,9 +6,9 @@ namespace FinGather\Model\Entity;
 
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
-use FinGather\Model\Repository\TickerRepository;
+use FinGather\Model\Repository\CountryRepository;
 
-#[Entity(repository: TickerRepository::class)]
+#[Entity(repository: CountryRepository::class)]
 class Country extends AEntity
 {
 	public function __construct(

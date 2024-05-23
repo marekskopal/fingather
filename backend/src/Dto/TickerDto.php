@@ -19,11 +19,11 @@ final readonly class TickerDto
 		public TickerTypeEnum $type,
 		public ?string $isin,
 		public ?string $logo,
-		public ?string $sector,
-		public ?string $industry,
+		public ?TickerSectorDto $sector,
+		public ?TickerIndustryDto $industry,
 		public ?string $website,
 		public ?string $description,
-		public ?string $country,
+		public ?CountryDto $country,
 		public MarketDto $market,
 	) {
 	}
@@ -39,11 +39,11 @@ final readonly class TickerDto
 			type: $ticker->getType(),
 			isin: $ticker->getIsin(),
 			logo: $ticker->getLogo(),
-			sector: $ticker->getSector(),
-			industry: $ticker->getIndustry(),
+			sector: $ticker->getSector() !== null ? TickerSectorDto::fromEntity($ticker->getSector()) : null,
+			industry: $ticker->getIndustry() !== null ? TickerIndustryDto::fromEntity($ticker->getIndustry()) : null,
 			website: $ticker->getWebsite(),
 			description: $ticker->getDescription(),
-			country: $ticker->getCountry(),
+			country: $ticker->getCountry() !== null ? CountryDto::fromEntity($ticker->getCountry()) : null,
 			market: MarketDto::fromEntity($ticker->getMarket()),
 		);
 	}
@@ -58,11 +58,22 @@ final readonly class TickerDto
 	 *     type: value-of<TickerTypeEnum>,
 	 *     isin: string|null,
 	 *     logo: string|null,
-	 *     sector: string|null,
-	 *     industry: string|null,
+	 *     sector: array{
+	 *         id: int,
+	 *         name: string,
+	 *     }|null,
+	 *     industry: array{
+	 *         id: int,
+	 *         name: string,
+	 *     }|null,
 	 *     website: string|null,
 	 *     description: string|null,
-	 *     country: string|null,
+	 *     country: array{
+	 *         id: int,
+	 *         iso_code: string,
+	 *         iso_code3: string,
+	 *         name: string,
+	 *     }|null,
 	 *     market: array{
 	 *         name: string,
 	 *         acronym: string,
@@ -85,11 +96,11 @@ final readonly class TickerDto
 			type: TickerTypeEnum::from($data['type']),
 			isin: $data['isin'],
 			logo: $data['logo'],
-			sector: $data['sector'],
-			industry: $data['industry'],
+			sector: ($data['sector'] ?? null) !== null ? TickerSectorDto::fromArray($data['sector']) : null,
+			industry: ($data['industry'] ?? null) !== null ? TickerIndustryDto::fromArray($data['industry']) : null,
 			website: $data['website'],
 			description: $data['description'],
-			country: $data['country'],
+			country: ($data['country'] ?? null) !== null ? CountryDto::fromArray($data['country']) : null,
 			market: MarketDto::fromArray($data['market']),
 		);
 	}
@@ -106,11 +117,22 @@ final readonly class TickerDto
 		 *     type: value-of<TickerTypeEnum>,
 		 *     isin: string|null,
 		 *     logo: string|null,
-		 *     sector: string|null,
-		 *     industry: string|null,
+		 *     sector: array{
+		 *         id: int,
+		 *         name: string,
+		 *     }|null,
+		 *     industry: array{
+		 *         id: int,
+		 *         name: string,
+		 *     }|null,
 		 *     website: string|null,
 		 *     description: string|null,
-		 *     country: string|null,
+		 *     country: array{
+		 *         id: int,
+		 *         iso_code: string,
+		 *         iso_code3: string,
+		 *         name: string,
+		 *     }|null,
 		 *     market: array{
 		 *         name: string,
 		 *         acronym: string,

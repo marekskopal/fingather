@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace FinGather\Tests\Fixtures\Model\Entity;
 
+use FinGather\Model\Entity\Country;
 use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\Enum\TickerTypeEnum;
 use FinGather\Model\Entity\Market;
 use FinGather\Model\Entity\Ticker;
+use FinGather\Model\Entity\TickerIndustry;
+use FinGather\Model\Entity\TickerSector;
 
 final class TickerFixture
 {
@@ -19,11 +22,11 @@ final class TickerFixture
 		?TickerTypeEnum $type = null,
 		?string $isin = null,
 		?string $logo = null,
-		?string $sector = null,
-		?string $industry = null,
+		?TickerSector $sector = null,
+		?TickerIndustry $industry = null,
 		?string $description = null,
 		?string $website = null,
-		?string $country = null,
+		?Country $country = null,
 	): Ticker {
 		return new Ticker(
 			ticker: $ticker ?? 'AAPL',
@@ -33,11 +36,11 @@ final class TickerFixture
 			type: $type ?? TickerTypeEnum::Stock,
 			isin: $isin ?? 'US0378331005',
 			logo: $logo ?? 'https://logo.com',
-			sector: $sector ?? 'Technology',
-			industry: $industry ?? 'Consumer Electronics',
+			sector: $sector ?? TickerSectorFixture::getTickerSector(),
+			industry: $industry ?? TickerIndustryFixture::getTickerIndustry(),
 			description: $description ?? 'Apple Inc. designs, manufactures, and markets smartphones, personal computers, tablets, wearables, and accessories worldwide.',
 			website: $website ?? 'https://www.apple.com',
-			country: $country ?? 'US',
+			country: $country ?? CountryFixture::getCountry(),
 		);
 	}
 }
