@@ -12,6 +12,7 @@ use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\AssetDataRepository;
 use FinGather\Service\DataCalculator\AssetDataCalculator;
+use FinGather\Utils\DateTimeUtils;
 
 class AssetDataProvider
 {
@@ -23,7 +24,7 @@ class AssetDataProvider
 
 	public function getAssetData(User $user, Portfolio $portfolio, Asset $asset, DateTimeImmutable $dateTime): ?AssetData
 	{
-		$dateTime = $dateTime->setTime(23, 59, 59, 999999);
+		$dateTime = DateTimeUtils::setEndOfDateTime($dateTime);
 
 		$assetData = $this->assetDataRepository->findAssetData(
 			userId: $user->getId(),

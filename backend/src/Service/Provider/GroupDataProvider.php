@@ -12,6 +12,7 @@ use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\GroupDataRepository;
 use FinGather\Service\DataCalculator\DataCalculator;
+use FinGather\Utils\DateTimeUtils;
 
 class GroupDataProvider
 {
@@ -25,7 +26,7 @@ class GroupDataProvider
 
 	public function getGroupData(Group $group, User $user, Portfolio $portfolio, DateTimeImmutable $dateTime): GroupData
 	{
-		$dateTime = $dateTime->setTime(0, 0);
+		$dateTime = DateTimeUtils::setEndOfDateTime($dateTime);
 
 		$groupData = $this->groupDataRepository->findGroupData($group->getId(), $dateTime);
 		if ($groupData !== null) {

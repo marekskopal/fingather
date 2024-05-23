@@ -11,6 +11,7 @@ use FinGather\Model\Entity\PortfolioData;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\PortfolioDataRepository;
 use FinGather\Service\DataCalculator\DataCalculator;
+use FinGather\Utils\DateTimeUtils;
 
 class PortfolioDataProvider
 {
@@ -25,7 +26,7 @@ class PortfolioDataProvider
 
 	public function getPortfolioData(User $user, Portfolio $portfolio, DateTimeImmutable $dateTime): PortfolioData
 	{
-		$dateTime = $dateTime->setTime(0, 0);
+		$dateTime = DateTimeUtils::setEndOfDateTime($dateTime);
 
 		$portfolioData = $this->portfolioDataRepository->findPortfolioData($user->getId(), $portfolio->getId(), $dateTime);
 		if ($portfolioData !== null) {

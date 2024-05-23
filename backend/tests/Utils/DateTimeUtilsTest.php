@@ -34,4 +34,12 @@ final class DateTimeUtilsTest extends TestCase
 
 		self::assertCount($expectedCount, $array);
 	}
+
+	public function testSetEndOfDateTime(): void
+	{
+		$dateTime = new DateTimeImmutable('2021-01-01T12:01:02');
+		$dateTime = DateTimeUtils::setEndOfDateTime($dateTime);
+
+		self::assertSame('2021-01-01 23:59:59:999999', $dateTime->format('Y-m-d H:i:s:u'));
+	}
 }
