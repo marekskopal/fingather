@@ -6,6 +6,7 @@ namespace FinGather\Tests\Service\DataCalculator;
 
 use Decimal\Decimal;
 use FinGather\Model\Entity\Asset;
+use FinGather\Model\Entity\Country;
 use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Group;
@@ -14,6 +15,8 @@ use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\Split;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\TickerData;
+use FinGather\Model\Entity\TickerIndustry;
+use FinGather\Model\Entity\TickerSector;
 use FinGather\Model\Entity\Transaction;
 use FinGather\Model\Entity\User;
 use FinGather\Service\DataCalculator\AssetDataCalculator;
@@ -40,12 +43,15 @@ use Safe\DateTimeImmutable;
 
 #[CoversClass(AssetDataCalculator::class)]
 #[UsesClass(Asset::class)]
+#[UsesClass(Country::class)]
 #[UsesClass(Currency::class)]
 #[UsesClass(Group::class)]
 #[UsesClass(Market::class)]
 #[UsesClass(Portfolio::class)]
 #[UsesClass(Split::class)]
 #[UsesClass(Ticker::class)]
+#[UsesClass(TickerIndustry::class)]
+#[UsesClass(TickerSector::class)]
 #[UsesClass(TickerData::class)]
 #[UsesClass(Transaction::class)]
 #[UsesClass(User::class)]
