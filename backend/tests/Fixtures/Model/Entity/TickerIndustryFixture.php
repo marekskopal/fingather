@@ -8,8 +8,8 @@ use FinGather\Model\Entity\TickerIndustry;
 
 final class TickerIndustryFixture
 {
-	public static function getTickerIndustry(?string $name = null,): TickerIndustry
+	public static function getTickerIndustry(?string $name = null, ?bool $isOthers = null): TickerIndustry
 	{
-		return new TickerIndustry(name: $name ?? 'Consumer Electronics');
+		return new TickerIndustry(name: $name ?? 'Consumer Electronics', isOthers: $isOthers ?? false);
 	}
 }

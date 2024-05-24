@@ -15,4 +15,13 @@ final class TickerSectorRepository extends ARepository
 			'name' => $name,
 		]);
 	}
+
+	public function findOthersTickerSector(): TickerSector
+	{
+		$othersTickerSector = $this->findOne([
+			'is_others' => true,
+		]);
+		assert($othersTickerSector instanceof TickerSector);
+		return $othersTickerSector;
+	}
 }

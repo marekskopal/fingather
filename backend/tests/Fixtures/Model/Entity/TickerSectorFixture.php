@@ -8,8 +8,8 @@ use FinGather\Model\Entity\TickerSector;
 
 final class TickerSectorFixture
 {
-	public static function getTickerSector(?string $name = null,): TickerSector
+	public static function getTickerSector(?string $name = null, ?bool $isOthers = null): TickerSector
 	{
-		return new TickerSector(name: $name ?? 'Technology');
+		return new TickerSector(name: $name ?? 'Technology', isOthers: $isOthers ?? false);
 	}
 }

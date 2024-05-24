@@ -6,6 +6,7 @@ namespace FinGather\Service\Provider;
 
 use DateTimeImmutable;
 use FinGather\Model\Entity\Asset;
+use FinGather\Model\Entity\Country;
 use FinGather\Model\Entity\Group;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\Ticker;
@@ -19,14 +20,28 @@ class AssetProvider
 	}
 
 	/** @return array<int, Asset> */
-	public function getAssets(User $user, Portfolio $portfolio, ?DateTimeImmutable $dateTime = null, ?Group $group = null): array
+	public function getAssets(
+		User $user,
+		Portfolio $portfolio,
+		?DateTimeImmutable $dateTime = null,
+		?Group $group = null,
+		?Country $country = null,
+	): array
 	{
-		return iterator_to_array($this->assetRepository->findAssets($user->getId(), $portfolio->getId(), $dateTime, $group?->getId()));
+		return iterator_to_array(
+			$this->assetRepository->findAssets($user->getId(), $portfolio->getId(), $dateTime, $group?->getId(), $country?->getId()),
+		);
 	}
 
-	public function countAssets(User $user, ?Portfolio $portfolio = null, ?DateTimeImmutable $dateTime = null, ?int $groupId = null): int
+	public function countAssets(
+		User $user,
+		?Portfolio $portfolio = null,
+		?DateTimeImmutable $dateTime = null,
+		?Group $group = null,
+		?Country $country = null,
+	): int
 	{
-		return $this->assetRepository->countAssets($user->getId(), $portfolio?->getId(), $dateTime, $groupId);
+		return $this->assetRepository->countAssets($user->getId(), $portfolio?->getId(), $dateTime, $group?->getId(), $country?->getId());
 	}
 
 	public function getAsset(User $user, int $assetId): ?Asset
