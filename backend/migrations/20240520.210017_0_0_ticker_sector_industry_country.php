@@ -6,7 +6,7 @@ namespace Migration;
 
 use Cycle\Migrations\Migration;
 
-class TickerRelationsMigration extends Migration
+class TickerSectorIndustryCountryMigration extends Migration
 {
 	protected const DATABASE = 'default';
 
@@ -22,6 +22,7 @@ class TickerRelationsMigration extends Migration
 				'zerofill' => false,
 			])
 			->addColumn('name', 'string', ['nullable' => false, 'defaultValue' => null, 'size' => 255])
+			->addColumn('is_others', 'boolean', ['nullable' => false, 'default' => false])
 			->setPrimaryKeys(['id'])
 			->addIndex(['name'], ['name' => 'ticker_industries_index_name', 'unique' => true])
 			->create();
@@ -36,30 +37,38 @@ class TickerRelationsMigration extends Migration
 				'zerofill' => false,
 			])
 			->addColumn('name', 'string', ['nullable' => false, 'defaultValue' => null, 'size' => 255])
+			->addColumn('is_others', 'boolean', ['nullable' => false, 'default' => false])
 			->setPrimaryKeys(['id'])
 			->addIndex(['name'], ['name' => 'ticker_sectors_index_name', 'unique' => true])
 			->create();
 
+		$this->database()->insert('ticker_industries')->values([
+			['id' => 1, 'name' => 'Others', 'is_others' => true],
+		])->run();
+		$this->database()->insert('ticker_sectors')->values([
+			['id' => 1, 'name' => 'Others', 'is_others' => true],
+		])->run();
+
 		$this->table('tickers')
 			->addColumn('sector_id', 'integer', [
-				'nullable' => true,
-				'defaultValue' => null,
+				'nullable' => false,
+				'defaultValue' => 1,
 				'size' => 11,
 				'autoIncrement' => false,
 				'unsigned' => false,
 				'zerofill' => false,
 			])
 			->addColumn('industry_id', 'integer', [
-				'nullable' => true,
-				'defaultValue' => null,
+				'nullable' => false,
+				'defaultValue' => 1,
 				'size' => 11,
 				'autoIncrement' => false,
 				'unsigned' => false,
 				'zerofill' => false,
 			])
 			->addColumn('country_id', 'integer', [
-				'nullable' => true,
-				'defaultValue' => null,
+				'nullable' => false,
+				'defaultValue' => 240,
 				'size' => 11,
 				'autoIncrement' => false,
 				'unsigned' => false,
@@ -92,18 +101,18 @@ class TickerRelationsMigration extends Migration
 			'INSERT INTO `ticker_industries` (`name`) SELECT DISTINCT `industry` FROM `tickers` WHERE `industry` IS NOT NULL AND `industry` != ""',
 		);
 		$this->database()->query(
-			'UPDATE `tickers` SET `industry_id` = (SELECT `id` FROM `ticker_industries` WHERE `name` = `industry` AND `industry` IS NOT NULL AND `industry` != "")',
+			'UPDATE `tickers` SET `industry_id` = IFNULL((SELECT `id` FROM `ticker_industries` WHERE `name` = `industry` AND `industry` IS NOT NULL AND `industry` != ""), 1)',
 		);
 
 		$this->database()->query(
 			'INSERT INTO `ticker_sectors` (`name`) SELECT DISTINCT `sector` FROM `tickers` WHERE `sector` IS NOT NULL AND `sector` != ""',
 		);
 		$this->database()->query(
-			'UPDATE `tickers` SET `sector_id` = (SELECT `id` FROM `ticker_sectors` WHERE `name` = `sector` AND `sector` IS NOT NULL AND `sector` != "")',
+			'UPDATE `tickers` SET `sector_id` = IFNULL((SELECT `id` FROM `ticker_sectors` WHERE `name` = `sector` AND `sector` IS NOT NULL AND `sector` != ""), 1)',
 		);
 
 		$this->database()->query(
-			'UPDATE `tickers` SET `country_id` = (SELECT `id` FROM `countries` WHERE `name` = `country` AND `country` IS NOT NULL)',
+			'UPDATE `tickers` SET `country_id` = IFNULL((SELECT `id` FROM `countries` WHERE `name` = `country` AND `country` IS NOT NULL), 240)',
 		);
 
 		$this->table('tickers')

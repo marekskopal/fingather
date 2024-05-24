@@ -21,9 +21,9 @@ class TickerRelationsMigration extends Migration
 				'unsigned' => false,
 				'zerofill' => false,
 			])
-			->addColumn('iso_code', 'string', ['nullable' => false, 'defaultValue' => null, 'size' => 255])
-			->addColumn('iso_code3', 'string', ['nullable' => false, 'defaultValue' => null, 'size' => 255])
-			->addColumn('name', 'string', ['nullable' => false, 'defaultValue' => null, 'size' => 255])
+			->addColumn('iso_code', 'string', ['nullable' => false, 'defaultValue' => null, 'size' => 2])
+			->addColumn('iso_code3', 'string', ['nullable' => false, 'defaultValue' => null, 'size' => 3])
+			->addColumn('name', 'string', ['nullable' => false, 'defaultValue' => null, 'size' => 50])
 			->setPrimaryKeys(['id'])
 			->addIndex(['iso_code'], ['name' => 'countries_index_iso_code', 'unique' => true])
 			->addIndex(['iso_code3'], ['name' => 'countries_index_iso_code3', 'unique' => true])
@@ -270,6 +270,14 @@ class TickerRelationsMigration extends Migration
 			['id' => 237, 'iso_code' => 'YE', 'iso_code3' => 'YEM', 'name' => 'Yemen'],
 			['id' => 238, 'iso_code' => 'ZM', 'iso_code3' => 'ZMB', 'name' => 'Zambia'],
 			['id' => 239, 'iso_code' => 'ZW', 'iso_code3' => 'ZWE', 'name' => 'Zimbabwe'],
+		])->run();
+
+		$this->table('countries')
+			->addColumn('is_others', 'boolean', ['nullable' => false, 'default' => false])
+			->update();
+
+		$this->database()->insert('countries')->values([
+			['id' => 240, 'iso_code' => '--', 'iso_code3' => '---', 'name' => 'Others', 'is_others' => true],
 		])->run();
 	}
 
