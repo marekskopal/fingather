@@ -17,9 +17,17 @@ final class TickerRepository extends ARepository
 	}
 
 	/** @return list<string> */
-	public function findTickersTicker(?int $marketId = null, ?string $search = null, ?int $limit = null, ?int $offset = null): iterable
+	public function findTickersTicker(?int $marketId = null, ?string $search = null, ?int $limit = null, ?int $offset = null): array
 	{
-		return $this->getTickersSelect($marketId, $search, $limit, $offset)->buildQuery()->columns(['ticker'])->fetchAll();
+		/**
+		 * @var list<array{
+		 *     ticker: string,
+		 * }>
+		 */
+		$tickers = iterator_to_array(
+			$this->getTickersSelect($marketId, $search, $limit, $offset)->buildQuery()->columns(['ticker'])->fetchAll(),
+		);
+		return array_map(fn(array $ticker): string => $ticker['ticker'], $tickers);
 	}
 
 	/** @return Select<Ticker> */
