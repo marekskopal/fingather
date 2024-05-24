@@ -11,7 +11,7 @@ use FinGather\Model\Repository\TickerSectorRepository;
 #[Entity(repository: TickerSectorRepository::class)]
 class TickerSector extends AEntity
 {
-	public function __construct(#[Column(type: 'string')] private string $name,)
+	public function __construct(#[Column(type: 'string')] private string $name, #[Column(type: 'boolean')] private bool $isOthers,)
 	{
 	}
 

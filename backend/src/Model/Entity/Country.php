@@ -12,12 +12,14 @@ use FinGather\Model\Repository\CountryRepository;
 class Country extends AEntity
 {
 	public function __construct(
-		#[Column(type: 'string')]
+		#[Column(type: 'string(2)')]
 		private string $isoCode,
-		#[Column(type: 'string')]
+		#[Column(type: 'string(3)')]
 		private string $isoCode3,
-		#[Column(type: 'string')]
+		#[Column(type: 'string(50)')]
 		private string $name,
+		#[Column(type: 'boolean')]
+		private bool $isOthers,
 	) {
 	}
 
