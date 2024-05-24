@@ -13,14 +13,26 @@ use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 final class AssetRepository extends ARepository
 {
 	/** @return list<Asset> */
-	public function findAssets(int $userId, ?int $portfolioId = null, ?DateTimeImmutable $dateTime = null, ?int $groupId = null): iterable
+	public function findAssets(
+		int $userId,
+		?int $portfolioId = null,
+		?DateTimeImmutable $dateTime = null,
+		?int $groupId = null,
+		?int $countryId = null,
+	): iterable
 	{
-		return $this->getAssetsSelect($userId, $portfolioId, $dateTime, $groupId)->fetchAll();
+		return $this->getAssetsSelect($userId, $portfolioId, $dateTime, $groupId, $countryId)->fetchAll();
 	}
 
-	public function countAssets(int $userId, ?int $portfolioId = null, ?DateTimeImmutable $dateTime = null, ?int $groupId = null): int
+	public function countAssets(
+		int $userId,
+		?int $portfolioId = null,
+		?DateTimeImmutable $dateTime = null,
+		?int $groupId = null,
+		?int $countryId = null,
+	): int
 	{
-		return $this->getAssetsSelect($userId, $portfolioId, $dateTime, $groupId)->count();
+		return $this->getAssetsSelect($userId, $portfolioId, $dateTime, $groupId, $countryId)->count();
 	}
 
 	/** @return Select<Asset> */
@@ -29,6 +41,7 @@ final class AssetRepository extends ARepository
 		?int $portfolioId = null,
 		?DateTimeImmutable $dateTime = null,
 		?int $groupId = null,
+		?int $countryId = null,
 	): Select
 	{
 		$assetsSelect = $this->select()
@@ -54,6 +67,10 @@ final class AssetRepository extends ARepository
 
 		if ($groupId !== null) {
 			$assetsSelect->where('group_id', $groupId);
+		}
+
+		if ($countryId !== null) {
+			$assetsSelect->where('ticker.country_id', $countryId);
 		}
 
 		$assetsSelect->orderBy('ticker.name');

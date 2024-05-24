@@ -73,11 +73,11 @@ final class TickerUpdater
 				type: TickerTypeEnum::Crypto,
 				isin: null,
 				logo: null,
-				sector: null,
-				industry: null,
+				sector: $this->tickerSectorRepository->findOthersTickerSector(),
+				industry: $this->tickerIndustryRepository->findOthersTickerIndustry(),
 				website: null,
 				description: null,
-				country: null,
+				country: $this->countryRepository->findOthersCountry(),
 			);
 			$this->tickerRepository->persist($ticker);
 		}
@@ -110,11 +110,11 @@ final class TickerUpdater
 				type: TickerTypeEnum::Stock,
 				isin: null,
 				logo: null,
-				sector: null,
-				industry: null,
+				sector: $this->tickerSectorRepository->findOthersTickerSector(),
+				industry: $this->tickerIndustryRepository->findOthersTickerIndustry(),
 				website: null,
 				description: null,
-				country: null,
+				country: $this->countryRepository->findOthersCountry(),
 			);
 			$this->tickerRepository->persist($ticker);
 		}
@@ -147,11 +147,11 @@ final class TickerUpdater
 				type: TickerTypeEnum::Etf,
 				isin: null,
 				logo: null,
-				sector: null,
-				industry: null,
+				sector: $this->tickerSectorRepository->findOthersTickerSector(),
+				industry: $this->tickerIndustryRepository->findOthersTickerIndustry(),
 				website: null,
 				description: null,
-				country: null,
+				country: $this->countryRepository->findOthersCountry(),
 			);
 			$this->tickerRepository->persist($ticker);
 		}
@@ -194,45 +194,54 @@ final class TickerUpdater
 	private function updateTickerSector(Profile $profile, Ticker $ticker): void
 	{
 		if ($profile->sector === '') {
-			$ticker->setSector(null);
-		} else {
-			$sectorName = StringUtils::sanitizeName($profile->sector);
-
-			$tickerSector = $this->tickerSectorRepository->findTickerSectorByName($sectorName);
-			if ($tickerSector === null) {
-				$tickerSector = new TickerSector(name: $sectorName);
-				$this->tickerSectorRepository->persist($tickerSector);
-			}
-			$ticker->setSector($tickerSector);
+			$othersSector = $this->tickerSectorRepository->findOthersTickerSector();
+			$ticker->setSector($othersSector);
+			return;
 		}
+
+		$sectorName = StringUtils::sanitizeName($profile->sector);
+
+		$tickerSector = $this->tickerSectorRepository->findTickerSectorByName($sectorName);
+		if ($tickerSector === null) {
+			$tickerSector = new TickerSector(name: $sectorName, isOthers: false);
+			$this->tickerSectorRepository->persist($tickerSector);
+		}
+		$ticker->setSector($tickerSector);
 	}
 
 	private function updateTickerIndustry(Profile $profile, Ticker $ticker): void
 	{
 		if ($profile->industry === '') {
-			$ticker->setIndustry(null);
-		} else {
-			$industryName = StringUtils::sanitizeName($profile->industry);
-
-			$tickerIndustry = $this->tickerIndustryRepository->findTickerIndustryByName($industryName);
-			if ($tickerIndustry === null) {
-				$tickerIndustry = new TickerIndustry(name: $industryName);
-				$this->tickerIndustryRepository->persist($tickerIndustry);
-			}
-			$ticker->setIndustry($tickerIndustry);
+			$othersIndustry = $this->tickerIndustryRepository->findOthersTickerIndustry();
+			$ticker->setIndustry($othersIndustry);
+			return;
 		}
+
+		$industryName = StringUtils::sanitizeName($profile->industry);
+
+		$tickerIndustry = $this->tickerIndustryRepository->findTickerIndustryByName($industryName);
+		if ($tickerIndustry === null) {
+			$tickerIndustry = new TickerIndustry(name: $industryName, isOthers: false);
+			$this->tickerIndustryRepository->persist($tickerIndustry);
+		}
+		$ticker->setIndustry($tickerIndustry);
 	}
 
 	private function updateCountry(Profile $profile, Ticker $ticker): void
 	{
 		if ($profile->country === '') {
-			$ticker->setCountry(null);
-		} else {
-			$country = $this->countryRepository->findCountryByIsoCode($profile->country);
-			if ($country === null) {
-				$ticker->setCountry(null);
-			}
-			$ticker->setCountry($country);
+			$othersCountry = $this->countryRepository->findOthersCountry();
+			$ticker->setCountry($othersCountry);
+			return;
 		}
+
+		$country = $this->countryRepository->findCountryByIsoCode($profile->country);
+		if ($country === null) {
+			$othersCountry = $this->countryRepository->findOthersCountry();
+			$ticker->setCountry($othersCountry);
+			return;
+		}
+
+		$ticker->setCountry($country);
 	}
 }

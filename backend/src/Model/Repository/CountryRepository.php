@@ -15,4 +15,13 @@ final class CountryRepository extends ARepository
 			'iso_code' => $name,
 		]);
 	}
+
+	public function findOthersCountry(): Country
+	{
+		$othersCountry = $this->findOne([
+			'is_others' => true,
+		]);
+		assert($othersCountry instanceof Country);
+		return $othersCountry;
+	}
 }

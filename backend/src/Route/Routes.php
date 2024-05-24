@@ -25,6 +25,8 @@ enum Routes: string
 	case Brokers = '/api/brokers/{portfolioId:number}';
 	case Broker = '/api/broker/{brokerId:number}';
 
+	case CountriesWithCountryData = '/api/countries-with-country-data/{portfolioId:number}';
+
 	case Currencies = '/api/currency';
 
 	case CurrentUser = '/api/current-user';
