@@ -20,20 +20,6 @@ final class SectorDataRepository extends ARepository
 		]);
 	}
 
-	public function deleteSectorData(int $sectorId, ?DateTimeImmutable $date = null): void
-	{
-		$deleteGroupData = $this->orm->getSource(CountryData::class)
-			->getDatabase()
-			->delete('sector_datas')
-			->where('sector_id', $sectorId);
-
-		if ($date !== null) {
-			$deleteGroupData->where('date', '>=', $date);
-		}
-
-		$deleteGroupData->run();
-	}
-
 	public function deleteUserSectorData(?int $userId = null, ?int $portfolioId = null, ?DateTimeImmutable $date = null): void
 	{
 		$deleteUserGroupData = $this->orm->getSource(CountryData::class)

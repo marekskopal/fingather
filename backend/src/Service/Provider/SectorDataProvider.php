@@ -66,7 +66,7 @@ class SectorDataProvider
 		return $sectorData;
 	}
 
-	public function deleteUserCountryData(?User $user = null, ?Portfolio $portfolio = null, ?DateTimeImmutable $date = null): void
+	public function deleteUserSectorData(?User $user = null, ?Portfolio $portfolio = null, ?DateTimeImmutable $date = null): void
 	{
 		$this->sectorDataRepository->deleteUserSectorData($user?->getId(), $portfolio?->getId(), $date);
 	}

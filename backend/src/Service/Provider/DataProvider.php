@@ -15,6 +15,9 @@ class DataProvider
 		private readonly GroupDataProvider $groupDataProvider,
 		private readonly PortfolioDataProvider $portfolioDataProvider,
 		private readonly BenchmarkDataProvider $benchmarkDataProvider,
+		private readonly CountryDataProvider $countryDataProvider,
+		private readonly SectorDataProvider $sectorDataProvider,
+		private readonly IndustryDataProvider $industryDataProvider,
 		private readonly TransactionProvider $transactionProvider,
 	) {
 	}
@@ -25,6 +28,9 @@ class DataProvider
 		$this->groupDataProvider->deleteUserGroupData($user, $portfolio, $date);
 		$this->portfolioDataProvider->deletePortfolioData($user, $portfolio, $date);
 		$this->benchmarkDataProvider->deleteBenchmarkData($user, $portfolio, $date);
+		$this->countryDataProvider->deleteUserCountryData($user, $portfolio, $date);
+		$this->sectorDataProvider->deleteUserSectorData($user, $portfolio, $date);
+		$this->industryDataProvider->deleteUserIndustryData($user, $portfolio, $date);
 	}
 
 	public function deleteUserData(
