@@ -10,11 +10,11 @@ use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Country;
 use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\Group;
+use FinGather\Model\Entity\Industry;
 use FinGather\Model\Entity\Market;
 use FinGather\Model\Entity\Portfolio;
+use FinGather\Model\Entity\Sector;
 use FinGather\Model\Entity\Ticker;
-use FinGather\Model\Entity\TickerIndustry;
-use FinGather\Model\Entity\TickerSector;
 use FinGather\Model\Entity\User;
 use FinGather\Response\ErrorResponse;
 use FinGather\Response\NotFoundResponse;
@@ -38,8 +38,8 @@ use Psr\Http\Message\ServerRequestInterface;
 #[UsesClass(Market::class)]
 #[UsesClass(Portfolio::class)]
 #[UsesClass(Ticker::class)]
-#[UsesClass(TickerIndustry::class)]
-#[UsesClass(TickerSector::class)]
+#[UsesClass(Industry::class)]
+#[UsesClass(Sector::class)]
 #[UsesClass(User::class)]
 #[UsesClass(ErrorResponse::class)]
 #[UsesClass(NotFoundResponse::class)]

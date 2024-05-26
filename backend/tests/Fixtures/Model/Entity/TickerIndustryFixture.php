@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace FinGather\Tests\Fixtures\Model\Entity;
 
-use FinGather\Model\Entity\TickerIndustry;
+use FinGather\Model\Entity\Industry;
 
 final class TickerIndustryFixture
 {
-	public static function getTickerIndustry(?string $name = null, ?bool $isOthers = null): TickerIndustry
+	public static function getTickerIndustry(?string $name = null, ?bool $isOthers = null): Industry
 	{
-		return new TickerIndustry(name: $name ?? 'Consumer Electronics', isOthers: $isOthers ?? false);
+		return new Industry(name: $name ?? 'Consumer Electronics', isOthers: $isOthers ?? false);
 	}
 }

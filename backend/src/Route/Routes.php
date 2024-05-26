@@ -44,6 +44,8 @@ enum Routes: string
 	case ImportPrepare = '/api/import/import-prepare/{portfolioId:number}';
 	case ImportStart = '/api/import/import-start';
 
+	case IndustriesWithIndustryData = '/api/industries-with-industry-data/{portfolioId:number}';
+
 	case OnboardingComplete = '/api/onboarding-complete';
 
 	case OverviewYearOverview = '/api/overview/year-overview/{portfolioId:number}';
@@ -54,6 +56,8 @@ enum Routes: string
 
 	case PortfolioData = '/api/portfolio-data/{portfolioId:number}';
 	case PortfolioDataRange = '/api/portfolio-data-range/{portfolioId:number}';
+
+	case SectorsWithSectorData = '/api/sectors-with-sector-data/{portfolioId:number}';
 
 	case Tickers = '/api/ticker';
 

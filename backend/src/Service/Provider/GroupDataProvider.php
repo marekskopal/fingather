@@ -11,16 +11,13 @@ use FinGather\Model\Entity\GroupData;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\GroupDataRepository;
-use FinGather\Service\DataCalculator\DataCalculator;
 use FinGather\Utils\DateTimeUtils;
 
 class GroupDataProvider
 {
 	public function __construct(
 		private readonly GroupDataRepository $groupDataRepository,
-		private readonly DataCalculator $dataCalculator,
-		private readonly AssetProvider $assetProvider,
-		private readonly AssetDataProvider $assetDataProvider,
+		private readonly CalculatedDataProvider $calculatedDataProvider,
 	) {
 	}
 
@@ -33,25 +30,7 @@ class GroupDataProvider
 			return $groupData;
 		}
 
-		$assetDatas = [];
-
-		$firstTransactionActionCreated = $dateTime;
-
-		$assets = $this->assetProvider->getAssets($user, $portfolio, $dateTime, $group);
-		foreach ($assets as $asset) {
-			$assetData = $this->assetDataProvider->getAssetData($user, $portfolio, $asset, $dateTime);
-			if ($assetData === null) {
-				continue;
-			}
-
-			if ($firstTransactionActionCreated > $assetData->getFirstTransactionActionCreated()) {
-				$firstTransactionActionCreated = $assetData->getFirstTransactionActionCreated();
-			}
-
-			$assetDatas[] = $assetData;
-		}
-
-		$calculatedData = $this->dataCalculator->calculate($assetDatas, $dateTime, $firstTransactionActionCreated);
+		$calculatedData = $this->calculatedDataProvider->getCalculatedDate($user, $portfolio, $dateTime, $group);
 
 		$groupData = new GroupData(
 			group: $group,

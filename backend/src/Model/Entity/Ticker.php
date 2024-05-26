@@ -28,10 +28,10 @@ class Ticker extends AEntity
 		private ?string $isin,
 		#[Column(type: 'string', nullable: true)]
 		private ?string $logo,
-		#[RefersTo(target: TickerSector::class)]
-		private TickerSector $sector,
-		#[RefersTo(target: TickerIndustry::class)]
-		private TickerIndustry $industry,
+		#[RefersTo(target: Sector::class)]
+		private Sector $sector,
+		#[RefersTo(target: Industry::class)]
+		private Industry $industry,
 		#[Column(type: 'string', nullable: true)]
 		private ?string $website,
 		#[Column(type: 'text', nullable: true)]
@@ -91,22 +91,22 @@ class Ticker extends AEntity
 		$this->logo = $logo;
 	}
 
-	public function getSector(): TickerSector
+	public function getSector(): Sector
 	{
 		return $this->sector;
 	}
 
-	public function setSector(TickerSector $sector): void
+	public function setSector(Sector $sector): void
 	{
 		$this->sector = $sector;
 	}
 
-	public function getIndustry(): TickerIndustry
+	public function getIndustry(): Industry
 	{
 		return $this->industry;
 	}
 
-	public function setIndustry(TickerIndustry $industry): void
+	public function setIndustry(Industry $industry): void
 	{
 		$this->industry = $industry;
 	}

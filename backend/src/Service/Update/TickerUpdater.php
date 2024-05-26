@@ -7,16 +7,16 @@ namespace FinGather\Service\Update;
 use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\Enum\MarketTypeEnum;
 use FinGather\Model\Entity\Enum\TickerTypeEnum;
+use FinGather\Model\Entity\Industry;
 use FinGather\Model\Entity\Market;
+use FinGather\Model\Entity\Sector;
 use FinGather\Model\Entity\Ticker;
-use FinGather\Model\Entity\TickerIndustry;
-use FinGather\Model\Entity\TickerSector;
 use FinGather\Model\Repository\CountryRepository;
 use FinGather\Model\Repository\CurrencyRepository;
+use FinGather\Model\Repository\IndustryRepository;
 use FinGather\Model\Repository\MarketRepository;
-use FinGather\Model\Repository\TickerIndustryRepository;
+use FinGather\Model\Repository\SectorRepository;
 use FinGather\Model\Repository\TickerRepository;
-use FinGather\Model\Repository\TickerSectorRepository;
 use FinGather\Utils\StringUtils;
 use MarekSkopal\TwelveData\Dto\Fundamentals\Profile;
 use MarekSkopal\TwelveData\Exception\NotFoundException;
@@ -28,8 +28,8 @@ final class TickerUpdater
 		private readonly TickerRepository $tickerRepository,
 		private readonly MarketRepository $marketRepository,
 		private readonly CurrencyRepository $currencyRepository,
-		private readonly TickerIndustryRepository $tickerIndustryRepository,
-		private readonly TickerSectorRepository $tickerSectorRepository,
+		private readonly IndustryRepository $industryRepository,
+		private readonly SectorRepository $sectorRepository,
 		private readonly CountryRepository $countryRepository,
 		private readonly TwelveData $twelveData,
 	) {
@@ -73,8 +73,8 @@ final class TickerUpdater
 				type: TickerTypeEnum::Crypto,
 				isin: null,
 				logo: null,
-				sector: $this->tickerSectorRepository->findOthersTickerSector(),
-				industry: $this->tickerIndustryRepository->findOthersTickerIndustry(),
+				sector: $this->sectorRepository->findOthersSector(),
+				industry: $this->industryRepository->findOthersIndustry(),
 				website: null,
 				description: null,
 				country: $this->countryRepository->findOthersCountry(),
@@ -110,8 +110,8 @@ final class TickerUpdater
 				type: TickerTypeEnum::Stock,
 				isin: null,
 				logo: null,
-				sector: $this->tickerSectorRepository->findOthersTickerSector(),
-				industry: $this->tickerIndustryRepository->findOthersTickerIndustry(),
+				sector: $this->sectorRepository->findOthersSector(),
+				industry: $this->industryRepository->findOthersIndustry(),
 				website: null,
 				description: null,
 				country: $this->countryRepository->findOthersCountry(),
@@ -147,8 +147,8 @@ final class TickerUpdater
 				type: TickerTypeEnum::Etf,
 				isin: null,
 				logo: null,
-				sector: $this->tickerSectorRepository->findOthersTickerSector(),
-				industry: $this->tickerIndustryRepository->findOthersTickerIndustry(),
+				sector: $this->sectorRepository->findOthersSector(),
+				industry: $this->industryRepository->findOthersIndustry(),
 				website: null,
 				description: null,
 				country: $this->countryRepository->findOthersCountry(),
@@ -181,8 +181,8 @@ final class TickerUpdater
 			$ticker->setType(TickerTypeEnum::Etf);
 		}
 
-		$this->updateTickerSector($profile, $ticker);
-		$this->updateTickerIndustry($profile, $ticker);
+		$this->updateSector($profile, $ticker);
+		$this->updateIndustry($profile, $ticker);
 		$this->updateCountry($profile, $ticker);
 
 		$ticker->setWebsite($profile->website);
@@ -191,40 +191,40 @@ final class TickerUpdater
 		$this->tickerRepository->persist($ticker);
 	}
 
-	private function updateTickerSector(Profile $profile, Ticker $ticker): void
+	private function updateSector(Profile $profile, Ticker $ticker): void
 	{
 		if ($profile->sector === '') {
-			$othersSector = $this->tickerSectorRepository->findOthersTickerSector();
+			$othersSector = $this->sectorRepository->findOthersSector();
 			$ticker->setSector($othersSector);
 			return;
 		}
 
 		$sectorName = StringUtils::sanitizeName($profile->sector);
 
-		$tickerSector = $this->tickerSectorRepository->findTickerSectorByName($sectorName);
-		if ($tickerSector === null) {
-			$tickerSector = new TickerSector(name: $sectorName, isOthers: false);
-			$this->tickerSectorRepository->persist($tickerSector);
+		$sector = $this->sectorRepository->findSectorByName($sectorName);
+		if ($sector === null) {
+			$sector = new Sector(name: $sectorName, isOthers: false);
+			$this->sectorRepository->persist($sector);
 		}
-		$ticker->setSector($tickerSector);
+		$ticker->setSector($sector);
 	}
 
-	private function updateTickerIndustry(Profile $profile, Ticker $ticker): void
+	private function updateIndustry(Profile $profile, Ticker $ticker): void
 	{
 		if ($profile->industry === '') {
-			$othersIndustry = $this->tickerIndustryRepository->findOthersTickerIndustry();
+			$othersIndustry = $this->industryRepository->findOthersIndustry();
 			$ticker->setIndustry($othersIndustry);
 			return;
 		}
 
 		$industryName = StringUtils::sanitizeName($profile->industry);
 
-		$tickerIndustry = $this->tickerIndustryRepository->findTickerIndustryByName($industryName);
-		if ($tickerIndustry === null) {
-			$tickerIndustry = new TickerIndustry(name: $industryName, isOthers: false);
-			$this->tickerIndustryRepository->persist($tickerIndustry);
+		$industry = $this->industryRepository->findIndustryByName($industryName);
+		if ($industry === null) {
+			$industry = new Industry(name: $industryName, isOthers: false);
+			$this->industryRepository->persist($industry);
 		}
-		$ticker->setIndustry($tickerIndustry);
+		$ticker->setIndustry($industry);
 	}
 
 	private function updateCountry(Profile $profile, Ticker $ticker): void
