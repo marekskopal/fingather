@@ -14,8 +14,8 @@ final class IndustryDataRepository extends ARepository
 	public function findIndustryData(int $industryId, int $portfolioId, DateTimeImmutable $date): ?IndustryData
 	{
 		return $this->findOne([
-			'sector_id' => $industryId,
-			'industry_id' => $portfolioId,
+			'industry_id' => $industryId,
+			'portfolio_id' => $portfolioId,
 			'date' => $date,
 		]);
 	}
