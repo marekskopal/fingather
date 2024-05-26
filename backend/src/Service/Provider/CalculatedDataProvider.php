@@ -50,7 +50,7 @@ class CalculatedDataProvider
 		);
 		foreach ($assets as $asset) {
 			$assetData = $this->assetDataProvider->getAssetData($user, $portfolio, $asset, $dateTime);
-			if ($assetData === null) {
+			if ($assetData === null || $assetData->isClosed()) {
 				continue;
 			}
 
