@@ -24,7 +24,7 @@ final class IndustryWithIndustryDataController
 	) {
 	}
 
-	#[RouteGet(Routes::SectorsWithSectorData->value)]
+	#[RouteGet(Routes::IndustriesWithIndustryData->value)]
 	public function actionGetTickerSectorsWithTickerSectorData(ServerRequestInterface $request, int $portfolioId): ResponseInterface
 	{
 		$user = $this->requestService->getUser($request);
