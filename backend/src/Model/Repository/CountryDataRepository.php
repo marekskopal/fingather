@@ -19,20 +19,6 @@ final class CountryDataRepository extends ARepository
 		]);
 	}
 
-	public function deleteCountryData(int $countryId, ?DateTimeImmutable $date = null): void
-	{
-		$deleteGroupData = $this->orm->getSource(CountryData::class)
-			->getDatabase()
-			->delete('country_datas')
-			->where('country_id', $countryId);
-
-		if ($date !== null) {
-			$deleteGroupData->where('date', '>=', $date);
-		}
-
-		$deleteGroupData->run();
-	}
-
 	public function deleteUserCountryData(?int $userId = null, ?int $portfolioId = null, ?DateTimeImmutable $date = null): void
 	{
 		$deleteUserGroupData = $this->orm->getSource(CountryData::class)

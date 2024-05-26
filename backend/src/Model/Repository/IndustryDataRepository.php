@@ -20,20 +20,6 @@ final class IndustryDataRepository extends ARepository
 		]);
 	}
 
-	public function deleteIndustryData(int $industryId, ?DateTimeImmutable $date = null): void
-	{
-		$deleteGroupData = $this->orm->getSource(CountryData::class)
-			->getDatabase()
-			->delete('industry_datas')
-			->where('industry_id', $industryId);
-
-		if ($date !== null) {
-			$deleteGroupData->where('date', '>=', $date);
-		}
-
-		$deleteGroupData->run();
-	}
-
 	public function deleteUserIndustryData(?int $userId = null, ?int $portfolioId = null, ?DateTimeImmutable $date = null): void
 	{
 		$deleteUserGroupData = $this->orm->getSource(CountryData::class)
