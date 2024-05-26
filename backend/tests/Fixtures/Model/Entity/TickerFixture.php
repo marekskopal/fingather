@@ -7,10 +7,10 @@ namespace FinGather\Tests\Fixtures\Model\Entity;
 use FinGather\Model\Entity\Country;
 use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\Enum\TickerTypeEnum;
+use FinGather\Model\Entity\Industry;
 use FinGather\Model\Entity\Market;
+use FinGather\Model\Entity\Sector;
 use FinGather\Model\Entity\Ticker;
-use FinGather\Model\Entity\TickerIndustry;
-use FinGather\Model\Entity\TickerSector;
 
 final class TickerFixture
 {
@@ -22,8 +22,8 @@ final class TickerFixture
 		?TickerTypeEnum $type = null,
 		?string $isin = null,
 		?string $logo = null,
-		?TickerSector $sector = null,
-		?TickerIndustry $industry = null,
+		?Sector $sector = null,
+		?Industry $industry = null,
 		?string $description = null,
 		?string $website = null,
 		?Country $country = null,

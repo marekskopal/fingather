@@ -19,9 +19,11 @@ final class AssetRepository extends ARepository
 		?DateTimeImmutable $dateTime = null,
 		?int $groupId = null,
 		?int $countryId = null,
+		?int $sectorId = null,
+		?int $industryId = null,
 	): iterable
 	{
-		return $this->getAssetsSelect($userId, $portfolioId, $dateTime, $groupId, $countryId)->fetchAll();
+		return $this->getAssetsSelect($userId, $portfolioId, $dateTime, $groupId, $countryId, $sectorId, $industryId)->fetchAll();
 	}
 
 	public function countAssets(
@@ -30,9 +32,11 @@ final class AssetRepository extends ARepository
 		?DateTimeImmutable $dateTime = null,
 		?int $groupId = null,
 		?int $countryId = null,
+		?int $sectorId = null,
+		?int $industryId = null,
 	): int
 	{
-		return $this->getAssetsSelect($userId, $portfolioId, $dateTime, $groupId, $countryId)->count();
+		return $this->getAssetsSelect($userId, $portfolioId, $dateTime, $groupId, $countryId, $sectorId, $industryId)->count();
 	}
 
 	/** @return Select<Asset> */
@@ -42,6 +46,8 @@ final class AssetRepository extends ARepository
 		?DateTimeImmutable $dateTime = null,
 		?int $groupId = null,
 		?int $countryId = null,
+		?int $sectorId = null,
+		?int $industryId = null,
 	): Select
 	{
 		$assetsSelect = $this->select()
@@ -71,6 +77,14 @@ final class AssetRepository extends ARepository
 
 		if ($countryId !== null) {
 			$assetsSelect->where('ticker.country_id', $countryId);
+		}
+
+		if ($sectorId !== null) {
+			$assetsSelect->where('ticker.sector_id', $sectorId);
+		}
+
+		if ($industryId !== null) {
+			$assetsSelect->where('ticker.industry_id', $industryId);
 		}
 
 		$assetsSelect->orderBy('ticker.name');

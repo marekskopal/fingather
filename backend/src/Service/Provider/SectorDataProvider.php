@@ -6,34 +6,34 @@ namespace FinGather\Service\Provider;
 
 use Cycle\Database\Exception\StatementException\ConstrainException;
 use DateTimeImmutable;
-use FinGather\Model\Entity\Country;
-use FinGather\Model\Entity\CountryData;
 use FinGather\Model\Entity\Portfolio;
+use FinGather\Model\Entity\Sector;
+use FinGather\Model\Entity\SectorData;
 use FinGather\Model\Entity\User;
-use FinGather\Model\Repository\CountryDataRepository;
+use FinGather\Model\Repository\SectorDataRepository;
 use FinGather\Utils\DateTimeUtils;
 
-class CountryDataProvider
+class SectorDataProvider
 {
 	public function __construct(
-		private readonly CountryDataRepository $countryDataRepository,
+		private readonly SectorDataRepository $sectorDataRepository,
 		private readonly CalculatedDataProvider $calculatedDataProvider,
 	) {
 	}
 
-	public function getCountryData(Country $country, User $user, Portfolio $portfolio, DateTimeImmutable $dateTime): CountryData
+	public function getSectorData(Sector $sector, User $user, Portfolio $portfolio, DateTimeImmutable $dateTime): SectorData
 	{
 		$dateTime = DateTimeUtils::setEndOfDateTime($dateTime);
 
-		$countryData = $this->countryDataRepository->findCountryData($country->getId(), $portfolio->getId(), $dateTime);
-		if ($countryData !== null) {
-			return $countryData;
+		$sectorData = $this->sectorDataRepository->findSectorData($sector->getId(), $portfolio->getId(), $dateTime);
+		if ($sectorData !== null) {
+			return $sectorData;
 		}
 
-		$calculatedData = $this->calculatedDataProvider->getCalculatedDate($user, $portfolio, $dateTime, country: $country);
+		$calculatedData = $this->calculatedDataProvider->getCalculatedDate($user, $portfolio, $dateTime, sector: $sector);
 
-		$countryData = new CountryData(
-			country: $country,
+		$sectorData = new SectorData(
+			sector: $sector,
 			user: $user,
 			portfolio: $portfolio,
 			date: $dateTime,
@@ -57,17 +57,17 @@ class CountryDataProvider
 		);
 
 		try {
-			$this->countryDataRepository->persist($countryData);
+			$this->sectorDataRepository->persist($sectorData);
 		} catch (ConstrainException) {
-			$countryData = $this->countryDataRepository->findCountryData($country->getId(), $country->getId(), $dateTime);
-			assert($countryData instanceof CountryData);
+			$sectorData = $this->sectorDataRepository->findSectorData($sector->getId(), $sector->getId(), $dateTime);
+			assert($sectorData instanceof SectorData);
 		}
 
-		return $countryData;
+		return $sectorData;
 	}
 
 	public function deleteUserCountryData(?User $user = null, ?Portfolio $portfolio = null, ?DateTimeImmutable $date = null): void
 	{
-		$this->countryDataRepository->deleteUserCountryData($user?->getId(), $portfolio?->getId(), $date);
+		$this->sectorDataRepository->deleteUserSectorData($user?->getId(), $portfolio?->getId(), $date);
 	}
 }

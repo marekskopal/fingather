@@ -6,10 +6,10 @@ namespace FinGather\Model\Entity;
 
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
-use FinGather\Model\Repository\TickerIndustryRepository;
+use FinGather\Model\Repository\SectorRepository;
 
-#[Entity(repository: TickerIndustryRepository::class)]
-class TickerIndustry extends AEntity
+#[Entity(repository: SectorRepository::class)]
+class Sector extends AEntity
 {
 	public function __construct(#[Column(type: 'string')] private string $name, #[Column(type: 'boolean')] private bool $isOthers,)
 	{

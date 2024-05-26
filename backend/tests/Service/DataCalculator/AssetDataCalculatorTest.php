@@ -10,13 +10,13 @@ use FinGather\Model\Entity\Country;
 use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Group;
+use FinGather\Model\Entity\Industry;
 use FinGather\Model\Entity\Market;
 use FinGather\Model\Entity\Portfolio;
+use FinGather\Model\Entity\Sector;
 use FinGather\Model\Entity\Split;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\TickerData;
-use FinGather\Model\Entity\TickerIndustry;
-use FinGather\Model\Entity\TickerSector;
 use FinGather\Model\Entity\Transaction;
 use FinGather\Model\Entity\User;
 use FinGather\Service\DataCalculator\AssetDataCalculator;
@@ -50,8 +50,8 @@ use Safe\DateTimeImmutable;
 #[UsesClass(Portfolio::class)]
 #[UsesClass(Split::class)]
 #[UsesClass(Ticker::class)]
-#[UsesClass(TickerIndustry::class)]
-#[UsesClass(TickerSector::class)]
+#[UsesClass(Industry::class)]
+#[UsesClass(Sector::class)]
 #[UsesClass(TickerData::class)]
 #[UsesClass(Transaction::class)]
 #[UsesClass(User::class)]

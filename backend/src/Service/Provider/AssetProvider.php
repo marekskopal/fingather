@@ -8,7 +8,9 @@ use DateTimeImmutable;
 use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Country;
 use FinGather\Model\Entity\Group;
+use FinGather\Model\Entity\Industry;
 use FinGather\Model\Entity\Portfolio;
+use FinGather\Model\Entity\Sector;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\AssetRepository;
@@ -26,10 +28,20 @@ class AssetProvider
 		?DateTimeImmutable $dateTime = null,
 		?Group $group = null,
 		?Country $country = null,
+		?Sector $sector = null,
+		?Industry $industry = null,
 	): array
 	{
 		return iterator_to_array(
-			$this->assetRepository->findAssets($user->getId(), $portfolio->getId(), $dateTime, $group?->getId(), $country?->getId()),
+			$this->assetRepository->findAssets(
+				$user->getId(),
+				$portfolio->getId(),
+				$dateTime,
+				$group?->getId(),
+				$country?->getId(),
+				$sector?->getId(),
+				$industry?->getId(),
+			),
 		);
 	}
 
@@ -39,9 +51,19 @@ class AssetProvider
 		?DateTimeImmutable $dateTime = null,
 		?Group $group = null,
 		?Country $country = null,
+		?Sector $sector = null,
+		?Industry $industry = null,
 	): int
 	{
-		return $this->assetRepository->countAssets($user->getId(), $portfolio?->getId(), $dateTime, $group?->getId(), $country?->getId());
+		return $this->assetRepository->countAssets(
+			$user->getId(),
+			$portfolio?->getId(),
+			$dateTime,
+			$group?->getId(),
+			$country?->getId(),
+			$sector?->getId(),
+			$industry?->getId(),
+		);
 	}
 
 	public function getAsset(User $user, int $assetId): ?Asset

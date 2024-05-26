@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Dto;
 
-use FinGather\Model\Entity\TickerIndustry;
+use FinGather\Model\Entity\Industry;
 
 final readonly class TickerIndustryDto
 {
@@ -12,7 +12,7 @@ final readonly class TickerIndustryDto
 	{
 	}
 
-	public static function fromEntity(TickerIndustry $tickerIndustry): self
+	public static function fromEntity(Industry $tickerIndustry): self
 	{
 		return new self(
 			id: $tickerIndustry->getId(),
