@@ -1,4 +1,5 @@
 import {
+    ChangeDetectionStrategy,
     Component, input, InputSignal, OnInit
 } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
@@ -13,6 +14,7 @@ import { BaseForm } from '@app/shared/components/form/base-form';
 @Component({
     templateUrl: 'import-prepare.component.html',
     selector: 'fingather-import-prepare',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImportPrepareComponent extends BaseForm implements OnInit {
     public importPrepare: InputSignal<ImportPrepare> = input.required<ImportPrepare>();

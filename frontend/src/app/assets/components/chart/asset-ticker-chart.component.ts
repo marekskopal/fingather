@@ -1,4 +1,5 @@
 import {
+    ChangeDetectionStrategy,
     Component, input, InputSignal, OnInit,
 } from '@angular/core';
 import { TickerData } from '@app/models';
@@ -28,6 +29,7 @@ export type ChartOptions = {
 @Component({
     templateUrl: 'asset-ticker-chart.component.html',
     selector: 'fingather-asset-ticker-chart',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AssetTickerChartComponent implements OnInit {
     public assetId: InputSignal<number> = input.required<number>();

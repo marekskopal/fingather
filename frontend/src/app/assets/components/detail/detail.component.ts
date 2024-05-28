@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AssetWithProperties, Currency } from '@app/models';
 import { AssetService, CurrencyService } from '@app/services';
 
-@Component({ templateUrl: 'detail.component.html' })
+@Component({
+    templateUrl: 'detail.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+})
 export class DetailComponent implements OnInit {
     protected asset: AssetWithProperties | null = null;
     protected defaultCurrency: Currency;

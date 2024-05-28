@@ -1,4 +1,5 @@
 import {
+    ChangeDetectionStrategy,
     Component, input, InputSignal, OnChanges, OnInit
 } from '@angular/core';
 import { PortfolioDataWithBenchmarkData } from '@app/models';
@@ -28,6 +29,7 @@ export type ChartOptions = {
 @Component({
     templateUrl: 'portfolio-value-chart.component.html',
     selector: 'fingather-portfolio-value-chart',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PortfolioValueChartComponent implements OnInit, OnChanges {
     public range: InputSignal<RangeEnum> = input.required<RangeEnum>();

@@ -1,5 +1,5 @@
 import { formatDate } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import {
@@ -16,7 +16,10 @@ import {
 import { BaseForm } from '@app/shared/components/form/base-form';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
-@Component({ templateUrl: 'dividend-dialog.component.html' })
+@Component({
+    templateUrl: 'dividend-dialog.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+})
 export class DividendDialogComponent extends BaseForm implements OnInit {
     public id: number | null = null;
     public assets: Asset[] | null;

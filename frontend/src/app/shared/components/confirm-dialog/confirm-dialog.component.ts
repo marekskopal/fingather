@@ -1,9 +1,12 @@
-import { Component, signal, WritableSignal } from '@angular/core';
+import {
+    ChangeDetectionStrategy, Component, signal, WritableSignal
+} from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'fingather-confirm-dialog',
-    templateUrl: 'confirm-dialog.component.html'
+    templateUrl: 'confirm-dialog.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfirmDialogComponent {
     public title: WritableSignal<string> = signal<string>('');

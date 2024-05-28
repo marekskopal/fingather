@@ -1,4 +1,5 @@
 import {
+    ChangeDetectionStrategy,
     Component, input, InputSignal, OnDestroy, OnInit
 } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
@@ -6,7 +7,11 @@ import { Alert, AlertType } from '@app/models';
 import { AlertService } from '@app/services';
 import { Subscription } from 'rxjs';
 
-@Component({ selector: 'fingather-alert', templateUrl: 'alert.component.html' })
+@Component({
+    selector: 'fingather-alert',
+    templateUrl: 'alert.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+})
 export class AlertComponent implements OnInit, OnDestroy {
     public id: InputSignal<string> = input('default-alert');
     public fade: InputSignal<boolean> = input(true);

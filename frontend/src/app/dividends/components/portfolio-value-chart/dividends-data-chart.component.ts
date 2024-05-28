@@ -1,4 +1,5 @@
 import {
+    ChangeDetectionStrategy,
     Component, input, InputSignal, OnChanges, OnInit,
 } from '@angular/core';
 import {
@@ -25,6 +26,7 @@ export type ChartOptions = {
 @Component({
     templateUrl: 'dividends-data-chart.component.html',
     selector: 'fingather-dividends-data-chart',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DividendsDataChartComponent implements OnInit, OnChanges {
     public range: InputSignal<RangeEnum> = input.required<RangeEnum>();

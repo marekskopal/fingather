@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Portfolio } from '@app/models';
 import { PortfolioService } from '@app/services';
 
 @Component({
     selector: 'fingather-portfolio-selector',
     templateUrl: 'portfolio-selector.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PortfolioSelectorComponent implements OnInit {
     public portfolios: Portfolio[] | null = null;

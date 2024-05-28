@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { Ticker } from '@app/models';
 import {
@@ -11,7 +11,10 @@ import {
     catchError, debounceTime, distinctUntilChanged, map, switchMap, tap
 } from 'rxjs/operators';
 
-@Component({ templateUrl: 'add-asset.component.html' })
+@Component({
+    templateUrl: 'add-asset.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+})
 export class AddAssetComponent extends BaseDialog implements OnInit {
     public searching: boolean = false;
     public searchFailed: boolean = false;

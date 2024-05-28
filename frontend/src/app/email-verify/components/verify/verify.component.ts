@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EmailVerifyService } from '@app/services';
 
-@Component({ templateUrl: 'verify.component.html' })
+@Component({
+    templateUrl: 'verify.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+})
 export class VerifyComponent implements OnInit {
     private token: string;
     public validated: boolean = false;

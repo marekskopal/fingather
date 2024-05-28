@@ -1,11 +1,16 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+    ChangeDetectionStrategy, Component, OnDestroy, OnInit
+} from '@angular/core';
 import { User, UserWithStatistic } from '@app/models';
 import { CurrentUserService, UserService } from '@app/services';
 import { ConfirmDialogService } from '@app/services/confirm-dialog.service';
 import { AddEditComponent } from '@app/users/add-edit/add-edit.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-@Component({ templateUrl: 'list.component.html' })
+@Component({
+    templateUrl: 'list.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+})
 export class ListComponent implements OnInit, OnDestroy {
     public users: UserWithStatistic[] = [];
     public currentUser: User;
