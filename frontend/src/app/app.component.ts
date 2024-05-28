@@ -1,9 +1,13 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Authentication } from '@app/models/authentication';
 import { AuthenticationService } from '@app/services/authentication.service';
 import { TranslateService } from '@ngx-translate/core';
 
-@Component({ selector: 'fingather-app', templateUrl: 'app.component.html' })
+@Component({
+    selector: 'fingather-app',
+    templateUrl: 'app.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+})
 export class AppComponent {
     public authentication: Authentication | null;
 

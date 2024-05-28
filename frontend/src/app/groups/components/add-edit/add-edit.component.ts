@@ -1,4 +1,5 @@
 import {
+    ChangeDetectionStrategy,
     Component, OnInit, signal, WritableSignal
 } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
@@ -9,7 +10,10 @@ import {
 import { BaseForm } from '@app/shared/components/form/base-form';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
-@Component({ templateUrl: 'add-edit.component.html' })
+@Component({
+    templateUrl: 'add-edit.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+})
 export class AddEditComponent extends BaseForm implements OnInit {
     public id: WritableSignal<number | null> = signal<number | null>(null);
 

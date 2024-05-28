@@ -1,11 +1,16 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+    ChangeDetectionStrategy, Component, OnDestroy, OnInit
+} from '@angular/core';
 import { Portfolio } from '@app/models';
 import { AddEditComponent } from '@app/portfolios/components/add-edit/add-edit.component';
 import { PortfolioService } from '@app/services';
 import { ConfirmDialogService } from '@app/services/confirm-dialog.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-@Component({ templateUrl: 'list.component.html' })
+@Component({
+    templateUrl: 'list.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+})
 export class ListComponent implements OnInit, OnDestroy {
     public portfolios: Portfolio[] | null = null;
     public currentPortfolio: Portfolio;

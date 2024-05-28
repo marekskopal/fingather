@@ -1,4 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+    ChangeDetectionStrategy, Component, OnDestroy, OnInit
+} from '@angular/core';
 import { AddAssetComponent } from '@app/assets/components/add-asset/add-asset.component';
 import {
     Asset, AssetsWithProperties, Currency, GroupWithGroupData
@@ -9,7 +11,10 @@ import {
 } from '@app/services';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-@Component({ templateUrl: 'list.component.html' })
+@Component({
+    templateUrl: 'list.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+})
 export class ListComponent implements OnInit, OnDestroy {
     public assetsWithProperties: AssetsWithProperties | null = null;
     public openedGroupedAssets: GroupWithGroupData[] | null = null;

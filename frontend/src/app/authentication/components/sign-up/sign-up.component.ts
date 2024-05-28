@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UniqueEmailValidator } from '@app/authentication/validator/UniqueEmailValidator';
@@ -7,7 +7,10 @@ import { AlertService, CurrencyService } from '@app/services';
 import { AuthenticationService } from '@app/services/authentication.service';
 import { BaseForm } from '@app/shared/components/form/base-form';
 
-@Component({ templateUrl: 'sign-up.component.html' })
+@Component({
+    templateUrl: 'sign-up.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+})
 export class SignUpComponent extends BaseForm implements OnInit {
     public currencies: Currency[];
 

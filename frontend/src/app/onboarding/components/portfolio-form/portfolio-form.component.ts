@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { Currency, Portfolio } from '@app/models';
 import {
@@ -10,7 +10,8 @@ import { BaseForm } from '@app/shared/components/form/base-form';
 
 @Component({
     templateUrl: 'portfolio-form.component.html',
-    selector: 'fingather-onboarding-portfolio-form'
+    selector: 'fingather-onboarding-portfolio-form',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PortfolioFormComponent extends BaseForm implements OnInit {
     protected portfolio: Portfolio;

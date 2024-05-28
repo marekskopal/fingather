@@ -1,4 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+    ChangeDetectionStrategy, Component, OnDestroy, OnInit
+} from '@angular/core';
 import { TransactionActionType } from '@app/models';
 import { TransactionList } from '@app/models/transaction-list';
 import { PortfolioService, TransactionService } from '@app/services';
@@ -9,6 +11,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     templateUrl: './list.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListComponent implements OnInit, OnDestroy {
     public page: number = 1;

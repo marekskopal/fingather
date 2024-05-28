@@ -1,10 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Currency, PortfolioData } from '@app/models';
 import { RangeEnum } from '@app/models/enums/range-enum';
 import { CurrencyService, PortfolioDataService, PortfolioService } from '@app/services';
 import { first } from 'rxjs/operators';
 
-@Component({ selector: 'fingather-portfolio-total', templateUrl: 'portfolio-total.component.html' })
+@Component({
+    selector: 'fingather-portfolio-total',
+    templateUrl: 'portfolio-total.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+})
 export class PortfolioTotalComponent implements OnInit {
     public portfolioData: PortfolioData | null;
     public defaultCurrency: Currency;

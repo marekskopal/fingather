@@ -1,4 +1,5 @@
 import {
+    ChangeDetectionStrategy,
     Component, input, InputSignal, OnInit
 } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
@@ -11,7 +12,8 @@ import { NgxFileDropEntry } from 'ngx-file-drop';
 
 @Component({
     templateUrl: 'import.component.html',
-    selector: 'fingather-import'
+    selector: 'fingather-import',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImportComponent extends BaseForm implements OnInit {
     public brokerId: string;

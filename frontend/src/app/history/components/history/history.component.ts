@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Asset } from '@app/models';
 import { RangeEnum } from '@app/models/enums/range-enum';
 import { AssetService, PortfolioService } from '@app/services';
 
-@Component({ templateUrl: 'history.component.html' })
+@Component({
+    templateUrl: 'history.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+})
 export class HistoryComponent implements OnInit {
     public range: RangeEnum = RangeEnum.SevenDays;
     public assets: Asset[] = [];

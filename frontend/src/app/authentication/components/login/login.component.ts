@@ -1,11 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertService, CurrentUserService } from '@app/services';
 import { AuthenticationService } from '@app/services/authentication.service';
 import { BaseForm } from '@app/shared/components/form/base-form';
 
-@Component({ templateUrl: 'login.component.html' })
+@Component({
+    templateUrl: 'login.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+})
 export class LoginComponent extends BaseForm implements OnInit {
     public constructor(
         private readonly router: Router,

@@ -22,6 +22,7 @@
         "plugin:@angular-eslint/template/process-inline-templates"
       ],
       "rules": {
+        "@angular-eslint/prefer-on-push-component-change-detection": "error",
         "no-continue": "off",
         "no-return-assign": "off",
         "class-methods-use-this": "off",

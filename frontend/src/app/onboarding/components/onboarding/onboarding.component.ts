@@ -1,8 +1,11 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { OnboardingService } from '@app/services/onboarding.service';
 
-@Component({ templateUrl: 'onboarding.component.html' })
+@Component({
+    templateUrl: 'onboarding.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+})
 export class OnboardingComponent {
     public constructor(
         private readonly onboardingService: OnboardingService,

@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Currency, GroupWithGroupData } from '@app/models';
 import { CurrencyService, GroupWithGroupDataService, PortfolioService } from '@app/services';
 
-@Component({ templateUrl: 'dashboard.component.html' })
+@Component({
+    templateUrl: 'dashboard.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+})
 export class DashboardComponent implements OnInit {
     public groupsWithGroupData: GroupWithGroupData[] | null = null;
     public defaultCurrency: Currency;

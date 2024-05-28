@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { GroupWithGroupData } from '@app/models';
 import { GroupWithGroupDataService, PortfolioService } from '@app/services';
 import {
@@ -23,6 +23,7 @@ export type ChartOptions = {
 @Component({
     templateUrl: 'group-chart.component.html',
     selector: 'fingather-dashboard-group-chart',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupChartComponent implements OnInit {
     public chartOptions: ChartOptions;

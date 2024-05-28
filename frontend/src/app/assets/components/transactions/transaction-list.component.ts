@@ -1,4 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+    ChangeDetectionStrategy, Component, OnDestroy, OnInit
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Transaction, TransactionActionType } from '@app/models';
 import { PortfolioService, TransactionService } from '@app/services';
@@ -9,6 +11,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
     templateUrl: 'transaction-list.component.html',
     selector: 'fingather-transaction-list',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TransactionListComponent implements OnInit, OnDestroy {
     public transactions: Transaction[] | null = null;

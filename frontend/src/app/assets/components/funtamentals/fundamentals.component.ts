@@ -1,4 +1,5 @@
 import {
+    ChangeDetectionStrategy,
     Component, input, InputSignal, OnInit
 } from '@angular/core';
 import { TickerFundamental } from '@app/models/ticker-fundamental';
@@ -7,6 +8,7 @@ import { TickerFundamentalService } from '@app/services/ticker-fundamental.servi
 @Component({
     templateUrl: 'fundamentals.component.html',
     selector: 'fingather-ticker-fundamentals',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FundamentalsComponent implements OnInit {
     public tickerId: InputSignal<number> = input.required<number>();
