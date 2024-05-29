@@ -1,6 +1,6 @@
 import {
     ChangeDetectionStrategy,
-    Component, input, InputSignal, OnChanges, OnInit
+    Component, input, InputSignal, OnChanges, OnInit, signal, WritableSignal
 } from '@angular/core';
 import { PortfolioDataWithBenchmarkData } from '@app/models';
 import { RangeEnum } from '@app/models/enums/range-enum';
@@ -9,7 +9,6 @@ import {
     ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexGrid, ApexLegend, ApexStroke, ApexTheme,
     ApexTitleSubtitle, ApexXAxis, ApexYAxis
 } from 'ng-apexcharts';
-import { first } from 'rxjs/operators';
 
 export type ChartOptions = {
     series: ApexAxisChartSeries;
@@ -32,13 +31,13 @@ export type ChartOptions = {
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PortfolioValueChartComponent implements OnInit, OnChanges {
-    public range: InputSignal<RangeEnum> = input.required<RangeEnum>();
-    public benchmarkAssetId: InputSignal<number | null> = input<number | null>(null);
-    public height: InputSignal<string> = input<string>('auto');
-    public showLabels: InputSignal<boolean | null> = input<boolean | null>(null);
-    public title: InputSignal<string | null> = input<string | null>(null);
-    public chartOptions: ChartOptions;
-    public loading: boolean = true;
+    public readonly range: InputSignal<RangeEnum> = input.required<RangeEnum>();
+    public readonly benchmarkAssetId: InputSignal<number | null> = input<number | null>(null);
+    public readonly height: InputSignal<string> = input<string>('auto');
+    public readonly showLabels: InputSignal<boolean | null> = input<boolean | null>(null);
+    public readonly title: InputSignal<string | null> = input<string | null>(null);
+    protected chartOptions: ChartOptions;
+    protected readonly $loading: WritableSignal<boolean> = signal<boolean>(false);
 
     public constructor(
         private readonly portfolioDataService: PortfolioDataService,
@@ -63,22 +62,24 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
     }
 
     private async refreshChart(): Promise<void> {
-        this.loading = true;
+        this.$loading.set(true);
 
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
-        this.portfolioDataService.getPortfolioDataRange(portfolio.id, this.range(), this.benchmarkAssetId())
-            .pipe(first())
-            .subscribe((portfolioData: PortfolioDataWithBenchmarkData[]) => {
-                const chartMap = this.mapChart(portfolioData);
-                this.chartOptions.xaxis.categories = chartMap.categories;
-                this.chartOptions.series[0].data = chartMap.valueSeries;
-                this.chartOptions.series[1].data = chartMap.investedValueSeries;
-                if (chartMap.benchmarkSeries.length > 0) {
-                    this.chartOptions.series[2].data = chartMap.benchmarkSeries;
-                }
-                this.loading = false;
-            });
+        const portfolioData = await this.portfolioDataService.getPortfolioDataRange(
+            portfolio.id,
+            this.range(),
+            this.benchmarkAssetId()
+        );
+
+        const chartMap = this.mapChart(portfolioData);
+        this.chartOptions.xaxis.categories = chartMap.categories;
+        this.chartOptions.series[0].data = chartMap.valueSeries;
+        this.chartOptions.series[1].data = chartMap.investedValueSeries;
+        if (chartMap.benchmarkSeries.length > 0) {
+            this.chartOptions.series[2].data = chartMap.benchmarkSeries;
+        }
+        this.$loading.set(false);
     }
 
     private initializeChartOptions(): void {

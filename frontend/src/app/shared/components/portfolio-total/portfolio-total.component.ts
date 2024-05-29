@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+    ChangeDetectionStrategy, Component, OnInit, signal, WritableSignal
+} from '@angular/core';
 import { Currency, PortfolioData } from '@app/models';
 import { RangeEnum } from '@app/models/enums/range-enum';
 import { CurrencyService, PortfolioDataService, PortfolioService } from '@app/services';
-import { first } from 'rxjs/operators';
 
 @Component({
     selector: 'fingather-portfolio-total',
@@ -10,8 +11,8 @@ import { first } from 'rxjs/operators';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PortfolioTotalComponent implements OnInit {
-    public portfolioData: PortfolioData | null;
-    public defaultCurrency: Currency;
+    private readonly $portfolioData: WritableSignal<PortfolioData | null> = signal<PortfolioData | null>(null);
+    protected defaultCurrency: Currency;
 
     public constructor(
         private readonly portfolioDataService: PortfolioDataService,
@@ -29,16 +30,17 @@ export class PortfolioTotalComponent implements OnInit {
         });
     }
 
+    protected get portfolioData(): PortfolioData | null {
+        return this.$portfolioData();
+    }
+
     public async refreshPortfolioData(): Promise<void> {
-        this.portfolioData = null;
+        this.$portfolioData.set(null);
 
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
-        this.portfolioDataService.getPortfolioData(portfolio.id)
-            .pipe(first())
-            .subscribe((portfolioData) => {
-                this.portfolioData = portfolioData;
-            });
+        const portfolioData = await this.portfolioDataService.getPortfolioData(portfolio.id);
+        this.$portfolioData.set(portfolioData);
     }
 
     protected readonly PortfolioDataRangeEnum = RangeEnum;

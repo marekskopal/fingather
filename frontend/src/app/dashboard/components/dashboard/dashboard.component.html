@@ -19,7 +19,7 @@
     </div>
 
     <div class="col-lg-7">
-        @if (groupsWithGroupData !== null) {
+        @if ($groupsWithGroupData() !== null) {
             <div class="table-responsive">
                 <table class="table table-striped caption-top">
                     <caption>{{ 'app.dashboard.groupsAllocation.caption' | translate }}</caption>
@@ -35,7 +35,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @for (group of groupsWithGroupData; track group.id) {
+                        @for (group of $groupsWithGroupData(); track group.id) {
                             <tr>
                                 <td>{{group.name}}</td>
                                 <td><strong>{{group.percentage | number:'1.2-2'}}%</strong></td>
