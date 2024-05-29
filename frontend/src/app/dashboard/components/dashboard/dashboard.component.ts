@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+    ChangeDetectionStrategy, Component, OnInit, signal
+} from '@angular/core';
 import { Currency, GroupWithGroupData } from '@app/models';
 import { CurrencyService, GroupWithGroupDataService, PortfolioService } from '@app/services';
 
@@ -7,8 +9,8 @@ import { CurrencyService, GroupWithGroupDataService, PortfolioService } from '@a
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardComponent implements OnInit {
-    public groupsWithGroupData: GroupWithGroupData[] | null = null;
-    public defaultCurrency: Currency;
+    protected readonly $groupsWithGroupData = signal<GroupWithGroupData[] | null>(null);
+    protected defaultCurrency: Currency;
 
     public constructor(
         private readonly groupWithGroupDataService: GroupWithGroupDataService,
@@ -27,10 +29,11 @@ export class DashboardComponent implements OnInit {
     }
 
     public async refreshGroupWithGroupData(): Promise<void> {
-        this.groupsWithGroupData = null;
+        this.$groupsWithGroupData.set(null);
 
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
-        this.groupsWithGroupData = await this.groupWithGroupDataService.getGroupWithGroupData(portfolio.id);
+        const groupsWithGroupData = await this.groupWithGroupDataService.getGroupWithGroupData(portfolio.id);
+        this.$groupsWithGroupData.set(groupsWithGroupData);
     }
 }
