@@ -25,12 +25,12 @@ final readonly class CountryDto
 	/**
 	 * @param array{
 	 *     id: int,
-	 *     iso_code: string,
-	 *     iso_code3: string,
+	 *     isoCode: string,
+	 *     isoCode3: string,
 	 *     name: string,
 	 * } $data */
 	public static function fromArray(array $data): self
 	{
-		return new self(id: $data['id'], isoCode: $data['iso_code'], isoCode3: $data['iso_code3'], name: $data['name']);
+		return new self(id: $data['id'], isoCode: $data['isoCode'], isoCode3: $data['isoCode3'], name: $data['name']);
 	}
 }

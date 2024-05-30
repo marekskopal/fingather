@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit, signal} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AssetWithProperties, Currency } from '@app/models';
 import { AssetService, CurrencyService } from '@app/services';
@@ -8,7 +8,7 @@ import { AssetService, CurrencyService } from '@app/services';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DetailComponent implements OnInit {
-    protected asset: AssetWithProperties | null = null;
+    private $asset = signal<AssetWithProperties | null>(null);
     protected defaultCurrency: Currency;
     private id: number;
 
@@ -21,7 +21,12 @@ export class DetailComponent implements OnInit {
     public async ngOnInit(): Promise<void> {
         this.id = this.route.snapshot.params['id'];
 
-        this.asset = await this.assetService.getAsset(this.id);
+        this.$asset.set(await this.assetService.getAsset(this.id));
         this.defaultCurrency = await this.currencyService.getDefaultCurrency();
+    }
+
+    protected get asset(): AssetWithProperties | null
+    {
+        return this.$asset();
     }
 }

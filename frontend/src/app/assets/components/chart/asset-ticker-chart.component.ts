@@ -1,6 +1,6 @@
 import {
     ChangeDetectionStrategy,
-    Component, input, InputSignal, OnInit,
+    Component, input, InputSignal, OnInit, signal,
 } from '@angular/core';
 import { TickerData } from '@app/models';
 import { AssetService, TickerDataService } from '@app/services';
@@ -35,7 +35,7 @@ export class AssetTickerChartComponent implements OnInit {
     public assetId: InputSignal<number> = input.required<number>();
     public assetTickerId: InputSignal<number> = input.required<number>();
     public chartOptions: ChartOptions;
-    public loading: boolean = true;
+    protected $loading = signal<boolean>(true);
 
     public constructor(
         private readonly tickerDataService: TickerDataService,
@@ -50,7 +50,7 @@ export class AssetTickerChartComponent implements OnInit {
     }
 
     private async refreshChart(): Promise<void> {
-        this.loading = true;
+        this.$loading.set(true);
 
         const assetTickerDatas = await this.tickerDataService.getTickerDatas(this.assetTickerId());
 
@@ -66,7 +66,7 @@ export class AssetTickerChartComponent implements OnInit {
         // @ts-expect-error yaxis is always an array
         this.chartOptions.annotations.yaxis[0].label.text = `Average Buy Price - ${asset.averagePrice}`;
 
-        this.loading = false;
+        this.$loading.set(false);
     }
 
     private initializeChartOptions(): void {

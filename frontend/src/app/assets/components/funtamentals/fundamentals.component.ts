@@ -1,6 +1,6 @@
 import {
     ChangeDetectionStrategy,
-    Component, input, InputSignal, OnInit
+    Component, input, InputSignal, OnInit, signal
 } from '@angular/core';
 import { TickerFundamental } from '@app/models/ticker-fundamental';
 import { TickerFundamentalService } from '@app/services/ticker-fundamental.service';
@@ -13,7 +13,7 @@ import { TickerFundamentalService } from '@app/services/ticker-fundamental.servi
 export class FundamentalsComponent implements OnInit {
     public tickerId: InputSignal<number> = input.required<number>();
 
-    public tickerFundamental: TickerFundamental | null = null;
+    protected $tickerFundamental = signal<TickerFundamental | null>(null);
 
     public constructor(
         private readonly tickerFundamentalService: TickerFundamentalService,
@@ -21,6 +21,11 @@ export class FundamentalsComponent implements OnInit {
     }
 
     public async ngOnInit(): Promise<void> {
-        this.tickerFundamental = await this.tickerFundamentalService.getTickerFundamental(this.tickerId());
+        const tickerFundamental = await this.tickerFundamentalService.getTickerFundamental(this.tickerId());
+        this.$tickerFundamental.set(tickerFundamental);
+    }
+
+    protected get tickerFundamental(): TickerFundamental | null {
+        return this.$tickerFundamental();
     }
 }

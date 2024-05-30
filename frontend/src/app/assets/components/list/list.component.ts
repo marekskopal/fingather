@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy, Component, OnDestroy, OnInit
+    ChangeDetectionStrategy, Component, OnDestroy, OnInit, signal
 } from '@angular/core';
 import { AddAssetComponent } from '@app/assets/components/add-asset/add-asset.component';
 import {
@@ -16,17 +16,15 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListComponent implements OnInit, OnDestroy {
-    public assetsWithProperties: AssetsWithProperties | null = null;
-    public openedGroupedAssets: GroupWithGroupData[] | null = null;
-    public closedAssets: Asset[] | null = null;
-    public watchedAssets: Asset[] | null = null;
+    private readonly $assetsWithProperties = signal<AssetsWithProperties | null>(null);
+    private readonly $openedGroupedAssets = signal<GroupWithGroupData[] | null>(null);
 
-    public defaultCurrency: Currency;
+    protected defaultCurrency: Currency;
 
-    public activeTab = 'open-positions';
+    protected activeTab = 'open-positions';
 
-    public withGroups: boolean = false;
-    public showPerAnnum: boolean = false;
+    private readonly $withGroups = signal<boolean>(false);
+    protected readonly $showPerAnnum= signal<boolean>(false);
 
     protected readonly AssetsOrder = AssetsOrder;
     public openedAssetsOrderBy: AssetsOrder = AssetsOrder.TickerName;
@@ -49,23 +47,33 @@ export class ListComponent implements OnInit, OnDestroy {
         });
     }
 
+    protected get assetsWithProperties(): AssetsWithProperties | null {
+        return this.$assetsWithProperties();
+    }
+
+    protected get openedGroupedAssets(): GroupWithGroupData[] | null {
+        return this.$openedGroupedAssets();
+    }
+
     private async refreshOpenedAssets(): Promise<void> {
-        this.assetsWithProperties = null;
-        this.openedGroupedAssets = null;
+        this.$assetsWithProperties.set(null);
+        this.$openedGroupedAssets.set(null);
 
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
-        if (this.withGroups) {
-            this.openedGroupedAssets = await this.groupWithGroupDataService.getGroupWithGroupData(
+        if (this.$withGroups()) {
+            const openedGroupedAssets = await this.groupWithGroupDataService.getGroupWithGroupData(
                 portfolio.id,
                 this.openedAssetsOrderBy,
             );
+            this.$openedGroupedAssets.set(openedGroupedAssets);
         }
 
-        this.assetsWithProperties = await this.assetService.getAssetsWithProperties(
+        const assetsWithProperties = await this.assetService.getAssetsWithProperties(
             portfolio.id,
             this.openedAssetsOrderBy,
         );
+        this.$assetsWithProperties.set(assetsWithProperties);
     }
 
     public ngOnDestroy(): void {
@@ -77,15 +85,15 @@ export class ListComponent implements OnInit, OnDestroy {
     }
 
     public changeWithGroups(): void {
-        this.withGroups = !this.withGroups;
-        this.assetsWithProperties = null;
-        this.openedGroupedAssets = null;
+        this.$withGroups.set(!this.$withGroups());
+        this.$assetsWithProperties.set(null);
+        this.$openedGroupedAssets.set(null);
 
         this.refreshOpenedAssets();
     }
 
     public changeShowPerAnnum(): void {
-        this.showPerAnnum = !this.showPerAnnum;
+        this.$showPerAnnum.set(!this.$showPerAnnum());
     }
 
     public changeOpenedAssetsOrderBy(orderBy: AssetsOrder): void {

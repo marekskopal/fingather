@@ -115,7 +115,7 @@
                                     <td class="text-end {{asset.gain > 0 ? 'green' : (asset.gain < 0 ? 'red' : '')}}">
                                         <div class="small">{{asset.gainDefaultCurrency | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
                                         <div>
-                                            @if (showPerAnnum) {
+                                            @if ($showPerAnnum()) {
                                                 {{asset.gainPercentagePerAnnum}}%&nbsp;p.a.
                                             } @else {
                                                 {{asset.gainPercentage}}%
@@ -125,7 +125,7 @@
                                     <td class="text-end {{asset.dividendGain > 0 ? 'green' : (asset.dividendGain < 0 ? 'red' : '')}}">
                                         <div class="small">{{asset.dividendGainDefaultCurrency | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
                                         <div>
-                                            @if (showPerAnnum) {
+                                            @if ($showPerAnnum()) {
                                                 {{asset.dividendGainPercentagePerAnnum}}%&nbsp;p.a.
                                             } @else {
                                                 {{asset.dividendGainPercentage}}%
@@ -135,7 +135,7 @@
                                     <td class="text-end {{asset.fxImpact > 0 ? 'green' : (asset.fxImpact < 0 ? 'red' : '')}}">
                                         <div class="small">{{asset.fxImpact | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
                                         <div>
-                                            @if (showPerAnnum) {
+                                            @if ($showPerAnnum()) {
                                                 {{asset.fxImpactPercentagePerAnnum}}%&nbsp;p.a.
                                             } @else {
                                                 {{asset.fxImpactPercentage}}%
@@ -145,7 +145,7 @@
                                     <td class="text-end {{asset.return > 0 ? 'green' : (asset.return < 0 ? 'red' : '')}}">
                                         <div class="small"><strong>{{asset.return | number:'1.2-2' | currency: defaultCurrency.id | async}}</strong></div>
                                         <div>
-                                            @if (showPerAnnum) {
+                                            @if ($showPerAnnum()) {
                                                 <strong>{{asset.returnPercentagePerAnnum}}%&nbsp;p.a.</strong>
                                             } @else {
                                                 <strong>{{asset.returnPercentage}}%</strong>
@@ -161,7 +161,7 @@
                                     <td class="text-end {{group.groupData.gain > 0 ? 'green' : (group.groupData.gain < 0 ? 'red' : '')}}">
                                         <div class="small">{{group.groupData.gain | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
                                         <div>
-                                            @if (showPerAnnum) {
+                                            @if ($showPerAnnum()) {
                                                 {{group.groupData.gainPercentagePerAnnum}}%&nbsp;p.a.
                                             } @else {
                                                 {{group.groupData.gainPercentage}}%
@@ -171,7 +171,7 @@
                                     <td class="text-end {{group.groupData.dividendGain > 0 ? 'green' : (group.groupData.dividendGain < 0 ? 'red' : '')}}">
                                         <div class="small">{{group.groupData.dividendGain | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
                                         <div>
-                                            @if (showPerAnnum) {
+                                            @if ($showPerAnnum()) {
                                                 {{group.groupData.dividendGainPercentagePerAnnum}}%&nbsp;p.a.
                                             } @else {
                                                 {{group.groupData.dividendGainPercentage}}%
@@ -181,7 +181,7 @@
                                     <td class="text-end {{group.groupData.fxImpact > 0 ? 'green' : (group.groupData.fxImpact < 0 ? 'red' : '')}}">
                                         <div class="small">{{group.groupData.fxImpact | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
                                         <div>
-                                            @if (showPerAnnum) {
+                                            @if ($showPerAnnum()) {
                                                 {{group.groupData.fxImpactPercentagePerAnnum}}%&nbsp;p.a.
                                             } @else {
                                                 {{group.groupData.fxImpactPercentage}}%
@@ -191,7 +191,7 @@
                                     <td class="text-end {{group.groupData.return > 0 ? 'green' : (group.groupData.return < 0 ? 'red' : '')}}">
                                         <div class="small"><strong>{{group.groupData.return | number:'1.2-2' | currency: defaultCurrency.id | async}}</strong></div>
                                         <div>
-                                            @if (showPerAnnum) {
+                                            @if ($showPerAnnum()) {
                                                 <strong>{{group.groupData.returnPercentagePerAnnum}}%&nbsp;p.a.</strong>
                                             } @else {
                                                 <strong>{{group.groupData.returnPercentage}}%</strong>
@@ -294,7 +294,7 @@
                                 <td class="text-end {{asset.gain > 0 ? 'green' : (asset.gain < 0 ? 'red' : '')}}">
                                     <div class="small">{{asset.gainDefaultCurrency | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
                                     <div>
-                                        @if (showPerAnnum) {
+                                        @if ($showPerAnnum()) {
                                             {{asset.gainPercentagePerAnnum}}%&nbsp;p.a.
                                         } @else {
                                             {{asset.gainPercentage}}%
@@ -304,7 +304,7 @@
                                 <td class="text-end {{asset.dividendGain > 0 ? 'green' : (asset.dividendGain < 0 ? 'red' : '')}}">
                                     <div class="small">{{asset.dividendGainDefaultCurrency | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
                                     <div>
-                                        @if (showPerAnnum) {
+                                        @if ($showPerAnnum()) {
                                             {{asset.dividendGainPercentagePerAnnum}}%&nbsp;p.a.
                                         } @else {
                                             {{asset.dividendGainPercentage}}%
@@ -314,7 +314,7 @@
                                 <td class="text-end {{asset.fxImpact > 0 ? 'green' : (asset.fxImpact < 0 ? 'red' : '')}}">
                                     <div class="small">{{asset.fxImpact | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
                                     <div>
-                                        @if (showPerAnnum) {
+                                        @if ($showPerAnnum()) {
                                             {{asset.fxImpactPercentagePerAnnum}}%&nbsp;p.a.
                                         } @else {
                                             {{asset.fxImpactPercentage}}%
@@ -324,7 +324,7 @@
                                 <td class="text-end {{asset.return > 0 ? 'green' : (asset.return < 0 ? 'red' : '')}}">
                                     <div class="small"><strong>{{asset.return | number:'1.2-2' | currency: defaultCurrency.id | async}}</strong></div>
                                     <div>
-                                        @if (showPerAnnum) {
+                                        @if ($showPerAnnum()) {
                                             <strong>{{asset.returnPercentagePerAnnum}}%&nbsp;p.a.</strong>
                                         } @else {
                                             <strong>{{asset.returnPercentage}}%</strong>
