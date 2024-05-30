@@ -1,4 +1,6 @@
-import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
+import {
+    HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi
+} from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -24,10 +26,14 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
 }
 
 @NgModule({
+    declarations: [
+        AppComponent,
+        AlertComponent,
+    ],
+    bootstrap: [AppComponent],
     imports: [
         BrowserModule,
         ReactiveFormsModule,
-        HttpClientModule,
         AppRoutingModule,
         NgbModule,
         FaIconComponent,
@@ -39,15 +45,11 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
             }
         })
     ],
-    declarations: [
-        AppComponent,
-        AlertComponent,
-    ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    ],
-    bootstrap: [AppComponent]
+        provideHttpClient(withInterceptorsFromDi()),
+    ]
 })
 export class AppModule {
     public constructor(

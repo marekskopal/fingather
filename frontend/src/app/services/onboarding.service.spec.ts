@@ -1,4 +1,5 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { OkResponse } from '@app/models/ok-response';
 import { environment } from '@environments/environment';
@@ -11,8 +12,8 @@ describe('OnboardingService', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [HttpClientTestingModule],
-            providers: [OnboardingService]
+            imports: [],
+            providers: [OnboardingService, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
         });
 
         service = TestBed.inject(OnboardingService);
