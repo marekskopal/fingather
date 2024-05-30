@@ -1,6 +1,6 @@
 import {
     ChangeDetectionStrategy,
-    Component, input, InputSignal, OnInit,
+    Component, input, InputSignal, OnInit, signal,
 } from '@angular/core';
 import { AssetData } from '@app/models';
 import { RangeEnum } from '@app/models/enums/range-enum';
@@ -40,7 +40,7 @@ export class AssetValueChartComponent implements OnInit {
     public height: InputSignal<string> = input<string>('auto');
 
     public chartOptions: ChartOptions;
-    public loading: boolean = true;
+    protected $loading = signal<boolean>(true);
 
     public constructor(
         private readonly assetDataService: AssetDataService,
@@ -54,7 +54,7 @@ export class AssetValueChartComponent implements OnInit {
     }
 
     private async refreshChart(): Promise<void> {
-        this.loading = true;
+        this.$loading.set(true);
 
         const assetDatas = await this.assetDataService.getAssetDataRange(this.assetId(), RangeEnum.All);
 
@@ -64,7 +64,7 @@ export class AssetValueChartComponent implements OnInit {
         this.chartOptions.series[0].data = mappedAssetData.gainSeries;
         this.chartOptions.series[1].data = mappedAssetData.transactionValueSeries;
 
-        this.loading = false;
+        this.$loading.set(false);
     }
 
     private initializeChartOptions(): void {

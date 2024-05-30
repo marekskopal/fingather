@@ -14,23 +14,28 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let dividend of dividends">
-            <td>{{dividend.actionCreated | date: 'y-MM-dd HH:mm'}}</td>
-            <td style="white-space: nowrap">
-                <a (click)="editDividend(dividend.id)" class="btn btn-sm btn-primary mr-1" tabindex="0">{{ 'app.common.edit' | translate }}</a>
-                <button (click)="deleteDividend(dividend.id)" class="btn btn-sm btn-danger btn-delete-user" [disabled]="dividend.isDeleting">
-                    @if (dividend.isDeleting) {
-                        <span class="spinner-border spinner-border-sm"></span>
-                    } @else {
-                        <span>{{ 'app.common.delete' | translate }}</span>
-                    }
-                </button>
-            </td>
-        </tr>
-        <tr *ngIf="dividends === null">
-            <td colspan="2" class="text-center">
-                <span class="spinner-border spinner-border-lg align-center"></span>
-            </td>
-        </tr>
+        @if (dividends !== null) {
+            @for (dividend of dividends; track dividend.id) {
+                <tr>
+                    <td>{{dividend.actionCreated | date: 'y-MM-dd HH:mm'}}</td>
+                    <td style="white-space: nowrap">
+                        <a (click)="editDividend(dividend.id)" class="btn btn-sm btn-primary mr-1" tabindex="0">{{ 'app.common.edit' | translate }}</a>
+                        <button (click)="deleteDividend(dividend.id)" class="btn btn-sm btn-danger btn-delete-user" [disabled]="dividend.isDeleting">
+                            @if (dividend.isDeleting) {
+                                <span class="spinner-border spinner-border-sm"></span>
+                            } @else {
+                                <span>{{ 'app.common.delete' | translate }}</span>
+                            }
+                        </button>
+                    </td>
+                </tr>
+            }
+        } @else {
+            <tr>
+                <td colspan="2" class="text-center">
+                    <span class="spinner-border spinner-border-lg align-center"></span>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

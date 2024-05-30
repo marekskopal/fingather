@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy, Component, OnDestroy, OnInit
+    ChangeDetectionStrategy, Component, OnDestroy, OnInit, signal
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Transaction, TransactionActionType } from '@app/models';
@@ -14,7 +14,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DividendListComponent implements OnInit, OnDestroy {
-    public dividends: Transaction[] | null = null;
+    private $dividends = signal<Transaction[] | null>(null);
     public assetId: number;
 
     public constructor(
@@ -48,21 +48,25 @@ export class DividendListComponent implements OnInit, OnDestroy {
             [TransactionActionType.Dividend]
         );
 
-        this.dividends = transactions.transactions;
+        this.$dividends.set(transactions.transactions);
     }
 
-    public addDividend(): void {
+    protected get dividends(): Transaction[] | null {
+        return this.$dividends();
+    }
+
+    protected addDividend(): void {
         const dividendDialogComponent = this.modalService.open(DividendDialogComponent);
         dividendDialogComponent.componentInstance.assetId = this.assetId;
     }
 
-    public editDividend(id: number): void {
+    protected editDividend(id: number): void {
         const dividendDialogComponent = this.modalService.open(DividendDialogComponent);
         dividendDialogComponent.componentInstance.id = id;
     }
 
-    public async deleteDividend(id: number): Promise<void> {
-        const transaction = this.dividends?.find((x) => x.id === id);
+    protected async deleteDividend(id: number): Promise<void> {
+        const transaction = this.$dividends()?.find((x) => x.id === id);
         if (transaction === undefined) {
             return;
         }

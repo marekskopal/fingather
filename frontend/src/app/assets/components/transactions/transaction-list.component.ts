@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy, Component, OnDestroy, OnInit
+    ChangeDetectionStrategy, Component, OnDestroy, OnInit, signal
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Transaction, TransactionActionType } from '@app/models';
@@ -14,7 +14,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TransactionListComponent implements OnInit, OnDestroy {
-    public transactions: Transaction[] | null = null;
+    private $transactions = signal<Transaction[] | null>(null);
     public assetId: number;
 
     public constructor(
@@ -47,7 +47,11 @@ export class TransactionListComponent implements OnInit, OnDestroy {
             TransactionActionType.Sell
         ]);
 
-        this.transactions = transactions.transactions;
+        this.$transactions.set(transactions.transactions);
+    }
+
+    protected get transactions(): Transaction[] | null {
+        return this.$transactions();
     }
 
     public addTransaction(assetId: number): void {
@@ -61,7 +65,7 @@ export class TransactionListComponent implements OnInit, OnDestroy {
     }
 
     public async deleteTransaction(id: number): Promise<void> {
-        const transaction = this.transactions?.find((x) => x.id === id);
+        const transaction = this.$transactions()?.find((x) => x.id === id);
         if (transaction === undefined) {
             return;
         }
