@@ -4,7 +4,6 @@ import {
 import { Portfolio } from '@app/models';
 import { AddEditComponent } from '@app/portfolios/components/add-edit/add-edit.component';
 import { PortfolioService } from '@app/services';
-import { ConfirmDialogService } from '@app/services/confirm-dialog.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -61,9 +60,8 @@ export class ListComponent implements OnInit, OnDestroy {
         }
 
         await this.portfolioService.deletePortfolio(id);
-        this.$portfolios.update((portfolios) => portfolios !== null
+        this.$portfolios.update((portfolios) => (portfolios !== null
             ? portfolios.filter((x) => x.id !== id)
-            : null
-        );
+            : null));
     }
 }

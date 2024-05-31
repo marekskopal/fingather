@@ -1,4 +1,6 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, signal} from '@angular/core';
+import {
+    ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, signal
+} from '@angular/core';
 import { Currency, YearCalculatedData } from '@app/models';
 import { ModeEnum } from '@app/overviews/components/list/enum/mode-enum';
 import { CurrencyService, OverviewService, PortfolioService } from '@app/services';

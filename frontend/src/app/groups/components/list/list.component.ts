@@ -4,7 +4,6 @@ import {
 import { AddEditComponent } from '@app/groups/components/add-edit/add-edit.component';
 import { Group } from '@app/models';
 import { GroupService, PortfolioService } from '@app/services';
-import { ConfirmDialogService } from '@app/services/confirm-dialog.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -69,9 +68,8 @@ export class ListComponent implements OnInit, OnDestroy {
 
         await this.groupService.deleteGroup(id);
 
-        this.$groups.update((groups) => groups !== null
+        this.$groups.update((groups) => (groups !== null
             ? groups.filter((x) => x.id !== id)
-            : null
-        );
+            : null));
     }
 }

@@ -1,8 +1,8 @@
 import {
     ChangeDetectionStrategy, Component, inject, input, output, signal,
 } from '@angular/core';
-import {ConfirmDialogService} from "@app/services/confirm-dialog.service";
-import {AlertService} from "@app/services";
+import { AlertService } from '@app/services';
+import { ConfirmDialogService } from '@app/services/confirm-dialog.service';
 
 @Component({
     selector: 'fingather-delete-button',
@@ -39,8 +39,9 @@ export class DeleteButtonComponent {
                 return;
             }
 
-            await this.onConfirm$.emit()
+            await this.onConfirm$.emit();
         } catch (error) {
+            // eslint-disable-next-line no-console
             console.error(error);
             if (error instanceof Error) {
                 this.alertService.error(error.message);

@@ -4,7 +4,6 @@ import {
 import { TransactionActionType } from '@app/models';
 import { TransactionList } from '@app/models/transaction-list';
 import { PortfolioService, TransactionService } from '@app/services';
-import { ConfirmDialogService } from '@app/services/confirm-dialog.service';
 import { DividendDialogComponent } from '@app/shared/components/dividend-dialog/dividend-dialog.component';
 import { TransactionDialogComponent } from '@app/shared/components/transaction-dialog/transaction-dialog.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';

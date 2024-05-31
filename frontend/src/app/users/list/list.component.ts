@@ -3,7 +3,6 @@ import {
 } from '@angular/core';
 import { User, UserWithStatistic } from '@app/models';
 import { CurrentUserService, UserService } from '@app/services';
-import { ConfirmDialogService } from '@app/services/confirm-dialog.service';
 import { AddEditComponent } from '@app/users/add-edit/add-edit.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -63,7 +62,6 @@ export class ListComponent implements OnInit, OnDestroy {
 
         await this.userService.deleteUser(id);
 
-        this.$users.update((users) =>
-            users.filter((x) => x.id !== id));
+        this.$users.update((users) => users.filter((x) => x.id !== id));
     }
 }

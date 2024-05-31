@@ -19,16 +19,14 @@ export class PaginationComponent {
     });
 
     protected readonly $page = signal<number>(1);
-    protected readonly $pagesCount = computed<number>(() => {
-        return Math.ceil(this.$itemsSize() / this.$pageSize());
-    })
+    protected readonly $pagesCount = computed<number>(() => Math.ceil(this.$itemsSize() / this.$pageSize()));
 
     protected readonly $pages = computed<number[]>(() => {
         const pages = [];
 
         const pagesCount = this.$pagesCount();
 
-        for (let i = 1; i <= pagesCount; i++) {
+        for (let i = 1; i <= pagesCount; i + 1) {
             pages.push(i);
         }
 
