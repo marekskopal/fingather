@@ -22,7 +22,6 @@ export class ListComponent implements OnInit, OnDestroy {
         private readonly transactionService: TransactionService,
         private readonly portfolioService: PortfolioService,
         private readonly modalService: NgbModal,
-        private readonly confirmDialogService: ConfirmDialogService,
         private readonly changeDetectorRef: ChangeDetectorRef,
     ) {
     }
@@ -86,21 +85,6 @@ export class ListComponent implements OnInit, OnDestroy {
     protected async deleteTransaction(id: number): Promise<void> {
         const transaction = this.transactionList?.transactions?.find((x) => x.id === id);
         if (transaction === undefined) {
-            return;
-        }
-        transaction.isDeleting = true;
-
-        try {
-            const confirmed = await this.confirmDialogService.confirm(
-                'Delete transaction',
-                'Are you sure to delete transaction?'
-            );
-            if (!confirmed) {
-                transaction.isDeleting = false;
-                return;
-            }
-        } catch (err) {
-            transaction.isDeleting = false;
             return;
         }
 

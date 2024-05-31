@@ -22,6 +22,8 @@ import { NgxFileDropModule } from 'ngx-file-drop';
 
 import { PortfolioTotalComponent } from './components/portfolio-total/portfolio-total.component';
 import {PaginationComponent} from "@app/shared/components/pagination/pagination.component";
+import {DeleteButtonComponent} from "@app/shared/components/delete-button/delete-button.component";
+import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 
 @NgModule({
     imports: [
@@ -30,6 +32,7 @@ import {PaginationComponent} from "@app/shared/components/pagination/pagination.
         TranslateModule,
         NgApexchartsModule,
         NgxFileDropModule,
+        FaIconComponent,
     ],
     declarations: [
         PortfolioTotalComponent,
@@ -45,6 +48,7 @@ import {PaginationComponent} from "@app/shared/components/pagination/pagination.
         ImportComponent,
         ImportPrepareComponent,
         PaginationComponent,
+        DeleteButtonComponent,
     ],
     exports: [
         PortfolioTotalComponent,
@@ -58,6 +62,7 @@ import {PaginationComponent} from "@app/shared/components/pagination/pagination.
         ImportComponent,
         ImportPrepareComponent,
         PaginationComponent,
+        DeleteButtonComponent,
     ]
 })
 export class SharedModule { }

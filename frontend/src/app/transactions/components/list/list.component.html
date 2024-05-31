@@ -59,13 +59,11 @@
                 </td>
                 <td class="align-middle text-end" style="white-space: nowrap">
                     <a (click)="editTransaction(transaction.id)" class="btn btn-sm btn-primary me-2" tabindex="0"><fa-icon icon="edit"></fa-icon> {{ 'app.common.edit' | translate }}</a>
-                    <button (click)="deleteTransaction(transaction.id)" class="btn btn-sm btn-danger btn-delete-user" [disabled]="transaction.isDeleting">
-                        @if (transaction.isDeleting) {
-                            <span class="spinner-border spinner-border-sm"></span>
-                        } @else {
-                            <span><fa-icon icon="trash"></fa-icon> {{ 'app.common.delete' | translate }}</span>
-                        }
-                    </button>
+                    <fingather-delete-button
+                        (onConfirm)="deleteTransaction(transaction.id)"
+                        [title]="'Delete transaction'"
+                        [message]="'Are you sure you want to delete transaction?'"
+                    />
                 </td>
             </tr>
             <tr *ngIf="transactionList === null">

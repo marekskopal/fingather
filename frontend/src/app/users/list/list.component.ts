@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy, Component, OnDestroy, OnInit
+    ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, signal
 } from '@angular/core';
 import { User, UserWithStatistic } from '@app/models';
 import { CurrentUserService, UserService } from '@app/services';
@@ -12,14 +12,14 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListComponent implements OnInit, OnDestroy {
-    public users: UserWithStatistic[] = [];
-    public currentUser: User;
+    private readonly $users = signal<UserWithStatistic[]>([]);
+    protected currentUser: User;
 
     public constructor(
         private readonly userService: UserService,
         private readonly currentUserService: CurrentUserService,
         private readonly modalService: NgbModal,
-        private readonly confirmDialogService: ConfirmDialogService,
+        private readonly changeDetectorRef: ChangeDetectorRef,
     ) {}
 
     public async ngOnInit(): Promise<void> {
@@ -29,6 +29,7 @@ export class ListComponent implements OnInit, OnDestroy {
 
         this.userService.subscribe(() => {
             this.refreshUsers();
+            this.changeDetectorRef.detectChanges();
         });
     }
 
@@ -36,42 +37,33 @@ export class ListComponent implements OnInit, OnDestroy {
         this.userService.unsubscribe();
     }
 
-    public async refreshUsers(): Promise<void> {
-        this.users = await this.userService.getUsers();
+    protected get users(): UserWithStatistic[] {
+        return this.$users();
     }
 
-    public addUser(): void {
+    private async refreshUsers(): Promise<void> {
+        const users = await this.userService.getUsers();
+        this.$users.set(users);
+    }
+
+    protected addUser(): void {
         this.modalService.open(AddEditComponent);
     }
 
-    public editUser(id: number): void {
+    protected editUser(id: number): void {
         const addEditComponent = this.modalService.open(AddEditComponent);
         addEditComponent.componentInstance.id = id;
     }
 
-    public async deleteUser(id: number): Promise<void> {
-        const user = this.users.find((x) => x.id === id);
+    protected async deleteUser(id: number): Promise<void> {
+        const user = this.$users().find((x) => x.id === id);
         if (user === undefined) {
-            return;
-        }
-        user.isDeleting = true;
-
-        try {
-            const confirmed = await this.confirmDialogService.confirm(
-                `Delete user ${user.name}`,
-                `Are you sure to delete user ${user.name}?`
-            );
-            if (!confirmed) {
-                user.isDeleting = false;
-                return;
-            }
-        } catch (err) {
-            user.isDeleting = false;
             return;
         }
 
         await this.userService.deleteUser(id);
 
-        this.users = this.users.filter((x) => x.id !== id);
+        this.$users.update((users) =>
+            users.filter((x) => x.id !== id));
     }
 }
