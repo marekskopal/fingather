@@ -26,7 +26,7 @@ export class ListComponent implements OnInit {
 
         this.refreshYearCalculatedData();
 
-        this.portfolioService.eventEmitter.subscribe(() => {
+        this.portfolioService.subscribe(() => {
             this.refreshYearCalculatedData();
         });
     }

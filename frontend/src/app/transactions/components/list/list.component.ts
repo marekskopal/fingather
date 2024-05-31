@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy, Component, OnDestroy, OnInit, signal
+    ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, signal
 } from '@angular/core';
 import { TransactionActionType } from '@app/models';
 import { TransactionList } from '@app/models/transaction-list';
@@ -23,23 +23,26 @@ export class ListComponent implements OnInit, OnDestroy {
         private readonly portfolioService: PortfolioService,
         private readonly modalService: NgbModal,
         private readonly confirmDialogService: ConfirmDialogService,
+        private readonly changeDetectorRef: ChangeDetectorRef,
     ) {
     }
 
     public ngOnInit(): void {
         this.refreshTransactions();
 
-        this.transactionService.eventEmitter.subscribe(() => {
+        this.transactionService.subscribe(() => {
             this.refreshTransactions();
+            this.changeDetectorRef.detectChanges();
         });
 
-        this.portfolioService.eventEmitter.subscribe(() => {
+        this.portfolioService.subscribe(() => {
             this.refreshTransactions();
+            this.changeDetectorRef.detectChanges();
         });
     }
 
     public ngOnDestroy(): void {
-        this.transactionService.eventEmitter.unsubscribe();
+        this.transactionService.unsubscribe();
     }
 
     protected async changePage(page: number): Promise<void> {

@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy, Component, OnDestroy, OnInit, signal
+    ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, signal
 } from '@angular/core';
 import { AddAssetComponent } from '@app/assets/components/add-asset/add-asset.component';
 import {
@@ -35,6 +35,7 @@ export class ListComponent implements OnInit, OnDestroy {
         private readonly currencyService: CurrencyService,
         private readonly groupWithGroupDataService: GroupWithGroupDataService,
         private readonly portfolioService: PortfolioService,
+        private readonly changeDetectorRef: ChangeDetectorRef,
     ) {}
 
     public async ngOnInit(): Promise<void> {
@@ -42,8 +43,9 @@ export class ListComponent implements OnInit, OnDestroy {
 
         this.refreshOpenedAssets();
 
-        this.portfolioService.eventEmitter.subscribe(() => {
+        this.portfolioService.subscribe(() => {
             this.refreshOpenedAssets();
+            this.changeDetectorRef.detectChanges();
         });
     }
 
@@ -77,7 +79,7 @@ export class ListComponent implements OnInit, OnDestroy {
     }
 
     public ngOnDestroy(): void {
-        this.assetService.eventEmitter.unsubscribe();
+        this.assetService.unsubscribe();
     }
 
     public addAsset(): void {

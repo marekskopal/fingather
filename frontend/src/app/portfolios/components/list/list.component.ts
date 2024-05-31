@@ -26,13 +26,13 @@ export class ListComponent implements OnInit, OnDestroy {
 
         this.refreshPortfolios();
 
-        this.portfolioService.eventEmitter.subscribe(() => {
+        this.portfolioService.subscribe(() => {
             this.refreshPortfolios();
         });
     }
 
     public ngOnDestroy(): void {
-        this.portfolioService.eventEmitter.unsubscribe();
+        this.portfolioService.unsubscribe();
     }
 
     public async refreshPortfolios(): Promise<void> {

@@ -25,7 +25,7 @@ export class PortfolioTotalComponent implements OnInit {
 
         this.refreshPortfolioData();
 
-        this.portfolioService.eventEmitter.subscribe(() => {
+        this.portfolioService.subscribe(() => {
             this.refreshPortfolioData();
         });
     }

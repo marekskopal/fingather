@@ -30,13 +30,13 @@ export class DividendListComponent implements OnInit, OnDestroy {
 
         this.refreshTransactions();
 
-        this.transactionService.eventEmitter.subscribe(() => {
+        this.transactionService.subscribe(() => {
             this.refreshTransactions();
         });
     }
 
     public ngOnDestroy(): void {
-        this.transactionService.eventEmitter.unsubscribe();
+        this.transactionService.unsubscribe();
     }
 
     public async refreshTransactions(): Promise<void> {
