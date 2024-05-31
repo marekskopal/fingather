@@ -26,7 +26,7 @@ export class PaginationComponent {
 
         const pagesCount = this.$pagesCount();
 
-        for (let i = 1; i <= pagesCount; i + 1) {
+        for (let i = 1; i <= pagesCount; i += 1) {
             pages.push(i);
         }
 
