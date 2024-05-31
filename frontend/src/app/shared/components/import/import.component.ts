@@ -40,7 +40,7 @@ export class ImportComponent extends BaseForm implements OnInit {
     }
 
     public async onSubmit(): Promise<void> {
-        this.submitted = true;
+        this.$submitted.set(true);
 
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
@@ -52,9 +52,12 @@ export class ImportComponent extends BaseForm implements OnInit {
             return;
         }
 
-        this.loading = true;
-
-        this.createImport(portfolio.id);
+        this.$saving.set(true);
+        try {
+            this.createImport(portfolio.id);
+        } finally {
+            this.$saving.set(false);
+        }
     }
 
     public onFileDropped(files: NgxFileDropEntry[]): void {
@@ -92,7 +95,5 @@ export class ImportComponent extends BaseForm implements OnInit {
 
     private async createImport(portfolioId: number): Promise<void> {
         this.importPrepare = await this.importService.createImportPrepare(this.form.value, portfolioId);
-
-        this.loading = false;
     }
 }

@@ -1,0 +1,31 @@
+﻿<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item">
+            <a class="page-link"
+               aria-label="Previous"
+               [ngClass]="['page-link', $page() === 1 ? 'disabled' : '']"
+               (click)="onSelectPage($page() - 1)"
+            >
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+
+        @for(page of $pages(); track page) {
+            <li class="page-item">
+                <a [ngClass]="['page-link', page === $page() ? 'active' : '']"
+                   (click)="onSelectPage(page)"
+                >{{page}}</a>
+            </li>
+        }
+
+        <li class="page-item">
+            <a class="page-link"
+               aria-label="Next"
+               [ngClass]="['page-link', $page() === $pagesCount() ? 'disabled' : '']"
+               (click)="onSelectPage($page() + 1)"
+            >
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>

@@ -38,7 +38,7 @@ export class PortfolioFormComponent extends BaseForm implements OnInit {
     }
 
     public async onSubmit(): Promise<void> {
-        this.submitted = true;
+        this.$submitted.set(true);
 
         // reset alerts on submit
         this.alertService.clear();
@@ -48,22 +48,22 @@ export class PortfolioFormComponent extends BaseForm implements OnInit {
             return;
         }
 
-        this.loading = true;
-
-        this.updatePortfolio(this.portfolio.id);
-    }
-
-    private async updatePortfolio(portfolioId: number): Promise<void> {
+        this.$saving.set(true);
         try {
-            await this.portfolioService.updatePortfolio(portfolioId, this.form.value);
-
-            this.alertService.success('Update successful', { keepAfterRouteChange: true });
-            this.portfolioService.notify();
+            this.updatePortfolio(this.portfolio.id);
         } catch (error) {
             if (error instanceof Error) {
                 this.alertService.error(error.message);
             }
-            this.loading = false;
+        } finally {
+            this.$saving.set(false);
         }
+    }
+
+    private async updatePortfolio(portfolioId: number): Promise<void> {
+        await this.portfolioService.updatePortfolio(portfolioId, this.form.value);
+
+        this.alertService.success('Update successful', { keepAfterRouteChange: true });
+        this.portfolioService.notify();
     }
 }

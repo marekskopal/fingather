@@ -45,7 +45,7 @@ export class AddEditComponent extends BaseForm implements OnInit {
     }
 
     public onSubmit(): void {
-        this.submitted = true;
+        this.$submitted.set(true);
 
         // reset alerts on submit
         this.alertService.clear();
@@ -55,27 +55,28 @@ export class AddEditComponent extends BaseForm implements OnInit {
             return;
         }
 
-        this.loading = true;
-        if (this.id() === null) {
-            this.createPortfolio();
-        } else {
-            this.updatePortfolio();
-        }
-    }
-
-    private async createPortfolio(): Promise<void> {
+        this.$saving.set(true);
         try {
-            await this.portfolioService.createPortfolio(this.form.value);
-
-            this.alertService.success('Group added successfully', { keepAfterRouteChange: true });
-            this.activeModal.dismiss();
-            this.portfolioService.notify();
+            if (this.id() === null) {
+                this.createPortfolio();
+            } else {
+                this.updatePortfolio();
+            }
         } catch (error) {
             if (error instanceof Error) {
                 this.alertService.error(error.message);
             }
-            this.loading = false;
+        } finally {
+            this.$saving.set(false);
         }
+    }
+
+    private async createPortfolio(): Promise<void> {
+        await this.portfolioService.createPortfolio(this.form.value);
+
+        this.alertService.success('Group added successfully', { keepAfterRouteChange: true });
+        this.activeModal.dismiss();
+        this.portfolioService.notify();
     }
 
     private async updatePortfolio(): Promise<void> {
@@ -84,17 +85,10 @@ export class AddEditComponent extends BaseForm implements OnInit {
             return;
         }
 
-        try {
-            await this.portfolioService.updatePortfolio(id, this.form.value);
+        await this.portfolioService.updatePortfolio(id, this.form.value);
 
-            this.alertService.success('Update successful', { keepAfterRouteChange: true });
-            this.activeModal.dismiss();
-            this.portfolioService.notify();
-        } catch (error) {
-            if (error instanceof Error) {
-                this.alertService.error(error.message);
-            }
-            this.loading = false;
-        }
+        this.alertService.success('Update successful', { keepAfterRouteChange: true });
+        this.activeModal.dismiss();
+        this.portfolioService.notify();
     }
 }

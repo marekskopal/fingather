@@ -52,7 +52,7 @@ export class AddEditComponent extends BaseForm implements OnInit {
     }
 
     public async onSubmit(): Promise<void> {
-        this.submitted = true;
+        this.$submitted.set(true);
 
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
@@ -64,27 +64,28 @@ export class AddEditComponent extends BaseForm implements OnInit {
             return;
         }
 
-        this.loading = true;
-        if (this.id() === null) {
-            this.createGroup(portfolio.id);
-        } else {
-            this.updateGroup();
-        }
-    }
-
-    private async createGroup(portfolioId: number): Promise<void> {
+        this.$saving.set(true);
         try {
-            await this.groupService.createGroup(this.form.value, portfolioId);
-
-            this.alertService.success('Group added successfully', { keepAfterRouteChange: true });
-            this.activeModal.dismiss();
-            this.groupService.notify();
+            if (this.id() === null) {
+                this.createGroup(portfolio.id);
+            } else {
+                this.updateGroup();
+            }
         } catch (error) {
             if (error instanceof Error) {
                 this.alertService.error(error.message);
             }
-            this.loading = false;
+        } finally {
+            this.$saving.set(false);
         }
+    }
+
+    private async createGroup(portfolioId: number): Promise<void> {
+        await this.groupService.createGroup(this.form.value, portfolioId);
+
+        this.alertService.success('Group added successfully', { keepAfterRouteChange: true });
+        this.activeModal.dismiss();
+        this.groupService.notify();
     }
 
     private async updateGroup(): Promise<void> {
@@ -93,17 +94,10 @@ export class AddEditComponent extends BaseForm implements OnInit {
             return;
         }
 
-        try {
-            await this.groupService.updateGroup(id, this.form.value);
+        await this.groupService.updateGroup(id, this.form.value);
 
-            this.alertService.success('Update successful', { keepAfterRouteChange: true });
-            this.activeModal.dismiss();
-            this.groupService.notify();
-        } catch (error) {
-            if (error instanceof Error) {
-                this.alertService.error(error.message);
-            }
-            this.loading = false;
-        }
+        this.alertService.success('Update successful', { keepAfterRouteChange: true });
+        this.activeModal.dismiss();
+        this.groupService.notify();
     }
 }

@@ -1,14 +1,16 @@
 import { AbstractControl, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { AlertService } from '@app/services';
+import {signal} from "@angular/core";
 
 export abstract class BaseForm {
-    public form: UntypedFormGroup;
-    public loading: boolean = false;
-    public submitted: boolean = false;
+    protected form: UntypedFormGroup;
+    protected readonly $loading = signal<boolean>(false);
+    protected readonly $saving = signal<boolean>(false);
+    protected readonly $submitted= signal<boolean>(false);
 
     public constructor(
-        protected formBuilder: UntypedFormBuilder,
-        protected alertService: AlertService,
+        protected readonly formBuilder: UntypedFormBuilder,
+        protected readonly alertService: AlertService,
     ) {}
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

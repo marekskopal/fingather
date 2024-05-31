@@ -24,7 +24,7 @@
                 type="text"
                 formControlName="ticker"
                 class="form-control"
-                [ngClass]="{ 'is-invalid': searchFailed || (submitted && f['ticker'].errors) }"
+                [ngClass]="{ 'is-invalid': searchFailed || ($submitted() && f['ticker'].errors) }"
                 [(ngModel)]="model"
                 [ngbTypeahead]="search"
                 [resultTemplate]="rt"
@@ -38,7 +38,7 @@
                 <div class="invalid-feedback">{{ 'app.assets.addAsset.searchFailed' | translate }}</div>
             }
 
-            <div *ngIf="submitted && f['ticker'].errors" class="invalid-feedback">
+            <div *ngIf="$submitted() && f['ticker'].errors" class="invalid-feedback">
                 <div *ngIf="f['ticker'].errors['ticker']">{{ 'app.assets.addAsset.required' | translate }}</div>
             </div>
         </div>
@@ -50,8 +50,8 @@
         }
 
         <div class="mb-3">
-            <button [disabled]="loading" class="btn btn-primary">
-                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+            <button [disabled]="$saving()" class="btn btn-primary">
+                <span *ngIf="$saving()" class="spinner-border spinner-border-sm mr-1"></span>
                 {{ 'app.common.save' | translate }}
             </button>
             <a (click)="activeModal.dismiss()" class="btn btn-link" tabindex="0">{{ 'app.common.cancel' | translate }}</a>

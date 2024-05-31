@@ -44,7 +44,7 @@ export class ImportPrepareComponent extends BaseForm implements OnInit {
     }
 
     public onSubmit(): void {
-        this.submitted = true;
+        this.$submitted.set(true);
 
         // reset alerts on submit
         this.alertService.clear();
@@ -54,9 +54,16 @@ export class ImportPrepareComponent extends BaseForm implements OnInit {
             return;
         }
 
-        this.loading = true;
-
-        this.createImport();
+        this.$saving.set(true);
+        try {
+            this.createImport();
+        } catch (error) {
+            if (error instanceof Error) {
+                this.alertService.error(error.message);
+            }
+        } finally {
+            this.$saving.set(false);
+        }
     }
 
     private async createImport(): Promise<void> {
@@ -77,22 +84,15 @@ export class ImportPrepareComponent extends BaseForm implements OnInit {
             importStart.importMappings.push(importMapping);
         }
 
-        try {
-            await this.importDataService.createImportStart(importStart);
+        await this.importDataService.createImportStart(importStart);
 
-            this.alertService.success('Transactions was imported successfully', { keepAfterRouteChange: true });
+        this.alertService.success('Transactions was imported successfully', { keepAfterRouteChange: true });
 
-            const onImportFinish = this.onImportFinish();
-            if (onImportFinish !== null) {
-                onImportFinish();
-            } else {
-                this.router.navigate(['../'], { relativeTo: this.route });
-            }
-        } catch (error) {
-            if (error instanceof Error) {
-                this.alertService.error(error.message);
-            }
-            this.loading = false;
+        const onImportFinish = this.onImportFinish();
+        if (onImportFinish !== null) {
+            onImportFinish();
+        } else {
+            this.router.navigate(['../'], { relativeTo: this.route });
         }
     }
 }

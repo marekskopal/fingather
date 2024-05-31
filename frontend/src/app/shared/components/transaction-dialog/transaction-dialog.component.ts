@@ -46,6 +46,8 @@ export class TransactionDialogComponent extends BaseForm implements OnInit {
     }
 
     public async ngOnInit(): Promise<void> {
+        this.$loading.set(true);
+
         if (this.route.snapshot.params['id'] !== undefined) {
             this.id = this.route.snapshot.params['id'];
         }
@@ -81,10 +83,12 @@ export class TransactionDialogComponent extends BaseForm implements OnInit {
             transaction.actionCreated = formatDate(Date.parse(transaction.actionCreated), 'y-MM-ddTHH:mm', 'en');
             this.form.patchValue(transaction);
         }
+
+        this.$loading.set(false);
     }
 
     public async onSubmit(): Promise<void> {
-        this.submitted = true;
+        this.$submitted.set(true);
 
         // reset alerts on submit
         this.alertService.clear();
@@ -94,50 +98,51 @@ export class TransactionDialogComponent extends BaseForm implements OnInit {
             return;
         }
 
-        this.loading = true;
-        if (this.id === null) {
-            const portfolio = await this.portfolioService.getCurrentPortfolio();
-            this.createTransaction(portfolio.id);
-        } else {
-            this.updateTransaction(this.id);
+        try {
+            this.$saving.set(true);
+
+            if (this.id === null) {
+                const portfolio = await this.portfolioService.getCurrentPortfolio();
+                this.createTransaction(portfolio.id);
+            } else {
+                this.updateTransaction(this.id);
+            }
+        } catch (error) {
+            if (error instanceof Error) {
+                this.alertService.error(error.message);
+            }
+        } finally {
+            this.$saving.set(false);
         }
     }
 
     private async createTransaction(portfolioId: number): Promise<void> {
         const values = this.form.value;
         values.assetId = parseInt(values.assetId, 10);
+        values.units = values.units.toString();
+        values.price = values.price.toString();
+        values.tax = values.tax.toString();
+        values.fee = values.fee.toString();
 
-        try {
-            await this.transactionService.createTransaction(values, portfolioId);
+        await this.transactionService.createTransaction(values, portfolioId);
 
-            this.alertService.success('Dividend added successfully');
-            this.activeModal.dismiss();
-            this.transactionService.notify();
-        } catch (error) {
-            if (error instanceof Error) {
-                this.alertService.error(error.message);
-            }
-
-            this.loading = false;
-        }
+        this.alertService.success('Dividend added successfully');
+        this.activeModal.dismiss();
+        this.transactionService.notify();
     }
 
     private async updateTransaction(id: number): Promise<void> {
         const values = this.form.value;
         values.actionCreated = (new Date(values.actionCreated)).toJSON();
+        values.units = values.units.toString();
+        values.price = values.price.toString();
+        values.tax = values.tax.toString();
+        values.fee = values.fee.toString();
 
-        try {
-            await this.transactionService.updateTransaction(id, values);
+        await this.transactionService.updateTransaction(id, values);
 
-            this.alertService.success('Update successful');
-            this.activeModal.dismiss();
-            this.transactionService.notify();
-        } catch (error) {
-            if (error instanceof Error) {
-                this.alertService.error(error.message);
-            }
-
-            this.loading = false;
-        }
+        this.alertService.success('Update successful');
+        this.activeModal.dismiss();
+        this.transactionService.notify();
     }
 }
