@@ -1,4 +1,6 @@
-import {ChangeDetectionStrategy, Component, OnInit, signal} from '@angular/core';
+import {
+    ChangeDetectionStrategy, Component, OnInit, signal
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AssetWithProperties, Currency } from '@app/models';
 import { AssetService, CurrencyService } from '@app/services';
@@ -25,8 +27,7 @@ export class DetailComponent implements OnInit {
         this.defaultCurrency = await this.currencyService.getDefaultCurrency();
     }
 
-    protected get asset(): AssetWithProperties | null
-    {
+    protected get asset(): AssetWithProperties | null {
         return this.$asset();
     }
 }

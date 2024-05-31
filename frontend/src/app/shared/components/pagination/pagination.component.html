@@ -3,6 +3,7 @@
         <li class="page-item">
             <a class="page-link"
                aria-label="Previous"
+               tabindex="0"
                [ngClass]="['page-link', $page() === 1 ? 'disabled' : '']"
                (click)="onSelectPage($page() - 1)"
             >
@@ -14,6 +15,7 @@
             <li class="page-item">
                 <a [ngClass]="['page-link', page === $page() ? 'active' : '']"
                    (click)="onSelectPage(page)"
+                   tabindex="0"
                 >{{page}}</a>
             </li>
         }
@@ -21,6 +23,7 @@
         <li class="page-item">
             <a class="page-link"
                aria-label="Next"
+               tabindex="0"
                [ngClass]="['page-link', $page() === $pagesCount() ? 'disabled' : '']"
                (click)="onSelectPage($page() + 1)"
             >

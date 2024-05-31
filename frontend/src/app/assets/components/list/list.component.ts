@@ -2,9 +2,7 @@ import {
     ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, signal
 } from '@angular/core';
 import { AddAssetComponent } from '@app/assets/components/add-asset/add-asset.component';
-import {
-    Asset, AssetsWithProperties, Currency, GroupWithGroupData
-} from '@app/models';
+import { AssetsWithProperties, Currency, GroupWithGroupData } from '@app/models';
 import { AssetsOrder } from '@app/models/enums/assets-order';
 import {
     AssetService, CurrencyService, GroupWithGroupDataService, PortfolioService
@@ -24,7 +22,7 @@ export class ListComponent implements OnInit, OnDestroy {
     protected activeTab = 'open-positions';
 
     private readonly $withGroups = signal<boolean>(false);
-    protected readonly $showPerAnnum= signal<boolean>(false);
+    protected readonly $showPerAnnum = signal<boolean>(false);
 
     protected readonly AssetsOrder = AssetsOrder;
     public openedAssetsOrderBy: AssetsOrder = AssetsOrder.TickerName;

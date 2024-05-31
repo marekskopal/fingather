@@ -1,4 +1,6 @@
-import {ChangeDetectionStrategy, Component, OnInit, signal} from '@angular/core';
+import {
+    ChangeDetectionStrategy, Component, OnInit, signal
+} from '@angular/core';
 import { Asset } from '@app/models';
 import { RangeEnum } from '@app/models/enums/range-enum';
 import { AssetService, PortfolioService } from '@app/services';
