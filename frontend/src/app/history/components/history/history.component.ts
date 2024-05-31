@@ -21,7 +21,7 @@ export class HistoryComponent implements OnInit {
     public async ngOnInit(): Promise<void> {
         this.refreshAssets();
 
-        this.portfolioService.eventEmitter.subscribe(() => {
+        this.portfolioService.subscribe(() => {
             this.refreshAssets();
         });
     }

@@ -27,13 +27,13 @@ export class ListComponent implements OnInit, OnDestroy {
 
         this.currentUser = await this.currentUserService.getCurrentUser();
 
-        this.userService.eventEmitter.subscribe(() => {
+        this.userService.subscribe(() => {
             this.refreshUsers();
         });
     }
 
     public ngOnDestroy(): void {
-        this.userService.eventEmitter.unsubscribe();
+        this.userService.unsubscribe();
     }
 
     public async refreshUsers(): Promise<void> {

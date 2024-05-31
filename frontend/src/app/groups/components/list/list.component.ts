@@ -24,17 +24,17 @@ export class ListComponent implements OnInit, OnDestroy {
     public ngOnInit(): void {
         this.refreshGroups();
 
-        this.groupService.eventEmitter.subscribe(() => {
+        this.groupService.subscribe(() => {
             this.refreshGroups();
         });
 
-        this.portfolioService.eventEmitter.subscribe(() => {
+        this.portfolioService.subscribe(() => {
             this.refreshGroups();
         });
     }
 
     public ngOnDestroy(): void {
-        this.groupService.eventEmitter.unsubscribe();
+        this.groupService.unsubscribe();
     }
 
     public async refreshGroups(): Promise<void> {

@@ -41,7 +41,7 @@ export class GroupChartComponent implements OnInit {
     public async ngOnInit(): Promise<void> {
         this.refreshChart();
 
-        this.portfolioService.eventEmitter.subscribe(() => {
+        this.portfolioService.subscribe(() => {
             this.refreshChart();
         });
     }

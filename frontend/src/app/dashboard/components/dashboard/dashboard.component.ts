@@ -23,7 +23,7 @@ export class DashboardComponent implements OnInit {
 
         this.refreshGroupWithGroupData();
 
-        this.portfolioService.eventEmitter.subscribe(() => {
+        this.portfolioService.subscribe(() => {
             this.refreshGroupWithGroupData();
         });
     }

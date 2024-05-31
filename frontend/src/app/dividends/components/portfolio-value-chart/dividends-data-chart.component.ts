@@ -42,7 +42,7 @@ export class DividendsDataChartComponent implements OnInit, OnChanges {
     public ngOnInit(): void {
         this.refreshChart();
 
-        this.portfolioService.eventEmitter.subscribe(() => {
+        this.portfolioService.subscribe(() => {
             this.refreshChart();
         });
     }

@@ -51,7 +51,7 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
 
         this.refreshChart();
 
-        this.portfolioService.eventEmitter.subscribe(() => {
+        this.portfolioService.subscribe(() => {
             this.refreshChart();
         });
     }
