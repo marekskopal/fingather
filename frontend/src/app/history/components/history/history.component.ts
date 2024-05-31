@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit, signal} from '@angular/core';
 import { Asset } from '@app/models';
 import { RangeEnum } from '@app/models/enums/range-enum';
 import { AssetService, PortfolioService } from '@app/services';
@@ -8,9 +8,9 @@ import { AssetService, PortfolioService } from '@app/services';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HistoryComponent implements OnInit {
-    public range: RangeEnum = RangeEnum.SevenDays;
-    public assets: Asset[] = [];
-    public benchmarkAssetId: number | null = null;
+    protected range: RangeEnum = RangeEnum.SevenDays;
+    private readonly $assets = signal<Asset[]>([]);
+    public readonly $benchmarkAssetId = signal<number | null>(null);
 
     public constructor(
         private readonly assetService: AssetService,
@@ -26,21 +26,26 @@ export class HistoryComponent implements OnInit {
         });
     }
 
-    public async refreshAssets(): Promise<void> {
-        this.assets = [];
+    protected get assets(): Asset[] {
+        return this.$assets();
+    }
+
+    private async refreshAssets(): Promise<void> {
+        this.$assets.set([]);
 
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
-        this.assets = await this.assetService.getAssets(portfolio.id);
+        const assets = await this.assetService.getAssets(portfolio.id);
+        this.$assets.set(assets);
     }
 
-    public changeRange(range: RangeEnum): void {
+    protected changeRange(range: RangeEnum): void {
         this.range = range;
     }
 
-    public changeBenchmarkAsset(event: Event): void {
+    protected changeBenchmarkAsset(event: Event): void {
         const eventTarget = event.target as HTMLSelectElement;
-        this.benchmarkAssetId = eventTarget.value.length > 0 ? parseInt(eventTarget.value, 10) : null;
+        this.$benchmarkAssetId.set(eventTarget.value.length > 0 ? parseInt(eventTarget.value, 10) : null);
     }
 
     protected readonly PortfolioDataRangeEnum = RangeEnum;

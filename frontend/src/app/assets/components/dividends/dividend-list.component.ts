@@ -70,21 +70,6 @@ export class DividendListComponent implements OnInit, OnDestroy {
         if (transaction === undefined) {
             return;
         }
-        transaction.isDeleting = true;
-
-        try {
-            const confirmed = await this.confirmDialogService.confirm(
-                'Delete dividend',
-                'Are you sure to delete dividend?'
-            );
-            if (!confirmed) {
-                transaction.isDeleting = false;
-                return;
-            }
-        } catch (err) {
-            transaction.isDeleting = false;
-            return;
-        }
 
         await this.transactionService.deleteTransaction(id);
 

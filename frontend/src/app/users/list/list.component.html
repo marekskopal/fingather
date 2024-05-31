@@ -25,13 +25,11 @@
             <td class="text-end" style="white-space: nowrap">
                 <a (click)="editUser(user.id)" class="btn btn-sm btn-primary me-2" tabindex="0"><fa-icon icon="edit"></fa-icon> {{ 'app.common.edit' | translate }}</a>
                 @if (user.id !== currentUser.id) {
-                    <button (click)="deleteUser(user.id)" class="btn btn-sm btn-danger btn-delete-user" [disabled]="user.isDeleting">
-                        @if (user.isDeleting) {
-                            <span class="spinner-border spinner-border-sm"></span>
-                        } @else {
-                            <span><fa-icon icon="trash"></fa-icon> {{ 'app.common.delete' | translate }}</span>
-                        }
-                    </button>
+                    <fingather-delete-button
+                        (onConfirm)="deleteUser(user.id)"
+                        [title]="'Delete user ' + user.name"
+                        [message]="'Are you sure you want to delete user ' + user.name + '?'"
+                    />
                 }
             </td>
         </tr>

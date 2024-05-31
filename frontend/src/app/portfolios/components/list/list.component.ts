@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy, Component, OnDestroy, OnInit
+    ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, signal
 } from '@angular/core';
 import { Portfolio } from '@app/models';
 import { AddEditComponent } from '@app/portfolios/components/add-edit/add-edit.component';
@@ -12,13 +12,13 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListComponent implements OnInit, OnDestroy {
-    public portfolios: Portfolio[] | null = null;
-    public currentPortfolio: Portfolio;
+    private readonly $portfolios = signal<Portfolio[] | null>(null);
+    protected currentPortfolio: Portfolio;
 
     public constructor(
         private readonly portfolioService: PortfolioService,
         private readonly modalService: NgbModal,
-        private readonly confirmDialogService: ConfirmDialogService,
+        private readonly changeDetectorRef: ChangeDetectorRef,
     ) {}
 
     public async ngOnInit(): Promise<void> {
@@ -28,6 +28,7 @@ export class ListComponent implements OnInit, OnDestroy {
 
         this.portfolioService.subscribe(() => {
             this.refreshPortfolios();
+            this.changeDetectorRef.detectChanges();
         });
     }
 
@@ -35,8 +36,13 @@ export class ListComponent implements OnInit, OnDestroy {
         this.portfolioService.unsubscribe();
     }
 
-    public async refreshPortfolios(): Promise<void> {
-        this.portfolios = await this.portfolioService.getPortfolios();
+    protected get portfolios(): Portfolio[] | null {
+        return this.$portfolios();
+    }
+
+    private async refreshPortfolios(): Promise<void> {
+        const portfolios = await this.portfolioService.getPortfolios();
+        this.$portfolios.set(portfolios);
     }
 
     public addPortfolio(): void {
@@ -49,29 +55,15 @@ export class ListComponent implements OnInit, OnDestroy {
     }
 
     public async deletePortfolio(id: number): Promise<void> {
-        const portfolio = this.portfolios?.find((x) => x.id === id);
+        const portfolio = this.$portfolios()?.find((x) => x.id === id);
         if (portfolio === undefined) {
-            return;
-        }
-        portfolio.isDeleting = true;
-
-        try {
-            const confirmed = await this.confirmDialogService.confirm(
-                `Delete portfolio ${portfolio.name}`,
-                `Are you sure to delete portfolio ${portfolio.name}?`
-            );
-            if (!confirmed) {
-                portfolio.isDeleting = false;
-                return;
-            }
-        } catch (err) {
-            portfolio.isDeleting = false;
             return;
         }
 
         await this.portfolioService.deletePortfolio(id);
-        this.portfolios = this.portfolios !== null
-            ? this.portfolios.filter((x) => x.id !== id)
-            : null;
+        this.$portfolios.update((portfolios) => portfolios !== null
+            ? portfolios.filter((x) => x.id !== id)
+            : null
+        );
     }
 }

@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy, Component, OnDestroy, OnInit
+    ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, signal
 } from '@angular/core';
 import { AddEditComponent } from '@app/groups/components/add-edit/add-edit.component';
 import { Group } from '@app/models';
@@ -12,13 +12,13 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListComponent implements OnInit, OnDestroy {
-    public groups: Group[] | null = null;
+    public readonly $groups = signal<Group[] | null>(null);
 
     public constructor(
         private readonly groupService: GroupService,
         private readonly modalService: NgbModal,
         private readonly portfolioService: PortfolioService,
-        private readonly confirmDialogService: ConfirmDialogService,
+        private readonly changeDetectorRef: ChangeDetectorRef,
     ) {}
 
     public ngOnInit(): void {
@@ -26,10 +26,12 @@ export class ListComponent implements OnInit, OnDestroy {
 
         this.groupService.subscribe(() => {
             this.refreshGroups();
+            this.changeDetectorRef.detectChanges();
         });
 
         this.portfolioService.subscribe(() => {
             this.refreshGroups();
+            this.changeDetectorRef.detectChanges();
         });
     }
 
@@ -37,48 +39,39 @@ export class ListComponent implements OnInit, OnDestroy {
         this.groupService.unsubscribe();
     }
 
-    public async refreshGroups(): Promise<void> {
-        this.groups = null;
+    protected get groups(): Group[] | null {
+        return this.$groups();
+    }
+
+    private async refreshGroups(): Promise<void> {
+        this.$groups.set(null);
 
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
-        this.groups = await this.groupService.getGroups(portfolio.id);
+        const groups = await this.groupService.getGroups(portfolio.id);
+        this.$groups.set(groups);
     }
 
-    public addGroup(): void {
+    protected addGroup(): void {
         this.modalService.open(AddEditComponent);
     }
 
-    public editGroup(id: number): void {
+    protected editGroup(id: number): void {
         const addEditComponent = this.modalService.open(AddEditComponent);
         addEditComponent.componentInstance.id.set(id);
     }
 
-    public async deleteGroup(id: number): Promise<void> {
-        const group = this.groups?.find((x) => x.id === id);
+    protected async deleteGroup(id: number): Promise<void> {
+        const group = this.$groups()?.find((x) => x.id === id);
         if (group === undefined) {
-            return;
-        }
-        group.isDeleting = true;
-
-        try {
-            const confirmed = await this.confirmDialogService.confirm(
-                `Delete group ${group.name}`,
-                `Are you sure to delete group ${group.name}?`
-            );
-            if (!confirmed) {
-                group.isDeleting = false;
-                return;
-            }
-        } catch (err) {
-            group.isDeleting = false;
             return;
         }
 
         await this.groupService.deleteGroup(id);
 
-        this.groups = this.groups !== null
-            ? this.groups.filter((x) => x.id !== id)
-            : null;
+        this.$groups.update((groups) => groups !== null
+            ? groups.filter((x) => x.id !== id)
+            : null
+        );
     }
 }

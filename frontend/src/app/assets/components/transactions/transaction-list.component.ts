@@ -69,21 +69,6 @@ export class TransactionListComponent implements OnInit, OnDestroy {
         if (transaction === undefined) {
             return;
         }
-        transaction.isDeleting = true;
-
-        try {
-            const confirmed = await this.confirmDialogService.confirm(
-                'Delete transaction',
-                'Are you sure to delete transaction?'
-            );
-            if (!confirmed) {
-                transaction.isDeleting = false;
-                return;
-            }
-        } catch (err) {
-            transaction.isDeleting = false;
-            return;
-        }
 
         await this.transactionService.deleteTransaction(id);
 

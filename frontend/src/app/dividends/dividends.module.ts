@@ -5,7 +5,7 @@ import { DividendsHistoryComponent } from '@app/dividends/components/history/div
 import { LayoutComponent } from '@app/dividends/components/layout/layout.component';
 import {
     DividendsDataChartComponent
-} from '@app/dividends/components/portfolio-value-chart/dividends-data-chart.component';
+} from '@app/dividends/components/dividend-data-chart/dividends-data-chart.component';
 import { SharedModule } from '@app/shared/shared.module';
 import { NgApexchartsModule } from 'ng-apexcharts';
 

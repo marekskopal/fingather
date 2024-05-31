@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, signal} from '@angular/core';
 import { Currency, YearCalculatedData } from '@app/models';
 import { ModeEnum } from '@app/overviews/components/list/enum/mode-enum';
 import { CurrencyService, OverviewService, PortfolioService } from '@app/services';
@@ -8,8 +8,8 @@ import { CurrencyService, OverviewService, PortfolioService } from '@app/service
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListComponent implements OnInit {
-    public yearCalculatedDatas: YearCalculatedData[] | null = null;
-    public defaultCurrency: Currency;
+    private readonly $yearCalculatedDatas = signal<YearCalculatedData[] | null>(null);
+    protected defaultCurrency: Currency;
 
     protected readonly ModeEnum = ModeEnum;
     protected mode: ModeEnum = ModeEnum.Interannually;
@@ -18,6 +18,7 @@ export class ListComponent implements OnInit {
         private readonly overviewService: OverviewService,
         private readonly currencyService: CurrencyService,
         private readonly portfolioService: PortfolioService,
+        private readonly changeDetectorRef: ChangeDetectorRef,
     ) {
     }
 
@@ -28,18 +29,24 @@ export class ListComponent implements OnInit {
 
         this.portfolioService.subscribe(() => {
             this.refreshYearCalculatedData();
+            this.changeDetectorRef.detectChanges();
         });
     }
 
-    public async refreshYearCalculatedData(): Promise<void> {
-        this.yearCalculatedDatas = null;
+    protected get yearCalculatedDatas(): YearCalculatedData[] | null {
+        return this.$yearCalculatedDatas();
+    }
+
+    private async refreshYearCalculatedData(): Promise<void> {
+        this.$yearCalculatedDatas.set(null);
 
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
-        this.yearCalculatedDatas = await this.overviewService.getYearCalculatedData(portfolio.id);
+        const yearCalculatedDatas = await this.overviewService.getYearCalculatedData(portfolio.id);
+        this.$yearCalculatedDatas.set(yearCalculatedDatas);
     }
 
-    public changeMode(): void {
+    protected changeMode(): void {
         this.mode = this.mode === ModeEnum.Interannually ? ModeEnum.Total : ModeEnum.Interannually;
     }
 }

@@ -1,6 +1,6 @@
 import {
     ChangeDetectionStrategy,
-    Component, input, InputSignal, OnChanges, OnInit,
+    Component, input, InputSignal, OnChanges, OnInit, signal,
 } from '@angular/core';
 import {
     DividendDataDateInterval
@@ -29,9 +29,9 @@ export type ChartOptions = {
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DividendsDataChartComponent implements OnInit, OnChanges {
-    public range: InputSignal<RangeEnum> = input.required<RangeEnum>();
+    public readonly range: InputSignal<RangeEnum> = input.required<RangeEnum>();
     public chartOptions: ChartOptions;
-    public loading: boolean = true;
+    protected readonly loading = signal<boolean>(false);
 
     public constructor(
         private readonly dividendDataService: DividendDataService,
@@ -52,7 +52,7 @@ export class DividendsDataChartComponent implements OnInit, OnChanges {
     }
 
     private async refreshChart(): Promise<void> {
-        this.loading = true;
+        this.loading.set(true);
 
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
@@ -63,7 +63,7 @@ export class DividendsDataChartComponent implements OnInit, OnChanges {
         chartOptions.xaxis.categories = chartMap.categories;
         chartOptions.series = chartMap.series;
         this.chartOptions = chartOptions;
-        this.loading = false;
+        this.loading.set(false);
     }
 
     private initializeChartOptions(): ChartOptions {
