@@ -70,8 +70,8 @@ final readonly class TickerDto
 	 *     description: string|null,
 	 *     country: array{
 	 *         id: int,
-	 *         iso_code: string,
-	 *         iso_code3: string,
+	 *         isoCode: string,
+	 *         isoCode3: string,
 	 *         name: string,
 	 *     },
 	 *     market: array{
