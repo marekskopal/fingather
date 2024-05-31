@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import { Asset, AssetsWithProperties, AssetWithProperties } from '@app/models';
 import { AssetCreate } from '@app/models/asset-create';
 import { AssetsOrder } from '@app/models/enums/assets-order';
@@ -9,11 +9,7 @@ import { firstValueFrom } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AssetService extends NotifyService {
-    public constructor(
-        private http: HttpClient
-    ) {
-        super();
-    }
+    private http = inject(HttpClient);
 
     public createAsset(asset: AssetCreate, portfolioId: number): Promise<Asset> {
         return firstValueFrom<Asset>(this.http.post<Asset>(`${environment.apiUrl}/assets/${portfolioId}`, asset));

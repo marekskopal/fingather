@@ -60,7 +60,7 @@ export class AddEditComponent extends BaseForm implements OnInit {
     }
 
     public onSubmit(): void {
-        this.submitted = true;
+        this.$submitted.set(true);
 
         // reset alerts on submit
         this.alertService.clear();
@@ -70,27 +70,28 @@ export class AddEditComponent extends BaseForm implements OnInit {
             return;
         }
 
-        this.loading = true;
-        if (this.id() === null) {
-            this.createUser();
-        } else {
-            this.updateUser();
-        }
-    }
-
-    private async createUser(): Promise<void> {
+        this.$saving.set(true);
         try {
-            await this.userService.createUser(this.form.value);
-
-            this.alertService.success('User added successfully', { keepAfterRouteChange: true });
-            this.activeModal.dismiss();
-            this.userService.notify();
+            if (this.id() === null) {
+                this.createUser();
+            } else {
+                this.updateUser();
+            }
         } catch (error) {
             if (error instanceof Error) {
                 this.alertService.error(error.message);
             }
-            this.loading = false;
+        } finally {
+            this.$saving.set(false);
         }
+    }
+
+    private async createUser(): Promise<void> {
+        await this.userService.createUser(this.form.value);
+
+        this.alertService.success('User added successfully', { keepAfterRouteChange: true });
+        this.activeModal.dismiss();
+        this.userService.notify();
     }
 
     private async updateUser(): Promise<void> {
@@ -99,17 +100,10 @@ export class AddEditComponent extends BaseForm implements OnInit {
             return;
         }
 
-        try {
-            await this.userService.updateUser(id, this.form.value);
+        await this.userService.updateUser(id, this.form.value);
 
-            this.alertService.success('Update successful', { keepAfterRouteChange: true });
-            this.activeModal.dismiss();
-            this.userService.notify();
-        } catch (error) {
-            if (error instanceof Error) {
-                this.alertService.error(error.message);
-            }
-            this.loading = false;
-        }
+        this.alertService.success('Update successful', { keepAfterRouteChange: true });
+        this.activeModal.dismiss();
+        this.userService.notify();
     }
 }

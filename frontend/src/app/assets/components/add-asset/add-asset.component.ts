@@ -62,7 +62,7 @@ export class AddAssetComponent extends BaseDialog implements OnInit {
     };
 
     public async onSubmit(): Promise<void> {
-        this.submitted = true;
+        this.$submitted.set(true);
 
         this.alertService.clear();
 
@@ -71,22 +71,23 @@ export class AddAssetComponent extends BaseDialog implements OnInit {
         }
 
         const portfolio = await this.portfolioService.getCurrentPortfolio();
-        this.createAsset(portfolio.id);
-    }
-
-    private async createAsset(portfolioId: number): Promise<void> {
+        this.$saving.set(true);
         try {
-            await this.assetService.createAsset(this.form.value.ticker, portfolioId);
-
-            this.alertService.success('Asset added successfully', { keepAfterRouteChange: true });
-            this.activeModal.dismiss();
-            this.assetService.notify();
+            this.createAsset(portfolio.id);
         } catch (error: unknown) {
             if (error instanceof Error) {
                 this.alertService.error(error.message);
             }
-
-            this.loading = false;
+        } finally {
+            this.$saving.set(false);
         }
+    }
+
+    private async createAsset(portfolioId: number): Promise<void> {
+        await this.assetService.createAsset(this.form.value.ticker, portfolioId);
+
+        this.alertService.success('Asset added successfully', { keepAfterRouteChange: true });
+        this.activeModal.dismiss();
+        this.assetService.notify();
     }
 }

@@ -21,6 +21,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { NgxFileDropModule } from 'ngx-file-drop';
 
 import { PortfolioTotalComponent } from './components/portfolio-total/portfolio-total.component';
+import {PaginationComponent} from "@app/shared/components/pagination/pagination.component";
 
 @NgModule({
     imports: [
@@ -43,6 +44,7 @@ import { PortfolioTotalComponent } from './components/portfolio-total/portfolio-
         PortfolioValueChartComponent,
         ImportComponent,
         ImportPrepareComponent,
+        PaginationComponent,
     ],
     exports: [
         PortfolioTotalComponent,
@@ -55,6 +57,7 @@ import { PortfolioTotalComponent } from './components/portfolio-total/portfolio-
         PortfolioValueChartComponent,
         ImportComponent,
         ImportPrepareComponent,
+        PaginationComponent,
     ]
 })
 export class SharedModule { }

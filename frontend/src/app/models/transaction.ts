@@ -9,12 +9,12 @@ export interface Transaction extends AbstractEntity {
     createType: TransactionCreateType;
     created: Date;
     modified: Date;
-    units: number;
-    price: number;
+    units: string;
+    price: string;
     currencyId: number;
-    tax: number;
+    tax: string;
     taxCurrencyId: number;
-    fee: number;
+    fee: string;
     feeCurrencyId: number;
     notes: string;
     importIdentifier: string;
