@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit, signal} from '@angular/core';
 import { Portfolio } from '@app/models';
 import { PortfolioService } from '@app/services';
 
@@ -8,17 +8,27 @@ import { PortfolioService } from '@app/services';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PortfolioSelectorComponent implements OnInit {
-    public portfolios: Portfolio[] | null = null;
-    public currentPortfolio: Portfolio;
+    private readonly $portfolios = signal<Portfolio[] | null>(null);
+    private readonly $currentPortfolio = signal<Portfolio | null>(null);
 
     public constructor(
         private readonly portfolioService: PortfolioService,
     ) { }
 
     public async ngOnInit(): Promise<void> {
-        this.currentPortfolio = await this.portfolioService.getCurrentPortfolio();
+        const portfolio = await this.portfolioService.getCurrentPortfolio();
+        this.$currentPortfolio.set(portfolio);
 
-        this.portfolios = await this.portfolioService.getPortfolios();
+        const portfolios = await this.portfolioService.getPortfolios();
+        this.$portfolios.set(portfolios);
+    }
+
+    protected get portfolios(): Portfolio[] | null {
+        return this.$portfolios();
+    }
+
+    protected get currentPortfolio(): Portfolio | null {
+        return this.$currentPortfolio();
     }
 
     public async changeCurrentPortfolio(event: Event): Promise<void> {
@@ -26,7 +36,7 @@ export class PortfolioSelectorComponent implements OnInit {
         const currentPortfolioId = parseInt(eventTarget.value, 10);
         const portfolio = await this.portfolioService.getPortfolio(currentPortfolioId);
         this.portfolioService.setCurrentPortfolio(portfolio);
-        this.currentPortfolio = portfolio;
+        this.$currentPortfolio.set(portfolio);
         this.portfolioService.notify();
     }
 }
