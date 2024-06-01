@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, signal
+    ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, signal
 } from '@angular/core';
 import { User, UserWithStatistic } from '@app/models';
 import { CurrentUserService, UserService } from '@app/services';
@@ -10,7 +10,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
     templateUrl: 'list.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ListComponent implements OnInit, OnDestroy {
+export class ListComponent implements OnInit {
     private readonly $users = signal<UserWithStatistic[]>([]);
     protected currentUser: User;
 
@@ -30,10 +30,6 @@ export class ListComponent implements OnInit, OnDestroy {
             this.refreshUsers();
             this.changeDetectorRef.detectChanges();
         });
-    }
-
-    public ngOnDestroy(): void {
-        this.userService.unsubscribe();
     }
 
     protected get users(): UserWithStatistic[] {
