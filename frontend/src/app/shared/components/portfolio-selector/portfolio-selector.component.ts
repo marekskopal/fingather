@@ -1,4 +1,6 @@
-import {ChangeDetectionStrategy, Component, OnInit, signal} from '@angular/core';
+import {
+    ChangeDetectionStrategy, Component, OnInit, signal
+} from '@angular/core';
 import { Portfolio } from '@app/models';
 import { PortfolioService } from '@app/services';
 
