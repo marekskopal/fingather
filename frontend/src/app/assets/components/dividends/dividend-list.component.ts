@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy, Component, OnDestroy, OnInit, signal
+    ChangeDetectionStrategy, Component, OnInit, signal
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Transaction, TransactionActionType } from '@app/models';
@@ -13,7 +13,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
     selector: 'fingather-dividend-list',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DividendListComponent implements OnInit, OnDestroy {
+export class DividendListComponent implements OnInit {
     private $dividends = signal<Transaction[] | null>(null);
     public assetId: number;
 
@@ -33,10 +33,6 @@ export class DividendListComponent implements OnInit, OnDestroy {
         this.transactionService.subscribe(() => {
             this.refreshTransactions();
         });
-    }
-
-    public ngOnDestroy(): void {
-        this.transactionService.unsubscribe();
     }
 
     public async refreshTransactions(): Promise<void> {

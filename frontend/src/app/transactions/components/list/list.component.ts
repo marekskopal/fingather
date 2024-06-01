@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, signal
+    ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, signal
 } from '@angular/core';
 import { TransactionActionType } from '@app/models';
 import { TransactionList } from '@app/models/transaction-list';
@@ -12,7 +12,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
     templateUrl: './list.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ListComponent implements OnInit, OnDestroy {
+export class ListComponent implements OnInit {
     private page: number = 1;
     public pageSize: number = 50;
     private readonly $transactionList = signal<TransactionList | null>(null);
@@ -37,10 +37,6 @@ export class ListComponent implements OnInit, OnDestroy {
             this.refreshTransactions();
             this.changeDetectorRef.detectChanges();
         });
-    }
-
-    public ngOnDestroy(): void {
-        this.transactionService.unsubscribe();
     }
 
     protected async changePage(page: number): Promise<void> {

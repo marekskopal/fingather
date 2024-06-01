@@ -1,17 +1,14 @@
-import { EventEmitter } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 
 export abstract class NotifyService {
-    private readonly eventEmitter: EventEmitter<null> = new EventEmitter();
+    private readonly notifySubject: Subject<null> = new Subject<null>();
+    private readonly notify$: Observable<null> = this.notifySubject.asObservable();
 
     public subscribe(callback: () => void): void {
-        this.eventEmitter.subscribe(callback);
-    }
-
-    public unsubscribe(): void {
-        this.eventEmitter.unsubscribe();
+        this.notify$.subscribe(callback);
     }
 
     public notify(): void {
-        this.eventEmitter.emit();
+        this.notifySubject.next(null);
     }
 }

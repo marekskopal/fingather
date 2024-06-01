@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, signal
+    ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, signal
 } from '@angular/core';
 import { AddEditComponent } from '@app/groups/components/add-edit/add-edit.component';
 import { Group } from '@app/models';
@@ -10,7 +10,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
     templateUrl: 'list.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ListComponent implements OnInit, OnDestroy {
+export class ListComponent implements OnInit {
     public readonly $groups = signal<Group[] | null>(null);
 
     public constructor(
@@ -32,10 +32,6 @@ export class ListComponent implements OnInit, OnDestroy {
             this.refreshGroups();
             this.changeDetectorRef.detectChanges();
         });
-    }
-
-    public ngOnDestroy(): void {
-        this.groupService.unsubscribe();
     }
 
     protected get groups(): Group[] | null {

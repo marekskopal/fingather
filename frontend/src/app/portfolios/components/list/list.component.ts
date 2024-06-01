@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, signal
+    ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, signal
 } from '@angular/core';
 import { Portfolio } from '@app/models';
 import { AddEditComponent } from '@app/portfolios/components/add-edit/add-edit.component';
@@ -10,7 +10,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
     templateUrl: 'list.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ListComponent implements OnInit, OnDestroy {
+export class ListComponent implements OnInit {
     private readonly $portfolios = signal<Portfolio[] | null>(null);
     protected currentPortfolio: Portfolio;
 
@@ -29,10 +29,6 @@ export class ListComponent implements OnInit, OnDestroy {
             this.refreshPortfolios();
             this.changeDetectorRef.detectChanges();
         });
-    }
-
-    public ngOnDestroy(): void {
-        this.portfolioService.unsubscribe();
     }
 
     protected get portfolios(): Portfolio[] | null {

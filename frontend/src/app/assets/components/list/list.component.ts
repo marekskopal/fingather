@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, signal
+    ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, signal
 } from '@angular/core';
 import { AddAssetComponent } from '@app/assets/components/add-asset/add-asset.component';
 import { AssetsWithProperties, Currency, GroupWithGroupData } from '@app/models';
@@ -13,7 +13,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
     templateUrl: 'list.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ListComponent implements OnInit, OnDestroy {
+export class ListComponent implements OnInit {
     private readonly $assetsWithProperties = signal<AssetsWithProperties | null>(null);
     private readonly $openedGroupedAssets = signal<GroupWithGroupData[] | null>(null);
 
@@ -74,10 +74,6 @@ export class ListComponent implements OnInit, OnDestroy {
             this.openedAssetsOrderBy,
         );
         this.$assetsWithProperties.set(assetsWithProperties);
-    }
-
-    public ngOnDestroy(): void {
-        this.assetService.unsubscribe();
     }
 
     public addAsset(): void {

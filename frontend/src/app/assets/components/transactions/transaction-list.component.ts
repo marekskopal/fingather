@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy, Component, OnDestroy, OnInit, signal
+    ChangeDetectionStrategy, Component, OnInit, signal
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Transaction, TransactionActionType } from '@app/models';
@@ -13,7 +13,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
     selector: 'fingather-transaction-list',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TransactionListComponent implements OnInit, OnDestroy {
+export class TransactionListComponent implements OnInit {
     private $transactions = signal<Transaction[] | null>(null);
     public assetId: number;
 
@@ -33,10 +33,6 @@ export class TransactionListComponent implements OnInit, OnDestroy {
         this.transactionService.subscribe(() => {
             this.refreshTransactions();
         });
-    }
-
-    public ngOnDestroy(): void {
-        this.transactionService.unsubscribe();
     }
 
     public async refreshTransactions(): Promise<void> {
