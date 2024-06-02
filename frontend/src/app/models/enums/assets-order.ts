@@ -4,7 +4,7 @@ export enum AssetsOrder {
     Units = 'units',
     Value = 'value',
     Gain = 'gain',
-    DividendGain = 'dividendGain',
+    DividendYield = 'dividendYield',
     FxImpact = 'fxImpact',
     Return = 'return',
 }

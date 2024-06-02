@@ -102,8 +102,8 @@ final class AssetDataCalculatorTest extends TestCase
 	 *     gainPercentage: float,
 	 *     realizedGain: float,
 	 *     realizedGainDefaultCurrency: float,
-	 *     dividendGain: float,
-	 *     dividendGainDefaultCurrency: float,
+	 *     dividendYield: float,
+	 *     dividendYieldDefaultCurrency: float,
 	 * }>
 	 */
 	public static function calculateDataProvider(): array
@@ -141,8 +141,8 @@ final class AssetDataCalculatorTest extends TestCase
 				'gainPercentage' => 0.0,
 				'realizedGain' => 0.0,
 				'realizedGainDefaultCurrency' => 0.0,
-				'dividendGain' => 0.0,
-				'dividendGainDefaultCurrency' => 0.0,
+				'dividendYield' => 0.0,
+				'dividendYieldDefaultCurrency' => 0.0,
 			],
 			'two buy, one sell with split (zero gain)' => [
 				'transactions' => [
@@ -191,8 +191,8 @@ final class AssetDataCalculatorTest extends TestCase
 				'gainPercentage' => 0.0,
 				'realizedGain' => 0.0,
 				'realizedGainDefaultCurrency' => 0.0,
-				'dividendGain' => 0.0,
-				'dividendGainDefaultCurrency' => 0.0,
+				'dividendYield' => 0.0,
+				'dividendYieldDefaultCurrency' => 0.0,
 			],
 			'two buy, one sell with split (zero gain, must stay second buy)' => [
 				'transactions' => [
@@ -241,8 +241,8 @@ final class AssetDataCalculatorTest extends TestCase
 				'gainPercentage' => 0.0,
 				'realizedGain' => 0.0,
 				'realizedGainDefaultCurrency' => 0.0,
-				'dividendGain' => 0.0,
-				'dividendGainDefaultCurrency' => 0.0,
+				'dividendYield' => 0.0,
+				'dividendYieldDefaultCurrency' => 0.0,
 			],
 			'two buy, one sell with split (ten realized gain)' => [
 				'transactions' => [
@@ -295,8 +295,8 @@ final class AssetDataCalculatorTest extends TestCase
 				'gainPercentage' => 0.0,
 				'realizedGain' => 10.0,
 				'realizedGainDefaultCurrency' => 10.0,
-				'dividendGain' => 0.0,
-				'dividendGainDefaultCurrency' => 0.0,
+				'dividendYield' => 0.0,
+				'dividendYieldDefaultCurrency' => 0.0,
 			],
 			'two buy, one sell with split (ten gain, must stay second buy)' => [
 				'transactions' => [
@@ -345,8 +345,8 @@ final class AssetDataCalculatorTest extends TestCase
 				'gainPercentage' => 50.0,
 				'realizedGain' => 5.0,
 				'realizedGainDefaultCurrency' => 5.0,
-				'dividendGain' => 0.0,
-				'dividendGainDefaultCurrency' => 0.0,
+				'dividendYield' => 0.0,
+				'dividendYieldDefaultCurrency' => 0.0,
 			],
 			'Real data: Tesla' => [
 				'transactions' => [
@@ -499,8 +499,8 @@ final class AssetDataCalculatorTest extends TestCase
 				'gainPercentage' => -4.5,
 				'realizedGain' => 62.8001730353,
 				'realizedGainDefaultCurrency' => 1636.4900883451,
-				'dividendGain' => 0.0,
-				'dividendGainDefaultCurrency' => 0.0,
+				'dividendYield' => 0.0,
+				'dividendYieldDefaultCurrency' => 0.0,
 			],
 		];
 	}
@@ -527,8 +527,8 @@ final class AssetDataCalculatorTest extends TestCase
 		float $gainPercentage,
 		float $realizedGain,
 		float $realizedGainDefaultCurrency,
-		float $dividendGain,
-		float $dividendGainDefaultCurrency,
+		float $dividendYield,
+		float $dividendYieldDefaultCurrency,
 	): void
 	{
 		$assetDataCalculator = $this->createAssetDataCalculator(
@@ -561,8 +561,8 @@ final class AssetDataCalculatorTest extends TestCase
 		self::assertSame($gainPercentage, $assetData->gainPercentage);
 		self::assertSame($realizedGain, $assetData->realizedGain->toFloat());
 		self::assertSame($realizedGainDefaultCurrency, $assetData->realizedGainDefaultCurrency->toFloat());
-		self::assertSame($dividendGain, $assetData->dividendGain->toFloat());
-		self::assertSame($dividendGainDefaultCurrency, $assetData->dividendGainDefaultCurrency->toFloat());
+		self::assertSame($dividendYield, $assetData->dividendYield->toFloat());
+		self::assertSame($dividendYieldDefaultCurrency, $assetData->dividendYieldDefaultCurrency->toFloat());
 	}
 
 	/**

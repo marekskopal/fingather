@@ -12,12 +12,12 @@ export interface YearCalculatedData {
     gainPercentagePerAnnumInterannually: number | null;
     realizedGain: number;
     realizedGainInterannually: number | null;
-    dividendGain: number;
-    dividendGainInterannually: number | null;
-    dividendGainPercentage: number;
-    dividendGainPercentageInterannually: number | null;
-    dividendGainPercentagePerAnnum: number;
-    dividendGainPercentagePerAnnumInterannually: number | null;
+    dividendYield: number;
+    dividendYieldInterannually: number | null;
+    dividendYieldPercentage: number;
+    dividendYieldPercentageInterannually: number | null;
+    dividendYieldPercentagePerAnnum: number;
+    dividendYieldPercentagePerAnnumInterannually: number | null;
     fxImpact: number;
     fxImpactInterannually: number | null;
     fxImpactPercentage: number;

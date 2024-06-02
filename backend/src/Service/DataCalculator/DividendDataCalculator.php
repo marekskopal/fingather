@@ -47,7 +47,7 @@ final class DividendDataCalculator
 		$dividendData = [];
 
 		foreach ($transactions as $transaction) {
-			$dividendGain = $transaction->getPriceDefaultCurrency();
+			$dividendYield = $transaction->getPriceDefaultCurrency();
 
 			$dateRangeKey = $this->getDateRangeKey($transaction->getActionCreated(), $range);
 
@@ -57,10 +57,10 @@ final class DividendDataCalculator
 				id: $asset->getId(),
 				tickerTicker: $asset->getTicker()->getTicker(),
 				tickerName: $asset->getTicker()->getName(),
-				dividendGain: new Decimal(0),
+				dividendYield: new Decimal(0),
 			);
 
-			$dividendDataAsset->dividendGain = $dividendDataAsset->dividendGain->add($dividendGain);
+			$dividendDataAsset->dividendYield = $dividendDataAsset->dividendYield->add($dividendYield);
 
 			$dividendData[$dateRangeKey][$asset->getId()] = $dividendDataAsset;
 		}

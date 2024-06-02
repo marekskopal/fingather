@@ -8,9 +8,9 @@ export interface AbstractDataEntity extends AbstractEntity {
     gainPercentage: number;
     gainPercentagePerAnnum: number;
     realizedGain: number;
-    dividendGain: number;
-    dividendGainPercentage: number;
-    dividendGainPercentagePerAnnum: number;
+    dividendYield: number;
+    dividendYieldPercentage: number;
+    dividendYieldPercentagePerAnnum: number;
     fxImpact: number;
     fxImpactPercentage: number;
     fxImpactPercentagePerAnnum: number;

@@ -17,10 +17,10 @@ export interface AssetWithProperties {
     realizedGainDefaultCurrency: number;
     gainPercentage: number;
     gainPercentagePerAnnum: number;
-    dividendGain: number;
-    dividendGainDefaultCurrency: number;
-    dividendGainPercentage: number;
-    dividendGainPercentagePerAnnum: number;
+    dividendYield: number;
+    dividendYieldDefaultCurrency: number;
+    dividendYieldPercentage: number;
+    dividendYieldPercentagePerAnnum: number;
     fxImpact: number;
     fxImpactPercentage: number;
     fxImpactPercentagePerAnnum: number;

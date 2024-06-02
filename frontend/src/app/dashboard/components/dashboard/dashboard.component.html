@@ -44,9 +44,9 @@
                                     <div class="small">{{group.groupData.gain | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
                                     <div>{{group.groupData.gainPercentage}}%</div>
                                 </td>
-                                <td class="text-end {{group.groupData.dividendGain > 0 ? 'green' : (group.groupData.dividendGain < 0 ? 'red' : '')}}">
-                                    <div class="small">{{group.groupData.dividendGain | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
-                                    <div>{{group.groupData.dividendGainPercentage}}%</div>
+                                <td class="text-end {{group.groupData.dividendYield > 0 ? 'green' : (group.groupData.dividendYield < 0 ? 'red' : '')}}">
+                                    <div class="small">{{group.groupData.dividendYield | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
+                                    <div>{{group.groupData.dividendYieldPercentage}}%</div>
                                 </td>
                                 <td class="text-end {{group.groupData.fxImpact > 0 ? 'green' : (group.groupData.fxImpact < 0 ? 'red' : '')}}">
                                     <div class="small">{{group.groupData.fxImpact | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>

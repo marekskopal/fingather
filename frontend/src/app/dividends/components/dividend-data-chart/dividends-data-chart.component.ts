@@ -144,7 +144,7 @@ export class DividendsDataChartComponent implements OnInit, OnChanges {
                     continue;
                 }
 
-                currentSeriesData.data[i] = parseFloat(dividendDataAsset.dividendGain);
+                currentSeriesData.data[i] = parseFloat(dividendDataAsset.dividendYield);
             }
 
             i += 1;

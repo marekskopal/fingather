@@ -56,13 +56,13 @@ class AssetData extends AEntity
 		#[ColumnDecimal(precision: 12, scale: 2)]
 		public Decimal $realizedGainDefaultCurrency,
 		#[ColumnDecimal(precision: 12, scale: 2)]
-		public Decimal $dividendGain,
+		public Decimal $dividendYield,
 		#[ColumnDecimal(precision: 12, scale: 2)]
-		public Decimal $dividendGainDefaultCurrency,
+		public Decimal $dividendYieldDefaultCurrency,
 		#[Column(type: 'float')]
-		public float $dividendGainPercentage,
+		public float $dividendYieldPercentage,
 		#[Column(type: 'float')]
-		public float $dividendGainPercentagePerAnnum,
+		public float $dividendYieldPercentagePerAnnum,
 		#[ColumnDecimal(precision: 12, scale: 2)]
 		public Decimal $fxImpact,
 		#[Column(type: 'float')]
@@ -168,24 +168,24 @@ class AssetData extends AEntity
 		return $this->realizedGainDefaultCurrency;
 	}
 
-	public function getDividendGain(): Decimal
+	public function getdividendYield(): Decimal
 	{
-		return $this->dividendGain;
+		return $this->dividendYield;
 	}
 
-	public function getDividendGainDefaultCurrency(): Decimal
+	public function getdividendYieldDefaultCurrency(): Decimal
 	{
-		return $this->dividendGainDefaultCurrency;
+		return $this->dividendYieldDefaultCurrency;
 	}
 
-	public function getDividendGainPercentage(): float
+	public function getdividendYieldPercentage(): float
 	{
-		return $this->dividendGainPercentage;
+		return $this->dividendYieldPercentage;
 	}
 
-	public function getDividendGainPercentagePerAnnum(): float
+	public function getdividendYieldPercentagePerAnnum(): float
 	{
-		return $this->dividendGainPercentagePerAnnum;
+		return $this->dividendYieldPercentagePerAnnum;
 	}
 
 	public function getFxImpact(): Decimal
