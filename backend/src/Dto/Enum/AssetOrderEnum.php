@@ -11,7 +11,7 @@ enum AssetOrderEnum: string
 	case Units = 'units';
 	case Value = 'value';
 	case Gain = 'gain';
-	case DividendGain = 'dividendGain';
+	case DividendYield = 'dividendYield';
 	case FxImpact = 'fxImpact';
 	case Return = 'return';
 }

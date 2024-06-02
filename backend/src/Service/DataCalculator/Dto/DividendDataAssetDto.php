@@ -12,7 +12,7 @@ final class DividendDataAssetDto
 		public readonly int $id,
 		public readonly string $tickerTicker,
 		public readonly string $tickerName,
-		public Decimal $dividendGain,
+		public Decimal $dividendYield,
 	) {
 	}
 }

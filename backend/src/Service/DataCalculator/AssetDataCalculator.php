@@ -62,9 +62,9 @@ final class AssetDataCalculator
 		$splits = $this->splitProvider->getSplits($asset->getTicker());
 
 		$units = new Decimal(0);
-		$dividendGain = new Decimal(0);
-		$dividendGainDefaultCurrency = new Decimal(0);
-		$dividendGainTickerCurrency = new Decimal(0);
+		$dividendYield = new Decimal(0);
+		$dividendYieldDefaultCurrency = new Decimal(0);
+		$dividendYieldTickerCurrency = new Decimal(0);
 		$tax = new Decimal(0);
 		$taxDefaultCurrency = new Decimal(0);
 		$fee = new Decimal(0);
@@ -96,9 +96,9 @@ final class AssetDataCalculator
 				$units,
 				$realizedGain,
 				$realizedGainDefaultCurrency,
-				$dividendGain,
-				$dividendGainDefaultCurrency,
-				$dividendGainTickerCurrency,
+				$dividendYield,
+				$dividendYieldDefaultCurrency,
+				$dividendYieldTickerCurrency,
 				$tax,
 				$taxDefaultCurrency,
 				$fee,
@@ -114,13 +114,13 @@ final class AssetDataCalculator
 		$value = $units->mul($price);
 		$gain = $value->sub($transactionValue->value);
 		$gainDefaultCurrency = $gain->mul($exchangeRate);
-		$dividendGainDefaultCurrency = $dividendGainDefaultCurrency->add($dividendGainTickerCurrency->mul($exchangeRate));
+		$dividendYieldDefaultCurrency = $dividendYieldDefaultCurrency->add($dividendYieldTickerCurrency->mul($exchangeRate));
 		$fxImpact = $transactionValue->value->mul($exchangeRate)->sub($transactionValue->valueDefaultCurrency);
 
 		$gainPercentage = CalculatorUtils::toPercentage($gain, $transactionValue->value);
 		$gainPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($gainPercentage, $fromFirstTransactionDays);
-		$dividendGainPercentage = CalculatorUtils::toPercentage($dividendGain, $transactionValue->value);
-		$dividendGainPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($dividendGainPercentage, $fromFirstTransactionDays);
+		$dividendYieldPercentage = CalculatorUtils::toPercentage($dividendYield, $transactionValue->value);
+		$dividendYieldPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($dividendYieldPercentage, $fromFirstTransactionDays);
 		$fxImpactPercentage = CalculatorUtils::toPercentage($fxImpact, $transactionValue->valueDefaultCurrency);
 		$fxImpactPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($fxImpactPercentage, $fromFirstTransactionDays);
 
@@ -138,16 +138,16 @@ final class AssetDataCalculator
 			gainPercentagePerAnnum: $gainPercentagePerAnnum,
 			realizedGain: $realizedGain,
 			realizedGainDefaultCurrency: $realizedGainDefaultCurrency,
-			dividendGain: $dividendGain,
-			dividendGainDefaultCurrency: $dividendGainDefaultCurrency,
-			dividendGainPercentage: $dividendGainPercentage,
-			dividendGainPercentagePerAnnum: $dividendGainPercentagePerAnnum,
+			dividendYield: $dividendYield,
+			dividendYieldDefaultCurrency: $dividendYieldDefaultCurrency,
+			dividendYieldPercentage: $dividendYieldPercentage,
+			dividendYieldPercentagePerAnnum: $dividendYieldPercentagePerAnnum,
 			fxImpact: $fxImpact,
 			fxImpactPercentage: $fxImpactPercentage,
 			fxImpactPercentagePerAnnum: $fxImpactPercentagePerAnnum,
-			return: $gainDefaultCurrency->add($dividendGainDefaultCurrency)->add($fxImpact),
-			returnPercentage: round($gainPercentage + $dividendGainPercentage + $fxImpactPercentage, 2),
-			returnPercentagePerAnnum: round($gainPercentagePerAnnum + $dividendGainPercentagePerAnnum + $fxImpactPercentagePerAnnum, 2),
+			return: $gainDefaultCurrency->add($dividendYieldDefaultCurrency)->add($fxImpact),
+			returnPercentage: round($gainPercentage + $dividendYieldPercentage + $fxImpactPercentage, 2),
+			returnPercentagePerAnnum: round($gainPercentagePerAnnum + $dividendYieldPercentagePerAnnum + $fxImpactPercentagePerAnnum, 2),
 			tax: $tax,
 			taxDefaultCurrency: $taxDefaultCurrency,
 			fee: $fee,
@@ -169,9 +169,9 @@ final class AssetDataCalculator
 		Decimal &$units,
 		Decimal &$realizedGain,
 		Decimal &$realizedGainDefaultCurrency,
-		Decimal &$dividendGain,
-		Decimal &$dividendGainDefaultCurrency,
-		Decimal &$dividendGainTickerCurrency,
+		Decimal &$dividendYield,
+		Decimal &$dividendYieldDefaultCurrency,
+		Decimal &$dividendYieldTickerCurrency,
 		Decimal &$tax,
 		Decimal &$taxDefaultCurrency,
 		Decimal &$fee,
@@ -193,12 +193,12 @@ final class AssetDataCalculator
 		if ($transaction->getActionType() === TransactionActionTypeEnum::Dividend) {
 			$dividendTransactionValue = $transaction->getPriceTickerCurrency();
 
-			$dividendGain = $dividendGain->add($dividendTransactionValue);
+			$dividendYield = $dividendYield->add($dividendTransactionValue);
 
 			if ($transaction->getCurrency()->getId() === $defaultCurrency->getId()) {
-				$dividendGainDefaultCurrency = $dividendGainDefaultCurrency->add($transaction->getPrice());
+				$dividendYieldDefaultCurrency = $dividendYieldDefaultCurrency->add($transaction->getPrice());
 			} else {
-				$dividendGainTickerCurrency = $dividendGainTickerCurrency->add($dividendTransactionValue);
+				$dividendYieldTickerCurrency = $dividendYieldTickerCurrency->add($dividendTransactionValue);
 			}
 
 			return;

@@ -32,11 +32,11 @@ class ADataEntity extends AEntity
 		#[ColumnDecimal(precision: 11, scale: 2)]
 		protected Decimal $realizedGain,
 		#[ColumnDecimal(precision: 11, scale: 2)]
-		protected Decimal $dividendGain,
+		protected Decimal $dividendYield,
 		#[Column(type: 'float')]
-		protected float $dividendGainPercentage,
+		protected float $dividendYieldPercentage,
 		#[Column(type: 'float')]
-		protected float $dividendGainPercentagePerAnnum,
+		protected float $dividendYieldPercentagePerAnnum,
 		#[ColumnDecimal(precision: 11, scale: 2)]
 		protected Decimal $fxImpact,
 		#[Column(type: 'float')]
@@ -91,19 +91,19 @@ class ADataEntity extends AEntity
 		return $this->realizedGain;
 	}
 
-	public function getDividendGain(): Decimal
+	public function getdividendYield(): Decimal
 	{
-		return $this->dividendGain;
+		return $this->dividendYield;
 	}
 
-	public function getDividendGainPercentage(): float
+	public function getdividendYieldPercentage(): float
 	{
-		return $this->dividendGainPercentage;
+		return $this->dividendYieldPercentage;
 	}
 
-	public function getDividendGainPercentagePerAnnum(): float
+	public function getdividendYieldPercentagePerAnnum(): float
 	{
-		return $this->dividendGainPercentagePerAnnum;
+		return $this->dividendYieldPercentagePerAnnum;
 	}
 
 	public function getFxImpact(): Decimal

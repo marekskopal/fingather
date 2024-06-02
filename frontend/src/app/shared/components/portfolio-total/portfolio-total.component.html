@@ -121,15 +121,15 @@
                         {{ 'app.shared.portfolioTotal.dividend' | translate }}
                     </div>
                     @if (portfolioData) {
-                        <div class="card-body {{portfolioData.dividendGain > 0 ? 'green' : (portfolioData.dividendGain < 0 ? 'red' : '')}}">
+                        <div class="card-body {{portfolioData.dividendYield > 0 ? 'green' : (portfolioData.dividendYield < 0 ? 'red' : '')}}">
                             <div>
-                                {{portfolioData.dividendGain | number:'1.2-2' | currency: defaultCurrency.id | async}}
+                                {{portfolioData.dividendYield | number:'1.2-2' | currency: defaultCurrency.id | async}}
                             </div>
                             <div>
-                                {{portfolioData.dividendGainPercentage | number:'1.2-2'}}%
+                                {{portfolioData.dividendYieldPercentage | number:'1.2-2'}}%
                             </div>
                             <div>
-                                {{portfolioData.dividendGainPercentagePerAnnum | number:'1.2-2'}}%&nbsp;p.a.
+                                {{portfolioData.dividendYieldPercentagePerAnnum | number:'1.2-2'}}%&nbsp;p.a.
                             </div>
                         </div>
                     } @else {

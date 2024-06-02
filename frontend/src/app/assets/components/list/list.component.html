@@ -71,9 +71,9 @@
                                         </a>
                                     </th>
                                     <th style="width: 9.5%">
-                                        <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.DividendGain)" tabindex="0">
+                                        <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.DividendYield)" tabindex="0">
                                             {{ 'app.assets.list.dividend' | translate }}
-                                            @if(openedAssetsOrderBy === AssetsOrder.DividendGain) {
+                                            @if(openedAssetsOrderBy === AssetsOrder.DividendYield) {
                                                 &nbsp;<fa-icon icon="arrow-down-9-1" />
                                             }
                                         </a>
@@ -122,13 +122,13 @@
                                             }
                                         </div>
                                     </td>
-                                    <td class="text-end {{asset.dividendGain > 0 ? 'green' : (asset.dividendGain < 0 ? 'red' : '')}}">
-                                        <div class="small">{{asset.dividendGainDefaultCurrency | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
+                                    <td class="text-end {{asset.dividendYield > 0 ? 'green' : (asset.dividendYield < 0 ? 'red' : '')}}">
+                                        <div class="small">{{asset.dividendYieldDefaultCurrency | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
                                         <div>
                                             @if ($showPerAnnum()) {
-                                                {{asset.dividendGainPercentagePerAnnum}}%&nbsp;p.a.
+                                                {{asset.dividendYieldPercentagePerAnnum}}%&nbsp;p.a.
                                             } @else {
-                                                {{asset.dividendGainPercentage}}%
+                                                {{asset.dividendYieldPercentage}}%
                                             }
                                         </div>
                                     </td>
@@ -168,13 +168,13 @@
                                             }
                                         </div>
                                     </td>
-                                    <td class="text-end {{group.groupData.dividendGain > 0 ? 'green' : (group.groupData.dividendGain < 0 ? 'red' : '')}}">
-                                        <div class="small">{{group.groupData.dividendGain | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
+                                    <td class="text-end {{group.groupData.dividendYield > 0 ? 'green' : (group.groupData.dividendYield < 0 ? 'red' : '')}}">
+                                        <div class="small">{{group.groupData.dividendYield | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
                                         <div>
                                             @if ($showPerAnnum()) {
-                                                {{group.groupData.dividendGainPercentagePerAnnum}}%&nbsp;p.a.
+                                                {{group.groupData.dividendYieldPercentagePerAnnum}}%&nbsp;p.a.
                                             } @else {
-                                                {{group.groupData.dividendGainPercentage}}%
+                                                {{group.groupData.dividendYieldPercentage}}%
                                             }
                                         </div>
                                     </td>
@@ -249,9 +249,9 @@
                                     </a>
                                 </th>
                                 <th style="width: 9.5%">
-                                    <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.DividendGain)" tabindex="0">
+                                    <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.DividendYield)" tabindex="0">
                                         {{ 'app.assets.list.dividend' | translate }}
-                                        @if(openedAssetsOrderBy === AssetsOrder.DividendGain) {
+                                        @if(openedAssetsOrderBy === AssetsOrder.DividendYield) {
                                             &nbsp;<fa-icon icon="arrow-down-9-1" />
                                         }
                                     </a>
@@ -301,13 +301,13 @@
                                         }
                                     </div>
                                 </td>
-                                <td class="text-end {{asset.dividendGain > 0 ? 'green' : (asset.dividendGain < 0 ? 'red' : '')}}">
-                                    <div class="small">{{asset.dividendGainDefaultCurrency | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
+                                <td class="text-end {{asset.dividendYield > 0 ? 'green' : (asset.dividendYield < 0 ? 'red' : '')}}">
+                                    <div class="small">{{asset.dividendYieldDefaultCurrency | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
                                     <div>
                                         @if ($showPerAnnum()) {
-                                            {{asset.dividendGainPercentagePerAnnum}}%&nbsp;p.a.
+                                            {{asset.dividendYieldPercentagePerAnnum}}%&nbsp;p.a.
                                         } @else {
-                                            {{asset.dividendGainPercentage}}%
+                                            {{asset.dividendYieldPercentage}}%
                                         }
                                     </div>
                                 </td>

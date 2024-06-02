@@ -136,9 +136,9 @@ final class AssetController
 				$openAssets,
 				fn (AssetWithPropertiesDto $a, AssetWithPropertiesDto $b) => $b->gainDefaultCurrency <=> $a->gainDefaultCurrency,
 			),
-			AssetOrderEnum::DividendGain => usort(
+			AssetOrderEnum::DividendYield => usort(
 				$openAssets,
-				fn (AssetWithPropertiesDto $a, AssetWithPropertiesDto $b) => $b->dividendGainDefaultCurrency <=> $a->dividendGainDefaultCurrency,
+				fn (AssetWithPropertiesDto $a, AssetWithPropertiesDto $b) => $b->dividendYieldDefaultCurrency <=> $a->dividendYieldDefaultCurrency,
 			),
 			AssetOrderEnum::FxImpact => usort(
 				$openAssets,

@@ -96,34 +96,34 @@
                 <td class="text-end">
                     @if (mode === ModeEnum.Interannually) {
                         <div class="small">
-                            <fingather-table-value [value]="yearCalculatedData.dividendGainInterannually">
-                                {{yearCalculatedData.dividendGainInterannually | number:'1.2-2' | currency: defaultCurrency.id | async}}
+                            <fingather-table-value [value]="yearCalculatedData.dividendYieldInterannually">
+                                {{yearCalculatedData.dividendYieldInterannually | number:'1.2-2' | currency: defaultCurrency.id | async}}
                             </fingather-table-value>
                         </div>
                         <div>
-                            <fingather-table-value [value]="yearCalculatedData.dividendGainPercentageInterannually">
-                                {{yearCalculatedData.dividendGainPercentageInterannually}}%
+                            <fingather-table-value [value]="yearCalculatedData.dividendYieldPercentageInterannually">
+                                {{yearCalculatedData.dividendYieldPercentageInterannually}}%
                             </fingather-table-value>
                         </div>
                         <div>
-                            <fingather-table-value [value]="yearCalculatedData.dividendGainPercentagePerAnnumInterannually">
-                                {{yearCalculatedData.dividendGainPercentagePerAnnumInterannually}}%&nbsp;p.a.
+                            <fingather-table-value [value]="yearCalculatedData.dividendYieldPercentagePerAnnumInterannually">
+                                {{yearCalculatedData.dividendYieldPercentagePerAnnumInterannually}}%&nbsp;p.a.
                             </fingather-table-value>
                         </div>
                     } @else {
                         <div class="small">
-                            <fingather-table-value [value]="yearCalculatedData.dividendGain">
-                                {{yearCalculatedData.dividendGain | number:'1.2-2' | currency: defaultCurrency.id | async}}
+                            <fingather-table-value [value]="yearCalculatedData.dividendYield">
+                                {{yearCalculatedData.dividendYield | number:'1.2-2' | currency: defaultCurrency.id | async}}
                             </fingather-table-value>
                         </div>
                         <div>
-                            <fingather-table-value [value]="yearCalculatedData.dividendGainPercentage">
-                                {{yearCalculatedData.dividendGainPercentage}}%
+                            <fingather-table-value [value]="yearCalculatedData.dividendYieldPercentage">
+                                {{yearCalculatedData.dividendYieldPercentage}}%
                             </fingather-table-value>
                         </div>
                         <div>
-                            <fingather-table-value [value]="yearCalculatedData.dividendGainPercentagePerAnnum">
-                                {{yearCalculatedData.dividendGainPercentagePerAnnum}}%&nbsp;p.a.
+                            <fingather-table-value [value]="yearCalculatedData.dividendYieldPercentagePerAnnum">
+                                {{yearCalculatedData.dividendYieldPercentagePerAnnum}}%&nbsp;p.a.
                             </fingather-table-value>
                         </div>
                     }

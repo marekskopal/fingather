@@ -70,12 +70,12 @@ final class OverviewDataCalculator
 					gainPercentagePerAnnumInterannually: null,
 					realizedGain: $portfolioDataToDate->realizedGain,
 					realizedGainInterannually: null,
-					dividendGain: $portfolioDataToDate->dividendGain,
-					dividendGainInterannually: null,
-					dividendGainPercentage: $portfolioDataToDate->dividendGainPercentage,
-					dividendGainPercentageInterannually: null,
-					dividendGainPercentagePerAnnum: $portfolioDataToDate->dividendGainPercentagePerAnnum,
-					dividendGainPercentagePerAnnumInterannually: null,
+					dividendYield: $portfolioDataToDate->dividendYield,
+					dividendYieldInterannually: null,
+					dividendYieldPercentage: $portfolioDataToDate->dividendYieldPercentage,
+					dividendYieldPercentageInterannually: null,
+					dividendYieldPercentagePerAnnum: $portfolioDataToDate->dividendYieldPercentagePerAnnum,
+					dividendYieldPercentagePerAnnumInterannually: null,
 					fxImpact: $portfolioDataToDate->fxImpact,
 					fxImpactInterannually: null,
 					fxImpactPercentage: $portfolioDataToDate->fxImpactPercentage,
@@ -104,7 +104,7 @@ final class OverviewDataCalculator
 			$transactionValue = $portfolioDataToDate->transactionValue->sub($portfolioDataFromDate->transactionValue);
 			$gain = $portfolioDataToDate->gain->sub($portfolioDataFromDate->gain);
 			$realizedGain = $portfolioDataToDate->realizedGain->sub($portfolioDataFromDate->realizedGain);
-			$dividendGain = $portfolioDataToDate->dividendGain->sub($portfolioDataFromDate->dividendGain);
+			$dividendYield = $portfolioDataToDate->dividendYield->sub($portfolioDataFromDate->dividendYield);
 			$fxImpact = $portfolioDataToDate->fxImpact->sub($portfolioDataFromDate->fxImpact);
 			$return = $portfolioDataToDate->return->sub($portfolioDataFromDate->return);
 			$tax = $portfolioDataToDate->tax->sub($portfolioDataFromDate->tax);
@@ -112,11 +112,11 @@ final class OverviewDataCalculator
 
 			$gainPercentage = CalculatorUtils::diffToPercentage($portfolioDataFromDate->gain, $portfolioDataToDate->gain);
 			$gainPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($gainPercentage, $fromFirstTransactionDays);
-			$dividendGainPercentage = CalculatorUtils::diffToPercentage(
-				$portfolioDataFromDate->dividendGain,
-				$portfolioDataToDate->dividendGain,
+			$dividendYieldPercentage = CalculatorUtils::diffToPercentage(
+				$portfolioDataFromDate->dividendYield,
+				$portfolioDataToDate->dividendYield,
 			);
-			$dividendGainPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($dividendGainPercentage, $fromFirstTransactionDays);
+			$dividendYieldPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($dividendYieldPercentage, $fromFirstTransactionDays);
 			$fxImpactPercentage = CalculatorUtils::diffToPercentage($portfolioDataFromDate->fxImpact, $portfolioDataToDate->fxImpact);
 			$fxImpactPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($fxImpactPercentage, $fromFirstTransactionDays);
 			$returnPercentage = CalculatorUtils::diffToPercentage($portfolioDataFromDate->return, $portfolioDataToDate->return);
@@ -136,12 +136,12 @@ final class OverviewDataCalculator
 				gainPercentagePerAnnumInterannually: $gainPercentagePerAnnum,
 				realizedGain: $portfolioDataToDate->realizedGain,
 				realizedGainInterannually: $realizedGain,
-				dividendGain: $portfolioDataToDate->dividendGain,
-				dividendGainInterannually: $dividendGain,
-				dividendGainPercentage: $portfolioDataToDate->dividendGainPercentage,
-				dividendGainPercentageInterannually: $dividendGainPercentage,
-				dividendGainPercentagePerAnnum: $portfolioDataToDate->dividendGainPercentagePerAnnum,
-				dividendGainPercentagePerAnnumInterannually: $dividendGainPercentagePerAnnum,
+				dividendYield: $portfolioDataToDate->dividendYield,
+				dividendYieldInterannually: $dividendYield,
+				dividendYieldPercentage: $portfolioDataToDate->dividendYieldPercentage,
+				dividendYieldPercentageInterannually: $dividendYieldPercentage,
+				dividendYieldPercentagePerAnnum: $portfolioDataToDate->dividendYieldPercentagePerAnnum,
+				dividendYieldPercentagePerAnnumInterannually: $dividendYieldPercentagePerAnnum,
 				fxImpact: $portfolioDataToDate->fxImpact,
 				fxImpactInterannually: $fxImpact,
 				fxImpactPercentage: $portfolioDataToDate->fxImpactPercentage,
