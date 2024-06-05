@@ -33,7 +33,7 @@
     "ng-apexcharts": "1.10.0",
     "ngx-file-drop": "^16.0.0",
     "rxjs": "^7.8.1",
-    "tslib": "^2.6.2",
+    "tslib": "^2.6.3",
     "zone.js": "~0.14.6"
   },
   "devDependencies": {
@@ -45,11 +45,11 @@
     "@angular-eslint/template-parser": "18.0.1",
     "@angular/cli": "^18.0.2",
     "@angular/compiler-cli": "^18.0.1",
-    "@babel/runtime": "^7.24.6",
+    "@babel/runtime": "^7.24.7",
     "@krema/angular-eslint-stylelint-builder": "^1.4.0",
     "@types/jasmine": "^5.1.4",
-    "@typescript-eslint/eslint-plugin": "^7.11.0",
-    "@typescript-eslint/parser": "^7.11.0",
+    "@typescript-eslint/eslint-plugin": "^7.12.0",
+    "@typescript-eslint/parser": "^7.12.0",
     "eslint": "^8.57.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-airbnb-typescript": "^18.0.0",
