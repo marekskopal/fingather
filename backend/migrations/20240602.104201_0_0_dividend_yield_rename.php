@@ -37,6 +37,12 @@ class DividendYieldRenameMigration extends Migration
 			->renameColumn('dividend_gain_percentage_per_annum', 'dividend_yield_percentage_per_annum')
 			->update();
 
+		$this->table('portfolio_datas')
+			->renameColumn('dividend_gain', 'dividend_yield')
+			->renameColumn('dividend_gain_percentage', 'dividend_yield_percentage')
+			->renameColumn('dividend_gain_percentage_per_annum', 'dividend_yield_percentage_per_annum')
+			->update();
+
 		$this->table('sector_datas')
 			->renameColumn('dividend_gain', 'dividend_yield')
 			->renameColumn('dividend_gain_percentage', 'dividend_yield_percentage')
@@ -47,6 +53,12 @@ class DividendYieldRenameMigration extends Migration
 	public function down(): void
 	{
 		$this->table('industry_datas')
+			->renameColumn('dividend_yield', 'dividend_gain')
+			->renameColumn('dividend_yield_percentage', 'dividend_gain_percentage')
+			->renameColumn('dividend_yield_percentage_per_annum', 'dividend_gain_percentage_per_annum')
+			->update();
+
+		$this->table('portfolio_datas')
 			->renameColumn('dividend_yield', 'dividend_gain')
 			->renameColumn('dividend_yield_percentage', 'dividend_gain_percentage')
 			->renameColumn('dividend_yield_percentage_per_annum', 'dividend_gain_percentage_per_annum')
