@@ -75,7 +75,7 @@ services:
             #- ./backend/src:/app/src
 
     db:
-        image: mariadb:11.2
+        image: mariadb:11.4
         restart: unless-stopped
         environment:
             MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
