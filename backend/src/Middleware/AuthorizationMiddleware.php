@@ -8,6 +8,7 @@ use FinGather\Middleware\Exception\NotAuthorizedException;
 use FinGather\Route\Routes;
 use FinGather\Service\Authentication\AuthenticationService;
 use FinGather\Service\Provider\UserProvider;
+use Firebase\JWT\ExpiredException;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Psr\Http\Message\ResponseInterface;
@@ -63,18 +64,38 @@ final class AuthorizationMiddleware implements MiddlewareInterface
 
 		try {
 			$token = JWT::decode($jwtToken, new Key((string) getenv('AUTHORIZATION_TOKEN_KEY'), AuthenticationService::TokenAlgorithm));
+		} catch (ExpiredException $exception) {
+			if ($request->getUri()->getPath() !== Routes::AuthenticationRefreshToken->value) {
+				throw new NotAuthorizedException('AccessToken is expired.', $request, 401, $exception);
+			}
+
+			/** @var object{id: int} $payload */
+			$payload = $exception->getPayload();
+			$request = $this->withUserAttribute($request, $payload->id);
+
+			return $handler->handle($request);
 		} catch (\Throwable $exception) {
-			throw new NotAuthorizedException($exception->getMessage(), $request, 401, $exception);
+			throw new NotAuthorizedException('AccessToken is expired.', $request, 401, $exception);
 		}
 
-		$user = $this->userProvider->getUser($token->id);
+		$request = $this->withUserAttribute($request, $token->id);
+
+		$request = $request->withAttribute(self::AttributeToken, $jwtToken);
+
+		return $handler->handle($request);
+	}
+
+	private function withUserAttribute(ServerRequestInterface $request, ?int $userId): ServerRequestInterface
+	{
+		if ($userId === null) {
+			throw new NotAuthorizedException('User is not authorized.', $request);
+		}
+
+		$user = $this->userProvider->getUser($userId);
 		if ($user === null) {
 			throw new NotAuthorizedException('User is not authorized.', $request);
 		}
 
-		$request = $request->withAttribute(self::AttributeToken, $jwtToken)
-			->withAttribute(self::AttributeUser, $user);
-
-		return $handler->handle($request);
+		return $request->withAttribute(self::AttributeUser, $user);
 	}
 }

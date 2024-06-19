@@ -1,5 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Authentication } from '@app/models/authentication';
+import { ChangeDetectionStrategy, Component, computed } from '@angular/core';
 import { AuthenticationService } from '@app/services/authentication.service';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -9,18 +8,17 @@ import { TranslateService } from '@ngx-translate/core';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
-    public authentication: Authentication | null;
-
     public isNavigationCollapsed: boolean = true;
 
     public languages: string[];
     public currentLanguage: string;
 
+    protected $isLoggedIn = computed<boolean>(() => this.authenticationService.$isLoggedIn());
+
     public constructor(
         private readonly authenticationService: AuthenticationService,
         private readonly translateService: TranslateService,
     ) {
-        this.authenticationService.authentication.subscribe((x) => this.authentication = x);
         this.languages = translateService.getLangs();
         this.currentLanguage = translateService.currentLang;
     }

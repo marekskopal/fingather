@@ -10,9 +10,7 @@ export class AuthGuard {
     ) {}
 
     public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-        const authentication = this.authenticationService.authenticationValue;
-        if (authentication) {
-            // authorised so return true
+        if (this.authenticationService.$isLoggedIn()) {
             return true;
         }
 

@@ -4,7 +4,6 @@ import {
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { ErrorInterceptor } from '@app/core/interceptors/error.interceptor';
 import { JwtInterceptor } from '@app/core/interceptors/jwt.interceptor';
 import { AlertComponent } from '@app/shared/components/alert/alert.component';
 import { FaIconComponent, FaIconLibrary } from '@fortawesome/angular-fontawesome';
@@ -47,7 +46,6 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
         provideHttpClient(withInterceptorsFromDi()),
     ]
 })

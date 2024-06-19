@@ -1,5 +1,5 @@
 export interface Authentication {
-    token: string;
-    tokenExpirationTime: number;
+    accessToken: string;
+    refreshToken: string;
     userId: number;
 }
