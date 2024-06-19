@@ -15,6 +15,9 @@ final class AuthenticationService
 {
 	public const TokenAlgorithm = 'HS256';
 
+	private const AccessTokenExpiration = 3600;
+	private const RefreshTokenExpiration = 604800;
+
 	public function __construct(private readonly UserProvider $userProvider)
 	{
 	}
@@ -35,11 +38,12 @@ final class AuthenticationService
 
 	public function createAuthentication(User $user): AuthenticationDto
 	{
-		$expiration = time() + 3600;
+		$accessTokenExpiration = time() + self::AccessTokenExpiration;
+		$refreshTokenExpiration = time() + self::RefreshTokenExpiration;
 
 		return new AuthenticationDto(
-			token: $this->createToken($user->getId(), $expiration),
-			tokenExpirationTime: $expiration,
+			accessToken: $this->createToken($user->getId(), $accessTokenExpiration),
+			refreshToken: $this->createToken($user->getId(), $refreshTokenExpiration),
 			userId: $user->getId(),
 		);
 	}

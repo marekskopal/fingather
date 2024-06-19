@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { SignUp } from '@app/models';
 import { Authentication } from '@app/models/authentication';
@@ -8,13 +8,14 @@ import { OkResponse } from '@app/models/ok-response';
 import { CurrentUserService } from '@app/services/current-user.service';
 import { PortfolioService } from '@app/services/portfolio.service';
 import { environment } from '@environments/environment';
-import { BehaviorSubject, firstValueFrom, Observable } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-    private authenticationSubject: BehaviorSubject<Authentication | null>;
-    public authentication: Observable<Authentication | null>;
-    private refreshTokenTimeout: ReturnType<typeof setTimeout>;
+    public $authentication = signal<Authentication | null>(null);
+    public $isLoggedIn = computed<boolean>(
+        () => this.$authentication() !== null
+    );
 
     public constructor(
         private readonly router: Router,
@@ -25,12 +26,7 @@ export class AuthenticationService {
         const localStorageAuthentication = localStorage.getItem('authentication');
         const authentication = localStorageAuthentication !== null ? JSON.parse(localStorageAuthentication) : null;
 
-        this.authenticationSubject = new BehaviorSubject<Authentication | null>(authentication);
-        this.authentication = this.authenticationSubject.asObservable();
-    }
-
-    public get authenticationValue(): Authentication | null {
-        return this.authenticationSubject.value;
+        this.$authentication.set(authentication);
     }
 
     public async login(email: string, password: string): Promise<Authentication> {
@@ -43,8 +39,7 @@ export class AuthenticationService {
 
         // store user details and jwt token in local storage to keep user logged in between page refreshes
         localStorage.setItem('authentication', JSON.stringify(authentication));
-        this.authenticationSubject.next(authentication);
-        this.startRefreshTokenTimer();
+        this.$authentication.set(authentication);
         this.portfolioService.cleanCurrentPortfolio();
         this.currentUserService.cleanCurrentUser();
 
@@ -54,8 +49,7 @@ export class AuthenticationService {
     public logout(): void {
         // remove authentication from local storage and set current authentication to null
         localStorage.removeItem('authentication');
-        this.authenticationSubject.next(null);
-        this.stopRefreshTokenTimer();
+        this.$authentication.set(null);
         this.portfolioService.cleanCurrentPortfolio();
         this.currentUserService.cleanCurrentUser();
         this.router.navigate(['/authentication/login']);
@@ -81,30 +75,16 @@ export class AuthenticationService {
         const authentication = await firstValueFrom<Authentication>(
             this.http.post<Authentication>(
                 `${environment.apiUrl}/authentication/refresh-token`,
-                {},
+                {
+                    refreshToken: this.$authentication()?.refreshToken,
+                },
                 { withCredentials: true }
             )
         );
 
         localStorage.setItem('authentication', JSON.stringify(authentication));
-        this.authenticationSubject.next(authentication);
-        this.startRefreshTokenTimer();
+        this.$authentication.set(authentication);
 
         return authentication;
-    }
-
-    private startRefreshTokenTimer(): void {
-        // parse json object from base64 encoded jwt token
-        const jwtBase64 = this.authenticationValue!.token!.split('.')[1];
-        const jwtToken = JSON.parse(atob(jwtBase64));
-
-        // set a timeout to refresh the token a minute before it expires
-        const expires = new Date(jwtToken.exp * 1000);
-        const timeout = expires.getTime() - Date.now() - (60 * 1000);
-        this.refreshTokenTimeout = setTimeout(() => this.refreshToken(), timeout);
-    }
-
-    private stopRefreshTokenTimer(): void {
-        clearTimeout(this.refreshTokenTimeout);
     }
 }
