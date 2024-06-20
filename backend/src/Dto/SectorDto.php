@@ -6,7 +6,7 @@ namespace FinGather\Dto;
 
 use FinGather\Model\Entity\Sector;
 
-final readonly class TickerSectorDto
+final readonly class SectorDto
 {
 	public function __construct(public int $id, public string $name,)
 	{
