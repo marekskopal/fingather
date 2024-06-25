@@ -23,10 +23,7 @@ export class CurrencyService {
             return this.currencies;
         }
 
-        const currencies = await lastValueFrom<Currency[]>(
-            this.http.get<Currency[]>(`${environment.apiUrl}/currency`)
-        );
-
+        const currencies = await this.getCurrencies();
         this.currencies = new Map();
 
         for (const currency of currencies) {
