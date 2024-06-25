@@ -3941,16 +3941,16 @@
         },
         {
             "name": "spiral/roadrunner",
-            "version": "v2024.1.4",
+            "version": "v2024.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/roadrunner-server/roadrunner.git",
-                "reference": "116621a11169e26bafe56e6ec4113c6f17bf73de"
+                "reference": "2b72bebf7e8119a9d160cc10ec182eae022136ff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/roadrunner-server/roadrunner/zipball/116621a11169e26bafe56e6ec4113c6f17bf73de",
-                "reference": "116621a11169e26bafe56e6ec4113c6f17bf73de",
+                "url": "https://api.github.com/repos/roadrunner-server/roadrunner/zipball/2b72bebf7e8119a9d160cc10ec182eae022136ff",
+                "reference": "2b72bebf7e8119a9d160cc10ec182eae022136ff",
                 "shasum": ""
             },
             "type": "metapackage",
@@ -3979,7 +3979,7 @@
                 "docs": "https://roadrunner.dev/docs",
                 "forum": "https://forum.roadrunner.dev/",
                 "issues": "https://github.com/roadrunner-server/roadrunner/issues",
-                "source": "https://github.com/roadrunner-server/roadrunner/tree/v2024.1.4"
+                "source": "https://github.com/roadrunner-server/roadrunner/tree/v2024.1.5"
             },
             "funding": [
                 {
@@ -3987,7 +3987,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-06-13T16:43:56+00:00"
+            "time": "2024-06-20T19:03:36+00:00"
         },
         {
             "name": "spiral/roadrunner-http",
@@ -4079,16 +4079,16 @@
         },
         {
             "name": "spiral/roadrunner-jobs",
-            "version": "v4.4.0",
+            "version": "v4.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/roadrunner-php/jobs.git",
-                "reference": "0013e1ea4e90cf876f532f5e6c7f9b5b7ed4109f"
+                "reference": "9842316c03a4a21030ac78cd8829245a849d60d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/roadrunner-php/jobs/zipball/0013e1ea4e90cf876f532f5e6c7f9b5b7ed4109f",
-                "reference": "0013e1ea4e90cf876f532f5e6c7f9b5b7ed4109f",
+                "url": "https://api.github.com/repos/roadrunner-php/jobs/zipball/9842316c03a4a21030ac78cd8829245a849d60d0",
+                "reference": "9842316c03a4a21030ac78cd8829245a849d60d0",
                 "shasum": ""
             },
             "require": {
@@ -4149,7 +4149,7 @@
                 "docs": "https://docs.roadrunner.dev",
                 "forum": "https://forum.roadrunner.dev/",
                 "issues": "https://github.com/roadrunner-server/roadrunner/issues",
-                "source": "https://github.com/roadrunner-php/jobs/tree/v4.4.0"
+                "source": "https://github.com/roadrunner-php/jobs/tree/v4.5.0"
             },
             "funding": [
                 {
@@ -4157,7 +4157,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-04-11T17:38:07+00:00"
+            "time": "2024-06-25T08:13:52+00:00"
         },
         {
             "name": "spiral/roadrunner-kv",
@@ -6876,16 +6876,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "11.2.3",
+            "version": "11.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "8475044fbb0af57c8daea06bcfe21e2785401f97"
+                "reference": "be9e3ed32a1287a9bfda15936cc86fef4e4cf591"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/8475044fbb0af57c8daea06bcfe21e2785401f97",
-                "reference": "8475044fbb0af57c8daea06bcfe21e2785401f97",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/be9e3ed32a1287a9bfda15936cc86fef4e4cf591",
+                "reference": "be9e3ed32a1287a9bfda15936cc86fef4e4cf591",
                 "shasum": ""
             },
             "require": {
@@ -6956,7 +6956,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/11.2.3"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/11.2.5"
             },
             "funding": [
                 {
@@ -6972,7 +6972,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-06-19T05:31:11+00:00"
+            "time": "2024-06-20T13:11:31+00:00"
         },
         {
             "name": "sebastian/cli-parser",
