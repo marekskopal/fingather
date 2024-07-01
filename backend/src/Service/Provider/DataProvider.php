@@ -7,6 +7,7 @@ namespace FinGather\Service\Provider;
 use DateTimeImmutable;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
+use Psr\Log\LoggerInterface;
 
 class DataProvider
 {
@@ -19,11 +20,17 @@ class DataProvider
 		private readonly SectorDataProvider $sectorDataProvider,
 		private readonly IndustryDataProvider $industryDataProvider,
 		private readonly TransactionProvider $transactionProvider,
+		private readonly LoggerInterface $logger,
 	) {
 	}
 
 	public function deleteData(?User $user = null, ?Portfolio $portfolio = null, ?DateTimeImmutable $date = null,): void
 	{
+		$this->logger->log('delete', 'Deleting data'
+			. ($user !== null ? ' for user ' . $user->getId() : '')
+			. ($portfolio !== null ? ' for portfolio ' . $portfolio->getId() : '')
+			. ($date !== null ? ' for date ' . $date->format('Y-m-d') : ''));
+
 		$this->assetDataProvider->deleteAssetData($user, $portfolio, $date);
 		$this->groupDataProvider->deleteUserGroupData($user, $portfolio, $date);
 		$this->portfolioDataProvider->deletePortfolioData($user, $portfolio, $date);

@@ -11,6 +11,7 @@ use FinGather\Cache\Cache;
 use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\ExchangeRate;
 use FinGather\Model\Repository\ExchangeRateRepository;
+use MarekSkopal\TwelveData\Exception\BadRequestException;
 use MarekSkopal\TwelveData\Exception\NotFoundException;
 use MarekSkopal\TwelveData\TwelveData;
 
@@ -86,7 +87,7 @@ class ExchangeRateProvider
 
 		try {
 			$timeSeries = $this->twelveData->getCoreData()->timeSeries(symbol: 'USD/' . $code, startDate: $startDate);
-		} catch (NotFoundException) {
+		} catch (NotFoundException | BadRequestException) {
 			return null;
 		}
 
