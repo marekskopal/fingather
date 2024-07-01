@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Service\Logger;
 
 use ErrorException;
+use Safe\DateTimeImmutable;
 use Tracy\Helpers;
 use Tracy\Logger;
 use function Safe\file_put_contents;
@@ -31,6 +32,9 @@ final class TracyLogger extends Logger
 			$context = $message['context'] ?? [];
 			$message = $message['exception'];
 		}
+
+		$datetime = new DateTimeImmutable();
+		$message = $datetime->format('Y-m-d h:i:s') . ' ' . $message;
 
 		$exceptionFile = parent::log($message, $level);
 
