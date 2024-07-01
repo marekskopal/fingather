@@ -35,11 +35,11 @@ final class JobsDispatcher implements Dispatcher
 				$handler = $application->container->get($handlerClass);
 				$handler->handle($task);
 
-				$task->complete();
+				$task->ack();
 
 				gc_collect_cycles();
 			} catch (\Throwable $e) {
-				$task->fail($e);
+				$task->nack($e);
 			}
 		}
 	}
