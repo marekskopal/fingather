@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Currency } from '@app/models';
 import { PortfolioService } from '@app/services/portfolio.service';
 import { environment } from '@environments/environment';
-import { firstValueFrom, lastValueFrom } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class CurrencyService {
