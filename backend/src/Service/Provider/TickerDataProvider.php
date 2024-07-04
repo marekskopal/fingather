@@ -118,15 +118,19 @@ class TickerDataProvider
 		}
 
 		$marketType = $ticker->getMarket()->getType();
-		match ($marketType) {
+		$updatedTickerDataCount = match ($marketType) {
 			MarketTypeEnum::Stock => $this->createTickerDataFromStock($ticker, $fromDate),
 			MarketTypeEnum::Crypto => $this->createTickerDataFromCrypto($ticker, $fromDate),
 		};
 
+		if ($updatedTickerDataCount === 0) {
+			return null;
+		}
+
 		return $fromDate;
 	}
 
-	private function createTickerDataFromStock(Ticker $ticker, DateTimeImmutable $fromDate, ?DateTimeImmutable $toDate = null): void
+	private function createTickerDataFromStock(Ticker $ticker, DateTimeImmutable $fromDate, ?DateTimeImmutable $toDate = null): int
 	{
 		try {
 			$timeSeries = $this->twelveData->getCoreData()->timeSeries(
@@ -137,17 +141,21 @@ class TickerDataProvider
 				adjust: [AdjustEnum::None],
 			);
 		} catch (NotFoundException | BadRequestException) {
-			return;
+			return 0;
 		}
 
 		$this->createTickerData($ticker, $timeSeries);
 
-		if (count($timeSeries->values) === self::TwelveDataTimeSeriesMaxResults) {
+		$valuesCount = count($timeSeries->values);
+
+		if ($valuesCount === self::TwelveDataTimeSeriesMaxResults) {
 			$this->createTickerDataFromStock($ticker, $fromDate, $timeSeries->values[4999]->datetime);
 		}
+
+		return $valuesCount;
 	}
 
-	private function createTickerDataFromCrypto(Ticker $ticker, DateTimeImmutable $fromDate, ?DateTimeImmutable $toDate = null): void
+	private function createTickerDataFromCrypto(Ticker $ticker, DateTimeImmutable $fromDate, ?DateTimeImmutable $toDate = null): int
 	{
 		try {
 			$timeSeries = $this->twelveData->getCoreData()->timeSeries(
@@ -157,14 +165,16 @@ class TickerDataProvider
 			);
 			$this->createTickerData($ticker, $timeSeries);
 		} catch (NotFoundException | BadRequestException) {
-			return;
+			return 0;
 		}
 
-		if (count($timeSeries->values) !== self::TwelveDataTimeSeriesMaxResults) {
-			return;
+		$valuesCount = count($timeSeries->values);
+
+		if ($valuesCount === self::TwelveDataTimeSeriesMaxResults) {
+			$this->createTickerDataFromCrypto($ticker, $fromDate, $timeSeries->values[4999]->datetime);
 		}
 
-		$this->createTickerDataFromCrypto($ticker, $fromDate, $timeSeries->values[4999]->datetime);
+		return $valuesCount;
 	}
 
 	private function createTickerData(Ticker $ticker, TimeSeries $timeSeries): void
