@@ -133,9 +133,12 @@ final class TransactionController
 			return new NotFoundResponse('Asset with id "' . $transactionDto->assetId . '" was not found.');
 		}
 
-		$broker = $this->brokerProvider->getBroker($user, $transactionDto->brokerId);
-		if ($broker === null) {
-			return new NotFoundResponse('Broker with id "' . $transactionDto->brokerId . '" was not found.');
+		$broker = null;
+		if ($transactionDto->brokerId !== null) {
+			$broker = $this->brokerProvider->getBroker($user, $transactionDto->brokerId);
+			if ($broker === null) {
+				return new NotFoundResponse('Broker with id "' . $transactionDto->brokerId . '" was not found.');
+			}
 		}
 
 		$currency = $this->currencyProvider->getCurrency($transactionDto->currencyId);
@@ -201,9 +204,12 @@ final class TransactionController
 			return new NotFoundResponse('Asset with id "' . $transactionDto->assetId . '" was not found.');
 		}
 
-		$broker = $this->brokerProvider->getBroker($user, $transactionDto->brokerId);
-		if ($broker === null) {
-			return new NotFoundResponse('Broker with id "' . $transactionDto->brokerId . '" was not found.');
+		$broker = null;
+		if ($transactionDto->brokerId !== null) {
+			$broker = $this->brokerProvider->getBroker($user, $transactionDto->brokerId);
+			if ($broker === null) {
+				return new NotFoundResponse('Broker with id "' . $transactionDto->brokerId . '" was not found.');
+			}
 		}
 
 		$currency = $this->currencyProvider->getCurrency($transactionDto->currencyId);

@@ -27,19 +27,22 @@
                     </div>
                 </div>
             }
-            <div class="form-row">
-                <div class="form-group col">
-                    <label for="brokerId">{{ 'app.shared.transactionDialog.broker' | translate }}</label>
-                    <select id="brokerId" formControlName="brokerId" class="form-select">
-                        <option *ngFor="let broker of brokers" [ngValue]="broker.id">
-                            {{ broker.name }}
-                        </option>
-                    </select>
-                    <div *ngIf="$submitted() && f['brokerId'].errors" class="invalid-feedback">
-                        <div *ngIf="f['brokerId'].errors['required']">{{ 'app.shared.transactionDialog.brokerRequired' | translate }}</div>
+            @if (brokers.length > 0) {
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label for="brokerId">{{ 'app.shared.transactionDialog.broker' | translate }}</label>
+                        <select id="brokerId" formControlName="brokerId" class="form-select">
+                            <option *ngFor="let broker of brokers" [ngValue]="broker.id">
+                                {{ broker.name }}
+                            </option>
+                            <option value="">{{ 'app.shared.transactionDialog.brokerUndefined' | translate }}</option>
+                        </select>
+                        <div *ngIf="$submitted() && f['brokerId'].errors" class="invalid-feedback">
+                            <div *ngIf="f['brokerId'].errors['required']">{{ 'app.shared.transactionDialog.brokerRequired' | translate }}</div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            }
             <div class="form-row">
                 <div class="form-group col">
                     <label for="actionType">{{ 'app.shared.transactionDialog.actionType' | translate }}</label>

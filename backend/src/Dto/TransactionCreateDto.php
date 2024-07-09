@@ -13,7 +13,7 @@ final readonly class TransactionCreateDto
 {
 	public function __construct(
 		public int $assetId,
-		public int $brokerId,
+		public ?int $brokerId,
 		public TransactionActionTypeEnum $actionType,
 		public DateTimeImmutable $actionCreated,
 		public Decimal $units,
@@ -30,7 +30,7 @@ final readonly class TransactionCreateDto
 
 	/** @param array{
 	 *     assetId: int,
-	 *     brokerId: int,
+	 *     brokerId: int|null,
 	 *     actionType: value-of<TransactionActionTypeEnum>,
 	 *     actionCreated: string,
 	 *     units: string,
@@ -67,7 +67,7 @@ final readonly class TransactionCreateDto
 	{
 		/** @var array{
 		 *     assetId: int,
-		 *     brokerId: int,
+		 *     brokerId: int|null,
 		 *     actionType: value-of<TransactionActionTypeEnum>,
 		 *     actionCreated: string,
 		 *     units: string,

@@ -324,6 +324,7 @@
         "assetRequired": "Asset is required",
         "broker": "Broker",
         "brokerRequired": "Broker is required",
+        "brokerUndefined": "Undefined",
         "actionType": "Action Type",
         "actionTypeRequired": "Action Type is required",
         "actionCreated": "Created",
