@@ -3,7 +3,7 @@ import { Ticker } from '@app/models/ticker';
 
 export interface Transaction extends AbstractEntity {
     assetId: string;
-    brokerId: string;
+    brokerId: string | null;
     actionType: TransactionActionType;
     actionCreated: string;
     createType: TransactionCreateType;

@@ -15,7 +15,7 @@ final readonly class TransactionDto
 	public function __construct(
 		public int $id,
 		public int $assetId,
-		public int $brokerId,
+		public ?int $brokerId,
 		public TransactionActionTypeEnum $actionType,
 		public string $actionCreated,
 		public TransactionCreateTypeEnum $createType,

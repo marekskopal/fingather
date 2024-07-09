@@ -90,7 +90,7 @@ class TransactionProvider
 		User $user,
 		Portfolio $portfolio,
 		Asset $asset,
-		Broker $broker,
+		?Broker $broker,
 		TransactionActionTypeEnum $actionType,
 		DateTimeImmutable $actionCreated,
 		TransactionCreateTypeEnum $createType,
@@ -117,7 +117,7 @@ class TransactionProvider
 			user: $user,
 			portfolio: $portfolio,
 			asset: $asset,
-			brokerId: $broker->getId(),
+			brokerId: $broker?->getId(),
 			actionType: $actionType,
 			actionCreated: $actionCreated,
 			createType: $createType,
@@ -148,7 +148,7 @@ class TransactionProvider
 	public function updateTransaction(
 		Transaction $transaction,
 		Asset $asset,
-		Broker $broker,
+		?Broker $broker,
 		TransactionActionTypeEnum $actionType,
 		DateTimeImmutable $actionCreated,
 		Decimal $units,
@@ -171,7 +171,7 @@ class TransactionProvider
 		$fee ??= new Decimal(0);
 
 		$transaction->setAsset($asset);
-		$transaction->setBrokerId($broker->getId());
+		$transaction->setBrokerId($broker?->getId());
 		$transaction->setActionType($actionType);
 		$transaction->setActionCreated($actionCreated);
 		$transaction->setModified($modified);

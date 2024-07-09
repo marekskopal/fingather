@@ -30,9 +30,9 @@ class Transaction extends AEntity
 		private Portfolio $portfolio,
 		#[RefersTo(target: Asset::class)]
 		private Asset $asset,
-		#[Column(type: 'integer')]
+		#[Column(type: 'integer', nullable: true)]
 		#[ForeignKey(target: Broker::class)]
-		private int $brokerId,
+		private ?int $brokerId,
 		#[Column(type: 'enum(Undefined,Buy,Sell,Dividend,Tax,Fee,DividendTax)', typecast: TransactionActionTypeEnum::class)]
 		private TransactionActionTypeEnum $actionType,
 		#[Column(type: 'timestamp')]
@@ -100,12 +100,12 @@ class Transaction extends AEntity
 		$this->asset = $asset;
 	}
 
-	public function getBrokerId(): int
+	public function getBrokerId(): ?int
 	{
 		return $this->brokerId;
 	}
 
-	public function setBrokerId(int $brokerId): void
+	public function setBrokerId(?int $brokerId): void
 	{
 		$this->brokerId = $brokerId;
 	}

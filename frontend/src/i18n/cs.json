@@ -324,6 +324,7 @@
         "assetRequired": "Aktivum je povinné",
         "broker": "Broker",
         "brokerRequired": "Broker je povinný",
+        "brokerUndefined": "Nedefinovaný",
         "actionType": "Typ akce",
         "actionTypeRequired": "Typ akce je povinný",
         "actionCreated": "Datum akce",

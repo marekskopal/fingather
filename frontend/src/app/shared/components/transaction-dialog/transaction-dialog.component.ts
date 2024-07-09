@@ -66,7 +66,7 @@ export class TransactionDialogComponent extends BaseForm implements OnInit {
 
         this.form = this.formBuilder.group({
             assetId: [this.assetId !== null ? this.assetId : '', Validators.required],
-            brokerId: ['', Validators.required],
+            brokerId: [''],
             actionType: [TransactionActionType.Buy.toString(), Validators.required],
             actionCreated: [currentDate, Validators.required],
             units: ['0.00', Validators.required],
@@ -80,6 +80,11 @@ export class TransactionDialogComponent extends BaseForm implements OnInit {
 
         if (this.id !== null) {
             const transaction = await this.transactionService.getTransaction(this.id);
+
+            if (transaction.brokerId === null) {
+                transaction.brokerId = '';
+            }
+
             transaction.actionCreated = formatDate(Date.parse(transaction.actionCreated), 'y-MM-ddTHH:mm', 'en');
             this.form.patchValue(transaction);
         }
@@ -124,6 +129,10 @@ export class TransactionDialogComponent extends BaseForm implements OnInit {
         values.tax = values.tax.toString();
         values.fee = values.fee.toString();
 
+        if (values.brokerId === '') {
+            values.brokerId = null;
+        }
+
         await this.transactionService.createTransaction(values, portfolioId);
 
         this.alertService.success('Dividend added successfully');
@@ -138,6 +147,10 @@ export class TransactionDialogComponent extends BaseForm implements OnInit {
         values.price = values.price.toString();
         values.tax = values.tax.toString();
         values.fee = values.fee.toString();
+
+        if (values.brokerId === '') {
+            values.brokerId = null;
+        }
 
         await this.transactionService.updateTransaction(id, values);
 
