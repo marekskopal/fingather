@@ -5,6 +5,7 @@
 	],
 	"rules": {
 		"max-nesting-depth": 5,
-		"selector-max-id": 1
+		"selector-max-id": 1,
+    "@stylistic/indentation": 4
 	}
 }

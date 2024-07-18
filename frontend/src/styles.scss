@@ -11,12 +11,12 @@ $table-striped-bg: $card-bg;
 $link-selected-background-color: #2c3d3f;
 $link-hover-background-color: #1f2c2d;
 
-@import "bootstrap/scss/bootstrap";
+@import 'bootstrap/scss/bootstrap';
 
 
 
 a {
-    cursor: pointer
+    cursor: pointer;
 }
 
 .app-container {
@@ -182,11 +182,14 @@ a {
         color: $color-green;
     }
 
-    .sell, .tax, .fee {
+    .sell,
+    .tax,
+    .fee {
         color: $color-red;
     }
 
-    .dividend, .dividend-tax {
+    .dividend,
+    .dividend-tax {
         color: $color-blue;
     }
 }
