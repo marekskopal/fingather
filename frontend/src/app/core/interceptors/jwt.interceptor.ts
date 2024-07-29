@@ -9,6 +9,7 @@ import { from, lastValueFrom, Observable } from 'rxjs';
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
     private isRefreshing: boolean = false;
+    private refreshTokenUrl: string = `${environment.apiUrl}/authentication/refresh-token` as const;
 
     public constructor(private authorizationService: AuthenticationService) { }
 
@@ -19,7 +20,7 @@ export class JwtInterceptor implements HttpInterceptor {
 
     private async handle(request: HttpRequest<any>, next: HttpHandler): Promise<HttpEvent<any>> {
         // wait for token refresh
-        while (this.isRefreshing && request.url !== `${environment.apiUrl}/authentication/refresh-token`) {
+        while (this.isRefreshing && request.url !== this.refreshTokenUrl) {
             // eslint-disable-next-line no-await-in-loop, no-promise-executor-return
             await new Promise((r) => setTimeout(r, 10));
         }
@@ -30,7 +31,11 @@ export class JwtInterceptor implements HttpInterceptor {
         try {
             return await lastValueFrom(next.handle(request));
         } catch (err: any) {
-            if ([401, 403].includes(err.status) && this.authorizationService.$isLoggedIn()) {
+            if (
+                [401, 403].includes(err.status)
+                && this.authorizationService.$isLoggedIn()
+                && request.url !== this.refreshTokenUrl
+            ) {
                 return this.handleRefreshToken(request, next);
             }
 
