@@ -810,16 +810,16 @@
         },
         {
             "name": "google/protobuf",
-            "version": "v3.25.4",
+            "version": "v4.27.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/protocolbuffers/protobuf-php.git",
-                "reference": "749f6c8e99a7fe51d096c2db656a4af9a46a6b5e"
+                "reference": "1b9bfead0ea8108e6ab411258fc38417b62d4bf6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/protocolbuffers/protobuf-php/zipball/749f6c8e99a7fe51d096c2db656a4af9a46a6b5e",
-                "reference": "749f6c8e99a7fe51d096c2db656a4af9a46a6b5e",
+                "url": "https://api.github.com/repos/protocolbuffers/protobuf-php/zipball/1b9bfead0ea8108e6ab411258fc38417b62d4bf6",
+                "reference": "1b9bfead0ea8108e6ab411258fc38417b62d4bf6",
                 "shasum": ""
             },
             "require": {
@@ -848,9 +848,9 @@
                 "proto"
             ],
             "support": {
-                "source": "https://github.com/protocolbuffers/protobuf-php/tree/v3.25.4"
+                "source": "https://github.com/protocolbuffers/protobuf-php/tree/v4.27.2"
             },
-            "time": "2024-07-24T17:10:25+00:00"
+            "time": "2024-06-25T19:14:44+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -2530,16 +2530,16 @@
         },
         {
             "name": "phpoffice/phpspreadsheet",
-            "version": "2.2.0",
+            "version": "2.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPOffice/PhpSpreadsheet.git",
-                "reference": "b0993b7e4d9c860133365d115b176bc6e0f57022"
+                "reference": "a3c5c9e7ce3a2a8577bfa9e69960fbccbd2d4a9e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/b0993b7e4d9c860133365d115b176bc6e0f57022",
-                "reference": "b0993b7e4d9c860133365d115b176bc6e0f57022",
+                "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/a3c5c9e7ce3a2a8577bfa9e69960fbccbd2d4a9e",
+                "reference": "a3c5c9e7ce3a2a8577bfa9e69960fbccbd2d4a9e",
                 "shasum": ""
             },
             "require": {
@@ -2628,9 +2628,9 @@
             ],
             "support": {
                 "issues": "https://github.com/PHPOffice/PhpSpreadsheet/issues",
-                "source": "https://github.com/PHPOffice/PhpSpreadsheet/tree/2.2.0"
+                "source": "https://github.com/PHPOffice/PhpSpreadsheet/tree/2.2.1"
             },
-            "time": "2024-07-24T13:21:18+00:00"
+            "time": "2024-07-29T07:56:06+00:00"
         },
         {
             "name": "psr/cache",
@@ -4084,21 +4084,20 @@
         },
         {
             "name": "spiral/roadrunner-jobs",
-            "version": "v4.5.0",
+            "version": "v4.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/roadrunner-php/jobs.git",
-                "reference": "9842316c03a4a21030ac78cd8829245a849d60d0"
+                "reference": "1df9702c591cf761a2735c54326f7bf2adc5dcea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/roadrunner-php/jobs/zipball/9842316c03a4a21030ac78cd8829245a849d60d0",
-                "reference": "9842316c03a4a21030ac78cd8829245a849d60d0",
+                "url": "https://api.github.com/repos/roadrunner-php/jobs/zipball/1df9702c591cf761a2735c54326f7bf2adc5dcea",
+                "reference": "1df9702c591cf761a2735c54326f7bf2adc5dcea",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "google/protobuf": "^v3.17",
                 "php": ">=8.1",
                 "ramsey/uuid": "^3 || ^4",
                 "roadrunner-php/roadrunner-api-dto": "^1.0",
@@ -4107,6 +4106,7 @@
                 "spiral/roadrunner-worker": "^3.0"
             },
             "require-dev": {
+                "google/protobuf": "^3.17 || ^4.0",
                 "phpunit/phpunit": "^10.0",
                 "roave/security-advisories": "dev-master",
                 "vimeo/psalm": ">=5.8"
@@ -4154,7 +4154,7 @@
                 "docs": "https://docs.roadrunner.dev",
                 "forum": "https://forum.roadrunner.dev/",
                 "issues": "https://github.com/roadrunner-server/roadrunner/issues",
-                "source": "https://github.com/roadrunner-php/jobs/tree/v4.5.0"
+                "source": "https://github.com/roadrunner-php/jobs/tree/v4.6.0"
             },
             "funding": [
                 {
@@ -4162,7 +4162,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-06-25T08:13:52+00:00"
+            "time": "2024-07-29T08:02:59+00:00"
         },
         {
             "name": "spiral/roadrunner-kv",
