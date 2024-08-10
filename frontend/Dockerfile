@@ -1,4 +1,4 @@
-FROM node:20.15.1-alpine as build
+FROM node:20.16.0-alpine as build
 WORKDIR /app
 
 RUN npm install -g pnpm
