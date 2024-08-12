@@ -6,9 +6,15 @@
         <h1>{{ 'app.transactions.list.title' | translate }}</h1>
     </div>
     <div class="col-md-4 order-md-1 text-end">
-        <a (click)="addTransaction()" class="btn btn-sm btn-success me-2" tabindex="0"><fa-icon icon="plus"></fa-icon> {{ 'app.transactions.list.addTransaction' | translate }}</a>
-        <a (click)="addDividend()" class="btn btn-sm btn-success me-2" tabindex="0"><fa-icon icon="plus"></fa-icon> {{ 'app.transactions.list.addDividend' | translate }}</a>
-        <a routerLink="import" class="btn btn-sm btn-info"><fa-icon icon="file-import"></fa-icon> {{ 'app.transactions.list.import' | translate }}</a>
+        <a (click)="addTransaction()" class="btn btn-sm btn-success me-2" tabindex="0">
+            <mat-icon>add</mat-icon> {{ 'app.transactions.list.addTransaction' | translate }}
+        </a>
+        <a (click)="addDividend()" class="btn btn-sm btn-success me-2" tabindex="0">
+            <mat-icon>add</mat-icon> {{ 'app.transactions.list.addDividend' | translate }}
+        </a>
+        <a routerLink="import" class="btn btn-sm btn-info">
+            <mat-icon>folder_open</mat-icon> {{ 'app.transactions.list.import' | translate }}
+        </a>
     </div>
 </div>
 <div class="table-responsive">
@@ -58,7 +64,9 @@
                     </div>
                 </td>
                 <td class="align-middle text-end" style="white-space: nowrap">
-                    <a (click)="editTransaction(transaction.id)" class="btn btn-sm btn-primary me-2" tabindex="0"><fa-icon icon="edit"></fa-icon> {{ 'app.common.edit' | translate }}</a>
+                    <a (click)="editTransaction(transaction.id)" class="btn btn-sm btn-primary me-2" tabindex="0">
+                        <mat-icon>edit</mat-icon> {{ 'app.common.edit' | translate }}
+                    </a>
                     <fingather-delete-button
                         (onConfirm)="deleteTransaction(transaction.id)"
                         [title]="'Delete transaction'"

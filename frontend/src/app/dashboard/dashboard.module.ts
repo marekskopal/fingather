@@ -4,7 +4,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { DashboardComponent } from '@app/dashboard/components/dashboard/dashboard.component';
 import { GroupChartComponent } from '@app/dashboard/components/group-chart/group-chart.component';
 import { LayoutComponent } from '@app/dashboard/components/layout/layout.component';
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { NgApexchartsModule } from 'ng-apexcharts';
 
 import { SharedModule } from '../shared/shared.module';
@@ -17,7 +16,6 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
         SharedModule,
         DashboardRoutingModule,
         NgApexchartsModule,
-        FaIconComponent,
     ],
     declarations: [
         LayoutComponent,

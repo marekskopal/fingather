@@ -2,6 +2,8 @@
     @if ($isDeleting()) {
         <span class="spinner-border spinner-border-sm"></span>
     } @else {
-        <span><fa-icon icon="trash"></fa-icon> {{ 'app.common.delete' | translate }}</span>
+        <span>
+            <mat-icon>delete</mat-icon> {{ 'app.common.delete' | translate }}
+        </span>
     }
 </button>

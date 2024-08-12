@@ -18,7 +18,6 @@ import { TickerLogoComponent } from '@app/shared/components/ticker-logo/ticker-l
 import { TransactionDialogComponent } from '@app/shared/components/transaction-dialog/transaction-dialog.component';
 import { ValueColorComponent } from '@app/shared/components/value-color/value-color.component';
 import { CurrencyPipe } from '@app/shared/pipes/currency.pipe';
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { NgxFileDropModule } from 'ngx-file-drop';
@@ -27,9 +26,9 @@ import { PortfolioTotalComponent } from './components/portfolio-total/portfolio-
 import {LanguageSelectorComponent} from "@app/shared/components/language-selector/language-selector.component";
 import {NavigationComponent} from "@app/shared/components/navigation/navigation.component";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
-import {AppRoutingModule} from "@app/app-routing.module";
 import {RouterModule} from "@angular/router";
 import {ColoredValueDirective} from "@app/shared/directives/colored-value.directive";
+import {MatIcon} from "@angular/material/icon";
 
 @NgModule({
     imports: [
@@ -38,10 +37,10 @@ import {ColoredValueDirective} from "@app/shared/directives/colored-value.direct
         TranslateModule,
         NgApexchartsModule,
         NgxFileDropModule,
-        FaIconComponent,
         NgbModule,
         RouterModule,
         ColoredValueDirective,
+        MatIcon,
     ],
     declarations: [
         PortfolioTotalComponent,

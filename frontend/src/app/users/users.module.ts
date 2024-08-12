@@ -5,18 +5,17 @@ import { SharedModule } from '@app/shared/shared.module';
 import { AddEditComponent } from '@app/users/add-edit/add-edit.component';
 import { LayoutComponent } from '@app/users/layout/layout.component';
 import { ListComponent } from '@app/users/list/list.component';
-import { FaIconComponent, FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { faEdit, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 import { UsersRoutingModule } from './users-routing.module';
+import {MatIcon} from "@angular/material/icon";
 
 @NgModule({
     imports: [
         CommonModule,
         ReactiveFormsModule,
         UsersRoutingModule,
-        FaIconComponent,
         SharedModule,
+        MatIcon,
     ],
     declarations: [
         LayoutComponent,
@@ -25,9 +24,4 @@ import { UsersRoutingModule } from './users-routing.module';
     ]
 })
 export class UsersModule {
-    public constructor(
-        private readonly faIconLibrary: FaIconLibrary
-    ) {
-        faIconLibrary.addIcons(faPlus, faEdit, faTrash);
-    }
 }

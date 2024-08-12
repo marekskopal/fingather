@@ -6,7 +6,9 @@
         <h1>{{ 'app.groups.list.title' | translate }}</h1>
     </div>
     <div class="col-md-4 order-md-1 text-end">
-        <a (click)="addGroup()" class="btn btn-sm btn-success" tabindex="0"><fa-icon icon="plus"></fa-icon> {{ 'app.groups.list.addGroup' | translate }}</a>
+        <a (click)="addGroup()" class="btn btn-sm btn-success" tabindex="0">
+            <mat-icon>add</mat-icon> {{ 'app.groups.list.addGroup' | translate }}
+        </a>
     </div>
 </div>
 <table class="table table-striped">
@@ -20,7 +22,9 @@
         <tr *ngFor="let group of groups">
             <td>{{group.name}}</td>
             <td class="text-end" style="white-space: nowrap">
-                <a (click)="editGroup(group.id)" class="btn btn-sm btn-primary me-2" tabindex="0"><fa-icon icon="edit"></fa-icon> {{ 'app.common.edit' | translate }}</a>
+                <a (click)="editGroup(group.id)" class="btn btn-sm btn-primary me-2" tabindex="0">
+                    <mat-icon>edit</mat-icon> {{ 'app.common.edit' | translate }}
+                </a>
                 <fingather-delete-button
                     (onConfirm)="deleteGroup(group.id)"
                     [title]="'Delete group ' + group.name"
