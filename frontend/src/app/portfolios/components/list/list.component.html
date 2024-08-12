@@ -3,7 +3,9 @@
         <h1>{{ 'app.portfolios.list.title' | translate }}</h1>
     </div>
     <div class="col-md-4 text-end">
-        <a (click)="addPortfolio()" class="btn btn-sm btn-success" tabindex="0"><fa-icon icon="plus"></fa-icon> {{ 'app.portfolios.list.addPortfolio' | translate }}</a>
+        <a (click)="addPortfolio()" class="btn btn-sm btn-success" tabindex="0">
+            <mat-icon>add</mat-icon> {{ 'app.portfolios.list.addPortfolio' | translate }}
+        </a>
     </div>
 </div>
 <table class="table table-striped">
@@ -18,7 +20,9 @@
             <tr>
                 <td>{{portfolio.name}}</td>
                 <td class="text-end" style="white-space: nowrap">
-                    <a (click)="editPortfolio(portfolio.id)" class="btn btn-sm btn-primary me-2" tabindex="0"><fa-icon icon="edit"></fa-icon> {{ 'app.common.edit' | translate }}</a>
+                    <a (click)="editPortfolio(portfolio.id)" class="btn btn-sm btn-primary me-2" tabindex="0">
+                        <mat-icon>add</mat-icon> {{ 'app.common.edit' | translate }}
+                    </a>
                     @if (!portfolio.isDefault && portfolio.id !== currentPortfolio.id) {
                         <fingather-delete-button
                             (onConfirm)="deletePortfolio(portfolio.id)"

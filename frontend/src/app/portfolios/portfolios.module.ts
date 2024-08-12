@@ -5,18 +5,16 @@ import { AddEditComponent } from '@app/portfolios/components/add-edit/add-edit.c
 import { LayoutComponent } from '@app/portfolios/components/layout/layout.component';
 import { ListComponent } from '@app/portfolios/components/list/list.component';
 import { SharedModule } from '@app/shared/shared.module';
-import { FaIconComponent, FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { faEdit, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
-
 import { PortfolioRoutingModule } from './portfolio-routing.module';
+import {MatIcon} from "@angular/material/icon";
 
 @NgModule({
     imports: [
         CommonModule,
         ReactiveFormsModule,
         PortfolioRoutingModule,
-        FaIconComponent,
         SharedModule,
+        MatIcon,
     ],
     declarations: [
         LayoutComponent,
@@ -25,9 +23,4 @@ import { PortfolioRoutingModule } from './portfolio-routing.module';
     ]
 })
 export class PortfoliosModule {
-    public constructor(
-        private readonly faIconLibrary: FaIconLibrary
-    ) {
-        faIconLibrary.addIcons(faPlus, faEdit, faTrash);
-    }
 }

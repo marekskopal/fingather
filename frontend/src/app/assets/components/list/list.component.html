@@ -6,7 +6,9 @@
         <h1>{{ 'app.assets.list.title' | translate }}</h1>
     </div>
     <div class="col-md-4 order-md-1 text-end">
-        <a (click)="addAsset()" class="btn btn-sm btn-success" tabindex="0"><fa-icon icon="plus"></fa-icon> {{ 'app.assets.list.addAsset' | translate }}</a>
+        <a (click)="addAsset()" class="btn btn-sm btn-success" tabindex="0">
+            <mat-icon>add</mat-icon> {{ 'app.assets.list.addAsset' | translate }}
+        </a>
     </div>
 </div>
 
@@ -34,7 +36,7 @@
                                         <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.TickerName)" tabindex="0">
                                             {{ 'app.assets.list.name' | translate }}
                                             @if(openedAssetsOrderBy === AssetsOrder.TickerName) {
-                                                &nbsp;<fa-icon icon="arrow-up-a-z" />
+                                                &nbsp;<mat-icon>arrow_upward</mat-icon>
                                             }
                                         </a>
                                     </th>
@@ -42,7 +44,7 @@
                                         <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.Price)" tabindex="0">
                                             {{ 'app.assets.list.price' | translate }}
                                             @if(openedAssetsOrderBy === AssetsOrder.Price) {
-                                                &nbsp;<fa-icon icon="arrow-down-9-1" />
+                                                &nbsp;<mat-icon>arrow_downward</mat-icon>
                                             }
                                         </a>
                                     </th>
@@ -50,7 +52,7 @@
                                         <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.Units)" tabindex="0">
                                             {{ 'app.assets.list.units' | translate }}
                                             @if(openedAssetsOrderBy === AssetsOrder.Units) {
-                                                &nbsp;<fa-icon icon="arrow-down-9-1" />
+                                                &nbsp;<mat-icon>arrow_downward</mat-icon>
                                             }
                                         </a>
                                     </th>
@@ -58,7 +60,7 @@
                                         <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.Value)" tabindex="0">
                                             {{ 'app.assets.list.value' | translate }}
                                             @if(openedAssetsOrderBy === AssetsOrder.Value) {
-                                                &nbsp;<fa-icon icon="arrow-down-9-1" />
+                                                &nbsp;<mat-icon>arrow_downward</mat-icon>
                                             }
                                         </a>
                                     </th>
@@ -66,7 +68,7 @@
                                         <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.Gain)" tabindex="0">
                                             {{ 'app.assets.list.gain' | translate }}
                                             @if(openedAssetsOrderBy === AssetsOrder.Gain) {
-                                                &nbsp;<fa-icon icon="arrow-down-9-1" />
+                                                &nbsp;<mat-icon>arrow_downward</mat-icon>
                                             }
                                         </a>
                                     </th>
@@ -74,7 +76,7 @@
                                         <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.DividendYield)" tabindex="0">
                                             {{ 'app.assets.list.dividend' | translate }}
                                             @if(openedAssetsOrderBy === AssetsOrder.DividendYield) {
-                                                &nbsp;<fa-icon icon="arrow-down-9-1" />
+                                                &nbsp;<mat-icon>arrow_downward</mat-icon>
                                             }
                                         </a>
                                     </th>
@@ -82,7 +84,7 @@
                                         <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.FxImpact)" tabindex="0">
                                             {{ 'app.assets.list.fxImpact' | translate }}
                                             @if(openedAssetsOrderBy === AssetsOrder.FxImpact) {
-                                                &nbsp;<fa-icon icon="arrow-down-9-1" />
+                                                &nbsp;<mat-icon>arrow_downward</mat-icon>
                                             }
                                         </a>
                                     </th>
@@ -91,7 +93,7 @@
                                             <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.Return)" tabindex="0">
                                                 {{ 'app.assets.list.return' | translate }}
                                                 @if(openedAssetsOrderBy === AssetsOrder.Return) {
-                                                    &nbsp;<fa-icon icon="arrow-down-9-1" />
+                                                    &nbsp;<mat-icon>arrow_downward</mat-icon>
                                                 }
                                             </a>
                                         </strong>
@@ -212,7 +214,7 @@
                                     <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.TickerName)" tabindex="0">
                                         {{ 'app.assets.list.name' | translate }}
                                         @if(openedAssetsOrderBy === AssetsOrder.TickerName) {
-                                            &nbsp;<fa-icon icon="arrow-up-a-z" />
+                                            &nbsp;<mat-icon>arrow_upward</mat-icon>
                                         }
                                     </a>
                                 </th>
@@ -220,7 +222,7 @@
                                     <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.Price)" tabindex="0">
                                         {{ 'app.assets.list.price' | translate }}
                                         @if(openedAssetsOrderBy === AssetsOrder.Price) {
-                                            &nbsp;<fa-icon icon="arrow-down-9-1" />
+                                            &nbsp;<mat-icon>arrow_downward</mat-icon>
                                         }
                                     </a>
                                 </th>
@@ -228,7 +230,7 @@
                                     <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.Units)" tabindex="0">
                                         {{ 'app.assets.list.units' | translate }}
                                         @if(openedAssetsOrderBy === AssetsOrder.Units) {
-                                            &nbsp;<fa-icon icon="arrow-down-9-1" />
+                                            &nbsp;<mat-icon>arrow_downward</mat-icon>
                                         }
                                     </a>
                                 </th>
@@ -236,7 +238,7 @@
                                     <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.Value)" tabindex="0">
                                         {{ 'app.assets.list.value' | translate }}
                                         @if(openedAssetsOrderBy === AssetsOrder.Value) {
-                                            &nbsp;<fa-icon icon="arrow-down-9-1" />
+                                            &nbsp;<mat-icon>arrow_downward</mat-icon>
                                         }
                                     </a>
                                 </th>
@@ -244,7 +246,7 @@
                                     <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.Gain)" tabindex="0">
                                         {{ 'app.assets.list.gain' | translate }}
                                         @if(openedAssetsOrderBy === AssetsOrder.Gain) {
-                                            &nbsp;<fa-icon icon="arrow-down-9-1" />
+                                            &nbsp;<mat-icon>arrow_downward</mat-icon>
                                         }
                                     </a>
                                 </th>
@@ -252,7 +254,7 @@
                                     <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.DividendYield)" tabindex="0">
                                         {{ 'app.assets.list.dividend' | translate }}
                                         @if(openedAssetsOrderBy === AssetsOrder.DividendYield) {
-                                            &nbsp;<fa-icon icon="arrow-down-9-1" />
+                                            &nbsp;<mat-icon>arrow_downward</mat-icon>
                                         }
                                     </a>
                                 </th>
@@ -260,7 +262,7 @@
                                     <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.FxImpact)" tabindex="0">
                                         {{ 'app.assets.list.fxImpact' | translate }}
                                         @if(openedAssetsOrderBy === AssetsOrder.FxImpact) {
-                                            &nbsp;<fa-icon icon="arrow-down-9-1" />
+                                            &nbsp;<mat-icon>arrow_downward</mat-icon>
                                         }
                                     </a>
                                 </th>
@@ -269,7 +271,7 @@
                                         <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.Return)" tabindex="0">
                                             {{ 'app.assets.list.return' | translate }}
                                             @if(openedAssetsOrderBy === AssetsOrder.Return) {
-                                                &nbsp;<fa-icon icon="arrow-down-9-1" />
+                                                &nbsp;<mat-icon>arrow_downward</mat-icon>
                                             }
                                         </a>
                                     </strong>
@@ -332,7 +334,9 @@
                                     </div>
                                 </td>
                                 <td class="align-middle text-end" style="white-space: nowrap">
-                                    <a routerLink="{{asset.id}}" class="btn btn-sm btn-primary mr-1"><fa-icon icon="expand"></fa-icon> {{ 'app.assets.list.detail' | translate }}</a>
+                                    <a routerLink="{{asset.id}}" class="btn btn-sm btn-primary mr-1">
+                                        <mat-icon>visibility</mat-icon> {{ 'app.assets.list.detail' | translate }}
+                                    </a>
                                 </td>
                             </tr>
                         </tbody>
@@ -370,7 +374,9 @@
                                     </td>
                                     <td class="align-middle text-end">{{asset.price | number:'1.2-2' | currency: asset.ticker.currencyId | async}}</td>
                                     <td class="text-end" style="white-space: nowrap">
-                                        <a routerLink="{{asset.id}}" class="btn btn-sm btn-primary mr-1"><fa-icon icon="expand"></fa-icon> {{ 'app.assets.list.detail' | translate }}</a>
+                                        <a routerLink="{{asset.id}}" class="btn btn-sm btn-primary mr-1">
+                                            <mat-icon>visibility</mat-icon> {{ 'app.assets.list.detail' | translate }}
+                                        </a>
                                     </td>
                                 </tr>
                             }
@@ -413,7 +419,9 @@
                                     </td>
                                     <td class="align-middle text-end">{{asset.price | number:'1.2-2' | currency: asset.ticker.currencyId | async}}</td>
                                     <td class="text-end" style="white-space: nowrap">
-                                        <a routerLink="{{asset.id}}" class="btn btn-sm btn-primary mr-1"><fa-icon icon="expand"></fa-icon> {{ 'app.assets.list.detail' | translate }}</a>
+                                        <a routerLink="{{asset.id}}" class="btn btn-sm btn-primary mr-1">
+                                            <mat-icon>visibility</mat-icon> {{ 'app.assets.list.detail' | translate }}
+                                        </a>
                                     </td>
                                 </tr>
                             }

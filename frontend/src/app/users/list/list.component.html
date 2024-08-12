@@ -3,7 +3,9 @@
         <h1>{{ 'app.users.list.title' | translate }}</h1>
     </div>
     <div class="col-md-4 text-end">
-        <a (click)="addUser()" class="btn btn-sm btn-success" tabindex="0"><fa-icon icon="plus"></fa-icon> {{ 'app.users.list.addUser' | translate }}</a>
+        <a (click)="addUser()" class="btn btn-sm btn-success" tabindex="0">
+            <mat-icon>add</mat-icon> {{ 'app.users.list.addUser' | translate }}
+        </a>
     </div>
 </div>
 <table class="table table-striped">
@@ -23,7 +25,9 @@
             <td>{{user.assetCount}}</td>
             <td>{{user.transactionCount}}</td>
             <td class="text-end" style="white-space: nowrap">
-                <a (click)="editUser(user.id)" class="btn btn-sm btn-primary me-2" tabindex="0"><fa-icon icon="edit"></fa-icon> {{ 'app.common.edit' | translate }}</a>
+                <a (click)="editUser(user.id)" class="btn btn-sm btn-primary me-2" tabindex="0">
+                    <mat-icon>edit</mat-icon> {{ 'app.common.edit' | translate }}
+                </a>
                 @if (user.id !== currentUser.id) {
                     <fingather-delete-button
                         (onConfirm)="deleteUser(user.id)"
