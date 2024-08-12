@@ -43,8 +43,8 @@
         font-size: 16px;
 
         .nav-link {
-            padding-top: 7px;
-            padding-bottom: 7px;
+            padding-top: 6px;
+            padding-bottom: 6px;
             border-radius: $border-radius;
             border: 1px solid $color-gray;
             color: $color-gray-lightest;
@@ -53,6 +53,23 @@
                 background-color: $color-gray-light;
                 border: 1px solid $color-gray-lighter;
                 color: $white;
+            }
+
+            .mat-icon {
+                margin-right: 10px;
+                color: $primary;
+                vertical-align: middle;
+            }
+            span {
+                display: inline-block;
+                padding-top: 1px;
+                vertical-align: middle;
+            }
+
+            &.logout {
+                .mat-icon {
+                    color: $color-gray-8;
+                }
             }
         };
 

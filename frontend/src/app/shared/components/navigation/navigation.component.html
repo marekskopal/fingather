@@ -9,47 +9,56 @@
         <ul class="nav flex-column mb-auto">
             <li class="nav-item">
                 <a class="nav-link" (click)="collapseNavigation()" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-                    <mat-icon>dashboard</mat-icon> {{ 'app.navbar.dashboard' | translate }}
+                    <mat-icon>dashboard</mat-icon>
+                    <span>{{ 'app.navbar.dashboard' | translate }}</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" (click)="collapseNavigation()" routerLink="/assets" routerLinkActive="active">
-                    <mat-icon>pie_chart</mat-icon> {{ 'app.navbar.assets' | translate }}
+                    <mat-icon>pie_chart</mat-icon>
+                    <span>{{ 'app.navbar.assets' | translate }}</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" (click)="collapseNavigation()" routerLink="/transactions" routerLinkActive="active">
-                    <mat-icon>list</mat-icon> {{ 'app.navbar.transactions' | translate }}
+                    <mat-icon>list</mat-icon>
+                    <span>{{ 'app.navbar.transactions' | translate }}</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" (click)="collapseNavigation()" routerLink="/dividends" routerLinkActive="active">
-                    <mat-icon>calendar_month</mat-icon> {{ 'app.navbar.dividends' | translate }}
+                    <mat-icon>calendar_month</mat-icon>
+                    <span>{{ 'app.navbar.dividends' | translate }}</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" (click)="collapseNavigation()" routerLink="/overviews" routerLinkActive="active">
-                    <mat-icon>visibility</mat-icon> {{ 'app.navbar.overviews' | translate }}
+                    <mat-icon>visibility</mat-icon>
+                    <span>{{ 'app.navbar.overviews' | translate }}</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" (click)="collapseNavigation()" routerLink="/history" routerLinkActive="active">
-                    <mat-icon>monitoring</mat-icon> {{ 'app.navbar.history' | translate }}
+                    <mat-icon>monitoring</mat-icon>
+                    <span>{{ 'app.navbar.history' | translate }}</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" (click)="collapseNavigation()" routerLink="/groups" routerLinkActive="active">
-                    <mat-icon>stacks</mat-icon> {{ 'app.navbar.groups' | translate }}
+                    <mat-icon>stacks</mat-icon>
+                    <span>{{ 'app.navbar.groups' | translate }}</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" (click)="collapseNavigation()" routerLink="/portfolios" routerLinkActive="active">
-                    <mat-icon>wallet</mat-icon> {{ 'app.navbar.portfolios' | translate }}
+                    <mat-icon>wallet</mat-icon>
+                    <span>{{ 'app.navbar.portfolios' | translate }}</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" (click)="collapseNavigation()" routerLink="/users" routerLinkActive="active">
-                    <mat-icon>group</mat-icon> {{ 'app.navbar.users' | translate }}
+                    <mat-icon>group</mat-icon>
+                    <span>{{ 'app.navbar.users' | translate }}</span>
                 </a>
             </li>
         </ul>
@@ -57,8 +66,9 @@
             <fingather-language-selector />
 
             <li class="nav-item">
-                <a class="nav-link" (click)="logout();collapseNavigation()" tabindex="0">
-                    <mat-icon>logout</mat-icon> {{ 'app.navbar.logout' | translate }}
+                <a class="nav-link logout" (click)="logout();collapseNavigation()" tabindex="0">
+                    <mat-icon>logout</mat-icon>
+                    <span>{{ 'app.navbar.logout' | translate }}</span>
                 </a>
             </li>
         </ul>
