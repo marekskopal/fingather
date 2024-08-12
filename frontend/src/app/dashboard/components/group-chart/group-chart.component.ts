@@ -29,7 +29,8 @@ export type ChartOptions = {
 })
 export class GroupChartComponent implements OnInit {
     protected chartOptions: ChartOptions;
-    protected readonly $loading: WritableSignal<boolean> = signal<boolean>(false);
+    protected readonly $loading = signal<boolean>(false);
+    protected readonly $groupsWithGroupData = signal<GroupWithGroupData[]>([]);
 
     public constructor(
         private readonly groupWithGroupDataService: GroupWithGroupDataService,
@@ -52,6 +53,7 @@ export class GroupChartComponent implements OnInit {
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
         const groupsWithGroupData = await this.groupWithGroupDataService.getGroupWithGroupData(portfolio.id);
+        this.$groupsWithGroupData.set(groupsWithGroupData);
 
         const chartMap = this.mapChart(groupsWithGroupData);
         this.chartOptions.series = chartMap.series;
@@ -64,18 +66,21 @@ export class GroupChartComponent implements OnInit {
         this.chartOptions = {
             series: [],
             chart: {
-                width: '100%',
+                height: 240,
                 type: 'donut',
                 selection: {
                     enabled: false,
                 },
+                sparkline: {
+                    enabled: true,
+                }
             },
             labels: [],
             fill: {
                 opacity: 1
             },
             stroke: {
-                width: 4,
+                width: 0,
                 colors: ['#1b2627']
             },
             states: {
@@ -89,12 +94,12 @@ export class GroupChartComponent implements OnInit {
                 show: false
             },
             legend: {
-                position: 'bottom'
+                show: false
             },
             plotOptions: {
                 pie: {
                     donut: {
-                        size: '50%'
+                        size: '60%'
                     }
                 }
             },

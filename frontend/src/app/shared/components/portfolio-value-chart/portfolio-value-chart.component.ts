@@ -102,6 +102,9 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
                 },
                 toolbar: {
                     show: false
+                },
+                sparkline: {
+                    enabled: true,
                 }
             },
             dataLabels: {
@@ -112,12 +115,20 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
             },
             title: {
                 text: this.title() ?? '',
-                align: 'left'
+                floating: true,
+                align: 'left',
+                margin: 0,
             },
             grid: {
                 row: {
                     colors: ['#2b3035', 'transparent'],
                     opacity: 0.5
+                },
+                padding: {
+                    top: 0,
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
                 }
             },
             xaxis: {

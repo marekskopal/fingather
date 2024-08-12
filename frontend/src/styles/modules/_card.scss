@@ -1,0 +1,14 @@
+.card {
+    padding: $spacing-lg;
+    border: 0;
+    border-radius: $border-radius-lg;
+    background-color: $background-color;
+
+    .card-header {
+        border-bottom: 1px solid $color-gray-lighter;
+    }
+
+    .card-body {
+        margin-top: 24px;
+    }
+}

@@ -3,7 +3,7 @@
         <fingather-portfolio-selector />
     </div>
     <div class="col-md-9 order-md-0">
-        <h1>{{ 'app.dashboard.title' | translate }}</h1>
+        <h1 class="h3">{{ 'app.dashboard.title' | translate }}</h1>
     </div>
 </div>
 
@@ -13,16 +13,19 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-lg-5">
-        <fingather-dashboard-group-chart></fingather-dashboard-group-chart>
+<div class="card">
+    <div class="card-header">
+        <h3 class="h6">
+            {{ 'app.dashboard.groupsAllocation.caption' | translate }}
+        </h3>
     </div>
 
-    <div class="col-lg-7">
+    <div class="card-body">
+        <fingather-dashboard-group-chart></fingather-dashboard-group-chart>
+
         @if ($groupsWithGroupData() !== null) {
             <div class="table-responsive">
                 <table class="table table-striped caption-top">
-                    <caption>{{ 'app.dashboard.groupsAllocation.caption' | translate }}</caption>
                     <thead>
                         <tr>
                             <th style="width: 22%">{{ 'app.dashboard.groupsAllocation.group' | translate }}</th>
@@ -65,4 +68,5 @@
             <span class="spinner-border spinner-border-lg align-center"></span>
         }
     </div>
+
 </div>

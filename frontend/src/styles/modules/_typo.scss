@@ -1,0 +1,64 @@
+@mixin h1 {
+    font-size: $h1-font-size;
+    line-height: $h1-line-height;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+}
+h1,
+.h1 {
+    @include h1;
+}
+
+@mixin h2 {
+    font-size: $h2-font-size;
+    line-height: $h2-line-height;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+}
+h2,
+.h2 {
+    @include h2;
+}
+
+@mixin h3 {
+    font-size: $h3-font-size;
+    line-height: $h3-line-height;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+}
+h3,
+.h3 {
+    @include h3;
+}
+
+@mixin h4 {
+    font-size: $h4-font-size;
+    line-height: $h4-line-height;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+h4,
+.h4 {
+    @include h4;
+}
+
+@mixin h5 {
+    font-size: $h5-font-size;
+    line-height: $h5-line-height;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+h5,
+.h5 {
+    @include h5;
+}
+
+@mixin h6 {
+    font-size: $h6-font-size;
+    line-height: $h6-line-height;
+    font-weight: 600;
+}
+h6,
+.h6 {
+    @include h6;
+}

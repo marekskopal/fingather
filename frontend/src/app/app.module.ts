@@ -36,7 +36,6 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         ReactiveFormsModule,
         AppRoutingModule,
         NgbModule,
-        FaIconComponent,
         SharedModule,
         TranslateModule.forRoot({
             loader: {
