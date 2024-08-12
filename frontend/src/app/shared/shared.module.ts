@@ -24,6 +24,11 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { NgxFileDropModule } from 'ngx-file-drop';
 
 import { PortfolioTotalComponent } from './components/portfolio-total/portfolio-total.component';
+import {LanguageSelectorComponent} from "@app/shared/components/language-selector/language-selector.component";
+import {NavigationComponent} from "@app/shared/components/navigation/navigation.component";
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import {AppRoutingModule} from "@app/app-routing.module";
+import {RouterModule} from "@angular/router";
 
 @NgModule({
     imports: [
@@ -33,6 +38,8 @@ import { PortfolioTotalComponent } from './components/portfolio-total/portfolio-
         NgApexchartsModule,
         NgxFileDropModule,
         FaIconComponent,
+        NgbModule,
+        RouterModule,
     ],
     declarations: [
         PortfolioTotalComponent,
@@ -49,6 +56,8 @@ import { PortfolioTotalComponent } from './components/portfolio-total/portfolio-
         ImportPrepareComponent,
         PaginationComponent,
         DeleteButtonComponent,
+        LanguageSelectorComponent,
+        NavigationComponent,
     ],
     exports: [
         PortfolioTotalComponent,
@@ -63,6 +72,7 @@ import { PortfolioTotalComponent } from './components/portfolio-total/portfolio-
         ImportPrepareComponent,
         PaginationComponent,
         DeleteButtonComponent,
+        NavigationComponent,
     ]
 })
 export class SharedModule { }

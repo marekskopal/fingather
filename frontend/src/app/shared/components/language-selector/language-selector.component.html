@@ -1,0 +1,14 @@
+﻿<div ngbDropdown placement="top-end">
+    <button type="button" class="btn btn-outline-light" id="languageSelector" ngbDropdownToggle>
+        <img src="/images/flags/{{ currentLanguage }}.svg" alt="{{ currentLanguage }}" width="24" height="18">
+        {{ currentLanguage }}
+    </button>
+    <div ngbDropdownMenu aria-labelledby="language-selector">
+        @for(language of languages; track language) {
+            <button ngbDropdownItem (click)="changeLanguage(language)">
+                <img src="/images/flags/{{ language }}.svg" alt="{{ language }}" width="24" height="18">
+                {{ language }}
+            </button>
+        }
+    </div>
+</div>

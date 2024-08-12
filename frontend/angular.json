@@ -25,10 +25,11 @@
             "assets": [
               "src/favicon.ico",
               "src/images",
-              "src/i18n"
+              "src/i18n",
+              "src/fonts"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles/styles.scss"
             ],
             "scripts": [],
             "vendorChunk": true,
