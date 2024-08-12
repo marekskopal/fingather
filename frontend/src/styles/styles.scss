@@ -1,0 +1,110 @@
+@import 'shared/variables';
+
+@import 'bootstrap/scss/bootstrap';
+
+@import 'modules/font';
+@import 'modules/app';
+@import 'modules/navigation';
+
+a {
+    cursor: pointer;
+}
+
+.small {
+    font-size: 0.85rem;
+}
+
+.red {
+    color: $color-red !important;
+}
+
+.green {
+    color: $color-green !important;
+}
+
+.ticker-logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background-color: $body-bg-dark;
+    margin-right: 8px;
+
+    img {
+        border-radius: 8px;
+    }
+
+    .logo-placeholder {
+        position: relative;
+        width: 100%;
+        height: 100%;
+
+        .logo-placeholder-text {
+            position: absolute;
+            display: block;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+    }
+}
+
+.login {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, calc(-50% - 47px));
+    width: 366px;
+}
+
+.apexcharts-tooltip {
+    background-color: #2b3035 !important;
+    color: #eee;
+}
+
+.apexcharts-canvas > svg {
+    background-color: transparent !important;
+}
+
+.file-drop {
+    background-color: $body-bg-dark;
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+
+    .file-drop-text {
+        margin-right: 10px;
+    }
+}
+
+.tag {
+    display: inline-block;
+    background-color: $body-bg-dark;
+    color: #fff;
+    border-radius: 20px;
+    padding: 2px 10px;
+    margin-right: 5px;
+    font-size: 0.875rem;
+
+    .buy {
+        color: $color-green;
+    }
+
+    .sell,
+    .tax,
+    .fee {
+        color: $color-red;
+    }
+
+    .dividend,
+    .dividend-tax {
+        color: $color-purple;
+    }
+}
+
+.portfolio-value {
+    .card-body {
+        font-size: 1.5rem;
+        font-weight: 700;
+    }
+}

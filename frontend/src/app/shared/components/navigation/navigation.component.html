@@ -1,0 +1,46 @@
+﻿<nav class="navbar navbar-expand-lg d-flex">
+    <a class="navbar-brand" routerLink="/" routerLinkActive="active">
+        <img src="/images/fingather.svg" alt="FinGather" width="240" height="60">
+    </a>
+    <button (click)="toggleNavigation()" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse flex-column w-100" id="navigation" [ngbCollapse]="isNavigationCollapsed">
+        <ul class="nav flex-column mb-auto">
+            <li class="nav-item">
+                <a class="nav-link" (click)="collapseNavigation()" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><fa-icon icon="dashboard" /> {{ 'app.navbar.dashboard' | translate }}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="collapseNavigation()" routerLink="/assets" routerLinkActive="active"><fa-icon icon="chart-pie" /> {{ 'app.navbar.assets' | translate }}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="collapseNavigation()" routerLink="/transactions" routerLinkActive="active"><fa-icon icon="list" /> {{ 'app.navbar.transactions' | translate }}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="collapseNavigation()" routerLink="/dividends" routerLinkActive="active"><fa-icon icon="calendar-days" /> {{ 'app.navbar.dividends' | translate }}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="collapseNavigation()" routerLink="/overviews" routerLinkActive="active"><fa-icon icon="eye" /> {{ 'app.navbar.overviews' | translate }}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="collapseNavigation()" routerLink="/history" routerLinkActive="active"><fa-icon icon="chart-line" /> {{ 'app.navbar.history' | translate }}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="collapseNavigation()" routerLink="/groups" routerLinkActive="active"><fa-icon icon="layer-group" /> {{ 'app.navbar.groups' | translate }}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="collapseNavigation()" routerLink="/portfolios" routerLinkActive="active"><fa-icon icon="wallet" /> {{ 'app.navbar.portfolios' | translate }}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="collapseNavigation()" routerLink="/users" routerLinkActive="active"><fa-icon icon="user-group" /> {{ 'app.navbar.users' | translate }}</a>
+            </li>
+        </ul>
+        <ul class="nav flex-column">
+            <fingather-language-selector />
+
+            <li class="nav-item">
+                <a class="nav-link" (click)="logout();collapseNavigation()" tabindex="0"><fa-icon icon="power-off" /> {{ 'app.navbar.logout' | translate }}</a>
+            </li>
+        </ul>
+    </div>
+</nav>
