@@ -1,8 +1,8 @@
-﻿<div class="row">
+﻿<div class="row portfolio-total">
     <div class="col-lg-3 mb-4">
-        <div class="card h-100 portfolio-value">
+        <div class="card h-100">
             <div class="card-header">
-                {{ 'app.shared.portfolioTotal.portfolioValue' | translate }}
+                <h3 class="h6">{{ 'app.shared.portfolioTotal.portfolioValue' | translate }}</h3>
             </div>
             @if (portfolioData) {
                 <div class="card-body">
@@ -11,7 +11,7 @@
                             [showLabels]="false"
                     ></fingather-portfolio-value-chart>
 
-                    <strong>{{portfolioData.value | number:'1.2-2' | currency: defaultCurrency.id | async}}</strong>
+                    <span class="value h3">{{portfolioData.value | number:'1.2-2' | currency: defaultCurrency.id | async}}</span>
                 </div>
             } @else {
                 <div class="card-body text-center">
@@ -26,17 +26,17 @@
             <div class="col-lg-6 mb-4">
                 <div class="card h-100">
                     <div class="card-header">
-                        {{ 'app.shared.portfolioTotal.gain' | translate }}
+                        <h3 class="h6">{{ 'app.shared.portfolioTotal.gain' | translate }}</h3>
                     </div>
                     @if (portfolioData) {
-                        <div class="card-body {{portfolioData.gain > 0 ? 'green' : (portfolioData.gain < 0 ? 'red' : '')}}">
-                            <div>
+                        <div class="card-body">
+                            <div class="value h3">
                                 {{portfolioData.gain | number:'1.2-2' | currency: defaultCurrency.id | async}}
                             </div>
-                            <div>
+                            <div [coloredValue]="portfolioData.gain">
                                 {{portfolioData.gainPercentage | number:'1.2-2'}}%
                             </div>
-                            <div>
+                            <div [coloredValue]="portfolioData.gain">
                                 {{portfolioData.gainPercentagePerAnnum | number:'1.2-2'}}%&nbsp;p.a.
                             </div>
                         </div>
@@ -51,11 +51,11 @@
             <div class="col-lg-6 mb-4">
                 <div class="card h-100">
                     <div class="card-header">
-                        {{ 'app.shared.portfolioTotal.gainRealized' | translate }}
+                        <h3 class="h6">{{ 'app.shared.portfolioTotal.gainRealized' | translate }}</h3>
                     </div>
                     @if (portfolioData) {
-                        <div class="card-body {{portfolioData.realizedGain > 0 ? 'green' : (portfolioData.realizedGain < 0 ? 'red' : '')}}">
-                            <div>
+                        <div class="card-body">
+                            <div class="value h3">
                                 {{portfolioData.realizedGain | number:'1.2-2' | currency: defaultCurrency.id | async}}
                             </div>
                         </div>
@@ -72,11 +72,13 @@
             <div class="col-lg-6 mb-4">
                 <div class="card h-100">
                     <div class="card-header">
-                        {{ 'app.shared.portfolioTotal.investedValue' | translate }}
+                        <h3 class="h6">{{ 'app.shared.portfolioTotal.investedValue' | translate }}</h3>
                     </div>
                     @if (portfolioData) {
                         <div class="card-body">
-                            {{portfolioData.transactionValue | number:'1.2-2' | currency: defaultCurrency.id | async}}
+                            <div class="value h3">
+                                {{portfolioData.transactionValue | number:'1.2-2' | currency: defaultCurrency.id | async}}
+                            </div>
                         </div>
                     } @else {
                         <div class="card-body text-center">
@@ -89,17 +91,17 @@
             <div class="col-lg-6 mb-4">
                 <div class="card h-100">
                     <div class="card-header">
-                        {{ 'app.shared.portfolioTotal.fxImpact' | translate }}
+                        <h3 class="h6">{{ 'app.shared.portfolioTotal.fxImpact' | translate }}</h3>
                     </div>
                     @if (portfolioData) {
-                        <div class="card-body {{portfolioData.fxImpact > 0 ? 'green' : (portfolioData.fxImpact < 0 ? 'red' : '')}}">
-                            <div>
+                        <div class="card-body">
+                            <div class="value h3">
                                 {{portfolioData.fxImpact | number:'1.2-2' | currency: defaultCurrency.id | async}}
                             </div>
-                            <div>
+                            <div [coloredValue]="portfolioData.fxImpact">
                                 {{portfolioData.fxImpactPercentage | number:'1.2-2'}}%
                             </div>
-                            <div>
+                            <div [coloredValue]="portfolioData.fxImpact">
                                 {{portfolioData.fxImpactPercentagePerAnnum | number:'1.2-2'}}%&nbsp;p.a.
                             </div>
                         </div>
@@ -118,17 +120,17 @@
             <div class="col-12 mb-4">
                 <div class="card h-100">
                     <div class="card-header">
-                        {{ 'app.shared.portfolioTotal.dividend' | translate }}
+                        <h3 class="h6">{{ 'app.shared.portfolioTotal.dividend' | translate }}</h3>
                     </div>
                     @if (portfolioData) {
-                        <div class="card-body {{portfolioData.dividendYield > 0 ? 'green' : (portfolioData.dividendYield < 0 ? 'red' : '')}}">
-                            <div>
+                        <div class="card-body">
+                            <div class="value h3">
                                 {{portfolioData.dividendYield | number:'1.2-2' | currency: defaultCurrency.id | async}}
                             </div>
-                            <div>
+                            <div [coloredValue]="portfolioData.fxImpact">
                                 {{portfolioData.dividendYieldPercentage | number:'1.2-2'}}%
                             </div>
-                            <div>
+                            <div [coloredValue]="portfolioData.fxImpact">
                                 {{portfolioData.dividendYieldPercentagePerAnnum | number:'1.2-2'}}%&nbsp;p.a.
                             </div>
                         </div>
@@ -144,7 +146,7 @@
             <div class="col-12">
                 <div class="card h-100">
                     <div class="card-header">
-                        {{ 'app.shared.portfolioTotal.taxFee' | translate }}
+                        <h3 class="h6">{{ 'app.shared.portfolioTotal.taxFee' | translate }}</h3>
                     </div>
                     @if (portfolioData) {
                         <div class="card-body">

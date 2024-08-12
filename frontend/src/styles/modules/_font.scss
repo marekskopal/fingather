@@ -2,7 +2,8 @@
     font-family: "Gaist";
     src:
         local("Gaist"),
-        url("/fonts/Geist-Regular.ttf") format("truetype"),
+        url("/fonts/Geist-Regular.otf") format("opentype"),
+        url("/fonts/Geist-Regular.woff") format("woff"),
         url("/fonts/Geist-Regular.woff2") format("woff2");
     font-weight: 400;
 }
@@ -11,7 +12,9 @@
     font-family: "Gaist";
     src:
         local("Gaist"),
-        url("/fonts/Geist-Bold.ttf") format("truetype"),
-        url("/fonts/Geist-Bold.woff2") format("woff2");
+        url("/fonts/Geist-SemiBold.otf") format("opentype"),
+        url("/fonts/Geist-SemiBold.woff") format("woff"),
+        url("/fonts/Geist-SemiBold.woff2") format("woff2");
     font-weight: 600;
 }
+

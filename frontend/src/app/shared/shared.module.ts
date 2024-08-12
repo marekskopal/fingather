@@ -29,6 +29,7 @@ import {NavigationComponent} from "@app/shared/components/navigation/navigation.
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {AppRoutingModule} from "@app/app-routing.module";
 import {RouterModule} from "@angular/router";
+import {ColoredValueDirective} from "@app/shared/directives/colored-value.directive";
 
 @NgModule({
     imports: [
@@ -40,6 +41,7 @@ import {RouterModule} from "@angular/router";
         FaIconComponent,
         NgbModule,
         RouterModule,
+        ColoredValueDirective,
     ],
     declarations: [
         PortfolioTotalComponent,

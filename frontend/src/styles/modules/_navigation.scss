@@ -13,8 +13,8 @@
         flex-direction: column !important;
         width: $navigation-width;
         height: 100vh;
-        padding-left: 32px;
-        padding-right: 32px;
+        padding-left: $spacing-xl;
+        padding-right: $spacing-xl;
         background-color: $background-color;
     }
 

@@ -1,10 +1,13 @@
 @import 'shared/variables';
-
-@import 'bootstrap/scss/bootstrap';
+@import 'shared/bootstrap';
 
 @import 'modules/font';
+@import 'modules/typo';
 @import 'modules/app';
 @import 'modules/navigation';
+@import 'modules/card';
+@import 'modules/portfolio-total';
+@import 'modules/group-chart';
 
 a {
     cursor: pointer;
