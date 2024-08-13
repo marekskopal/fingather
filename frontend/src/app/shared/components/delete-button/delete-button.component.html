@@ -1,9 +1,7 @@
-﻿<button (click)="delete()" class="btn btn-sm btn-danger btn-delete-user" [disabled]="$isDeleting()">
+﻿<button (click)="delete()" class="btn btn-secondary" [disabled]="$isDeleting()">
     @if ($isDeleting()) {
         <span class="spinner-border spinner-border-sm"></span>
     } @else {
-        <span>
-            <mat-icon>delete</mat-icon> {{ 'app.common.delete' | translate }}
-        </span>
+        <mat-icon>delete</mat-icon>
     }
 </button>
