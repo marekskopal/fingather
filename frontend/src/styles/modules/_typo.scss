@@ -67,11 +67,29 @@ h6,
     color: $color-gray-8 !important;
 }
 
-table {
-    td {
-        vertical-align: middle;
-    }
+.red {
+    color: $color-red !important;
 }
-.table {
-    margin-bottom: 0;
+
+.green {
+    color: $color-green !important;
+}
+
+.ellipsis {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+a {
+    cursor: pointer;
+}
+
+.small {
+    font-size: $font-size-sm;
+    line-height: $line-height-sm;
+}
+.smaller {
+    font-size: $font-size-xs;
+    line-height: $line-height-xs;
 }

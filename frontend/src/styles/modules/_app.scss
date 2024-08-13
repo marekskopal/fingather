@@ -8,6 +8,15 @@
 }
 
 .container-fluid {
-    padding-left: 24px;
-    padding-right: 24px;
+    padding-left: $spacing-lg;
+    padding-right: $spacing-lg;
+}
+
+.content-container {
+    padding-top: $spacing-lg;
+    padding-bottom: $spacing-lg;
+}
+
+.header {
+    margin-bottom: $spacing-lg;
 }

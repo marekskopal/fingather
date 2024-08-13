@@ -1,0 +1,24 @@
+table {
+    td,
+    th {
+        vertical-align: middle;
+    }
+
+    td {
+        &.actions {
+            text-align: right;
+            white-space: nowrap;
+        }
+    }
+}
+.table {
+    margin-bottom: 0;
+
+    > :not(caption) > * > th {
+        padding: 1rem 1rem;
+        @include h6;
+    }
+}
+.table-fixed {
+    table-layout: fixed;
+}
