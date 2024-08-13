@@ -17,6 +17,6 @@ export interface AbstractDataEntity extends AbstractEntity {
     return: number;
     returnPercentage: number;
     returnPercentagePerAnnum: number;
-    tax: number;
-    fee: number;
+    tax: string;
+    fee: string;
 }

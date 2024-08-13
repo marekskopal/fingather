@@ -5,7 +5,32 @@
     background-color: $background-color;
 
     .card-header {
+        padding-bottom: 14px;
         border-bottom: 1px solid $color-gray-lighter;
+
+        > * {
+            display: inline-block;
+        }
+
+        .icon-circle {
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: $color-gray-light;
+            text-align: center;
+            line-height: 32px;
+            margin-right: 13px;
+
+            .mat-icon {
+                vertical-align: middle;
+                margin-top: -3px;
+                color: $primary-light;
+                width: 16px;
+                height: 16px;
+                font-size: 16px;
+            }
+        }
     }
 
     .card-body {

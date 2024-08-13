@@ -44,4 +44,5 @@ export class PortfolioTotalComponent implements OnInit {
     }
 
     protected readonly PortfolioDataRangeEnum = RangeEnum;
+    protected readonly parseFloat = parseFloat;
 }

@@ -297,7 +297,10 @@
         "dividend": "Dividend Yield",
         "investedValue": "Invested Value",
         "fxImpact": "Forex Impact",
-        "taxFee": "Tax/Fee"
+        "taxFee": "Tax/Fee",
+        "tax": "Tax",
+        "fee": "Fee",
+        "total": "Total"
       },
       "dividendDialog": {
         "headerAdd": "Add Dividend",
