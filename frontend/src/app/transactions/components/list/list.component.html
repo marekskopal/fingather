@@ -2,85 +2,92 @@
     <div class="col-md-3 order-md-2 text-end">
         <fingather-portfolio-selector />
     </div>
-    <div class="col-md-5 order-md-0">
+    <div class="col-md-4 order-md-0">
         <h1>{{ 'app.transactions.list.title' | translate }}</h1>
     </div>
-    <div class="col-md-4 order-md-1 text-end">
-        <a (click)="addTransaction()" class="btn btn-sm btn-success me-2" tabindex="0">
-            <mat-icon>add</mat-icon> {{ 'app.transactions.list.addTransaction' | translate }}
+    <div class="col-md-5 order-md-1 text-end">
+        <a (click)="addTransaction()" class="btn btn-primary me-3" tabindex="0">
+            <mat-icon>add</mat-icon>
+            <span>{{ 'app.transactions.list.addTransaction' | translate }}</span>
         </a>
-        <a (click)="addDividend()" class="btn btn-sm btn-success me-2" tabindex="0">
-            <mat-icon>add</mat-icon> {{ 'app.transactions.list.addDividend' | translate }}
+        <a (click)="addDividend()" class="btn btn-primary me-3" tabindex="0">
+            <mat-icon>add</mat-icon>
+            <span>{{ 'app.transactions.list.addDividend' | translate }}</span>
         </a>
-        <a routerLink="import" class="btn btn-sm btn-info">
-            <mat-icon>folder_open</mat-icon> {{ 'app.transactions.list.import' | translate }}
+        <a routerLink="import" class="btn btn-secondary">
+            <mat-icon>folder_open</mat-icon>
+            <span>{{ 'app.transactions.list.import' | translate }}</span>
         </a>
     </div>
 </div>
-<div class="table-responsive">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th style="width: 15%">{{ 'app.transactions.list.date' | translate }}</th>
-                <th style="width: 15%">{{ 'app.transactions.list.created' | translate }}</th>
-                <th style="width: 10%">{{ 'app.transactions.list.type' | translate }}</th>
-                <th style="width: 40%">{{ 'app.transactions.list.asset' | translate }}</th>
-                <th style="width: 20%"></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let transaction of transactionList?.transactions">
-                <td>
-                    <div>{{transaction.actionCreated | date: 'y-MM-dd'}}</div>
-                    <div class="small">{{transaction.actionCreated | date: 'HH:mm'}}</div>
-                <td>
-                    <div>{{transaction.created | date: 'y-MM-dd'}}</div>
-                    <div class="small">{{transaction.created | date: 'HH:mm'}}</div>
-                </td>
-                <td>
-                    <div class="tag">
-                        @if (transaction.actionType === TransactionActionType.Buy) {
-                            <span class="buy">{{transaction.actionType}}</span>
-                        } @else if (transaction.actionType === TransactionActionType.Sell) {
-                            <span class="sell">{{transaction.actionType}}</span>
-                        } @else if (transaction.actionType === TransactionActionType.Dividend) {
-                            <span class="dividend">{{transaction.actionType}}</span>
-                        } @else if (transaction.actionType === TransactionActionType.Tax) {
-                            <span class="tax">{{transaction.actionType}}</span>
-                        } @else if (transaction.actionType === TransactionActionType.Fee) {
-                            <span class="fee">{{transaction.actionType}}</span>
-                        } @else if (transaction.actionType === TransactionActionType.DividendTax) {
-                            <span class="dividend-tax">{{transaction.actionType}}</span>
-                        }
-                    </div>
-                </td>
-                <td>
-                    <div class="d-flex align-items-center">
-                        <fingather-ticker-logo [ticker]="transaction.ticker" />
-                        <div>
-                            <div><strong>{{transaction.ticker.ticker}}</strong></div>
-                            <div>{{transaction.ticker.name}}</div>
-                        </div>
-                    </div>
-                </td>
-                <td class="text-end" style="white-space: nowrap">
-                    <a (click)="editTransaction(transaction.id)" class="btn btn-sm btn-primary me-2" tabindex="0">
-                        <mat-icon>edit</mat-icon> {{ 'app.common.edit' | translate }}
-                    </a>
-                    <fingather-delete-button
-                        (onConfirm)="deleteTransaction(transaction.id)"
-                        [title]="'Delete transaction'"
-                        [message]="'Are you sure you want to delete transaction?'"
-                    />
-                </td>
-            </tr>
-            <tr *ngIf="transactionList === null">
-                <td colspan="7" class="text-center">
-                    <span class="spinner-border spinner-border-lg align-center"></span>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th style="width: 15%">{{ 'app.transactions.list.date' | translate }}</th>
+                        <th style="width: 15%">{{ 'app.transactions.list.created' | translate }}</th>
+                        <th style="width: 10%">{{ 'app.transactions.list.type' | translate }}</th>
+                        <th style="width: 40%">{{ 'app.transactions.list.asset' | translate }}</th>
+                        <th style="width: 20%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let transaction of transactionList?.transactions">
+                        <td>
+                            <div>{{transaction.actionCreated | date: 'y-MM-dd'}}</div>
+                            <div class="small">{{transaction.actionCreated | date: 'HH:mm'}}</div>
+                        <td>
+                            <div>{{transaction.created | date: 'y-MM-dd'}}</div>
+                            <div class="small">{{transaction.created | date: 'HH:mm'}}</div>
+                        </td>
+                        <td>
+                            <div class="tag">
+                                @if (transaction.actionType === TransactionActionType.Buy) {
+                                    <span class="buy">{{transaction.actionType}}</span>
+                                } @else if (transaction.actionType === TransactionActionType.Sell) {
+                                    <span class="sell">{{transaction.actionType}}</span>
+                                } @else if (transaction.actionType === TransactionActionType.Dividend) {
+                                    <span class="dividend">{{transaction.actionType}}</span>
+                                } @else if (transaction.actionType === TransactionActionType.Tax) {
+                                    <span class="tax">{{transaction.actionType}}</span>
+                                } @else if (transaction.actionType === TransactionActionType.Fee) {
+                                    <span class="fee">{{transaction.actionType}}</span>
+                                } @else if (transaction.actionType === TransactionActionType.DividendTax) {
+                                    <span class="dividend-tax">{{transaction.actionType}}</span>
+                                }
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <fingather-ticker-logo [ticker]="transaction.ticker" />
+                                <div>
+                                    <div><strong>{{transaction.ticker.ticker}}</strong></div>
+                                    <div>{{transaction.ticker.name}}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-end" style="white-space: nowrap">
+                            <a (click)="editTransaction(transaction.id)" class="btn btn-sm btn-secondary me-2" tabindex="0">
+                                <mat-icon>edit</mat-icon>
+                            </a>
+                            <fingather-delete-button
+                                (onConfirm)="deleteTransaction(transaction.id)"
+                                [title]="'Delete transaction'"
+                                [message]="'Are you sure you want to delete transaction?'"
+                            />
+                        </td>
+                    </tr>
+                    <tr *ngIf="transactionList === null">
+                        <td colspan="7" class="text-center">
+                            <span class="spinner-border spinner-border-lg align-center"></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 <div class="d-flex justify-content-between p-2">

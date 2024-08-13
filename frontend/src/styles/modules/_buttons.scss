@@ -1,0 +1,50 @@
+.btn {
+    font-size: 16px;
+    font-weight: 700;
+    padding: 12px 14px 8px;
+    height: 48px;
+
+    .mat-icon {
+        margin-top: -4px;
+        vertical-align: middle;
+        font-weight: 300;
+    }
+
+    span {
+        display: inline-block;
+        padding-left: 3px;
+        padding-right: 3px;
+    }
+
+    .mat-icon + span {
+        margin-left: 3px;
+    }
+
+    span + .mat-icon {
+        margin-left: 3px;
+    }
+}
+
+.btn-primary {
+    background-color: $color-green-light;
+    border: 1px solid $color-green-light;
+    color: $black;
+
+    &:hover {
+        background-color: $primary;
+        border: 1px solid $primary;
+        color: $white;
+    }
+}
+
+.btn-secondary {
+    background-color: $color-gray-light;
+    border: 1px solid $color-gray-light;
+    color: $color-gray-lightest;
+
+    &:hover {
+        background-color: $color-gray;
+        border: 1px solid $color-gray-light;
+        color: $color-gray-lightest;
+    }
+}
