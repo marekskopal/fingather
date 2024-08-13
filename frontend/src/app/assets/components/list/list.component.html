@@ -281,7 +281,7 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let asset of assetsWithProperties.openAssets">
-                                <td class="align-middle">
+                                <td>
                                     <div class="d-flex align-items-center">
                                         <fingather-ticker-logo [ticker]="asset.ticker" />
                                         <div>
@@ -290,9 +290,9 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="align-middle text-end">{{asset.price | number:'1.2-2' | currency: asset.ticker.currencyId | async}}</td>
-                                <td class="align-middle">{{asset.units | number:'1.0-8'}}</td>
-                                <td class="align-middle text-end">{{asset.value | number:'1.2-2' | currency: defaultCurrency.id | async}}</td>
+                                <td class="text-end">{{asset.price | number:'1.2-2' | currency: asset.ticker.currencyId | async}}</td>
+                                <td>{{asset.units | number:'1.0-8'}}</td>
+                                <td class="text-end">{{asset.value | number:'1.2-2' | currency: defaultCurrency.id | async}}</td>
                                 <td class="text-end {{asset.gain > 0 ? 'green' : (asset.gain < 0 ? 'red' : '')}}">
                                     <div class="small">{{asset.gainDefaultCurrency | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
                                     <div>
@@ -333,7 +333,7 @@
                                         }
                                     </div>
                                 </td>
-                                <td class="align-middle text-end" style="white-space: nowrap">
+                                <td class="text-end" style="white-space: nowrap">
                                     <a routerLink="{{asset.id}}" class="btn btn-sm btn-primary mr-1">
                                         <mat-icon>visibility</mat-icon> {{ 'app.assets.list.detail' | translate }}
                                     </a>
@@ -363,7 +363,7 @@
                         @if (assetsWithProperties !== null) {
                             @for (asset of assetsWithProperties.closedAssets; track asset.id) {
                                 <tr>
-                                    <td class="align-middle">
+                                    <td>
                                         <div class="d-flex align-items-center">
                                             <fingather-ticker-logo [ticker]="asset.ticker" />
                                             <div>
@@ -372,7 +372,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="align-middle text-end">{{asset.price | number:'1.2-2' | currency: asset.ticker.currencyId | async}}</td>
+                                    <td class="text-end">{{asset.price | number:'1.2-2' | currency: asset.ticker.currencyId | async}}</td>
                                     <td class="text-end" style="white-space: nowrap">
                                         <a routerLink="{{asset.id}}" class="btn btn-sm btn-primary mr-1">
                                             <mat-icon>visibility</mat-icon> {{ 'app.assets.list.detail' | translate }}
@@ -408,7 +408,7 @@
                         @if (assetsWithProperties !== null) {
                             @for (asset of assetsWithProperties.watchedAssets; track asset.id) {
                                 <tr>
-                                    <td class="align-middle">
+                                    <td>
                                         <div class="d-flex align-items-center">
                                             <fingather-ticker-logo [ticker]="asset.ticker" />
                                             <div>
@@ -417,7 +417,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="align-middle text-end">{{asset.price | number:'1.2-2' | currency: asset.ticker.currencyId | async}}</td>
+                                    <td class="text-end">{{asset.price | number:'1.2-2' | currency: asset.ticker.currencyId | async}}</td>
                                     <td class="text-end" style="white-space: nowrap">
                                         <a routerLink="{{asset.id}}" class="btn btn-sm btn-primary mr-1">
                                             <mat-icon>visibility</mat-icon> {{ 'app.assets.list.detail' | translate }}
