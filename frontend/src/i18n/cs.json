@@ -342,6 +342,15 @@
         "feeRequired": "Poplatek je povinny",
         "currency": "Měna",
         "currencyRequired": "Měna je povinná"
+      },
+      "tag": {
+        "undefined": "Nedefinováno",
+        "buy": "Nákup",
+        "sell": "Prodej",
+        "dividend": "Dividenda",
+        "tax": "Daň",
+        "fee": "Poplatek",
+        "dividendTax": "Daň z dividendy"
       }
     },
     "common": {

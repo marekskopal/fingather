@@ -342,6 +342,15 @@
         "feeRequired": "Fee is required",
         "currency": "Currency",
         "currencyRequired": "Currency is required"
+      },
+      "tag": {
+        "undefined": "Undefined",
+        "buy": "Buy",
+        "sell": "Sell",
+        "dividend": "Dividend",
+        "tax": "Tax",
+        "fee": "Fee",
+        "dividendTax": "Dividend Tax"
       }
     },
     "common": {

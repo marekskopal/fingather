@@ -29,6 +29,7 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {RouterModule} from "@angular/router";
 import {ColoredValueDirective} from "@app/shared/directives/colored-value.directive";
 import {MatIcon} from "@angular/material/icon";
+import {TagComponent} from "@app/shared/components/tag/tag.component";
 
 @NgModule({
     imports: [
@@ -59,6 +60,7 @@ import {MatIcon} from "@angular/material/icon";
         DeleteButtonComponent,
         LanguageSelectorComponent,
         NavigationComponent,
+        TagComponent,
     ],
     exports: [
         PortfolioTotalComponent,
@@ -74,6 +76,7 @@ import {MatIcon} from "@angular/material/icon";
         PaginationComponent,
         DeleteButtonComponent,
         NavigationComponent,
+        TagComponent,
     ]
 })
 export class SharedModule { }

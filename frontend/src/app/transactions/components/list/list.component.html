@@ -43,21 +43,7 @@
                             <div class="small">{{transaction.created | date: 'HH:mm'}}</div>
                         </td>
                         <td>
-                            <div class="tag">
-                                @if (transaction.actionType === TransactionActionType.Buy) {
-                                    <span class="buy">{{transaction.actionType}}</span>
-                                } @else if (transaction.actionType === TransactionActionType.Sell) {
-                                    <span class="sell">{{transaction.actionType}}</span>
-                                } @else if (transaction.actionType === TransactionActionType.Dividend) {
-                                    <span class="dividend">{{transaction.actionType}}</span>
-                                } @else if (transaction.actionType === TransactionActionType.Tax) {
-                                    <span class="tax">{{transaction.actionType}}</span>
-                                } @else if (transaction.actionType === TransactionActionType.Fee) {
-                                    <span class="fee">{{transaction.actionType}}</span>
-                                } @else if (transaction.actionType === TransactionActionType.DividendTax) {
-                                    <span class="dividend-tax">{{transaction.actionType}}</span>
-                                }
-                            </div>
+                            <fingather-tag [type]="transaction.actionType" />
                         </td>
                         <td>
                             <div class="d-flex align-items-center">

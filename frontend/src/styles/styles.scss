@@ -5,6 +5,7 @@
 @import 'modules/typo';
 @import 'modules/app';
 @import 'modules/buttons';
+@import 'modules/tag';
 @import 'modules/navigation';
 @import 'modules/card';
 @import 'modules/portfolio-total';
@@ -78,30 +79,5 @@ a {
 
     .file-drop-text {
         margin-right: 10px;
-    }
-}
-
-.tag {
-    display: inline-block;
-    background-color: $body-bg-dark;
-    color: #fff;
-    border-radius: 20px;
-    padding: 2px 10px;
-    margin-right: 5px;
-    font-size: 0.875rem;
-
-    .buy {
-        color: $color-green;
-    }
-
-    .sell,
-    .tax,
-    .fee {
-        color: $color-red;
-    }
-
-    .dividend,
-    .dividend-tax {
-        color: $color-purple;
     }
 }
