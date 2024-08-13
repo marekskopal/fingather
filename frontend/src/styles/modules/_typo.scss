@@ -62,3 +62,7 @@ h6,
 .h6 {
     @include h6;
 }
+
+.color-gray {
+    color: $color-gray-8;
+}

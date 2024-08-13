@@ -2,6 +2,9 @@
     <div class="col-lg-3 mb-4">
         <div class="card h-100">
             <div class="card-header">
+                <span class="icon-circle">
+                    <mat-icon>monitoring</mat-icon>
+                </span>
                 <h3 class="h6">{{ 'app.shared.portfolioTotal.portfolioValue' | translate }}</h3>
             </div>
             @if (portfolioData) {
@@ -26,6 +29,9 @@
             <div class="col-lg-6 mb-4">
                 <div class="card h-100">
                     <div class="card-header">
+                        <span class="icon-circle">
+                            <mat-icon>candlestick_chart</mat-icon>
+                        </span>
                         <h3 class="h6">{{ 'app.shared.portfolioTotal.gain' | translate }}</h3>
                     </div>
                     @if (portfolioData) {
@@ -51,6 +57,9 @@
             <div class="col-lg-6 mb-4">
                 <div class="card h-100">
                     <div class="card-header">
+                        <span class="icon-circle">
+                            <mat-icon>savings</mat-icon>
+                        </span>
                         <h3 class="h6">{{ 'app.shared.portfolioTotal.gainRealized' | translate }}</h3>
                     </div>
                     @if (portfolioData) {
@@ -72,6 +81,9 @@
             <div class="col-lg-6 mb-4">
                 <div class="card h-100">
                     <div class="card-header">
+                        <span class="icon-circle">
+                            <mat-icon>wallet</mat-icon>
+                        </span>
                         <h3 class="h6">{{ 'app.shared.portfolioTotal.investedValue' | translate }}</h3>
                     </div>
                     @if (portfolioData) {
@@ -91,6 +103,9 @@
             <div class="col-lg-6 mb-4">
                 <div class="card h-100">
                     <div class="card-header">
+                        <span class="icon-circle">
+                            <mat-icon>attach_money</mat-icon>
+                        </span>
                         <h3 class="h6">{{ 'app.shared.portfolioTotal.fxImpact' | translate }}</h3>
                     </div>
                     @if (portfolioData) {
@@ -120,6 +135,9 @@
             <div class="col-12 mb-4">
                 <div class="card h-100">
                     <div class="card-header">
+                        <span class="icon-circle">
+                            <mat-icon>calendar_month</mat-icon>
+                        </span>
                         <h3 class="h6">{{ 'app.shared.portfolioTotal.dividend' | translate }}</h3>
                     </div>
                     @if (portfolioData) {
@@ -146,16 +164,29 @@
             <div class="col-12">
                 <div class="card h-100">
                     <div class="card-header">
+                        <span class="icon-circle">
+                            <mat-icon>account_balance</mat-icon>
+                        </span>
                         <h3 class="h6">{{ 'app.shared.portfolioTotal.taxFee' | translate }}</h3>
                     </div>
                     @if (portfolioData) {
                         <div class="card-body">
-                            <div>
-                                {{portfolioData.tax | number:'1.2-2' | currency: defaultCurrency.id | async}}
-                            </div>
-                            <div>
-                                {{portfolioData.fee | number:'1.2-2' | currency: defaultCurrency.id | async}}
-                            </div>
+                            <table class="tax-fee w-100">
+                                <tbody>
+                                    <tr class="color-gray">
+                                        <td>{{ 'app.shared.portfolioTotal.tax' | translate }}</td>
+                                        <td class="text-end">{{portfolioData.tax | number:'1.2-2' | currency: defaultCurrency.id | async}}</td>
+                                    </tr>
+                                    <tr class="color-gray">
+                                        <td>{{ 'app.shared.portfolioTotal.fee' | translate }}</td>
+                                        <td class="text-end">{{portfolioData.fee | number:'1.2-2' | currency: defaultCurrency.id | async}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{ 'app.shared.portfolioTotal.total' | translate }}</td>
+                                        <td class="text-end">{{parseFloat(portfolioData.tax) + parseFloat(portfolioData.fee) | number:'1.2-2' | currency: defaultCurrency.id | async}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     } @else {
                         <div class="card-body text-center">

@@ -297,7 +297,10 @@
         "dividend": "Dividenda",
         "investedValue": "Investovaná částka",
         "fxImpact": "Měnový dopad",
-        "taxFee": "Daně/Poplatky"
+        "taxFee": "Daně/Poplatky",
+        "tax": "Daňě",
+        "fee": "Poplatky",
+        "total": "Celkem"
       },
       "dividendDialog": {
         "headerAdd": "Přidat dividendu",
