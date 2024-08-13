@@ -30,14 +30,14 @@
         </thead>
         <tbody>
             <tr *ngFor="let transaction of transactionList?.transactions">
-                <td class="align-middle">
+                <td>
                     <div>{{transaction.actionCreated | date: 'y-MM-dd'}}</div>
                     <div class="small">{{transaction.actionCreated | date: 'HH:mm'}}</div>
-                <td class="align-middle">
+                <td>
                     <div>{{transaction.created | date: 'y-MM-dd'}}</div>
                     <div class="small">{{transaction.created | date: 'HH:mm'}}</div>
                 </td>
-                <td class="align-middle">
+                <td>
                     <div class="tag">
                         @if (transaction.actionType === TransactionActionType.Buy) {
                             <span class="buy">{{transaction.actionType}}</span>
@@ -63,7 +63,7 @@
                         </div>
                     </div>
                 </td>
-                <td class="align-middle text-end" style="white-space: nowrap">
+                <td class="text-end" style="white-space: nowrap">
                     <a (click)="editTransaction(transaction.id)" class="btn btn-sm btn-primary me-2" tabindex="0">
                         <mat-icon>edit</mat-icon> {{ 'app.common.edit' | translate }}
                     </a>

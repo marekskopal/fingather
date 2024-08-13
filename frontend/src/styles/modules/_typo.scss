@@ -64,5 +64,14 @@ h6,
 }
 
 .color-gray {
-    color: $color-gray-8;
+    color: $color-gray-8 !important;
+}
+
+table {
+    td {
+        vertical-align: middle;
+    }
+}
+.table {
+    margin-bottom: 0;
 }
