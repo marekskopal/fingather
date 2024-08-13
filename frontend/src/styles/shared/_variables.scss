@@ -12,24 +12,20 @@ $color-red: #f87171;
 $color-purple: #9e2af3;
 $color-purple-light: #dcb0ff;
 
-$primary: $color-purple;
-$primary-light: $color-purple-light;
-$body-color-dark: $color-white;
-$body-bg-dark: $color-black;
-$background-color: $color-gray;
-$link-color-dark: #fdfdfd;
-$card-bg: $color-gray;
-$table-bg: $background-color;
-$table-striped-bg: $card-bg;
-$table-border-color: $color-gray-lighter;
-
 $font-family-sans-serif: 'Gaist', sans-serif;
 
 $spacing-lg: 24px;
 $spacing-xl: 32px;
 
 $border-radius: 4px;
-$border-radius-lg: 18px;
+$border-radius-lg: 16px;
+
+$font-size: 1rem;
+$font-size-sm: 0.875rem;
+$font-size-xs: 0.75rem;
+$line-height: 1.5rem;
+$line-height-sm: 1.25rem;
+$line-height-xs: 1rem;
 
 $h1-font-size: 39px;
 $h2-font-size: 33px;
@@ -44,5 +40,22 @@ $h4-line-height: 28px;
 $h5-line-height: 24px;
 $h6-line-height: 20px;
 
-
 $navigation-width: 224px;
+
+$ticker-logo-size: 48px;
+$ticker-logo-margin: 12px;
+
+$table-cell-padding-y: 0.5rem;
+$table-cell-padding-x: 1rem;
+
+//bootstrap overrides
+$primary: $color-purple;
+$primary-light: $color-purple-light;
+$body-color-dark: $color-white;
+$body-bg-dark: $color-black;
+$background-color: $color-gray;
+$link-color-dark: #fdfdfd;
+$card-bg: $color-gray;
+$table-bg: $background-color;
+$table-striped-bg: $card-bg;
+$table-border-color: $color-gray-lighter;

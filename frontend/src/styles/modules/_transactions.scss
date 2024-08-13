@@ -1,0 +1,14 @@
+.asset {
+    display: flex;
+    align-items: center;
+    max-width: 100%;
+
+    .asset-text {
+        max-width: calc(100% - ($ticker-logo-margin + $ticker-logo-size));
+    }
+
+    .asset-name {
+        font-size: $font-size-sm;
+        color: $color-gray-lightest;
+    }
+}

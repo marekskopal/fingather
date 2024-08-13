@@ -5,55 +5,14 @@
 @import 'modules/typo';
 @import 'modules/app';
 @import 'modules/buttons';
+@import 'modules/tables';
 @import 'modules/tag';
 @import 'modules/navigation';
 @import 'modules/card';
 @import 'modules/portfolio-total';
 @import 'modules/group-chart';
-
-a {
-    cursor: pointer;
-}
-
-.small {
-    font-size: 0.85rem;
-}
-
-.red {
-    color: $color-red !important;
-}
-
-.green {
-    color: $color-green !important;
-}
-
-.ticker-logo {
-    width: 40px;
-    height: 40px;
-    border-radius: 8px;
-    background-color: $body-bg-dark;
-    margin-right: 8px;
-
-    img {
-        border-radius: 8px;
-    }
-
-    .logo-placeholder {
-        position: relative;
-        width: 100%;
-        height: 100%;
-
-        .logo-placeholder-text {
-            position: absolute;
-            display: block;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 0.8rem;
-            font-weight: 700;
-        }
-    }
-}
+@import 'modules/ticker-logo';
+@import 'modules/transactions';
 
 .login {
     position: absolute;
