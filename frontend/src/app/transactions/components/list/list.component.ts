@@ -15,6 +15,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class ListComponent implements OnInit {
     private page: number = 1;
     public pageSize: number = 50;
+
     private readonly $transactionList = signal<TransactionList | null>(null);
 
     public constructor(
@@ -88,5 +89,8 @@ export class ListComponent implements OnInit {
         this.refreshTransactions();
     }
 
-    protected readonly TransactionActionType = TransactionActionType;
+    protected async changePageSize(pageSize: number): Promise<void> {
+        this.pageSize = pageSize;
+        await this.refreshTransactions();
+    }
 }

@@ -230,8 +230,7 @@
         "date": "Date",
         "created": "Created",
         "type": "Type",
-        "asset": "Asset",
-        "itemsPerPage": "items per page"
+        "asset": "Asset"
       },
       "import": {
         "import": {
@@ -351,6 +350,14 @@
         "tax": "Tax",
         "fee": "Fee",
         "dividendTax": "Dividend Tax"
+      },
+      "pagination": {
+        "pagination": "Pagination",
+        "previous": "Previous",
+        "next": "Next",
+        "recordsPerPage": "Records per page",
+        "total": "Total",
+        "records": "records"
       }
     },
     "common": {

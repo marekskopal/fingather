@@ -1,34 +1,61 @@
-﻿<nav aria-label="Page navigation example">
+﻿<nav
+    class="pagination-container"
+>
+    <div class="pagination-total">
+        {{ 'app.shared.pagination.total' | translate }} {{$totalItems()}} {{ 'app.shared.pagination.records' | translate }}
+    </div>
+
     <ul class="pagination">
         <li class="page-item">
             <a class="page-link"
-               aria-label="Previous"
                tabindex="0"
-               [ngClass]="['page-link', $page() === 1 ? 'disabled' : '']"
-               (click)="onSelectPage($page() - 1)"
+               [ngClass]="['page-link', $currentPage() === 1 ? 'disabled' : '']"
+               (click)="onSelectPage($currentPage() - 1)"
             >
-                <span aria-hidden="true">&laquo;</span>
+                <mat-icon>arrow_left_alt</mat-icon>
+                <span>{{ 'app.shared.pagination.previous' | translate }}</span>
             </a>
         </li>
 
         @for(page of $pages(); track page) {
             <li class="page-item">
-                <a [ngClass]="['page-link', page === $page() ? 'active' : '']"
-                   (click)="onSelectPage(page)"
-                   tabindex="0"
-                >{{page}}</a>
+                @if(!isDelimiterPage(page)) {
+                    <a [ngClass]="['page-link', page === $currentPage() ? 'active' : '']"
+                       (click)="onSelectPage(page)"
+                       tabindex="0"
+                    >{{page}}</a>
+                } @else {
+                    <span class="page-link">{{page}}</span>
+                }
             </li>
         }
 
         <li class="page-item">
             <a class="page-link"
-               aria-label="Next"
                tabindex="0"
-               [ngClass]="['page-link', $page() === $pagesCount() ? 'disabled' : '']"
-               (click)="onSelectPage($page() + 1)"
+               [ngClass]="['page-link', $currentPage() === $pagesCount() ? 'disabled' : '']"
+               (click)="onSelectPage($currentPage() + 1)"
             >
-                <span aria-hidden="true">&raquo;</span>
+                <span>{{ 'app.shared.pagination.next' | translate }}</span>
+                <mat-icon>arrow_right_alt</mat-icon>
             </a>
         </li>
     </ul>
+
+    <div class="pagination-per-page">
+        {{ 'app.shared.pagination.recordsPerPage' | translate }}
+
+        <div ngbDropdown placement="top-end" class="d-inline-block">
+            <button type="button" id="recordsPerPage" ngbDropdownToggle>
+                {{ $pageSize() }}
+            </button>
+            <div ngbDropdownMenu aria-labelledby="recordsPerPage">
+                @for(pageSizeOption of $pageSizeOptions(); track pageSizeOption) {
+                    <button ngbDropdownItem (click)="changePageSize(pageSizeOption)">
+                        {{pageSizeOption}}
+                    </button>
+                }
+            </div>
+        </div>
+    </div>
 </nav>

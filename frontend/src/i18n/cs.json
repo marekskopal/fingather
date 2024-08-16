@@ -230,8 +230,7 @@
         "date": "Datum",
         "created": "Vytvořeno",
         "type": "Typ",
-        "asset": "Aktivum",
-        "itemsPerPage": "záznamů na stranu"
+        "asset": "Aktivum"
       },
       "import": {
         "import": {
@@ -351,6 +350,14 @@
         "tax": "Daň",
         "fee": "Poplatek",
         "dividendTax": "Daň z dividendy"
+      },
+      "pagination": {
+        "pagination": "Stránkování",
+        "previous": "Předchozí",
+        "next": "Další",
+        "recordsPerPage": "Záznamů na stranu",
+        "total": "Celkem",
+        "records": "záznamů"
       }
     },
     "common": {

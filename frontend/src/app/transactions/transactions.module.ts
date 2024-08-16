@@ -5,7 +5,13 @@ import { SharedModule } from '@app/shared/shared.module';
 import { LayoutComponent } from '@app/transactions/components/layout/layout.component';
 import { ListComponent } from '@app/transactions/components/list/list.component';
 import { TransactionsRoutingModule } from '@app/transactions/transactions-routing.module';
-import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+    NgbDropdown,
+    NgbDropdownItem,
+    NgbDropdownMenu,
+    NgbDropdownToggle,
+    NgbPaginationModule
+} from '@ng-bootstrap/ng-bootstrap';
 import {MatIcon} from "@angular/material/icon";
 
 @NgModule({
@@ -21,6 +27,10 @@ import {MatIcon} from "@angular/material/icon";
         FormsModule,
         ReactiveFormsModule,
         MatIcon,
+        NgbDropdown,
+        NgbDropdownToggle,
+        NgbDropdownMenu,
+        NgbDropdownItem,
     ]
 })
 export class TransactionsModule {
