@@ -1,0 +1,46 @@
+.dropdown-toggle {
+    height: 40px;
+    padding: $spacing-xs $spacing-sm;
+    color: $color-gray-lightest;
+    border: 1px solid $color-gray-lighter;
+    border-radius: $border-radius;
+    background-color: transparent;
+
+    &::after {
+        content: "\e946";
+        font-family: 'Material Symbols Outlined';
+        font-weight: 300;
+        font-style: normal;
+        font-size: 24px;
+        line-height: 1;
+        letter-spacing: normal;
+        text-transform: none;
+        display: inline-block;
+        white-space: nowrap;
+        word-wrap: normal;
+        direction: ltr;
+        -webkit-font-feature-settings: 'liga';
+        -webkit-font-smoothing: antialiased;
+        border: 0;
+    }
+}
+
+.dropup .dropdown-toggle::after {
+    content: "\e946";
+    font-family: 'Material Symbols Outlined';
+    font-weight: 300;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+    border: 0;
+    vertical-align: middle;
+    margin-top: -4px;
+}

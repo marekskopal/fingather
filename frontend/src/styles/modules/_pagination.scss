@@ -1,0 +1,66 @@
+.pagination-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: $spacing-xl;
+    margin-bottom: $spacing-xl;
+    color: $color-gray-lightest;
+}
+
+.pagination {
+    margin: 0;
+}
+
+.page-link {
+    text-align: center;
+    padding: $spacing-xs;
+    min-width: 40px;
+    border: 1px solid $color-gray-lighter;
+    background-color: $color-gray;
+    color: $color-gray-lightest;
+    line-height: 22px;
+
+    &:hover,
+    &.active {
+        background-color: $color-gray-light;
+        border: 1px solid $color-gray-lighter;
+        color: $color-white;
+    }
+
+    &.disabled {
+        background-color: $color-gray;
+        border: 1px solid $color-gray-lighter;
+        color: $color-gray-8;
+
+        .mat-icon {
+            color: $color-gray-8;
+        }
+    }
+}
+
+.page-item {
+    &:first-child .page-link {
+        padding: 7px $spacing-xs 6.5px;
+        border-top-left-radius: $border-radius;
+        border-bottom-left-radius: $border-radius;
+    }
+    &:last-child .page-link {
+        padding: 7px $spacing-xs 6.5px;
+        border-top-right-radius: $border-radius;
+        border-bottom-right-radius: $border-radius;
+    }
+
+    .mat-icon {
+        color: $primary;
+        vertical-align: middle;
+    }
+    span {
+        vertical-align: middle;
+    }
+}
+
+.pagination-per-page {
+    .dropdown-toggle {
+        margin-left: $spacing-sm;
+    }
+}
