@@ -1,0 +1,36 @@
+import {
+    ChangeDetectionStrategy, Component, inject, input, output, signal,
+} from '@angular/core';
+import { AlertService } from '@app/services';
+import { ConfirmDialogService } from '@app/services/confirm-dialog.service';
+
+@Component({
+    selector: 'fingather-search-input',
+    templateUrl: 'search-input.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class SearchInputComponent {
+    public onKeyup$ = output<string | null>({
+        alias: 'onKeyup',
+    });
+
+    protected readonly $value = signal<string | null>(null);
+
+    protected handleKeyup(event: KeyboardEvent): void {
+        const input = event.target as HTMLInputElement;
+        let value: string | null = input.value;
+        if (value.length === 0) {
+            value = null;
+        }
+
+        this.$value.set(value);
+
+        this.onKeyup$.emit(this.$value());
+    }
+
+    protected clearSearch(): void {
+        this.$value.set(null);
+
+        this.onKeyup$.emit(this.$value());
+    }
+}

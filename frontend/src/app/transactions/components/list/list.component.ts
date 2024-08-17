@@ -7,6 +7,7 @@ import { PortfolioService, TransactionService } from '@app/services';
 import { DividendDialogComponent } from '@app/shared/components/dividend-dialog/dividend-dialog.component';
 import { TransactionDialogComponent } from '@app/shared/components/transaction-dialog/transaction-dialog.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {TransactionSearch} from "@app/transactions/types/transaction-search";
 
 @Component({
     templateUrl: './list.component.html',
@@ -17,6 +18,12 @@ export class ListComponent implements OnInit {
     public pageSize: number = 50;
 
     private readonly $transactionList = signal<TransactionList | null>(null);
+
+    private readonly $transactionSearch = signal<TransactionSearch>({
+        search: null,
+        selectedType: null,
+        created: null,
+    });
 
     public constructor(
         private readonly transactionService: TransactionService,
@@ -51,10 +58,14 @@ export class ListComponent implements OnInit {
 
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
+        const transactionSearch = this.$transactionSearch();
+
         const transactionList = await this.transactionService.getTransactions(
             portfolio.id,
             null,
-            null,
+            transactionSearch.selectedType !== null ? [transactionSearch.selectedType] : null,
+            transactionSearch.search,
+            transactionSearch.created,
             this.pageSize,
             (this.page - 1) * this.pageSize
         );
@@ -92,5 +103,11 @@ export class ListComponent implements OnInit {
     protected async changePageSize(pageSize: number): Promise<void> {
         this.pageSize = pageSize;
         await this.refreshTransactions();
+    }
+
+    protected changeTransactionSearch(transactionSearch: TransactionSearch): void {
+        this.$transactionSearch.set(transactionSearch);
+
+        this.refreshTransactions();
     }
 }

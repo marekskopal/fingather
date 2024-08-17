@@ -21,10 +21,7 @@ final class TickerIsinUpdater
 	) {
 	}
 
-	/**
-	 * @param list<string> $isins
-	 * @phpstan-ignore-next-line
-	 */
+	/** @param list<string> $isins */
 	public function updateTickerIsins(array $isins): void
 	{
 		$maxJobsPerRequest = $this->openFigi->getMaxJobsPerRequest();

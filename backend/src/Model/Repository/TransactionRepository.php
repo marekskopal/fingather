@@ -26,6 +26,8 @@ final class TransactionRepository extends ARepository
 		?DateTimeImmutable $actionCreatedAfter = null,
 		?DateTimeImmutable $actionCreatedBefore = null,
 		?array $actionTypes = null,
+		?DateTimeImmutable $created = null,
+		?string $search = null,
 		?int $limit = null,
 		?int $offset = null,
 		array $orderBy = [
@@ -39,6 +41,8 @@ final class TransactionRepository extends ARepository
 			$actionCreatedAfter,
 			$actionCreatedBefore,
 			$actionTypes,
+			$created,
+			$search,
 			$limit,
 			$offset,
 			$orderBy,
@@ -53,6 +57,8 @@ final class TransactionRepository extends ARepository
 		?DateTimeImmutable $actionCreatedAfter = null,
 		?DateTimeImmutable $actionCreatedBefore = null,
 		?array $actionTypes = null,
+		?DateTimeImmutable $created = null,
+		?string $search = null,
 	): int {
 		return $this->getTransactionsSelect(
 			$userId,
@@ -61,6 +67,8 @@ final class TransactionRepository extends ARepository
 			$actionCreatedAfter,
 			$actionCreatedBefore,
 			$actionTypes,
+			$created,
+			$search,
 		)->count();
 	}
 
@@ -76,6 +84,8 @@ final class TransactionRepository extends ARepository
 		?DateTimeImmutable $actionCreatedAfter = null,
 		?DateTimeImmutable $actionCreatedBefore = null,
 		?array $actionTypes = null,
+		?DateTimeImmutable $created = null,
+		?string $search = null,
 		?int $limit = null,
 		?int $offset = null,
 		array $orderBy = [
@@ -103,6 +113,19 @@ final class TransactionRepository extends ARepository
 
 		if ($actionTypes !== null) {
 			$transactions->where('action_type', 'in', array_map(fn (TransactionActionTypeEnum $item) => $item->value, $actionTypes));
+		}
+
+		if ($created !== null) {
+			$transactions->where('created', '>=', $created->setTime(0, 0));
+			$transactions->where('created', '<=', $created->setTime(23, 59, 59));
+		}
+
+		if ($search !== null) {
+			$transactions->where(
+				fn (Select\QueryBuilder $select) =>
+					$select->where('asset.ticker.name', 'like', '%' . $search . '%')
+					->orWhere('asset.ticker.ticker', 'like', '%' . $search . '%'),
+			);
 		}
 
 		if ($limit !== null) {

@@ -242,6 +242,13 @@
           "import": "Importovat",
           "selectTicker": "prosím zvolte správná aktiva pro následující značky"
         }
+      },
+      "search": {
+        "search": "Hledat",
+        "filterBy": "Filtrovat dle",
+        "type": "Typ",
+        "all": "Všechny",
+        "createdDate": "Datum vytvoření",
       }
     },
     "users": {

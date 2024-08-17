@@ -30,6 +30,7 @@ import {RouterModule} from "@angular/router";
 import {ColoredValueDirective} from "@app/shared/directives/colored-value.directive";
 import {MatIcon} from "@angular/material/icon";
 import {TagComponent} from "@app/shared/components/tag/tag.component";
+import {SearchInputComponent} from "@app/shared/components/search-input/search-input.component";
 
 @NgModule({
     imports: [
@@ -61,6 +62,7 @@ import {TagComponent} from "@app/shared/components/tag/tag.component";
         LanguageSelectorComponent,
         NavigationComponent,
         TagComponent,
+        SearchInputComponent,
     ],
     exports: [
         PortfolioTotalComponent,
@@ -77,6 +79,7 @@ import {TagComponent} from "@app/shared/components/tag/tag.component";
         DeleteButtonComponent,
         NavigationComponent,
         TagComponent,
+        SearchInputComponent,
     ]
 })
 export class SharedModule { }
