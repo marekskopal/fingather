@@ -1,12 +1,15 @@
 @import 'shared/variables';
 @import 'shared/bootstrap';
 
+@import 'modules/mixins';
 @import 'modules/font';
 @import 'modules/typo';
 @import 'modules/app';
+@import 'modules/icons';
 @import 'modules/buttons';
 @import 'modules/dropdown';
 @import 'modules/tables';
+@import 'modules/form';
 @import 'modules/tag';
 @import 'modules/navigation';
 @import 'modules/card';
@@ -14,6 +17,7 @@
 @import 'modules/group-chart';
 @import 'modules/ticker-logo';
 @import 'modules/transactions';
+@import 'modules/transaction-search';
 @import "modules/pagination";
 
 .login {

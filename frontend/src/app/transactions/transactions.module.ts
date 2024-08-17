@@ -6,18 +6,20 @@ import { LayoutComponent } from '@app/transactions/components/layout/layout.comp
 import { ListComponent } from '@app/transactions/components/list/list.component';
 import { TransactionsRoutingModule } from '@app/transactions/transactions-routing.module';
 import {
-    NgbDropdown,
+    NgbDropdown, NgbDropdownButtonItem,
     NgbDropdownItem,
     NgbDropdownMenu,
     NgbDropdownToggle,
     NgbPaginationModule
 } from '@ng-bootstrap/ng-bootstrap';
 import {MatIcon} from "@angular/material/icon";
+import {SearchComponent} from "@app/transactions/components/search/search.component";
 
 @NgModule({
     declarations: [
         LayoutComponent,
         ListComponent,
+        SearchComponent,
     ],
     imports: [
         CommonModule,
@@ -31,6 +33,7 @@ import {MatIcon} from "@angular/material/icon";
         NgbDropdownToggle,
         NgbDropdownMenu,
         NgbDropdownItem,
+        NgbDropdownButtonItem,
     ]
 })
 export class TransactionsModule {

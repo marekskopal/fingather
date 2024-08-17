@@ -25,6 +25,8 @@ export class TransactionService extends NotifyService {
         portfolioId: number,
         assetId: number | null = null,
         actionTypes: TransactionActionType[] | null = null,
+        search: string | null = null,
+        created: string | null = null,
         limit: number | null = null,
         offset: number | null = null,
     ): Promise<TransactionList> {
@@ -36,6 +38,14 @@ export class TransactionService extends NotifyService {
 
         if (actionTypes !== null) {
             params = params.set('actionTypes', actionTypes.join('|'));
+        }
+
+        if (search !== null) {
+            params = params.set('search', search);
+        }
+
+        if (created !== null) {
+            params = params.set('created', created);
         }
 
         if (limit !== null) {

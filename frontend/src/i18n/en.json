@@ -242,6 +242,13 @@
           "import": "Import",
           "selectTicker": "please select right asset for those tickers"
         }
+      },
+      "search": {
+        "search": "Search",
+        "filterBy": "Filter by",
+        "type": "Type",
+        "all": "All",
+        "createdDate": "Created date"
       }
     },
     "users": {

@@ -45,7 +45,15 @@ final class TransactionController
 	#[RouteGet(Routes::Transactions->value)]
 	public function actionGetTransactions(ServerRequestInterface $request, int $portfolioId): ResponseInterface
 	{
-		/** @var array{assetId?: string, limit?: string, offset?: string, actionTypes?: string} $queryParams */
+		/** @var array{
+		 *     assetId?: string,
+		 *     limit?: string,
+		 *     offset?: string,
+		 *     actionTypes?: string,
+		 *     created?: string,
+		 *     search?: string,
+		 * } $queryParams
+		 */
 		$queryParams = $request->getQueryParams();
 
 		$user = $this->requestService->getUser($request);
@@ -71,11 +79,24 @@ final class TransactionController
 			array_map(fn (string $item) => TransactionActionTypeEnum::from($item), explode('|', $queryParams['actionTypes'])) :
 			null;
 
+		$created = null;
+		if (($queryParams['created'] ?? null) !== null) {
+			try {
+				$created = DateTimeImmutable::createFromFormat('Y-m-d', $queryParams['created']);
+			} catch (\Throwable $e) {
+				return new NotFoundResponse('Invalid date format. Use "Y-m-d" format.');
+			}
+		}
+
+		$search = ($queryParams['search'] ?? null) !== null ? $queryParams['search'] : null;
+
 		$transactions = $this->transactionProvider->getTransactions(
 			user: $user,
 			portfolio: $portfolio,
 			asset: $asset,
 			actionTypes: $actionTypes,
+			created: $created,
+			search: $search,
 			limit: $limit,
 			offset: $offset,
 		);
@@ -84,6 +105,8 @@ final class TransactionController
 			portfolio: $portfolio,
 			asset: $asset,
 			actionTypes: $actionTypes,
+			created: $created,
+			search: $search,
 		);
 
 		$transactionDtos = array_map(

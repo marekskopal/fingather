@@ -8,6 +8,8 @@ parameters:
     paths:
        - src
        - tests
+    cognitive_complexity:
+        function: 12
 
 services:
     -

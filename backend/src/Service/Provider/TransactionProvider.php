@@ -38,6 +38,8 @@ class TransactionProvider
 		?DateTimeImmutable $actionCreatedAfter = null,
 		?DateTimeImmutable $actionCreatedBefore = null,
 		?array $actionTypes = null,
+		?DateTimeImmutable $created = null,
+		?string $search = null,
 		?int $limit = null,
 		?int $offset = null,
 		array $orderBy = [
@@ -51,6 +53,8 @@ class TransactionProvider
 			$actionCreatedAfter,
 			$actionCreatedBefore,
 			$actionTypes,
+			$created,
+			$search,
 			$limit,
 			$offset,
 			$orderBy,
@@ -65,6 +69,8 @@ class TransactionProvider
 		?DateTimeImmutable $actionCreatedAfter = null,
 		?DateTimeImmutable $actionCreatedBefore = null,
 		?array $actionTypes = null,
+		?DateTimeImmutable $created = null,
+		?string $search = null,
 	): int {
 		return $this->transactionRepository->countTransactions(
 			$user->getId(),
@@ -73,6 +79,8 @@ class TransactionProvider
 			$actionCreatedAfter,
 			$actionCreatedBefore,
 			$actionTypes,
+			$created,
+			$search,
 		);
 	}
 

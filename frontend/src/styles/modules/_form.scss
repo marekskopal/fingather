@@ -1,0 +1,32 @@
+.form-control {
+    padding: 7px $spacing-sm;
+    color: $color-gray-lightest;
+
+    &:focus {
+        color: $color-gray-lightest;
+        border: 1px solid $primary;
+        box-shadow: 0 0 0 3px #0284C71A;
+    }
+}
+
+.date-input {
+    position: relative;
+
+    &:after {
+        @include mat-icon('\ebcc');
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        padding: 0 $spacing-sm 0 $spacing-xs;
+        color: $color-gray-lightest;
+    }
+}
+
+input[type="date"] {
+    &::-webkit-inner-spin-button,
+    &::-webkit-calendar-picker-indicator {
+        display: none;
+        -webkit-appearance: none;
+    }
+}
