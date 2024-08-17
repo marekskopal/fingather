@@ -1,0 +1,16 @@
+﻿<div
+    class="date-input"
+    (click)="dateClick($event)"
+>
+    <input
+        [id]="$id()"
+        [type]="value === null ? 'text' : $inputType()"
+        class="form-control"
+        [placeholder]="$placeholder()"
+        (focus)="onInputFocus($event)"
+        (blur)="onInputBlur($event)"
+        (change)="selectDate($event)"
+        [disabled]="disabled"
+        [value]="value"
+    >
+</div>

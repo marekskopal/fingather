@@ -34,21 +34,11 @@
                         </div>
                     </div>
 
-                    <div
-                        class="date-input"
-                        (click)="dateClick($event)"
-                    >
-                        <input
-                            type="text"
-                            id="created"
-                            name="created"
-                            class="form-control"
-                            placeholder="{{ 'app.transactions.search.createdDate' | translate }}"
-                            onfocus="(this.type='date')"
-                            onblur="(this.type='text')"
-                            (change)="selectCreated($event)"
-                        >
-                    </div>
+                    <fingather-date-input
+                        [id]="'created'"
+                        (change)="selectCreated($event)"
+                        [placeholder]="'app.transactions.search.createdDate' | translate"
+                    />
                 </div>
             </div>
         </div>

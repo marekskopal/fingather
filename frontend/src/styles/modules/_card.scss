@@ -36,4 +36,8 @@
     .card-header + .card-body {
         margin-top: 24px;
     }
+
+    &.form {
+        max-width: 544px;
+    }
 }

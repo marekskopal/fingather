@@ -49,19 +49,6 @@ export class SearchComponent {
         this.handleOnSearch();
     }
 
-    protected dateClick(event: Event): void {
-        const element = event.target as HTMLElement;
-        let input: HTMLInputElement = element as HTMLInputElement;
-        if (element.tagName !== 'INPUT') {
-            input = element.getElementsByTagName('input')[0];
-        }
-
-        console.log(element);
-
-
-        input.showPicker();
-    }
-
     private handleOnSearch(): void {
         this.onSearch$.emit({
             search: this.search,

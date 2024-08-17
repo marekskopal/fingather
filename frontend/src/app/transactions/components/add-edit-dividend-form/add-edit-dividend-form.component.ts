@@ -106,6 +106,7 @@ export class AddEditDividendFormComponent extends BaseForm implements OnInit {
     private async createTransaction(portfolioId: number): Promise<void> {
         const values = this.form.value;
         values.assetId = parseInt(values.assetId, 10);
+        values.actionCreated = (new Date(values.actionCreated)).toJSON();
         values.units = '0';
         values.actionType = TransactionActionType.Dividend;
         values.price = values.price.toString();
