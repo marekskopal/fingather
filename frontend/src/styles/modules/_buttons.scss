@@ -47,3 +47,18 @@
         color: $color-gray-lightest;
     }
 }
+
+.btn-link {
+    background-color: transparent;
+    border: 0;
+    color: $color-gray-lightest;
+    text-decoration: none;
+
+    &:hover {
+        color: $color-white;
+    }
+
+    .mat-icon {
+        vertical-align: bottom;
+    }
+}

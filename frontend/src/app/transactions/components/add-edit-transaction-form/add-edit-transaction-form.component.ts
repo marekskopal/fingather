@@ -116,6 +116,7 @@ export class AddEditTransactionFormComponent extends BaseForm implements OnInit 
     private async createTransaction(portfolioId: number): Promise<void> {
         const values = this.form.value;
         values.assetId = parseInt(values.assetId, 10);
+        values.actionCreated = (new Date(values.actionCreated)).toJSON();
         values.units = values.units.toString();
         values.price = values.price.toString();
         values.tax = values.tax.toString();

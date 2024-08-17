@@ -9,6 +9,25 @@
     }
 }
 
+.form-select {
+    position: relative;
+    padding: 7px $spacing-sm;
+    color: $color-gray-lightest;
+    background-image: none;
+
+    &:focus {
+        color: $color-gray-lightest;
+        border: 1px solid $primary;
+        box-shadow: 0 0 0 3px #0284C71A;
+    }
+
+    &:after {
+        position: absolute;
+        right: 0;
+        @include mat-icon('\ebcc');
+    }
+}
+
 .date-input {
     position: relative;
 
@@ -23,10 +42,30 @@
     }
 }
 
-input[type="date"] {
+input[type="date"],
+input[type="datetime-local"] {
     &::-webkit-inner-spin-button,
     &::-webkit-calendar-picker-indicator {
         display: none;
         -webkit-appearance: none;
+    }
+}
+
+form {
+    label {
+        font-weight: 700;
+        color: $color-white;
+        margin-top: 2px;
+        margin-bottom: 7px;
+    }
+
+    .form-row {
+        margin-bottom: $spacing-lg;
+    }
+
+    .form-group.buttons {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
 }

@@ -29,6 +29,7 @@ import {ColoredValueDirective} from "@app/shared/directives/colored-value.direct
 import {MatIcon} from "@angular/material/icon";
 import {TagComponent} from "@app/shared/components/tag/tag.component";
 import {SearchInputComponent} from "@app/shared/components/search-input/search-input.component";
+import {DateInputComponent} from "@app/shared/components/date-input/date-input.component";
 
 @NgModule({
     imports: [
@@ -59,6 +60,7 @@ import {SearchInputComponent} from "@app/shared/components/search-input/search-i
         NavigationComponent,
         TagComponent,
         SearchInputComponent,
+        DateInputComponent,
     ],
     exports: [
         PortfolioTotalComponent,
@@ -76,6 +78,7 @@ import {SearchInputComponent} from "@app/shared/components/search-input/search-i
         NavigationComponent,
         TagComponent,
         SearchInputComponent,
+        DateInputComponent,
     ]
 })
 export class SharedModule { }
