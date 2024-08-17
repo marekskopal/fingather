@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { Currency, Portfolio } from '@app/models';
 import {
@@ -14,17 +14,11 @@ import { BaseForm } from '@app/shared/components/form/base-form';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PortfolioFormComponent extends BaseForm implements OnInit {
+    private readonly portfolioService = inject(PortfolioService);
+    private readonly currencyService = inject(CurrencyService);
+
     protected portfolio: Portfolio;
     protected currencies: Currency[];
-
-    public constructor(
-        private readonly portfolioService: PortfolioService,
-        private readonly currencyService: CurrencyService,
-        formBuilder: UntypedFormBuilder,
-        alertService: AlertService,
-    ) {
-        super(formBuilder, alertService);
-    }
 
     public async ngOnInit(): Promise<void> {
         this.portfolio = await this.portfolioService.getCurrentPortfolio();

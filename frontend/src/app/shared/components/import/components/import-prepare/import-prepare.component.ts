@@ -1,6 +1,6 @@
 import {
     ChangeDetectionStrategy,
-    Component, input, InputSignal, OnInit
+    Component, inject, input, InputSignal, OnInit
 } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -17,18 +17,12 @@ import { BaseForm } from '@app/shared/components/form/base-form';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImportPrepareComponent extends BaseForm implements OnInit {
+    private readonly router = inject(Router);
+    private readonly importDataService = inject(ImportService);
+    private route = inject(ActivatedRoute);
+
     public importPrepare: InputSignal<ImportPrepare> = input.required<ImportPrepare>();
     public onImportFinish: InputSignal<(() => void) | null> = input<((() => void) | null)>(null);
-
-    public constructor(
-        private readonly router: Router,
-        private readonly importDataService: ImportService,
-        private route: ActivatedRoute,
-        formBuilder: UntypedFormBuilder,
-        alertService: AlertService,
-    ) {
-        super(formBuilder, alertService);
-    }
 
     public ngOnInit(): void {
         const controlsConfig: {

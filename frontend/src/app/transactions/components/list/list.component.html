@@ -6,11 +6,11 @@
         <h1 class="h3">{{ 'app.transactions.list.title' | translate }}</h1>
     </div>
     <div class="col-md-6 order-md-1 text-end">
-        <a (click)="addTransaction()" class="btn btn-primary me-3" tabindex="0">
+        <a routerLink="add-transaction" class="btn btn-primary me-3" tabindex="0">
             <mat-icon>add</mat-icon>
             <span>{{ 'app.transactions.list.addTransaction' | translate }}</span>
         </a>
-        <a (click)="addDividend()" class="btn btn-primary me-3" tabindex="0">
+        <a routerLink="add-dividend" class="btn btn-primary me-3" tabindex="0">
             <mat-icon>add</mat-icon>
             <span>{{ 'app.transactions.list.addDividend' | translate }}</span>
         </a>
@@ -61,7 +61,7 @@
                             </div>
                         </td>
                         <td class="actions">
-                            <a (click)="editTransaction(transaction.id)" class="btn btn-sm btn-secondary me-2" tabindex="0">
+                            <a routerLink="edit-transaction" class="btn btn-sm btn-secondary me-2" tabindex="0">
                                 <mat-icon>edit</mat-icon>
                             </a>
                             <fingather-delete-button

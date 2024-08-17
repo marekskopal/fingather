@@ -1,35 +1,27 @@
 import {
     ChangeDetectionStrategy,
-    Component, OnInit, signal, WritableSignal
+    Component, inject, OnInit, signal, WritableSignal
 } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { Asset, Group } from '@app/models';
 import {
     AlertService, AssetService, GroupService, PortfolioService
 } from '@app/services';
-import { BaseForm } from '@app/shared/components/form/base-form';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import {BaseDialog} from "@app/shared/components/dialog/base-dialog";
 
 @Component({
     templateUrl: 'add-edit.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AddEditComponent extends BaseForm implements OnInit {
+export class AddEditComponent extends BaseDialog implements OnInit {
+    private readonly assetService = inject(AssetService);
+    private readonly groupService = inject(GroupService);
+    private readonly portfolioService = inject(PortfolioService);
+
     public id: WritableSignal<number | null> = signal<number | null>(null);
 
     public assets: Asset[];
     public othersGroup: Group;
-
-    public constructor(
-        private readonly assetService: AssetService,
-        private readonly groupService: GroupService,
-        private readonly portfolioService: PortfolioService,
-        public activeModal: NgbActiveModal,
-        formBuilder: UntypedFormBuilder,
-        alertService: AlertService,
-    ) {
-        super(formBuilder, alertService);
-    }
 
     public async ngOnInit(): Promise<void> {
         this.form = this.formBuilder.group({

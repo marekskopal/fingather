@@ -1,12 +1,8 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, signal
+    ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal
 } from '@angular/core';
-import { TransactionActionType } from '@app/models';
 import { TransactionList } from '@app/models/transaction-list';
 import { PortfolioService, TransactionService } from '@app/services';
-import { DividendDialogComponent } from '@app/shared/components/dividend-dialog/dividend-dialog.component';
-import { TransactionDialogComponent } from '@app/shared/components/transaction-dialog/transaction-dialog.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {TransactionSearch} from "@app/transactions/types/transaction-search";
 
 @Component({
@@ -14,6 +10,10 @@ import {TransactionSearch} from "@app/transactions/types/transaction-search";
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListComponent implements OnInit {
+    private readonly transactionService = inject(TransactionService);
+    private readonly portfolioService = inject(PortfolioService);
+    private readonly changeDetectorRef = inject(ChangeDetectorRef);
+
     private page: number = 1;
     public pageSize: number = 50;
 
@@ -24,14 +24,6 @@ export class ListComponent implements OnInit {
         selectedType: null,
         created: null,
     });
-
-    public constructor(
-        private readonly transactionService: TransactionService,
-        private readonly portfolioService: PortfolioService,
-        private readonly modalService: NgbModal,
-        private readonly changeDetectorRef: ChangeDetectorRef,
-    ) {
-    }
 
     public ngOnInit(): void {
         this.refreshTransactions();
@@ -74,19 +66,6 @@ export class ListComponent implements OnInit {
 
     protected get transactionList(): TransactionList | null {
         return this.$transactionList();
-    }
-
-    protected addTransaction(): void {
-        this.modalService.open(TransactionDialogComponent);
-    }
-
-    protected addDividend(): void {
-        this.modalService.open(DividendDialogComponent);
-    }
-
-    protected editTransaction(id: number): void {
-        const transactionDialogComponent = this.modalService.open(TransactionDialogComponent);
-        transactionDialogComponent.componentInstance.id = id;
     }
 
     protected async deleteTransaction(id: number): Promise<void> {

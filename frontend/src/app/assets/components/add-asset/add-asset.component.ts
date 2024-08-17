@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { Ticker } from '@app/models';
 import {
@@ -16,21 +16,14 @@ import {
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddAssetComponent extends BaseDialog implements OnInit {
+    private readonly tickerService = inject(TickerService);
+    private readonly assetService = inject(AssetService);
+    private readonly portfolioService = inject(PortfolioService);
+
     public searching: boolean = false;
     public searchFailed: boolean = false;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     public model: any;
-
-    public constructor(
-        private readonly tickerService: TickerService,
-        private readonly assetService: AssetService,
-        private readonly portfolioService: PortfolioService,
-        formBuilder: UntypedFormBuilder,
-        activeModal: NgbActiveModal,
-        alertService: AlertService,
-    ) {
-        super(activeModal, formBuilder, alertService);
-    }
 
     public ngOnInit(): void {
         this.form = this.formBuilder.group({

@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ConfirmDialogComponent } from '@app/shared/components/confirm-dialog/confirm-dialog.component';
 import { DeleteButtonComponent } from '@app/shared/components/delete-button/delete-button.component';
-import { DividendDialogComponent } from '@app/shared/components/dividend-dialog/dividend-dialog.component';
 import {
     ImportPrepareComponent
 } from '@app/shared/components/import/components/import-prepare/import-prepare.component';
@@ -15,7 +14,6 @@ import {
 } from '@app/shared/components/portfolio-value-chart/portfolio-value-chart.component';
 import { TableValueComponent } from '@app/shared/components/table-value/table-value.component';
 import { TickerLogoComponent } from '@app/shared/components/ticker-logo/ticker-logo.component';
-import { TransactionDialogComponent } from '@app/shared/components/transaction-dialog/transaction-dialog.component';
 import { ValueColorComponent } from '@app/shared/components/value-color/value-color.component';
 import { CurrencyPipe } from '@app/shared/pipes/currency.pipe';
 import { TranslateModule } from '@ngx-translate/core';
@@ -48,8 +46,6 @@ import {SearchInputComponent} from "@app/shared/components/search-input/search-i
         PortfolioTotalComponent,
         PortfolioSelectorComponent,
         CurrencyPipe,
-        TransactionDialogComponent,
-        DividendDialogComponent,
         ConfirmDialogComponent,
         TickerLogoComponent,
         ValueColorComponent,

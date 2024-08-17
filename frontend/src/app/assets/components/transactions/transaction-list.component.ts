@@ -5,7 +5,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Transaction, TransactionActionType } from '@app/models';
 import { PortfolioService, TransactionService } from '@app/services';
 import { ConfirmDialogService } from '@app/services/confirm-dialog.service';
-import { TransactionDialogComponent } from '@app/shared/components/transaction-dialog/transaction-dialog.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -51,13 +50,13 @@ export class TransactionListComponent implements OnInit {
     }
 
     public addTransaction(assetId: number): void {
-        const transactionDialogComponent = this.modalService.open(TransactionDialogComponent);
-        transactionDialogComponent.componentInstance.assetId = assetId;
+        //const transactionDialogComponent = this.modalService.open(TransactionDialogComponent);
+        //transactionDialogComponent.componentInstance.assetId = assetId;
     }
 
     public editTransaction(id: number): void {
-        const transactionDialogComponent = this.modalService.open(TransactionDialogComponent);
-        transactionDialogComponent.componentInstance.id = id;
+        //const transactionDialogComponent = this.modalService.open(TransactionDialogComponent);
+        //transactionDialogComponent.componentInstance.id = id;
     }
 
     public async deleteTransaction(id: number): Promise<void> {

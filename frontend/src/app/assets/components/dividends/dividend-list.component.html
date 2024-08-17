@@ -3,7 +3,7 @@
         <h2>{{ 'app.assets.dividends.title' | translate }}</h2>
     </div>
     <div class="col-md-4 text-end">
-        <a (click)="addDividend()" class="btn btn-sm btn-success mb-2" tabindex="0">{{ 'app.assets.dividends.addDividend' | translate }}</a>
+        <a class="btn btn-sm btn-success mb-2" tabindex="0">{{ 'app.assets.dividends.addDividend' | translate }}</a>
     </div>
 </div>
 <table class="table table-striped">
@@ -19,7 +19,7 @@
                 <tr>
                     <td>{{dividend.actionCreated | date: 'y-MM-dd HH:mm'}}</td>
                     <td style="white-space: nowrap">
-                        <a (click)="editDividend(dividend.id)" class="btn btn-sm btn-primary mr-1" tabindex="0">{{ 'app.common.edit' | translate }}</a>
+                        <a class="btn btn-sm btn-primary mr-1" tabindex="0">{{ 'app.common.edit' | translate }}</a>
                         <fingather-delete-button
                             (onConfirm)="deleteDividend(dividend.id)"
                             [title]="'Delete dividend'"

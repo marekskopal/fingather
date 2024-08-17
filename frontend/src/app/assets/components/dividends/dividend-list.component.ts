@@ -4,9 +4,6 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { Transaction, TransactionActionType } from '@app/models';
 import { PortfolioService, TransactionService } from '@app/services';
-import { ConfirmDialogService } from '@app/services/confirm-dialog.service';
-import { DividendDialogComponent } from '@app/shared/components/dividend-dialog/dividend-dialog.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     templateUrl: 'dividend-list.component.html',
@@ -21,8 +18,6 @@ export class DividendListComponent implements OnInit {
         private readonly transactionService: TransactionService,
         private readonly portfolioService: PortfolioService,
         private route: ActivatedRoute,
-        private modalService: NgbModal,
-        private readonly confirmDialogService: ConfirmDialogService,
     ) {}
 
     public ngOnInit(): void {
@@ -49,16 +44,6 @@ export class DividendListComponent implements OnInit {
 
     protected get dividends(): Transaction[] | null {
         return this.$dividends();
-    }
-
-    protected addDividend(): void {
-        const dividendDialogComponent = this.modalService.open(DividendDialogComponent);
-        dividendDialogComponent.componentInstance.assetId = this.assetId;
-    }
-
-    protected editDividend(id: number): void {
-        const dividendDialogComponent = this.modalService.open(DividendDialogComponent);
-        dividendDialogComponent.componentInstance.id = id;
     }
 
     protected async deleteDividend(id: number): Promise<void> {
