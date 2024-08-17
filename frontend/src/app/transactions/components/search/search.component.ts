@@ -1,13 +1,7 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef, Component, computed, inject, OnInit, output, signal
+    ChangeDetectionStrategy, Component, output,
 } from '@angular/core';
 import { TransactionActionType } from '@app/models';
-import { TransactionList } from '@app/models/transaction-list';
-import { PortfolioService, TransactionService } from '@app/services';
-import { DividendDialogComponent } from '@app/shared/components/dividend-dialog/dividend-dialog.component';
-import { TransactionDialogComponent } from '@app/shared/components/transaction-dialog/transaction-dialog.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {TranslateService} from "@ngx-translate/core";
 import {TransactionSearch} from "@app/transactions/types/transaction-search";
 
 @Component({

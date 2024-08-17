@@ -1,12 +1,11 @@
 import { formatDate } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
+import { Validators } from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
 import {
     Asset, Broker, Currency, TransactionActionType
 } from '@app/models';
 import {
-    AlertService,
     AssetService,
     BrokerService,
     CurrencyService,
@@ -14,13 +13,20 @@ import {
     TransactionService
 } from '@app/services';
 import { BaseForm } from '@app/shared/components/form/base-form';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-    templateUrl: 'transaction-dialog.component.html',
+    templateUrl: 'add-edit-transaction-form.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TransactionDialogComponent extends BaseForm implements OnInit {
+export class AddEditTransactionFormComponent extends BaseForm implements OnInit {
+    private readonly transactionService = inject(TransactionService);
+    private readonly assetService = inject(AssetService);
+    private readonly brokerService = inject(BrokerService);
+    private readonly currencyService = inject(CurrencyService);
+    private readonly portfolioService = inject(PortfolioService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly router = inject(Router);
+
     public id: number | null = null;
     public actionTypes: TransactionActionType[] = [
         TransactionActionType.Buy,
@@ -30,20 +36,6 @@ export class TransactionDialogComponent extends BaseForm implements OnInit {
     public assetId: number | null = null;
     public brokers: Broker[];
     public currencies: Currency[];
-
-    public constructor(
-        private readonly transactionService: TransactionService,
-        private readonly assetService: AssetService,
-        private readonly brokerService: BrokerService,
-        private readonly currencyService: CurrencyService,
-        private readonly portfolioService: PortfolioService,
-        private route: ActivatedRoute,
-        public activeModal: NgbActiveModal,
-        formBuilder: UntypedFormBuilder,
-        alertService: AlertService,
-    ) {
-        super(formBuilder, alertService);
-    }
 
     public async ngOnInit(): Promise<void> {
         this.$loading.set(true);
@@ -136,7 +128,7 @@ export class TransactionDialogComponent extends BaseForm implements OnInit {
         await this.transactionService.createTransaction(values, portfolioId);
 
         this.alertService.success('Dividend added successfully');
-        this.activeModal.dismiss();
+        this.router.navigate(['../'], { relativeTo: this.route });
         this.transactionService.notify();
     }
 
@@ -155,7 +147,7 @@ export class TransactionDialogComponent extends BaseForm implements OnInit {
         await this.transactionService.updateTransaction(id, values);
 
         this.alertService.success('Update successful');
-        this.activeModal.dismiss();
+        this.router.navigate(['../'], { relativeTo: this.route });
         this.transactionService.notify();
     }
 }

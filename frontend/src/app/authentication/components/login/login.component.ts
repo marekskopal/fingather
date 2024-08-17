@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertService, CurrentUserService } from '@app/services';
@@ -10,15 +10,9 @@ import { BaseForm } from '@app/shared/components/form/base-form';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent extends BaseForm implements OnInit {
-    public constructor(
-        private readonly router: Router,
-        private readonly authorizationService: AuthenticationService,
-        private readonly currentUserService: CurrentUserService,
-        formBuilder: UntypedFormBuilder,
-        alertService: AlertService,
-    ) {
-        super(formBuilder, alertService);
-    }
+    private readonly router = inject(Router);
+    private readonly authorizationService = inject(AuthenticationService);
+    private readonly currentUserService = inject( CurrentUserService);
 
     public ngOnInit(): void {
         this.form = this.formBuilder.group({

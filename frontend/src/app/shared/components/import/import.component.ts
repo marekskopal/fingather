@@ -1,6 +1,6 @@
 import {
     ChangeDetectionStrategy,
-    Component, input, InputSignal, OnInit
+    Component, inject, input, InputSignal, OnInit
 } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { Broker, ImportDataFile, ImportPrepare } from '@app/models';
@@ -16,22 +16,13 @@ import { NgxFileDropEntry } from 'ngx-file-drop';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImportComponent extends BaseForm implements OnInit {
-    public brokerId: string;
-    public brokers: Broker[];
+    private readonly importService = inject(ImportService);
+    private readonly portfolioService = inject(PortfolioService);
+
     public importPrepare: ImportPrepare | null = null;
     public droppedFiles: NgxFileDropEntry[] = [];
     public showCancel: InputSignal<boolean> = input<boolean>(true);
     public onImportFinish: InputSignal<(() => void) | null> = input<((() => void) | null)>(null);
-
-    public constructor(
-        private readonly brokerService: BrokerService,
-        private readonly importService: ImportService,
-        private readonly portfolioService: PortfolioService,
-        formBuilder: UntypedFormBuilder,
-        alertService: AlertService,
-    ) {
-        super(formBuilder, alertService);
-    }
 
     public ngOnInit(): void {
         this.form = this.formBuilder.group({

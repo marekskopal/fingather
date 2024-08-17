@@ -14,12 +14,20 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import {MatIcon} from "@angular/material/icon";
 import {SearchComponent} from "@app/transactions/components/search/search.component";
+import {
+    AddEditTransactionFormComponent
+} from "@app/transactions/components/add-edit-transaction-form/add-edit-transaction-form.component";
+import {
+    AddEditDividendFormComponent
+} from "@app/transactions/components/add-edit-dividend-form/add-edit-dividend-form.component";
 
 @NgModule({
     declarations: [
         LayoutComponent,
         ListComponent,
         SearchComponent,
+        AddEditTransactionFormComponent,
+        AddEditDividendFormComponent,
     ],
     imports: [
         CommonModule,

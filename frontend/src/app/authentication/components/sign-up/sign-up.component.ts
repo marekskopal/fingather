@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UniqueEmailValidator } from '@app/authentication/validator/UniqueEmailValidator';
@@ -12,19 +12,13 @@ import { BaseForm } from '@app/shared/components/form/base-form';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SignUpComponent extends BaseForm implements OnInit {
-    public currencies: Currency[];
+    private readonly route = inject(ActivatedRoute);
+    private readonly router = inject(Router);
+    private readonly authenticationService = inject(AuthenticationService);
+    private readonly uniqueEmailValidator = inject(UniqueEmailValidator);
+    private readonly currencyService = inject(CurrencyService);
 
-    public constructor(
-        private route: ActivatedRoute,
-        private router: Router,
-        private authenticationService: AuthenticationService,
-        private uniqueEmailValidator: UniqueEmailValidator,
-        private currencyService: CurrencyService,
-        formBuilder: UntypedFormBuilder,
-        alertService: AlertService,
-    ) {
-        super(formBuilder, alertService);
-    }
+    public currencies: Currency[];
 
     public async ngOnInit(): Promise<void> {
         this.form = this.formBuilder.group({

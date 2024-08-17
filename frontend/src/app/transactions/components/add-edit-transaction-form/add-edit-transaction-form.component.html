@@ -1,0 +1,149 @@
+﻿<div class="header row">
+    <div class="col-md-3 order-md-2 text-end">
+        <fingather-portfolio-selector />
+    </div>
+    <div class="col-md-3 order-md-0">
+        @if (id === null) {
+            <h1 class="h3">{{ 'app.shared.transactionDialog.headerAdd' | translate }}</h1>
+        } @else {
+            <h1 class="h3">{{ 'app.shared.transactionDialog.headerEdit' | translate }}</h1>
+        }
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        @if (!$loading()) {
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                @if (assetId !== null) {
+                    <input type="hidden" formControlName="assetId">
+                } @else {
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="assetId">{{ 'app.shared.transactionDialog.asset' | translate }}</label>
+                            <select id="assetId" formControlName="assetId" class="form-select">
+                                <option *ngFor="let asset of assets" [ngValue]="asset.id">
+                                    {{ asset.ticker.name }}
+                                </option>
+                            </select>
+                            <div *ngIf="$submitted() && f['assetId'].errors" class="invalid-feedback">
+                                <div *ngIf="f['assetId'].errors['required']">{{ 'app.shared.transactionDialog.assetRequired' | translate }}</div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                @if (brokers.length > 0) {
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="brokerId">{{ 'app.shared.transactionDialog.broker' | translate }}</label>
+                            <select id="brokerId" formControlName="brokerId" class="form-select">
+                                <option *ngFor="let broker of brokers" [ngValue]="broker.id">
+                                    {{ broker.name }}
+                                </option>
+                                <option value="">{{ 'app.shared.transactionDialog.brokerUndefined' | translate }}</option>
+                            </select>
+                            <div *ngIf="$submitted() && f['brokerId'].errors" class="invalid-feedback">
+                                <div *ngIf="f['brokerId'].errors['required']">{{ 'app.shared.transactionDialog.brokerRequired' | translate }}</div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label for="actionType">{{ 'app.shared.transactionDialog.actionType' | translate }}</label>
+                        <select id="actionType" formControlName="actionType" class="form-select">
+                            <option *ngFor="let actionType of actionTypes" [ngValue]="actionType.toString()">
+                                {{ actionType.toString() }}
+                            </option>
+                        </select>
+                        <div *ngIf="$submitted() && f['actionType'].errors" class="invalid-feedback">
+                            <div *ngIf="f['actionType'].errors['required']">{{ 'app.shared.transactionDialog.actionTypeRequired' | translate }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label for="actionCreated">{{ 'app.shared.transactionDialog.actionCreated' | translate }}</label>
+                        <input type="datetime-local" id="actionCreated" formControlName="actionCreated" class="form-control" [ngClass]="{ 'is-invalid': $submitted() && f['actionCreated'].errors }" />
+                        <div *ngIf="$submitted() && f['actionCreated'].errors" class="invalid-feedback">
+                            <div *ngIf="f['actionCreated'].errors['required']">{{ 'app.shared.transactionDialog.actionCreatedRequired' | translate }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label for="units">{{ 'app.shared.transactionDialog.units' | translate }}</label>
+                        <input type="number" step="0.01" min="0" id="units" formControlName="units" class="form-control" [ngClass]="{ 'is-invalid': $submitted() && f['units'].errors }" [defaultValue]="0" />
+                        <div *ngIf="$submitted() && f['units'].errors" class="invalid-feedback">
+                            <div *ngIf="f['units'].errors['required']">{{ 'app.shared.transactionDialog.unitsRequired' | translate }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label for="price">{{ 'app.shared.transactionDialog.unitPrice' | translate }}</label>
+                        <div class="input-group">
+                            <input type="number" step="0.01" min="0" id="price" formControlName="price" class="form-control" [ngClass]="{ 'is-invalid': $submitted() && f['price'].errors }" [defaultValue]="0.00" />
+                            <select id="currencyId" formControlName="currencyId" class="form-select">
+                                <option *ngFor="let currency of currencies" [ngValue]="currency.id">
+                                    {{ currency.code }}
+                                </option>
+                            </select>
+                        </div>
+                        <div *ngIf="$submitted() && f['price'].errors" class="invalid-feedback">
+                            <div *ngIf="f['price'].errors['required']">{{ 'app.shared.transactionDialog.unitPriceRequired' | translate }}</div>
+                        </div>
+                        <div *ngIf="$submitted() && f['currencyId'].errors" class="invalid-feedback">
+                            <div *ngIf="f['currencyId'].errors['required']">{{ 'app.shared.transactionDialog.currencyRequired' | translate }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label for="tax">{{ 'app.shared.transactionDialog.tax' | translate }}</label>
+                        <div class="input-group">
+                            <input type="number" step="0.01" min="0" id="tax" formControlName="tax" class="form-control" [ngClass]="{ 'is-invalid': $submitted() && f['tax'].errors }" [defaultValue]="0.00" />
+                            <select id="taxCurrencyId" formControlName="taxCurrencyId" class="form-select">
+                                <option *ngFor="let currency of currencies" [ngValue]="currency.id">
+                                    {{ currency.code }}
+                                </option>
+                            </select>
+                        </div>
+                        <div *ngIf="$submitted() && f['tax'].errors" class="invalid-feedback">
+                            <div *ngIf="f['tax'].errors['required']">{{ 'app.shared.transactionDialog.taxRequired' | translate }}</div>
+                        </div>
+                        <div *ngIf="$submitted() && f['taxCurrencyId'].errors" class="invalid-feedback">
+                            <div *ngIf="f['taxCurrencyId'].errors['required']">{{ 'app.shared.transactionDialog.currencyRequired' | translate }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label for="fee">{{ 'app.shared.transactionDialog.fee' | translate }}</label>
+                        <div class="input-group">
+                            <input type="number" step="0.01" min="0" id="fee" formControlName="fee" class="form-control" [ngClass]="{ 'is-invalid': $submitted() && f['fee'].errors }" [defaultValue]="0.00" />
+                            <select id="feeCurrencyId" formControlName="feeCurrencyId" class="form-select">
+                                <option *ngFor="let currency of currencies" [ngValue]="currency.id">
+                                    {{ currency.code }}
+                                </option>
+                            </select>
+                        </div>
+                        <div *ngIf="$submitted() && f['fee'].errors" class="invalid-feedback">
+                            <div *ngIf="f['fee'].errors['required']">{{ 'app.shared.transactionDialog.feeRequired' | translate }}</div>
+                        </div>
+                        <div *ngIf="$submitted() && f['feeCurrencyId'].errors" class="invalid-feedback">
+                            <div *ngIf="f['feeCurrencyId'].errors['required']">{{ 'app.shared.transactionDialog.currencyRequired' | translate }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button [disabled]="$saving()" class="btn btn-primary">
+                        <span *ngIf="$saving()" class="spinner-border spinner-border-sm mr-1"></span>
+                        {{ 'app.common.save' | translate }}
+                    </button>
+                    <a routerLink=".." class="btn btn-link" tabindex="0">{{ 'app.common.cancel' | translate }}</a>
+                </div>
+            </form>
+        }
+    </div>
+</div>

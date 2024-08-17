@@ -1,6 +1,6 @@
 import {
     ChangeDetectionStrategy,
-    Component, OnInit, signal, WritableSignal
+    Component, inject, OnInit, signal, WritableSignal
 } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { Currency } from '@app/models';
@@ -8,12 +8,16 @@ import { UserRoleEnum } from '@app/models/enums/user-role-enum';
 import { AlertService, CurrencyService, UserService } from '@app/services';
 import { BaseForm } from '@app/shared/components/form/base-form';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import {BaseDialog} from "@app/shared/components/dialog/base-dialog";
 
 @Component({
     templateUrl: 'add-edit.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AddEditComponent extends BaseForm implements OnInit {
+export class AddEditComponent extends BaseDialog implements OnInit {
+    private readonly userService = inject(UserService);
+    private readonly currencyService = inject(CurrencyService);
+
     public id: WritableSignal<number | null> = signal<number | null>(null);
 
     public currencies: Currency[];
@@ -21,16 +25,6 @@ export class AddEditComponent extends BaseForm implements OnInit {
         { name: 'User', key: UserRoleEnum.User },
         { name: 'Admin', key: UserRoleEnum.Admin },
     ];
-
-    public constructor(
-        private readonly userService: UserService,
-        private readonly currencyService: CurrencyService,
-        public activeModal: NgbActiveModal,
-        formBuilder: UntypedFormBuilder,
-        alertService: AlertService,
-    ) {
-        super(formBuilder, alertService);
-    }
 
     public async ngOnInit(): Promise<void> {
         const emailValidators = [Validators.email];
