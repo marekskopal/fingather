@@ -1,0 +1,16 @@
+﻿<div ngbDropdown>
+    <button type="button" id="type" ngbDropdownToggle>
+        @if(value) {
+            <span><fingather-tag [type]="value?.label ?? TransactionActionType.Undefined" /></span>
+        } @else {
+            <span>{{ $placeholder() }}</span>
+        }
+    </button>
+    <div ngbDropdownMenu aria-labelledby="type">
+        @for(item of $items(); track item.key) {
+            <button type="button" ngbDropdownItem (click)="onSelect(item.key)">
+                <fingather-tag [type]="item.label ?? TransactionActionType.Undefined" />
+            </button>
+        }
+    </div>
+</div>

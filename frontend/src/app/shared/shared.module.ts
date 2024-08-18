@@ -30,6 +30,8 @@ import {MatIcon} from "@angular/material/icon";
 import {TagComponent} from "@app/shared/components/tag/tag.component";
 import {SearchInputComponent} from "@app/shared/components/search-input/search-input.component";
 import {DateInputComponent} from "@app/shared/components/date-input/date-input.component";
+import {SelectComponent} from "@app/shared/components/select/select.component";
+import {TypeSelectComponent} from "@app/shared/components/type-select/type-select.component";
 
 @NgModule({
     imports: [
@@ -61,6 +63,8 @@ import {DateInputComponent} from "@app/shared/components/date-input/date-input.c
         TagComponent,
         SearchInputComponent,
         DateInputComponent,
+        SelectComponent,
+        TypeSelectComponent,
     ],
     exports: [
         PortfolioTotalComponent,
@@ -79,6 +83,8 @@ import {DateInputComponent} from "@app/shared/components/date-input/date-input.c
         TagComponent,
         SearchInputComponent,
         DateInputComponent,
+        SelectComponent,
+        TypeSelectComponent,
     ]
 })
 export class SharedModule { }

@@ -13,6 +13,11 @@
         @include mat-icon('\e946');
         border: 0;
     }
+
+    &.show {
+        border: 1px solid $primary;
+        box-shadow: 0 0 0 3px #0284C71A;
+    }
 }
 
 .dropup .dropdown-toggle::after {

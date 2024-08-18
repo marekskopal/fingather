@@ -3,7 +3,7 @@
         <fingather-portfolio-selector />
     </div>
     <div class="col-md-3 order-md-0">
-        @if (id === null) {
+        @if ($id() === null) {
             <h1 class="h3">{{ 'app.shared.dividendDialog.headerAdd' | translate }}</h1>
         } @else {
             <h1 class="h3">{{ 'app.shared.dividendDialog.headerEdit' | translate }}</h1>
@@ -26,11 +26,12 @@
                         <div class="form-row">
                             <div class="form-group col">
                                 <label for="assetId">{{ 'app.shared.dividendDialog.asset' | translate }}</label>
-                                <select id="assetId" formControlName="assetId" class="form-select">
-                                    <option *ngFor="let asset of assets" [ngValue]="asset.id">
-                                        {{ asset.ticker.name }}
-                                    </option>
-                                </select>
+                                <fingather-select
+                                    [id]="'assetId'"
+                                    formControlName="assetId"
+                                    [items]="assets ?? []"
+                                    [ngClass]="{ 'is-invalid': $submitted() && f['assetId'].errors }"
+                                />
                                 <div *ngIf="$submitted() && f['assetId'].errors" class="invalid-feedback">
                                     <div *ngIf="f['assetId'].errors['required']">{{ 'app.shared.dividendDialog.assetRequired' | translate }}</div>
                                 </div>
@@ -40,11 +41,12 @@
                     <div class="form-row">
                         <div class="form-group col">
                             <label for="brokerId">{{ 'app.shared.dividendDialog.broker' | translate }}</label>
-                            <select id="brokerId" formControlName="brokerId" class="form-select">
-                                <option *ngFor="let broker of brokers" [ngValue]="broker.id">
-                                    {{ broker.name }}
-                                </option>
-                            </select>
+                            <fingather-select
+                                [id]="'brokerId'"
+                                formControlName="brokerId"
+                                [items]="brokers ?? []"
+                                [ngClass]="{ 'is-invalid': $submitted() && f['brokerId'].errors }"
+                            />
                             <div *ngIf="$submitted() && f['brokerId'].errors" class="invalid-feedback">
                                 <div *ngIf="f['brokerId'].errors['required']">{{ 'app.shared.dividendDialog.brokerRequired' | translate }}</div>
                             </div>
@@ -69,11 +71,13 @@
                             <label for="price">{{ 'app.shared.dividendDialog.price' | translate }}</label>
                             <div class="input-group">
                                 <input type="number" step="0.01" min="0" id="price" formControlName="price" class="form-control" [ngClass]="{ 'is-invalid': $submitted() && f['price'].errors }" [defaultValue]="0.00" />
-                                <select id="currencyId" formControlName="currencyId" class="form-select">
-                                    <option *ngFor="let currency of currencies" [ngValue]="currency.id">
-                                        {{ currency.code }}
-                                    </option>
-                                </select>
+                                <fingather-select
+                                    [id]="'currencyId'"
+                                    formControlName="currencyId"
+                                    [items]="currencies ?? []"
+                                    [ngClass]="{ 'is-invalid': $submitted() && f['currencyId'].errors }"
+                                    class="money-select"
+                                />
                             </div>
                             <div *ngIf="$submitted() && f['price'].errors" class="invalid-feedback">
                                 <div *ngIf="f['price'].errors['required']">{{ 'app.shared.dividendDialog.priceRequired' | translate }}</div>
@@ -88,11 +92,13 @@
                             <label for="tax">{{ 'app.shared.dividendDialog.tax' | translate }}</label>
                             <div class="input-group">
                                 <input type="number" step="0.01" min="0" id="tax" formControlName="tax" class="form-control" [ngClass]="{ 'is-invalid': $submitted() && f['tax'].errors }" [defaultValue]="0.00" />
-                                <select id="taxCurrencyId" formControlName="taxCurrencyId" class="form-select">
-                                    <option *ngFor="let currency of currencies" [ngValue]="currency.id">
-                                        {{ currency.code }}
-                                    </option>
-                                </select>
+                                <fingather-select
+                                    [id]="'taxCurrencyId'"
+                                    formControlName="taxCurrencyId"
+                                    [items]="currencies ?? []"
+                                    [ngClass]="{ 'is-invalid': $submitted() && f['taxCurrencyId'].errors }"
+                                    class="money-select"
+                                />
                             </div>
                             <div *ngIf="$submitted() && f['tax'].errors" class="invalid-feedback">
                                 <div *ngIf="f['tax'].errors['required']">{{ 'app.shared.dividendDialog.taxRequired' | translate }}</div>
@@ -107,11 +113,13 @@
                             <label for="fee">{{ 'app.shared.dividendDialog.fee' | translate }}</label>
                             <div class="input-group">
                                 <input type="number" step="0.01" min="0" id="fee" formControlName="fee" class="form-control" [ngClass]="{ 'is-invalid': $submitted() && f['fee'].errors }" [defaultValue]="0.00" />
-                                <select id="feeCurrencyId" formControlName="feeCurrencyId" class="form-select">
-                                    <option *ngFor="let currency of currencies" [ngValue]="currency.id">
-                                        {{ currency.code }}
-                                    </option>
-                                </select>
+                                <fingather-select
+                                    [id]="'feeCurrencyId'"
+                                    formControlName="feeCurrencyId"
+                                    [items]="currencies ?? []"
+                                    [ngClass]="{ 'is-invalid': $submitted() && f['feeCurrencyId'].errors }"
+                                    class="money-select"
+                                />
                             </div>
                             <div *ngIf="$submitted() && f['fee'].errors" class="invalid-feedback">
                                 <div *ngIf="f['fee'].errors['required']">{{ 'app.shared.dividendDialog.feeRequired' | translate }}</div>
@@ -121,12 +129,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group buttons">
+                        <a [routerLink]="$routerLink()" class="btn btn-secondary" tabindex="0">{{ 'app.common.cancel' | translate }}</a>
+
                         <button [disabled]="$saving()" class="btn btn-primary">
                             <span *ngIf="$saving()" class="spinner-border spinner-border-sm mr-1"></span>
                             {{ 'app.common.save' | translate }}
                         </button>
-                        <a routerLink=".." class="btn btn-link" tabindex="0">{{ 'app.common.cancel' | translate }}</a>
                     </div>
                 </form>
             }
