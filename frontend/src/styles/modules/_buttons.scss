@@ -62,3 +62,16 @@
         vertical-align: bottom;
     }
 }
+
+.btn-round {
+    display: inline-block;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid $color-gray-lighter;
+    padding: 11px 10px;
+
+    .mat-icon {
+        color: $color-green-light;
+    }
+}

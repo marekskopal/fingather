@@ -33,10 +33,8 @@ export class PortfolioSelectorComponent implements OnInit {
         return this.$currentPortfolio();
     }
 
-    public async changeCurrentPortfolio(event: Event): Promise<void> {
-        const eventTarget = event.target as HTMLSelectElement;
-        const currentPortfolioId = parseInt(eventTarget.value, 10);
-        const portfolio = await this.portfolioService.getPortfolio(currentPortfolioId);
+    public async changeCurrentPortfolio(portfolioId: number): Promise<void> {
+        const portfolio = await this.portfolioService.getPortfolio(portfolioId);
         this.portfolioService.setCurrentPortfolio(portfolio);
         this.$currentPortfolio.set(portfolio);
         this.portfolioService.notify();
