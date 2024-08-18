@@ -1,0 +1,10 @@
+.portfolio-selector {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+
+    .dropdown-toggle {
+        border: 0;
+        padding-right: 0;
+    }
+}

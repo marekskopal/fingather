@@ -1,7 +1,24 @@
-﻿@if(portfolios !== null && portfolios.length > 1) {
-    <select id="portfolioId" (change)="changeCurrentPortfolio($event)" class="form-select">
-        @for (portfolio of portfolios; track portfolio.id) {
-            <option value="{{portfolio.id}}" [selected]="portfolio.id === currentPortfolio?.id">{{portfolio.name}}</option>
-        }
-    </select>
-}
+﻿<div class="portfolio-selector">
+    <a
+        routerLink="/portfolios"
+        class="btn-round"
+    >
+        <mat-icon>wallet</mat-icon>
+    </a>
+
+    @if(portfolios !== null && portfolios.length > 1) {
+        <div ngbDropdown>
+            <button type="button" id="type" ngbDropdownToggle>
+                <span>{{ currentPortfolio?.name }}</span>
+            </button>
+            <div ngbDropdownMenu aria-labelledby="type">
+                @for(portfolio of portfolios; track portfolio.id) {
+                    <button type="button" ngbDropdownItem (click)="changeCurrentPortfolio(portfolio.id)">
+                        {{ portfolio.name }}
+                    </button>
+                }
+            </div>
+        </div>
+    }
+
+</div>
