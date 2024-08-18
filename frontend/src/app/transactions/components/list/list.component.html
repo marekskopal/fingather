@@ -61,9 +61,15 @@
                             </div>
                         </td>
                         <td class="actions">
-                            <a routerLink="edit-transaction/{{transaction.id}}" class="btn btn-sm btn-secondary me-2" tabindex="0">
-                                <mat-icon>edit</mat-icon>
-                            </a>
+                            @if (transaction.actionType === TransactionActionType.Dividend) {
+                                <a routerLink="edit-dividend/{{transaction.id}}" class="btn btn-sm btn-secondary me-2" tabindex="0">
+                                    <mat-icon>edit</mat-icon>
+                                </a>
+                            } @else {
+                                <a routerLink="edit-transaction/{{transaction.id}}" class="btn btn-sm btn-secondary me-2" tabindex="0">
+                                    <mat-icon>edit</mat-icon>
+                                </a>
+                            }
                             <fingather-delete-button
                                 (onConfirm)="deleteTransaction(transaction.id)"
                                 [title]="'Delete transaction'"

@@ -4,6 +4,7 @@ import {
 import { TransactionList } from '@app/models/transaction-list';
 import { PortfolioService, TransactionService } from '@app/services';
 import {TransactionSearch} from "@app/transactions/types/transaction-search";
+import {TransactionActionType} from "@app/models";
 
 @Component({
     templateUrl: './list.component.html',
@@ -89,4 +90,6 @@ export class ListComponent implements OnInit {
 
         this.refreshTransactions();
     }
+
+    protected readonly TransactionActionType = TransactionActionType;
 }
