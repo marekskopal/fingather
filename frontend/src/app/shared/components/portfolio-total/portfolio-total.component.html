@@ -1,6 +1,6 @@
 ﻿<div class="row portfolio-total">
     <div class="col-lg-3 mb-4">
-        <div class="card h-100">
+        <div class="card portfolio-value">
             <div class="card-header">
                 <span class="icon-circle">
                     <mat-icon>monitoring</mat-icon>
@@ -12,6 +12,7 @@
                     <fingather-portfolio-value-chart
                             [range]="PortfolioDataRangeEnum.All"
                             [showLabels]="false"
+                            [sparkline]="true"
                     ></fingather-portfolio-value-chart>
 
                     <span class="value h3">{{portfolioData.value | number:'1.2-2' | currency: defaultCurrency.id | async}}</span>

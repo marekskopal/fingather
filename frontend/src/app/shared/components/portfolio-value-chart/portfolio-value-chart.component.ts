@@ -31,11 +31,24 @@ export type ChartOptions = {
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PortfolioValueChartComponent implements OnInit, OnChanges {
-    public readonly range: InputSignal<RangeEnum> = input.required<RangeEnum>();
-    public readonly benchmarkAssetId: InputSignal<number | null> = input<number | null>(null);
-    public readonly height: InputSignal<string> = input<string>('auto');
-    public readonly showLabels: InputSignal<boolean | null> = input<boolean | null>(null);
-    public readonly title: InputSignal<string | null> = input<string | null>(null);
+    public readonly $range = input.required<RangeEnum>({
+        alias: 'range',
+    });
+    public readonly $benchmarkAssetId = input<number | null>(null, {
+        alias: 'benchmarkAssetId',
+    });
+    public readonly $height = input<string>('auto', {
+        alias: 'height',
+    });
+    public readonly $showLabels = input<boolean | null>(null, {
+        alias: 'showLabels',
+    });
+    public readonly $title = input<string | null>(null, {
+        alias: 'title',
+    });
+    public readonly $sparkline = input<boolean>(false, {
+        alias: 'sparkline',
+    });
     protected chartOptions: ChartOptions;
     protected readonly $loading: WritableSignal<boolean> = signal<boolean>(false);
 
@@ -68,8 +81,8 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
 
         const portfolioData = await this.portfolioDataService.getPortfolioDataRange(
             portfolio.id,
-            this.range(),
-            this.benchmarkAssetId()
+            this.$range(),
+            this.$benchmarkAssetId()
         );
 
         const chartMap = this.mapChart(portfolioData);
@@ -88,14 +101,16 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
                 {
                     name: 'Value',
                     data: [],
+                    zIndex: 3,
                 },
                 {
                     name: 'Invested Value',
                     data: [],
+                    zIndex: 1,
                 },
             ],
             chart: {
-                height: this.height(),
+                height: this.$height(),
                 type: 'area',
                 zoom: {
                     enabled: false
@@ -104,26 +119,24 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
                     show: false
                 },
                 sparkline: {
-                    enabled: true,
+                    enabled: this.$sparkline(),
                 }
             },
             dataLabels: {
                 enabled: false
             },
             stroke: {
-                curve: 'smooth'
+                curve: 'straight',
+                width: 3,
             },
             title: {
-                text: this.title() ?? '',
+                text: this.$title() ?? '',
                 floating: true,
                 align: 'left',
                 margin: 0,
             },
             grid: {
-                row: {
-                    colors: ['#2b3035', 'transparent'],
-                    opacity: 0.5
-                },
+                borderColor: '#454545',
                 padding: {
                     top: 0,
                     bottom: 0,
@@ -134,17 +147,17 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
             xaxis: {
                 type: 'datetime',
                 labels: {
-                    show: this.showLabels() ?? true,
+                    show: this.$showLabels() ?? true,
                 },
                 categories: [],
             },
             yaxis: {
                 labels: {
-                    show: this.showLabels() ?? true,
+                    show: this.$showLabels() ?? true,
                 }
             },
             legend: {
-                show: this.showLabels() ?? true,
+                show: this.$showLabels() ?? true,
             },
             theme: {
                 mode: 'dark',
@@ -152,34 +165,36 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
             fill: {
                 type: 'gradient',
                 gradient: {
-                    shadeIntensity: 1,
+                    shade: 'dark',
+                    shadeIntensity: 0.9,
                     inverseColors: false,
-                    opacityFrom: 0.5,
+                    opacityFrom: 0.8,
                     opacityTo: 0,
                     stops: [0, 90, 100]
                 },
             },
-            colors: ['#64ee85', '#6bf5ff']
+            colors: ['#9e2af3', '#7597f2'],
         };
 
-        if (this.benchmarkAssetId() !== null) {
-            this.chartOptions.series[1] = {
+        if (this.$benchmarkAssetId() !== null) {
+            this.chartOptions.series[2] = {
                 name: 'Benchmark',
                 data: [],
             };
 
-            this.chartOptions.colors[1] = '#d063ee';
+            this.chartOptions.colors[2] = '#d063ee';
         }
     }
 
     private initializeBenchmarkChartOptions(): void {
-        if (this.benchmarkAssetId() === null) {
+        if (this.$benchmarkAssetId() === null) {
             return;
         }
 
         this.chartOptions.series[2] = {
             name: 'Benchmark',
             data: [],
+            zIndex: 2,
         };
 
         this.chartOptions.colors[2] = '#d063ee';
@@ -198,7 +213,7 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
             investedValueSeries: portfolioDatas.map(
                 (portfolioData) => parseFloat(portfolioData.transactionValue)
             ),
-            benchmarkSeries: this.benchmarkAssetId() !== null
+            benchmarkSeries: this.$benchmarkAssetId() !== null
                 ? portfolioDatas.map((portfolioData) => parseFloat(portfolioData.benchmarkData?.value ?? '0.0'))
                 : [],
             categories: portfolioDatas.map((portfolioData) => portfolioData.date)
