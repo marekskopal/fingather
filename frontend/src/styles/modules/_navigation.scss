@@ -8,28 +8,27 @@
     padding-left: 15px;
     z-index: 1000;
     background: transparent;
+    align-items: flex-start;
 
     @include media-breakpoint-up(lg) {
         flex-direction: column !important;
         width: $navigation-width;
         height: 100vh;
+        padding-top: $spacing-xl;
         padding-left: $spacing-xl;
         padding-right: $spacing-xl;
         background-color: $background-color;
     }
 
     .navbar-brand {
-        margin: 0;
-
-        @include media-breakpoint-up(lg) {
-            margin-top: 10px;
-        }
+        padding-top: 0;
+        margin: -1px 0 3px 18px;
 
         img {
             height: 54px;
 
             @include media-breakpoint-up(lg) {
-                height: 60px;
+                height: 25px;
             }
         }
     }
@@ -85,5 +84,18 @@
     #navigation {
         padding-top: 20px;
         margin-bottom: 20px;
+    }
+
+    .language-selector {
+        margin-bottom: $spacing-xs;
+
+        .dropdown-toggle {
+            width: 100%;
+            background: transparent;
+        }
+
+        .flag {
+            margin-right: $spacing-xs;
+        }
     }
 }

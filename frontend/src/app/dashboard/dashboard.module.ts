@@ -9,6 +9,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { SharedModule } from '../shared/shared.module';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import {ColoredValueDirective} from "@app/shared/directives/colored-value.directive";
+import {MatIcon} from "@angular/material/icon";
 
 @NgModule({
     imports: [
@@ -18,6 +19,7 @@ import {ColoredValueDirective} from "@app/shared/directives/colored-value.direct
         DashboardRoutingModule,
         NgApexchartsModule,
         ColoredValueDirective,
+        MatIcon,
     ],
     declarations: [
         LayoutComponent,
