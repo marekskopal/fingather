@@ -1,4 +1,6 @@
 .card {
+    display: flex;
+    flex-direction: column;
     padding: $spacing-lg;
     border: 0;
     border-radius: $border-radius-lg;
@@ -31,6 +33,11 @@
                 font-size: $font-size;
             }
         }
+    }
+    
+    .card-body {
+        display: flex;
+        flex-direction: column;
     }
 
     .card-header + .card-body {
