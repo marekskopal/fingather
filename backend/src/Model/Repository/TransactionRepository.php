@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Model\Repository;
 
 use Cycle\ORM\Select;
+use Cycle\ORM\Select\QueryBuilder;
 use DateTimeImmutable;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Transaction;
@@ -122,7 +123,7 @@ final class TransactionRepository extends ARepository
 
 		if ($search !== null) {
 			$transactions->where(
-				fn (Select\QueryBuilder $select) =>
+				fn (QueryBuilder $select) =>
 					$select->where('asset.ticker.name', 'like', '%' . $search . '%')
 					->orWhere('asset.ticker.ticker', 'like', '%' . $search . '%'),
 			);

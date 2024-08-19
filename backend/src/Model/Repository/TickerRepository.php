@@ -22,7 +22,7 @@ final class TickerRepository extends ARepository
 		/**
 		 * @var list<array{
 		 *     ticker: string,
-		 * }>
+		 * }> $tickers
 		 */
 		$tickers = iterator_to_array(
 			$this->getTickersSelect($marketId, $search, $limit, $offset)->buildQuery()->columns(['ticker'])->fetchAll(),

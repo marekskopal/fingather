@@ -31,6 +31,7 @@ export interface AssetWithProperties {
     taxDefaultCurrency: number;
     fee: number;
     feeDefaultCurrency: number;
+    percentage: number;
 
     ticker: Ticker;
 }
