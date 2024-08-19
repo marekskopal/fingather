@@ -43,10 +43,11 @@ final readonly class AssetWithPropertiesDto
 		public Decimal $taxDefaultCurrency,
 		public Decimal $fee,
 		public Decimal $feeDefaultCurrency,
+		public float $percentage,
 	) {
 	}
 
-	public static function fromEntity(Asset $asset, AssetData $assetData): self
+	public static function fromEntity(Asset $asset, AssetData $assetData, float $percentage): self
 	{
 		return new self(
 			id: $asset->getId(),
@@ -81,6 +82,7 @@ final readonly class AssetWithPropertiesDto
 			taxDefaultCurrency: $assetData->getTaxDefaultCurrency(),
 			fee: $assetData->getFee(),
 			feeDefaultCurrency: $assetData->getFeeDefaultCurrency(),
+			percentage: $percentage,
 		);
 	}
 }

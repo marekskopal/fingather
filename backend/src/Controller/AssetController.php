@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace FinGather\Controller;
 
 use FinGather\Dto\AssetDto;
-use FinGather\Dto\AssetsWithPropertiesDto;
 use FinGather\Dto\AssetWithPropertiesDto;
 use FinGather\Dto\Enum\AssetOrderEnum;
 use FinGather\Dto\TickerDto;
@@ -13,6 +12,7 @@ use FinGather\Response\NotFoundResponse;
 use FinGather\Route\Routes;
 use FinGather\Service\Provider\AssetDataProvider;
 use FinGather\Service\Provider\AssetProvider;
+use FinGather\Service\Provider\AssetWithPropertiesProvider;
 use FinGather\Service\Provider\MarketProvider;
 use FinGather\Service\Provider\PortfolioProvider;
 use FinGather\Service\Provider\TickerDataProvider;
@@ -30,6 +30,7 @@ final class AssetController
 	public function __construct(
 		private readonly AssetProvider $assetProvider,
 		private readonly AssetDataProvider $assetDataProvider,
+		private readonly AssetWithPropertiesProvider $assetWithPropertiesProvider,
 		private readonly TickerProvider $tickerProvider,
 		private readonly TickerDataProvider $tickerDataProvider,
 		private readonly PortfolioProvider $portfolioProvider,
@@ -84,30 +85,6 @@ final class AssetController
 		}
 
 		$dateTime = new DateTimeImmutable();
-		$assets = $this->assetProvider->getAssets(user: $user, portfolio: $portfolio);
-
-		$openAssets = [];
-		$closedAssets = [];
-		$watchedAssets = [];
-
-		foreach ($assets as $asset) {
-			$assetData = $this->assetDataProvider->getAssetData($user, $portfolio, $asset, $dateTime);
-			if ($assetData === null) {
-				$lastTickerData = $this->tickerDataProvider->getLastTickerData($asset->getTicker(), $dateTime);
-				assert($lastTickerData !== null);
-				$watchedAssets[] = AssetDto::fromEntity($asset, $lastTickerData->getClose());
-
-				continue;
-			}
-
-			$assetDto = AssetWithPropertiesDto::fromEntity($asset, $assetData);
-
-			if ($assetData->isClosed()) {
-				$closedAssets[] = $assetDto;
-			} else {
-				$openAssets[] = $assetDto;
-			}
-		}
 
 		/** @var array{orderBy?: string} $queryParams */
 		$queryParams = $request->getQueryParams();
@@ -115,45 +92,11 @@ final class AssetController
 			AssetOrderEnum::from($queryParams['orderBy']) :
 			AssetOrderEnum::TickerName;
 
-		match ($orderBy) {
-			AssetOrderEnum::TickerName => usort(
-				$openAssets,
-				fn (AssetWithPropertiesDto $a, AssetWithPropertiesDto $b) => $a->ticker->ticker <=> $b->ticker->ticker,
-			),
-			AssetOrderEnum::Price => usort(
-				$openAssets,
-				fn (AssetWithPropertiesDto $a, AssetWithPropertiesDto $b) => $b->price <=> $a->price,
-			),
-			AssetOrderEnum::Units => usort(
-				$openAssets,
-				fn (AssetWithPropertiesDto $a, AssetWithPropertiesDto $b) => $b->units <=> $a->units,
-			),
-			AssetOrderEnum::Value => usort(
-				$openAssets,
-				fn (AssetWithPropertiesDto $a, AssetWithPropertiesDto $b) => $b->value <=> $a->value,
-			),
-			AssetOrderEnum::Gain => usort(
-				$openAssets,
-				fn (AssetWithPropertiesDto $a, AssetWithPropertiesDto $b) => $b->gainDefaultCurrency <=> $a->gainDefaultCurrency,
-			),
-			AssetOrderEnum::DividendYield => usort(
-				$openAssets,
-				fn (AssetWithPropertiesDto $a, AssetWithPropertiesDto $b) => $b->dividendYieldDefaultCurrency <=> $a->dividendYieldDefaultCurrency,
-			),
-			AssetOrderEnum::FxImpact => usort(
-				$openAssets,
-				fn (AssetWithPropertiesDto $a, AssetWithPropertiesDto $b) => $b->fxImpact <=> $a->fxImpact,
-			),
-			AssetOrderEnum::Return => usort(
-				$openAssets,
-				fn (AssetWithPropertiesDto $a, AssetWithPropertiesDto $b) => $b->return <=> $a->return,
-			),
-		};
-
-		return new JsonResponse(new AssetsWithPropertiesDto(
-			openAssets: $openAssets,
-			closedAssets: $closedAssets,
-			watchedAssets: $watchedAssets,
+		return new JsonResponse($this->assetWithPropertiesProvider->getAssetsWithAssetData(
+			$user,
+			$portfolio,
+			$dateTime,
+			$orderBy,
 		));
 	}
 
@@ -183,7 +126,7 @@ final class AssetController
 			return new JsonResponse(AssetDto::fromEntity($asset, $lastTickerData->getClose()));
 		}
 
-		return new JsonResponse(AssetWithPropertiesDto::fromEntity($asset, $assetData));
+		return new JsonResponse(AssetWithPropertiesDto::fromEntity($asset, $assetData, 0));
 	}
 
 	#[RoutePost(Routes::Assets->value)]
