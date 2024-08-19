@@ -1,0 +1,17 @@
+.nav-tabs {
+    border-bottom: 1px solid $color-gray-lighter;
+
+    .nav-link{
+        color: $color-gray-lightest;
+        padding: $spacing-md $spacing-lg;
+
+        &.active {
+            border: 0;
+            border-top-left-radius: $border-radius;
+            border-top-right-radius: $border-radius;
+            border-bottom: 2px solid $primary;
+            background-color: $color-gray-light;
+            color: $color-white;
+        }
+    }
+}

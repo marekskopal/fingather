@@ -19,6 +19,11 @@ import { AssetTickerChartComponent } from './components/chart/asset-ticker-chart
 import { DividendListComponent } from './components/dividends/dividend-list.component';
 import { TransactionListComponent } from './components/transactions/transaction-list.component';
 import {MatIcon} from "@angular/material/icon";
+import {
+    OpenedGroupedAssetsComponent
+} from "@app/assets/components/list/components/opened-grouped-assets/opened-grouped-assets.component";
+import {ColoredValueDirective} from "@app/shared/directives/colored-value.directive";
+import {OpenedAssetsComponent} from "@app/assets/components/list/components/opened-assets/opened-assets.component";
 
 @NgModule({
     imports: [
@@ -31,6 +36,7 @@ import {MatIcon} from "@angular/material/icon";
         FormsModule,
         NgbNavModule,
         MatIcon,
+        ColoredValueDirective,
     ],
     declarations: [
         LayoutComponent,
@@ -43,6 +49,8 @@ import {MatIcon} from "@angular/material/icon";
         FundamentalsComponent,
         FundamentalRowComponent,
         AssetValueChartComponent,
+        OpenedGroupedAssetsComponent,
+        OpenedAssetsComponent,
     ]
 })
 export class AssetsModule {
