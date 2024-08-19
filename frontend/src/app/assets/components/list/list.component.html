@@ -1,9 +1,9 @@
-﻿<div class="row">
+﻿<div class="row header">
     <div class="col-md-3 order-md-2 text-end">
         <fingather-portfolio-selector />
     </div>
     <div class="col-md-5 order-md-0">
-        <h1>{{ 'app.assets.list.title' | translate }}</h1>
+        <h1 class="h3">{{ 'app.assets.list.title' | translate }}</h1>
     </div>
     <div class="col-md-4 order-md-1 text-end">
         <a (click)="addAsset()" class="btn btn-sm btn-success" tabindex="0">
@@ -14,7 +14,9 @@
 
 <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav nav-tabs" role="tablist">
     <li [ngbNavItem]="'open-positions'">
-        <button ngbNavLink><span class="h4">{{ 'app.assets.list.openPositions' | translate }}</span></button>
+        <button ngbNavLink>
+            {{ 'app.assets.list.openPositions' | translate }}
+        </button>
         <ng-template ngbNavContent>
             <div class="form-check form-switch">
                 <input (change)="changeWithGroups()" class="form-check-input" type="checkbox" role="switch" id="withGroups">
@@ -26,329 +28,30 @@
             </div>
 
             @if (openedGroupedAssets !== null) {
-                <div *ngFor="let group of openedGroupedAssets">
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <caption *ngIf="group.id !== null">{{group.name}}</caption>
-                            <thead>
-                                <tr>
-                                    <th style="width: 24%">
-                                        <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.TickerName)" tabindex="0">
-                                            {{ 'app.assets.list.name' | translate }}
-                                            @if(openedAssetsOrderBy === AssetsOrder.TickerName) {
-                                                &nbsp;<mat-icon>arrow_upward</mat-icon>
-                                            }
-                                        </a>
-                                    </th>
-                                    <th style="width: 9.5%">
-                                        <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.Price)" tabindex="0">
-                                            {{ 'app.assets.list.price' | translate }}
-                                            @if(openedAssetsOrderBy === AssetsOrder.Price) {
-                                                &nbsp;<mat-icon>arrow_downward</mat-icon>
-                                            }
-                                        </a>
-                                    </th>
-                                    <th style="width: 9.5%">
-                                        <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.Units)" tabindex="0">
-                                            {{ 'app.assets.list.units' | translate }}
-                                            @if(openedAssetsOrderBy === AssetsOrder.Units) {
-                                                &nbsp;<mat-icon>arrow_downward</mat-icon>
-                                            }
-                                        </a>
-                                    </th>
-                                    <th style="width: 9.5%">
-                                        <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.Value)" tabindex="0">
-                                            {{ 'app.assets.list.value' | translate }}
-                                            @if(openedAssetsOrderBy === AssetsOrder.Value) {
-                                                &nbsp;<mat-icon>arrow_downward</mat-icon>
-                                            }
-                                        </a>
-                                    </th>
-                                    <th style="width: 9.5%">
-                                        <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.Gain)" tabindex="0">
-                                            {{ 'app.assets.list.gain' | translate }}
-                                            @if(openedAssetsOrderBy === AssetsOrder.Gain) {
-                                                &nbsp;<mat-icon>arrow_downward</mat-icon>
-                                            }
-                                        </a>
-                                    </th>
-                                    <th style="width: 9.5%">
-                                        <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.DividendYield)" tabindex="0">
-                                            {{ 'app.assets.list.dividend' | translate }}
-                                            @if(openedAssetsOrderBy === AssetsOrder.DividendYield) {
-                                                &nbsp;<mat-icon>arrow_downward</mat-icon>
-                                            }
-                                        </a>
-                                    </th>
-                                    <th style="width: 9.5%">
-                                        <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.FxImpact)" tabindex="0">
-                                            {{ 'app.assets.list.fxImpact' | translate }}
-                                            @if(openedAssetsOrderBy === AssetsOrder.FxImpact) {
-                                                &nbsp;<mat-icon>arrow_downward</mat-icon>
-                                            }
-                                        </a>
-                                    </th>
-                                    <th style="width: 9.5%">
-                                        <strong>
-                                            <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.Return)" tabindex="0">
-                                                {{ 'app.assets.list.return' | translate }}
-                                                @if(openedAssetsOrderBy === AssetsOrder.Return) {
-                                                    &nbsp;<mat-icon>arrow_downward</mat-icon>
-                                                }
-                                            </a>
-                                        </strong>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let asset of group.assets">
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <fingather-ticker-logo [ticker]="asset.ticker" />
-                                            <div>
-                                                <div><strong>{{asset.ticker.ticker}}</strong></div>
-                                                <div>{{asset.ticker.name}}</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="text-end">{{asset.price | number:'1.2-2' | currency: asset.ticker.currencyId | async}}</td>
-                                    <td>{{asset.units | number:'1.0-8'}}</td>
-                                    <td class="text-end">{{asset.value | number:'1.2-2' | currency: defaultCurrency.id | async}}</td>
-                                    <td class="text-end {{asset.gain > 0 ? 'green' : (asset.gain < 0 ? 'red' : '')}}">
-                                        <div class="small">{{asset.gainDefaultCurrency | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
-                                        <div>
-                                            @if ($showPerAnnum()) {
-                                                {{asset.gainPercentagePerAnnum}}%&nbsp;p.a.
-                                            } @else {
-                                                {{asset.gainPercentage}}%
-                                            }
-                                        </div>
-                                    </td>
-                                    <td class="text-end {{asset.dividendYield > 0 ? 'green' : (asset.dividendYield < 0 ? 'red' : '')}}">
-                                        <div class="small">{{asset.dividendYieldDefaultCurrency | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
-                                        <div>
-                                            @if ($showPerAnnum()) {
-                                                {{asset.dividendYieldPercentagePerAnnum}}%&nbsp;p.a.
-                                            } @else {
-                                                {{asset.dividendYieldPercentage}}%
-                                            }
-                                        </div>
-                                    </td>
-                                    <td class="text-end {{asset.fxImpact > 0 ? 'green' : (asset.fxImpact < 0 ? 'red' : '')}}">
-                                        <div class="small">{{asset.fxImpact | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
-                                        <div>
-                                            @if ($showPerAnnum()) {
-                                                {{asset.fxImpactPercentagePerAnnum}}%&nbsp;p.a.
-                                            } @else {
-                                                {{asset.fxImpactPercentage}}%
-                                            }
-                                        </div>
-                                    </td>
-                                    <td class="text-end {{asset.return > 0 ? 'green' : (asset.return < 0 ? 'red' : '')}}">
-                                        <div class="small"><strong>{{asset.return | number:'1.2-2' | currency: defaultCurrency.id | async}}</strong></div>
-                                        <div>
-                                            @if ($showPerAnnum()) {
-                                                <strong>{{asset.returnPercentagePerAnnum}}%&nbsp;p.a.</strong>
-                                            } @else {
-                                                <strong>{{asset.returnPercentage}}%</strong>
-                                            }
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><strong>{{ 'app.assets.list.total' | translate }} {{group.percentage | number:'1.2-2'}}%</strong></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td class="text-end">{{group.groupData.value | number:'1.2-2' | currency: defaultCurrency.id | async}}</td>
-                                    <td class="text-end {{group.groupData.gain > 0 ? 'green' : (group.groupData.gain < 0 ? 'red' : '')}}">
-                                        <div class="small">{{group.groupData.gain | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
-                                        <div>
-                                            @if ($showPerAnnum()) {
-                                                {{group.groupData.gainPercentagePerAnnum}}%&nbsp;p.a.
-                                            } @else {
-                                                {{group.groupData.gainPercentage}}%
-                                            }
-                                        </div>
-                                    </td>
-                                    <td class="text-end {{group.groupData.dividendYield > 0 ? 'green' : (group.groupData.dividendYield < 0 ? 'red' : '')}}">
-                                        <div class="small">{{group.groupData.dividendYield | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
-                                        <div>
-                                            @if ($showPerAnnum()) {
-                                                {{group.groupData.dividendYieldPercentagePerAnnum}}%&nbsp;p.a.
-                                            } @else {
-                                                {{group.groupData.dividendYieldPercentage}}%
-                                            }
-                                        </div>
-                                    </td>
-                                    <td class="text-end {{group.groupData.fxImpact > 0 ? 'green' : (group.groupData.fxImpact < 0 ? 'red' : '')}}">
-                                        <div class="small">{{group.groupData.fxImpact | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
-                                        <div>
-                                            @if ($showPerAnnum()) {
-                                                {{group.groupData.fxImpactPercentagePerAnnum}}%&nbsp;p.a.
-                                            } @else {
-                                                {{group.groupData.fxImpactPercentage}}%
-                                            }
-                                        </div>
-                                    </td>
-                                    <td class="text-end {{group.groupData.return > 0 ? 'green' : (group.groupData.return < 0 ? 'red' : '')}}">
-                                        <div class="small"><strong>{{group.groupData.return | number:'1.2-2' | currency: defaultCurrency.id | async}}</strong></div>
-                                        <div>
-                                            @if ($showPerAnnum()) {
-                                                <strong>{{group.groupData.returnPercentagePerAnnum}}%&nbsp;p.a.</strong>
-                                            } @else {
-                                                <strong>{{group.groupData.returnPercentage}}%</strong>
-                                            }
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                <fingather-opened-grouped-assets
+                    [openedGroupedAssets]="openedGroupedAssets"
+                    [assetsOrder]="openedAssetsOrderBy"
+                    [showPerAnnum]="$showPerAnnum()"
+                    [defaultCurrency]="defaultCurrency"
+                    (changeAssetsOrder)="changeOpenedAssetsOrderBy($event)"
+                />
             } @else if (assetsWithProperties !== null) {
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th style="width: 24%">
-                                    <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.TickerName)" tabindex="0">
-                                        {{ 'app.assets.list.name' | translate }}
-                                        @if(openedAssetsOrderBy === AssetsOrder.TickerName) {
-                                            &nbsp;<mat-icon>arrow_upward</mat-icon>
-                                        }
-                                    </a>
-                                </th>
-                                <th style="width: 9.5%">
-                                    <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.Price)" tabindex="0">
-                                        {{ 'app.assets.list.price' | translate }}
-                                        @if(openedAssetsOrderBy === AssetsOrder.Price) {
-                                            &nbsp;<mat-icon>arrow_downward</mat-icon>
-                                        }
-                                    </a>
-                                </th>
-                                <th style="width: 9.5%">
-                                    <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.Units)" tabindex="0">
-                                        {{ 'app.assets.list.units' | translate }}
-                                        @if(openedAssetsOrderBy === AssetsOrder.Units) {
-                                            &nbsp;<mat-icon>arrow_downward</mat-icon>
-                                        }
-                                    </a>
-                                </th>
-                                <th style="width: 9.5%">
-                                    <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.Value)" tabindex="0">
-                                        {{ 'app.assets.list.value' | translate }}
-                                        @if(openedAssetsOrderBy === AssetsOrder.Value) {
-                                            &nbsp;<mat-icon>arrow_downward</mat-icon>
-                                        }
-                                    </a>
-                                </th>
-                                <th style="width: 9.5%">
-                                    <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.Gain)" tabindex="0">
-                                        {{ 'app.assets.list.gain' | translate }}
-                                        @if(openedAssetsOrderBy === AssetsOrder.Gain) {
-                                            &nbsp;<mat-icon>arrow_downward</mat-icon>
-                                        }
-                                    </a>
-                                </th>
-                                <th style="width: 9.5%">
-                                    <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.DividendYield)" tabindex="0">
-                                        {{ 'app.assets.list.dividend' | translate }}
-                                        @if(openedAssetsOrderBy === AssetsOrder.DividendYield) {
-                                            &nbsp;<mat-icon>arrow_downward</mat-icon>
-                                        }
-                                    </a>
-                                </th>
-                                <th style="width: 9.5%">
-                                    <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.FxImpact)" tabindex="0">
-                                        {{ 'app.assets.list.fxImpact' | translate }}
-                                        @if(openedAssetsOrderBy === AssetsOrder.FxImpact) {
-                                            &nbsp;<mat-icon>arrow_downward</mat-icon>
-                                        }
-                                    </a>
-                                </th>
-                                <th style="width: 9.5%">
-                                    <strong>
-                                        <a (click)="changeOpenedAssetsOrderBy(AssetsOrder.Return)" tabindex="0">
-                                            {{ 'app.assets.list.return' | translate }}
-                                            @if(openedAssetsOrderBy === AssetsOrder.Return) {
-                                                &nbsp;<mat-icon>arrow_downward</mat-icon>
-                                            }
-                                        </a>
-                                    </strong>
-                                </th>
-                                <th style="width: 9.5%"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let asset of assetsWithProperties.openAssets">
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <fingather-ticker-logo [ticker]="asset.ticker" />
-                                        <div>
-                                            <div><strong>{{asset.ticker.ticker}}</strong></div>
-                                            <div>{{asset.ticker.name}}</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="text-end">{{asset.price | number:'1.2-2' | currency: asset.ticker.currencyId | async}}</td>
-                                <td>{{asset.units | number:'1.0-8'}}</td>
-                                <td class="text-end">{{asset.value | number:'1.2-2' | currency: defaultCurrency.id | async}}</td>
-                                <td class="text-end {{asset.gain > 0 ? 'green' : (asset.gain < 0 ? 'red' : '')}}">
-                                    <div class="small">{{asset.gainDefaultCurrency | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
-                                    <div>
-                                        @if ($showPerAnnum()) {
-                                            {{asset.gainPercentagePerAnnum}}%&nbsp;p.a.
-                                        } @else {
-                                            {{asset.gainPercentage}}%
-                                        }
-                                    </div>
-                                </td>
-                                <td class="text-end {{asset.dividendYield > 0 ? 'green' : (asset.dividendYield < 0 ? 'red' : '')}}">
-                                    <div class="small">{{asset.dividendYieldDefaultCurrency | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
-                                    <div>
-                                        @if ($showPerAnnum()) {
-                                            {{asset.dividendYieldPercentagePerAnnum}}%&nbsp;p.a.
-                                        } @else {
-                                            {{asset.dividendYieldPercentage}}%
-                                        }
-                                    </div>
-                                </td>
-                                <td class="text-end {{asset.fxImpact > 0 ? 'green' : (asset.fxImpact < 0 ? 'red' : '')}}">
-                                    <div class="small">{{asset.fxImpact | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
-                                    <div>
-                                        @if ($showPerAnnum()) {
-                                            {{asset.fxImpactPercentagePerAnnum}}%&nbsp;p.a.
-                                        } @else {
-                                            {{asset.fxImpactPercentage}}%
-                                        }
-                                    </div>
-                                </td>
-                                <td class="text-end {{asset.return > 0 ? 'green' : (asset.return < 0 ? 'red' : '')}}">
-                                    <div class="small"><strong>{{asset.return | number:'1.2-2' | currency: defaultCurrency.id | async}}</strong></div>
-                                    <div>
-                                        @if ($showPerAnnum()) {
-                                            <strong>{{asset.returnPercentagePerAnnum}}%&nbsp;p.a.</strong>
-                                        } @else {
-                                            <strong>{{asset.returnPercentage}}%</strong>
-                                        }
-                                    </div>
-                                </td>
-                                <td class="text-end" style="white-space: nowrap">
-                                    <a routerLink="{{asset.id}}" class="btn btn-sm btn-primary mr-1">
-                                        <mat-icon>visibility</mat-icon> {{ 'app.assets.list.detail' | translate }}
-                                    </a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <fingather-opened-assets
+                    [assets]="assetsWithProperties"
+                    [assetsOrder]="openedAssetsOrderBy"
+                    [showPerAnnum]="$showPerAnnum()"
+                    [defaultCurrency]="defaultCurrency"
+                    (changeAssetsOrder)="changeOpenedAssetsOrderBy($event)"
+                />
             } @else {
                 <span class="spinner-border spinner-border-lg align-center"></span>
             }
         </ng-template>
     </li>
     <li [ngbNavItem]="'closed-positions'">
-        <button ngbNavLink><span class="h4">{{ 'app.assets.list.closedPositions' | translate }}</span></button>
+        <button ngbNavLink>
+            {{ 'app.assets.list.closedPositions' | translate }}
+        </button>
         <ng-template ngbNavContent>
             <div class="table-responsive">
                 <table class="table table-striped">
@@ -393,7 +96,9 @@
         </ng-template>
     </li>
     <li [ngbNavItem]="'watch-list'">
-        <button ngbNavLink><span class="h4">{{ 'app.assets.list.watchList' | translate }}</span></button>
+        <button ngbNavLink>
+            {{ 'app.assets.list.watchList' | translate }}
+        </button>
         <ng-template ngbNavContent>
             <div class="table-responsive">
                 <table class="table table-striped">
