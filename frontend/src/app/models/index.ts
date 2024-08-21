@@ -8,7 +8,6 @@ export * from './assets-with-properties';
 export * from './benchmark-data';
 export * from './broker';
 export * from './currency';
-export * from './dividend-data';
 export * from './dividend-data-asset';
 export * from './dividend-data-date-interval';
 export * from './group';
