@@ -1,0 +1,45 @@
+.assets-table {
+    .column-name {
+        display: flex;
+        max-width: 100%;
+
+        .logo-wrapper {
+            position: relative;
+            width: 56px;
+            height: 56px;
+            margin-right: $spacing-md;
+
+            .percentage {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 0;
+                height: 100%;
+                background: linear-gradient(270deg, #9E2AF3 0%, rgba(158, 42, 243, 0) 100%);
+                z-index: 1;
+            }
+
+            fingather-ticker-logo {
+                position: absolute;
+                display: block;
+                top: $ticker-logo-wrapped-margin;
+                left: $ticker-logo-wrapped-margin;
+                z-index: 2;
+
+                .ticker-logo {
+                    margin-right: 0;
+                }
+            }
+        }
+
+        .asset-text {
+            max-width: calc(100% - ($spacing-md + $ticker-logo-wrapper-size));
+        }
+    }
+}
+
+.assets-list {
+    .card + .card {
+        margin-top: $spacing-xl;
+    }
+}

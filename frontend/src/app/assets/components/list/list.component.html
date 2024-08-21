@@ -18,34 +18,36 @@
             {{ 'app.assets.list.openPositions' | translate }}
         </button>
         <ng-template ngbNavContent>
-            <div class="form-check form-switch">
-                <input (change)="changeWithGroups()" class="form-check-input" type="checkbox" role="switch" id="withGroups">
-                <label class="form-check-label" for="withGroups">{{ 'app.assets.list.withGroups' | translate }}</label>
-            </div>
-            <div class="form-check form-switch">
-                <input (change)="changeShowPerAnnum()" class="form-check-input" type="checkbox" role="switch" id="showPerAnnum">
-                <label class="form-check-label" for="showPerAnnum">{{ 'app.assets.list.showPerAnnum' | translate }}</label>
-            </div>
+            <div class="assets-list">
+                <div class="form-check form-switch">
+                    <input (change)="changeWithGroups()" class="form-check-input" type="checkbox" role="switch" id="withGroups">
+                    <label class="form-check-label" for="withGroups">{{ 'app.assets.list.withGroups' | translate }}</label>
+                </div>
+                <div class="form-check form-switch">
+                    <input (change)="changeShowPerAnnum()" class="form-check-input" type="checkbox" role="switch" id="showPerAnnum">
+                    <label class="form-check-label" for="showPerAnnum">{{ 'app.assets.list.showPerAnnum' | translate }}</label>
+                </div>
 
-            @if (openedGroupedAssets !== null) {
-                <fingather-opened-grouped-assets
-                    [openedGroupedAssets]="openedGroupedAssets"
-                    [assetsOrder]="openedAssetsOrderBy"
-                    [showPerAnnum]="$showPerAnnum()"
-                    [defaultCurrency]="defaultCurrency"
-                    (changeAssetsOrder)="changeOpenedAssetsOrderBy($event)"
-                />
-            } @else if (assetsWithProperties !== null) {
-                <fingather-opened-assets
-                    [assets]="assetsWithProperties"
-                    [assetsOrder]="openedAssetsOrderBy"
-                    [showPerAnnum]="$showPerAnnum()"
-                    [defaultCurrency]="defaultCurrency"
-                    (changeAssetsOrder)="changeOpenedAssetsOrderBy($event)"
-                />
-            } @else {
-                <span class="spinner-border spinner-border-lg align-center"></span>
-            }
+                @if (openedGroupedAssets !== null) {
+                    <fingather-opened-grouped-assets
+                        [openedGroupedAssets]="openedGroupedAssets"
+                        [assetsOrder]="openedAssetsOrderBy"
+                        [showPerAnnum]="$showPerAnnum()"
+                        [defaultCurrency]="defaultCurrency"
+                        (changeAssetsOrder)="changeOpenedAssetsOrderBy($event)"
+                    />
+                } @else if (assetsWithProperties !== null) {
+                    <fingather-opened-assets
+                        [assets]="assetsWithProperties"
+                        [assetsOrder]="openedAssetsOrderBy"
+                        [showPerAnnum]="$showPerAnnum()"
+                        [defaultCurrency]="defaultCurrency"
+                        (changeAssetsOrder)="changeOpenedAssetsOrderBy($event)"
+                    />
+                } @else {
+                    <span class="spinner-border spinner-border-lg align-center"></span>
+                }
+            </div>
         </ng-template>
     </li>
     <li [ngbNavItem]="'closed-positions'">
