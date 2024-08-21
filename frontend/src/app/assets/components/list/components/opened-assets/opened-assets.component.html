@@ -1,9 +1,9 @@
 ﻿<div class="card">
     <div class="card-body">
-        <table class="table">
+        <table class="table table-fixed assets-table">
             <thead>
             <tr>
-                <th style="width: 24%">
+                <th style="width: 35%">
                     <a (click)="changeAssetsOrder(AssetsOrder.TickerName)" tabindex="0">
                         {{ 'app.assets.list.name' | translate }}
                         @if($assetsOrder() === AssetsOrder.TickerName) {
@@ -11,23 +11,7 @@
                         }
                     </a>
                 </th>
-                <th style="width: 9.5%">
-                    <a (click)="changeAssetsOrder(AssetsOrder.Price)" tabindex="0">
-                        {{ 'app.assets.list.price' | translate }}
-                        @if($assetsOrder() === AssetsOrder.Price) {
-                            &nbsp;<mat-icon>arrow_downward</mat-icon>
-                        }
-                    </a>
-                </th>
-                <th style="width: 9.5%">
-                    <a (click)="changeAssetsOrder(AssetsOrder.Units)" tabindex="0">
-                        {{ 'app.assets.list.units' | translate }}
-                        @if($assetsOrder() === AssetsOrder.Units) {
-                            &nbsp;<mat-icon>arrow_downward</mat-icon>
-                        }
-                    </a>
-                </th>
-                <th style="width: 9.5%">
+                <th class="text-end" style="width: 9.5%">
                     <a (click)="changeAssetsOrder(AssetsOrder.Value)" tabindex="0">
                         {{ 'app.assets.list.value' | translate }}
                         @if($assetsOrder() === AssetsOrder.Value) {
@@ -35,7 +19,7 @@
                         }
                     </a>
                 </th>
-                <th style="width: 9.5%">
+                <th class="text-end" style="width: 9.5%">
                     <a (click)="changeAssetsOrder(AssetsOrder.Gain)" tabindex="0">
                         {{ 'app.assets.list.gain' | translate }}
                         @if($assetsOrder() === AssetsOrder.Gain) {
@@ -43,7 +27,7 @@
                         }
                     </a>
                 </th>
-                <th style="width: 9.5%">
+                <th class="text-end" style="width: 9.5%">
                     <a (click)="changeAssetsOrder(AssetsOrder.DividendYield)" tabindex="0">
                         {{ 'app.assets.list.dividend' | translate }}
                         @if($assetsOrder() === AssetsOrder.DividendYield) {
@@ -51,7 +35,7 @@
                         }
                     </a>
                 </th>
-                <th style="width: 9.5%">
+                <th class="text-end" style="width: 9.5%">
                     <a (click)="changeAssetsOrder(AssetsOrder.FxImpact)" tabindex="0">
                         {{ 'app.assets.list.fxImpact' | translate }}
                         @if($assetsOrder() === AssetsOrder.FxImpact) {
@@ -59,15 +43,13 @@
                         }
                     </a>
                 </th>
-                <th style="width: 9.5%">
-                    <strong>
-                        <a (click)="changeAssetsOrder(AssetsOrder.Return)" tabindex="0">
-                            {{ 'app.assets.list.return' | translate }}
-                            @if($assetsOrder() === AssetsOrder.Return) {
-                                &nbsp;<mat-icon>arrow_downward</mat-icon>
-                            }
-                        </a>
-                    </strong>
+                <th class="text-end" style="width: 9.5%">
+                    <a (click)="changeAssetsOrder(AssetsOrder.Return)" tabindex="0">
+                        {{ 'app.assets.list.return' | translate }}
+                        @if($assetsOrder() === AssetsOrder.Return) {
+                            &nbsp;<mat-icon>arrow_downward</mat-icon>
+                        }
+                    </a>
                 </th>
                 <th style="width: 9.5%"></th>
             </tr>
@@ -76,19 +58,30 @@
                 @for(asset of $assets().openAssets; track asset.id) {
                     <tr>
                         <td>
-                            <div class="d-flex align-items-center">
-                                <fingather-ticker-logo [ticker]="asset.ticker" />
-                                <div>
-                                    <div><strong>{{asset.ticker.ticker}}</strong></div>
-                                    <div>{{asset.ticker.name}}</div>
+                            <div class="column-name">
+                                <div class="logo-wrapper">
+                                    <div
+                                        class="percentage"
+                                        [style.width]="asset.percentage + '%'"
+                                    ></div>
+                                    <fingather-ticker-logo [ticker]="asset.ticker" />
+                                </div>
+                                <div class="asset-text">
+                                    <div>{{asset.ticker.ticker}}</div>
+                                    <div class="small color-gray-lightest ellipsis">{{asset.ticker.name}}</div>
+                                    <div class="smaller color-gray">{{asset.percentage}}%</div>
                                 </div>
                             </div>
                         </td>
-                        <td class="text-end">{{asset.price | number:'1.2-2' | currency: asset.ticker.currencyId | async}}</td>
-                        <td>{{asset.units | number:'1.0-8'}}</td>
-                        <td class="text-end">{{asset.value | number:'1.2-2' | currency: $defaultCurrency().id | async}}</td>
+                        <td class="text-end">
+                            <div>
+                                <div>{{asset.value | number:'1.2-2' | currency: $defaultCurrency().id | async}}</div>
+                                <div class="small color-gray-lightest">{{asset.units | number:'1.0-8'}}</div>
+                                <div class="smaller color-gray">{{asset.price | number:'1.2-2' | currency: asset.ticker.currencyId | async}}</div>
+                            </div>
+                        </td>
                         <td class="text-end" [coloredValue]="asset.gain">
-                            <div class="small">{{asset.gainDefaultCurrency | number:'1.2-2' | currency: $defaultCurrency().id | async}}</div>
+                            <div>{{asset.gainDefaultCurrency | number:'1.2-2' | currency: $defaultCurrency().id | async}}</div>
                             <div>
                                 @if ($showPerAnnum()) {
                                     {{asset.gainPercentagePerAnnum}}%&nbsp;p.a.
@@ -98,7 +91,7 @@
                             </div>
                         </td>
                         <td class="text-end" [coloredValue]="asset.dividendYieldDefaultCurrency">
-                            <div class="small">{{asset.dividendYieldDefaultCurrency | number:'1.2-2' | currency: $defaultCurrency().id | async}}</div>
+                            <div>{{asset.dividendYieldDefaultCurrency | number:'1.2-2' | currency: $defaultCurrency().id | async}}</div>
                             <div>
                                 @if ($showPerAnnum()) {
                                     {{asset.dividendYieldPercentagePerAnnum}}%&nbsp;p.a.
@@ -108,7 +101,7 @@
                             </div>
                         </td>
                         <td class="text-end" [coloredValue]="asset.fxImpact">
-                            <div class="small">{{asset.fxImpact | number:'1.2-2' | currency: $defaultCurrency().id | async}}</div>
+                            <div>{{asset.fxImpact | number:'1.2-2' | currency: $defaultCurrency().id | async}}</div>
                             <div>
                                 @if ($showPerAnnum()) {
                                     {{asset.fxImpactPercentagePerAnnum}}%&nbsp;p.a.
@@ -118,7 +111,7 @@
                             </div>
                         </td>
                         <td class="text-end" [coloredValue]="asset.return">
-                            <div class="small"><strong>{{asset.return | number:'1.2-2' | currency: $defaultCurrency().id | async}}</strong></div>
+                            <div><strong>{{asset.return | number:'1.2-2' | currency: $defaultCurrency().id | async}}</strong></div>
                             <div>
                                 @if ($showPerAnnum()) {
                                     <strong>{{asset.returnPercentagePerAnnum}}%&nbsp;p.a.</strong>
@@ -128,8 +121,8 @@
                             </div>
                         </td>
                         <td class="text-end" style="white-space: nowrap">
-                            <a routerLink="{{asset.id}}" class="btn btn-sm btn-primary mr-1">
-                                <mat-icon>visibility</mat-icon> {{ 'app.assets.list.detail' | translate }}
+                            <a routerLink="{{asset.id}}" class="btn btn-secondary">
+                                <mat-icon>visibility</mat-icon>
                             </a>
                         </td>
                     </tr>
