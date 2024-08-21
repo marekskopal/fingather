@@ -3,17 +3,17 @@ import {
 } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import {MatIconRegistry} from "@angular/material/icon";
 import { BrowserModule } from '@angular/platform-browser';
 import { JwtInterceptor } from '@app/core/interceptors/jwt.interceptor';
 import { AlertComponent } from '@app/shared/components/alert/alert.component';
+import {SharedModule} from "@app/shared/shared.module";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import {SharedModule} from "@app/shared/shared.module";
-import {MatIconRegistry} from "@angular/material/icon";
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http, '/i18n/');

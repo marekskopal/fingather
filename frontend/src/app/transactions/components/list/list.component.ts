@@ -1,10 +1,10 @@
 import {
     ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal
 } from '@angular/core';
+import {TransactionActionType} from "@app/models";
 import { TransactionList } from '@app/models/transaction-list';
 import { PortfolioService, TransactionService } from '@app/services';
 import {TransactionSearch} from "@app/transactions/types/transaction-search";
-import {TransactionActionType} from "@app/models";
 
 @Component({
     templateUrl: './list.component.html',

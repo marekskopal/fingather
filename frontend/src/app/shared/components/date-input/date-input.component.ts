@@ -1,8 +1,6 @@
 import {
-    ChangeDetectionStrategy, Component, computed, inject, input, output, signal,
+    ChangeDetectionStrategy, Component, computed, input,
 } from '@angular/core';
-import { AlertService } from '@app/services';
-import { ConfirmDialogService } from '@app/services/confirm-dialog.service';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
 
 @Component({
@@ -36,30 +34,30 @@ export class DateInputComponent implements ControlValueAccessor {
         return this.$datetime() ? 'datetime-local' : 'date';
     });
 
-    private onChange = (value: string | null) => {};
-    private onTouched = () => {};
+    //eslint-disable-next-line unused-imports/no-unused-vars
+    private onChange = (value: string | null): void => {};
+    private onTouched = (): void => {};
 
-    public writeValue(value: string | null) {
+    public writeValue(value: string | null): void {
         this.value = value;
     }
 
-    public registerOnChange(onChange: any) {
+    public registerOnChange(onChange: any): void {
         this.onChange = onChange;
     }
 
-    public registerOnTouched(onTouched: any) {
+    public registerOnTouched(onTouched: any): void {
         this.onTouched = onTouched;
     }
 
-    public setDisabledState(disabled: boolean) {
+    public setDisabledState(disabled: boolean): void {
         this.disabled = disabled;
     }
 
     protected selectDate(event: Event): void {
-        const element = event.target as HTMLElement;
-        const input: HTMLInputElement = element as HTMLInputElement;
+        const inputElement = event.target as HTMLInputElement;
 
-        this.value = input.value;
+        this.value = inputElement.value;
         if (this.value === '') {
             this.value = null;
         }
@@ -72,12 +70,12 @@ export class DateInputComponent implements ControlValueAccessor {
 
     protected dateClick(event: Event): void {
         const element = event.target as HTMLElement;
-        let input: HTMLInputElement = element as HTMLInputElement;
+        let inputElement: HTMLInputElement = element as HTMLInputElement;
         if (element.tagName !== 'INPUT') {
-            input = element.getElementsByTagName('input')[0];
+            inputElement = element.getElementsByTagName('input')[0];
         }
 
-        this.showPicker(input);
+        this.showPicker(inputElement);
     }
 
     protected onInputFocus(event: Event): void {
@@ -105,7 +103,7 @@ export class DateInputComponent implements ControlValueAccessor {
     private showPicker(element: HTMLInputElement): void {
         try {
             element.showPicker();
-        } catch (error) {
+        } catch (error) { //eslint-disable-line unused-imports/no-unused-vars
             // ignore
         }
     }

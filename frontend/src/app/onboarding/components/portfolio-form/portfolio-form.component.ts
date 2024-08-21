@@ -1,8 +1,7 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
-import { UntypedFormBuilder, Validators } from '@angular/forms';
+import { Validators } from '@angular/forms';
 import { Currency, Portfolio } from '@app/models';
 import {
-    AlertService,
     CurrencyService,
     PortfolioService
 } from '@app/services';

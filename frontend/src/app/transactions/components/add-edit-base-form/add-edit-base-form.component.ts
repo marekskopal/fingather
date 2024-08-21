@@ -1,5 +1,5 @@
 import { formatDate } from '@angular/common';
-import {Component, computed, inject, OnInit, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, inject, OnInit, signal} from '@angular/core';
 import { Validators } from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
@@ -17,6 +17,7 @@ import {SelectItem} from "@app/shared/types/select-item";
 
 @Component({
     template: '',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export abstract class AddEditBaseFormComponent extends BaseForm implements OnInit {
     private readonly transactionService = inject(TransactionService);
@@ -133,11 +134,11 @@ export abstract class AddEditBaseFormComponent extends BaseForm implements OnIni
         }
     }
 
-    protected abstract processCreateTransaction(portfolioId: number): Transaction;
-    protected abstract processUpdateTransaction(id: number): Transaction;
+    protected abstract processCreateTransaction(): Transaction;
+    protected abstract processUpdateTransaction(): Transaction;
 
     private async createTransaction(portfolioId: number): Promise<void> {
-        const transaction = this.processCreateTransaction(portfolioId);
+        const transaction = this.processCreateTransaction();
 
         await this.transactionService.createTransaction(transaction, portfolioId);
 
@@ -147,7 +148,7 @@ export abstract class AddEditBaseFormComponent extends BaseForm implements OnIni
     }
 
     private async updateTransaction(id: number): Promise<void> {
-        const transaction = this.processUpdateTransaction(id);
+        const transaction = this.processUpdateTransaction();
 
         await this.transactionService.updateTransaction(id, transaction);
 

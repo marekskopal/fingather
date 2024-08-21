@@ -2,10 +2,9 @@ import {
     ChangeDetectionStrategy,
     Component, inject, input, InputSignal, OnInit
 } from '@angular/core';
-import { UntypedFormBuilder, Validators } from '@angular/forms';
-import { Broker, ImportDataFile, ImportPrepare } from '@app/models';
-import {
-    AlertService, BrokerService, ImportService, PortfolioService
+import { Validators } from '@angular/forms';
+import { ImportDataFile, ImportPrepare } from '@app/models';
+import { ImportService, PortfolioService
 } from '@app/services';
 import { BaseForm } from '@app/shared/components/form/base-form';
 import { NgxFileDropEntry } from 'ngx-file-drop';
