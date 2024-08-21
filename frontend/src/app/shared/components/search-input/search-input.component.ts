@@ -1,8 +1,6 @@
 import {
-    ChangeDetectionStrategy, Component, inject, input, output, signal,
+    ChangeDetectionStrategy, Component, output, signal,
 } from '@angular/core';
-import { AlertService } from '@app/services';
-import { ConfirmDialogService } from '@app/services/confirm-dialog.service';
 
 @Component({
     selector: 'fingather-search-input',

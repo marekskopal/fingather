@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
-import { UntypedFormBuilder, Validators } from '@angular/forms';
+import { Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AlertService, CurrentUserService } from '@app/services';
+import { CurrentUserService } from '@app/services';
 import { AuthenticationService } from '@app/services/authentication.service';
 import { BaseForm } from '@app/shared/components/form/base-form';
 

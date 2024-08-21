@@ -119,16 +119,11 @@
           }
         },
         "lint": {
-          "builder": "@krema/angular-eslint-stylelint-builder:lint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "eslintCache": true,
-            "stylelintCache": true,
-            "eslintFilePatterns": [
+            "lintFilePatterns": [
               "src/**/*.ts",
               "src/**/*.html"
-            ],
-            "stylelintFilePatterns": [
-              "src/**/*.scss"
             ]
           }
         }

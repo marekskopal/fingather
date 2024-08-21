@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy, Component, OnInit, signal, WritableSignal
+    ChangeDetectionStrategy, Component, OnInit, signal
 } from '@angular/core';
 import { GroupWithGroupData } from '@app/models';
 import { GroupWithGroupDataService, PortfolioService } from '@app/services';

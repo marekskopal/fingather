@@ -1,18 +1,19 @@
-import {Directive, effect, ElementRef, Input, input, OnInit} from "@angular/core";
+import {Directive, ElementRef, Input, OnInit} from "@angular/core";
 
 @Directive({
     standalone: true,
+    //eslint-disable-next-line @angular-eslint/directive-selector
     selector: '[coloredValue]',
 })
 export class ColoredValueDirective implements OnInit {
-    @Input() coloredValue: number | string;
+    @Input() public coloredValue: number | string;
 
-    constructor(
+    public constructor(
         private el: ElementRef
     ) {
     }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         if (typeof this.coloredValue === 'string') {
             this.coloredValue = parseFloat(this.coloredValue);
         }

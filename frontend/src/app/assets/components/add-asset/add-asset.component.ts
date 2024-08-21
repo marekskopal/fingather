@@ -1,11 +1,9 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
-import { UntypedFormBuilder, Validators } from '@angular/forms';
+import { Validators } from '@angular/forms';
 import { Ticker } from '@app/models';
-import {
-    AlertService, AssetService, PortfolioService, TickerService
+import { AssetService, PortfolioService, TickerService
 } from '@app/services';
 import { BaseDialog } from '@app/shared/components/dialog/base-dialog';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, of, OperatorFunction } from 'rxjs';
 import {
     catchError, debounceTime, distinctUntilChanged, map, switchMap, tap

@@ -2,12 +2,10 @@ import {
     ChangeDetectionStrategy,
     Component, inject, OnInit, signal, WritableSignal
 } from '@angular/core';
-import { UntypedFormBuilder, Validators } from '@angular/forms';
+import { Validators } from '@angular/forms';
 import { Currency } from '@app/models';
 import { UserRoleEnum } from '@app/models/enums/user-role-enum';
-import { AlertService, CurrencyService, UserService } from '@app/services';
-import { BaseForm } from '@app/shared/components/form/base-form';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { CurrencyService, UserService } from '@app/services';
 import {BaseDialog} from "@app/shared/components/dialog/base-dialog";
 
 @Component({

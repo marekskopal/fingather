@@ -9,7 +9,7 @@ import {AddEditBaseFormComponent} from "@app/transactions/components/add-edit-ba
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddEditDividendFormComponent extends AddEditBaseFormComponent implements OnInit {
-    protected processCreateTransaction(portfolioId: number): Transaction {
+    protected processCreateTransaction(): Transaction {
         const values = this.form.value;
         values.assetId = parseInt(values.assetId, 10);
         values.actionCreated = (new Date(values.actionCreated)).toJSON();
@@ -26,7 +26,7 @@ export class AddEditDividendFormComponent extends AddEditBaseFormComponent imple
         return values;
     }
 
-    protected processUpdateTransaction(id: number): Transaction {
+    protected processUpdateTransaction(): Transaction {
         const values = this.form.value;
         values.actionCreated = (new Date(values.actionCreated)).toJSON();
         values.units = '0';

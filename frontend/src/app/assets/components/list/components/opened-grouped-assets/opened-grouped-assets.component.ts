@@ -1,13 +1,9 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef, Component, input, OnInit, output, signal
+    ChangeDetectionStrategy, Component, input, output
 } from '@angular/core';
-import { AddAssetComponent } from '@app/assets/components/add-asset/add-asset.component';
-import { AssetsWithProperties, Currency, GroupWithGroupData } from '@app/models';
+import { Currency, GroupWithGroupData } from '@app/models';
 import { AssetsOrder } from '@app/models/enums/assets-order';
-import {
-    AssetService, CurrencyService, GroupWithGroupDataService, PortfolioService
-} from '@app/services';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 
 @Component({
     selector: 'fingather-opened-grouped-assets',

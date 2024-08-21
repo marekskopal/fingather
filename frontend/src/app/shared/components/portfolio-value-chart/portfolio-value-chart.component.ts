@@ -1,6 +1,6 @@
 import {
     ChangeDetectionStrategy,
-    Component, input, InputSignal, OnChanges, OnInit, signal, WritableSignal
+    Component, input, OnChanges, OnInit, signal, WritableSignal
 } from '@angular/core';
 import { PortfolioDataWithBenchmarkData } from '@app/models';
 import { RangeEnum } from '@app/models/enums/range-enum';

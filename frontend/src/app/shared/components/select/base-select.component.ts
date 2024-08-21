@@ -1,13 +1,12 @@
 import {
-    ChangeDetectionStrategy, Component, computed, inject, input, output, signal,
+    ChangeDetectionStrategy, Component, input,
 } from '@angular/core';
-import { AlertService } from '@app/services';
-import { ConfirmDialogService } from '@app/services/confirm-dialog.service';
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
+import {ControlValueAccessor} from "@angular/forms";
 import {SelectItem} from "@app/shared/types/select-item";
 
 @Component({
     'template': '',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export abstract class BaseSelectComponent<K extends keyof any, V> implements ControlValueAccessor {
     public readonly $id = input.required<string>({
@@ -24,22 +23,23 @@ export abstract class BaseSelectComponent<K extends keyof any, V> implements Con
     private touched: boolean = false;
     protected disabled: boolean = false;
 
-    private onChange = (value: K | null) => {};
-    private onTouched = () => {};
+    //eslint-disable-next-line unused-imports/no-unused-vars
+    private onChange = (value: K | null): void => {};
+    private onTouched = (): void => {};
 
-    public writeValue(value: K | null) {
+    public writeValue(value: K | null): void {
         this.value = this.getValueFromItems(value);
     }
 
-    public registerOnChange(onChange: any) {
+    public registerOnChange(onChange: any): void {
         this.onChange = onChange;
     }
 
-    public registerOnTouched(onTouched: any) {
+    public registerOnTouched(onTouched: any): void {
         this.onTouched = onTouched;
     }
 
-    public setDisabledState(disabled: boolean) {
+    public setDisabledState(disabled: boolean): void {
         this.disabled = disabled;
     }
 
