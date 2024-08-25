@@ -53,8 +53,12 @@
             </div>
         </div>
 
-        <fingather-transaction-list></fingather-transaction-list>
+        <fingather-transaction-list
+            [asset]="asset"
+        />
 
-        <fingather-dividend-list></fingather-dividend-list>
+        <fingather-dividend-list
+            [asset]="asset"
+        />
     </div>
 }

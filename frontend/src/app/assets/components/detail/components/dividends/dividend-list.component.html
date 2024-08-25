@@ -16,7 +16,7 @@
             </tr>
             </thead>
             <tbody>
-                @for (dividend of dividends ?? []; track dividend.id) {
+                @for (dividend of transactions ?? []; track dividend.id) {
                     <tr>
                         <td>{{dividend.actionCreated | date: 'y-MM-dd HH:mm'}}</td>
                         <td class="text-end" style="white-space: nowrap">
@@ -24,14 +24,14 @@
                                 <mat-icon>edit</mat-icon>
                             </a>
                             <fingather-delete-button
-                                (onConfirm)="deleteDividend(dividend.id)"
+                                (onConfirm)="deleteTransaction(dividend.id)"
                                 [title]="'Delete dividend'"
                                 [message]="'Are you sure you want to delete dividend?'"
                             />
                         </td>
                     </tr>
                 }
-                @if(dividends === null) {
+                @if(transactions === null) {
                     <tr>
                         <td colspan="2" class="text-center">
                             <span class="spinner-border spinner-border-lg align-center"></span>
