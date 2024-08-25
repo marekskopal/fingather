@@ -3,12 +3,15 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatIcon} from "@angular/material/icon";
 import { AddAssetComponent } from '@app/assets/components/add-asset/add-asset.component';
+import {AssetChartsComponent} from "@app/assets/components/detail/components/asset-charts/asset-charts.component";
 import {
     AssetTickerChartComponent
-} from "@app/assets/components/detail/components/asset-ticker-chart/asset-ticker-chart.component";
+    // eslint-disable-next-line max-len
+} from "@app/assets/components/detail/components/asset-charts/components/asset-ticker-chart/asset-ticker-chart.component";
 import {
     AssetValueChartComponent
-} from "@app/assets/components/detail/components/asset-value-chart/asset-value-chart.component";
+} from "@app/assets/components/detail/components/asset-charts/components/asset-value-chart/asset-value-chart.component";
+import {AssetValueComponent} from "@app/assets/components/detail/components/asset-value/asset-value.component";
 import {DividendListComponent} from "@app/assets/components/detail/components/dividends/dividend-list.component";
 import {
     FundamentalRowComponent
@@ -52,12 +55,14 @@ import { AssetsRoutingModule } from './assets-routing.module';
         DetailComponent,
         TransactionListComponent,
         DividendListComponent,
+        AssetChartsComponent,
         AssetTickerChartComponent,
         FundamentalsComponent,
         FundamentalRowComponent,
         AssetValueChartComponent,
         OpenedGroupedAssetsComponent,
         OpenedAssetsComponent,
+        AssetValueComponent,
     ]
 })
 export class AssetsModule {

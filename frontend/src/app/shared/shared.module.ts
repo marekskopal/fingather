@@ -24,6 +24,7 @@ import {TagComponent} from "@app/shared/components/tag/tag.component";
 import { TickerLogoComponent } from '@app/shared/components/ticker-logo/ticker-logo.component';
 import {TypeSelectComponent} from "@app/shared/components/type-select/type-select.component";
 import { ValueColorComponent } from '@app/shared/components/value-color/value-color.component';
+import {ValueIconComponent} from "@app/shared/components/value-icon/value-icon.component";
 import {ColoredValueDirective} from "@app/shared/directives/colored-value.directive";
 import { CurrencyPipe } from '@app/shared/pipes/currency.pipe';
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
@@ -65,6 +66,7 @@ import { PortfolioTotalComponent } from './components/portfolio-total/portfolio-
         DateInputComponent,
         SelectComponent,
         TypeSelectComponent,
+        ValueIconComponent,
     ],
     exports: [
         PortfolioTotalComponent,
@@ -85,6 +87,7 @@ import { PortfolioTotalComponent } from './components/portfolio-total/portfolio-
         DateInputComponent,
         SelectComponent,
         TypeSelectComponent,
+        ValueIconComponent,
     ]
 })
 export class SharedModule { }

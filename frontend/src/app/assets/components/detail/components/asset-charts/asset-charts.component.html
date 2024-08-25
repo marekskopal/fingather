@@ -1,0 +1,30 @@
+﻿<div class="card asset-detail-charts">
+    <div class="card-detail">
+        <ul ngbNav #assetChartsNav="ngbNav" [(activeId)]="activeTab" class="nav nav-tabs" role="tablist">
+            <li [ngbNavItem]="AssetChartsTabEnum.AssetValueChart">
+                <button ngbNavLink>
+                    Value
+                </button>
+                <ng-template ngbNavContent>
+                    <fingather-asset-ticker-chart
+                        [assetId]="asset.id"
+                        [assetTickerId]="asset.ticker.id"
+                    ></fingather-asset-ticker-chart>
+                </ng-template>
+            </li>
+            <li [ngbNavItem]="AssetChartsTabEnum.AssetTickerChart">
+                <button ngbNavLink>
+                    Ticker
+                </button>
+                <ng-template ngbNavContent>
+                    <fingather-asset-value-chart
+                        [assetId]="asset.id"
+                        [height]="'400px'"
+                    />
+                </ng-template>
+            </li>
+        </ul>
+
+        <div [ngbNavOutlet]="assetChartsNav"></div>
+    </div>
+</div>

@@ -43,6 +43,15 @@
     .card-body {
         display: flex;
         flex-direction: column;
+
+        .value {
+            white-space: nowrap;
+
+            .mat-icon {
+                padding-top: 2px;
+                margin-right: 2px;
+            }
+        }
     }
 
     .card-header + .card-body {

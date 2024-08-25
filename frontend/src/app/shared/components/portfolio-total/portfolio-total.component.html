@@ -38,6 +38,7 @@
                     @if (portfolioData) {
                         <div class="card-body">
                             <div class="value h3">
+                                <fingather-value-icon [value]="portfolioData.gain" />
                                 {{portfolioData.gain | number:'1.2-2' | currency: defaultCurrency.id | async}}
                             </div>
                             <div [coloredValue]="portfolioData.gain">
@@ -66,6 +67,7 @@
                     @if (portfolioData) {
                         <div class="card-body">
                             <div class="value h3">
+                                <fingather-value-icon [value]="portfolioData.realizedGain" />
                                 {{portfolioData.realizedGain | number:'1.2-2' | currency: defaultCurrency.id | async}}
                             </div>
                         </div>
@@ -112,6 +114,7 @@
                     @if (portfolioData) {
                         <div class="card-body">
                             <div class="value h3">
+                                <fingather-value-icon [value]="portfolioData.fxImpact" />
                                 {{portfolioData.fxImpact | number:'1.2-2' | currency: defaultCurrency.id | async}}
                             </div>
                             <div [coloredValue]="portfolioData.fxImpact">

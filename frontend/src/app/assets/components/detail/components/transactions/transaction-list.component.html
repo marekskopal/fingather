@@ -1,36 +1,49 @@
-﻿<div class="row">
-    <div class="col-md-8">
-        <h2>{{ 'app.assets.transactions.title' | translate }}</h2>
-    </div>
-    <div class="col-md-4 text-end">
-        <a (click)="addTransaction(assetId)" class="btn btn-sm btn-success mb-2" tabindex="0">{{ 'app.assets.transactions.addTransaction' | translate }}</a>
+﻿<div class="card asset-detail-transactions">
+    <div class="card-body">
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <h3>{{ 'app.assets.transactions.title' | translate }}</h3>
+            </div>
+            <div class="col-md-4 text-end">
+                <a (click)="addTransaction(assetId)" class="btn btn-primary" tabindex="0">{{ 'app.assets.transactions.addTransaction' | translate }}</a>
+            </div>
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th style="width: 80%">{{ 'app.assets.transactions.date' | translate }}</th>
+                    <th style="width: 80%">{{ 'app.assets.transactions.action' | translate }}</th>
+                    <th style="width: 20%"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(transaction of transactions ?? []; track transaction.id) {
+                    <tr>
+                        <td>{{transaction.actionCreated | date: 'y-MM-dd HH:mm'}}</td>
+                        <td>
+                            <fingather-tag [type]="transaction.actionType" />
+                        </td>
+                        <td class="text-end" style="white-space: nowrap">
+                            <a routerLink="/transactions/edit-transaction/{{transaction.id}}" class="btn btn-sm btn-secondary me-2" tabindex="0">
+                                <mat-icon>edit</mat-icon>
+                            </a>
+
+                            <fingather-delete-button
+                                (onConfirm)="deleteTransaction(transaction.id)"
+                                [title]="'Delete transaction'"
+                                [message]="'Are you sure you want to delete transaction?'"
+                            />
+                        </td>
+                    </tr>
+                }
+                @if (transactions === null) {
+                    <tr>
+                        <td colspan="3" class="text-center">
+                            <span class="spinner-border spinner-border-lg align-center"></span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 </div>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th style="width: 80%">{{ 'app.assets.transactions.date' | translate }}</th>
-            <th style="width: 80%">{{ 'app.assets.transactions.action' | translate }}</th>
-            <th style="width: 20%"></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let transaction of transactions">
-            <td>{{transaction.actionCreated | date: 'y-MM-dd HH:mm'}}</td>
-            <td>{{transaction.actionType}}</td>
-            <td style="white-space: nowrap">
-                <a (click)="editTransaction(transaction.id)" class="btn btn-sm btn-primary mr-1" tabindex="0">{{ 'app.common.edit' | translate }}</a>
-                <fingather-delete-button
-                    (onConfirm)="deleteTransaction(transaction.id)"
-                    [title]="'Delete transaction'"
-                    [message]="'Are you sure you want to delete transaction?'"
-                />
-            </td>
-        </tr>
-        <tr *ngIf="transactions === null">
-            <td colspan="4" class="text-center">
-                <span class="spinner-border spinner-border-lg align-center"></span>
-            </td>
-        </tr>
-    </tbody>
-</table>

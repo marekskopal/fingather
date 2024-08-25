@@ -5,7 +5,6 @@ import { TickerFundamental } from '@app/models/ticker-fundamental';
 
 @Component({
     templateUrl: 'fundamental-row.component.html',
-    styleUrls: ['./fundamental-row.component.scss'],
     selector: 'fingather-ticker-fundamentals-fundamental-row',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

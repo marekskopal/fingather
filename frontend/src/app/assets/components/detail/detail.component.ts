@@ -12,6 +12,7 @@ import { AssetService, CurrencyService } from '@app/services';
 export class DetailComponent implements OnInit {
     private $asset = signal<AssetWithProperties | null>(null);
     protected defaultCurrency: Currency;
+    protected tickerCurrency: Currency;
     private id: number;
 
     public constructor(
@@ -25,6 +26,10 @@ export class DetailComponent implements OnInit {
 
         this.$asset.set(await this.assetService.getAsset(this.id));
         this.defaultCurrency = await this.currencyService.getDefaultCurrency();
+        const currenciesMap = await this.currencyService.getCurrenciesMap();
+        if (this.asset) {
+            this.tickerCurrency = currenciesMap.get(this.asset.ticker.currencyId) as Currency;
+        }
     }
 
     protected get asset(): AssetWithProperties | null {
