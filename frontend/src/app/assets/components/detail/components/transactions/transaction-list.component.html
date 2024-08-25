@@ -5,7 +5,7 @@
                 <h3>{{ 'app.assets.transactions.title' | translate }}</h3>
             </div>
             <div class="col-md-4 text-end">
-                <a (click)="addTransaction(assetId)" class="btn btn-primary" tabindex="0">{{ 'app.assets.transactions.addTransaction' | translate }}</a>
+                <a routerLink="/transactions/add-transaction" class="btn btn-primary" tabindex="0">{{ 'app.assets.transactions.addTransaction' | translate }}</a>
             </div>
         </div>
         <table class="table table-striped">

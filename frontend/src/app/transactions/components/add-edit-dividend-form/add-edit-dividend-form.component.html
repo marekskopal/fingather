@@ -44,7 +44,7 @@
                             <fingather-select
                                 [id]="'brokerId'"
                                 formControlName="brokerId"
-                                [items]="brokers ?? []"
+                                [items]="brokers"
                                 [ngClass]="{ 'is-invalid': $submitted() && f['brokerId'].errors }"
                             />
                             <div *ngIf="$submitted() && f['brokerId'].errors" class="invalid-feedback">
@@ -74,7 +74,7 @@
                                 <fingather-select
                                     [id]="'currencyId'"
                                     formControlName="currencyId"
-                                    [items]="currencies ?? []"
+                                    [items]="currencies"
                                     [ngClass]="{ 'is-invalid': $submitted() && f['currencyId'].errors }"
                                     class="money-select"
                                 />
@@ -95,7 +95,7 @@
                                 <fingather-select
                                     [id]="'taxCurrencyId'"
                                     formControlName="taxCurrencyId"
-                                    [items]="currencies ?? []"
+                                    [items]="currencies"
                                     [ngClass]="{ 'is-invalid': $submitted() && f['taxCurrencyId'].errors }"
                                     class="money-select"
                                 />
@@ -116,7 +116,7 @@
                                 <fingather-select
                                     [id]="'feeCurrencyId'"
                                     formControlName="feeCurrencyId"
-                                    [items]="currencies ?? []"
+                                    [items]="currencies"
                                     [ngClass]="{ 'is-invalid': $submitted() && f['feeCurrencyId'].errors }"
                                     class="money-select"
                                 />
