@@ -6,7 +6,7 @@ import {Directive, ElementRef, Input, OnInit} from "@angular/core";
     selector: '[coloredValue]',
 })
 export class ColoredValueDirective implements OnInit {
-    @Input() public coloredValue: number | string;
+    @Input() public coloredValue: number | string | null;
 
     public constructor(
         private el: ElementRef
@@ -16,6 +16,10 @@ export class ColoredValueDirective implements OnInit {
     public ngOnInit(): void {
         if (typeof this.coloredValue === 'string') {
             this.coloredValue = parseFloat(this.coloredValue);
+        }
+
+        if (this.coloredValue === null) {
+            return;
         }
 
         if (this.coloredValue > 0) {

@@ -1,107 +1,60 @@
-﻿<div *ngIf="asset">
-    <div class="row">
-        <div class="col-lg-6">
-            <h1>{{asset.ticker.name}}</h1>
-            <h2>{{asset.ticker.ticker}}</h2>
-        </div>
-        <div class="col-lg-6 text-end">
-            <div class="h2">{{asset.ticker.market.mic}}</div>
-            <div class="h2">{{asset.ticker.type}}</div>
-        </div>
+﻿<div class="header row">
+    <div class="col-md-3 order-md-2 text-end">
+        <fingather-portfolio-selector />
     </div>
-
-    <fingather-asset-ticker-chart
-        [assetId]="asset.id"
-        [assetTickerId]="asset.ticker.id"
-    ></fingather-asset-ticker-chart>
-
-    <fingather-asset-value-chart
-        [assetId]="asset.id"
-        [height]="'400px'"
-    />
-
-    <div class="row mb-4">
-        <div class="col-lg-4">
-            <div class="card">
-                <div class="card-header">
-                    {{ 'app.assets.detail.value' | translate }}
-                </div>
-
-                <div class="card-body">
-                    {{asset.value | number:'1.2-2' | currency: defaultCurrency.id | async}}
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4">
-            <div class="card">
-                <div class="card-header">
-                    {{ 'app.assets.detail.investedValue' | translate }}
-                </div>
-
-                <div class="card-body">
-                    {{asset.transactionValueDefaultCurrency | number:'1.2-2' | currency: defaultCurrency.id | async}}
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4">
-            <div class="card">
-                <div class="card-header">
-                    {{ 'app.assets.detail.gain' | translate }}
-                </div>
-
-                <div class="card-body">
-                    {{asset.gainDefaultCurrency | number:'1.2-2' | currency: defaultCurrency.id | async}}
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row mb-4">
-        <div class="col-lg-4">
-            <div class="card">
-                <div class="card-header">
-                    {{ 'app.assets.detail.dividend' | translate }}
-                </div>
-
-                <div class="card-body">
-                    {{asset.dividendYieldDefaultCurrency | number:'1.2-2' | currency: defaultCurrency.id | async}}
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4">
-            <div class="card">
-                <div class="card-header">
-                    {{ 'app.assets.detail.fxImpact' | translate }}
-                </div>
-
-                <div class="card-body">
-                    {{asset.fxImpact | number:'1.2-2' | currency: defaultCurrency.id | async}}
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4">
-            <div class="card">
-                <div class="card-header">
-                    {{ 'app.assets.detail.return' | translate }}
-                </div>
-
-                <div class="card-body">
-                    {{asset.return | number:'1.2-2' | currency: defaultCurrency.id | async}}
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <fingather-ticker-fundamentals [tickerId]="asset.ticker.id" />
-
-    <div class="row">
-        <div class="col-lg-6">
-            <fingather-transaction-list></fingather-transaction-list>
-
-        </div>
-        <div class="col-lg-6">
-            <fingather-dividend-list></fingather-dividend-list>
-
-        </div>
+    <div class="col-md-9 order-md-0">
+        @if (asset) {
+            <h1 class="h3">{{asset.ticker.ticker}}</h1>
+        }
+        <a routerLink=".." class="btn-link" tabindex="0">
+            <mat-icon>chevron_left</mat-icon>
+            {{ 'app.transactions.list.title' | translate }}
+        </a>
     </div>
 </div>
 
+@if (asset) {
+    <div class="asset-detail">
+        <div class="asset-detail-header">
+            <fingather-ticker-logo [ticker]="asset.ticker" />
+
+            <div class="asset-detail-header-info">
+                <div class="ticker-ticker h4">{{asset.ticker.ticker}}</div>
+                <div class="ticker-name">{{asset.ticker.name}}</div>
+                <div class="ticker-market">
+                    <span class="tag">{{asset.ticker.market.mic}}</span>
+                    <span>{{tickerCurrency?.code}}</span>
+                    <span class="tag">{{asset.ticker.type}}</span>
+                </div>
+            </div>
+        </div>
+
+        <fingather-asset-charts
+            [asset]="asset"
+        />
+
+        <fingather-asset-value
+            [asset]="asset"
+            [defaultCurrency]="defaultCurrency"
+        />
+
+        <div class="card asset-detail-info">
+            <div class="body">
+                <div class="asset-detail-about">
+                    @if(asset.ticker.description !== null) {
+                        <h3>
+                            {{ 'app.assets.detail.about' | translate }}
+                        </h3>
+                        <p>{{asset.ticker.description}}</p>
+                    }
+                </div>
+
+                <fingather-ticker-fundamentals [tickerId]="asset.ticker.id" />
+            </div>
+        </div>
+
+        <fingather-transaction-list></fingather-transaction-list>
+
+        <fingather-dividend-list></fingather-dividend-list>
+    </div>
+}

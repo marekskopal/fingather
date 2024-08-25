@@ -9,7 +9,6 @@
     line-height: 20px;
 
     &::before {
-        content: '';
         display: inline-block;
         width: 8px;
         height: 8px;
@@ -17,24 +16,32 @@
         margin-top: -3px;
         margin-right: 4px;
         border-radius: 50%;
+    }
+
+    &.tag-undefined::before {
+        content: '';
         background-color: $color-gray-7;
     }
 
     &.tag-buy::before {
+        content: '';
         background-color: $color-green;
     }
 
     &.tag-sell::before {
+        content: '';
         background-color: $color-red;
     }
 
     &.tag-tax::before,
     &.tag-fee::before {
+        content: '';
         background-color: $color-purple-light;
     }
 
     &.tag-dividend::before,
     &.tag-dividend-tax::before {
+        content: '';
         background-color: $color-purple;
     }
 }

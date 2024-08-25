@@ -43,3 +43,108 @@
         margin-top: $spacing-xl;
     }
 }
+
+.asset-detail {
+    .asset-detail-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: $spacing-xl;
+
+        .ticker-logo {
+            width: 96px;
+            height: 96px;
+            margin-right: $spacing-md;
+        }
+
+        .ticker-name {
+            color: $color-gray-lightest;
+            font-weight: 600;
+        }
+
+        .ticker-market {
+            display: flex;
+            align-items: center;
+            gap: $spacing-md;
+        }
+    }
+
+    .asset-detail-charts {
+        margin-bottom: $spacing-xl;
+    }
+
+    .asset-detail-value {
+        margin-bottom: $spacing-xl;
+    }
+
+    .asset-detail-fundamentals {
+        display: flex;
+        gap: $spacing-xl * 2;
+
+        .tab-content {
+            flex: 1;
+        }
+
+        .nav-link {
+            margin-right: 1px;
+            color: $color-gray-lightest;
+            padding: $spacing-md $spacing-lg;
+            border-right: 1px solid $color-gray-lighter;
+            text-align: left;
+
+            &.active {
+                margin-right: 0;
+                border: 0;
+                border-top-left-radius: $border-radius;
+                border-bottom-left-radius: $border-radius;
+                border-right: 2px solid $primary;
+                background-color: $color-gray-light;
+                color: $color-white;
+            }
+        }
+
+        fingather-ticker-fundamentals-fundamental-row {
+            display: table-row;
+
+            td, th {
+                padding: $spacing-xs $spacing-md;
+                border-bottom: 1px solid $color-gray-lighter;
+                font-weight: 400;
+                color: $color-gray-lightest;
+            }
+        }
+    }
+
+    fingather-ticker-fundamentals {
+        h3 {
+            margin-bottom: $spacing-lg;
+        }
+    }
+
+    .asset-detail-info {
+        margin-bottom: $spacing-xl;
+    }
+
+    .asset-detail-about {
+        h3 {
+            margin-bottom: $spacing-lg;
+        }
+
+        p {
+            max-width: 928px;
+            color: $color-gray-lightest;
+        }
+
+        margin-bottom: $spacing-lg * 2;
+    }
+
+    .asset-detail-transactions {
+        margin-bottom: $spacing-xl;
+    }
+
+    .asset-detail-transactions,
+    .asset-detail-dividends {
+        td {
+            color: $color-gray-lightest;
+        };
+    }
+}
