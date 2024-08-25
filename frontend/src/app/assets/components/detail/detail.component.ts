@@ -16,7 +16,7 @@ export class DetailComponent implements OnInit {
 
     private $asset = signal<AssetWithProperties | null>(null);
     protected defaultCurrency: Currency;
-    protected tickerCurrency: Currency;
+    protected tickerCurrency: Currency | null = null;
     private id: number;
 
     public async ngOnInit(): Promise<void> {

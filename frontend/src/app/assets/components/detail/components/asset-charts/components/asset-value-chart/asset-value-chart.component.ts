@@ -14,7 +14,7 @@ import {
     ApexStroke,
     ApexTheme,
     ApexTitleSubtitle,
-    ApexXAxis
+    ApexXAxis, ApexYAxis
 } from 'ng-apexcharts';
 
 export type ChartOptions = {
@@ -23,6 +23,7 @@ export type ChartOptions = {
     dataLabels: ApexDataLabels,
     stroke: ApexStroke,
     xaxis: ApexXAxis;
+    yaxis: ApexYAxis;
     title: ApexTitleSubtitle;
     grid: ApexGrid;
     theme: ApexTheme,
@@ -73,10 +74,12 @@ export class AssetValueChartComponent implements OnInit {
                 {
                     name: 'Gain/Loss',
                     data: [],
+                    zIndex: 2,
                 },
                 {
                     name: 'Invested value',
                     data: [],
+                    zIndex: 1,
                 },
             ],
             chart: {
@@ -87,6 +90,9 @@ export class AssetValueChartComponent implements OnInit {
                 },
                 toolbar: {
                     show: false
+                },
+                animations: {
+                    enabled: false
                 }
             },
             dataLabels: {
@@ -100,17 +106,32 @@ export class AssetValueChartComponent implements OnInit {
                 align: 'left'
             },
             grid: {
-                row: {
-                    colors: ['#2b3035', 'transparent'],
-                    opacity: 0.5
-                }
+                borderColor: '#454545',
             },
             xaxis: {
                 type: 'datetime',
-                labels: {
-                    show: true,
-                },
                 categories: [],
+                labels: {
+                    style: {
+                        colors: '#b0b0b0'
+                    }
+                },
+                axisBorder: {
+                    color: '#454545'
+                },
+                axisTicks: {
+                    color: '#454545'
+                }
+            },
+            yaxis: {
+                labels: {
+                    style: {
+                        colors: '#b0b0b0'
+                    },
+                    formatter: (value: number): string | string[] => {
+                        return value.toFixed(2);
+                    }
+                },
             },
             theme: {
                 mode: 'dark',
@@ -118,14 +139,15 @@ export class AssetValueChartComponent implements OnInit {
             fill: {
                 type: 'gradient',
                 gradient: {
-                    shadeIntensity: 1,
+                    shade: 'dark',
+                    shadeIntensity: 0.9,
                     inverseColors: false,
-                    opacityFrom: 0.5,
+                    opacityFrom: 0.8,
                     opacityTo: 0,
                     stops: [0, 90, 100]
                 },
             },
-            colors: ['#64ee85', '#6bf5ff']
+            colors: ['#9e2af3', '#7597f2'],
         };
     }
 
