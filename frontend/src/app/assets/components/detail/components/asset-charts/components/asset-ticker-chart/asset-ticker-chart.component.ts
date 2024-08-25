@@ -7,10 +7,10 @@ import { AssetService, TickerDataService } from '@app/services';
 import {
     ApexAnnotations,
     ApexAxisChartSeries,
-    ApexChart, ApexDataLabels, ApexFill, ApexStroke,
+    ApexChart, ApexDataLabels, ApexFill, ApexGrid, ApexStroke,
     ApexTheme,
     ApexTitleSubtitle,
-    ApexXAxis
+    ApexXAxis, ApexYAxis
 } from 'ng-apexcharts';
 
 export type ChartOptions = {
@@ -19,10 +19,12 @@ export type ChartOptions = {
     dataLabels: ApexDataLabels,
     stroke: ApexStroke,
     xaxis: ApexXAxis;
+    yaxis: ApexYAxis;
     annotations: ApexAnnotations;
     title: ApexTitleSubtitle;
     theme: ApexTheme,
     fill: ApexFill,
+    grid: ApexGrid,
     colors: string[],
 };
 
@@ -34,6 +36,7 @@ export type ChartOptions = {
 export class AssetTickerChartComponent implements OnInit {
     public assetId: InputSignal<number> = input.required<number>();
     public assetTickerId: InputSignal<number> = input.required<number>();
+    public height: InputSignal<string> = input<string>('auto');
     public chartOptions: ChartOptions;
     protected $loading = signal<boolean>(true);
 
@@ -78,13 +81,16 @@ export class AssetTickerChartComponent implements OnInit {
                 },
             ],
             chart: {
-                height: 500,
+                height: this.height(),
                 type: 'area',
                 zoom: {
                     enabled: false
                 },
                 toolbar: {
                     show: false
+                },
+                animations: {
+                    enabled: false
                 }
             },
             dataLabels: {
@@ -100,17 +106,38 @@ export class AssetTickerChartComponent implements OnInit {
             xaxis: {
                 type: 'datetime',
                 categories: [],
+                labels: {
+                    style: {
+                        colors: '#b0b0b0'
+                    }
+                },
+                axisBorder: {
+                    color: '#454545'
+                },
+                axisTicks: {
+                    color: '#454545'
+                }
+            },
+            yaxis: {
+                labels: {
+                    style: {
+                        colors: '#b0b0b0'
+                    },
+                    formatter: (value: number): string | string[] => {
+                        return value.toFixed(2);
+                    }
+                },
             },
             annotations: {
                 yaxis: [
                     {
                         y: 0,
-                        borderColor: '#6bf5ff',
+                        borderColor: '#7597f2',
                         label: {
-                            borderColor: '#6bf5ff',
+                            borderColor: '#7597f2',
                             style: {
                                 color: '#1b2627',
-                                background: '#6bf5ff',
+                                background: '#7597f2',
                             },
                             text: 'Average Buy Price - ',
                         }
@@ -123,14 +150,18 @@ export class AssetTickerChartComponent implements OnInit {
             fill: {
                 type: 'gradient',
                 gradient: {
-                    shadeIntensity: 1,
+                    shade: 'dark',
+                    shadeIntensity: 0.9,
                     inverseColors: false,
-                    opacityFrom: 0.5,
+                    opacityFrom: 0.8,
                     opacityTo: 0,
                     stops: [0, 90, 100]
                 },
             },
-            colors: ['#64ee85']
+            grid: {
+                borderColor: '#454545',
+            },
+            colors: ['#9e2af3']
         };
     }
 
