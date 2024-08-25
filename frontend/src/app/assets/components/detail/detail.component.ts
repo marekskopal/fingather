@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy, Component, OnInit, signal
+    ChangeDetectionStrategy, Component, inject, OnInit, signal
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AssetWithProperties, Currency } from '@app/models';
@@ -10,16 +10,14 @@ import { AssetService, CurrencyService } from '@app/services';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DetailComponent implements OnInit {
+    private readonly assetService = inject(AssetService);
+    private readonly currencyService =  inject(CurrencyService);
+    private readonly route = inject(ActivatedRoute);
+
     private $asset = signal<AssetWithProperties | null>(null);
     protected defaultCurrency: Currency;
     protected tickerCurrency: Currency;
     private id: number;
-
-    public constructor(
-        private readonly assetService: AssetService,
-        private readonly currencyService: CurrencyService,
-        private readonly route: ActivatedRoute,
-    ) {}
 
     public async ngOnInit(): Promise<void> {
         this.id = this.route.snapshot.params['id'];
