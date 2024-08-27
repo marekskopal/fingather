@@ -1,29 +1,49 @@
-﻿<form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div class="form-row mb-4">
-        <div class="form-group col">
-            <ngx-file-drop dropZoneLabel="Drop files here" dropZoneClassName="file-drop" (onFileDrop)="onFileDropped($event)" accept=".csv,.xlsx">
-                <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
-                    <div class="file-drop-text">{{ 'app.transactions.import.import.fileDropText' | translate }}</div>
-                    <button type="button" class="btn btn-primary" (click)="openFileSelector()">{{ 'app.transactions.import.import.fileDropButton' | translate }}</button>
-                </ng-template>
-            </ngx-file-drop>
-            @if (droppedFiles.length > 0) {
-                @for (droppedFile of droppedFiles; track droppedFile) {
-                    <div class="alert alert-primary" role="alert">
-                        {{ droppedFile.fileEntry.name }}
-                    </div>
-                }
+﻿<h3 class="h6 mb-4">
+    <span class="icon-circle">1</span>
+    {{ 'app.transactions.import.import.importFiles' | translate }}
+</h3>
+
+<form
+    class="import-form"
+>
+    <ngx-file-drop
+        dropZoneLabel="Drop files here"
+        dropZoneClassName="file-drop" (onFileDrop)="onFileDropped($event)" accept=".csv,.xlsx"
+    >
+        <ng-template
+            ngx-file-drop-content-tmp
+            let-openFileSelector="openFileSelector"
+        >
+            <div class="file-drop-text-wrapper">
+                <div class="file-drop-text">
+                    {{ 'app.transactions.import.import.fileDropText' | translate }}
+                </div>
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    (click)="openFileSelector()"
+                >
+                    <mat-icon>folder_open</mat-icon>
+                    <span>{{ 'app.transactions.import.import.fileDropButton' | translate }}</span>
+                </button>
+            </div>
+        </ng-template>
+    </ngx-file-drop>
+    @if (droppedFiles.length > 0) {
+        <div class="import-file-wrapper">
+            @for (droppedFile of droppedFiles; track droppedFile) {
+                <fingather-import-file
+                    [droppedFile]="droppedFile"
+                    (onUploadFinish)="onFileUploaded($event)"
+                />
             }
         </div>
-    </div>
-    @if (importPrepare === null) {
+    }
+
+    @if ($importPrepare() === null) {
         <div class="form-row">
             <div class="form-group">
-                <button [disabled]="$saving()" class="btn btn-primary">
-                    <span *ngIf="$saving()" class="spinner-border spinner-border-sm mr-1"></span>
-                    {{ 'app.transactions.import.import.import' | translate }}
-                </button>
-                @if (showCancel()) {
+                @if ($showCancel()) {
                     <a routerLink="/transactions" class="btn btn-link">{{ 'app.common.cancel' | translate }}</a>
                 }
             </div>
@@ -31,6 +51,6 @@
     }
 </form>
 
-@if (importPrepare !== null) {
-    <fingather-import-prepare [importPrepare]="importPrepare" [onImportFinish]="onImportFinish()" />
+@if ($importPrepare(); as importPrepare) {
+    <fingather-import-prepare [importPrepare]="importPrepare" (onImportFinish)="onImportFinish$" />
 }

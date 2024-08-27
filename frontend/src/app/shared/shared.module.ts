@@ -33,6 +33,8 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { NgxFileDropModule } from 'ngx-file-drop';
 
 import { PortfolioTotalComponent } from './components/portfolio-total/portfolio-total.component';
+import {ImportFileComponent} from "@app/shared/components/import/components/import-file/import-file.component";
+import {FileSizePipe} from "@app/shared/pipes/file-size.pipe";
 
 @NgModule({
     imports: [
@@ -57,6 +59,7 @@ import { PortfolioTotalComponent } from './components/portfolio-total/portfolio-
         PortfolioValueChartComponent,
         ImportComponent,
         ImportPrepareComponent,
+        ImportFileComponent,
         PaginationComponent,
         DeleteButtonComponent,
         LanguageSelectorComponent,
@@ -67,6 +70,7 @@ import { PortfolioTotalComponent } from './components/portfolio-total/portfolio-
         SelectComponent,
         TypeSelectComponent,
         ValueIconComponent,
+        FileSizePipe,
     ],
     exports: [
         PortfolioTotalComponent,
@@ -88,6 +92,7 @@ import { PortfolioTotalComponent } from './components/portfolio-total/portfolio-
         SelectComponent,
         TypeSelectComponent,
         ValueIconComponent,
+        FileSizePipe,
     ]
 })
 export class SharedModule { }

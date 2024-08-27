@@ -22,6 +22,7 @@
 @import "modules/pagination";
 @import "modules/portfolio-selector";
 @import "modules/assets";
+@import "modules/import";
 
 .login {
     position: absolute;
@@ -38,14 +39,4 @@
 
 .apexcharts-canvas > svg {
     background-color: transparent !important;
-}
-
-.file-drop {
-    background-color: $body-bg-dark;
-    border: var(--bs-border-width) solid var(--bs-border-color);
-    border-radius: var(--bs-border-radius);
-
-    .file-drop-text {
-        margin-right: 10px;
-    }
 }

@@ -84,3 +84,30 @@ fingather-type-select {
         overflow-y: scroll;
     }
 }
+
+.file-drop {
+    background-color: $color-black;
+    border: 1px dashed $color-gray-lighter;
+    border-radius: $border-radius-lg;
+
+    .ngx-file-drop__content {
+        height: 160px !important;
+    }
+
+    &.ngx-file-drop__drop-zone--over {
+        border: 1px dashed #A4E04F;
+        background-color: #A4E04F1A !important;
+    }
+
+    .file-drop-text-wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .file-drop-text {
+        color: $color-gray-lightest;
+        margin-bottom: $spacing-md;
+    }
+}

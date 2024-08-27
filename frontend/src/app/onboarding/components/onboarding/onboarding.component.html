@@ -17,7 +17,7 @@
 
 <div class="row">
     <div class="col">
-        <fingather-import [showCancel]="false" [onImportFinish]="onImportFinish" />
+        <fingather-import [showCancel]="false" (onImportFinish)="onImportFinish()" />
     </div>
 </div>
 

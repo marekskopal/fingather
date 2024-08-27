@@ -250,6 +250,9 @@
           "fileDropText": "Přesuň CSV soubory sem, nebo klikni pro výběr",
           "fileDropButton": "Vybrat soubory",
           "import": "Importovat",
+          "importFiles": "Importovat soubory",
+          "uploading": "Nahrávám...",
+          "uploaded": "Nahráno",
           "selectTicker": "prosím zvolte správná aktiva pro následující značky"
         }
       },

@@ -1,0 +1,86 @@
+$import-file-icon-size: 16px;
+
+ngx-file-drop {
+    display: block;
+    margin-bottom: $spacing-lg;
+}
+
+.import-file-wrapper {
+    display: flex;
+    flex-direction: column;
+    row-gap: $spacing-xs;
+    margin-bottom: $spacing-lg;
+}
+
+.import-file {
+    display: flex;
+    flex-direction: column;
+    padding: $spacing-md;
+    border-radius: $border-radius-lg;
+    background-color: $color-gray-light;
+    color: $color-gray-lightest;
+
+    .import-file-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: $spacing-xs;
+
+        .import-file-info {
+            display: flex;
+            align-items: center;
+            gap: $spacing-xs;
+
+            .import-file-icon {
+                padding: $spacing-xs $spacing-xs 6px;
+                background-color: $color-black;
+                border: 1px solid $color-gray-lighter;
+                border-radius: $border-radius;
+                line-height: $import-file-icon-size;
+
+                .mat-icon {
+                    height: $import-file-icon-size;
+                    width: $import-file-icon-size;
+                    font-size: $import-file-icon-size;
+                    line-height: $import-file-icon-size;
+                }
+            }
+        }
+    }
+
+    .import-file-progress {
+        display: flex;
+        flex-direction: column;
+
+        .import-file-progress-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.876rem;
+            margin-bottom: $spacing-xs;
+
+            .mat-icon {
+                height: $import-file-icon-size;
+                width: $import-file-icon-size;
+                font-size: $import-file-icon-size;
+                line-height: $import-file-icon-size;
+                vertical-align: text-top;
+            }
+        }
+
+        .import-file-progress-progressbar {
+            position: relative;
+            width: 100%;
+            height: 8px;
+            border-radius: $border-radius;
+            background-color: $color-black;
+
+            .import-file-progress-progressbar-bar {
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100%;
+                border-radius: $border-radius;
+                background-color: $color-purple;
+            }
+        }
+    }
+}

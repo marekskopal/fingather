@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ImportData, ImportPrepare, ImportStart } from '@app/models';
+import {ImportData, ImportDataFile, ImportPrepare, ImportStart} from '@app/models';
 import { OkResponse } from '@app/models/ok-response';
 import { environment } from '@environments/environment';
 import { firstValueFrom } from 'rxjs';

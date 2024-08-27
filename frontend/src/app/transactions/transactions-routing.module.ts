@@ -9,6 +9,7 @@ import {
 } from "@app/transactions/components/add-edit-transaction-form/add-edit-transaction-form.component";
 import { LayoutComponent } from '@app/transactions/components/layout/layout.component';
 import { ListComponent } from '@app/transactions/components/list/list.component';
+import {ImportComponent} from "@app/transactions/components/import/import.component";
 
 const routes: Routes = [
     {
@@ -20,11 +21,7 @@ const routes: Routes = [
             { path: 'edit-transaction/:id', component: AddEditTransactionFormComponent },
             { path: 'add-dividend', component: AddEditDividendFormComponent },
             { path: 'edit-dividend/:id', component: AddEditDividendFormComponent },
-            {
-                path: 'import',
-                loadChildren: () => import('./import/import.module').then((x) => x.ImportModule),
-                canActivate: [AuthGuard]
-            },
+            { path: 'import', component: ImportComponent },
         ]
     }
 ];
