@@ -15,26 +15,6 @@
             display: inline-block;
         }
 
-        .icon-circle {
-            display: inline-block;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background-color: $color-gray-light;
-            text-align: center;
-            line-height: 32px;
-            margin-right: 13px;
-
-            .mat-icon {
-                vertical-align: middle;
-                margin-top: -3px;
-                color: $primary-light;
-                width: 16px;
-                height: 16px;
-                font-size: $font-size;
-            }
-        }
-
         .icon-circle + h3 {
             margin-top: 7px;
         }
@@ -58,8 +38,35 @@
         margin-top: 24px;
     }
 
+    .icon-circle {
+        display: inline-block;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background-color: $color-gray-light;
+        text-align: center;
+        line-height: 32px;
+        margin-right: 13px;
+        font-size: $font-size;
+        font-weight: 400;
+
+        .mat-icon {
+            vertical-align: middle;
+            margin-top: -3px;
+            color: $primary-light;
+            width: 16px;
+            height: 16px;
+            font-size: $font-size;
+        }
+    }
+
     &.form {
         width: 100%;
         max-width: 544px;
+    }
+
+    &.form-wider {
+        width: 100%;
+        max-width: 928px;
     }
 }

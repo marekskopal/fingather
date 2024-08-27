@@ -20,6 +20,7 @@ import {
     NgbDropdownToggle,
     NgbPaginationModule
 } from '@ng-bootstrap/ng-bootstrap';
+import {ImportComponent} from "@app/transactions/components/import/import.component";
 
 @NgModule({
     declarations: [
@@ -28,6 +29,7 @@ import {
         SearchComponent,
         AddEditTransactionFormComponent,
         AddEditDividendFormComponent,
+        ImportComponent,
     ],
     imports: [
         CommonModule,

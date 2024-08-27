@@ -1,0 +1,41 @@
+﻿<div class="import-file">
+    <div class="import-file-header">
+        <div class="import-file-info">
+            <div class="import-file-icon">
+                <mat-icon>csv</mat-icon>
+            </div>
+            <div class="import-file-name">
+                {{ $fileName() }}
+            </div>
+        </div>
+        <div class="import-file-close">
+            <mat-icon>close</mat-icon>
+        </div>
+    </div>
+    <div class="import-file-progress">
+        <div class="import-file-progress-info">
+            <div>
+                <span class="import-file-progress-size">{{ $fileSize() | fileSize }}</span>
+                <span> · </span>
+                <span class="import-file-progress-status">
+                    @if($status() === ImportFileStatus.Uploaded) {
+                        <mat-icon>check_circle</mat-icon>
+                        {{ 'app.transactions.import.import.uploaded' | translate }}
+                    } @else if($status() === ImportFileStatus.Uploading) {
+                        {{ 'app.transactions.import.import.uploading' | translate }}
+                    }
+                </span>
+            </div>
+            <div class="import-file-progress-percent">
+                {{ $processed() }}%
+            </div>
+        </div>
+
+        <div class="import-file-progress-progressbar">
+            <div
+                class="import-file-progress-progressbar-bar"
+                [style.width]="$processed() + '%'"
+            ></div>
+        </div>
+    </div>
+</div>

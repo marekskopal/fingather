@@ -1,6 +1,6 @@
 import {
     ChangeDetectionStrategy,
-    Component, inject, input, InputSignal, OnInit
+    Component, inject, input, InputSignal, OnInit, output
 } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -20,14 +20,18 @@ export class ImportPrepareComponent extends BaseForm implements OnInit {
     private readonly importDataService = inject(ImportService);
     private route = inject(ActivatedRoute);
 
-    public importPrepare: InputSignal<ImportPrepare> = input.required<ImportPrepare>();
-    public onImportFinish: InputSignal<(() => void) | null> = input<((() => void) | null)>(null);
+    public $importPrepare = input.required<ImportPrepare>({
+        'alias': 'importPrepare',
+    });
+    public onImportFinish$ = output<void>({
+        'alias': 'onImportFinish',
+    });
 
     public ngOnInit(): void {
         const controlsConfig: {
             [key: string]: any;
         } = {};
-        for (const importPrepareTicker of this.importPrepare().multipleFoundTickers) {
+        for (const importPrepareTicker of this.$importPrepare().multipleFoundTickers) {
             controlsConfig[`${importPrepareTicker.brokerId}-${importPrepareTicker.ticker}`] = [
                 importPrepareTicker.tickers[0].id, Validators.required
             ];
@@ -61,7 +65,7 @@ export class ImportPrepareComponent extends BaseForm implements OnInit {
 
     private async createImport(): Promise<void> {
         const importStart: ImportStart = {
-            importId: this.importPrepare().importId,
+            importId: this.$importPrepare().importId,
             importMappings: [],
         };
         // eslint-disable-next-line
@@ -81,11 +85,6 @@ export class ImportPrepareComponent extends BaseForm implements OnInit {
 
         this.alertService.success('Transactions was imported successfully', { keepAfterRouteChange: true });
 
-        const onImportFinish = this.onImportFinish();
-        if (onImportFinish !== null) {
-            onImportFinish();
-        } else {
-            this.router.navigate(['../'], { relativeTo: this.route });
-        }
+        this.onImportFinish$.emit();
     }
 }

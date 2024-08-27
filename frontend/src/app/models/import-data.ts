@@ -1,4 +1,5 @@
+import {ImportDataFile} from "@app/models/import-data-file";
+
 export interface ImportData {
-    brokerId: number;
-    data: string[];
+    importDataFiles: ImportDataFile[];
 }

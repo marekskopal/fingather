@@ -250,6 +250,9 @@
           "fileDropText": "Drop CSV Files here or click to upload",
           "fileDropButton": "Choose files",
           "import": "Import",
+          "importFiles": "Import Files",
+          "uploading": "Uploading...",
+          "uploaded": "Uploaded",
           "selectTicker": "please select right asset for those tickers"
         }
       },
