@@ -42,13 +42,9 @@
     }
 
     @if ($importPrepares().length === 0) {
-        <div class="form-row">
-            <div class="form-group">
-                @if ($showCancel()) {
-                    <a routerLink="/transactions" class="btn btn-link">{{ 'app.common.cancel' | translate }}</a>
-                }
-            </div>
-        </div>
+        @if ($showCancel()) {
+            <a routerLink="/transactions" class="btn btn-secondary">{{ 'app.common.cancel' | translate }}</a>
+        }
     }
 </form>
 

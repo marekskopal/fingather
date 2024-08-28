@@ -85,6 +85,11 @@ ngx-file-drop {
     }
 }
 
+fingather-import-prepare {
+    display: block;
+    padding-top: $spacing-md;
+}
+
 .import-prepare {
     .form-group {
         display: flex;
@@ -92,7 +97,12 @@ ngx-file-drop {
     }
 
     .table {
-        margin-bottom: $spacing-lg;
+        margin-bottom: 30px;
+
+        td {
+            border: 0;
+            padding: 0 0 $spacing-xs 0;
+        }
     }
 
     fingather-ticker-selector {
