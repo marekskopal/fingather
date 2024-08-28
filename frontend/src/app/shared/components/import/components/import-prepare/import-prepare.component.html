@@ -8,18 +8,20 @@
 }
 <div class="import-prepare">
     <table class="table">
-    @for (importPrepareTicker of objectValues($multipleFoundTickers()); track importPrepareTicker) {
-        <tr>
-            <td>{{ importPrepareTicker.ticker }}</td>
-            <td>
-                <fingather-ticker-selector
-                    [tickers]="importPrepareTicker.tickers"
-                    [selectedTickerId]="$selectedTickers()[importPrepareTicker.brokerId + '-' + importPrepareTicker.ticker]"
-                    (onChangeTicker)="onChangeTicker($event, importPrepareTicker.brokerId + '-' + importPrepareTicker.ticker)"
-                />
-            </td>
-        </tr>
-    }
+        <tbody>
+            @for (importPrepareTicker of objectValues($multipleFoundTickers()); track importPrepareTicker) {
+                <tr>
+                    <td>{{ importPrepareTicker.ticker }}</td>
+                    <td>
+                        <fingather-ticker-selector
+                            [tickers]="importPrepareTicker.tickers"
+                            [selectedTickerId]="$selectedTickers()[importPrepareTicker.brokerId + '-' + importPrepareTicker.ticker]"
+                            (onChangeTicker)="onChangeTicker($event, importPrepareTicker.brokerId + '-' + importPrepareTicker.ticker)"
+                        />
+                    </td>
+                </tr>
+            }
+        </tbody>
     </table>
 
     <div class="form-group">
@@ -31,7 +33,8 @@
             class="btn btn-primary"
             (click)="createImport()"
         >
-            {{ 'app.transactions.import.import.import' | translate }}
+            <mat-icon>upload</mat-icon>
+            <span>{{ 'app.transactions.import.import.import' | translate }}</span>
         </button>
     </div>
 </div>
