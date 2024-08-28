@@ -20,8 +20,6 @@ class Import extends AEntity
 		private Portfolio $portfolio,
 		#[Column(type: 'timestamp')]
 		private DateTimeImmutable $created,
-		#[Column(type: 'longText')]
-		private string $csvContent,
 	) {
 	}
 
@@ -33,10 +31,5 @@ class Import extends AEntity
 	public function getPortfolio(): Portfolio
 	{
 		return $this->portfolio;
-	}
-
-	public function getCsvContent(): string
-	{
-		return $this->csvContent;
 	}
 }

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {ImportData, ImportDataFile, ImportPrepare, ImportStart} from '@app/models';
+import { ImportPrepare, ImportPrepareData, ImportStart} from '@app/models';
 import { OkResponse } from '@app/models/ok-response';
 import { environment } from '@environments/environment';
 import { firstValueFrom } from 'rxjs';
@@ -11,9 +11,12 @@ export class ImportService {
         private http: HttpClient
     ) {}
 
-    public createImportPrepare(importData: ImportData, portfolioId: number): Promise<ImportPrepare> {
+    public createImportPrepare(importPrepareData: ImportPrepareData, portfolioId: number): Promise<ImportPrepare> {
         return firstValueFrom<ImportPrepare>(
-            this.http.post<ImportPrepare>(`${environment.apiUrl}/import/import-prepare/${portfolioId}`, importData)
+            this.http.post<ImportPrepare>(
+                `${environment.apiUrl}/import/import-prepare/${portfolioId}`,
+                importPrepareData
+            )
         );
     }
 

@@ -252,8 +252,10 @@
           "import": "Importovat",
           "importFiles": "Importovat soubory",
           "uploading": "Nahrávám...",
+          "processing": "Připravuji...",
           "uploaded": "Nahráno",
-          "selectTicker": "prosím zvolte správná aktiva pro následující značky"
+          "selectTicker": "Prosím zvolte správná aktiva pro následující značky",
+          "allTickersSelectedAutomatically": "Všechny značky byly vybrány automaticky",
         }
       },
       "search": {

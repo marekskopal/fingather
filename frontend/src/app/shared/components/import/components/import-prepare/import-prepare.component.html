@@ -1,27 +1,37 @@
-﻿@if (this.$importPrepare().multipleFoundTickers.length > 0) {
-    <p>{{ 'app.transactions.import.import.selectTicker' | translate }}</p>
+﻿<h3 class="h6 mb-4">
+    <span class="icon-circle">2</span>
+    {{ 'app.transactions.import.import.selectTicker' | translate }}
+</h3>
+
+@if (objectValues($multipleFoundTickers()).length === 0) {
+    <p>{{ 'app.transactions.import.import.allTickersSelectedAutomatically' | translate }}</p>
 }
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <table>
-    @for (importPrepareTicker of this.$importPrepare().multipleFoundTickers; track importPrepareTicker) {
+<div class="import-prepare">
+    <table class="table">
+    @for (importPrepareTicker of objectValues($multipleFoundTickers()); track importPrepareTicker) {
         <tr>
             <td>{{ importPrepareTicker.ticker }}</td>
             <td>
-                <select formControlName="{{ importPrepareTicker.brokerId }}-{{ importPrepareTicker.ticker }}" class="form-select">
-                    <option *ngFor="let ticker of importPrepareTicker.tickers" [ngValue]="ticker.id">
-                        {{ ticker.name }}: {{ ticker.market.mic }}
-                    </option>
-                </select>
+                <fingather-ticker-selector
+                    [tickers]="importPrepareTicker.tickers"
+                    [selectedTickerId]="$selectedTickers()[importPrepareTicker.brokerId + '-' + importPrepareTicker.ticker]"
+                    (onChangeTicker)="onChangeTicker($event, importPrepareTicker.brokerId + '-' + importPrepareTicker.ticker)"
+                />
             </td>
         </tr>
     }
     </table>
 
     <div class="form-group">
-        <button [disabled]="$saving()" class="btn btn-primary">
-            <span *ngIf="$saving()" class="spinner-border spinner-border-sm mr-1"></span>
+        <a routerLink="/transactions" class="btn btn-secondary">
+            {{ 'app.common.cancel' | translate }}
+        </a>
+
+        <button
+            class="btn btn-primary"
+            (click)="createImport()"
+        >
             {{ 'app.transactions.import.import.import' | translate }}
         </button>
-        <a routerLink="/transactions" class="btn btn-link">{{ 'app.common.cancel' | translate }}</a>
     </div>
-</form>
+</div>

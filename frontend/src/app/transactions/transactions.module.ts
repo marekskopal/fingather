@@ -9,6 +9,7 @@ import {
 import {
     AddEditTransactionFormComponent
 } from "@app/transactions/components/add-edit-transaction-form/add-edit-transaction-form.component";
+import {ImportComponent} from "@app/transactions/components/import/import.component";
 import { LayoutComponent } from '@app/transactions/components/layout/layout.component';
 import { ListComponent } from '@app/transactions/components/list/list.component';
 import {SearchComponent} from "@app/transactions/components/search/search.component";
@@ -20,7 +21,6 @@ import {
     NgbDropdownToggle,
     NgbPaginationModule
 } from '@ng-bootstrap/ng-bootstrap';
-import {ImportComponent} from "@app/transactions/components/import/import.component";
 
 @NgModule({
     declarations: [

@@ -23,6 +23,8 @@
                         {{ 'app.transactions.import.import.uploaded' | translate }}
                     } @else if($status() === ImportFileStatus.Uploading) {
                         {{ 'app.transactions.import.import.uploading' | translate }}
+                    } @else if($status() === ImportFileStatus.Processing) {
+                        {{ 'app.transactions.import.import.processing' | translate }}
                     }
                 </span>
             </div>

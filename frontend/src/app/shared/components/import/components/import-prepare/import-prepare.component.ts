@@ -1,81 +1,73 @@
 import {
     ChangeDetectionStrategy,
-    Component, inject, input, InputSignal, OnInit, output
+    Component, effect, inject, input, output, signal
 } from '@angular/core';
-import { Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ImportPrepare, ImportStart } from '@app/models';
+import {ImportPrepare, ImportStart, Ticker, TransactionActionType} from '@app/models';
 import { ImportMapping } from '@app/models/import-mapping';
+import {ImportPrepareTicker} from "@app/models/import-prepare-ticker";
 import { ImportService
 } from '@app/services';
-import { BaseForm } from '@app/shared/components/form/base-form';
+import {objectKeyValues, objectValues} from "@app/utils/object-utils";
 
 @Component({
     templateUrl: 'import-prepare.component.html',
     selector: 'fingather-import-prepare',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ImportPrepareComponent extends BaseForm implements OnInit {
-    private readonly router = inject(Router);
+export class ImportPrepareComponent {
     private readonly importDataService = inject(ImportService);
-    private route = inject(ActivatedRoute);
 
-    public $importPrepare = input.required<ImportPrepare>({
-        'alias': 'importPrepare',
+    public $importPrepares = input.required<ImportPrepare[]>({
+        'alias': 'importPrepares',
     });
     public onImportFinish$ = output<void>({
         'alias': 'onImportFinish',
     });
 
-    public ngOnInit(): void {
-        const controlsConfig: {
-            [key: string]: any;
-        } = {};
-        for (const importPrepareTicker of this.$importPrepare().multipleFoundTickers) {
-            controlsConfig[`${importPrepareTicker.brokerId}-${importPrepareTicker.ticker}`] = [
-                importPrepareTicker.tickers[0].id, Validators.required
-            ];
-        }
+    protected $multipleFoundTickers = signal<Record<string, ImportPrepareTicker>>({});
 
-        this.form = this.formBuilder.group(controlsConfig);
-    }
+    protected $selectedTickers = signal<Record<string, number>>({});
 
-    public onSubmit(): void {
-        this.$submitted.set(true);
+    public constructor() {
+        effect(() => {
+            const multipleFoundTickers: Record<string, ImportPrepareTicker> = {};
+            const selectedTickers: Record<string, number> = {};
 
-        // reset alerts on submit
-        this.alertService.clear();
+            for (const importPrepare of this.$importPrepares()) {
+                for (const importPrepareTicker of importPrepare.multipleFoundTickers) {
+                    const key = `${importPrepareTicker.brokerId}-${importPrepareTicker.ticker}`;
 
-        // stop here if form is invalid
-        if (this.form.invalid) {
-            return;
-        }
-
-        this.$saving.set(true);
-        try {
-            this.createImport();
-        } catch (error) {
-            if (error instanceof Error) {
-                this.alertService.error(error.message);
+                    multipleFoundTickers[key] = importPrepareTicker;
+                    selectedTickers[key] = importPrepareTicker.tickers[0].id;
+                }
             }
-        } finally {
-            this.$saving.set(false);
-        }
+
+            this.$multipleFoundTickers.set(multipleFoundTickers);
+            this.$selectedTickers.set(selectedTickers);
+        }, {
+            allowSignalWrites: true,
+        });
     }
 
-    private async createImport(): Promise<void> {
+    protected onChangeTicker(ticker: Ticker, key: string): void {
+        const selectedTickers = this.$selectedTickers();
+        selectedTickers[key] = ticker.id;
+        this.$selectedTickers.set(selectedTickers);
+    }
+
+    protected async createImport(): Promise<void> {
         const importStart: ImportStart = {
-            importId: this.$importPrepare().importId,
+            importId: this.$importPrepares()[0].importId,
             importMappings: [],
         };
-        // eslint-disable-next-line
-        for (const property in this.form.value) {
-            const [brokerId, importTicker] = property.split('-');
+
+        for (const selectedTicker of objectKeyValues(this.$selectedTickers())) {
+            const [brokerId, importTicker] = selectedTicker.key.split('-');
 
             const importMapping: ImportMapping = {
                 brokerId: parseInt(brokerId, 10),
                 importTicker,
-                tickerId: this.form.value[property],
+                tickerId: selectedTicker.value,
             };
 
             importStart.importMappings.push(importMapping);
@@ -83,8 +75,9 @@ export class ImportPrepareComponent extends BaseForm implements OnInit {
 
         await this.importDataService.createImportStart(importStart);
 
-        this.alertService.success('Transactions was imported successfully', { keepAfterRouteChange: true });
-
         this.onImportFinish$.emit();
     }
+
+    protected readonly objectValues = objectValues;
+    protected readonly TransactionActionType = TransactionActionType;
 }

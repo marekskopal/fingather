@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace FinGather\Service\Import;
 
 use Decimal\Decimal;
-use FinGather\Dto\ImportDataDto;
-use FinGather\Dto\ImportDataFileDto;
 use FinGather\Model\Entity\Broker;
 use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Enum\TransactionCreateTypeEnum;
 use FinGather\Model\Entity\Group;
 use FinGather\Model\Entity\Import;
+use FinGather\Model\Entity\ImportFile;
 use FinGather\Model\Entity\ImportMapping;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\Ticker;
@@ -26,6 +25,7 @@ use FinGather\Service\Provider\AssetProvider;
 use FinGather\Service\Provider\BrokerProvider;
 use FinGather\Service\Provider\DataProvider;
 use FinGather\Service\Provider\GroupProvider;
+use FinGather\Service\Provider\ImportFileProvider;
 use FinGather\Service\Provider\ImportMappingProvider;
 use FinGather\Service\Provider\ImportProvider;
 use FinGather\Service\Provider\TickerProvider;
@@ -44,6 +44,7 @@ final class ImportService
 		private readonly GroupProvider $groupProvider,
 		private readonly DataProvider $dataProvider,
 		private readonly ImportProvider $importProvider,
+		private readonly ImportFileProvider $importFileProvider,
 		private readonly ImportMappingProvider $importMappingProvider,
 		private readonly BrokerProvider $brokerProvider,
 		private readonly ImportMapperFactory $importMapperFactory,
@@ -61,9 +62,16 @@ final class ImportService
 
 		$firstDate = null;
 
-		$importData = ImportDataDto::fromJson($import->getCsvContent());
-		foreach ($importData->importDataFiles as $importDataFile) {
-			$firstDateDataFile = $this->importDataFile($importDataFile, $user, $portfolio, $othersGroup, $defaultCurrency, $firstDate);
+		$importFiles = $this->importFileProvider->getImportFiles($import);
+		foreach ($importFiles as $importFile) {
+			$firstDateDataFile = $this->importDataFile(
+				importFile: $importFile,
+				user: $user,
+				portfolio: $portfolio,
+				othersGroup: $othersGroup,
+				defaultCurrency: $defaultCurrency,
+				firstDate: $firstDate,
+			);
 
 			if ($firstDateDataFile === null) {
 				continue;
@@ -82,7 +90,7 @@ final class ImportService
 	}
 
 	private function importDataFile(
-		ImportDataFileDto $importDataFile,
+		ImportFile $importFile,
 		User $user,
 		Portfolio $portfolio,
 		Group $othersGroup,
@@ -90,7 +98,10 @@ final class ImportService
 		?\DateTimeImmutable $firstDate,
 	): ?\DateTimeImmutable {
 		try {
-			$importMapper = $this->importMapperFactory->createImportMapper($importDataFile);
+			$importMapper = $this->importMapperFactory->createImportMapper(
+				fileName: $importFile->getFileName(),
+				contents: $importFile->getContents(),
+			);
 		} catch (\RuntimeException) {
 			$this->logger->log('import', 'Import mapper not found');
 			return null;
@@ -100,7 +111,7 @@ final class ImportService
 		assert($broker instanceof Broker);
 		$importMappings = $this->importMappingProvider->getImportMappings($user, $portfolio, $broker);
 
-		foreach ($importMapper->getRecords($importDataFile->contents) as $record) {
+		foreach ($importMapper->getRecords($importFile->getContents()) as $record) {
 			/** @var array<string, string> $record */
 			$transactionRecord = $this->transactionRecordFactory->createFromCsvRecord($importMapper, $record);
 

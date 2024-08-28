@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Import\Factory;
 
-use FinGather\Dto\ImportDataFileDto;
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Service\Import\Mapper\AnycoinMapper;
 use FinGather\Service\Import\Mapper\DegiroMapper;
@@ -27,11 +26,11 @@ final class ImportMapperFactory
 		BrokerImportTypeEnum::Degiro->value => DegiroMapper::class,
 	];
 
-	public function createImportMapper(ImportDataFileDto $importDataFile): MapperInterface
+	public function createImportMapper(string $fileName, string $contents): MapperInterface
 	{
 		foreach (self::ImportMappers as $mapperClass) {
 			$importMapper = new $mapperClass();
-			if ($importMapper->check($importDataFile->contents, $importDataFile->fileName)) {
+			if ($importMapper->check($contents, $fileName)) {
 				return $importMapper;
 			}
 		}
