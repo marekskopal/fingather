@@ -33,6 +33,7 @@
         <div class="import-file-wrapper">
             @for (droppedFile of droppedFiles; track droppedFile) {
                 <fingather-import-file
+                    [importId]="$importId()"
                     [droppedFile]="droppedFile"
                     (onUploadFinish)="onFileUploaded($event)"
                 />
@@ -40,7 +41,7 @@
         </div>
     }
 
-    @if ($importPrepare() === null) {
+    @if ($importPrepares().length === 0) {
         <div class="form-row">
             <div class="form-group">
                 @if ($showCancel()) {
@@ -51,6 +52,6 @@
     }
 </form>
 
-@if ($importPrepare(); as importPrepare) {
-    <fingather-import-prepare [importPrepare]="importPrepare" (onImportFinish)="onImportFinish$" />
+@if ($importPrepares().length > 0) {
+    <fingather-import-prepare [importPrepares]="$importPrepares()" (onImportFinish)="onImportFinish$" />
 }

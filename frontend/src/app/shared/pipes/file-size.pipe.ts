@@ -1,5 +1,4 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { CurrencyService } from '@app/services';
 
 @Pipe({
     name: 'fileSize'

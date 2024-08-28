@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Controller;
 
-use FinGather\Dto\ImportDataDto;
+use FinGather\Dto\ImportPrepareDataDto;
 use FinGather\Dto\ImportPrepareDto;
 use FinGather\Dto\ImportStartDto;
 use FinGather\Response\NotFoundResponse;
@@ -36,7 +36,7 @@ final class ImportController
 	#[RoutePost(Routes::ImportPrepare->value)]
 	public function actionImportPrepare(ServerRequestInterface $request, int $portfolioId): ResponseInterface
 	{
-		$importData = ImportDataDto::fromJson($request->getBody()->getContents());
+		$importData = ImportPrepareDataDto::fromJson($request->getBody()->getContents());
 
 		$user = $this->requestService->getUser($request);
 
@@ -49,9 +49,13 @@ final class ImportController
 			return new NotFoundResponse('Portfolio with id "' . $portfolioId . '" was not found.');
 		}
 
-		return new JsonResponse(ImportPrepareDto::fromImportPrepare(
-			$this->importPrepareService->prepareImport($user, $portfolio, $importData),
-		));
+		try {
+			$importPrepare = $this->importPrepareService->prepareImport($user, $portfolio, $importData);
+		} catch (\RuntimeException $e) {
+			return new NotFoundResponse('Imported file is not supported.');
+		}
+
+		return new JsonResponse(ImportPrepareDto::fromImportPrepare($importPrepare));
 	}
 
 	#[RoutePost(Routes::ImportStart->value)]

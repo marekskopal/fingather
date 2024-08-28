@@ -1,15 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from '@app/core/guards/auth.guard';
 import {
     AddEditDividendFormComponent
 } from "@app/transactions/components/add-edit-dividend-form/add-edit-dividend-form.component";
 import {
     AddEditTransactionFormComponent
 } from "@app/transactions/components/add-edit-transaction-form/add-edit-transaction-form.component";
+import {ImportComponent} from "@app/transactions/components/import/import.component";
 import { LayoutComponent } from '@app/transactions/components/layout/layout.component';
 import { ListComponent } from '@app/transactions/components/list/list.component';
-import {ImportComponent} from "@app/transactions/components/import/import.component";
 
 const routes: Routes = [
     {

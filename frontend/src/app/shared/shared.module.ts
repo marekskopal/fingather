@@ -6,6 +6,7 @@ import {RouterModule} from "@angular/router";
 import { ConfirmDialogComponent } from '@app/shared/components/confirm-dialog/confirm-dialog.component';
 import {DateInputComponent} from "@app/shared/components/date-input/date-input.component";
 import { DeleteButtonComponent } from '@app/shared/components/delete-button/delete-button.component';
+import {ImportFileComponent} from "@app/shared/components/import/components/import-file/import-file.component";
 import {
     ImportPrepareComponent
 } from '@app/shared/components/import/components/import-prepare/import-prepare.component';
@@ -22,19 +23,19 @@ import {SelectComponent} from "@app/shared/components/select/select.component";
 import { TableValueComponent } from '@app/shared/components/table-value/table-value.component';
 import {TagComponent} from "@app/shared/components/tag/tag.component";
 import { TickerLogoComponent } from '@app/shared/components/ticker-logo/ticker-logo.component';
+import {TickerSelectorComponent} from "@app/shared/components/ticker-selector/ticker-selector.component";
 import {TypeSelectComponent} from "@app/shared/components/type-select/type-select.component";
 import { ValueColorComponent } from '@app/shared/components/value-color/value-color.component';
 import {ValueIconComponent} from "@app/shared/components/value-icon/value-icon.component";
 import {ColoredValueDirective} from "@app/shared/directives/colored-value.directive";
 import { CurrencyPipe } from '@app/shared/pipes/currency.pipe';
+import {FileSizePipe} from "@app/shared/pipes/file-size.pipe";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import { TranslateModule } from '@ngx-translate/core';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { NgxFileDropModule } from 'ngx-file-drop';
 
 import { PortfolioTotalComponent } from './components/portfolio-total/portfolio-total.component';
-import {ImportFileComponent} from "@app/shared/components/import/components/import-file/import-file.component";
-import {FileSizePipe} from "@app/shared/pipes/file-size.pipe";
 
 @NgModule({
     imports: [
@@ -71,6 +72,7 @@ import {FileSizePipe} from "@app/shared/pipes/file-size.pipe";
         TypeSelectComponent,
         ValueIconComponent,
         FileSizePipe,
+        TickerSelectorComponent,
     ],
     exports: [
         PortfolioTotalComponent,
@@ -93,6 +95,7 @@ import {FileSizePipe} from "@app/shared/pipes/file-size.pipe";
         TypeSelectComponent,
         ValueIconComponent,
         FileSizePipe,
+        TickerSelectorComponent,
     ]
 })
 export class SharedModule { }

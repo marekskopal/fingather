@@ -21,13 +21,12 @@ class ImportProvider
 		return $this->importRepository->findImport($importId, $user->getId());
 	}
 
-	public function createImport(User $user, Portfolio $portfolio, string $csvContent): Import
+	public function createImport(User $user, Portfolio $portfolio): Import
 	{
 		$import = new Import(
 			user: $user,
 			portfolio: $portfolio,
 			created: new DateTimeImmutable(),
-			csvContent: $csvContent,
 		);
 		$this->importRepository->persist($import);
 

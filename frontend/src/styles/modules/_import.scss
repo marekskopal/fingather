@@ -84,3 +84,31 @@ ngx-file-drop {
         }
     }
 }
+
+.import-prepare {
+    .form-group {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .table {
+        margin-bottom: $spacing-lg;
+    }
+
+    fingather-ticker-selector {
+        display: block;
+        width: 100%;
+
+        .ticker-selector {
+            width: 100%;
+
+            .dropdown-toggle {
+                width: 100%;
+            }
+
+            .tag {
+                margin-left: $spacing-xs;
+            }
+        }
+    }
+}

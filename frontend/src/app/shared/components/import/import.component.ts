@@ -1,12 +1,8 @@
 import {
     ChangeDetectionStrategy,
-    Component, inject, input, InputSignal, OnInit, output, signal
+    Component, input, output, signal
 } from '@angular/core';
-import { Validators } from '@angular/forms';
-import {ImportData, ImportDataFile, ImportPrepare} from '@app/models';
-import { ImportService, PortfolioService
-} from '@app/services';
-import { BaseForm } from '@app/shared/components/form/base-form';
+import { ImportPrepare} from '@app/models';
 import { NgxFileDropEntry } from 'ngx-file-drop';
 
 @Component({
@@ -15,9 +11,6 @@ import { NgxFileDropEntry } from 'ngx-file-drop';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImportComponent {
-    private readonly importService = inject(ImportService);
-    private readonly portfolioService = inject(PortfolioService);
-
     public $showCancel = input<boolean>(true, {
         alias: 'showCancel',
     });
@@ -25,9 +18,9 @@ export class ImportComponent {
         'alias': 'onImportFinish',
     });
 
-    protected $importPrepare = signal<ImportPrepare | null>(null);
+    protected $importPrepares = signal<ImportPrepare[]>([]);
     protected droppedFiles: NgxFileDropEntry[] = [];
-    private importDataFiles: ImportDataFile[] = [];
+    protected $importId = signal<number | null>(null);
 
     public onFileDropped(files: NgxFileDropEntry[]): void {
         for (const droppedFile of files) {
@@ -44,22 +37,8 @@ export class ImportComponent {
         }
     }
 
-    public async onFileUploaded(importDataFile: ImportDataFile): Promise<void> {
-        this.importDataFiles.push(importDataFile);
-
-        if (this.droppedFiles.length === this.importDataFiles.length) {
-            const portfolio = await this.portfolioService.getCurrentPortfolio();
-            this.createImport(portfolio.id);
-        }
-    }
-
-    private async createImport(portfolioId: number): Promise<void> {
-        const importPrepare = await this.importService.createImportPrepare(
-            {
-                importDataFiles: this.importDataFiles
-            },
-            portfolioId
-        );
-        this.$importPrepare.set(importPrepare);
+    public async onFileUploaded(importPrepare: ImportPrepare): Promise<void> {
+        this.$importId.set(importPrepare.importId);
+        this.$importPrepares.update(() => [...this.$importPrepares(), importPrepare]);
     }
 }

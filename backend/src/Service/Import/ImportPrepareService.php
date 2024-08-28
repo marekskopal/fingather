@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Import;
 
-use FinGather\Dto\ImportDataDto;
 use FinGather\Dto\ImportDataFileDto;
+use FinGather\Dto\ImportPrepareDataDto;
 use FinGather\Model\Entity\ImportMapping;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\Ticker;
@@ -17,12 +17,12 @@ use FinGather\Service\Import\Factory\ImportMapperFactory;
 use FinGather\Service\Import\Factory\TransactionRecordFactory;
 use FinGather\Service\Import\Mapper\MapperInterface;
 use FinGather\Service\Provider\BrokerProvider;
+use FinGather\Service\Provider\ImportFileProvider;
 use FinGather\Service\Provider\ImportMappingProvider;
 use FinGather\Service\Provider\ImportProvider;
 use FinGather\Service\Provider\TickerProvider;
 use FinGather\Service\Update\TickerIsinUpdater;
 use Psr\Log\LoggerInterface;
-use function Safe\json_encode;
 
 final class ImportPrepareService
 {
@@ -30,6 +30,7 @@ final class ImportPrepareService
 		private readonly TickerProvider $tickerProvider,
 		private readonly TickerIsinUpdater $tickerIsinUpdater,
 		private readonly ImportProvider $importProvider,
+		private readonly ImportFileProvider $importFileProvider,
 		private readonly ImportMappingProvider $importMappingProvider,
 		private readonly BrokerProvider $brokerProvider,
 		private readonly ImportMapperFactory $importMapperFactory,
@@ -38,51 +39,56 @@ final class ImportPrepareService
 	) {
 	}
 
-	public function prepareImport(User $user, Portfolio $portfolio, ImportDataDto $importData): PrepareImport
+	public function prepareImport(User $user, Portfolio $portfolio, ImportPrepareDataDto $importPrepareData): PrepareImport
 	{
 		$notFoundTickers = [];
 		$multipleFoundTickers = [];
 		$okFoundTickers = [];
 
-		foreach ($importData->importDataFiles as $importDataFile) {
-			try {
-				$importMapper = $this->importMapperFactory->createImportMapper($importDataFile);
-			} catch (\RuntimeException) {
-				$this->logger->log('import', 'Import mapper not found');
-				continue;
-			}
+		$importMapper = $this->importMapperFactory->createImportMapper(
+			fileName: $importPrepareData->importDataFile->fileName,
+			contents: $importPrepareData->importDataFile->contents,
+		);
 
-			$broker = $this->brokerProvider->getBrokerByImportType($user, $portfolio, $importMapper->getImportType());
-			if ($broker === null) {
-				$broker = $this->brokerProvider->createBroker(
-					user: $user,
-					portfolio: $portfolio,
-					name: $importMapper->getImportType()->value,
-					importType: $importMapper->getImportType(),
-				);
-			}
-			$brokerId = $broker->getId();
-
-			$importMappings = $this->importMappingProvider->getImportMappings($user, $portfolio, $broker);
-
-			$transactionRecords = $this->getTransactionRecords($importMapper, $importDataFile);
-
-			$this->createIsinsFromTransactionRecords($transactionRecords);
-
-			$this->prepareImportTickers(
-				transactionRecords: $transactionRecords,
-				brokerId: $brokerId,
-				importMappings: $importMappings,
-				okFoundTickers: $okFoundTickers,
-				notFoundTickers: $notFoundTickers,
-				multipleFoundTickers: $multipleFoundTickers,
+		$broker = $this->brokerProvider->getBrokerByImportType($user, $portfolio, $importMapper->getImportType());
+		if ($broker === null) {
+			$broker = $this->brokerProvider->createBroker(
+				user: $user,
+				portfolio: $portfolio,
+				name: $importMapper->getImportType()->value,
+				importType: $importMapper->getImportType(),
 			);
 		}
+		$brokerId = $broker->getId();
 
-		$import = $this->importProvider->createImport(
-			user: $user,
-			portfolio: $portfolio,
-			csvContent: json_encode($importData),
+		$importMappings = $this->importMappingProvider->getImportMappings($user, $portfolio, $broker);
+
+		$transactionRecords = $this->getTransactionRecords($importMapper, $importPrepareData->importDataFile);
+
+		$this->createIsinsFromTransactionRecords($transactionRecords);
+
+		$this->prepareImportTickers(
+			transactionRecords: $transactionRecords,
+			brokerId: $brokerId,
+			importMappings: $importMappings,
+			okFoundTickers: $okFoundTickers,
+			notFoundTickers: $notFoundTickers,
+			multipleFoundTickers: $multipleFoundTickers,
+		);
+
+		if ($importPrepareData->importId === null) {
+			$import = $this->importProvider->createImport(user: $user, portfolio: $portfolio);
+		} else {
+			$import = $this->importProvider->getImport($user, $importPrepareData->importId);
+			if ($import === null) {
+				throw new \RuntimeException('Import not found');
+			}
+		}
+
+		$this->importFileProvider->createImportFile(
+			import: $import,
+			fileName: $importPrepareData->importDataFile->fileName,
+			contents: $importPrepareData->importDataFile->contents,
 		);
 
 		return new PrepareImport(

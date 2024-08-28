@@ -252,8 +252,10 @@
           "import": "Import",
           "importFiles": "Import Files",
           "uploading": "Uploading...",
+          "processing": "Processing...",
           "uploaded": "Uploaded",
-          "selectTicker": "please select right asset for those tickers"
+          "selectTicker": "Please select right asset for those tickers",
+          "allTickersSelectedAutomatically": "All tickers were selected automatically"
         }
       },
       "search": {
