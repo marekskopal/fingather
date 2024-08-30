@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, signal
+    ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal
 } from '@angular/core';
 import { Currency, YearCalculatedData } from '@app/models';
 import { ModeEnum } from '@app/overviews/components/list/enum/mode-enum';
@@ -10,19 +10,16 @@ import { CurrencyService, OverviewService, PortfolioService } from '@app/service
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListComponent implements OnInit {
+    private readonly overviewService = inject(OverviewService);
+    private readonly currencyService = inject(CurrencyService);
+    private readonly portfolioService = inject(PortfolioService);
+    private readonly changeDetectorRef = inject(ChangeDetectorRef);
+
     private readonly $yearCalculatedDatas = signal<YearCalculatedData[] | null>(null);
     protected defaultCurrency: Currency;
 
     protected readonly ModeEnum = ModeEnum;
     protected mode: ModeEnum = ModeEnum.Interannually;
-
-    public constructor(
-        private readonly overviewService: OverviewService,
-        private readonly currencyService: CurrencyService,
-        private readonly portfolioService: PortfolioService,
-        private readonly changeDetectorRef: ChangeDetectorRef,
-    ) {
-    }
 
     public async ngOnInit(): Promise<void> {
         this.defaultCurrency = await this.currencyService.getDefaultCurrency();
