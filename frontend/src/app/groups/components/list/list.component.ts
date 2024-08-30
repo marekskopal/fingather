@@ -1,24 +1,19 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, signal
+    ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal
 } from '@angular/core';
-import { AddEditComponent } from '@app/groups/components/add-edit/add-edit.component';
 import { Group } from '@app/models';
 import { GroupService, PortfolioService } from '@app/services';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     templateUrl: 'list.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListComponent implements OnInit {
-    public readonly $groups = signal<Group[] | null>(null);
+    private readonly groupService = inject(GroupService);
+    private readonly portfolioService = inject(PortfolioService);
+    private readonly changeDetectorRef = inject(ChangeDetectorRef);
 
-    public constructor(
-        private readonly groupService: GroupService,
-        private readonly modalService: NgbModal,
-        private readonly portfolioService: PortfolioService,
-        private readonly changeDetectorRef: ChangeDetectorRef,
-    ) {}
+    public readonly $groups = signal<Group[] | null>(null);
 
     public ngOnInit(): void {
         this.refreshGroups();
@@ -45,15 +40,6 @@ export class ListComponent implements OnInit {
 
         const groups = await this.groupService.getGroups(portfolio.id);
         this.$groups.set(groups);
-    }
-
-    protected addGroup(): void {
-        this.modalService.open(AddEditComponent);
-    }
-
-    protected editGroup(id: number): void {
-        const addEditComponent = this.modalService.open(AddEditComponent);
-        addEditComponent.componentInstance.id.set(id);
     }
 
     protected async deleteGroup(id: number): Promise<void> {

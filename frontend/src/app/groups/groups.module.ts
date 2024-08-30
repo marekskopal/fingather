@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import {MatIcon} from "@angular/material/icon";
-import { AddEditComponent } from '@app/groups/components/add-edit/add-edit.component';
+import { AddEditGroupComponent } from '@app/groups/components/add-edit/add-edit-group.component';
 import { LayoutComponent } from '@app/groups/components/layout/layout.component';
 import { ListComponent } from '@app/groups/components/list/list.component';
 import { SharedModule } from '@app/shared/shared.module';
@@ -22,7 +22,7 @@ import { GroupsRoutingModule } from './groups-routing.module';
     declarations: [
         LayoutComponent,
         ListComponent,
-        AddEditComponent
+        AddEditGroupComponent
     ]
 })
 export class GroupsModule {

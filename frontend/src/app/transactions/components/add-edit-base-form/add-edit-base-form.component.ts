@@ -1,5 +1,5 @@
 import { formatDate } from '@angular/common';
-import {ChangeDetectionStrategy, Component, computed, inject, OnInit, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import { Validators } from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
@@ -12,14 +12,14 @@ import {
     PortfolioService,
     TransactionService
 } from '@app/services';
-import { BaseForm } from '@app/shared/components/form/base-form';
+import {BaseAddEditForm} from "@app/shared/components/form/base-add-edit-form";
 import {SelectItem} from "@app/shared/types/select-item";
 
 @Component({
     template: '',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export abstract class AddEditBaseFormComponent extends BaseForm implements OnInit {
+export abstract class AddEditBaseFormComponent extends BaseAddEditForm implements OnInit {
     private readonly transactionService = inject(TransactionService);
     private readonly assetService = inject(AssetService);
     private readonly brokerService = inject(BrokerService);
@@ -28,15 +28,10 @@ export abstract class AddEditBaseFormComponent extends BaseForm implements OnIni
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
 
-    protected readonly $id = signal<number | null>(null);
     protected assets: SelectItem<number, string>[] | null = null;
     protected assetId: number | null = null;
     protected brokers: SelectItem<number, string>[] = [];
     protected currencies: SelectItem<number, string>[] = [];
-
-    protected readonly $routerLink = computed<string>(() => {
-        return this.$id() !== null ? '../..' : '..';
-    });
 
     public async ngOnInit(): Promise<void> {
         this.$loading.set(true);
@@ -143,8 +138,8 @@ export abstract class AddEditBaseFormComponent extends BaseForm implements OnIni
         await this.transactionService.createTransaction(transaction, portfolioId);
 
         this.alertService.success('Dividend added successfully');
-        this.router.navigate(['../'], { relativeTo: this.route });
         this.transactionService.notify();
+        this.router.navigate(['../'], { relativeTo: this.route });
     }
 
     private async updateTransaction(id: number): Promise<void> {
@@ -153,7 +148,7 @@ export abstract class AddEditBaseFormComponent extends BaseForm implements OnIni
         await this.transactionService.updateTransaction(id, transaction);
 
         this.alertService.success('Update successful');
-        this.router.navigate(['../'], { relativeTo: this.route });
         this.transactionService.notify();
+        this.router.navigate(['../'], { relativeTo: this.route });
     }
 }

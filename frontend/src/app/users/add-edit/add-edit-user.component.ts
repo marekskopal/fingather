@@ -1,34 +1,41 @@
 import {
     ChangeDetectionStrategy,
-    Component, inject, OnInit, signal, WritableSignal
+    Component, inject, OnInit,
 } from '@angular/core';
 import { Validators } from '@angular/forms';
+import {ActivatedRoute, Router} from "@angular/router";
 import { Currency } from '@app/models';
 import { UserRoleEnum } from '@app/models/enums/user-role-enum';
 import { CurrencyService, UserService } from '@app/services';
-import {BaseDialog} from "@app/shared/components/dialog/base-dialog";
+import {BaseAddEditForm} from "@app/shared/components/form/base-add-edit-form";
 
 @Component({
-    templateUrl: 'add-edit.component.html',
+    templateUrl: 'add-edit-user.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AddEditComponent extends BaseDialog implements OnInit {
+export class AddEditUserComponent extends BaseAddEditForm implements OnInit {
     private readonly userService = inject(UserService);
     private readonly currencyService = inject(CurrencyService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly router = inject(Router);
 
-    public id: WritableSignal<number | null> = signal<number | null>(null);
-
-    public currencies: Currency[];
-    public roles = [
+    protected currencies: Currency[];
+    protected roles = [
         { name: 'User', key: UserRoleEnum.User },
         { name: 'Admin', key: UserRoleEnum.Admin },
     ];
 
     public async ngOnInit(): Promise<void> {
+        this.$loading.set(true);
+
+        if (this.route.snapshot.params['id'] !== undefined) {
+            this.$id.set(this.route.snapshot.params['id']);
+        }
+
         const emailValidators = [Validators.email];
         const passwordValidators = [Validators.minLength(6)];
 
-        const id = this.id();
+        const id = this.$id();
         if (id === null) {
             emailValidators.push(Validators.required);
             passwordValidators.push(Validators.required);
@@ -49,6 +56,8 @@ export class AddEditComponent extends BaseDialog implements OnInit {
             const user = await this.userService.getUser(id);
             this.form.patchValue(user);
         }
+
+        this.$loading.set(false);
     }
 
     public onSubmit(): void {
@@ -64,7 +73,7 @@ export class AddEditComponent extends BaseDialog implements OnInit {
 
         this.$saving.set(true);
         try {
-            if (this.id() === null) {
+            if (this.$id() === null) {
                 this.createUser();
             } else {
                 this.updateUser();
@@ -82,12 +91,12 @@ export class AddEditComponent extends BaseDialog implements OnInit {
         await this.userService.createUser(this.form.value);
 
         this.alertService.success('User added successfully', { keepAfterRouteChange: true });
-        this.activeModal.dismiss();
         this.userService.notify();
+        this.router.navigate(['../'], { relativeTo: this.route });
     }
 
     private async updateUser(): Promise<void> {
-        const id = this.id();
+        const id = this.$id();
         if (id === null) {
             return;
         }
@@ -95,7 +104,7 @@ export class AddEditComponent extends BaseDialog implements OnInit {
         await this.userService.updateUser(id, this.form.value);
 
         this.alertService.success('Update successful', { keepAfterRouteChange: true });
-        this.activeModal.dismiss();
         this.userService.notify();
+        this.router.navigate(['../'], { relativeTo: this.route });
     }
 }
