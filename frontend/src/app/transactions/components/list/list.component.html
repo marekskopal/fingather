@@ -62,11 +62,11 @@
                         </td>
                         <td class="actions">
                             @if (transaction.actionType === TransactionActionType.Dividend) {
-                                <a routerLink="edit-dividend/{{transaction.id}}" class="btn btn-sm btn-secondary me-2" tabindex="0">
+                                <a routerLink="edit-dividend/{{transaction.id}}" class="btn btn-secondary me-2" tabindex="0">
                                     <mat-icon>edit</mat-icon>
                                 </a>
                             } @else {
-                                <a routerLink="edit-transaction/{{transaction.id}}" class="btn btn-sm btn-secondary me-2" tabindex="0">
+                                <a routerLink="edit-transaction/{{transaction.id}}" class="btn btn-secondary me-2" tabindex="0">
                                     <mat-icon>edit</mat-icon>
                                 </a>
                             }
