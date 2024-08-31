@@ -1,0 +1,18 @@
+﻿<div class="asset-selector" ngbDropdown>
+    <button type="button" id="assetSelector" ngbDropdownToggle>
+        @if ($selectedAsset(); as selectedAsset) {
+            <span>{{ selectedAsset.ticker.ticker }}</span><span class="tag">{{selectedAsset.ticker.market.mic}}</span>
+        }  @else if($placeholder()) {
+            <span>{{ $placeholder() }}</span>
+        } @else {
+            <span>{{ 'app.common.choose' | translate }}</span>
+        }
+    </button>
+    <div ngbDropdownMenu aria-labelledby="assetSelector">
+        @for(asset of $assets(); track asset.id) {
+            <button ngbDropdownItem (click)="changeAsset(asset)">
+                <span>{{ asset.ticker.ticker }}</span><span class="tag">{{asset.ticker.market.mic}}</span>
+            </button>
+        }
+    </div>
+</div>

@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import {MatIcon} from "@angular/material/icon";
 import {RouterModule} from "@angular/router";
+import {AssetSelectorComponent} from "@app/shared/components/asset-selector/asset-selector.component";
 import { ConfirmDialogComponent } from '@app/shared/components/confirm-dialog/confirm-dialog.component';
 import {DateInputComponent} from "@app/shared/components/date-input/date-input.component";
 import { DeleteButtonComponent } from '@app/shared/components/delete-button/delete-button.component';
@@ -12,6 +13,7 @@ import {
 } from '@app/shared/components/import/components/import-prepare/import-prepare.component';
 import { ImportComponent } from '@app/shared/components/import/import.component';
 import {LanguageSelectorComponent} from "@app/shared/components/language-selector/language-selector.component";
+import {LegendComponent} from "@app/shared/components/legend/legend.component";
 import {NavigationComponent} from "@app/shared/components/navigation/navigation.component";
 import { PaginationComponent } from '@app/shared/components/pagination/pagination.component';
 import { PortfolioSelectorComponent } from '@app/shared/components/portfolio-selector/portfolio-selector.component';
@@ -73,6 +75,8 @@ import { PortfolioTotalComponent } from './components/portfolio-total/portfolio-
         ValueIconComponent,
         FileSizePipe,
         TickerSelectorComponent,
+        AssetSelectorComponent,
+        LegendComponent,
     ],
     exports: [
         PortfolioTotalComponent,
@@ -96,6 +100,8 @@ import { PortfolioTotalComponent } from './components/portfolio-total/portfolio-
         ValueIconComponent,
         FileSizePipe,
         TickerSelectorComponent,
+        AssetSelectorComponent,
+        LegendComponent,
     ]
 })
 export class SharedModule { }

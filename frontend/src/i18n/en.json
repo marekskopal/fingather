@@ -198,7 +198,10 @@
         "all": "all",
         "portfolioValue": "Portfolio Value",
         "benchmarkAsset": "Benchmark Asset",
-        "choose": "Choose"
+        "choose": "Choose Asset",
+        "value": "Value",
+        "investedValue": "Invested Value",
+        "benchmark": "Benchmark"
       }
     },
     "overviews": {
@@ -386,7 +389,8 @@
       "cancel": "Cancel",
       "save": "Save",
       "edit": "Edit",
-      "delete": "Delete"
+      "delete": "Delete",
+      "choose": "Choose"
     }
   }
 }

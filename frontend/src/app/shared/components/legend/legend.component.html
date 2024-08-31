@@ -1,0 +1,29 @@
+﻿<div class="legend">
+    @for (legendItem of $legendItems(); track $index) {
+        <div class="legend-item">
+            <div>
+                <span
+                    class="legend-color"
+                    [style.background-color]="legendItem.color"
+                ></span>
+                <span class="legend-label">
+                    @if(legendItem.name) {
+                        <span>{{legendItem.name}}</span>
+                    } @else if(legendItem.translation) {
+                        <span>{{legendItem.translation | translate}}</span>
+                    }
+                    @if(legendItem.subName) {
+                        <span class="legend-legend-label-subname">&nbsp;({{legendItem.subName}})</span>
+                    }
+                </span>
+            </div>
+            @if(legendItem.value) {
+                <div>
+                    <span class="legend-value">
+                        {{legendItem.value | number:'1.2-2'}}%
+                    </span>
+                </div>
+            }
+        </div>
+    }
+</div>

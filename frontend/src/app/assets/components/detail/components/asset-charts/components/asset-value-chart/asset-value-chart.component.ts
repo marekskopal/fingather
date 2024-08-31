@@ -5,6 +5,7 @@ import {
 import { AssetData } from '@app/models';
 import { RangeEnum } from '@app/models/enums/range-enum';
 import { AssetDataService } from '@app/services/asset-data.service';
+import {ChartUtils} from "@app/utils/chart-utils";
 import {
     ApexAxisChartSeries,
     ApexChart,
@@ -105,49 +106,12 @@ export class AssetValueChartComponent implements OnInit {
                 text: '',
                 align: 'left'
             },
-            grid: {
-                borderColor: '#454545',
-            },
-            xaxis: {
-                type: 'datetime',
-                categories: [],
-                labels: {
-                    style: {
-                        colors: '#b0b0b0'
-                    }
-                },
-                axisBorder: {
-                    color: '#454545'
-                },
-                axisTicks: {
-                    color: '#454545'
-                }
-            },
-            yaxis: {
-                labels: {
-                    style: {
-                        colors: '#b0b0b0'
-                    },
-                    formatter: (value: number): string | string[] => {
-                        return value.toFixed(2);
-                    }
-                },
-            },
-            theme: {
-                mode: 'dark',
-            },
-            fill: {
-                type: 'gradient',
-                gradient: {
-                    shade: 'dark',
-                    shadeIntensity: 0.9,
-                    inverseColors: false,
-                    opacityFrom: 0.8,
-                    opacityTo: 0,
-                    stops: [0, 90, 100]
-                },
-            },
-            colors: ['#9e2af3', '#7597f2'],
+            grid: ChartUtils.grid(),
+            xaxis: ChartUtils.xAxis(),
+            yaxis: ChartUtils.yAxis(),
+            theme: ChartUtils.theme(),
+            fill: ChartUtils.gradientFill(),
+            colors: ChartUtils.colors(2),
         };
     }
 

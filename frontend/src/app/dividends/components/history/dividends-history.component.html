@@ -1,42 +1,31 @@
-﻿<div class="row">
+﻿<div class="header row">
     <div class="col-md-3 order-md-1 text-end">
         <fingather-portfolio-selector />
     </div>
     <div class="col-md-9 order-md-0">
-        <h1>{{ 'app.dividends.dividends-history.title' | translate }}</h1>
+        <h1 class="h3">{{ 'app.dividends.dividends-history.title' | translate }}</h1>
     </div>
 </div>
 
-<div class="col-md-6">
-    <ul class="nav">
-        <li class="nav-item">
-            <a (click)="changeRange(PortfolioDataRangeEnum.SevenDays)" class="nav-link" tabindex="0">7{{ 'app.history.history.d' | translate }}</a>
-        </li>
-        <li class="nav-item">
-            <a (click)="changeRange(PortfolioDataRangeEnum.OneMonth)" class="nav-link" tabindex="0">1{{ 'app.history.history.m' | translate }}</a>
-        </li>
-        <li class="nav-item">
-            <a (click)="changeRange(PortfolioDataRangeEnum.ThreeMonths)" class="nav-link" tabindex="0">3{{ 'app.history.history.m' | translate }}</a>
-        </li>
-        <li class="nav-item">
-            <a (click)="changeRange(PortfolioDataRangeEnum.SixMonths)" class="nav-link" tabindex="0">6{{ 'app.history.history.m' | translate }}</a>
-        </li>
-        <li class="nav-item">
-            <a (click)="changeRange(PortfolioDataRangeEnum.YTD)" class="nav-link" tabindex="0">{{ 'app.history.history.ytd' | translate }}</a>
-        </li>
-        <li class="nav-item">
-            <a (click)="changeRange(PortfolioDataRangeEnum.OneYear)" class="nav-link" tabindex="0">1{{ 'app.history.history.y' | translate }}</a>
-        </li>
-        <li class="nav-item">
-            <a (click)="changeRange(PortfolioDataRangeEnum.All)" class="nav-link" tabindex="0">{{ 'app.history.history.all' | translate }}</a>
-        </li>
-    </ul>
-</div>
+<div class="card">
+    <div class="card-body">
+        <ul class="nav nav-tabs">
+            @for (range of ranges; track range.range) {
+                <li class="nav-item">
+                    <a
+                        (click)="changeActiveRange(range.range)"
+                        class="nav-link"
+                        [class.active]="range.range === activeRange"
+                        tabindex="0"
+                    >
+                        @if(range.number !== null){{{range.number}}}{{ range.text | translate }}
+                    </a>
+                </li>
+            }
+        </ul>
 
-<div class="row">
-    <div class="col-12">
         <fingather-dividends-data-chart
-            [range]="range"
+            [range]="activeRange"
         ></fingather-dividends-data-chart>
     </div>
 </div>

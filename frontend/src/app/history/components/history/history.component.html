@@ -1,61 +1,57 @@
-﻿<div class="row">
+﻿<div class="header row">
     <div class="col-md-3 order-md-1 text-end">
         <fingather-portfolio-selector />
     </div>
     <div class="col-md-9 order-md-0">
-        <h1>{{ 'app.history.history.title' | translate }}</h1>
+        <h1 class="h3">{{ 'app.history.history.title' | translate }}</h1>
     </div>
 </div>
 
-<div class="row">
-    <div class="col-md-6">
-        <ul class="nav">
-            <li class="nav-item">
-                <a (click)="changeRange(PortfolioDataRangeEnum.SevenDays)" class="nav-link" tabindex="0">7{{ 'app.history.history.d' | translate }}</a>
-            </li>
-            <li class="nav-item">
-                <a (click)="changeRange(PortfolioDataRangeEnum.OneMonth)" class="nav-link" tabindex="0">1{{ 'app.history.history.m' | translate }}</a>
-            </li>
-            <li class="nav-item">
-                <a (click)="changeRange(PortfolioDataRangeEnum.ThreeMonths)" class="nav-link" tabindex="0">3{{ 'app.history.history.m' | translate }}</a>
-            </li>
-            <li class="nav-item">
-                <a (click)="changeRange(PortfolioDataRangeEnum.SixMonths)" class="nav-link" tabindex="0">6{{ 'app.history.history.m' | translate }}</a>
-            </li>
-            <li class="nav-item">
-                <a (click)="changeRange(PortfolioDataRangeEnum.YTD)" class="nav-link" tabindex="0">{{ 'app.history.history.ytd' | translate }}</a>
-            </li>
-            <li class="nav-item">
-                <a (click)="changeRange(PortfolioDataRangeEnum.OneYear)" class="nav-link" tabindex="0">1{{ 'app.history.history.y' | translate }}</a>
-            </li>
-            <li class="nav-item">
-                <a (click)="changeRange(PortfolioDataRangeEnum.All)" class="nav-link" tabindex="0">{{ 'app.history.history.all' | translate }}</a>
-            </li>
-        </ul>
+<div class="card">
+    <div class="card-header">
+        <h2 class="h4">{{ 'app.history.history.portfolioValue' | translate }}</h2>
     </div>
-    <div class="col-md-6">
-        <div class="row g-3 align-items-center">
-            <div class="col-auto">
-                <label for="benchmarkAssetId">{{ 'app.history.history.benchmarkAsset' | translate }}</label>
+    <div class="card-body">
+        <div class="history">
+            <ul class="nav nav-tabs">
+                @for (range of ranges; track range.range) {
+                    <li class="nav-item">
+                        <a
+                            (click)="changeActiveRange(range.range)"
+                            class="nav-link"
+                            [class.active]="range.range === activeRange"
+                            tabindex="0"
+                        >
+                            @if(range.number !== null){{{range.number}}}{{ range.text | translate }}
+                        </a>
+                    </li>
+                }
+            </ul>
+
+            <div class="benchmark-wrapper">
+                <div class="benchmark">
+                    <!-- eslint-disable-next-line -->
+                    <label>{{ 'app.history.history.benchmarkAsset' | translate }}</label>
+
+                    <fingather-asset-selector
+                        [placeholder]="'app.history.history.choose' | translate"
+                        [assets]="assets"
+                        (onChangeAsset)="changeBenchmarkAsset($event)"
+                    />
+                </div>
+
+                <fingather-legend [legendItems]="$legendItems()" />
             </div>
-            <div class="col-auto">
-                <select id="benchmarkAssetId" (change)="changeBenchmarkAsset($event)" class="form-select">
-                    <option value="">{{ 'app.history.history.choose' | translate }}</option>
-                    @for (asset of assets; track asset.id) {
-                        <option value="{{asset.id}}">{{asset.ticker.ticker}}</option>
-                    }
-                </select>
+
+            <div class="row">
+                <div class="col-12">
+                    <fingather-portfolio-value-chart
+                        [height]="'500px'"
+                        [range]="activeRange"
+                        [benchmarkAssetId]="$benchmarkAssetId()"
+                    ></fingather-portfolio-value-chart>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-12">
-        <fingather-portfolio-value-chart
-            [height]="'500px'"
-            [title]="'app.history.history.portfolioValue' | translate"
-            [range]="range"
-            [benchmarkAssetId]="$benchmarkAssetId()"
-        ></fingather-portfolio-value-chart>
     </div>
 </div>

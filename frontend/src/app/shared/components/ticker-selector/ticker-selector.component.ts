@@ -15,6 +15,9 @@ export class TickerSelectorComponent implements OnInit {
     public readonly $selectedTickerId = input<number | null>(null, {
         alias: 'selectedTickerId',
     });
+    public readonly $placeholder = input<string | null>(null, {
+        alias: 'placeholder',
+    });
     public readonly onChangeTicker$ = output<Ticker>({
         alias: 'onChangeTicker',
     });
