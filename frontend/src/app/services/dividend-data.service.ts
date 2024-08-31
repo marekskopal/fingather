@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {
     DividendDataDateInterval,
 } from '@app/models';
@@ -10,11 +10,7 @@ import { firstValueFrom } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class DividendDataService extends NotifyService {
-    public constructor(
-        private http: HttpClient
-    ) {
-        super();
-    }
+    private readonly http = inject(HttpClient);
 
     public getDividendDataRange(
         portfolioId: number,

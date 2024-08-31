@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, signal
+    ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal
 } from '@angular/core';
 import { AddAssetComponent } from '@app/assets/components/add-asset/add-asset.component';
 import { AssetsWithProperties, Currency, GroupWithGroupData } from '@app/models';
@@ -14,6 +14,13 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListComponent implements OnInit {
+    private readonly assetService = inject(AssetService);
+    private readonly modalService = inject(NgbModal);
+    private readonly currencyService = inject(CurrencyService);
+    private readonly groupWithGroupDataService = inject(GroupWithGroupDataService);
+    private readonly portfolioService = inject(PortfolioService);
+    private readonly changeDetectorRef = inject(ChangeDetectorRef);
+
     private readonly $assetsWithProperties = signal<AssetsWithProperties | null>(null);
     private readonly $openedGroupedAssets = signal<GroupWithGroupData[] | null>(null);
 
@@ -26,15 +33,6 @@ export class ListComponent implements OnInit {
 
     protected readonly AssetsOrder = AssetsOrder;
     public openedAssetsOrderBy: AssetsOrder = AssetsOrder.TickerName;
-
-    public constructor(
-        private readonly assetService: AssetService,
-        private readonly modalService: NgbModal,
-        private readonly currencyService: CurrencyService,
-        private readonly groupWithGroupDataService: GroupWithGroupDataService,
-        private readonly portfolioService: PortfolioService,
-        private readonly changeDetectorRef: ChangeDetectorRef,
-    ) {}
 
     public async ngOnInit(): Promise<void> {
         this.defaultCurrency = await this.currencyService.getDefaultCurrency();

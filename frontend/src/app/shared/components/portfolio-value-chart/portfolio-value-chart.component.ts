@@ -1,6 +1,6 @@
 import {
     ChangeDetectionStrategy,
-    Component, input, OnChanges, OnInit, signal, WritableSignal
+    Component, inject, input, OnChanges, OnInit, signal, WritableSignal
 } from '@angular/core';
 import { PortfolioDataWithBenchmarkData } from '@app/models';
 import { RangeEnum } from '@app/models/enums/range-enum';
@@ -31,6 +31,9 @@ export type ChartOptions = {
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PortfolioValueChartComponent implements OnInit, OnChanges {
+    private readonly portfolioDataService = inject(PortfolioDataService);
+    private readonly portfolioService = inject(PortfolioService);
+
     public readonly $range = input.required<RangeEnum>({
         alias: 'range',
     });
@@ -48,12 +51,6 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
     });
     protected chartOptions: ChartOptions;
     protected readonly $loading: WritableSignal<boolean> = signal<boolean>(false);
-
-    public constructor(
-        private readonly portfolioDataService: PortfolioDataService,
-        private readonly portfolioService: PortfolioService,
-    ) {
-    }
 
     public ngOnInit(): void {
         this.initializeChartOptions();

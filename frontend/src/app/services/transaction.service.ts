@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import { Transaction, TransactionActionType } from '@app/models';
 import { OkResponse } from '@app/models/ok-response';
 import { TransactionList } from '@app/models/transaction-list';
@@ -9,11 +9,7 @@ import { firstValueFrom } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class TransactionService extends NotifyService {
-    public constructor(
-        private http: HttpClient
-    ) {
-        super();
-    }
+    private readonly http = inject(HttpClient);
 
     public createTransaction(transaction: Transaction, portfolioId: number): Promise<Transaction> {
         return firstValueFrom<Transaction>(

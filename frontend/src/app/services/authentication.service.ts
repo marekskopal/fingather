@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { computed, Injectable, signal } from '@angular/core';
+import {computed, effect, inject, Injectable, signal} from '@angular/core';
 import { Router } from '@angular/router';
 import { SignUp } from '@app/models';
 import { Authentication } from '@app/models/authentication';
@@ -12,21 +12,25 @@ import { firstValueFrom } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
+    private readonly router = inject(Router);
+    private readonly http = inject(HttpClient);
+    private readonly portfolioService = inject(PortfolioService);
+    private readonly currentUserService = inject(CurrentUserService);
+
     public $authentication = signal<Authentication | null>(null);
     public $isLoggedIn = computed<boolean>(
         () => this.$authentication() !== null
     );
 
-    public constructor(
-        private readonly router: Router,
-        private readonly http: HttpClient,
-        private readonly portfolioService: PortfolioService,
-        private readonly currentUserService: CurrentUserService,
-    ) {
-        const localStorageAuthentication = localStorage.getItem('authentication');
-        const authentication = localStorageAuthentication !== null ? JSON.parse(localStorageAuthentication) : null;
+    public constructor() {
+        effect(() => {
+            const localStorageAuthentication = localStorage.getItem('authentication');
+            const authentication = localStorageAuthentication !== null ? JSON.parse(localStorageAuthentication) : null;
 
-        this.$authentication.set(authentication);
+            this.$authentication.set(authentication);
+        }, {
+            allowSignalWrites: true,
+        });
     }
 
     public async login(email: string, password: string): Promise<Authentication> {

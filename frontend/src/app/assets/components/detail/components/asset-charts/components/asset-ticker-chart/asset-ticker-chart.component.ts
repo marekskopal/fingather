@@ -1,6 +1,6 @@
 import {
     ChangeDetectionStrategy,
-    Component, input, InputSignal, OnInit, signal,
+    Component, inject, input, InputSignal, OnInit, signal,
 } from '@angular/core';
 import { TickerData } from '@app/models';
 import { AssetService, TickerDataService } from '@app/services';
@@ -35,17 +35,14 @@ export type ChartOptions = {
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AssetTickerChartComponent implements OnInit {
+    private readonly tickerDataService = inject(TickerDataService);
+    private readonly assetService = inject(AssetService);
+
     public assetId: InputSignal<number> = input.required<number>();
     public assetTickerId: InputSignal<number> = input.required<number>();
     public height: InputSignal<string> = input<string>('auto');
     public chartOptions: ChartOptions;
     protected $loading = signal<boolean>(true);
-
-    public constructor(
-        private readonly tickerDataService: TickerDataService,
-        private readonly assetService: AssetService,
-    ) {
-    }
 
     public ngOnInit(): void {
         this.initializeChartOptions();

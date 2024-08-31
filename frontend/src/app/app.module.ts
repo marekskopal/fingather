@@ -47,7 +47,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
 export class AppModule {
     public constructor(
         private readonly translateService: TranslateService,
-        private matIconRegistry: MatIconRegistry
+        private readonly matIconRegistry: MatIconRegistry
     ) {
         translateService.addLangs(['en', 'cs']);
         translateService.use(localStorage.getItem('currentLanguage') ?? 'en');

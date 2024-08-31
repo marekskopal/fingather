@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import { Group } from '@app/models';
 import { OkResponse } from '@app/models/ok-response';
 import { NotifyService } from '@app/services/notify-service';
@@ -8,11 +8,7 @@ import { firstValueFrom } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class GroupService extends NotifyService {
-    public constructor(
-        private http: HttpClient,
-    ) {
-        super();
-    }
+    private readonly http = inject(HttpClient);
 
     public createGroup(group: Group, portfolioId: number): Promise<Group> {
         return firstValueFrom<Group>(this.http.post<Group>(`${environment.apiUrl}/groups/${portfolioId}`, group));

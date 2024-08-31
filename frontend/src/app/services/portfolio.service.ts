@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import { Portfolio } from '@app/models';
 import { OkResponse } from '@app/models/ok-response';
 import { NotifyService } from '@app/services/notify-service';
@@ -8,14 +8,10 @@ import { firstValueFrom, lastValueFrom } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class PortfolioService extends NotifyService {
+    private readonly http = inject(HttpClient);
+
     private currentPortfolio: Portfolio | null = null;
     private defaultPortfolio: Portfolio | null = null;
-
-    public constructor(
-        private http: HttpClient,
-    ) {
-        super();
-    }
 
     public createPortfolio(portfolio: Portfolio): Promise<Portfolio> {
         return firstValueFrom<Portfolio>(this.http.post<Portfolio>(`${environment.apiUrl}/portfolios`, portfolio));

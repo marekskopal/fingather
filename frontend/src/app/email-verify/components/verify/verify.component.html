@@ -1,6 +1,6 @@
 ﻿<div class="card">
     <div class="card-body">
-        @if (validated) {
+        @if ($validated()) {
             <p>{{ 'app.emailVerify.verify.emailVerified' | translate }}</p>
             <a routerLink="/" class="btn btn-primary">{{ 'app.emailVerify.verify.login' | translate }}</a>
         }

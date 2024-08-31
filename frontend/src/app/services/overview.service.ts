@@ -1,14 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import { YearCalculatedData } from '@app/models/year-calculated-data';
 import { environment } from '@environments/environment';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class OverviewService {
-    public constructor(
-        private http: HttpClient
-    ) {}
+    private readonly http = inject(HttpClient);
 
     public getYearCalculatedData(portfolioId: number): Promise<YearCalculatedData[]> {
         return firstValueFrom<YearCalculatedData[]>(

@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy, Component, OnInit, signal
+    ChangeDetectionStrategy, Component, inject, OnInit, signal
 } from '@angular/core';
 import { Portfolio } from '@app/models';
 import { PortfolioService } from '@app/services';
@@ -10,12 +10,10 @@ import { PortfolioService } from '@app/services';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PortfolioSelectorComponent implements OnInit {
+    private readonly portfolioService = inject(PortfolioService);
+
     private readonly $portfolios = signal<Portfolio[] | null>(null);
     private readonly $currentPortfolio = signal<Portfolio | null>(null);
-
-    public constructor(
-        private readonly portfolioService: PortfolioService,
-    ) { }
 
     public async ngOnInit(): Promise<void> {
         const portfolio = await this.portfolioService.getCurrentPortfolio();

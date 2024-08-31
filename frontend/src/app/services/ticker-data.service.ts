@@ -1,14 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import { TickerData } from '@app/models';
 import { environment } from '@environments/environment';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class TickerDataService {
-    public constructor(
-        private http: HttpClient
-    ) {}
+    private readonly http = inject(HttpClient);
 
     public getTickerDatas(assetTickerId: number): Promise<TickerData[]> {
         return firstValueFrom<TickerData[]>(

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import { Router } from '@angular/router';
 import { OnboardingService } from '@app/services/onboarding.service';
 
@@ -7,10 +7,8 @@ import { OnboardingService } from '@app/services/onboarding.service';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OnboardingComponent {
-    public constructor(
-        private readonly onboardingService: OnboardingService,
-        private readonly router: Router,
-    ) {}
+    private readonly onboardingService = inject(OnboardingService);
+    private readonly router = inject(Router);
 
     protected async onImportFinish(): Promise<void> {
         await this.onboardingService.onboardingComplete();
