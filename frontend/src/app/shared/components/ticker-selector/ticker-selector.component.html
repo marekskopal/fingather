@@ -3,8 +3,10 @@
         <span>
             @if ($selectedTicker(); as selectedTicker) {
                 <span>{{ selectedTicker.name }}</span><span class="tag">{{selectedTicker.market.mic}}</span>
+            } @else if($placeholder()) {
+                <span>{{ $placeholder() }}</span>
             } @else {
-                Please choose a ticker
+                <span>{{ 'app.common.choose' | translate }}</span>
             }
         </span>
     </button>

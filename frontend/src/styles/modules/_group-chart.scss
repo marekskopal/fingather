@@ -2,34 +2,4 @@
     display: flex;
     max-height: 240px;
     margin-bottom: 24px;
-
-    .legend {
-        display: flex;
-        align-items: center;
-        margin-left: 30px;
-
-        .legend-item {
-            position: relative;
-            margin-right: 30px;
-
-            .legend-color {
-                position: absolute;
-                display: block;
-                top: 5px;
-                left: -16px;
-                width: 8px;
-                height: 8px;
-                border-radius: 50%;
-            }
-
-            .legend-text {
-                font-size: 0.85rem;
-            }
-
-            .legend-value {
-                color: $color-gray-8;
-                font-size: $font-size-xs;
-            }
-        }
-    }
 }

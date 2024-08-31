@@ -4,6 +4,7 @@ import {
 } from '@angular/core';
 import { TickerData } from '@app/models';
 import { AssetService, TickerDataService } from '@app/services';
+import {ChartUtils} from "@app/utils/chart-utils";
 import {
     ApexAnnotations,
     ApexAxisChartSeries,
@@ -103,31 +104,8 @@ export class AssetTickerChartComponent implements OnInit {
                 text: '',
                 align: 'left'
             },
-            xaxis: {
-                type: 'datetime',
-                categories: [],
-                labels: {
-                    style: {
-                        colors: '#b0b0b0'
-                    }
-                },
-                axisBorder: {
-                    color: '#454545'
-                },
-                axisTicks: {
-                    color: '#454545'
-                }
-            },
-            yaxis: {
-                labels: {
-                    style: {
-                        colors: '#b0b0b0'
-                    },
-                    formatter: (value: number): string | string[] => {
-                        return value.toFixed(2);
-                    }
-                },
-            },
+            xaxis: ChartUtils.xAxis(),
+            yaxis: ChartUtils.yAxis(),
             annotations: {
                 yaxis: [
                     {
@@ -144,24 +122,10 @@ export class AssetTickerChartComponent implements OnInit {
                     }
                 ]
             },
-            theme: {
-                mode: 'dark'
-            },
-            fill: {
-                type: 'gradient',
-                gradient: {
-                    shade: 'dark',
-                    shadeIntensity: 0.9,
-                    inverseColors: false,
-                    opacityFrom: 0.8,
-                    opacityTo: 0,
-                    stops: [0, 90, 100]
-                },
-            },
-            grid: {
-                borderColor: '#454545',
-            },
-            colors: ['#9e2af3']
+            theme: ChartUtils.theme(),
+            fill: ChartUtils.gradientFill(),
+            grid: ChartUtils.grid(),
+            colors: ChartUtils.colors(1),
         };
     }
 

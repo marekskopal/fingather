@@ -5,9 +5,10 @@ import {
 import { PortfolioDataWithBenchmarkData } from '@app/models';
 import { RangeEnum } from '@app/models/enums/range-enum';
 import { PortfolioDataService, PortfolioService } from '@app/services';
+import {ChartUtils} from "@app/utils/chart-utils";
 import {
-    ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexGrid, ApexLegend, ApexStroke, ApexTheme,
-    ApexTitleSubtitle, ApexXAxis, ApexYAxis
+    ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill,
+    ApexGrid, ApexLegend, ApexStroke, ApexTheme, ApexXAxis, ApexYAxis
 } from 'ng-apexcharts';
 
 export type ChartOptions = {
@@ -18,7 +19,6 @@ export type ChartOptions = {
     dataLabels: ApexDataLabels;
     grid: ApexGrid;
     stroke: ApexStroke;
-    title: ApexTitleSubtitle;
     legend: ApexLegend;
     theme: ApexTheme;
     fill: ApexFill;
@@ -40,11 +40,8 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
     public readonly $height = input<string>('auto', {
         alias: 'height',
     });
-    public readonly $showLabels = input<boolean | null>(null, {
+    public readonly $showLabels = input<boolean>(true, {
         alias: 'showLabels',
-    });
-    public readonly $title = input<string | null>(null, {
-        alias: 'title',
     });
     public readonly $sparkline = input<boolean>(false, {
         alias: 'sparkline',
@@ -120,6 +117,9 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
                 },
                 sparkline: {
                     enabled: this.$sparkline(),
+                },
+                animations: {
+                    enabled: false,
                 }
             },
             dataLabels: {
@@ -129,51 +129,15 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
                 curve: 'straight',
                 width: 3,
             },
-            title: {
-                text: this.$title() ?? '',
-                floating: true,
-                align: 'left',
-                margin: 0,
-            },
-            grid: {
-                borderColor: '#454545',
-                padding: {
-                    top: 0,
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                }
-            },
-            xaxis: {
-                type: 'datetime',
-                labels: {
-                    show: this.$showLabels() ?? true,
-                },
-                categories: [],
-            },
-            yaxis: {
-                labels: {
-                    show: this.$showLabels() ?? true,
-                }
-            },
+            grid: ChartUtils.grid(),
+            xaxis: ChartUtils.xAxis(this.$showLabels()),
+            yaxis: ChartUtils.yAxis(this.$showLabels()),
             legend: {
-                show: this.$showLabels() ?? true,
+                show: false,
             },
-            theme: {
-                mode: 'dark',
-            },
-            fill: {
-                type: 'gradient',
-                gradient: {
-                    shade: 'dark',
-                    shadeIntensity: 0.9,
-                    inverseColors: false,
-                    opacityFrom: 0.8,
-                    opacityTo: 0,
-                    stops: [0, 90, 100]
-                },
-            },
-            colors: ['#9e2af3', '#7597f2'],
+            theme: ChartUtils.theme(),
+            fill: ChartUtils.gradientFill(),
+            colors: ChartUtils.colors(3),
         };
 
         if (this.$benchmarkAssetId() !== null) {
@@ -181,8 +145,6 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
                 name: 'Benchmark',
                 data: [],
             };
-
-            this.chartOptions.colors[2] = '#d063ee';
         }
     }
 
@@ -196,8 +158,6 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
             data: [],
             zIndex: 2,
         };
-
-        this.chartOptions.colors[2] = '#d063ee';
     }
 
     private mapChart(

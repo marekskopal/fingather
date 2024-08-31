@@ -1,0 +1,16 @@
+.benchmark-wrapper {
+    display: flex;
+    align-items: center;
+    padding: 48px 0 13px;
+    gap: $spacing-md;
+
+    .benchmark {
+        display: flex;
+        align-items: center;
+        gap: $spacing-md;
+    }
+
+    label {
+        color: $color-gray-lightest;
+    }
+}

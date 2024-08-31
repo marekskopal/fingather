@@ -198,7 +198,10 @@
         "all": "celá historie",
         "portfolioValue": "Hodnota portfolia",
         "benchmarkAsset": "Srovnávací aktivum",
-        "choose": "Vybrat"
+        "choose": "Vybrat aktivum",
+        "value": "Hodnota",
+        "investedValue": "Investovaná částka",
+        "benchmark": "Srovnání"
       }
     },
     "overviews": {
@@ -386,7 +389,8 @@
       "cancel": "Zpět",
       "save": "Uložit",
       "edit": "Upravit",
-      "delete": "Smazat"
+      "delete": "Smazat",
+      "choose": "Vybrat"
     }
   }
 }

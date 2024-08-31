@@ -14,24 +14,7 @@
             [colors]="chartOptions.colors"
         ></apx-chart>
 
-        <div class="legend">
-            @for (groupsWithGroupData of $groupsWithGroupData(); track groupsWithGroupData.id) {
-                <div class="legend-item">
-                    <div>
-                        <span
-                            class="legend-color"
-                            [style.background-color]="groupsWithGroupData.color"
-                        ></span>
-                        <span class="legend-label">{{groupsWithGroupData.name}}</span>
-                    </div>
-                    <div>
-                        <span class="legend-value">
-                            {{groupsWithGroupData.percentage | number:'1.2-2'}}%
-                        </span>
-                    </div>
-                </div>
-            }
-        </div>
+        <fingather-legend [legendItems]="$legendItems()" />
     } @else {
         <span class="spinner-border spinner-border-sm mr-1"></span>
     }

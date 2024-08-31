@@ -1,8 +1,9 @@
 import {
-    ChangeDetectionStrategy, Component, OnInit, signal
+    ChangeDetectionStrategy, Component, computed, OnInit, signal
 } from '@angular/core';
 import { GroupWithGroupData } from '@app/models';
 import { GroupWithGroupDataService, PortfolioService } from '@app/services';
+import {LegendItem} from "@app/shared/components/legend/types/legend-item";
 import {
     ApexChart, ApexFill, ApexLegend,
     ApexNonAxisChartSeries, ApexPlotOptions, ApexStates, ApexStroke, ApexTheme, ApexYAxis
@@ -31,6 +32,15 @@ export class GroupChartComponent implements OnInit {
     protected chartOptions: ChartOptions;
     protected readonly $loading = signal<boolean>(false);
     protected readonly $groupsWithGroupData = signal<GroupWithGroupData[]>([]);
+    protected readonly $legendItems = computed<LegendItem[]>(() => {
+        return this.$groupsWithGroupData().map((groupWithGroupData) => {
+            return {
+                color: groupWithGroupData.color,
+                name: groupWithGroupData.name,
+                value: groupWithGroupData.percentage,
+            };
+        });
+    });
 
     public constructor(
         private readonly groupWithGroupDataService: GroupWithGroupDataService,

@@ -7,9 +7,10 @@ import {
 } from '@app/models';
 import { RangeEnum } from '@app/models/enums/range-enum';
 import { DividendDataService, PortfolioService } from '@app/services';
+import {ChartUtils} from "@app/utils/chart-utils";
 import {
-    ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexLegend, ApexPlotOptions,
-    ApexTheme, ApexXAxis,
+    ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexGrid, ApexLegend, ApexPlotOptions,
+    ApexTheme, ApexXAxis, ApexYAxis,
 } from 'ng-apexcharts';
 
 export type ChartOptions = {
@@ -18,9 +19,12 @@ export type ChartOptions = {
     plotOptions: ApexPlotOptions;
     dataLabels: ApexDataLabels;
     xaxis: ApexXAxis;
+    yaxis: ApexYAxis;
     legend: ApexLegend;
     theme: ApexTheme;
     fill: ApexFill;
+    grid: ApexGrid;
+    colors: string[];
 };
 
 @Component({
@@ -91,19 +95,17 @@ export class DividendsDataChartComponent implements OnInit, OnChanges {
             dataLabels: {
                 enabled: false
             },
-            xaxis: {
-                type: 'datetime',
-                categories: []
-            },
+            xaxis: ChartUtils.xAxis(),
+            yaxis: ChartUtils.yAxis(),
             legend: {
                 show: false
             },
-            theme: {
-                mode: 'dark',
-            },
+            theme: ChartUtils.theme(),
             fill: {
                 opacity: 1
-            }
+            },
+            grid: ChartUtils.grid(),
+            colors: ChartUtils.colors(),
         };
     }
 
