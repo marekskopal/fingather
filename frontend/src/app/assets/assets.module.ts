@@ -22,10 +22,12 @@ import {
 } from "@app/assets/components/detail/components/transactions/transaction-list.component";
 import { DetailComponent } from '@app/assets/components/detail/detail.component';
 import { LayoutComponent } from '@app/assets/components/layout/layout.component';
+import {ClosedAssetsComponent} from "@app/assets/components/list/components/closed-assets/closed-assets.component";
 import {OpenedAssetsComponent} from "@app/assets/components/list/components/opened-assets/opened-assets.component";
 import {
     OpenedGroupedAssetsComponent
 } from "@app/assets/components/list/components/opened-grouped-assets/opened-grouped-assets.component";
+import {WatchedAssetsComponent} from "@app/assets/components/list/components/watched-assets/watched-assets.component";
 import { ListComponent } from '@app/assets/components/list/list.component';
 import {ColoredValueDirective} from "@app/shared/directives/colored-value.directive";
 import { NgbNavModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
@@ -63,6 +65,8 @@ import { AssetsRoutingModule } from './assets-routing.module';
         OpenedGroupedAssetsComponent,
         OpenedAssetsComponent,
         AssetValueComponent,
+        ClosedAssetsComponent,
+        WatchedAssetsComponent,
     ]
 })
 export class AssetsModule {

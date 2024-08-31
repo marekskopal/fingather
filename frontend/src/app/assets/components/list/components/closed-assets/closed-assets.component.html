@@ -1,0 +1,53 @@
+﻿<div class="card">
+    <div class="card-body">
+        <table class="table table-fixed assets-table">
+            <thead>
+                <tr>
+                    <th style="width: 40%">{{ 'app.assets.list.name' | translate }}</th>
+                    <th style="width: 20%" class="text-end">{{ 'app.assets.list.price' | translate }}</th>
+                    <th style="width: 20%" class="text-end">{{ 'app.assets.list.gainRealized' | translate }}</th>
+                    <th style="width: 20%"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if ($assets(); as assets) {
+                    @for(asset of assets.closedAssets; track asset.id) {
+                        <tr>
+                            <td>
+                                <div class="column-name">
+                                    <div class="logo-wrapper">
+                                        <fingather-ticker-logo [ticker]="asset.ticker" />
+                                    </div>
+                                    <div class="asset-text">
+                                        <div>{{asset.ticker.ticker}}</div>
+                                        <div class="small color-gray-lightest ellipsis">{{asset.ticker.name}}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="text-end">
+                                <div>
+                                    <div class="smaller color-gray">{{asset.price | number:'1.2-2' | currency: asset.ticker.currencyId | async}}</div>
+                                </div>
+                            </td>
+                            <td class="text-end" [coloredValue]="asset.realizedGainDefaultCurrency">
+                                <div>{{asset.realizedGainDefaultCurrency | number:'1.2-2' | currency: $defaultCurrency().id | async}}</div>
+                            </td>
+                            <td class="actions">
+                                <a routerLink="{{asset.id}}" class="btn btn-secondary">
+                                    <mat-icon>visibility</mat-icon>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                } @else {
+                    <tr>
+                        <td colspan="3" class="text-center">
+                            <span class="spinner-border spinner-border-lg align-center"></span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

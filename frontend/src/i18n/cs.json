@@ -52,6 +52,7 @@
         "units": "Jednotek",
         "value": "Hodnota",
         "gain": "Zisk/Ztráta",
+        "gainRealized": "Realizovaný Zisk/Ztráta",
         "dividend": "Dividenda",
         "fxImpact": "FX dopad",
         "return": "Návratnost",
