@@ -52,6 +52,7 @@
         "units": "Units",
         "value": "Value",
         "gain": "Gain/Loss",
+        "gainRealized": "Realized Gain/Loss",
         "dividend": "Dividend",
         "fxImpact": "FX Impact",
         "return": "Return",

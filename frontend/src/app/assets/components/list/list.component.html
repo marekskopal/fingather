@@ -55,46 +55,10 @@
             {{ 'app.assets.list.closedPositions' | translate }}
         </button>
         <ng-template ngbNavContent>
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th style="width: 50%">{{ 'app.assets.list.name' | translate }}</th>
-                            <th style="width: 30%">{{ 'app.assets.list.price' | translate }}</th>
-                            <th style="width: 20%"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (assetsWithProperties !== null) {
-                            @for (asset of assetsWithProperties.closedAssets; track asset.id) {
-                                <tr>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <fingather-ticker-logo [ticker]="asset.ticker" />
-                                            <div>
-                                                <div><strong>{{asset.ticker.ticker}}</strong></div>
-                                                <div>{{asset.ticker.name}}</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="text-end">{{asset.price | number:'1.2-2' | currency: asset.ticker.currencyId | async}}</td>
-                                    <td class="text-end" style="white-space: nowrap">
-                                        <a routerLink="{{asset.id}}" class="btn btn-sm btn-primary mr-1">
-                                            <mat-icon>visibility</mat-icon> {{ 'app.assets.list.detail' | translate }}
-                                        </a>
-                                    </td>
-                                </tr>
-                            }
-                        } @else {
-                            <tr>
-                                <td colspan="9" class="text-center">
-                                    <span class="spinner-border spinner-border-lg align-center"></span>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
+            <fingather-closed-assets
+                [assets]="assetsWithProperties"
+                [defaultCurrency]="defaultCurrency"
+            />
         </ng-template>
     </li>
     <li [ngbNavItem]="'watch-list'">
@@ -102,48 +66,11 @@
             {{ 'app.assets.list.watchList' | translate }}
         </button>
         <ng-template ngbNavContent>
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th style="width: 50%">{{ 'app.assets.list.name' | translate }}</th>
-                            <th style="width: 30%">{{ 'app.assets.list.price' | translate }}</th>
-                            <th style="width: 20%"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (assetsWithProperties !== null) {
-                            @for (asset of assetsWithProperties.watchedAssets; track asset.id) {
-                                <tr>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <fingather-ticker-logo [ticker]="asset.ticker" />
-                                            <div>
-                                                <div><strong>{{asset.ticker.ticker}}</strong></div>
-                                                <div>{{asset.ticker.name}}</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="text-end">{{asset.price | number:'1.2-2' | currency: asset.ticker.currencyId | async}}</td>
-                                    <td class="text-end" style="white-space: nowrap">
-                                        <a routerLink="{{asset.id}}" class="btn btn-sm btn-primary mr-1">
-                                            <mat-icon>visibility</mat-icon> {{ 'app.assets.list.detail' | translate }}
-                                        </a>
-                                    </td>
-                                </tr>
-                            }
-                        } @else {
-                            <tr>
-                                <td colspan="9" class="text-center">
-                                    <span class="spinner-border spinner-border-lg align-center"></span>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
+            <fingather-watched-assets
+                [assets]="assetsWithProperties"
+            />
         </ng-template>
     </li>
 </ul>
 
-<div [ngbNavOutlet]="nav" class="mt-2"></div>
+<div [ngbNavOutlet]="nav" class="mt-4"></div>
