@@ -1,6 +1,6 @@
 import {
     ChangeDetectionStrategy,
-    Component, input, InputSignal, OnDestroy, OnInit
+    Component, inject, input, InputSignal, OnDestroy, OnInit
 } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { Alert, AlertType } from '@app/models';
@@ -13,14 +13,15 @@ import { Subscription } from 'rxjs';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AlertComponent implements OnInit, OnDestroy {
+    private router = inject(Router);
+    private alertService = inject(AlertService);
+
     public id: InputSignal<string> = input('default-alert');
     public fade: InputSignal<boolean> = input(true);
 
     public alerts: Alert[] = [];
     public alertSubscription: Subscription;
     public routeSubscription: Subscription;
-
-    public constructor(private router: Router, private alertService: AlertService) { }
 
     public ngOnInit(): void {
         // subscribe to new alert notifications

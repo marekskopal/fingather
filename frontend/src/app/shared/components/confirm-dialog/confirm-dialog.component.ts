@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy, Component, signal, WritableSignal
+    ChangeDetectionStrategy, Component, inject, signal, WritableSignal
 } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -9,14 +9,12 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfirmDialogComponent {
+    private readonly activeModal = inject(NgbActiveModal);
+
     public title: WritableSignal<string> = signal<string>('');
     public message: WritableSignal<string> = signal<string>('');
     public btnOkText: WritableSignal<string> = signal<string>('OK');
     public btnCancelText: WritableSignal<string> = signal<string>('Cancel');
-
-    public constructor(
-        private activeModal: NgbActiveModal
-    ) { }
 
     public decline(): void {
         this.activeModal.close(false);

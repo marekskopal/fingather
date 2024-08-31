@@ -1,14 +1,12 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import { Ticker } from '@app/models';
 import { environment } from '@environments/environment';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class TickerService {
-    public constructor(
-        private http: HttpClient
-    ) {}
+    private readonly http = inject(HttpClient);
 
     public getTickers(
         search: string | null = null,

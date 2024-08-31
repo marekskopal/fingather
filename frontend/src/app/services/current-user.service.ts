@@ -1,17 +1,14 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import { User } from '@app/models';
 import { environment } from '@environments/environment';
 import { lastValueFrom } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class CurrentUserService {
-    private currentUser: User | null = null;
+    private readonly http = inject(HttpClient);
 
-    public constructor(
-        private http: HttpClient
-    ) {
-    }
+    private currentUser: User | null = null;
 
     public async getCurrentUser(): Promise<User> {
         if (this.currentUser !== null) {

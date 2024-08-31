@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import { PortfolioData } from '@app/models';
 import { RangeEnum } from '@app/models/enums/range-enum';
 import { PortfolioDataWithBenchmarkData } from '@app/models/portfolio-data-with-benchmark-data';
@@ -8,9 +8,7 @@ import { firstValueFrom } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class PortfolioDataService {
-    public constructor(
-        private http: HttpClient
-    ) {}
+    private readonly http = inject(HttpClient);
 
     public getPortfolioData(portfolioId: number): Promise<PortfolioData> {
         return firstValueFrom(this.http.get<PortfolioData>(`${environment.apiUrl}/portfolio-data/${portfolioId}`));

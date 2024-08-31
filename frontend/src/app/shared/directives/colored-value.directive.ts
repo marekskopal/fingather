@@ -1,4 +1,4 @@
-import {Directive, ElementRef, Input, OnInit} from "@angular/core";
+import {Directive, ElementRef, inject, input, OnInit} from "@angular/core";
 
 @Directive({
     standalone: true,
@@ -6,25 +6,26 @@ import {Directive, ElementRef, Input, OnInit} from "@angular/core";
     selector: '[coloredValue]',
 })
 export class ColoredValueDirective implements OnInit {
-    @Input() public coloredValue: number | string | null;
+    private readonly el = inject(ElementRef);
 
-    public constructor(
-        private el: ElementRef
-    ) {
-    }
+    public $coloredValue = input.required<number | string | null>({
+        alias: 'coloredValue',
+    });
 
     public ngOnInit(): void {
-        if (typeof this.coloredValue === 'string') {
-            this.coloredValue = parseFloat(this.coloredValue);
+        let coloredValue = this.$coloredValue();
+
+        if (typeof coloredValue === 'string') {
+            coloredValue = parseFloat(coloredValue);
         }
 
-        if (this.coloredValue === null) {
+        if (coloredValue === null) {
             return;
         }
 
-        if (this.coloredValue > 0) {
+        if (coloredValue > 0) {
             this.el.nativeElement.classList.add('green');
-        } else if (this.coloredValue < 0) {
+        } else if (coloredValue < 0) {
             this.el.nativeElement.classList.add('red');
         }
     }

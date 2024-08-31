@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy, Component, computed, OnInit, signal
+    ChangeDetectionStrategy, Component, computed, inject, OnInit, signal
 } from '@angular/core';
 import { GroupWithGroupData } from '@app/models';
 import { GroupWithGroupDataService, PortfolioService } from '@app/services';
@@ -29,6 +29,9 @@ export type ChartOptions = {
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupChartComponent implements OnInit {
+    private readonly groupWithGroupDataService = inject(GroupWithGroupDataService);
+    private readonly portfolioService = inject(PortfolioService);
+
     protected chartOptions: ChartOptions;
     protected readonly $loading = signal<boolean>(false);
     protected readonly $groupsWithGroupData = signal<GroupWithGroupData[]>([]);
@@ -42,10 +45,7 @@ export class GroupChartComponent implements OnInit {
         });
     });
 
-    public constructor(
-        private readonly groupWithGroupDataService: GroupWithGroupDataService,
-        private readonly portfolioService: PortfolioService,
-    ) {
+    public constructor() {
         this.initializeChartOptions();
     }
 

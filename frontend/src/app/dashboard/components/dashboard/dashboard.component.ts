@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy, Component, OnInit, signal
+    ChangeDetectionStrategy, Component, inject, OnInit, signal
 } from '@angular/core';
 import { Currency, GroupWithGroupData } from '@app/models';
 import { CurrencyService, GroupWithGroupDataService, PortfolioService } from '@app/services';
@@ -9,14 +9,12 @@ import { CurrencyService, GroupWithGroupDataService, PortfolioService } from '@a
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardComponent implements OnInit {
+    private readonly groupWithGroupDataService = inject(GroupWithGroupDataService);
+    private readonly currencyService = inject(CurrencyService);
+    private readonly portfolioService = inject(PortfolioService);
+
     protected readonly $groupsWithGroupData = signal<GroupWithGroupData[] | null>(null);
     protected defaultCurrency: Currency;
-
-    public constructor(
-        private readonly groupWithGroupDataService: GroupWithGroupDataService,
-        private readonly currencyService: CurrencyService,
-        private readonly portfolioService: PortfolioService,
-    ) {}
 
     public async ngOnInit(): Promise<void> {
         this.defaultCurrency = await this.currencyService.getDefaultCurrency();

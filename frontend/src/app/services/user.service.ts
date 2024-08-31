@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import { User, UserWithStatistic } from '@app/models';
 import { OkResponse } from '@app/models/ok-response';
 import { NotifyService } from '@app/services/notify-service';
@@ -8,11 +8,7 @@ import { firstValueFrom } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class UserService extends NotifyService {
-    public constructor(
-        private http: HttpClient
-    ) {
-        super();
-    }
+    private readonly http = inject(HttpClient);
 
     public createUser(user: User): Promise<User> {
         return firstValueFrom<User>(this.http.post<User>(`${environment.apiUrl}/admin/user`, user));

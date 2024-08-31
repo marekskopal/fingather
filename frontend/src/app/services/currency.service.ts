@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import { Currency } from '@app/models';
 import { PortfolioService } from '@app/services/portfolio.service';
 import { environment } from '@environments/environment';
@@ -7,12 +7,10 @@ import { firstValueFrom } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class CurrencyService {
-    private currencies: Map<number, Currency> | null = null;
+    private readonly http = inject(HttpClient);
+    private readonly portfolioService = inject(PortfolioService);
 
-    public constructor(
-        private readonly http: HttpClient,
-        private readonly portfolioService: PortfolioService,
-    ) {}
+    private currencies: Map<number, Currency> | null = null;
 
     public getCurrencies(): Promise<Currency[]> {
         return firstValueFrom<Currency[]>(this.http.get<Currency[]>(`${environment.apiUrl}/currency`));

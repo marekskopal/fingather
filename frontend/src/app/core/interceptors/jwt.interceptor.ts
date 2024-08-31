@@ -1,17 +1,17 @@
 import {
     HttpEvent, HttpHandler, HttpInterceptor, HttpRequest
 } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import { AuthenticationService } from '@app/services/authentication.service';
 import { environment } from '@environments/environment';
 import { from, lastValueFrom, Observable } from 'rxjs';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
+    private readonly authorizationService = inject(AuthenticationService);
+
     private isRefreshing: boolean = false;
     private refreshTokenUrl: string = `${environment.apiUrl}/authentication/refresh-token` as const;
-
-    public constructor(private authorizationService: AuthenticationService) { }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     public intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
