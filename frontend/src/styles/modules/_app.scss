@@ -24,9 +24,19 @@
 }
 
 .header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
     margin-bottom: $spacing-lg;
 
     h1 {
         margin-top: 1px;
+    }
+
+    .header-controls {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: $spacing-xl;
     }
 }

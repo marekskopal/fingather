@@ -1,14 +1,13 @@
-﻿<div class="row header">
-    <div class="col-md-3 order-md-2 text-end">
-        <fingather-portfolio-selector />
-    </div>
-    <div class="col-md-5 order-md-0">
-        <h1 class="h3">{{ 'app.assets.list.title' | translate }}</h1>
-    </div>
-    <div class="col-md-4 order-md-1 text-end">
-        <a (click)="addAsset()" class="btn btn-sm btn-success" tabindex="0">
-            <mat-icon>add</mat-icon> {{ 'app.assets.list.addAsset' | translate }}
+﻿<div class="header">
+    <h1 class="h3">{{ 'app.assets.list.title' | translate }}</h1>
+
+    <div class="header-controls">
+        <a routerLink="add-asset" class="btn btn-primary" tabindex="0">
+            <mat-icon>add</mat-icon>
+            <span>{{ 'app.assets.list.addAsset' | translate }}</span>
         </a>
+
+        <fingather-portfolio-selector />
     </div>
 </div>
 

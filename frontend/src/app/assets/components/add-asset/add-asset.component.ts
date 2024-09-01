@@ -8,15 +8,19 @@ import { Observable, of, OperatorFunction } from 'rxjs';
 import {
     catchError, debounceTime, distinctUntilChanged, map, switchMap, tap
 } from 'rxjs/operators';
+import {BaseForm} from "@app/shared/components/form/base-form";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
     templateUrl: 'add-asset.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AddAssetComponent extends BaseDialog implements OnInit {
+export class AddAssetComponent extends BaseForm implements OnInit {
     private readonly tickerService = inject(TickerService);
     private readonly assetService = inject(AssetService);
     private readonly portfolioService = inject(PortfolioService);
+    private readonly route = inject(ActivatedRoute);
+    private readonly router = inject(Router);
 
     public searching: boolean = false;
     public searchFailed: boolean = false;
@@ -78,7 +82,7 @@ export class AddAssetComponent extends BaseDialog implements OnInit {
         await this.assetService.createAsset(this.form.value.ticker, portfolioId);
 
         this.alertService.success('Asset added successfully', { keepAfterRouteChange: true });
-        this.activeModal.dismiss();
         this.assetService.notify();
+        this.router.navigate(['../'], { relativeTo: this.route });
     }
 }
