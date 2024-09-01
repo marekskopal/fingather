@@ -28,6 +28,7 @@
         "marekskopal/cycle-decimal": "^0.3",
         "marekskopal/openfigi": "^0.2",
         "marekskopal/router": "^1.0",
+        "marekskopal/trading212": "^1.0",
         "marekskopal/twelvedata": "^0.3",
         "nyholm/psr7": "^1.8",
         "php-decimal/php-decimal": "^1.1",

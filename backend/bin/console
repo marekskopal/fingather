@@ -5,6 +5,8 @@ declare(strict_types=1);
 
 require __DIR__ . '/../vendor/autoload.php';
 
+use FinGather\Command\ApiImportPrepareCheckCommand;
+use FinGather\Command\ApiImportProcessCheckCommand;
 use FinGather\Command\CacheClearCommand;
 use FinGather\Command\ExchangeRateUpdateCommand;
 use FinGather\Command\MigrationGenerateCommand;
@@ -27,5 +29,7 @@ $application->add(new TickerDataUpdateCommand());
 $application->add(new TickerFundamentalUpdateCommand());
 $application->add(new TickerLogoUpdateCommand());
 $application->add(new TickerUpdateCommand());
+$application->add(new ApiImportPrepareCheckCommand());
+$application->add(new ApiImportProcessCheckCommand());
 
 $application->run();

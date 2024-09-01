@@ -32,7 +32,7 @@ amqp:
     addr: amqp://${RABBITMQ_USER}:${RABBITMQ_PASSWORD}@${RABBITMQ_HOST}:${RABBITMQ_PORT}
 
 jobs:
-    consume: [ "email-verify" ]
+    consume: [ "email-verify", "api-import-prepare-check", "api-import-process-check" ]
     pool:
         num_workers: 1
         supervisor:
@@ -41,11 +41,27 @@ jobs:
         email-verify:
             driver: amqp
             config:
-                prefetch: 10
+                prefetch: 5
                 priority: 1
                 durable: true
                 queue: email-verify
                 routing_key: email-verify
+        api-import-prepare-check:
+            driver: amqp
+            config:
+                prefetch: 10
+                priority: 2
+                durable: true
+                queue: api-import-prepare-check
+                routing_key: api-import-prepare-check
+        api-import-process-check:
+            driver: amqp
+            config:
+                prefetch: 10
+                priority: 3
+                durable: true
+                queue: api-import-process-check
+                routing_key: api-import-process-check
 
 kv:
     memcached:

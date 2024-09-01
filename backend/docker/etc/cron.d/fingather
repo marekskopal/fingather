@@ -5,3 +5,4 @@ SHELL=/bin/sh
 30 2 * * *  /app/bin/console split:update >> /app/log/cron.log 2>&1
 0 1 * * 7   /app/bin/console tickerLogo:update >> /app/log/cron.log 2>&1
 00 3 * * *  /app/bin/console tickerFundamental:update >> /app/log/cron.log 2>&1
+00 4 * * *  /app/bin/console apiImport:check >> /app/log/cron.log 2>&1
