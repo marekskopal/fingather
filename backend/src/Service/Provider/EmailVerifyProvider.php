@@ -8,6 +8,7 @@ use FinGather\Dto\EmailVerifyDto;
 use FinGather\Model\Entity\EmailVerify;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\EmailVerifyRepository;
+use FinGather\Service\Queue\Enum\QueueEnum;
 use FinGather\Service\Queue\QueuePublisher;
 use Ramsey\Uuid\Uuid;
 
@@ -32,7 +33,7 @@ class EmailVerifyProvider
 		);
 		$this->emailVerifyRepository->persist($emailVerify);
 
-		$this->queuePublisher->publishMessage(EmailVerifyDto::fromEntity($emailVerify), 'email-verify');
+		$this->queuePublisher->publishMessage(EmailVerifyDto::fromEntity($emailVerify), QueueEnum::EmailVerify);
 
 		return $emailVerify;
 	}

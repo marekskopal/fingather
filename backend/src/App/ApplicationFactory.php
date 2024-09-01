@@ -7,6 +7,8 @@ namespace FinGather\App;
 use Cycle\ORM\ORM;
 use FinGather\Cache\Cache;
 use FinGather\Middleware\AuthorizationMiddleware;
+use FinGather\Model\Entity\ApiImport;
+use FinGather\Model\Entity\ApiKey;
 use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\AssetData;
 use FinGather\Model\Entity\BenchmarkData;
@@ -34,6 +36,8 @@ use FinGather\Model\Entity\TickerData;
 use FinGather\Model\Entity\TickerFundamental;
 use FinGather\Model\Entity\Transaction;
 use FinGather\Model\Entity\User;
+use FinGather\Model\Repository\ApiImportRepository;
+use FinGather\Model\Repository\ApiKeyRepository;
 use FinGather\Model\Repository\AssetDataRepository;
 use FinGather\Model\Repository\AssetRepository;
 use FinGather\Model\Repository\BenchmarkDataRepository;
@@ -126,6 +130,8 @@ final class ApplicationFactory
 		$orm = $container->get(ORM::class);
 		assert($orm instanceof ORM);
 
+		$container->add(ApiImportRepository::class, fn () => $orm->getRepository(ApiImport::class));
+		$container->add(ApiKeyRepository::class, fn () => $orm->getRepository(ApiKey::class));
 		$container->add(AssetRepository::class, fn () => $orm->getRepository(Asset::class));
 		$container->add(AssetDataRepository::class, fn () => $orm->getRepository(AssetData::class));
 		$container->add(BenchmarkDataRepository::class, fn () => $orm->getRepository(BenchmarkData::class));

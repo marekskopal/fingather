@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Queue;
 
+use FinGather\Service\Queue\Enum\QueueEnum;
 use Spiral\Goridge\RPC\RPC;
 use Spiral\RoadRunner\Environment;
 use Spiral\RoadRunner\Jobs\Jobs;
@@ -24,14 +25,13 @@ final class QueuePublisher
 		);
 	}
 
-	/** @param non-empty-string $queueName */
-	public function publishMessage(object $message, string $queueName): QueuedTaskInterface
+	public function publishMessage(object $message, QueueEnum $queueType): QueuedTaskInterface
 	{
-		$queue = $this->jobs->connect($queueName);
+		$queue = $this->jobs->connect($queueType->value);
 
 		$payload = json_encode($message);
 
-		return $queue->dispatch($queue->create($queueName, $payload, new Options(
+		return $queue->dispatch($queue->create($queueType->value, $payload, new Options(
 			delay: 5,
 		)));
 	}
