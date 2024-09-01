@@ -15,7 +15,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class ListComponent implements OnInit {
     private readonly assetService = inject(AssetService);
-    private readonly modalService = inject(NgbModal);
     private readonly currencyService = inject(CurrencyService);
     private readonly groupWithGroupDataService = inject(GroupWithGroupDataService);
     private readonly portfolioService = inject(PortfolioService);
@@ -72,10 +71,6 @@ export class ListComponent implements OnInit {
             this.openedAssetsOrderBy,
         );
         this.$assetsWithProperties.set(assetsWithProperties);
-    }
-
-    public addAsset(): void {
-        this.modalService.open(AddAssetComponent);
     }
 
     public changeWithGroups(): void {

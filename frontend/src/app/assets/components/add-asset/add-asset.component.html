@@ -12,49 +12,65 @@
     </div>
 </ng-template>
 
-<div class="modal-header">
-    <h4>{{ 'app.assets.addAsset.header' | translate }}</h4>
+<div class="header row">
+    <div class="col-md-3 order-md-2 text-end">
+        <fingather-portfolio-selector />
+    </div>
+    <div class="col-md-9 order-md-0">
+        <h1 class="h3">{{ 'app.assets.addAsset.header' | translate }}</h1>
+
+        <a routerLink=".." class="btn-link" tabindex="0">
+            <mat-icon>chevron_left</mat-icon>
+            {{ 'app.assets.list.title' | translate }}
+        </a>
+    </div>
 </div>
-<div class="modal-body" >
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        <div class="mb-3">
-            <label for="ticker" class="form-label">{{ 'app.assets.addAsset.selectAsset' | translate }}</label>
-            <input
-                id="ticker"
-                type="text"
-                formControlName="ticker"
-                class="form-control"
-                [ngClass]="{ 'is-invalid': searchFailed || ($submitted() && f['ticker'].errors) }"
-                [(ngModel)]="model"
-                [ngbTypeahead]="search"
-                [resultTemplate]="rt"
-                [inputFormatter]="formatter"
-                placeholder="Ticker search"
-            />
-            @if (searching) {
-                <small class="form-text text-muted">{{ 'app.assets.addAsset.searching' | translate }}</small>
-            }
-            @if (searchFailed) {
-                <div class="invalid-feedback">{{ 'app.assets.addAsset.searchFailed' | translate }}</div>
-            }
 
-            <div *ngIf="$submitted() && f['ticker'].errors" class="invalid-feedback">
-                <div *ngIf="f['ticker'].errors['ticker']">{{ 'app.assets.addAsset.required' | translate }}</div>
-            </div>
-        </div>
-        @if (searching) {
-            <small class="form-text text-muted">{{ 'app.assets.addAsset.searching' | translate }}</small>
-        }
-        @if (searchFailed) {
-            <div class="invalid-feedback">{{ 'app.assets.addAsset.searchFailed' | translate }}</div>
-        }
+<div class="content-center">
+    <div class="card form">
+        <div class="card-body">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div class="mb-3">
+                    <label for="ticker" class="form-label">{{ 'app.assets.addAsset.selectAsset' | translate }}</label>
+                    <input
+                        id="ticker"
+                        type="text"
+                        formControlName="ticker"
+                        class="form-control"
+                        [ngClass]="{ 'is-invalid': searchFailed || ($submitted() && f['ticker'].errors) }"
+                        [(ngModel)]="model"
+                        [ngbTypeahead]="search"
+                        [resultTemplate]="rt"
+                        [inputFormatter]="formatter"
+                        placeholder="Ticker search"
+                    />
+                    @if (searching) {
+                        <small class="form-text text-muted">{{ 'app.assets.addAsset.searching' | translate }}</small>
+                    }
+                    @if (searchFailed) {
+                        <div class="invalid-feedback">{{ 'app.assets.addAsset.searchFailed' | translate }}</div>
+                    }
 
-        <div class="mb-3">
-            <button [disabled]="$saving()" class="btn btn-primary">
-                <span *ngIf="$saving()" class="spinner-border spinner-border-sm mr-1"></span>
-                {{ 'app.common.save' | translate }}
-            </button>
-            <a (click)="activeModal.dismiss()" class="btn btn-link" tabindex="0">{{ 'app.common.cancel' | translate }}</a>
+                    <div *ngIf="$submitted() && f['ticker'].errors" class="invalid-feedback">
+                        <div *ngIf="f['ticker'].errors['ticker']">{{ 'app.assets.addAsset.required' | translate }}</div>
+                    </div>
+                </div>
+                @if (searching) {
+                    <small class="form-text text-muted">{{ 'app.assets.addAsset.searching' | translate }}</small>
+                }
+                @if (searchFailed) {
+                    <div class="invalid-feedback">{{ 'app.assets.addAsset.searchFailed' | translate }}</div>
+                }
+
+                <div class="form-group buttons">
+                    <a routerLink=".." class="btn btn-secondary" tabindex="0">{{ 'app.common.cancel' | translate }}</a>
+
+                    <button [disabled]="$saving()" class="btn btn-primary">
+                        <span *ngIf="$saving()" class="spinner-border spinner-border-sm mr-1"></span>
+                        {{ 'app.common.save' | translate }}
+                    </button>
+                </div>
+            </form>
         </div>
-    </form>
+    </div>
 </div>
