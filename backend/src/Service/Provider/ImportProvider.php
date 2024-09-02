@@ -35,6 +35,7 @@ class ImportProvider
 
 	public function deleteImport(Import $import): void
 	{
-		$this->importRepository->delete($import);
+		// Temporary disabled delete of import for debugging purposes
+		//$this->importRepository->delete($import);
 	}
 }
