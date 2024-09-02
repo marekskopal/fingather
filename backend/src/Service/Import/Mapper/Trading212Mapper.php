@@ -34,7 +34,10 @@ final class Trading212Mapper extends CsvMapper
 			'taxCurrency' => 'Currency (Stamp duty reserve tax)',
 			'fee' => 'Currency conversion fee',
 			'feeCurrency' => 'Currency (Currency conversion fee)',
-			'importIdentifier' => 'ID',
+			'importIdentifier' => fn (array $record): string =>
+				$record['ID'] !== '' ?
+					$record['ID'] :
+					$record['Time'] . '|' . $record['Ticker'] . '|' . $record['No. of shares'],
 		];
 	}
 
