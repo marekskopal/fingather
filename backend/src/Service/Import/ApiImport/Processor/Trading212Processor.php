@@ -58,8 +58,8 @@ class Trading212Processor implements ProcessorInterface
 			dataIncluded: new DataIncluded(
 				includeDividends: true,
 				includeInterest: false,
-				includeOrders: false,
-				includeTransactions: true,
+				includeOrders: true,
+				includeTransactions: false,
 			),
 			timeFrom: $dateFrom,
 			timeTo: $dateTo,
