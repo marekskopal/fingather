@@ -10,9 +10,12 @@ use FinGather\Jobs\Handler\ApiImportProcessCheckHandler;
 use FinGather\Jobs\Handler\EmailVerifyHandler;
 use FinGather\Jobs\Handler\JobHandler;
 use FinGather\Service\Queue\Enum\QueueEnum;
+use Psr\Log\LoggerInterface;
 use Spiral\RoadRunner\Environment\Mode;
 use Spiral\RoadRunner\EnvironmentInterface;
 use Spiral\RoadRunner\Jobs\Consumer;
+use function Safe\file_put_contents;
+use const FILE_APPEND;
 
 final class JobsDispatcher implements Dispatcher
 {
@@ -26,6 +29,9 @@ final class JobsDispatcher implements Dispatcher
 		$consumer = new Consumer();
 
 		$application = ApplicationFactory::create();
+
+		$logger = $application->container->get(LoggerInterface::class);
+		assert($logger instanceof LoggerInterface);
 
 		while ($task = $consumer->waitTask()) {
 			try {
@@ -42,10 +48,27 @@ final class JobsDispatcher implements Dispatcher
 
 				$task->ack();
 
+				//fix SQL cache for each task
+				$application->dbContext->getOrm()->getHeap()->clean();
+
+				// Clean up hanging references
 				gc_collect_cycles();
 			} catch (\Throwable $e) {
+				$this->handleException($e, $logger);
+
 				$task->nack($e);
 			}
 		}
+	}
+
+	private function handleException(\Throwable $e, ?LoggerInterface $logger): void
+	{
+		if ($logger === null) {
+			// Failsafe in case the logger is not initialized yet
+			file_put_contents('php://stderr', __METHOD__ . ': ' . (string) $e, FILE_APPEND);
+			return;
+		}
+
+		$logger->error($e);
 	}
 }

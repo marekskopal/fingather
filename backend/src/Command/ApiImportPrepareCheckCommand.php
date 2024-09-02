@@ -33,7 +33,7 @@ final class ApiImportPrepareCheckCommand extends AbstractCommand
 			$apiImportCheckProvider->createApiImportPrepareCheck($apiKey);
 		}
 
-		$this->writeln('API import preapre check was ended.', $output);
+		$this->writeln('API import prepare check was ended.', $output);
 
 		return 0;
 	}

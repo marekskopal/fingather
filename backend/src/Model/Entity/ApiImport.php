@@ -9,9 +9,9 @@ use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\RefersTo;
 use DateTimeImmutable;
 use FinGather\Model\Entity\Enum\ApiImportStatusEnum;
-use FinGather\Model\Repository\ApiKeyRepository;
+use FinGather\Model\Repository\ApiImportRepository;
 
-#[Entity(repository: ApiKeyRepository::class)]
+#[Entity(repository: ApiImportRepository::class)]
 class ApiImport extends AEntity
 {
 	public function __construct(
@@ -19,7 +19,7 @@ class ApiImport extends AEntity
 		private User $user,
 		#[RefersTo(target: Portfolio::class)]
 		private Portfolio $portfolio,
-		#[RefersTo(target: ApiKey::class)]
+		#[RefersTo(target: ApiKey::class, innerKey:'api_key_id')]
 		private ApiKey $apiKey,
 		#[Column(type: 'enum(New,Waiting,InProgress,Finished,Error)', typecast: ApiImportStatusEnum::class)]
 		private ApiImportStatusEnum $status,
@@ -29,6 +29,8 @@ class ApiImport extends AEntity
 		protected DateTimeImmutable $dateTo,
 		#[Column(type: 'int', nullable: true)]
 		private ?int $reportId,
+		#[Column(type: 'string', nullable: true)]
+		private ?string $error,
 	) {
 	}
 
@@ -52,13 +54,18 @@ class ApiImport extends AEntity
 		$this->status = $status;
 	}
 
-	public function getDateFrom(): DateTimeImmutable
+	public function getDateTo(): DateTimeImmutable
 	{
-		return $this->dateFrom;
+		return $this->dateTo;
 	}
 
 	public function getReportId(): ?int
 	{
 		return $this->reportId;
+	}
+
+	public function setError(?string $error): void
+	{
+		$this->error = $error;
 	}
 }
