@@ -54,6 +54,7 @@ class ApiImportProvider
 			dateFrom: $dateFrom,
 			dateTo: $dateTo,
 			reportId: $reportId,
+			error: null,
 		);
 
 		$this->apiImportRepository->persist($apiImport);
@@ -61,9 +62,10 @@ class ApiImportProvider
 		return $apiImport;
 	}
 
-	public function updateApiImport(ApiImport $apiImport, ApiImportStatusEnum $status): ApiImport
+	public function updateApiImport(ApiImport $apiImport, ApiImportStatusEnum $status, ?string $error = null): ApiImport
 	{
 		$apiImport->setStatus($status);
+		$apiImport->setError($error);
 
 		$this->apiImportRepository->persist($apiImport);
 

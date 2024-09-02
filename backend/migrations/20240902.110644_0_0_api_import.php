@@ -80,7 +80,7 @@ class ApiImportMigration extends Migration
 				'unsigned' => false,
 				'zerofill' => false,
 			])
-			->addColumn('apiKey_id', 'integer', [
+			->addColumn('api_key_id', 'integer', [
 				'nullable' => false,
 				'defaultValue' => null,
 				'size' => 11,
@@ -103,9 +103,14 @@ class ApiImportMigration extends Migration
 				'unsigned' => false,
 				'zerofill' => false,
 			])
+			->addColumn('error', 'string', [
+				'nullable' => true,
+				'defaultValue' => null,
+				'size' => 255,
+			])
 			->addIndex(['user_id'], ['name' => 'api_imports_index_user_id_66d59c4479777', 'unique' => false])
 			->addIndex(['portfolio_id'], ['name' => 'api_imports_index_portfolio_id_66d59c44797a3', 'unique' => false])
-			->addIndex(['apiKey_id'], ['name' => 'api_imports_index_apikey_id_66d59c44797fd', 'unique' => false])
+			->addIndex(['api_key_id'], ['name' => 'api_imports_index_apikey_id_66d59c44797fd', 'unique' => false])
 			->addForeignKey(['user_id'], 'users', ['id'], [
 				'name' => 'api_imports_foreign_user_id_66d59c447977e',
 				'delete' => 'CASCADE',
@@ -118,7 +123,7 @@ class ApiImportMigration extends Migration
 				'update' => 'CASCADE',
 				'indexCreate' => true,
 			])
-			->addForeignKey(['apiKey_id'], 'api_keys', ['id'], [
+			->addForeignKey(['api_key_id'], 'api_keys', ['id'], [
 				'name' => 'api_imports_foreign_apikey_id_66d59c4479802',
 				'delete' => 'CASCADE',
 				'update' => 'CASCADE',

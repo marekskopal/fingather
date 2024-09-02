@@ -1845,16 +1845,16 @@
         },
         {
             "name": "marekskopal/trading212",
-            "version": "v1.0.0",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/marekskopal/trading212.git",
-                "reference": "978ee391b380fea51cd87deb39f03f4ebdfefbbf"
+                "reference": "51a9ae0931748b24142d3591b780cfab6c6ac0dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/marekskopal/trading212/zipball/978ee391b380fea51cd87deb39f03f4ebdfefbbf",
-                "reference": "978ee391b380fea51cd87deb39f03f4ebdfefbbf",
+                "url": "https://api.github.com/repos/marekskopal/trading212/zipball/51a9ae0931748b24142d3591b780cfab6c6ac0dd",
+                "reference": "51a9ae0931748b24142d3591b780cfab6c6ac0dd",
                 "shasum": ""
             },
             "require": {
@@ -1896,9 +1896,9 @@
             "description": "Trading212 API client library",
             "support": {
                 "issues": "https://github.com/marekskopal/trading212/issues",
-                "source": "https://github.com/marekskopal/trading212/tree/v1.0.0"
+                "source": "https://github.com/marekskopal/trading212/tree/v1.0.1"
             },
-            "time": "2024-09-01T18:39:14+00:00"
+            "time": "2024-09-02T19:21:50+00:00"
         },
         {
             "name": "marekskopal/twelvedata",

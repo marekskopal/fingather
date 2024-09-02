@@ -12,7 +12,6 @@ use FinGather\Service\Import\ImportService;
 use FinGather\Service\Provider\ApiImportProvider;
 use FinGather\Service\Provider\ImportFileProvider;
 use FinGather\Service\Provider\ImportProvider;
-use FinGather\Utils\DateTimeUtils;
 use MarekSkopal\Trading212\Config\Config;
 use MarekSkopal\Trading212\Dto\HistoricalItems\DataIncluded;
 use MarekSkopal\Trading212\Dto\HistoricalItems\Export;
@@ -38,9 +37,22 @@ class Trading212Processor implements ProcessorInterface
 
 		$lastApiImport = $this->apiImportProvider->getLastApiImport($apiKey);
 
-		$dateFrom = $lastApiImport?->getDateFrom()->sub(new DateInterval('P1D')) ?? new DateTimeImmutable(DateTimeUtils::FirstDate);
+		if ($lastApiImport !== null) {
+			$dateFrom = $lastApiImport->getDateTo()->sub(new DateInterval('P1D'));
+		} else {
+			$transactions = iterator_to_array($trading212->getHistoricalItems()->orders(
+				limit: 50,
+			)->fetchAll());
+			$firstTransaction = $transactions[array_key_last($transactions)];
+			$dateFrom = $firstTransaction->dateCreated;
+		}
 
-		$dateTo = new DateTimeImmutable('today');
+		$dateTo = $dateFrom->add(new DateInterval('P354D'));
+		$createNextImport = true;
+		if ($dateTo > new DateTimeImmutable('today')) {
+			$dateTo = new DateTimeImmutable('today');
+			$createNextImport = false;
+		}
 
 		$exportCsv = new ExportCsv(
 			dataIncluded: new DataIncluded(
@@ -65,6 +77,10 @@ class Trading212Processor implements ProcessorInterface
 		);
 
 		$this->apiImportProvider->updateApiImport($apiImport, ApiImportStatusEnum::Waiting);
+
+		if ($createNextImport) {
+			$this->prepare($apiKey);
+		}
 	}
 
 	public function process(ApiImport $apiImport): void
@@ -74,22 +90,27 @@ class Trading212Processor implements ProcessorInterface
 		$trading212 = new Trading212(new Config($apiImport->getApiKey()->getApiKey()));
 
 		$exports = $trading212->getHistoricalItems()->exports();
-		/** @var Export|null $export */
-		$export = array_filter($exports, fn($item) => $item->reportId === $apiImport->getReportId())[0] ?? null;
+		$export = array_values(array_filter($exports, fn(Export $item): bool => $item->reportId === $apiImport->getReportId()))[0] ?? null;
 		if ($export === null) {
-			$this->apiImportProvider->updateApiImport($apiImport, ApiImportStatusEnum::Error);
+			$this->apiImportProvider->updateApiImport(apiImport: $apiImport, status: ApiImportStatusEnum::Error, error: 'Export not found');
 			return;
 		}
 
-		if ($export->status !== 'Ready') {
+		if ($export->status !== 'Finished') {
 			$this->apiImportProvider->updateApiImport($apiImport, ApiImportStatusEnum::Waiting);
 			return;
 		}
 
 		try {
-			$csvFile = file_get_contents($export->downloadLink);
-		} catch (FilesystemException) {
-			$this->apiImportProvider->updateApiImport($apiImport, ApiImportStatusEnum::Error);
+			$downloadLink = $export->downloadLink;
+			assert($downloadLink !== null);
+			$csvFile = file_get_contents($downloadLink);
+		} catch (FilesystemException $exception) {
+			$this->apiImportProvider->updateApiImport(
+				apiImport: $apiImport,
+				status: ApiImportStatusEnum::Error,
+				error: 'Error downloading file: ' . $exception->getMessage(),
+			);
 			return;
 		}
 
