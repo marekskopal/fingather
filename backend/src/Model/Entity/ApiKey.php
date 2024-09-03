@@ -44,4 +44,9 @@ class ApiKey extends AEntity
 	{
 		return $this->apiKey;
 	}
+
+	public function setApiKey(string $apiKey): void
+	{
+		$this->apiKey = $apiKey;
+	}
 }

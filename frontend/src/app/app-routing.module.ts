@@ -54,6 +54,11 @@ const routes: Routes = [
         canActivate: [AuthGuard]
     },
     {
+        path: 'api-keys',
+        loadChildren: () => import('./api-keys/api-keys-routes'),
+        canActivate: [AuthGuard]
+    },
+    {
         path: 'email-verify',
         loadChildren: () => import('./email-verify/email-verify.module').then((x) => x.EmailVerifyModule)
     },

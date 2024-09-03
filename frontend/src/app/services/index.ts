@@ -1,4 +1,5 @@
 export * from './alert.service';
+export * from './api-key.service';
 export * from './asset.service';
 export * from './broker.service';
 export * from './currency.service';

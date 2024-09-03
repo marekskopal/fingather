@@ -1,0 +1,53 @@
+﻿<div class="header row">
+    <div class="col-md-3 order-md-2 text-end">
+        <fingather-portfolio-selector />
+    </div>
+    <div class="col-md-3 order-md-0">
+        <h1 class="h3">{{ 'app.apiKeys.apiKeys.title' | translate }}</h1>
+    </div>
+    <div class="col-md-6 order-md-1 text-end">
+        <a routerLink="add-api-key" class="btn btn-primary me-3" tabindex="0">
+            <mat-icon>add</mat-icon>
+            <span> {{ 'app.apiKeys.apiKeys.addApiKey' | translate }}</span>
+        </a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <table class="table table-fixed">
+            <thead>
+                <tr>
+                    <th style="width: 40%">{{ 'app.apiKeys.apiKeys.type' | translate }}</th>
+                    <th style="width: 40%">{{ 'app.apiKeys.apiKeys.apiKey' | translate }}</th>
+                    <th style="width: 20%"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(apiKey of apiKeys; track apiKey.id) {
+                    <tr>
+                        <td>{{apiKey.type}}</td>
+                        <td>{{apiKey.apiKey}}</td>
+                        <td class="text-end" style="white-space: nowrap">
+                            <a routerLink="edit-api-key/{{apiKey.id}}" class="btn btn-secondary me-2" tabindex="0">
+                                <mat-icon>edit</mat-icon>
+                            </a>
+                            <fingather-delete-button
+                                (onConfirm)="deleteApiKey(apiKey.id)"
+                                [title]="'app.apiKeys.apiKeys.deleteTitle' | translate"
+                                [message]="'app.apiKeys.apiKeys.deleteMessage' | translate"
+                            />
+                        </td>
+                    </tr>
+                }
+                @if(apiKeys === null) {
+                    <tr>
+                        <td colspan="3" class="text-center">
+                            <span class="spinner-border spinner-border-lg align-center"></span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

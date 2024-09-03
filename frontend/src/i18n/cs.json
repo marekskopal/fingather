@@ -314,6 +314,24 @@
         "currencyRequired": "Měna je povinná"
       }
     },
+    "apiKeys": {
+      "apiKeys": {
+        "title": "API klíče",
+        "apiKey": "API klíč",
+        "type": "Typ",
+        "addApiKey": "Přidat API klíč",
+        "deleteTitle": "Smazat API klíč",
+        "deleteMessage": "Opravdu chcete smazat tento API klíč?"
+      },
+      "addEdit": {
+        "headerAdd": "Přidat API klíč",
+        "headerEdit": "Upravit API klíč",
+        "type": "Typ",
+        "typeRequired": "Typ je povinný",
+        "apiKey": "API klíč",
+        "apiKeyRequired": "API klíč je povinný"
+      }
+    },
     "shared": {
       "portfolioTotal": {
         "portfolioValue": "Hodnota portfólia",

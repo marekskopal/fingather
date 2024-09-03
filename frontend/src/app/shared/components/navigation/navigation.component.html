@@ -56,6 +56,12 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" (click)="collapseNavigation()" routerLink="/api-keys" routerLinkActive="active">
+                    <mat-icon>key</mat-icon>
+                    <span>{{ 'app.navbar.apiKeys' | translate }}</span>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" (click)="collapseNavigation()" routerLink="/users" routerLinkActive="active">
                     <mat-icon>group</mat-icon>
                     <span>{{ 'app.navbar.users' | translate }}</span>

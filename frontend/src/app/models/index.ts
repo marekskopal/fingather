@@ -1,6 +1,7 @@
 export * from './abstract-data-entity';
 export * from './abstract-entity';
 export * from './alert';
+export * from './api-key';
 export * from './asset';
 export * from './asset-data';
 export * from './asset-with-properties';
