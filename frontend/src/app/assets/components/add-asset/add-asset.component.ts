@@ -1,15 +1,14 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import { Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from "@angular/router";
 import { Ticker } from '@app/models';
 import { AssetService, PortfolioService, TickerService
 } from '@app/services';
-import { BaseDialog } from '@app/shared/components/dialog/base-dialog';
+import { BaseForm } from "@app/shared/components/form/base-form";
 import { Observable, of, OperatorFunction } from 'rxjs';
 import {
     catchError, debounceTime, distinctUntilChanged, map, switchMap, tap
 } from 'rxjs/operators';
-import {BaseForm} from "@app/shared/components/form/base-form";
-import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
     templateUrl: 'add-asset.component.html',

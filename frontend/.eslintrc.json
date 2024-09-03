@@ -29,7 +29,7 @@
         "import/prefer-default-export": "off",
         "max-len": [
           "error",
-          120
+          130
         ],
         "simple-import-sort/imports": "error",
         "simple-import-sort/exports": "error",
@@ -67,12 +67,16 @@
       "files": [
         "*.html"
       ],
+      "parser": "@angular-eslint/template-parser",
       "extends": [
         "plugin:@angular-eslint/template/recommended",
         "plugin:@angular-eslint/template/accessibility"
       ],
       "rules": {
-        "@angular-eslint/template/click-events-have-key-events": "off"
+        "@angular-eslint/template/click-events-have-key-events": "off",
+        "@angular-eslint/template/prefer-self-closing-tags": "error",
+        "@angular-eslint/template/prefer-ngsrc": "error",
+        "@angular-eslint/template/prefer-control-flow": "error"
       }
     }
   ],
