@@ -41,6 +41,13 @@ abstract class XlsxMapper implements XlsxMapperInterface
 		return $sheetData;
 	}
 
+	/** @return list<int>|null */
+	public function getAllowedMarketIds(): ?array
+	{
+		//Allow all markets by default
+		return null;
+	}
+
 	abstract public function getSheetIndex(): int;
 
 	public function check(string $content, string $fileName): bool

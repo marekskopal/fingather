@@ -40,6 +40,13 @@ abstract class CsvMapper implements CsvMapperInterface
 		return $extension === 'csv';
 	}
 
+	/** @return list<int>|null */
+	public function getAllowedMarketIds(): ?array
+	{
+		//Allow all markets by default
+		return null;
+	}
+
 	protected function sanitizeContent(string $content): string
 	{
 		return $content;

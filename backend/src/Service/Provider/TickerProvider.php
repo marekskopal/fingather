@@ -33,35 +33,45 @@ class TickerProvider
 		return iterator_to_array($this->tickerRepository->findActiveTickers());
 	}
 
-	/** @return list<Ticker> */
-	public function getTickersByTicker(string $ticker, ?Market $market = null, ?string $isin = null): array
+	/**
+	 * @param list<int> $marketIds
+	 * @return list<Ticker>
+	 */
+	public function getTickersByTicker(string $ticker, ?array $marketIds = null, ?string $isin = null): array
 	{
-		return iterator_to_array($this->tickerRepository->findTickersByTicker($ticker, $market?->getId(), $isin));
+		return iterator_to_array($this->tickerRepository->findTickersByTicker($ticker, $marketIds, $isin));
 	}
 
-	public function countTickersByTicker(string $ticker, ?Market $market = null, ?string $isin = null): int
+	/** @param list<int> $marketIds */
+	public function countTickersByTicker(string $ticker, ?array $marketIds = null, ?string $isin = null): int
 	{
-		return $this->tickerRepository->countTickersByTicker($ticker, $market?->getId(), $isin);
+		return $this->tickerRepository->countTickersByTicker($ticker, $marketIds, $isin);
 	}
 
-	public function getTickerByTicker(string $ticker, ?Market $market = null, ?string $isin = null): ?Ticker
+	/** @param list<int> $marketIds */
+	public function getTickerByTicker(string $ticker, ?array $marketIds = null, ?string $isin = null): ?Ticker
 	{
-		return $this->tickerRepository->findTickerByTicker($ticker, $market?->getId(), $isin);
+		return $this->tickerRepository->findTickerByTicker($ticker, $marketIds, $isin);
 	}
 
-	/** @return list<Ticker> */
-	public function getTickersByIsin(string $isin): array
+	/**
+	 * @param list<int> $marketIds
+	 * @return list<Ticker>
+	 */
+	public function getTickersByIsin(string $isin, ?array $marketIds = null): array
 	{
-		return iterator_to_array($this->tickerRepository->findTickersByIsin($isin));
+		return iterator_to_array($this->tickerRepository->findTickersByIsin($isin, $marketIds));
 	}
 
-	public function countTickersByIsin(string $isin): int
+	/** @param list<int> $marketIds */
+	public function countTickersByIsin(string $isin, ?array $marketIds = null): int
 	{
-		return $this->tickerRepository->countTickersByIsin($isin);
+		return $this->tickerRepository->countTickersByIsin($isin, $marketIds);
 	}
 
-	public function getTickerByIsin(string $isin): ?Ticker
+	/** @param list<int> $marketIds */
+	public function getTickerByIsin(string $isin, ?array $marketIds = null): ?Ticker
 	{
-		return $this->tickerRepository->findTickerByIsin($isin);
+		return $this->tickerRepository->findTickerByIsin($isin, $marketIds);
 	}
 }

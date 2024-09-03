@@ -78,33 +78,41 @@ final class TickerRepository extends ARepository
 			->fetchAll();
 	}
 
-	/** @return list<Ticker> */
-	public function findTickersByTicker(string $ticker, ?int $marketId = null, ?string $isin = null): iterable
+	/**
+	 * @param list<int> $marketIds
+	 * @return list<Ticker>
+	 */
+	public function findTickersByTicker(string $ticker, ?array $marketIds = null, ?string $isin = null): iterable
 	{
-		return $this->getTickerByTickerSelect($ticker, $marketId, $isin)
+		return $this->getTickerByTickerSelect($ticker, $marketIds, $isin)
 			->fetchAll();
 	}
 
-	public function countTickersByTicker(string $ticker, ?int $marketId = null, ?string $isin = null): int
+	/** @param list<int> $marketIds */
+	public function countTickersByTicker(string $ticker, ?array $marketIds = null, ?string $isin = null): int
 	{
-		return $this->getTickerByTickerSelect($ticker, $marketId, $isin)
+		return $this->getTickerByTickerSelect($ticker, $marketIds, $isin)
 			->count();
 	}
 
-	public function findTickerByTicker(string $ticker, ?int $marketId = null, ?string $isin = null): ?Ticker
+	/** @param list<int> $marketIds */
+	public function findTickerByTicker(string $ticker, ?array $marketIds = null, ?string $isin = null): ?Ticker
 	{
-		return $this->getTickerByTickerSelect($ticker, $marketId, $isin)
+		return $this->getTickerByTickerSelect($ticker, $marketIds, $isin)
 			->fetchOne();
 	}
 
-	/** @return Select<Ticker> */
-	private function getTickerByTickerSelect(string $ticker, ?int $marketId = null, ?string $isin = null): Select
+	/**
+	 * @param list<int> $marketIds
+	 * @return Select<Ticker>
+	 */
+	private function getTickerByTickerSelect(string $ticker, ?array $marketIds = null, ?string $isin = null): Select
 	{
 		$tickerSelect = $this->select()
 			->where('ticker', $ticker);
 
-		if ($marketId !== null) {
-			$tickerSelect->where('market_id', $marketId);
+		if ($marketIds !== null) {
+			$tickerSelect->where('market_id', 'in', $marketIds);
 		}
 
 		if ($isin !== null) {
@@ -114,29 +122,43 @@ final class TickerRepository extends ARepository
 		return $tickerSelect;
 	}
 
-	/** @return list<Ticker> */
-	public function findTickersByIsin(string $isin): iterable
+	/**
+	 * @param list<int> $marketIds
+	 * @return list<Ticker>
+	 */
+	public function findTickersByIsin(string $isin, ?array $marketIds = null): iterable
 	{
-		return $this->getTickerByIsinSelect($isin)
+		return $this->getTickerByIsinSelect($isin, $marketIds)
 			->fetchAll();
 	}
 
-	public function countTickersByIsin(string $isin): int
+	/** @param list<int> $marketIds */
+	public function countTickersByIsin(string $isin, ?array $marketIds = null): int
 	{
-		return $this->getTickerByIsinSelect($isin)
+		return $this->getTickerByIsinSelect($isin, $marketIds)
 			->count();
 	}
 
-	public function findTickerByIsin(string $isin): ?Ticker
+	/** @param list<int> $marketIds */
+	public function findTickerByIsin(string $isin, ?array $marketIds = null): ?Ticker
 	{
-		return $this->getTickerByIsinSelect($isin)
+		return $this->getTickerByIsinSelect($isin, $marketIds)
 			->fetchOne();
 	}
 
-	/** @return Select<Ticker> */
-	private function getTickerByIsinSelect(string $isin): Select
+	/**
+	 * @param list<int> $marketIds
+	 * @return Select<Ticker>
+	 */
+	private function getTickerByIsinSelect(string $isin, ?array $marketIds = null): Select
 	{
-		return $this->select()
+		$tickerSelect = $this->select()
 			->where('isin', $isin);
+
+		if ($marketIds !== null) {
+			$tickerSelect->where('market_id', 'in', $marketIds);
+		}
+
+		return $tickerSelect;
 	}
 }

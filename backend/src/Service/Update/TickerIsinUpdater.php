@@ -42,7 +42,10 @@ final class TickerIsinUpdater
 						continue;
 					}
 
-					$ticker = $this->tickerRepository->findTickerByTicker(str_replace('/', '.', $mappingResult->ticker), $market->getId());
+					$ticker = $this->tickerRepository->findTickerByTicker(
+						str_replace('/', '.', $mappingResult->ticker),
+						[$market->getId()],
+					);
 					if ($ticker === null) {
 						continue;
 					}

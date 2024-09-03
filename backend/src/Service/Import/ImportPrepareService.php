@@ -69,6 +69,7 @@ final class ImportPrepareService
 
 		$this->prepareImportTickers(
 			transactionRecords: $transactionRecords,
+			importMapper: $importMapper,
 			brokerId: $brokerId,
 			importMappings: $importMappings,
 			okFoundTickers: $okFoundTickers,
@@ -150,6 +151,7 @@ final class ImportPrepareService
 	 */
 	private function prepareImportTickers(
 		array $transactionRecords,
+		MapperInterface $importMapper,
 		int $brokerId,
 		array $importMappings,
 		array &$okFoundTickers,
@@ -161,6 +163,7 @@ final class ImportPrepareService
 			if ($transactionRecord->ticker === null && $transactionRecord->isin !== null) {
 				$this->prepareImportTickersFromIsin(
 					isin: $transactionRecord->isin,
+					importMapper: $importMapper,
 					brokerId: $brokerId,
 					importMappings: $importMappings,
 					okFoundTickers: $okFoundTickers,
@@ -177,6 +180,7 @@ final class ImportPrepareService
 			$this->prepareImportTickersFromTicker(
 				ticker: $transactionRecord->ticker,
 				isin: $transactionRecord->isin,
+				importMapper: $importMapper,
 				brokerId: $brokerId,
 				importMappings: $importMappings,
 				okFoundTickers: $okFoundTickers,
@@ -195,6 +199,7 @@ final class ImportPrepareService
 	public function prepareImportTickersFromTicker(
 		string $ticker,
 		?string $isin,
+		MapperInterface $importMapper,
 		int $brokerId,
 		array $importMappings,
 		array &$okFoundTickers,
@@ -223,10 +228,18 @@ final class ImportPrepareService
 			return;
 		}
 
-		$countTicker = $this->tickerProvider->countTickersByTicker(ticker: $ticker, isin: $isin);
+		$countTicker = $this->tickerProvider->countTickersByTicker(
+			ticker: $ticker,
+			isin: $isin,
+			marketIds: $importMapper->getAllowedMarketIds(),
+		);
 		if ($countTicker === 0 && $isin !== null) {
 			$isin = null;
-			$countTicker = $this->tickerProvider->countTickersByTicker(ticker: $ticker, isin: $isin);
+			$countTicker = $this->tickerProvider->countTickersByTicker(
+				ticker: $ticker,
+				isin: $isin,
+				marketIds: $importMapper->getAllowedMarketIds(),
+			);
 		}
 		if ($countTicker === 0) {
 			$notFoundTickers[$tickerKey] = new PrepareImportTicker(
@@ -238,10 +251,18 @@ final class ImportPrepareService
 			$multipleFoundTickers[$tickerKey] = new PrepareImportTicker(
 				brokerId: $brokerId,
 				ticker: $ticker,
-				tickers: $this->tickerProvider->getTickersByTicker(ticker: $ticker, isin: $isin),
+				tickers: $this->tickerProvider->getTickersByTicker(
+					ticker: $ticker,
+					isin: $isin,
+					marketIds: $importMapper->getAllowedMarketIds(),
+				),
 			);
 		} else {
-			$tickerByTicker = $this->tickerProvider->getTickerByTicker(ticker: $ticker, isin: $isin);
+			$tickerByTicker = $this->tickerProvider->getTickerByTicker(
+				ticker: $ticker,
+				isin: $isin,
+				marketIds: $importMapper->getAllowedMarketIds(),
+			);
 			assert($tickerByTicker instanceof Ticker);
 			$okFoundTickers[$tickerKey] = new PrepareImportTicker(
 				brokerId: $brokerId,
@@ -259,6 +280,7 @@ final class ImportPrepareService
 	 */
 	public function prepareImportTickersFromIsin(
 		string $isin,
+		MapperInterface $importMapper,
 		int $brokerId,
 		array $importMappings,
 		array &$okFoundTickers,
@@ -287,7 +309,10 @@ final class ImportPrepareService
 			return;
 		}
 
-		$countTicker = $this->tickerProvider->countTickersByIsin($isin);
+		$countTicker = $this->tickerProvider->countTickersByIsin(
+			isin: $isin,
+			marketIds: $importMapper->getAllowedMarketIds(),
+		);
 		if ($countTicker === 0) {
 			$notFoundTickers[$tickerKey] = new PrepareImportTicker(
 				brokerId: $brokerId,
@@ -298,10 +323,16 @@ final class ImportPrepareService
 			$multipleFoundTickers[$tickerKey] = new PrepareImportTicker(
 				brokerId: $brokerId,
 				ticker: $isin,
-				tickers: $this->tickerProvider->getTickersByIsin($isin),
+				tickers: $this->tickerProvider->getTickersByIsin(
+					isin: $isin,
+					marketIds: $importMapper->getAllowedMarketIds(),
+				),
 			);
 		} else {
-			$tickerByTicker = $this->tickerProvider->getTickerByIsin($isin);
+			$tickerByTicker = $this->tickerProvider->getTickerByIsin(
+				isin: $isin,
+				marketIds: $importMapper->getAllowedMarketIds(),
+			);
 			assert($tickerByTicker instanceof Ticker);
 			$okFoundTickers[$tickerKey] = new PrepareImportTicker(
 				brokerId: $brokerId,
