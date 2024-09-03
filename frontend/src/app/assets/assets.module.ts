@@ -6,7 +6,6 @@ import { AddAssetComponent } from '@app/assets/components/add-asset/add-asset.co
 import {AssetChartsComponent} from "@app/assets/components/detail/components/asset-charts/asset-charts.component";
 import {
     AssetTickerChartComponent
-    // eslint-disable-next-line max-len
 } from "@app/assets/components/detail/components/asset-charts/components/asset-ticker-chart/asset-ticker-chart.component";
 import {
     AssetValueChartComponent
