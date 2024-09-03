@@ -150,7 +150,7 @@ final class AssetController
 			return new NotFoundResponse('Market with MIC "' . $tickerDto->market->mic . '" was not found.');
 		}
 
-		$ticker = $this->tickerProvider->getTickerByTicker($tickerDto->ticker, $market);
+		$ticker = $this->tickerProvider->getTickerByTicker($tickerDto->ticker, [$market->getId()]);
 		if ($ticker === null) {
 			return new NotFoundResponse('Ticker "' . $tickerDto->ticker . '" was not found.');
 		}

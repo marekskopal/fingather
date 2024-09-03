@@ -21,6 +21,7 @@ use FinGather\Model\Repository\TransactionRepository;
 use FinGather\Service\Import\Entity\TransactionRecord;
 use FinGather\Service\Import\Factory\ImportMapperFactory;
 use FinGather\Service\Import\Factory\TransactionRecordFactory;
+use FinGather\Service\Import\Mapper\MapperInterface;
 use FinGather\Service\Provider\AssetProvider;
 use FinGather\Service\Provider\BrokerProvider;
 use FinGather\Service\Provider\DataProvider;
@@ -126,7 +127,7 @@ final class ImportService
 				continue;
 			}
 
-			$ticker = $this->getTickerFromTransactionRecord($transactionRecord, $broker, $importMappings);
+			$ticker = $this->getTickerFromTransactionRecord($transactionRecord, $broker, $importMapper, $importMappings);
 			if ($ticker === null) {
 				$this->logger->log('import', 'Ticker not found: ' . implode(',', $record));
 				continue;
@@ -177,7 +178,12 @@ final class ImportService
 	}
 
 	/** @param array<string, ImportMapping> $importMappings */
-	private function getTickerFromTransactionRecord(TransactionRecord $transactionRecord, Broker $broker, array $importMappings): ?Ticker
+	private function getTickerFromTransactionRecord(
+		TransactionRecord $transactionRecord,
+		Broker $broker,
+		MapperInterface $importMapper,
+		array $importMappings,
+	): ?Ticker
 	{
 		$tickerKey = $this->getTickerKey($transactionRecord, $broker);
 		if ($tickerKey === null) {
@@ -189,7 +195,10 @@ final class ImportService
 		}
 
 		if ($transactionRecord->ticker === null && $transactionRecord->isin !== null) {
-			$ticker = $this->tickerProvider->getTickerByIsin($transactionRecord->isin);
+			$ticker = $this->tickerProvider->getTickerByIsin(
+				isin: $transactionRecord->isin,
+				marketIds: $importMapper->getAllowedMarketIds(),
+			);
 			if ($ticker !== null) {
 				return $ticker;
 			}
@@ -199,9 +208,16 @@ final class ImportService
 			return null;
 		}
 
-		$ticker = $this->tickerProvider->getTickerByTicker(ticker: $transactionRecord->ticker, isin: $transactionRecord->isin);
+		$ticker = $this->tickerProvider->getTickerByTicker(
+			ticker: $transactionRecord->ticker,
+			isin: $transactionRecord->isin,
+			marketIds: $importMapper->getAllowedMarketIds(),
+		);
 		if ($ticker === null) {
-			$ticker = $this->tickerProvider->getTickerByTicker(ticker: $transactionRecord->ticker);
+			$ticker = $this->tickerProvider->getTickerByTicker(
+				ticker: $transactionRecord->ticker,
+				marketIds: $importMapper->getAllowedMarketIds(),
+			);
 		}
 
 		return $ticker;
