@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import {AddAssetComponent} from "@app/assets/components/add-asset/add-asset.component";
 import { DetailComponent } from '@app/assets/components/detail/detail.component';
 import { LayoutComponent } from '@app/assets/components/layout/layout.component';
 import { ListComponent } from '@app/assets/components/list/list.component';
-import {AddAssetComponent} from "@app/assets/components/add-asset/add-asset.component";
 
 const routes: Routes = [
     {

@@ -1,13 +1,11 @@
 import {
     ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal
 } from '@angular/core';
-import { AddAssetComponent } from '@app/assets/components/add-asset/add-asset.component';
 import { AssetsWithProperties, Currency, GroupWithGroupData } from '@app/models';
 import { AssetsOrder } from '@app/models/enums/assets-order';
 import {
     AssetService, CurrencyService, GroupWithGroupDataService, PortfolioService
 } from '@app/services';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     templateUrl: 'list.component.html',
