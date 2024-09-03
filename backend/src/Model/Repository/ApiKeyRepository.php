@@ -25,8 +25,15 @@ final class ApiKeyRepository extends ARepository
 		return $apiKeysSelect->fetchAll();
 	}
 
-	public function findApiKey(int $apiKeyId): ?ApiKey
+	public function findApiKey(int $apiKeyId, ?int $userId): ?ApiKey
 	{
-		return $this->select()->where('id', $apiKeyId)->fetchOne();
+		$apiKeySelect = $this->select()
+			->where('id', $apiKeyId);
+
+		if ($userId !== null) {
+			$apiKeySelect->where('user_id', $userId);
+		}
+
+		return $apiKeySelect->fetchOne();
 	}
 }

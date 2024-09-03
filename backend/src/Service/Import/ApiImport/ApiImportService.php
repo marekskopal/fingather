@@ -23,7 +23,7 @@ class ApiImportService
 
 	public function prepareImport(ApiImportPrepareCheckDto $apiImportPrepareCheck): void
 	{
-		$apiKey = $this->apiKeyProvider->getApiKey($apiImportPrepareCheck->apiKeyId);
+		$apiKey = $this->apiKeyProvider->getApiKey(apiKeyId: $apiImportPrepareCheck->apiKeyId);
 		if ($apiKey === null) {
 			$this->logger->error('Preparing API import - ApiKey not found - apiKeyId:' . $apiImportPrepareCheck->apiKeyId);
 			return;

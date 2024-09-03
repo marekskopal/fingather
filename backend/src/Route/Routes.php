@@ -11,6 +11,9 @@ enum Routes: string
 	case AdminUsers = '/api/admin/user';
 	case AdminUser = '/api/admin/user/{userId:number}';
 
+	case ApiKeys = '/api/api-keys/{portfolioId:number}';
+	case ApiKey = '/api/api-key/{apiKeyId:number}';
+
 	case Assets = '/api/assets/{portfolioId:number}';
 	case AssetsWithProperties = '/api/assets/with-properties/{portfolioId:number}';
 	case Asset = '/api/asset/{assetId:number}';
