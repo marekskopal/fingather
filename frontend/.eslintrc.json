@@ -18,11 +18,7 @@
         "plugin:@angular-eslint/recommended",
         "plugin:@angular-eslint/template/process-inline-templates"
       ],
-      "parser": "@angular-eslint/template-parser",
       "rules": {
-        "@angular-eslint/template/prefer-self-closing-tags": "error",
-        "@angular-eslint/template/prefer-ngsrc": "error",
-        "@angular-eslint/template/prefer-control-flow": "error",
         "@angular-eslint/prefer-on-push-component-change-detection": "error",
         "no-continue": "off",
         "no-return-assign": "off",
@@ -71,12 +67,16 @@
       "files": [
         "*.html"
       ],
+      "parser": "@angular-eslint/template-parser",
       "extends": [
         "plugin:@angular-eslint/template/recommended",
         "plugin:@angular-eslint/template/accessibility"
       ],
       "rules": {
-        "@angular-eslint/template/click-events-have-key-events": "off"
+        "@angular-eslint/template/click-events-have-key-events": "off",
+        "@angular-eslint/template/prefer-self-closing-tags": "error",
+        "@angular-eslint/template/prefer-ngsrc": "error",
+        "@angular-eslint/template/prefer-control-flow": "error"
       }
     }
   ],
