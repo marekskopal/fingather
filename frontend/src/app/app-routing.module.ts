@@ -40,7 +40,7 @@ const routes: Routes = [
     },
     {
         path: 'portfolios',
-        loadChildren: () => import('./portfolios/portfolios.module').then((x) => x.PortfoliosModule),
+        loadChildren: () => import('./portfolios/portfolios-routes'),
         canActivate: [AuthGuard]
     },
     {
