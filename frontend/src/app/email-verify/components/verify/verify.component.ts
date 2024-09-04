@@ -1,9 +1,15 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import { EmailVerifyService } from '@app/services';
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'verify.component.html',
+    standalone: true,
+    imports: [
+        TranslateModule,
+        RouterLink
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VerifyComponent implements OnInit {
