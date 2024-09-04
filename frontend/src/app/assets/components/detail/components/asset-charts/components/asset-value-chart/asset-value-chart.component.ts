@@ -15,7 +15,7 @@ import {
     ApexStroke,
     ApexTheme,
     ApexTitleSubtitle,
-    ApexXAxis, ApexYAxis
+    ApexXAxis, ApexYAxis, NgApexchartsModule
 } from 'ng-apexcharts';
 
 export type ChartOptions = {
@@ -35,6 +35,10 @@ export type ChartOptions = {
 @Component({
     templateUrl: 'asset-value-chart.component.html',
     selector: 'fingather-asset-value-chart',
+    standalone: true,
+    imports: [
+        NgApexchartsModule
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AssetValueChartComponent implements OnInit {

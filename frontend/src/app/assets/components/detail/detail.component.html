@@ -16,7 +16,11 @@
 @if (asset) {
     <div class="asset-detail">
         <div class="asset-detail-header">
-            <fingather-ticker-logo [ticker]="asset.ticker" />
+            <fingather-ticker-logo
+                [ticker]="asset.ticker"
+                [width]="96"
+                [height]="96"
+            />
 
             <div class="asset-detail-header-info">
                 <div class="ticker-ticker h4">{{asset.ticker.ticker}}</div>

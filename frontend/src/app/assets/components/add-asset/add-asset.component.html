@@ -37,7 +37,7 @@
                         type="text"
                         formControlName="ticker"
                         class="form-control"
-                        [ngClass]="{ 'is-invalid': searchFailed || ($submitted() && f['ticker'].errors) }"
+                        [class.is-invalid]="searchFailed || ($submitted() && f['ticker'].errors)"
                         [(ngModel)]="model"
                         [ngbTypeahead]="search"
                         [resultTemplate]="rt"

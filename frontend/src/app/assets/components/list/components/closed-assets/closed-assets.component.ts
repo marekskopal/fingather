@@ -1,12 +1,30 @@
+import {AsyncPipe, DecimalPipe} from "@angular/common";
 import {
     ChangeDetectionStrategy, Component, input
 } from '@angular/core';
+import {MatIcon} from "@angular/material/icon";
+import {RouterLink} from "@angular/router";
 import { AssetsWithProperties, Currency } from '@app/models';
+import {TickerLogoComponent} from "@app/shared/components/ticker-logo/ticker-logo.component";
+import {ColoredValueDirective} from "@app/shared/directives/colored-value.directive";
+import {CurrencyPipe} from "@app/shared/pipes/currency.pipe";
+import {TranslateModule} from "@ngx-translate/core";
 
 
 @Component({
     selector: 'fingather-closed-assets',
     templateUrl: 'closed-assets.component.html',
+    standalone: true,
+    imports: [
+        TranslateModule,
+        TickerLogoComponent,
+        DecimalPipe,
+        CurrencyPipe,
+        AsyncPipe,
+        ColoredValueDirective,
+        RouterLink,
+        MatIcon
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ClosedAssetsComponent {

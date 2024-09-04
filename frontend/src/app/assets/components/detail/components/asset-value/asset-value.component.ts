@@ -1,14 +1,26 @@
+import {AsyncPipe, DecimalPipe} from "@angular/common";
 import {
     ChangeDetectionStrategy,
     Component, input,
 } from '@angular/core';
+import {MatIcon} from "@angular/material/icon";
 import { AssetWithProperties, Currency} from '@app/models';
-
-
+import {ValueIconComponent} from "@app/shared/components/value-icon/value-icon.component";
+import {CurrencyPipe} from "@app/shared/pipes/currency.pipe";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'asset-value.component.html',
     selector: 'fingather-asset-value',
+    standalone: true,
+    imports: [
+        MatIcon,
+        TranslateModule,
+        DecimalPipe,
+        CurrencyPipe,
+        AsyncPipe,
+        ValueIconComponent
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AssetValueComponent {
