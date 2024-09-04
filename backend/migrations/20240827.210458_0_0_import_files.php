@@ -41,10 +41,16 @@ class ImportFilesMigration extends Migration
 			])
 			->setPrimaryKeys(['id'])
 			->create();
+
+		$this->table('imports')
+			->dropColumn('csv_content');
 	}
 
 	public function down(): void
 	{
 		$this->table('import_files')->drop();
+
+		$this->table('imports')
+			->addColumn('csv_content', 'longText', ['nullable' => false, 'defaultValue' => null]);
 	}
 }
