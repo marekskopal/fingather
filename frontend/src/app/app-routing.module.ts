@@ -30,7 +30,7 @@ const routes: Routes = [
     },
     {
         path: 'history',
-        loadChildren: () => import('./history/history.module').then((x) => x.HistoryModule),
+        loadChildren: () => import('./history/history-routes'),
         canActivate: [AuthGuard]
     },
     {
@@ -50,7 +50,7 @@ const routes: Routes = [
     },
     {
         path: 'onboarding',
-        loadChildren: () => import('./onboarding/onboarding.module').then((x) => x.OnboardingModule),
+        loadChildren: () => import('./onboarding/onboarding-routes'),
         canActivate: [AuthGuard]
     },
     {
