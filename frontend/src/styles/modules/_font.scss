@@ -6,6 +6,7 @@
         url("/fonts/Geist-Regular.woff") format("woff"),
         url("/fonts/Geist-Regular.woff2") format("woff2");
     font-weight: 400;
+    font-display: swap;
 }
 
 @font-face {
@@ -16,5 +17,6 @@
         url("/fonts/Geist-SemiBold.woff") format("woff"),
         url("/fonts/Geist-SemiBold.woff2") format("woff2");
     font-weight: 600;
+    font-display: swap;
 }
 
