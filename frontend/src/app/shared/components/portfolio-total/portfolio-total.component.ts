@@ -1,13 +1,33 @@
+import {AsyncPipe, DecimalPipe} from "@angular/common";
 import {
     ChangeDetectionStrategy, Component, inject, OnInit, signal, WritableSignal
 } from '@angular/core';
+import {MatIcon} from "@angular/material/icon";
 import { Currency, PortfolioData } from '@app/models';
 import { RangeEnum } from '@app/models/enums/range-enum';
 import { CurrencyService, PortfolioDataService, PortfolioService } from '@app/services';
+import {
+    PortfolioValueChartComponent
+} from "@app/shared/components/portfolio-value-chart/portfolio-value-chart.component";
+import {ValueIconComponent} from "@app/shared/components/value-icon/value-icon.component";
+import {ColoredValueDirective} from "@app/shared/directives/colored-value.directive";
+import {CurrencyPipe} from "@app/shared/pipes/currency.pipe";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
     selector: 'fingather-portfolio-total',
     templateUrl: 'portfolio-total.component.html',
+    standalone: true,
+    imports: [
+        MatIcon,
+        PortfolioValueChartComponent,
+        DecimalPipe,
+        CurrencyPipe,
+        AsyncPipe,
+        TranslateModule,
+        ValueIconComponent,
+        ColoredValueDirective
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PortfolioTotalComponent implements OnInit {

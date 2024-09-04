@@ -6,8 +6,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {MatIconRegistry} from "@angular/material/icon";
 import { BrowserModule } from '@angular/platform-browser';
 import { JwtInterceptor } from '@app/core/interceptors/jwt.interceptor';
-import { AlertComponent } from '@app/shared/components/alert/alert.component';
-import {SharedModule} from "@app/shared/shared.module";
+import {AlertComponent} from "@app/shared/components/alert/alert.component";
+import {NavigationComponent} from "@app/shared/components/navigation/navigation.component";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -22,7 +22,6 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
 @NgModule({
     declarations: [
         AppComponent,
-        AlertComponent,
     ],
     bootstrap: [AppComponent],
     imports: [
@@ -30,14 +29,15 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         ReactiveFormsModule,
         AppRoutingModule,
         NgbModule,
-        SharedModule,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
                 useFactory: HttpLoaderFactory,
                 deps: [HttpClient]
             }
-        })
+        }),
+        NavigationComponent,
+        AlertComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

@@ -1,10 +1,15 @@
 import {
     ChangeDetectionStrategy, Component, output, signal,
 } from '@angular/core';
+import {MatIcon} from "@angular/material/icon";
 
 @Component({
     selector: 'fingather-search-input',
     templateUrl: 'search-input.component.html',
+    standalone: true,
+    imports: [
+        MatIcon
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchInputComponent {

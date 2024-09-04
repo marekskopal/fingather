@@ -3,16 +3,16 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LayoutComponent } from '@app/email-verify/components/layout/layout.component';
 import { VerifyComponent } from '@app/email-verify/components/verify/verify.component';
+import {TranslateModule} from "@ngx-translate/core";
 
-import { SharedModule } from '../shared/shared.module';
 import { EmailVerifyRoutingModule } from './email-verify-routing.module';
 
 @NgModule({
     imports: [
         CommonModule,
         ReactiveFormsModule,
-        SharedModule,
         EmailVerifyRoutingModule,
+        TranslateModule,
     ],
     declarations: [
         LayoutComponent,

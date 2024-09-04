@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 @Component({
     selector: 'fingather-alert',
     templateUrl: 'alert.component.html',
+    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AlertComponent implements OnInit, OnDestroy {

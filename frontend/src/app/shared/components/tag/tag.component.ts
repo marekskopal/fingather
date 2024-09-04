@@ -2,10 +2,15 @@ import {
     ChangeDetectionStrategy, Component, computed, input,
 } from '@angular/core';
 import {TransactionActionType} from "@app/models";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
     selector: 'fingather-tag',
     templateUrl: 'tag.component.html',
+    standalone: true,
+    imports: [
+        TranslateModule
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TagComponent {

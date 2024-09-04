@@ -2,12 +2,26 @@ import {
     ChangeDetectionStrategy,
     Component, input, output, signal
 } from '@angular/core';
+import {MatIcon} from "@angular/material/icon";
+import {RouterLink} from "@angular/router";
 import { ImportPrepare} from '@app/models';
-import { NgxFileDropEntry } from 'ngx-file-drop';
+import {ImportFileComponent} from "@app/shared/components/import/components/import-file/import-file.component";
+import {ImportPrepareComponent} from "@app/shared/components/import/components/import-prepare/import-prepare.component";
+import {TranslateModule} from "@ngx-translate/core";
+import {NgxFileDropEntry, NgxFileDropModule} from 'ngx-file-drop';
 
 @Component({
     templateUrl: 'import.component.html',
     selector: 'fingather-import',
+    standalone: true,
+    imports: [
+        NgxFileDropModule,
+        MatIcon,
+        ImportFileComponent,
+        RouterLink,
+        TranslateModule,
+        ImportPrepareComponent
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImportComponent {

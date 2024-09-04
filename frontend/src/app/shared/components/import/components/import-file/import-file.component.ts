@@ -1,12 +1,21 @@
 import {ChangeDetectionStrategy, Component, computed, inject, input, OnInit, output, signal} from '@angular/core';
+import {MatIcon} from "@angular/material/icon";
 import {ImportDataFile, ImportPrepare} from '@app/models';
 import {ImportService, PortfolioService} from "@app/services";
 import {ImportFileStatus} from "@app/shared/components/import/types/import-file-status";
+import {FileSizePipe} from "@app/shared/pipes/file-size.pipe";
+import {TranslateModule} from "@ngx-translate/core";
 import {NgxFileDropEntry} from "ngx-file-drop";
 
 @Component({
     templateUrl: 'import-file.component.html',
     selector: 'fingather-import-file',
+    standalone: true,
+    imports: [
+        MatIcon,
+        FileSizePipe,
+        TranslateModule
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImportFileComponent implements OnInit {

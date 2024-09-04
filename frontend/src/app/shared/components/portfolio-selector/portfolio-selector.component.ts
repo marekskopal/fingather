@@ -1,12 +1,24 @@
 import {
     ChangeDetectionStrategy, Component, inject, OnInit, signal
 } from '@angular/core';
+import {MatIcon} from "@angular/material/icon";
+import {RouterLink} from "@angular/router";
 import { Portfolio } from '@app/models';
 import { PortfolioService } from '@app/services';
+import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
     selector: 'fingather-portfolio-selector',
     templateUrl: 'portfolio-selector.component.html',
+    standalone: true,
+    imports: [
+        RouterLink,
+        MatIcon,
+        NgbDropdown,
+        NgbDropdownToggle,
+        NgbDropdownMenu,
+        NgbDropdownItem
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PortfolioSelectorComponent implements OnInit {

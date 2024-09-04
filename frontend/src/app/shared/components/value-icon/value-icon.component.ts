@@ -1,10 +1,17 @@
 import {
     ChangeDetectionStrategy, Component, input
 } from '@angular/core';
+import {MatIcon} from "@angular/material/icon";
+import {ColoredValueDirective} from "@app/shared/directives/colored-value.directive";
 
 @Component({
     selector: 'fingather-value-icon',
     templateUrl: 'value-icon.component.html',
+    standalone: true,
+    imports: [
+        ColoredValueDirective,
+        MatIcon
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ValueIconComponent {

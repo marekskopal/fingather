@@ -8,8 +8,8 @@
     <ul class="pagination">
         <li class="page-item">
             <a class="page-link"
+               [class.disabled]="$currentPage() === 1"
                tabindex="0"
-               [ngClass]="['page-link', $currentPage() === 1 ? 'disabled' : '']"
                (click)="onSelectPage($currentPage() - 1)"
             >
                 <mat-icon>arrow_left_alt</mat-icon>
@@ -20,7 +20,8 @@
         @for(page of $pages(); track page) {
             <li class="page-item">
                 @if(!isDelimiterPage(page)) {
-                    <a [ngClass]="['page-link', page === $currentPage() ? 'active' : '']"
+                    <a class="page-link"
+                       [class.active]="page === $currentPage()"
                        (click)="onSelectPage(page)"
                        tabindex="0"
                     >{{page}}</a>
@@ -33,7 +34,7 @@
         <li class="page-item">
             <a class="page-link"
                tabindex="0"
-               [ngClass]="['page-link', $currentPage() === $pagesCount() ? 'disabled' : '']"
+               [class.disabled]="$currentPage() === $pagesCount()"
                (click)="onSelectPage($currentPage() + 1)"
             >
                 <span>{{ 'app.shared.pagination.next' | translate }}</span>
