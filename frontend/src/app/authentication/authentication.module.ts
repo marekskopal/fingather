@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LayoutComponent } from '@app/authentication/components/layout/layout.component';
@@ -18,6 +18,7 @@ import { AuthenticationRoutingModule } from './authentication-routing.module';
         SharedModule,
         InputValidatorComponent,
         SaveButtonComponent,
+        NgOptimizedImage,
     ],
     declarations: [
         LayoutComponent,
