@@ -10,7 +10,7 @@ import { DividendDataService, PortfolioService } from '@app/services';
 import {ChartUtils} from "@app/utils/chart-utils";
 import {
     ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexGrid, ApexLegend, ApexPlotOptions,
-    ApexTheme, ApexXAxis, ApexYAxis,
+    ApexTheme, ApexXAxis, ApexYAxis, NgApexchartsModule,
 } from 'ng-apexcharts';
 
 export type ChartOptions = {
@@ -30,6 +30,10 @@ export type ChartOptions = {
 @Component({
     templateUrl: 'dividends-data-chart.component.html',
     selector: 'fingather-dividends-data-chart',
+    standalone: true,
+    imports: [
+        NgApexchartsModule
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DividendsDataChartComponent implements OnInit, OnChanges {

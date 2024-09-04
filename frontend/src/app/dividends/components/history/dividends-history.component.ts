@@ -1,8 +1,19 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+    DividendsDataChartComponent
+} from "@app/dividends/components/dividend-data-chart/dividends-data-chart.component";
 import { RangeEnum } from '@app/models/enums/range-enum';
+import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selector/portfolio-selector.component";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'dividends-history.component.html',
+    standalone: true,
+    imports: [
+        PortfolioSelectorComponent,
+        TranslateModule,
+        DividendsDataChartComponent
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DividendsHistoryComponent {
