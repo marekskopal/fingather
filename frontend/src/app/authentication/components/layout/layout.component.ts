@@ -1,9 +1,15 @@
+import {NgOptimizedImage} from "@angular/common";
 import {ChangeDetectionStrategy, Component, effect, inject} from '@angular/core';
-import { Router } from '@angular/router';
+import {Router, RouterOutlet} from '@angular/router';
 import { AuthenticationService } from '@app/services/authentication.service';
 
 @Component({
     templateUrl: 'layout.component.html',
+    standalone: true,
+    imports: [
+        NgOptimizedImage,
+        RouterOutlet
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LayoutComponent {

@@ -64,7 +64,7 @@ const routes: Routes = [
     },
     {
         path: 'authentication',
-        loadChildren: () => import('./authentication/authentication.module').then((x) => x.AuthenticationModule)
+        loadChildren: () => import('./authentication/authentication-routes'),
     },
 
     // otherwise redirect to home
