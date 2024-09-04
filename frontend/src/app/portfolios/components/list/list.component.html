@@ -40,11 +40,11 @@
                         </td>
                     </tr>
                 }
-                <tr *ngIf="portfolios === null">
+                @if(portfolios === null) {
                     <td colspan="4" class="text-center">
                         <span class="spinner-border spinner-border-lg align-center"></span>
                     </td>
-                </tr>
+                }
             </tbody>
         </table>
     </div>

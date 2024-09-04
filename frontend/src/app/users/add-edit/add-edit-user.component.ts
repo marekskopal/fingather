@@ -4,10 +4,10 @@ import {
 } from '@angular/core';
 import { Validators } from '@angular/forms';
 import {ActivatedRoute, Router} from "@angular/router";
-import { Currency } from '@app/models';
 import { UserRoleEnum } from '@app/models/enums/user-role-enum';
 import { CurrencyService, UserService } from '@app/services';
 import {BaseAddEditForm} from "@app/shared/components/form/base-add-edit-form";
+import {SelectItem} from "@app/shared/types/select-item";
 
 @Component({
     templateUrl: 'add-edit-user.component.html',
@@ -19,10 +19,10 @@ export class AddEditUserComponent extends BaseAddEditForm implements OnInit {
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
 
-    protected currencies: Currency[];
-    protected roles = [
-        { name: 'User', key: UserRoleEnum.User },
-        { name: 'Admin', key: UserRoleEnum.Admin },
+    protected currencies: SelectItem<number, string>[] = [];
+    protected roles: SelectItem<UserRoleEnum, UserRoleEnum>[] = [
+        {key: UserRoleEnum.User, label: UserRoleEnum.User},
+        {key: UserRoleEnum.Admin, label: UserRoleEnum.Admin}
     ];
 
     public async ngOnInit(): Promise<void> {
@@ -41,16 +41,21 @@ export class AddEditUserComponent extends BaseAddEditForm implements OnInit {
             passwordValidators.push(Validators.required);
         }
 
+        const currencies = await this.currencyService.getCurrencies();
+        this.currencies = currencies.map((currency) => {
+            return {
+                key: currency.id,
+                label: currency.code,
+            }
+        });
+
         this.form = this.formBuilder.group({
             email: ['', emailValidators],
             name: ['', Validators.required],
             password: ['', passwordValidators],
-            defaultCurrencyId: ['', Validators.required],
-            role: ['User', Validators.required],
+            defaultCurrencyId: [this.currencies[0].key, Validators.required],
+            role: [UserRoleEnum.User, Validators.required],
         });
-
-        this.currencies = await this.currencyService.getCurrencies();
-        this.f['defaultCurrencyId'].patchValue(this.currencies[0].id);
 
         if (id !== null) {
             const user = await this.userService.getUser(id);
