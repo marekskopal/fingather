@@ -1,12 +1,23 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
-import { Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import {ReactiveFormsModule, Validators} from '@angular/forms';
+import {Router, RouterLink} from '@angular/router';
 import { CurrentUserService } from '@app/services';
 import { AuthenticationService } from '@app/services/authentication.service';
 import { BaseForm } from '@app/shared/components/form/base-form';
+import {InputValidatorComponent} from "@app/shared/components/input-validator/input-validator.component";
+import {SaveButtonComponent} from "@app/shared/components/save-button/save-button.component";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'login.component.html',
+    standalone: true,
+    imports: [
+        ReactiveFormsModule,
+        TranslateModule,
+        InputValidatorComponent,
+        SaveButtonComponent,
+        RouterLink
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent extends BaseForm implements OnInit {

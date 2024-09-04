@@ -1,14 +1,27 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
-import { Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import {ReactiveFormsModule, Validators} from '@angular/forms';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import { UniqueEmailValidator } from '@app/authentication/validator/UniqueEmailValidator';
 import { CurrencyService } from '@app/services';
 import { AuthenticationService } from '@app/services/authentication.service';
 import { BaseForm } from '@app/shared/components/form/base-form';
+import {InputValidatorComponent} from "@app/shared/components/input-validator/input-validator.component";
+import {SaveButtonComponent} from "@app/shared/components/save-button/save-button.component";
+import {SelectComponent} from "@app/shared/components/select/select.component";
 import {SelectItem} from "@app/shared/types/select-item";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'sign-up.component.html',
+    standalone: true,
+    imports: [
+        ReactiveFormsModule,
+        TranslateModule,
+        InputValidatorComponent,
+        SelectComponent,
+        SaveButtonComponent,
+        RouterLink
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SignUpComponent extends BaseForm implements OnInit {
