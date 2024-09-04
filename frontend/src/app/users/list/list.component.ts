@@ -1,11 +1,24 @@
 import {
     ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal
 } from '@angular/core';
+import {MatIcon} from "@angular/material/icon";
+import {RouterLink} from "@angular/router";
 import { User, UserWithStatistic } from '@app/models';
 import { CurrentUserService, UserService } from '@app/services';
+import {DeleteButtonComponent} from "@app/shared/components/delete-button/delete-button.component";
+import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selector/portfolio-selector.component";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'list.component.html',
+    standalone: true,
+    imports: [
+        TranslateModule,
+        PortfolioSelectorComponent,
+        RouterLink,
+        MatIcon,
+        DeleteButtonComponent
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListComponent implements OnInit {
