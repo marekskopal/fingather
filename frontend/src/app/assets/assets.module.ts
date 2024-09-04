@@ -28,6 +28,8 @@ import {
 } from "@app/assets/components/list/components/opened-grouped-assets/opened-grouped-assets.component";
 import {WatchedAssetsComponent} from "@app/assets/components/list/components/watched-assets/watched-assets.component";
 import { ListComponent } from '@app/assets/components/list/list.component';
+import {InputValidatorComponent} from "@app/shared/components/input-validator/input-validator.component";
+import {SaveButtonComponent} from "@app/shared/components/save-button/save-button.component";
 import {ColoredValueDirective} from "@app/shared/directives/colored-value.directive";
 import { NgbNavModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgApexchartsModule } from 'ng-apexcharts';
@@ -48,6 +50,8 @@ import { AssetsRoutingModule } from './assets-routing.module';
         NgbNavModule,
         MatIcon,
         ColoredValueDirective,
+        InputValidatorComponent,
+        SaveButtonComponent,
     ],
     declarations: [
         LayoutComponent,

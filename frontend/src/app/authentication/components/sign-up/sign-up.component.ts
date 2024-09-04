@@ -2,10 +2,10 @@ import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core'
 import { Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UniqueEmailValidator } from '@app/authentication/validator/UniqueEmailValidator';
-import { Currency } from '@app/models';
 import { CurrencyService } from '@app/services';
 import { AuthenticationService } from '@app/services/authentication.service';
 import { BaseForm } from '@app/shared/components/form/base-form';
+import {SelectItem} from "@app/shared/types/select-item";
 
 @Component({
     templateUrl: 'sign-up.component.html',
@@ -18,9 +18,17 @@ export class SignUpComponent extends BaseForm implements OnInit {
     private readonly uniqueEmailValidator = inject(UniqueEmailValidator);
     private readonly currencyService = inject(CurrencyService);
 
-    public currencies: Currency[];
+    protected currencies: SelectItem<number, string>[] = [];
 
     public async ngOnInit(): Promise<void> {
+        const currencies = await this.currencyService.getCurrencies();
+        this.currencies = currencies.map((currency) => {
+            return {
+                key: currency.id,
+                label: currency.code,
+            }
+        });
+
         this.form = this.formBuilder.group({
             name: ['', Validators.required],
             email: [
@@ -30,11 +38,8 @@ export class SignUpComponent extends BaseForm implements OnInit {
                 'blur'
             ],
             password: ['', [Validators.required, Validators.minLength(6)]],
-            defaultCurrencyId: ['', Validators.required],
+            defaultCurrencyId: [this.currencies[0].key, Validators.required],
         });
-
-        this.currencies = await this.currencyService.getCurrencies();
-        this.f['defaultCurrencyId'].patchValue(this.currencies[0].id);
     }
 
     public async onSubmit(): Promise<void> {

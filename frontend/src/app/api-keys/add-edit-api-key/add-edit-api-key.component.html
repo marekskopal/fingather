@@ -27,24 +27,31 @@
                             formControlName="type"
                             [items]="types"
                         />
-                        <div *ngIf="$submitted() && f['currencyId'].errors" class="invalid-feedback">
-                            <div *ngIf="f['currencyId'].errors['required']">{{ 'app.apiKeys.addEdit.typeRequired' | translate }}</div>
-                        </div>
+                        <fingather-input-validator
+                            [control]="f['type']"
+                            [isSubmitted]="$submitted()"
+                            [errorMessages]="{
+                                required: 'app.apiKeys.addEdit.typeRequired',
+                            }"
+                        />
                     </div>
                     <div class="mb-3">
                         <label for="apiKey" class="form-label">{{ 'app.apiKeys.addEdit.apiKey' | translate }}</label>
-                        <input id="apiKey" type="text" formControlName="apiKey" class="form-control" [class.is-invalid]="$submitted() && f['name'].errors" />
-                        <div *ngIf="$submitted() && f['name'].errors" class="invalid-feedback">
-                            <div *ngIf="f['name'].errors['required']">{{ 'app.apiKeys.addEdit.apiKeyRequired' | translate }}</div>
-                        </div>
+                        <input id="apiKey" type="text" formControlName="apiKey" class="form-control" [class.is-invalid]="$submitted() && f['apiKey'].errors" />
+                        <fingather-input-validator
+                            [control]="f['apiKey']"
+                            [isSubmitted]="$submitted()"
+                            [errorMessages]="{
+                                required: 'app.apiKeys.addEdit.apiKeyRequired',
+                            }"
+                        />
                     </div>
                     <div class="form-group buttons">
                         <a [routerLink]="$routerBackLink()" class="btn btn-secondary" tabindex="0">{{ 'app.common.cancel' | translate }}</a>
 
-                        <button [disabled]="$saving()" class="btn btn-primary">
-                            <span *ngIf="$saving()" class="spinner-border spinner-border-sm mr-1"></span>
-                            {{ 'app.common.save' | translate }}
-                        </button>
+                        <fingather-save-button
+                            [saving]="$saving()"
+                        />
                     </div>
                 </form>
             }

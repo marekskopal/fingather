@@ -1,11 +1,12 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import { Validators } from '@angular/forms';
-import { Currency, Portfolio } from '@app/models';
+import { Portfolio } from '@app/models';
 import {
     CurrencyService,
     PortfolioService
 } from '@app/services';
 import { BaseForm } from '@app/shared/components/form/base-form';
+import {SelectItem} from "@app/shared/types/select-item";
 
 @Component({
     templateUrl: 'portfolio-form.component.html',
@@ -17,12 +18,18 @@ export class PortfolioFormComponent extends BaseForm implements OnInit {
     private readonly currencyService = inject(CurrencyService);
 
     protected portfolio: Portfolio;
-    protected currencies: Currency[];
+    protected currencies: SelectItem<number, string>[] = [];
 
     public async ngOnInit(): Promise<void> {
         this.portfolio = await this.portfolioService.getCurrentPortfolio();
 
-        this.currencies = await this.currencyService.getCurrencies();
+        const currencies = await this.currencyService.getCurrencies();
+        this.currencies = currencies.map((currency) => {
+            return {
+                key: currency.id,
+                label: currency.code,
+            }
+        });
 
         this.form = this.formBuilder.group({
             name: [this.portfolio.name, Validators.required],

@@ -50,10 +50,13 @@
                     @if (searchFailed) {
                         <div class="invalid-feedback">{{ 'app.assets.addAsset.searchFailed' | translate }}</div>
                     }
-
-                    <div *ngIf="$submitted() && f['ticker'].errors" class="invalid-feedback">
-                        <div *ngIf="f['ticker'].errors['ticker']">{{ 'app.assets.addAsset.required' | translate }}</div>
-                    </div>
+                    <fingather-input-validator
+                        [control]="f['ticker']"
+                        [isSubmitted]="$submitted()"
+                        [errorMessages]="{
+                            required: 'app.assets.addAsset.required',
+                        }"
+                    />
                 </div>
                 @if (searching) {
                     <small class="form-text text-muted">{{ 'app.assets.addAsset.searching' | translate }}</small>
@@ -65,10 +68,9 @@
                 <div class="form-group buttons">
                     <a routerLink=".." class="btn btn-secondary" tabindex="0">{{ 'app.common.cancel' | translate }}</a>
 
-                    <button [disabled]="$saving()" class="btn btn-primary">
-                        <span *ngIf="$saving()" class="spinner-border spinner-border-sm mr-1"></span>
-                        {{ 'app.common.save' | translate }}
-                    </button>
+                    <fingather-save-button
+                        [saving]="$saving()"
+                    />
                 </div>
             </form>
         </div>
