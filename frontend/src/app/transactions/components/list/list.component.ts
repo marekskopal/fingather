@@ -1,13 +1,36 @@
+import {DatePipe} from "@angular/common";
 import {
     ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal
 } from '@angular/core';
+import {MatIcon} from "@angular/material/icon";
+import {RouterLink} from "@angular/router";
 import {TransactionActionType} from "@app/models";
 import { TransactionList } from '@app/models/transaction-list';
 import { PortfolioService, TransactionService } from '@app/services';
+import {DeleteButtonComponent} from "@app/shared/components/delete-button/delete-button.component";
+import {PaginationComponent} from "@app/shared/components/pagination/pagination.component";
+import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selector/portfolio-selector.component";
+import {TagComponent} from "@app/shared/components/tag/tag.component";
+import {TickerLogoComponent} from "@app/shared/components/ticker-logo/ticker-logo.component";
+import {SearchComponent} from "@app/transactions/components/search/search.component";
 import {TransactionSearch} from "@app/transactions/types/transaction-search";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
     templateUrl: './list.component.html',
+    standalone: true,
+    imports: [
+        PortfolioSelectorComponent,
+        TranslateModule,
+        RouterLink,
+        MatIcon,
+        SearchComponent,
+        DatePipe,
+        TagComponent,
+        TickerLogoComponent,
+        DeleteButtonComponent,
+        PaginationComponent
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListComponent implements OnInit {
