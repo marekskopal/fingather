@@ -1,14 +1,41 @@
 import {
     ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal
 } from '@angular/core';
+import {MatIcon} from "@angular/material/icon";
+import {RouterLink} from "@angular/router";
+import {ClosedAssetsComponent} from "@app/assets/components/list/components/closed-assets/closed-assets.component";
+import {OpenedAssetsComponent} from "@app/assets/components/list/components/opened-assets/opened-assets.component";
+import {
+    OpenedGroupedAssetsComponent
+} from "@app/assets/components/list/components/opened-grouped-assets/opened-grouped-assets.component";
+import {WatchedAssetsComponent} from "@app/assets/components/list/components/watched-assets/watched-assets.component";
 import { AssetsWithProperties, Currency, GroupWithGroupData } from '@app/models';
 import { AssetsOrder } from '@app/models/enums/assets-order';
 import {
     AssetService, CurrencyService, GroupWithGroupDataService, PortfolioService
 } from '@app/services';
+import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selector/portfolio-selector.component";
+import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLinkButton, NgbNavOutlet} from "@ng-bootstrap/ng-bootstrap";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'list.component.html',
+    standalone: true,
+    imports: [
+        NgbNav,
+        NgbNavItem,
+        NgbNavLinkButton,
+        NgbNavContent,
+        RouterLink,
+        TranslateModule,
+        MatIcon,
+        PortfolioSelectorComponent,
+        OpenedGroupedAssetsComponent,
+        OpenedAssetsComponent,
+        ClosedAssetsComponent,
+        WatchedAssetsComponent,
+        NgbNavOutlet
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListComponent implements OnInit {

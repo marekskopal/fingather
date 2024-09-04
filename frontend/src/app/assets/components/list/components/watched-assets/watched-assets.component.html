@@ -15,7 +15,11 @@
                             <td>
                                 <div class="column-name">
                                     <div class="logo-wrapper">
-                                        <fingather-ticker-logo [ticker]="asset.ticker" />
+                                        <fingather-ticker-logo
+                                            [ticker]="asset.ticker"
+                                            [width]="46"
+                                            [height]="46"
+                                        />
                                     </div>
                                     <div class="asset-text">
                                         <div>{{asset.ticker.ticker}}</div>

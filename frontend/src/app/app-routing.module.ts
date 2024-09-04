@@ -10,7 +10,7 @@ const routes: Routes = [
     },
     {
         path: 'assets',
-        loadChildren: () => import('./assets/assets.module').then((x) => x.AssetsModule),
+        loadChildren: () => import('./assets/assets-routes'),
         canActivate: [AuthGuard]
     },
     {

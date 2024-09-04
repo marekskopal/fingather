@@ -1,10 +1,16 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
-import { Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from "@angular/router";
+import {ReactiveFormsModule, Validators} from '@angular/forms';
+import {MatIcon} from "@angular/material/icon";
+import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import { Ticker } from '@app/models';
 import { AssetService, PortfolioService, TickerService
 } from '@app/services';
 import { BaseForm } from "@app/shared/components/form/base-form";
+import {InputValidatorComponent} from "@app/shared/components/input-validator/input-validator.component";
+import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selector/portfolio-selector.component";
+import {SaveButtonComponent} from "@app/shared/components/save-button/save-button.component";
+import {NgbHighlight, NgbTypeahead} from "@ng-bootstrap/ng-bootstrap";
+import {TranslateModule} from "@ngx-translate/core";
 import { Observable, of, OperatorFunction } from 'rxjs';
 import {
     catchError, debounceTime, distinctUntilChanged, map, switchMap, tap
@@ -12,6 +18,18 @@ import {
 
 @Component({
     templateUrl: 'add-asset.component.html',
+    standalone: true,
+    imports: [
+        NgbHighlight,
+        PortfolioSelectorComponent,
+        RouterLink,
+        MatIcon,
+        TranslateModule,
+        ReactiveFormsModule,
+        NgbTypeahead,
+        InputValidatorComponent,
+        SaveButtonComponent
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddAssetComponent extends BaseForm implements OnInit {

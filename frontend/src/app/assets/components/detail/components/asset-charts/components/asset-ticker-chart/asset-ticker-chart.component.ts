@@ -11,7 +11,7 @@ import {
     ApexChart, ApexDataLabels, ApexFill, ApexGrid, ApexStroke,
     ApexTheme,
     ApexTitleSubtitle,
-    ApexXAxis, ApexYAxis
+    ApexXAxis, ApexYAxis, NgApexchartsModule
 } from 'ng-apexcharts';
 
 export type ChartOptions = {
@@ -32,6 +32,10 @@ export type ChartOptions = {
 @Component({
     templateUrl: 'asset-ticker-chart.component.html',
     selector: 'fingather-asset-ticker-chart',
+    standalone: true,
+    imports: [
+        NgApexchartsModule
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AssetTickerChartComponent implements OnInit {

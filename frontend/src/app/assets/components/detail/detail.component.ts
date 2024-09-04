@@ -1,12 +1,36 @@
 import {
     ChangeDetectionStrategy, Component, inject, OnInit, signal
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {MatIcon} from "@angular/material/icon";
+import {ActivatedRoute, RouterLink} from '@angular/router';
+import {AssetChartsComponent} from "@app/assets/components/detail/components/asset-charts/asset-charts.component";
+import {AssetValueComponent} from "@app/assets/components/detail/components/asset-value/asset-value.component";
+import {DividendListComponent} from "@app/assets/components/detail/components/dividends/dividend-list.component";
+import {FundamentalsComponent} from "@app/assets/components/detail/components/funtamentals/fundamentals.component";
+import {
+    TransactionListComponent
+} from "@app/assets/components/detail/components/transactions/transaction-list.component";
 import { AssetWithProperties, Currency } from '@app/models';
 import { AssetService, CurrencyService } from '@app/services';
+import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selector/portfolio-selector.component";
+import {TickerLogoComponent} from "@app/shared/components/ticker-logo/ticker-logo.component";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'detail.component.html',
+    standalone: true,
+    imports: [
+        PortfolioSelectorComponent,
+        RouterLink,
+        MatIcon,
+        TranslateModule,
+        TickerLogoComponent,
+        AssetChartsComponent,
+        AssetValueComponent,
+        FundamentalsComponent,
+        TransactionListComponent,
+        DividendListComponent
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DetailComponent implements OnInit {

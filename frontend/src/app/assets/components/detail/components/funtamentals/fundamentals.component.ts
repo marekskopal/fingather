@@ -2,13 +2,28 @@ import {
     ChangeDetectionStrategy,
     Component, inject, input, InputSignal, OnInit, signal
 } from '@angular/core';
+import {
+    FundamentalRowComponent
+} from "@app/assets/components/detail/components/funtamentals/components/fundamental-row/fundamental-row.component";
 import {FundamentalsTabEnum} from "@app/assets/components/detail/components/funtamentals/types/fundamentals-tab-enum";
 import { TickerFundamental } from '@app/models/ticker-fundamental';
 import { TickerFundamentalService } from '@app/services/ticker-fundamental.service';
+import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLinkButton, NgbNavOutlet} from "@ng-bootstrap/ng-bootstrap";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'fundamentals.component.html',
     selector: 'fingather-ticker-fundamentals',
+    standalone: true,
+    imports: [
+        NgbNavContent,
+        NgbNav,
+        NgbNavLinkButton,
+        NgbNavItem,
+        TranslateModule,
+        FundamentalRowComponent,
+        NgbNavOutlet
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FundamentalsComponent implements OnInit {

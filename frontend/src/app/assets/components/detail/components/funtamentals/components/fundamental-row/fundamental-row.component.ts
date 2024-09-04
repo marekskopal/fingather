@@ -2,10 +2,15 @@ import {
     ChangeDetectionStrategy, Component, input, InputSignal
 } from '@angular/core';
 import { TickerFundamental } from '@app/models/ticker-fundamental';
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'fundamental-row.component.html',
     selector: 'fingather-ticker-fundamentals-fundamental-row',
+    standalone: true,
+    imports: [
+        TranslateModule
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FundamentalRowComponent {
