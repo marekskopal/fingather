@@ -1,7 +1,7 @@
 ﻿<div class="ticker-logo">
     @if (ticker().logo !== null) {
         <div class="logo">
-            <img [src]="logoSrc" class="img-fluid" alt="{{ticker().name}} logo" />
+            <img [ngSrc]="logoSrc" fill class="img-fluid" alt="{{ticker().name}} logo" />
         </div>
     } @else {
         <div class="logo-placeholder">

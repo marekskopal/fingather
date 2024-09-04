@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import {MatIcon} from "@angular/material/icon";
@@ -50,6 +50,7 @@ import { PortfolioTotalComponent } from './components/portfolio-total/portfolio-
         RouterModule,
         ColoredValueDirective,
         MatIcon,
+        NgOptimizedImage,
     ],
     declarations: [
         PortfolioTotalComponent,
