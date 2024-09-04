@@ -23,69 +23,92 @@
                     <div class="form-row">
                         <div class="form-group col">
                             <label for="email">{{ 'app.users.addEdit.email' | translate }}</label>
-                            <input id="email" type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': $submitted() && f['email'].errors }" />
-                            <div *ngIf="$submitted() && f['email'].errors" class="invalid-feedback">
-                                <div *ngIf="f['email'].errors['required']">{{ 'app.users.addEdit.emailRequired' | translate }}</div>
-                            </div>
+                            <input id="email" type="text" formControlName="email" class="form-control" [class.is-invalid]="$submitted() && f['email'].errors" />
+                            <fingather-input-validator
+                                [control]="f['email']"
+                                [isSubmitted]="$submitted()"
+                                [errorMessages]="{
+                                    required: 'app.users.addEdit.emailRequired',
+                                }"
+                            />
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col">
                             <label for="name">{{ 'app.users.addEdit.name' | translate }}</label>
-                            <input id="name" type="text" formControlName="name" class="form-control" [ngClass]="{ 'is-invalid': $submitted() && f['name'].errors }" />
-                            <div *ngIf="$submitted() && f['name'].errors" class="invalid-feedback">
-                                <div *ngIf="f['name'].errors['required']">{{ 'app.users.addEdit.emailRequired' | translate }}</div>
-                            </div>
+                            <input id="name" type="text" formControlName="name" class="form-control" [class.is-invalid]="$submitted() && f['name'].errors" />
+                            <fingather-input-validator
+                                [control]="f['name']"
+                                [isSubmitted]="$submitted()"
+                                [errorMessages]="{
+                                    required: 'app.users.addEdit.nameRequired',
+                                }"
+                            />
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col">
                             <label for="password">
                                 {{ 'app.users.addEdit.password' | translate }}
-                                <em *ngIf="$id() !== null">{{ 'app.users.addEdit.passwordLeaveBlank' | translate }}</em>
+                                @if($id() !== null) {
+                                    <em>{{ 'app.users.addEdit.passwordLeaveBlank' | translate }}</em>
+                                }
                             </label>
-                            <input id="password" type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': $submitted() && f['password'].errors }" />
-                            <div *ngIf="$submitted() && f['password'].errors" class="invalid-feedback">
-                                <div *ngIf="f['password'].errors['required']">{{ 'app.users.addEdit.passwordRequired' | translate }}</div>
-                                <div *ngIf="f['password'].errors['minlength']">{{ 'app.users.addEdit.passwordLength' | translate }}</div>
-                            </div>
+                            <input id="password" type="password" formControlName="password" class="form-control" [class.is-invalid]="$submitted() && f['password'].errors" />
+                            <fingather-input-validator
+                                [control]="f['password']"
+                                [isSubmitted]="$submitted()"
+                                [errorMessages]="{
+                                    required: 'app.users.addEdit.passwordRequired',
+                                    minlength: 'app.users.addEdit.passwordLength',
+                                }"
+                            />
                         </div>
                     </div>
                     @if ($id() === null) {
                         <div class="form-row">
                             <div class="form-group col">
                                 <label for="defaultCurrencyId" class="form-label">{{ 'app.users.addEdit.defaultCurrency' | translate }}</label>
-                                <select id="defaultCurrencyId" formControlName="defaultCurrencyId" class="form-select">
-                                    <option *ngFor="let currency of currencies" [ngValue]="currency.id">
-                                        {{ currency.code }}
-                                    </option>
-                                </select>
-                                <div *ngIf="$submitted() && f['defaultCurrencyId'].errors" class="invalid-feedback">
-                                    <div *ngIf="f['defaultCurrencyId'].errors['required']">{{ 'app.users.addEdit.defaultCurrencyRequired' | translate }}</div>
-                                </div>
+                                <fingather-select
+                                    id="defaultCurrencyId"
+                                    formControlName="defaultCurrencyId"
+                                    [items]="currencies"
+                                    [class.is-invalid]="$submitted() && f['defaultCurrencyId'].errors"
+                                />
+                                <fingather-input-validator
+                                    [control]="f['defaultCurrencyId']"
+                                    [isSubmitted]="$submitted()"
+                                    [errorMessages]="{
+                                        required: 'app.users.addEdit.defaultCurrencyRequired',
+                                    }"
+                                />
                             </div>
                         </div>
                     }
                     <div class="form-row">
                         <div class="form-group col">
                             <label for="role" class="form-label">{{ 'app.users.addEdit.role' | translate }}</label>
-                            <select id="role" formControlName="role" class="form-select">
-                                <option *ngFor="let role of roles" [ngValue]="role.key">
-                                    {{ role.name }}
-                                </option>
-                            </select>
-                            <div *ngIf="$submitted() && f['role'].errors" class="invalid-feedback">
-                                <div *ngIf="f['role'].errors['required']">{{ 'app.users.addEdit.roleRequired' | translate }}</div>
-                            </div>
+                            <fingather-select
+                                id="role"
+                                formControlName="role"
+                                [items]="roles"
+                                [class.is-invalid]="$submitted() && f['defaultCurrencyId'].errors"
+                            />
+                            <fingather-input-validator
+                                [control]="f['role']"
+                                [isSubmitted]="$submitted()"
+                                [errorMessages]="{
+                                    required: 'app.users.addEdit.roleRequired',
+                                }"
+                            />
                         </div>
                     </div>
                     <div class="form-group buttons">
                         <a [routerLink]="$routerBackLink()" class="btn btn-secondary" tabindex="0">{{ 'app.common.cancel' | translate }}</a>
 
-                        <button [disabled]="$saving()" class="btn btn-primary">
-                            <span *ngIf="$saving()" class="spinner-border spinner-border-sm mr-1"></span>
-                            {{ 'app.common.save' | translate }}
-                        </button>
+                        <fingather-save-button
+                            [saving]="$saving()"
+                        />
                     </div>
                 </form>
             }

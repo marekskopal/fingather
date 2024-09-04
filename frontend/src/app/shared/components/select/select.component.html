@@ -1,12 +1,12 @@
 ﻿<div ngbDropdown>
-    <button type="button" id="type" ngbDropdownToggle>
+    <button type="button" [id]="$id()" ngbDropdownToggle>
         @if(value) {
             <span class="ellipsis">{{value.label}}</span>
         } @else {
             <span>{{ $placeholder() }}</span>
         }
     </button>
-    <div ngbDropdownMenu aria-labelledby="type">
+    <div ngbDropdownMenu [attr.aria-labelledby]="$id()">
         @for(item of $items(); track item.key) {
             <button type="button" ngbDropdownItem (click)="onSelect(item.key)">
                 {{ item.label }}

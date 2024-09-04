@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatIcon} from "@angular/material/icon";
+import {InputValidatorComponent} from "@app/shared/components/input-validator/input-validator.component";
+import {SaveButtonComponent} from "@app/shared/components/save-button/save-button.component";
 import { SharedModule } from '@app/shared/shared.module';
 import {
     AddEditDividendFormComponent
@@ -44,6 +46,8 @@ import {
         NgbDropdownMenu,
         NgbDropdownItem,
         NgbDropdownButtonItem,
+        InputValidatorComponent,
+        SaveButtonComponent,
     ]
 })
 export class TransactionsModule {
