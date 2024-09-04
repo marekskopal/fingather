@@ -1,4 +1,3 @@
-import {CommonModule} from "@angular/common";
 import {
     ChangeDetectionStrategy,
     Component, inject, OnInit
@@ -9,6 +8,8 @@ import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {ApiKeyTypeEnum} from "@app/models/enums/api-key-type-enum";
 import {ApiKeyService, PortfolioService} from '@app/services';
 import {BaseAddEditForm} from "@app/shared/components/form/base-add-edit-form";
+import {InputValidatorComponent} from "@app/shared/components/input-validator/input-validator.component";
+import {SaveButtonComponent} from "@app/shared/components/save-button/save-button.component";
 import {SharedModule} from "@app/shared/shared.module";
 import {SelectItem} from "@app/shared/types/select-item";
 
@@ -16,11 +17,12 @@ import {SelectItem} from "@app/shared/types/select-item";
     templateUrl: 'add-edit-api-key.component.html',
     standalone: true,
     imports: [
-        CommonModule,
         ReactiveFormsModule,
         SharedModule,
         RouterLink,
         MatIcon,
+        InputValidatorComponent,
+        SaveButtonComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

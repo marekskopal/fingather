@@ -1,0 +1,9 @@
+﻿@if($isSubmitted()) {
+    @if($control().errors; as errors) {
+        @for(errorMessages of objectKeyValues($errorMessages()); track errorMessages.key){
+            @if(errors[errorMessages.key]){
+                <div>{{ errorMessages.value | translate }}</div>
+            }
+        }
+    }
+}

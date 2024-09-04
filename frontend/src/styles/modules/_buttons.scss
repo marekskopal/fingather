@@ -23,6 +23,15 @@
     span + .mat-icon {
         margin-left: 3px;
     }
+
+    .mat-mdc-progress-spinner {
+        display: inline-block;
+    }
+
+    .mat-mdc-progress-spinner + span {
+        margin-left: 3px;
+        vertical-align: super;
+    }
 }
 
 .btn-primary {
@@ -35,6 +44,8 @@
         border: 1px solid $primary;
         color: $white;
     }
+
+    --mat-app-primary: #{$black};
 }
 
 .btn-secondary {
@@ -47,6 +58,8 @@
         border: 1px solid $color-gray-light;
         color: $color-gray-lightest;
     }
+
+    --mat-app-primary: #{$color-gray-lightest};
 }
 
 .btn-link {

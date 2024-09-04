@@ -22,21 +22,29 @@
                 <form [formGroup]="form" (ngSubmit)="onSubmit()">
                     <div class="mb-3">
                         <label for="name" class="form-label">{{ 'app.portfolios.addEdit.name' | translate }}</label>
-                        <input id="name" type="text" formControlName="name" class="form-control" [ngClass]="{ 'is-invalid': $submitted() && f['name'].errors }" />
-                        <div *ngIf="$submitted() && f['name'].errors" class="invalid-feedback">
-                            <div *ngIf="f['name'].errors['required']">{{ 'app.portfolios.addEdit.nameRequired' | translate }}</div>
-                        </div>
+                        <input id="name" type="text" formControlName="name" class="form-control" [class.is-invalid]="$submitted() && f['name'].errors" />
+                        <fingather-input-validator
+                            [control]="f['name']"
+                            [isSubmitted]="$submitted()"
+                            [errorMessages]="{
+                                required: 'app.portfolios.addEdit.nameRequired',
+                            }"
+                        />
                     </div>
                     <div class="mb-3">
                         <label for="currencyId" class="form-label">{{ 'app.portfolios.addEdit.currency' | translate }}</label>
-                        <select id="currencyId" formControlName="currencyId" class="form-select">
-                            <option *ngFor="let currency of currencies" [ngValue]="currency.id">
-                                {{ currency.code }}
-                            </option>
-                        </select>
-                        <div *ngIf="$submitted() && f['currencyId'].errors" class="invalid-feedback">
-                            <div *ngIf="f['currencyId'].errors['required']">{{ 'app.portfolios.addEdit.currencyRequired' | translate }}</div>
-                        </div>
+                        <fingather-select
+                            id="currencyId"
+                            formControlName="currencyId"
+                            [items]="currencies"
+                        />
+                        <fingather-input-validator
+                            [control]="f['currencyId']"
+                            [isSubmitted]="$submitted()"
+                            [errorMessages]="{
+                                required: 'app.portfolios.addEdit.currencyRequired',
+                            }"
+                        />
                     </div>
                     <div class="mb-3">
                         <div class="form-check">
@@ -49,10 +57,9 @@
                     <div class="form-group buttons">
                         <a [routerLink]="$routerBackLink()" class="btn btn-secondary" tabindex="0">{{ 'app.common.cancel' | translate }}</a>
 
-                        <button [disabled]="$saving()" class="btn btn-primary">
-                            <span *ngIf="$saving()" class="spinner-border spinner-border-sm mr-1"></span>
-                            {{ 'app.common.save' | translate }}
-                        </button>
+                        <fingather-save-button
+                            [saving]="$saving()"
+                        />
                     </div>
                 </form>
             }

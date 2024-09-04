@@ -1,0 +1,10 @@
+﻿<button [disabled]="$saving()" class="btn btn-primary">
+    @if($saving()) {
+        <mat-spinner [diameter]="24" />
+    }
+    @if($text()) {
+        <span>{{ $text() }}</span>
+    } @else {
+        <span>{{ 'app.common.save' | translate }}</span>
+    }
+</button>

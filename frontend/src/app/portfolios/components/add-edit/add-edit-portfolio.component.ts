@@ -4,9 +4,9 @@ import {
 } from '@angular/core';
 import { Validators } from '@angular/forms';
 import {ActivatedRoute, Router} from "@angular/router";
-import { Currency } from '@app/models';
 import { CurrencyService, PortfolioService } from '@app/services';
 import {BaseAddEditForm} from "@app/shared/components/form/base-add-edit-form";
+import {SelectItem} from "@app/shared/types/select-item";
 
 @Component({
     templateUrl: 'add-edit-portfolio.component.html',
@@ -18,7 +18,7 @@ export class AddEditPortfolioComponent extends BaseAddEditForm implements OnInit
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
 
-    protected currencies: Currency[];
+    protected currencies: SelectItem<number, string>[] = [];
 
     public async ngOnInit(): Promise<void> {
         this.$loading.set(true);
@@ -27,14 +27,19 @@ export class AddEditPortfolioComponent extends BaseAddEditForm implements OnInit
             this.$id.set(this.route.snapshot.params['id']);
         }
 
-        this.form = this.formBuilder.group({
-            name: ['My Portfolio', Validators.required],
-            currencyId: ['', Validators.required],
-            isDefault: [false, Validators.required],
+        const currencies = await this.currencyService.getCurrencies();
+        this.currencies = currencies.map((currency) => {
+            return {
+                key: currency.id,
+                label: currency.code,
+            }
         });
 
-        this.currencies = await this.currencyService.getCurrencies();
-        this.f['currencyId'].patchValue(this.currencies[0].id);
+        this.form = this.formBuilder.group({
+            name: ['My Portfolio', Validators.required],
+            currencyId: [this.currencies[0].key, Validators.required],
+            isDefault: [false, Validators.required],
+        });
 
         const id = this.$id();
         if (id !== null) {
