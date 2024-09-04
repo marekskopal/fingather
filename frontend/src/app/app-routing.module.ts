@@ -25,7 +25,7 @@ const routes: Routes = [
     },
     {
         path: 'overviews',
-        loadChildren: () => import('./overviews/overviews.module').then((x) => x.OverviewsModule),
+        loadChildren: () => import('./overviews/overviews-routes'),
         canActivate: [AuthGuard]
     },
     {
