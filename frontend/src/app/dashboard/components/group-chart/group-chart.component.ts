@@ -3,10 +3,11 @@ import {
 } from '@angular/core';
 import { GroupWithGroupData } from '@app/models';
 import { GroupWithGroupDataService, PortfolioService } from '@app/services';
+import {LegendComponent} from "@app/shared/components/legend/legend.component";
 import {LegendItem} from "@app/shared/components/legend/types/legend-item";
 import {
     ApexChart, ApexFill, ApexLegend,
-    ApexNonAxisChartSeries, ApexPlotOptions, ApexStates, ApexStroke, ApexTheme, ApexYAxis
+    ApexNonAxisChartSeries, ApexPlotOptions, ApexStates, ApexStroke, ApexTheme, ApexYAxis, NgApexchartsModule
 } from 'ng-apexcharts';
 
 export type ChartOptions = {
@@ -26,6 +27,11 @@ export type ChartOptions = {
 @Component({
     templateUrl: 'group-chart.component.html',
     selector: 'fingather-dashboard-group-chart',
+    standalone: true,
+    imports: [
+        NgApexchartsModule,
+        LegendComponent
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupChartComponent implements OnInit {

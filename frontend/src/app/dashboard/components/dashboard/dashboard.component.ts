@@ -1,11 +1,31 @@
+import {AsyncPipe, DecimalPipe} from "@angular/common";
 import {
     ChangeDetectionStrategy, Component, inject, OnInit, signal
 } from '@angular/core';
+import {MatIcon} from "@angular/material/icon";
+import {GroupChartComponent} from "@app/dashboard/components/group-chart/group-chart.component";
 import { Currency, GroupWithGroupData } from '@app/models';
 import { CurrencyService, GroupWithGroupDataService, PortfolioService } from '@app/services';
+import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selector/portfolio-selector.component";
+import {PortfolioTotalComponent} from "@app/shared/components/portfolio-total/portfolio-total.component";
+import {ColoredValueDirective} from "@app/shared/directives/colored-value.directive";
+import {CurrencyPipe} from "@app/shared/pipes/currency.pipe";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'dashboard.component.html',
+    standalone: true,
+    imports: [
+        PortfolioSelectorComponent,
+        TranslateModule,
+        PortfolioTotalComponent,
+        MatIcon,
+        GroupChartComponent,
+        ColoredValueDirective,
+        DecimalPipe,
+        CurrencyPipe,
+        AsyncPipe
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardComponent implements OnInit {
