@@ -5,7 +5,7 @@ import {ControlValueAccessor} from "@angular/forms";
 import {SelectItem} from "@app/shared/types/select-item";
 
 @Component({
-    'template': '',
+    standalone: true,'template': '',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export abstract class BaseSelectComponent<K extends keyof any, V> implements ControlValueAccessor {

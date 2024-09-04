@@ -1,11 +1,34 @@
-import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { AppModule } from '@app/app.module';
+import {HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi} from "@angular/common/http";
+import {enableProdMode, importProvidersFrom} from '@angular/core';
+import {bootstrapApplication} from "@angular/platform-browser";
+import {provideRouter} from "@angular/router";
+import {AppComponent, HttpLoaderFactory} from "@app/app.component";
+import {appRoutes} from "@app/app-routes";
+import {JwtInterceptor} from "@app/core/interceptors/jwt.interceptor";
 import { environment } from '@environments/environment';
+import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 
 if (environment.production) {
     enableProdMode();
 }
 
-// eslint-disable-next-line no-console
-platformBrowserDynamic().bootstrapModule(AppModule).catch((err) => console.error(err));
+bootstrapApplication(AppComponent, {
+    providers: [
+        provideRouter(appRoutes),
+        importProvidersFrom(
+            TranslateModule.forRoot({
+                loader: {
+                    provide: TranslateLoader,
+                    useFactory: HttpLoaderFactory,
+                    deps: [HttpClient]
+                }
+            })
+        ),
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: JwtInterceptor,
+            multi: true
+        },
+        provideHttpClient(withInterceptorsFromDi()),
+    ]
+});

@@ -17,6 +17,7 @@ import {SelectItem} from "@app/shared/types/select-item";
 
 @Component({
     template: '',
+    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export abstract class AddEditBaseFormComponent extends BaseAddEditForm implements OnInit {

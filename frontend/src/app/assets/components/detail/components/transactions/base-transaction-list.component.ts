@@ -7,6 +7,7 @@ import { PortfolioService, TransactionService } from '@app/services';
 
 @Component({
     template: '',
+    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export abstract class BaseTransactionListComponent implements OnInit {
