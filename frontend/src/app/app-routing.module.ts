@@ -35,7 +35,7 @@ const routes: Routes = [
     },
     {
         path: 'groups',
-        loadChildren: () => import('./groups/groups.module').then((x) => x.GroupsModule),
+        loadChildren: () => import('./groups/groups-routes'),
         canActivate: [AuthGuard]
     },
     {
