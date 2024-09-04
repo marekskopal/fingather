@@ -60,7 +60,7 @@ const routes: Routes = [
     },
     {
         path: 'email-verify',
-        loadChildren: () => import('./email-verify/email-verify.module').then((x) => x.EmailVerifyModule)
+        loadChildren: () => import('./email-verify/email-verify-routes'),
     },
     {
         path: 'authentication',
