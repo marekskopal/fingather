@@ -20,7 +20,7 @@ const routes: Routes = [
     },
     {
         path: 'transactions',
-        loadChildren: () => import('./transactions/transactions.module').then((x) => x.TransactionsModule),
+        loadChildren: () => import('./transactions/transactions-routes'),
         canActivate: [AuthGuard]
     },
     {

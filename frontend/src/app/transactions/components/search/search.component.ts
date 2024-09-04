@@ -2,11 +2,27 @@ import {
     ChangeDetectionStrategy, Component, output,
 } from '@angular/core';
 import { TransactionActionType } from '@app/models';
+import {DateInputComponent} from "@app/shared/components/date-input/date-input.component";
+import {SearchInputComponent} from "@app/shared/components/search-input/search-input.component";
+import {TagComponent} from "@app/shared/components/tag/tag.component";
 import {TransactionSearch} from "@app/transactions/types/transaction-search";
+import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from "@ng-bootstrap/ng-bootstrap";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
     selector: 'fingather-transactions-search',
     templateUrl: './search.component.html',
+    standalone: true,
+    imports: [
+        TranslateModule,
+        SearchInputComponent,
+        NgbDropdown,
+        NgbDropdownToggle,
+        NgbDropdownMenu,
+        NgbDropdownItem,
+        TagComponent,
+        DateInputComponent
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchComponent {
