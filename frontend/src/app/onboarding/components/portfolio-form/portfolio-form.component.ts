@@ -1,16 +1,26 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
-import { Validators } from '@angular/forms';
+import {ReactiveFormsModule, Validators} from '@angular/forms';
 import { Portfolio } from '@app/models';
 import {
     CurrencyService,
     PortfolioService
 } from '@app/services';
 import { BaseForm } from '@app/shared/components/form/base-form';
+import {InputValidatorComponent} from "@app/shared/components/input-validator/input-validator.component";
+import {SelectComponent} from "@app/shared/components/select/select.component";
 import {SelectItem} from "@app/shared/types/select-item";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'portfolio-form.component.html',
     selector: 'fingather-onboarding-portfolio-form',
+    standalone: true,
+    imports: [
+        ReactiveFormsModule,
+        TranslateModule,
+        InputValidatorComponent,
+        SelectComponent
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PortfolioFormComponent extends BaseForm implements OnInit {

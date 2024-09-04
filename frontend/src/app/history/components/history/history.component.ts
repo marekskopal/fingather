@@ -4,12 +4,26 @@ import {
 import { Asset } from '@app/models';
 import { RangeEnum } from '@app/models/enums/range-enum';
 import { AssetService, PortfolioService } from '@app/services';
+import {AssetSelectorComponent} from "@app/shared/components/asset-selector/asset-selector.component";
+import {LegendComponent} from "@app/shared/components/legend/legend.component";
 import {LegendItem} from "@app/shared/components/legend/types/legend-item";
+import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selector/portfolio-selector.component";
+import {
+    PortfolioValueChartComponent
+} from "@app/shared/components/portfolio-value-chart/portfolio-value-chart.component";
 import {ColorEnum} from "@app/utils/enum/color-enum";
-import {TranslateService} from "@ngx-translate/core";
+import {TranslateModule, TranslateService} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'history.component.html',
+    standalone: true,
+    imports: [
+        TranslateModule,
+        PortfolioSelectorComponent,
+        AssetSelectorComponent,
+        LegendComponent,
+        PortfolioValueChartComponent
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HistoryComponent implements OnInit {
