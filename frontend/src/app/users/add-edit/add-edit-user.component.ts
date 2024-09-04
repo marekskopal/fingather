@@ -2,15 +2,32 @@ import {
     ChangeDetectionStrategy,
     Component, inject, OnInit,
 } from '@angular/core';
-import { Validators } from '@angular/forms';
-import {ActivatedRoute, Router} from "@angular/router";
+import {ReactiveFormsModule, Validators} from '@angular/forms';
+import {MatIcon} from "@angular/material/icon";
+import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import { UserRoleEnum } from '@app/models/enums/user-role-enum';
 import { CurrencyService, UserService } from '@app/services';
 import {BaseAddEditForm} from "@app/shared/components/form/base-add-edit-form";
+import {InputValidatorComponent} from "@app/shared/components/input-validator/input-validator.component";
+import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selector/portfolio-selector.component";
+import {SaveButtonComponent} from "@app/shared/components/save-button/save-button.component";
+import {SelectComponent} from "@app/shared/components/select/select.component";
 import {SelectItem} from "@app/shared/types/select-item";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'add-edit-user.component.html',
+    standalone: true,
+    imports: [
+        TranslateModule,
+        PortfolioSelectorComponent,
+        RouterLink,
+        MatIcon,
+        ReactiveFormsModule,
+        InputValidatorComponent,
+        SelectComponent,
+        SaveButtonComponent
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddEditUserComponent extends BaseAddEditForm implements OnInit {
