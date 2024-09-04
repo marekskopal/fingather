@@ -6,6 +6,7 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
 @Component({
     selector: 'fingather-date-input',
     templateUrl: 'date-input.component.html',
+    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [
         {

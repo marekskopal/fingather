@@ -6,6 +6,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
     selector: 'fingather-confirm-dialog',
     templateUrl: 'confirm-dialog.component.html',
+    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfirmDialogComponent {

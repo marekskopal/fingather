@@ -7,6 +7,7 @@ import {BaseSelectComponent} from "@app/shared/components/select/base-select.com
 @Component({
     selector: 'fingather-select',
     templateUrl: 'select.component.html',
+    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [
         {

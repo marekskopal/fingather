@@ -6,7 +6,8 @@ import { LoginComponent } from '@app/authentication/components/login/login.compo
 import { SignUpComponent } from '@app/authentication/components/sign-up/sign-up.component';
 import {InputValidatorComponent} from "@app/shared/components/input-validator/input-validator.component";
 import {SaveButtonComponent} from "@app/shared/components/save-button/save-button.component";
-import { SharedModule } from '@app/shared/shared.module';
+import {SelectComponent} from "@app/shared/components/select/select.component";
+import {TranslateModule} from "@ngx-translate/core";
 
 import { AuthenticationRoutingModule } from './authentication-routing.module';
 
@@ -15,10 +16,11 @@ import { AuthenticationRoutingModule } from './authentication-routing.module';
         CommonModule,
         ReactiveFormsModule,
         AuthenticationRoutingModule,
-        SharedModule,
         InputValidatorComponent,
         SaveButtonComponent,
         NgOptimizedImage,
+        TranslateModule,
+        SelectComponent,
     ],
     declarations: [
         LayoutComponent,

@@ -2,10 +2,20 @@ import {
     ChangeDetectionStrategy, Component, input, OnInit, output, signal,
 } from '@angular/core';
 import {Asset} from "@app/models";
+import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from "@ng-bootstrap/ng-bootstrap";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
     selector: 'fingather-asset-selector',
     templateUrl: 'asset-selector.component.html',
+    standalone: true,
+    imports: [
+        NgbDropdown,
+        NgbDropdownToggle,
+        NgbDropdownMenu,
+        NgbDropdownItem,
+        TranslateModule
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AssetSelectorComponent implements OnInit {

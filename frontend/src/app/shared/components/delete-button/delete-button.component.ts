@@ -1,12 +1,17 @@
 import {
     ChangeDetectionStrategy, Component, inject, input, output, signal,
 } from '@angular/core';
+import {MatIcon} from "@angular/material/icon";
 import { AlertService } from '@app/services';
 import { ConfirmDialogService } from '@app/services/confirm-dialog.service';
 
 @Component({
     selector: 'fingather-delete-button',
     templateUrl: 'delete-button.component.html',
+    standalone: true,
+    imports: [
+        MatIcon
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DeleteButtonComponent {

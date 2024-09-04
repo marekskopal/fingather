@@ -28,13 +28,19 @@ import {
 } from "@app/assets/components/list/components/opened-grouped-assets/opened-grouped-assets.component";
 import {WatchedAssetsComponent} from "@app/assets/components/list/components/watched-assets/watched-assets.component";
 import { ListComponent } from '@app/assets/components/list/list.component';
+import {DeleteButtonComponent} from "@app/shared/components/delete-button/delete-button.component";
 import {InputValidatorComponent} from "@app/shared/components/input-validator/input-validator.component";
+import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selector/portfolio-selector.component";
 import {SaveButtonComponent} from "@app/shared/components/save-button/save-button.component";
+import {TagComponent} from "@app/shared/components/tag/tag.component";
+import {TickerLogoComponent} from "@app/shared/components/ticker-logo/ticker-logo.component";
+import {ValueIconComponent} from "@app/shared/components/value-icon/value-icon.component";
 import {ColoredValueDirective} from "@app/shared/directives/colored-value.directive";
+import {CurrencyPipe} from "@app/shared/pipes/currency.pipe";
 import { NgbNavModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
+import {TranslateModule} from "@ngx-translate/core";
 import { NgApexchartsModule } from 'ng-apexcharts';
 
-import { SharedModule } from '../shared/shared.module';
 import { AssetsRoutingModule } from './assets-routing.module';
 
 
@@ -42,7 +48,6 @@ import { AssetsRoutingModule } from './assets-routing.module';
     imports: [
         CommonModule,
         ReactiveFormsModule,
-        SharedModule,
         AssetsRoutingModule,
         NgApexchartsModule,
         NgbTypeaheadModule,
@@ -52,6 +57,13 @@ import { AssetsRoutingModule } from './assets-routing.module';
         ColoredValueDirective,
         InputValidatorComponent,
         SaveButtonComponent,
+        PortfolioSelectorComponent,
+        TranslateModule,
+        TickerLogoComponent,
+        CurrencyPipe,
+        TagComponent,
+        DeleteButtonComponent,
+        ValueIconComponent,
     ],
     declarations: [
         LayoutComponent,

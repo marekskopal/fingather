@@ -6,7 +6,7 @@ import {
 import {
     AddEditTransactionFormComponent
 } from "@app/transactions/components/add-edit-transaction-form/add-edit-transaction-form.component";
-import {ImportComponent} from "@app/transactions/components/import/import.component";
+import {ImportTransactionsComponent} from "@app/transactions/components/import/import-transactions.component";
 import { LayoutComponent } from '@app/transactions/components/layout/layout.component';
 import { ListComponent } from '@app/transactions/components/list/list.component';
 
@@ -20,7 +20,7 @@ const routes: Routes = [
             { path: 'edit-transaction/:id', component: AddEditTransactionFormComponent },
             { path: 'add-dividend', component: AddEditDividendFormComponent },
             { path: 'edit-dividend/:id', component: AddEditDividendFormComponent },
-            { path: 'import', component: ImportComponent },
+            { path: 'import', component: ImportTransactionsComponent },
         ]
     }
 ];

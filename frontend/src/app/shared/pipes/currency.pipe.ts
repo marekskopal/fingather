@@ -2,7 +2,8 @@ import {inject, Pipe, PipeTransform} from '@angular/core';
 import { CurrencyService } from '@app/services';
 
 @Pipe({
-    name: 'currency'
+    name: 'currency',
+    standalone: true,
 })
 export class CurrencyPipe implements PipeTransform {
     private readonly currencyService = inject(CurrencyService);

@@ -6,7 +6,8 @@ import {RouterLink} from "@angular/router";
 import {ApiKey} from '@app/models';
 import { PortfolioService } from '@app/services';
 import {ApiKeyService} from "@app/services/api-key.service";
-import {SharedModule} from "@app/shared/shared.module";
+import {DeleteButtonComponent} from "@app/shared/components/delete-button/delete-button.component";
+import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selector/portfolio-selector.component";
 import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
@@ -16,7 +17,8 @@ import {TranslateModule} from "@ngx-translate/core";
         TranslateModule,
         MatIcon,
         RouterLink,
-        SharedModule,
+        PortfolioSelectorComponent,
+        DeleteButtonComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -1,11 +1,23 @@
 import {
     ChangeDetectionStrategy, Component, computed, input, output, signal
 } from '@angular/core';
+import {MatIcon} from "@angular/material/icon";
+import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from "@ng-bootstrap/ng-bootstrap";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
     selector: 'fingather-pagination',
     templateUrl: 'pagination.component.html',
+    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        TranslateModule,
+        MatIcon,
+        NgbDropdown,
+        NgbDropdownToggle,
+        NgbDropdownMenu,
+        NgbDropdownItem
+    ]
 })
 export class PaginationComponent {
     public readonly $totalItems = input.required<number>({

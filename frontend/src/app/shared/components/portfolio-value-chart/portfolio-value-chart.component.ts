@@ -8,7 +8,7 @@ import { PortfolioDataService, PortfolioService } from '@app/services';
 import {ChartUtils} from "@app/utils/chart-utils";
 import {
     ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill,
-    ApexGrid, ApexLegend, ApexStroke, ApexTheme, ApexXAxis, ApexYAxis
+    ApexGrid, ApexLegend, ApexStroke, ApexTheme, ApexXAxis, ApexYAxis, NgApexchartsModule
 } from 'ng-apexcharts';
 
 export type ChartOptions = {
@@ -28,7 +28,11 @@ export type ChartOptions = {
 @Component({
     templateUrl: 'portfolio-value-chart.component.html',
     selector: 'fingather-portfolio-value-chart',
+    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgApexchartsModule
+    ]
 })
 export class PortfolioValueChartComponent implements OnInit, OnChanges {
     private readonly portfolioDataService = inject(PortfolioDataService);

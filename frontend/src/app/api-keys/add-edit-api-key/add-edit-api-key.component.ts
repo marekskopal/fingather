@@ -9,20 +9,24 @@ import {ApiKeyTypeEnum} from "@app/models/enums/api-key-type-enum";
 import {ApiKeyService, PortfolioService} from '@app/services';
 import {BaseAddEditForm} from "@app/shared/components/form/base-add-edit-form";
 import {InputValidatorComponent} from "@app/shared/components/input-validator/input-validator.component";
+import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selector/portfolio-selector.component";
 import {SaveButtonComponent} from "@app/shared/components/save-button/save-button.component";
-import {SharedModule} from "@app/shared/shared.module";
+import {SelectComponent} from "@app/shared/components/select/select.component";
 import {SelectItem} from "@app/shared/types/select-item";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'add-edit-api-key.component.html',
     standalone: true,
     imports: [
         ReactiveFormsModule,
-        SharedModule,
         RouterLink,
         MatIcon,
         InputValidatorComponent,
         SaveButtonComponent,
+        PortfolioSelectorComponent,
+        TranslateModule,
+        SelectComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

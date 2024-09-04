@@ -2,16 +2,27 @@ import {
     ChangeDetectionStrategy,
     Component, effect, inject, input, output, signal
 } from '@angular/core';
+import {MatIcon} from "@angular/material/icon";
+import {RouterLink} from "@angular/router";
 import {ImportPrepare, ImportStart, Ticker, TransactionActionType} from '@app/models';
 import { ImportMapping } from '@app/models/import-mapping';
 import {ImportPrepareTicker} from "@app/models/import-prepare-ticker";
 import { ImportService
 } from '@app/services';
+import {TickerSelectorComponent} from "@app/shared/components/ticker-selector/ticker-selector.component";
 import {objectKeyValues, objectValues} from "@app/utils/object-utils";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'import-prepare.component.html',
     selector: 'fingather-import-prepare',
+    standalone: true,
+    imports: [
+        TranslateModule,
+        TickerSelectorComponent,
+        RouterLink,
+        MatIcon
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImportPrepareComponent {

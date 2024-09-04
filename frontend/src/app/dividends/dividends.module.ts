@@ -6,7 +6,8 @@ import {
 } from '@app/dividends/components/dividend-data-chart/dividends-data-chart.component';
 import { DividendsHistoryComponent } from '@app/dividends/components/history/dividends-history.component';
 import { LayoutComponent } from '@app/dividends/components/layout/layout.component';
-import { SharedModule } from '@app/shared/shared.module';
+import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selector/portfolio-selector.component";
+import {TranslateModule} from "@ngx-translate/core";
 import { NgApexchartsModule } from 'ng-apexcharts';
 
 import { DividendsRoutingModule } from './dividends-routing.module';
@@ -17,7 +18,8 @@ import { DividendsRoutingModule } from './dividends-routing.module';
         ReactiveFormsModule,
         DividendsRoutingModule,
         NgApexchartsModule,
-        SharedModule,
+        PortfolioSelectorComponent,
+        TranslateModule,
     ],
     declarations: [
         LayoutComponent,
