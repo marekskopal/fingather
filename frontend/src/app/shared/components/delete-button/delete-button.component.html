@@ -1,6 +1,10 @@
 ﻿<button (click)="delete()" class="btn btn-secondary" [disabled]="$isDeleting()">
+    @if($showText()) {
+        {{ 'app.common.delete' | translate }}
+    }
+
     @if ($isDeleting()) {
-        <span class="spinner-border spinner-border-sm"></span>
+        <mat-spinner [diameter]="24" />
     } @else {
         <mat-icon>delete</mat-icon>
     }

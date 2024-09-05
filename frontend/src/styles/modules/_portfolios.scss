@@ -1,0 +1,42 @@
+.portfolio-list {
+    .portfolio {
+        margin-bottom: $spacing-xl;
+
+        .portfolio-header {
+            display: flex;
+            margin-bottom: 32px;
+
+            h2 {
+                display: flex;
+                align-items: center;
+                flex: auto;
+                margin-bottom: 0;
+            }
+
+            .control-buttons {
+                display: flex;
+                justify-content: end;
+            }
+
+            .icon-circle {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 48px;
+                height: 48px;
+                border-radius: 50%;
+                background-color: $color-black;
+                border: 1px solid $color-gray-lighter;
+                text-align: center;
+                line-height: 18px;
+                margin-right: $spacing-lg;
+                font-size: $font-size;
+                font-weight: 400;
+
+                .mat-icon {
+                    color: $color-green-light;
+                }
+            }
+        }
+    }
+}

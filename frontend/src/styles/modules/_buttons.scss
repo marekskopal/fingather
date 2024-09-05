@@ -79,6 +79,8 @@
 
 .btn-danger {
     color: $color-white;
+
+    --mat-app-primary: #{$color-white};
 }
 
 .btn-round {

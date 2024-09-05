@@ -10,9 +10,10 @@
             @if (portfolioData) {
                 <div class="card-body">
                     <fingather-portfolio-value-chart
-                            [range]="PortfolioDataRangeEnum.All"
-                            [showLabels]="false"
-                            [sparkline]="true"
+                        [portfolio]="$portfolio()"
+                        [range]="PortfolioDataRangeEnum.All"
+                        [showLabels]="false"
+                        [sparkline]="true"
                     />
 
                     <span class="value h3">{{portfolioData.value | number:'1.2-2' | currency: defaultCurrency.id | async}}</span>
