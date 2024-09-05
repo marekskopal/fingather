@@ -11,6 +11,7 @@ $color-gray-lightest: #b0b0b0;
 $color-green: #4ade80;
 $color-green-light: #a4e04f;
 $color-red: #f87171;
+$color-red-darker: #ef4444;
 $color-purple: #9e2af3;
 $color-purple-light: #dcb0ff;
 
@@ -58,6 +59,7 @@ $table-cell-padding-x: 1rem;
 //bootstrap overrides
 $primary: $color-purple;
 $primary-light: $color-purple-light;
+$danger: $color-red-darker;
 $body-color-dark: $color-white;
 $body-bg-dark: $color-black;
 $background-color: $color-gray;
@@ -66,5 +68,4 @@ $card-bg: $color-gray;
 $table-bg: $background-color;
 $table-striped-bg: $card-bg;
 $table-border-color: $color-gray-lighter;
-
-$input-border-color: $color-gray-lighter;
+$modal-md: 475px;

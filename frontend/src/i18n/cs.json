@@ -409,7 +409,8 @@
       "save": "Uložit",
       "edit": "Upravit",
       "delete": "Smazat",
-      "choose": "Vybrat"
+      "choose": "Vybrat",
+      "ok": "OK"
     }
   }
 }

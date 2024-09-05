@@ -9,14 +9,17 @@ export class ConfirmDialogService {
     public confirm(
         title: string,
         message: string,
-        btnOkText: string = 'OK',
-        btnCancelText: string = 'Cancel',
+        buttonOkText: string | null = null,
+        buttonCancelText: string | null = null,
     ): Promise<boolean> {
-        const modalRef = this.modalService.open(ConfirmDialogComponent, { size: 'sm' });
-        modalRef.componentInstance.title.set(title);
-        modalRef.componentInstance.message.set(message);
-        modalRef.componentInstance.btnOkText.set(btnOkText);
-        modalRef.componentInstance.btnCancelText.set(btnCancelText);
+        const modalRef = this.modalService.open(ConfirmDialogComponent, {
+            size: 'md',
+            centered: true,
+        });
+        modalRef.componentInstance.$title.set(title);
+        modalRef.componentInstance.$message.set(message);
+        modalRef.componentInstance.$buttonOkText.set(buttonOkText);
+        modalRef.componentInstance.$buttonCancelText.set(buttonCancelText);
 
         return modalRef.result;
     }
