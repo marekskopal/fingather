@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 $color-black: #000000;
 $color-white: #ffffff;
 $color-gray: #262626;
@@ -48,7 +50,7 @@ $navigation-width: 256px;
 $ticker-logo-wrapper-size: 56px;
 $ticker-logo-size: 48px;
 $ticker-logo-margin: 12px;
-$ticker-logo-wrapped-margin: ($ticker-logo-wrapper-size - $ticker-logo-size) / 2;
+$ticker-logo-wrapped-margin: math.div($ticker-logo-wrapper-size - $ticker-logo-size, 2);
 
 $table-cell-padding-y: 0.5rem;
 $table-cell-padding-x: 1rem;
