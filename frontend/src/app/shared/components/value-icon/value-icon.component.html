@@ -1,13 +1,13 @@
 ﻿@if(($value() ?? 0) > 0) {
-    <span class="icon-circle" [coloredValue]="$value()">
+    <span [coloredValue]="$value()">
         <mat-icon>arrow_upward_alt</mat-icon>
     </span>
 } @else if(($value() ?? 0) < 0) {
-    <span class="icon-circle"[coloredValue]="$value()">
+    <span [coloredValue]="$value()">
         <mat-icon>arrow_downward_alt</mat-icon>
     </span>
 } @else {
-    <span class="icon-circle">
+    <span>
         <mat-icon>arrow_upward_alt</mat-icon>
     </span>
 }
