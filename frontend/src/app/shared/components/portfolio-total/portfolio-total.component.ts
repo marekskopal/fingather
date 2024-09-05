@@ -1,9 +1,9 @@
 import {AsyncPipe, DecimalPipe} from "@angular/common";
 import {
-    ChangeDetectionStrategy, Component, inject, OnInit, signal, WritableSignal
+    ChangeDetectionStrategy, Component, inject, input, OnInit, signal
 } from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
-import { Currency, PortfolioData } from '@app/models';
+import {Currency, Portfolio, PortfolioData} from '@app/models';
 import { RangeEnum } from '@app/models/enums/range-enum';
 import { CurrencyService, PortfolioDataService, PortfolioService } from '@app/services';
 import {
@@ -35,7 +35,11 @@ export class PortfolioTotalComponent implements OnInit {
     private readonly currencyService = inject(CurrencyService);
     private readonly portfolioService = inject(PortfolioService);
 
-    private readonly $portfolioData: WritableSignal<PortfolioData | null> = signal<PortfolioData | null>(null);
+    public readonly $portfolio = input<Portfolio | null>(null, {
+        alias: 'portfolio',
+    })
+
+    private readonly $portfolioData = signal<PortfolioData | null>(null);
     protected defaultCurrency: Currency;
 
     public async ngOnInit(): Promise<void> {
@@ -55,7 +59,7 @@ export class PortfolioTotalComponent implements OnInit {
     public async refreshPortfolioData(): Promise<void> {
         this.$portfolioData.set(null);
 
-        const portfolio = await this.portfolioService.getCurrentPortfolio();
+        const portfolio = this.$portfolio() ?? await this.portfolioService.getCurrentPortfolio();
 
         const portfolioData = await this.portfolioDataService.getPortfolioData(portfolio.id);
         this.$portfolioData.set(portfolioData);

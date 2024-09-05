@@ -1,8 +1,8 @@
 import {
     ChangeDetectionStrategy,
-    Component, inject, input, OnChanges, OnInit, signal, WritableSignal
+    Component, inject, input, OnChanges, OnInit, signal
 } from '@angular/core';
-import { PortfolioDataWithBenchmarkData } from '@app/models';
+import {Portfolio, PortfolioDataWithBenchmarkData} from '@app/models';
 import { RangeEnum } from '@app/models/enums/range-enum';
 import { PortfolioDataService, PortfolioService } from '@app/services';
 import {ChartUtils} from "@app/utils/chart-utils";
@@ -41,6 +41,9 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
     public readonly $range = input.required<RangeEnum>({
         alias: 'range',
     });
+    public readonly $portfolio = input<Portfolio | null>(null, {
+        alias: 'portfolio',
+    });
     public readonly $benchmarkAssetId = input<number | null>(null, {
         alias: 'benchmarkAssetId',
     });
@@ -54,7 +57,7 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
         alias: 'sparkline',
     });
     protected chartOptions: ChartOptions;
-    protected readonly $loading: WritableSignal<boolean> = signal<boolean>(false);
+    protected readonly $loading = signal<boolean>(false);
 
     public ngOnInit(): void {
         this.initializeChartOptions();
@@ -75,7 +78,7 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
     private async refreshChart(): Promise<void> {
         this.$loading.set(true);
 
-        const portfolio = await this.portfolioService.getCurrentPortfolio();
+        const portfolio = this.$portfolio() ?? await this.portfolioService.getCurrentPortfolio();
 
         const portfolioData = await this.portfolioDataService.getPortfolioDataRange(
             portfolio.id,

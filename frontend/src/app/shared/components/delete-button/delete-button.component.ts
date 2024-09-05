@@ -2,15 +2,19 @@ import {
     ChangeDetectionStrategy, Component, inject, input, output, signal,
 } from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
+import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import { AlertService } from '@app/services';
 import { ConfirmDialogService } from '@app/services/confirm-dialog.service';
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
     selector: 'fingather-delete-button',
     templateUrl: 'delete-button.component.html',
     standalone: true,
     imports: [
-        MatIcon
+        MatIcon,
+        TranslateModule,
+        MatProgressSpinner
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -27,6 +31,9 @@ export class DeleteButtonComponent {
     });
     public readonly $message = input.required<string>({
         alias: 'message',
+    });
+    public readonly $showText = input<boolean>(false, {
+        alias: 'showText',
     });
 
     protected readonly $isDeleting = signal<boolean>(false);

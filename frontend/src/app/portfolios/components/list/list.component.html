@@ -13,39 +13,34 @@
     </div>
 </div>
 
-<div class="card">
-    <div class="card-body">
-        <table class="table table-fixed">
-            <thead>
-                <tr>
-                    <th style="width: 80%">{{ 'app.portfolios.list.name' | translate }}</th>
-                    <th style="width: 20%"></th>
-                </tr>
-            </thead>
-            <tbody>
-                @for (portfolio of portfolios; track portfolio.id) {
-                    <tr>
-                        <td>{{portfolio.name}}</td>
-                        <td class="text-end" style="white-space: nowrap">
-                            <a routerLink="edit-portfolio/{{portfolio.id}}" class="btn btn-secondary me-2" tabindex="0">
-                                <mat-icon>edit</mat-icon>
-                            </a>
-                            @if (!portfolio.isDefault && portfolio.id !== currentPortfolio.id) {
-                                <fingather-delete-button
-                                    (onConfirm)="deletePortfolio(portfolio.id)"
-                                    [title]="'Delete portfolio ' + portfolio.name"
-                                    [message]="'Are you sure you want to delete portfolio ' + portfolio.name + '?'"
-                                />
-                            }
-                        </td>
-                    </tr>
-                }
-                @if(portfolios === null) {
-                    <td colspan="4" class="text-center">
-                        <span class="spinner-border spinner-border-lg align-center"></span>
-                    </td>
-                }
-            </tbody>
-        </table>
-    </div>
+<div class="portfolio-list">
+    @for (portfolio of portfolios; track portfolio.id) {
+        <div class="card dark portfolio">
+            <div class="card-body">
+                <div class="portfolio-header">
+                    <span class="icon-circle">
+                        <mat-icon>wallet</mat-icon>
+                    </span>
+                    <h2 class="h4">{{portfolio.name}}</h2>
+                    <div class="control-buttons">
+                        <a routerLink="edit-portfolio/{{portfolio.id}}" class="btn btn-secondary me-2" tabindex="0">
+                            <mat-icon>edit</mat-icon>
+                            {{ 'app.common.edit' | translate }}
+                        </a>
+                        <fingather-delete-button
+                            [showText]="true"
+                            (onConfirm)="deletePortfolio(portfolio.id)"
+                            [title]="'Delete portfolio ' + portfolio.name"
+                            [message]="'Are you sure you want to delete portfolio ' + portfolio.name + '?'"
+                        />
+                    </div>
+                </div>
+            </div>
+
+            <fingather-portfolio-total
+                [portfolio]="portfolio"
+            />
+        </div>
+    }
 </div>
+
