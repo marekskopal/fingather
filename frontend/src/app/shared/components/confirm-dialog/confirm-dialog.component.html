@@ -1,12 +1,27 @@
-﻿<div class="modal-header">
-    <h4 class="modal-title">{{ title() }}</h4>
-
-    <button type="button" class="btn-close" aria-label="Close" (click)="dismiss()"></button>
-</div>
-<div class="modal-body">
-    {{ message() }}
+﻿<div class="modal-body">
+    <div class="confirm-dialog">
+        <div class="icon-circle">
+            <mat-icon>delete</mat-icon>
+        </div>
+        <div class="message">
+            <h6>{{ $title() }}</h6>
+            <p>{{ $message() }}</p>
+        </div>
+    </div>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-danger" (click)="decline()">{{ btnCancelText() }}</button>
-    <button type="button" class="btn btn-primary" (click)="accept()">{{ btnOkText() }}</button>
+    <button type="button" class="btn btn-secondary" (click)="decline()">
+        @if($buttonCancelText()) {
+            {{ $buttonCancelText() }}
+        } @else {
+            {{ 'app.common.cancel' | translate }}
+        }
+    </button>
+    <button type="button" class="btn btn-danger" (click)="accept()">
+        @if($buttonOkText()) {
+            {{ $buttonOkText() }}
+        } @else {
+            {{ 'app.common.ok' | translate }}
+        }
+    </button>
 </div>
