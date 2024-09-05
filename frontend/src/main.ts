@@ -1,5 +1,5 @@
 import {HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi} from "@angular/common/http";
-import {enableProdMode, importProvidersFrom} from '@angular/core';
+import {enableProdMode, importProvidersFrom, provideExperimentalZonelessChangeDetection} from '@angular/core';
 import {bootstrapApplication} from "@angular/platform-browser";
 import {provideRouter} from "@angular/router";
 import {AppComponent, HttpLoaderFactory} from "@app/app.component";
@@ -30,5 +30,6 @@ bootstrapApplication(AppComponent, {
             multi: true
         },
         provideHttpClient(withInterceptorsFromDi()),
+        provideExperimentalZonelessChangeDetection(),
     ]
 });
