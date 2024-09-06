@@ -47,4 +47,5 @@ COPY ./.rr.yaml ./composer.json ./composer.lock /app/
 WORKDIR /app/
 
 RUN rm -rf /app/vendor \
-    && COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --no-progress --classmap-authoritative -d /app/
+    && COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --no-progress --classmap-authoritative -d /app/ \
+    && composer clear-cache
