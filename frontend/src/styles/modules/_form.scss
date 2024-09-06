@@ -9,6 +9,10 @@
         border: 1px solid $primary;
         box-shadow: 0 0 0 3px #0284C71A;
     }
+
+    &::placeholder {
+        color: $color-gray-8;
+    }
 }
 
 .form-select {

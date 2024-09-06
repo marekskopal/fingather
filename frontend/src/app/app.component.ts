@@ -1,9 +1,9 @@
 import {CommonModule} from "@angular/common";
 import { HttpClient} from "@angular/common/http";
-import {ChangeDetectionStrategy, Component, computed, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {MatIconRegistry} from "@angular/material/icon";
 import { RouterOutlet} from "@angular/router";
-import { AuthenticationService } from '@app/services/authentication.service';
+import {ContentLayoutService} from "@app/services/content-layout.service";
 import {AlertComponent} from "@app/shared/components/alert/alert.component";
 import {NavigationComponent} from "@app/shared/components/navigation/navigation.component";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
@@ -28,9 +28,9 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
-    private readonly authenticationService = inject(AuthenticationService);
+    private readonly contentLayoutService = inject(ContentLayoutService);
 
-    protected $isLoggedIn = computed<boolean>(() => this.authenticationService.$isLoggedIn());
+    protected readonly $contentCenter = this.contentLayoutService.$contentCenter;
 
     public constructor(
         private readonly translateService: TranslateService,

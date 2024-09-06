@@ -305,14 +305,15 @@
     "onboarding": {
       "onboarding": {
         "title": "Welcome to FinGather",
-        "subtitle": "Let's get started by importing your assets.",
+        "subtitle": "Let's get started<br>by importing your assets.",
         "skip": "Skip"
       },
-      "portfolioForm": {
-        "name": "Name of your's first portfolio",
-        "nameRequired": "Name is required",
-        "currency": "Currency",
-        "currencyRequired": "Currency is required"
+      "stepOne": {
+        "name": "First of all, name your portfolio",
+        "nameRequired": "Name of portfolio is required",
+        "namePlaceholder": "Portfolio name",
+        "saveAndContinue": "Save & Continue to set portfolio currency",
+        "setCurrency": "Set Currency"
       }
     },
     "apiKeys": {

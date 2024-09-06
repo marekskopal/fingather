@@ -11,21 +11,6 @@
         padding-bottom: 14px;
         border-bottom: 1px solid $color-gray-lighter;
 
-        > * {
-            display: inline-block;
-        }
-
-        .icon-circle {
-            .mat-icon {
-                vertical-align: middle;
-                margin-top: -3px;
-                color: $primary-light;
-                width: 16px;
-                height: 16px;
-                font-size: $font-size;
-            }
-        }
-
         .icon-circle + h3 {
             margin-top: 7px;
         }
@@ -49,21 +34,7 @@
     }
 
     .icon-circle {
-        display: inline-block;
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        background-color: $color-gray-light;
-        text-align: center;
-        line-height: 32px;
         margin-right: 13px;
-        font-size: $font-size;
-        font-weight: 400;
-
-        .mat-icon {
-            vertical-align: middle;
-            margin-top: -3px;
-        }
     }
 
     &.form {

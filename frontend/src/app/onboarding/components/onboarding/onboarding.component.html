@@ -1,28 +1,19 @@
-﻿<div class="row">
-    <div class="col">
-        <h1>{{ 'app.onboarding.onboarding.title' | translate }}</h1>
-    </div>
-</div>
+﻿<div class="card onboarding">
+    <div class="card-body">
+        @if($currentStep() === OnboardingStepEnum.StepOne) {
+            <fingather-onboarding-step-one />
+        } @else if($currentStep() === OnboardingStepEnum.StepTwo) {
 
-<div class="row">
-    <div class="col">
-        <p class="h3">{{ 'app.onboarding.onboarding.subtitle' | translate }}</p>
-    </div>
-</div>
-<div class="row">
-    <div class="col">
-        <fingather-onboarding-portfolio-form />
-    </div>
-</div>
+        } @else if($currentStep() === OnboardingStepEnum.StepThree) {
 
-<div class="row">
-    <div class="col">
-        <fingather-import [showCancel]="false" (onImportFinish)="onImportFinish()" />
+        }
     </div>
-</div>
-
-<div class="row">
-    <div class="col">
-        <a (click)="onSkip()" class="btn btn-secondary" tabindex="-1">{{ 'app.onboarding.onboarding.skip' | translate }}</a>
+    <div class="card-footer">
+        <a (click)="onSkip()"
+           class="btn btn-secondary"
+           tabindex="-1"
+        >
+            {{ 'app.onboarding.onboarding.skip' | translate }}
+        </a>
     </div>
 </div>

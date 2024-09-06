@@ -304,14 +304,15 @@
     "onboarding": {
       "onboarding": {
         "title": "Vítejte ve FinGather",
-        "subtitle": "Můžete začít importováním vašich aktiv.",
+        "subtitle": "Můžete začít<br>importováním vašich aktiv.",
         "skip": "Přeskočit"
       },
-      "portfolioForm": {
-        "name": "Jméno vašeho prvního portfolia",
-        "nameRequired": "Jméno portfolia je povinné",
-        "currency": "Měna",
-        "currencyRequired": "Měna je povinná"
+      "stepOne": {
+        "name": "Název vašeho prvního portfolia",
+        "nameRequired": "Název portfolia je povinný",
+        "namePlaceholder": "Název portfolia",
+        "saveAndContinue": "Uložit & pokračovat pro výběr měny",
+        "setCurrency": "Nastavit měnu"
       }
     },
     "apiKeys": {

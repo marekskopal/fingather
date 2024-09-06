@@ -1,7 +1,9 @@
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
-import { Router } from '@angular/router';
+import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
+import {StepOneComponent} from "@app/onboarding/components/onboarding/components/step-one/step-one.component";
 import {PortfolioFormComponent} from "@app/onboarding/components/portfolio-form/portfolio-form.component";
-import { OnboardingService } from '@app/services/onboarding.service';
+import {ContentLayoutService} from "@app/services/content-layout.service";
+import {OnboardingStepEnum} from "@app/services/enums/onboarding-step-enum";
+import {OnboardingProcessService} from "@app/services/onboarding-process.service";
 import {ImportComponent} from "@app/shared/components/import/import.component";
 import {TranslateModule} from "@ngx-translate/core";
 
@@ -11,23 +13,24 @@ import {TranslateModule} from "@ngx-translate/core";
     imports: [
         TranslateModule,
         PortfolioFormComponent,
-        ImportComponent
+        ImportComponent,
+        StepOneComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OnboardingComponent {
-    private readonly onboardingService = inject(OnboardingService);
-    private readonly router = inject(Router);
+export class OnboardingComponent implements OnInit {
+    private readonly onboardingProcessService = inject(OnboardingProcessService);
+    private readonly contentLayoutService = inject(ContentLayoutService);
 
-    protected async onImportFinish(): Promise<void> {
-        await this.onboardingService.onboardingComplete();
+    protected readonly $currentStep = this.onboardingProcessService.$currentStep;
 
-        this.router.navigate(['/']);
+    public ngOnInit(): void {
+        this.contentLayoutService.setContentCenter(true);
     }
 
     protected async onSkip(): Promise<void> {
-        await this.onboardingService.onboardingComplete();
-
-        this.router.navigate(['/']);
+        await this.onboardingProcessService.completeOnboarding();
     }
+
+    protected readonly OnboardingStepEnum = OnboardingStepEnum;
 }
