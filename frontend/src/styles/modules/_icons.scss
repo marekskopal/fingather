@@ -1,3 +1,41 @@
 .mat-icon {
     font-weight: 300;
 }
+
+.icon-circle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    text-align: center;
+    width: 48px;
+    min-width: 48px;
+    height: 48px;
+    line-height: 48px;
+    background-color: $color-gray-light;
+    font-size: $font-size;
+    font-weight: 400;
+
+    &.icon-circle-small {
+        width: 32px;
+        min-width: 32px;
+        height: 32px;
+        line-height: 32px;
+
+        .mat-icon {
+            color: $primary-light;
+            width: 16px;
+            height: 16px;
+            font-size: $font-size;
+        }
+    }
+
+    &.icon-circle-line {
+        background-color: transparent;
+        border: 1px solid $color-gray-lighter;
+    }
+
+    .mat-icon {
+        color: $color-green-light;
+    }
+}

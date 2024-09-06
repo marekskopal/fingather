@@ -1,0 +1,77 @@
+.onboarding {
+    padding: $spacing-xl;
+    text-align: center;
+
+    @include media-breakpoint-up(md) {
+        width: 544px;
+    }
+
+    .claim {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: $spacing-xl;
+
+        img {
+            margin-bottom: 64px;
+        }
+
+        h1 {
+            margin-bottom: 14px;
+            font-size: 1rem;
+            line-height: 24px;
+            font-weight: 400;
+            color: $color-gray-lightest;
+            letter-spacing: normal;
+        }
+
+        p {
+            margin-bottom: 30px;
+            font-size: 39px;
+            line-height: 44px;
+            font-weight: 600;
+            letter-spacing: -0.03em;
+        }
+
+        &:after {
+            content: '';
+            display: block;
+            width: 96px;
+            height: 1px;
+            background-color: $color-gray-lighter;
+        }
+    }
+
+    .form-group {
+        display: flex;
+        padding: $spacing-md 0 $spacing-lg 0;
+        margin-bottom: $spacing-xl;
+
+        .icon-circle {
+            margin-right: $spacing-lg;
+        }
+
+        .form-group-inputs {
+            flex: auto;
+            text-align: left;
+        }
+    }
+
+    .button-group {
+        margin-bottom: $spacing-xl;
+
+        p {
+            color: $color-gray-8;
+            margin-bottom: 14px;
+        }
+
+        .btn {
+            width: 100%;
+        }
+    }
+
+    .card-footer {
+        padding-top: $spacing-lg;
+        border-top: 1px solid $color-gray-lighter;
+    }
+}

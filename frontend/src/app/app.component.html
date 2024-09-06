@@ -1,10 +1,17 @@
-﻿<div class="content">
-    @if ($isLoggedIn()) {
-        <fingather-navigation />
-    }
-
-    <div class="app-container">
-        <fingather-alert />
-        <router-outlet />
+﻿@if($contentCenter()) {
+    <div class="content-center">
+        <div class="app-container">
+            <fingather-alert />
+            <router-outlet />
+        </div>
     </div>
-</div>
+} @else {
+    <div class="content">
+        <fingather-navigation />
+
+        <div class="app-container">
+            <fingather-alert />
+            <router-outlet />
+        </div>
+    </div>
+}

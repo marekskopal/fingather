@@ -106,18 +106,22 @@ final class PortfolioController
 			return new NotFoundResponse('Portfolio with id "' . $portfolioId . '" was not found.');
 		}
 
-		/** @var array{currencyId: int, name: string, isDefault?: bool} $requestBody */
+		/** @var array{currencyId?: int, name?: string, isDefault?: bool} $requestBody */
 		$requestBody = json_decode($request->getBody()->getContents(), assoc: true);
 
-		$currency = $this->currencyProvider->getCurrency($requestBody['currencyId']);
-		if ($currency === null) {
-			return new NotFoundResponse('Currency with id "' . $requestBody['currencyId'] . '" was not found.');
+		if (($requestBody['currencyId'] ?? null) === null) {
+			$currency = $portfolio->getCurrency();
+		} else {
+			$currency = $this->currencyProvider->getCurrency($requestBody['currencyId']);
+			if ($currency === null) {
+				return new NotFoundResponse('Currency with id "' . $requestBody['currencyId'] . '" was not found.');
+			}
 		}
 
 		return new JsonResponse(PortfolioDto::fromEntity($this->portfolioProvider->updatePortfolio(
 			portfolio: $portfolio,
 			currency: $currency,
-			name: $requestBody['name'],
+			name: $requestBody['name'] ?? $portfolio->getName(),
 			isDefault: $requestBody['isDefault'] ?? true,
 		)));
 	}
