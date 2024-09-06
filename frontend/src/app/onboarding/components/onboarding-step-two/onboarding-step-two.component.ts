@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import {ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatIcon} from "@angular/material/icon";
+import {RouterLink} from "@angular/router";
 import {Portfolio} from "@app/models";
 import {BaseOnboardingComponent} from "@app/onboarding/components/base-onboarding.component";
 import {CurrencyService, PortfolioService} from "@app/services";
@@ -20,7 +21,8 @@ import {TranslateModule} from "@ngx-translate/core";
         ReactiveFormsModule,
         InputValidatorComponent,
         SaveButtonComponent,
-        SelectComponent
+        SelectComponent,
+        RouterLink
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -79,7 +81,8 @@ export class OnboardingStepTwoComponent extends BaseOnboardingComponent implemen
     private async updatePortfolio(portfolioId: number): Promise<void> {
         await this.portfolioService.updatePortfolio(portfolioId, this.form.value);
 
-        this.alertService.success('Update successful', { keepAfterRouteChange: true });
         this.portfolioService.notify();
+
+        this.router.navigate(['/onboarding/step-three']);
     }
 }

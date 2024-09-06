@@ -1,6 +1,6 @@
-﻿<h3 class="h6 mb-4">
-    <span class="icon-circle">2</span>
-    {{ 'app.transactions.import.import.selectTicker' | translate }}
+﻿<h3 class="h6">
+    <span class="icon-circle icon-circle-small">2</span>
+    <span>{{ 'app.transactions.import.import.selectTicker' | translate }}</span>
 </h3>
 
 @if (objectValues($multipleFoundTickers()).length === 0) {
@@ -25,9 +25,11 @@
     </table>
 
     <div class="form-group">
-        <a routerLink="/transactions" class="btn btn-secondary">
-            {{ 'app.common.cancel' | translate }}
-        </a>
+        @if ($showCancel()) {
+            <a routerLink="/transactions" class="btn btn-secondary">
+                {{ 'app.common.cancel' | translate }}
+            </a>
+        }
 
         <button
             class="btn btn-primary"

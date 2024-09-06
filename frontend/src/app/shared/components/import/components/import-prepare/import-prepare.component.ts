@@ -31,6 +31,9 @@ export class ImportPrepareComponent {
     public $importPrepares = input.required<ImportPrepare[]>({
         'alias': 'importPrepares',
     });
+    public $showCancel = input<boolean>(true, {
+        alias: 'showCancel',
+    });
     public onImportFinish$ = output<void>({
         'alias': 'onImportFinish',
     });
