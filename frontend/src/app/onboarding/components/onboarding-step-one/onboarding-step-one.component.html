@@ -1,0 +1,54 @@
+﻿<div class="card onboarding">
+    <div class="card-body">
+        <div class="claim">
+            <img ngSrc="/images/fingather.svg" width="133" height="32" alt="FinGather" priority>
+
+            <div class="title">{{ 'app.onboarding.onboarding.title' | translate }}</div>
+
+            <div class="subtitle" [innerHTML]="'app.onboarding.onboarding.subtitle' | translate"></div>
+        </div>
+
+        @if (!$loading()) {
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <div class="icon-circle icon-circle-line">
+                        <mat-icon>wallet</mat-icon>
+                    </div>
+                    <div class="form-group-inputs">
+                        <label for="name">{{ 'app.onboarding.stepOne.name' | translate }}</label>
+                        <input
+                            id="name"
+                            type="text"
+                            formControlName="name"
+                            class="form-control"
+                            placeholder="{{ 'app.onboarding.stepOne.namePlaceholder' | translate }}"
+                            [class.is-invalid]="$submitted() && f['name'].errors"
+                        />
+                        <fingather-input-validator
+                            [control]="f['name']"
+                            [isSubmitted]="$submitted()"
+                            [errorMessages]="{
+                        required: 'app.onboarding.stepOne.nameRequired',
+                    }"
+                        />
+                    </div>
+                </div>
+                <div class="button-group">
+                    <p>{{ 'app.onboarding.stepOne.saveAndContinue' | translate }}</p>
+                    <fingather-save-button
+                        [saving]="$saving()"
+                        [text]="'app.onboarding.stepOne.setCurrency' | translate"
+                    />
+                </div>
+            </form>
+        }
+    </div>
+    <div class="card-footer">
+        <a (click)="onSkip()"
+           class="btn btn-secondary"
+           tabindex="-1"
+        >
+            {{ 'app.onboarding.onboarding.skip' | translate }}
+        </a>
+    </div>
+</div>

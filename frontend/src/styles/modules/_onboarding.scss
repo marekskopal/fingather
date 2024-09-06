@@ -16,7 +16,7 @@
             margin-bottom: 64px;
         }
 
-        h1 {
+        .title {
             margin-bottom: 14px;
             font-size: 1rem;
             line-height: 24px;
@@ -25,7 +25,7 @@
             letter-spacing: normal;
         }
 
-        p {
+        .subtitle {
             margin-bottom: 30px;
             font-size: 39px;
             line-height: 44px;
@@ -57,6 +57,12 @@
         }
     }
 
+    .form-group-step-two {
+        padding: $spacing-xl 0;
+        margin-bottom: $spacing-xl;
+        text-align: left;
+    }
+
     .button-group {
         margin-bottom: $spacing-xl;
 
@@ -73,5 +79,41 @@
     .card-footer {
         padding-top: $spacing-lg;
         border-top: 1px solid $color-gray-lighter;
+    }
+}
+
+.onboarding-progress {
+    display: flex;
+    justify-content: center;
+    gap: $spacing-xl;
+    margin-bottom: $spacing-xl;
+
+    .onboarding-progress-step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: $color-gray-8;
+
+        .icon-circle {
+            margin-bottom: $spacing-xs;
+
+            .mat-icon {
+                color: $color-gray-8;
+            }
+        }
+
+        &.checked {
+            color: $color-green-light;
+
+            .icon-circle {
+                .mat-icon {
+                    color: $color-green-light;
+                }
+            }
+        }
+
+        &.active {
+            color: $color-white;
+        }
     }
 }

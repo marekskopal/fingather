@@ -313,6 +313,17 @@
         "namePlaceholder": "Název portfolia",
         "saveAndContinue": "Uložit & pokračovat pro výběr měny",
         "setCurrency": "Nastavit měnu"
+      },
+      "stepTwo": {
+        "currency": "Měna vašeho portfolio portfolio",
+        "currencyRequired": "Měna je povinná",
+        "saveAndContinue": "Uložit & pokračovat na import vašich aktiv",
+        "importAssets": "Import aktiv"
+      },
+      "steps": {
+        "name": "Name",
+        "currency": "Currency",
+        "import": "Import"
       }
     },
     "apiKeys": {

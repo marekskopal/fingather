@@ -1,0 +1,66 @@
+﻿<div class="onboarding-progress">
+    <div class="onboarding-progress-step checked">
+        <div class="icon-circle icon-circle-line">
+            <mat-icon>check_small</mat-icon>
+        </div>
+        <span>{{ 'app.onboarding.steps.name' | translate }}</span>
+    </div>
+    <div class="onboarding-progress-step active">
+        <div class="icon-circle icon-circle-line">
+            <mat-icon>attach_money</mat-icon>
+        </div>
+        <span>{{ 'app.onboarding.steps.currency' | translate }}</span>
+    </div>
+    <div class="onboarding-progress-step">
+        <div class="icon-circle icon-circle-line">
+            <mat-icon>upload</mat-icon>
+        </div>
+        <span>{{ 'app.onboarding.steps.import' | translate }}</span>
+    </div>
+</div>
+
+<div class="card onboarding">
+    <div class="card-body">
+        <div class="claim">
+            <div class="title">2/3</div>
+
+            <div class="subtitle">{{ 'app.onboarding.steps.currency' | translate }}</div>
+        </div>
+
+        @if (!$loading()) {
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div class="form-group-step-two">
+                    <label for="currencyId">{{ 'app.onboarding.stepTwo.currency' | translate }}</label>
+                    <fingather-select
+                        id="currencyId"
+                        formControlName="currencyId"
+                        [items]="currencies"
+                        (change)="onSubmit()"
+                    />
+                    <fingather-input-validator
+                        [control]="f['currencyId']"
+                        [isSubmitted]="$submitted()"
+                        [errorMessages]="{
+                            required: 'app.onboarding.stepTwo.currencyRequired',
+                        }"
+                    />
+                </div>
+                <div class="button-group">
+                    <p>{{ 'app.onboarding.stepTwo.saveAndContinue' | translate }}</p>
+                    <fingather-save-button
+                        [saving]="$saving()"
+                        [text]="'app.onboarding.stepTwo.importAssets' | translate"
+                    />
+                </div>
+            </form>
+        }
+    </div>
+    <div class="card-footer">
+        <a (click)="onSkip()"
+           class="btn btn-secondary"
+           tabindex="-1"
+        >
+            {{ 'app.onboarding.onboarding.skip' | translate }}
+        </a>
+    </div>
+</div>

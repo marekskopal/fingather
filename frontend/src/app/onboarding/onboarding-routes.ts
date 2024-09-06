@@ -1,5 +1,6 @@
 import {Route} from '@angular/router';
-import { OnboardingComponent } from '@app/onboarding/components/onboarding/onboarding.component';
+import {OnboardingStepOneComponent} from "@app/onboarding/components/onboarding-step-one/onboarding-step-one.component";
+import {OnboardingStepTwoComponent} from "@app/onboarding/components/onboarding-step-two/onboarding-step-two.component";
 import {LayoutComponent} from "@app/shared/components/layout/layout.component";
 
 export default [
@@ -8,8 +9,12 @@ export default [
         component: LayoutComponent,
         children: [
             {
-                path: '',
-                component: OnboardingComponent
+                path: 'step-one',
+                component: OnboardingStepOneComponent,
+            },
+            {
+                path: 'step-two',
+                component: OnboardingStepTwoComponent,
             },
         ]
     }
