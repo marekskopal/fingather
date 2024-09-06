@@ -1,0 +1,41 @@
+﻿<div ngbDropdown>
+    <button type="button" [id]="$id()" ngbDropdownToggle>
+        <div class="color-wrapper">
+            <div
+                class="color"
+                [style.background-color]="value ? value : 'transparent'"
+            ></div>
+            @if(value) {
+                <span class="ellipsis">{{value}}</span>
+            } @else {
+                <span>{{ $placeholder() }}</span>
+            }
+        </div>
+    </button>
+    <div ngbDropdownMenu [attr.aria-labelledby]="$id()">
+        <h6>{{'app.shared.colorPicker.recommendedColors' | translate}}</h6>
+        @for(item of $items(); track item.key) {
+            <button type="button" ngbDropdownItem (click)="onSelect(item.key)">
+                <div class="color-wrapper">
+                    <div
+                        class="color"
+                        [style.background-color]="item ? item.label : 'transparent'"
+                    ></div>
+                    <span>{{ item.label }}</span>
+                </div>
+                @if(value === item.label) {
+                    <mat-icon>check_small</mat-icon>
+                }
+            </button>
+        }
+        <h6>{{'app.shared.colorPicker.custom' | translate}}</h6>
+        <div class="dropdown-item-custom">
+            <input
+                class="form-control"
+                type="color"
+                [value]="value ? value : ''"
+                (change)="onChangeCustom($event)"
+            />
+        </div>
+    </div>
+</div>

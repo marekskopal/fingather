@@ -44,4 +44,20 @@
         content: '';
         background-color: $color-purple;
     }
+
+    .close {
+        background: transparent;
+        border: 0;
+        margin-left: 4px;
+        padding: 0;
+
+        .mat-icon {
+            margin-top: 4px;
+            width: $font-size-sm;
+            height: $font-size-sm;
+            line-height: $font-size-sm;
+            font-size: $font-size-sm;
+            color: $color-gray-8;
+        }
+    }
 }

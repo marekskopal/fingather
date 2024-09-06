@@ -402,6 +402,10 @@
         "recordsPerPage": "Záznamů na stranu",
         "total": "Celkem",
         "records": "záznamů"
+      },
+      "colorPicker": {
+        "recommendedColors": "Recommended colors",
+        "custom": "Custom"
       }
     },
     "common": {
