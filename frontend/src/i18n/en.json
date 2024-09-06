@@ -314,6 +314,17 @@
         "namePlaceholder": "Portfolio name",
         "saveAndContinue": "Save & Continue to set portfolio currency",
         "setCurrency": "Set Currency"
+      },
+      "stepTwo": {
+        "currency": "Choose currency for your portfolio",
+        "currencyRequired": "Currency is required",
+        "saveAndContinue": "Save & Continue to import your assets",
+        "importAssets": "Import Assets"
+      },
+      "steps": {
+        "name": "Name",
+        "currency": "Currency",
+        "import": "Import"
       }
     },
     "apiKeys": {

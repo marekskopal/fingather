@@ -48,7 +48,7 @@ export class LoginComponent extends BaseForm implements OnInit {
             await this.authorizationService.login(this.f['email'].value, this.f['password'].value);
 
             const currentUser = await this.currentUserService.getCurrentUser();
-            const returnUrl = currentUser.isOnboardingCompleted ? '/' : '/onboarding';
+            const returnUrl = currentUser.isOnboardingCompleted ? '/' : '/onboarding/step-one';
 
             this.router.navigateByUrl(returnUrl);
         } catch (error) {
