@@ -1,0 +1,47 @@
+﻿<div class="onboarding-progress">
+    <a class="onboarding-progress-step checked"
+        routerLink="/onboarding/step-one"
+    >
+        <div class="icon-circle icon-circle-line">
+            <mat-icon>check_small</mat-icon>
+        </div>
+        <span>{{ 'app.onboarding.steps.name' | translate }}</span>
+    </a>
+    <a class="onboarding-progress-step checked"
+        routerLink="/onboarding/step-two"
+    >
+        <div class="icon-circle icon-circle-line">
+            <mat-icon>attach_money</mat-icon>
+        </div>
+        <span>{{ 'app.onboarding.steps.currency' | translate }}</span>
+    </a>
+    <div class="onboarding-progress-step active">
+        <div class="icon-circle icon-circle-line">
+            <mat-icon>upload</mat-icon>
+        </div>
+        <span>{{ 'app.onboarding.steps.import' | translate }}</span>
+    </div>
+</div>
+
+<div class="card onboarding wider">
+    <div class="card-body">
+        <div class="claim">
+            <div class="title">3/3</div>
+
+            <div class="subtitle">{{ 'app.onboarding.steps.import' | translate }}</div>
+        </div>
+
+        <fingather-import
+            (onImportFinish)="onImportFinish()"
+            [showCancel]="false"
+        />
+    </div>
+    <div class="card-footer">
+        <a (click)="onSkip()"
+           class="btn btn-secondary"
+           tabindex="-1"
+        >
+            {{ 'app.onboarding.onboarding.skip' | translate }}
+        </a>
+    </div>
+</div>

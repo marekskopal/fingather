@@ -1,10 +1,12 @@
 ﻿<div class="onboarding-progress">
-    <div class="onboarding-progress-step checked">
+    <a class="onboarding-progress-step checked"
+        routerLink="/onboarding/step-one"
+    >
         <div class="icon-circle icon-circle-line">
             <mat-icon>check_small</mat-icon>
         </div>
         <span>{{ 'app.onboarding.steps.name' | translate }}</span>
-    </div>
+    </a>
     <div class="onboarding-progress-step active">
         <div class="icon-circle icon-circle-line">
             <mat-icon>attach_money</mat-icon>

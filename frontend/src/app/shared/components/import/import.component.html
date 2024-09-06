@@ -1,6 +1,6 @@
-﻿<h3 class="h6 mb-4">
-    <span class="icon-circle">1</span>
-    {{ 'app.transactions.import.import.importFiles' | translate }}
+﻿<h3 class="h6">
+    <span class="icon-circle icon-circle-small">1</span>
+    <span>{{ 'app.transactions.import.import.importFiles' | translate }}</span>
 </h3>
 
 <form
@@ -49,5 +49,9 @@
 </form>
 
 @if ($importPrepares().length > 0) {
-    <fingather-import-prepare [importPrepares]="$importPrepares()" (onImportFinish)="onImportFinish$" />
+    <fingather-import-prepare
+        [importPrepares]="$importPrepares()"
+        [showCancel]="$showCancel()"
+        (onImportFinish)="onImportFinish$"
+    />
 }

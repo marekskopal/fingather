@@ -5,6 +5,18 @@ ngx-file-drop {
     margin-bottom: $spacing-lg;
 }
 
+fingather-import {
+    .h6 {
+        display: flex;
+        margin-bottom: $spacing-lg;
+        align-items: center;
+
+        .icon-circle {
+            margin-right: $spacing-md;
+        }
+    }
+}
+
 .import-file-wrapper {
     display: flex;
     flex-direction: column;
