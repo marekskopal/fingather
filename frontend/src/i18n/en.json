@@ -403,6 +403,10 @@
         "recordsPerPage": "Records per page",
         "total": "Total",
         "records": "records"
+      },
+      "colorPicker": {
+        "recommendedColors": "Recommended colors",
+        "custom": "Custom"
       }
     },
     "common": {

@@ -1,6 +1,6 @@
 import {Route} from '@angular/router';
 import {AddEditGroupComponent} from "@app/groups/components/add-edit/add-edit-group.component";
-import { ListComponent } from '@app/groups/components/list/list.component';
+import { GroupListComponent } from '@app/groups/components/group-list/group-list.component';
 import {LayoutComponent} from "@app/shared/components/layout/layout.component";
 
 export default [
@@ -10,7 +10,7 @@ export default [
         children: [
             {
                 path: '',
-                component: ListComponent
+                component: GroupListComponent
             },
             {
                 path: 'add-group',

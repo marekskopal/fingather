@@ -10,7 +10,7 @@ import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selec
 import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
-    templateUrl: 'list.component.html',
+    templateUrl: 'group-list.component.html',
     standalone: true,
     imports: [
         TranslateModule,
@@ -21,7 +21,7 @@ import {TranslateModule} from "@ngx-translate/core";
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ListComponent implements OnInit {
+export class GroupListComponent implements OnInit {
     private readonly groupService = inject(GroupService);
     private readonly portfolioService = inject(PortfolioService);
     private readonly changeDetectorRef = inject(ChangeDetectorRef);

@@ -5,13 +5,16 @@ import {
 import {ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatIcon} from "@angular/material/icon";
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
-import { Asset, Group } from '@app/models';
+import { Group } from '@app/models';
 import { AssetService, GroupService, PortfolioService
 } from '@app/services';
+import {ColorPickerComponent} from "@app/shared/components/color-picker/color-picker.component";
 import {BaseAddEditForm} from "@app/shared/components/form/base-add-edit-form";
 import {InputValidatorComponent} from "@app/shared/components/input-validator/input-validator.component";
 import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selector/portfolio-selector.component";
 import {SaveButtonComponent} from "@app/shared/components/save-button/save-button.component";
+import {SelectMultiComponent} from "@app/shared/components/select-multi/select-multi.component";
+import {SelectItem} from "@app/shared/types/select-item";
 import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
@@ -24,7 +27,9 @@ import {TranslateModule} from "@ngx-translate/core";
         MatIcon,
         ReactiveFormsModule,
         InputValidatorComponent,
-        SaveButtonComponent
+        SaveButtonComponent,
+        SelectMultiComponent,
+        ColorPickerComponent
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -35,7 +40,7 @@ export class AddEditGroupComponent extends BaseAddEditForm implements OnInit {
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
 
-    protected assets: Asset[];
+    protected assets: SelectItem<number, string>[] = [];
     protected othersGroup: Group;
 
     public async ngOnInit(): Promise<void> {
@@ -53,7 +58,13 @@ export class AddEditGroupComponent extends BaseAddEditForm implements OnInit {
 
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
-        this.assets = await this.assetService.getAssets(portfolio.id);
+        const assets = await this.assetService.getAssets(portfolio.id);
+        this.assets = assets.map((asset) => {
+            return {
+                key: asset.id,
+                label: asset.ticker.name,
+            }
+        });
 
         this.othersGroup = await this.groupService.getOthersGroup(portfolio.id);
 
@@ -100,7 +111,7 @@ export class AddEditGroupComponent extends BaseAddEditForm implements OnInit {
 
         this.alertService.success('Group added successfully', { keepAfterRouteChange: true });
         this.groupService.notify();
-        this.router.navigate(['../'], { relativeTo: this.route });
+        this.router.navigate([this.$routerBackLink()], { relativeTo: this.route });
     }
 
     private async updateGroup(): Promise<void> {
@@ -113,6 +124,6 @@ export class AddEditGroupComponent extends BaseAddEditForm implements OnInit {
 
         this.alertService.success('Update successful', { keepAfterRouteChange: true });
         this.groupService.notify();
-        this.router.navigate(['../'], { relativeTo: this.route });
+        this.router.navigate([this.$routerBackLink()], { relativeTo: this.route });
     }
 }

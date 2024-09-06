@@ -6,7 +6,7 @@
         @if ($id() === null) {
             <h1 class="h3">{{ 'app.groups.addEdit.headerAdd' | translate }}</h1>
         } @else {
-            <h1 class="h3">{{ 'app.groups.addEdit.headerAdd' | translate }}</h1>
+            <h1 class="h3">{{ 'app.groups.addEdit.headerEdit' | translate }}</h1>
         }
         <a [routerLink]="$routerBackLink()" class="btn-link" tabindex="0">
             <mat-icon>chevron_left</mat-icon>
@@ -33,7 +33,12 @@
                     </div>
                     <div class="mb-3">
                         <label for="color" class="form-label">{{ 'app.groups.addEdit.color' | translate }}</label>
-                        <input id="color" type="color" formControlName="color" class="form-control form-control-color" [class.is-invalid]="$submitted() && f['color'].errors" />
+                        <fingather-color-picker
+                            id="color"
+                            formControlName="color"
+                            [class.is-invalid]="$submitted() && f['color'].errors"
+                        />
+
                         <fingather-input-validator
                             [control]="f['color']"
                             [isSubmitted]="$submitted()"
@@ -44,13 +49,12 @@
                     </div>
                     <div class="mb-3">
                         <label for="assetIds" class="form-label">{{ 'app.groups.addEdit.assets' | translate }}</label>
-                        <select multiple id="assetIds" formControlName="assetIds" class="form-select">
-                            @for(asset of assets; track asset.id) {
-                                <option [ngValue]="asset.id" [disabled]="asset.groupId !== othersGroup.id && asset.groupId !== $id()">
-                                    {{ asset.ticker.name }}
-                                </option>
-                            }
-                        </select>
+                        <fingather-select-multi
+                            id="assetIds"
+                            formControlName="assetIds"
+                            [items]="assets"
+                            [class.is-invalid]="$submitted() && f['assetIds'].errors"
+                        />
                         <fingather-input-validator
                             [control]="f['assetIds']"
                             [isSubmitted]="$submitted()"

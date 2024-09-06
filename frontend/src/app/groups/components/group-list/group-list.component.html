@@ -25,7 +25,16 @@
             <tbody>
                 @for(group of groups; track group.id) {
                     <tr>
-                        <td>{{group.name}}</td>
+                        <td>
+                            <div class="group-name">
+                                <span
+                                    class="group-name-color"
+                                    [style.background-color]="group.color"
+                                >
+                                </span>
+                                <span class="group-name-label">{{group.name}}</span>
+                            </div>
+                        </td>
                         <td class="text-end" style="white-space: nowrap">
                             <a routerLink="edit-group/{{group.id}}" class="btn btn-secondary me-2" tabindex="0">
                                 <mat-icon>edit</mat-icon>

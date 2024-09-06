@@ -1,0 +1,30 @@
+﻿<div ngbDropdown>
+    <button type="button" [id]="$id()" ngbDropdownToggle>
+        @if(values.length > 0) {
+            @for(value of values; track value.key) {
+                <span class="tag">
+                    {{value.label}}
+                    <button class="close" type="button" (click)="onToggle(value.key, $event)">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </span>
+            }
+        } @else {
+            <span>{{ $placeholder() }}</span>
+        }
+    </button>
+    <div ngbDropdownMenu [attr.aria-labelledby]="$id()">
+        @for(item of $items(); track item.key) {
+            <button type="button" ngbDropdownItem (click)="onToggle(item.key, $event)">
+                <div class="form-check">
+                    <input
+                        class="form-check-input"
+                        type="checkbox"
+                        [checked]="hasKeyInValues(item.key)"
+                    >
+                    <div class="ellipsis">{{ item.label }}</div>
+                </div>
+            </button>
+        }
+    </div>
+</div>

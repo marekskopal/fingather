@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 .dropdown-toggle {
     display: flex;
     justify-content: space-between;
@@ -21,8 +23,23 @@
 }
 
 .dropdown-menu {
+    width: 100%;
     max-height: 315px;
     overflow-y: scroll;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    margin: math.div($spacing-xs, 2);
+    padding: math.div($spacing-xs, 2) $spacing-sm;
+    width: calc(100% - $spacing-xs);
+    color: $color-gray-lightest;
+
+    &:hover {
+        background-color: $color-gray;
+        border-radius: $border-radius;
+    }
 }
 
 .dropup .dropdown-toggle::after {

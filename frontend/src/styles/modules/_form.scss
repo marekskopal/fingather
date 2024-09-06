@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 .form-control {
     padding: 7px $spacing-sm;
     color: $color-gray-lightest;
@@ -71,12 +73,97 @@ form {
 }
 
 fingather-select,
-fingather-type-select {
+fingather-type-select,
+fingather-select-multi,
+fingather-color-picker {
     display: block;
     width: 100%;
 
     .dropdown-toggle {
         width: 100%;
+    }
+}
+
+fingather-select-multi {
+    .dropdown-toggle {
+        flex-wrap: wrap;
+        height: auto;
+        min-height: 40px;
+        justify-content: flex-start;
+        gap: $spacing-xs;
+
+        &:after {
+            content: none;
+        }
+
+        .tag {
+            display: flex;
+            height: 26px;
+            font-size: 12px;
+
+            .close .mat-icon {
+                margin-top: 3px;
+            }
+        }
+    }
+
+    .dropdown-item {
+        .form-check {
+            max-width: 100%;
+            margin-bottom: 0;
+            padding-left: $spacing-sm + 16px;
+
+            .form-check-input {
+                margin-left: -($spacing-sm + 16px);
+            }
+        }
+    }
+}
+
+fingather-color-picker {
+    .color {
+        display: block;
+        width: 48px;
+        height: 24px;
+        border-radius: $border-radius;
+        margin-right: $spacing-xs;
+    }
+
+    .color-wrapper {
+        display: flex;
+    }
+
+    .dropdown-menu {
+        max-height: none;
+        overflow: auto;
+    }
+
+    .dropdown-item {
+        justify-content: space-between;
+        padding: math.div($spacing-xs, 2) $spacing-xs;
+
+        .mat-icon {
+            color: $color-white;
+        }
+    }
+
+    .dropdown-item-custom {
+        display: flex;
+        margin: math.div($spacing-xs, 2);
+        padding: $spacing-xs;
+
+        &:hover {
+            background-color: $color-gray;
+            border-radius: $border-radius;
+        }
+
+        .form-control {
+            height: 40px;
+        }
+    }
+
+    h6 {
+        padding: $spacing-xs $spacing-sm;
     }
 }
 
