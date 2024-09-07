@@ -6,7 +6,6 @@ namespace FinGather\Dto;
 
 use FinGather\Model\Entity\Enum\TickerTypeEnum;
 use FinGather\Model\Entity\Ticker;
-use function Safe\json_decode;
 
 final readonly class TickerDto
 {
@@ -46,105 +45,5 @@ final readonly class TickerDto
 			country: CountryDto::fromEntity($ticker->getCountry()),
 			market: MarketDto::fromEntity($ticker->getMarket()),
 		);
-	}
-
-	/**
-	 * @param array{
-	 *     id: int,
-	 *     ticker: string,
-	 *     name: string,
-	 *     marketId: int,
-	 *     currencyId: int,
-	 *     type: value-of<TickerTypeEnum>,
-	 *     isin: string|null,
-	 *     logo: string|null,
-	 *     sector: array{
-	 *         id: int,
-	 *         name: string,
-	 *     },
-	 *     industry: array{
-	 *         id: int,
-	 *         name: string,
-	 *     },
-	 *     website: string|null,
-	 *     description: string|null,
-	 *     country: array{
-	 *         id: int,
-	 *         isoCode: string,
-	 *         isoCode3: string,
-	 *         name: string,
-	 *     },
-	 *     market: array{
-	 *         name: string,
-	 *         acronym: string,
-	 *         mic: string,
-	 *         exchangeCode: string,
-	 *         country: string,
-	 *         city: string,
-	 *         timezone: string,
-	 *         currencyId: int,
-	 *     },
-	 * } $data */
-	private static function fromArray(array $data): self
-	{
-		return new self(
-			id: $data['id'],
-			ticker: $data['ticker'],
-			name: $data['name'],
-			marketId: $data['marketId'],
-			currencyId: $data['currencyId'],
-			type: TickerTypeEnum::from($data['type']),
-			isin: $data['isin'],
-			logo: $data['logo'],
-			sector: SectorDto::fromArray($data['sector']),
-			industry: IndustryDto::fromArray($data['industry']),
-			website: $data['website'],
-			description: $data['description'],
-			country: CountryDto::fromArray($data['country']),
-			market: MarketDto::fromArray($data['market']),
-		);
-	}
-
-	public static function fromJson(string $json): self
-	{
-		/**
-		 * @var array{
-		 *     id: int,
-		 *     ticker: string,
-		 *     name: string,
-		 *     marketId: int,
-		 *     currencyId: int,
-		 *     type: value-of<TickerTypeEnum>,
-		 *     isin: string|null,
-		 *     logo: string|null,
-		 *     sector: array{
-		 *         id: int,
-		 *         name: string,
-		 *     },
-		 *     industry: array{
-		 *         id: int,
-		 *         name: string,
-		 *     },
-		 *     website: string|null,
-		 *     description: string|null,
-		 *     country: array{
-		 *         id: int,
-		 *         isoCode: string,
-		 *         isoCode3: string,
-		 *         name: string,
-		 *     },
-		 *     market: array{
-		 *         name: string,
-		 *         acronym: string,
-		 *         mic: string,
-		 *         exchangeCode: string,
-		 *         country: string,
-		 *         city: string,
-		 *         timezone: string,
-		 *         currencyId: int,
-		 *     },
-		 * } $data */
-		$data = json_decode($json, assoc: true);
-		return self::fromArray($data);
 	}
 }

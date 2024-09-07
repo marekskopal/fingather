@@ -26,13 +26,6 @@ final class MarketRepository extends Repository
 		]);
 	}
 
-	public function findMarketByMic(string $mic): ?Market
-	{
-		return $this->findOne([
-			'mic' => $mic,
-		]);
-	}
-
 	public function findMarketByType(MarketTypeEnum $type): ?Market
 	{
 		return $this->findOne([

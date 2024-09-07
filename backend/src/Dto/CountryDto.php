@@ -21,16 +21,4 @@ final readonly class CountryDto
 			name: $country->getName(),
 		);
 	}
-
-	/**
-	 * @param array{
-	 *     id: int,
-	 *     isoCode: string,
-	 *     isoCode3: string,
-	 *     name: string,
-	 * } $data */
-	public static function fromArray(array $data): self
-	{
-		return new self(id: $data['id'], isoCode: $data['isoCode'], isoCode3: $data['isoCode3'], name: $data['name']);
-	}
 }

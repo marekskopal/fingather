@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
 import { Ticker } from '@app/models';
 import { environment } from '@environments/environment';
-import { Observable } from 'rxjs';
+import {firstValueFrom} from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class TickerService {
@@ -12,7 +12,7 @@ export class TickerService {
         search: string | null = null,
         limit: number | null = null,
         offset: number | null = null
-    ): Observable<Ticker[]> {
+    ): Promise<Ticker[]> {
         let params = new HttpParams();
 
         if (search !== null) {
@@ -27,6 +27,6 @@ export class TickerService {
             params = params.set('offset', offset);
         }
 
-        return this.http.get<Ticker[]>(`${environment.apiUrl}/ticker`, { params });
+        return firstValueFrom(this.http.get<Ticker[]>(`${environment.apiUrl}/ticker`, { params }));
     }
 }
