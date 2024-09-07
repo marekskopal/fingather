@@ -11,7 +11,7 @@ import {
 } from "@app/shared/components/portfolio-value-chart/portfolio-value-chart.component";
 import {ValueIconComponent} from "@app/shared/components/value-icon/value-icon.component";
 import {ColoredValueDirective} from "@app/shared/directives/colored-value.directive";
-import {CurrencyPipe} from "@app/shared/pipes/currency.pipe";
+import {MoneyPipe} from "@app/shared/pipes/money.pipe";
 import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
@@ -22,7 +22,7 @@ import {TranslateModule} from "@ngx-translate/core";
         MatIcon,
         PortfolioValueChartComponent,
         DecimalPipe,
-        CurrencyPipe,
+        MoneyPipe,
         AsyncPipe,
         TranslateModule,
         ValueIconComponent,

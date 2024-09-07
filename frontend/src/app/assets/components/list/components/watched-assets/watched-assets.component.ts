@@ -6,7 +6,7 @@ import {MatIcon} from "@angular/material/icon";
 import {RouterLink} from "@angular/router";
 import { AssetsWithProperties } from '@app/models';
 import {TickerLogoComponent} from "@app/shared/components/ticker-logo/ticker-logo.component";
-import {CurrencyPipe} from "@app/shared/pipes/currency.pipe";
+import {MoneyPipe} from "@app/shared/pipes/money.pipe";
 import {TranslateModule} from "@ngx-translate/core";
 
 
@@ -20,7 +20,7 @@ import {TranslateModule} from "@ngx-translate/core";
         RouterLink,
         MatIcon,
         DecimalPipe,
-        CurrencyPipe,
+        MoneyPipe,
         AsyncPipe
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,

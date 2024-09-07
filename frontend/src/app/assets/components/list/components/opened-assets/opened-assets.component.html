@@ -79,13 +79,13 @@
                         </td>
                         <td class="text-end">
                             <div>
-                                <div>{{asset.value | number:'1.2-2' | currency: $defaultCurrency().id | async}}</div>
+                                <div>{{asset.value | number:'1.2-2' | money: $defaultCurrency().id | async}}</div>
                                 <div class="small color-gray-lightest">{{asset.units | number:'1.0-8'}}</div>
-                                <div class="smaller color-gray">{{asset.price | number:'1.2-2' | currency: asset.ticker.currencyId | async}}</div>
+                                <div class="smaller color-gray">{{asset.price | number:'1.2-2' | money: asset.ticker.currencyId | async}}</div>
                             </div>
                         </td>
                         <td class="text-end" [coloredValue]="asset.gain">
-                            <div>{{asset.gainDefaultCurrency | number:'1.2-2' | currency: $defaultCurrency().id | async}}</div>
+                            <div>{{asset.gainDefaultCurrency | number:'1.2-2' | money: $defaultCurrency().id | async}}</div>
                             <div>
                                 @if ($showPerAnnum()) {
                                     {{asset.gainPercentagePerAnnum}}%&nbsp;p.a.
@@ -95,7 +95,7 @@
                             </div>
                         </td>
                         <td class="text-end" [coloredValue]="asset.dividendYieldDefaultCurrency">
-                            <div>{{asset.dividendYieldDefaultCurrency | number:'1.2-2' | currency: $defaultCurrency().id | async}}</div>
+                            <div>{{asset.dividendYieldDefaultCurrency | number:'1.2-2' | money: $defaultCurrency().id | async}}</div>
                             <div>
                                 @if ($showPerAnnum()) {
                                     {{asset.dividendYieldPercentagePerAnnum}}%&nbsp;p.a.
@@ -105,7 +105,7 @@
                             </div>
                         </td>
                         <td class="text-end" [coloredValue]="asset.fxImpact">
-                            <div>{{asset.fxImpact | number:'1.2-2' | currency: $defaultCurrency().id | async}}</div>
+                            <div>{{asset.fxImpact | number:'1.2-2' | money: $defaultCurrency().id | async}}</div>
                             <div>
                                 @if ($showPerAnnum()) {
                                     {{asset.fxImpactPercentagePerAnnum}}%&nbsp;p.a.
@@ -115,7 +115,7 @@
                             </div>
                         </td>
                         <td class="text-end" [coloredValue]="asset.return">
-                            <div><strong>{{asset.return | number:'1.2-2' | currency: $defaultCurrency().id | async}}</strong></div>
+                            <div><strong>{{asset.return | number:'1.2-2' | money: $defaultCurrency().id | async}}</strong></div>
                             <div>
                                 @if ($showPerAnnum()) {
                                     <strong>{{asset.returnPercentagePerAnnum}}%&nbsp;p.a.</strong>

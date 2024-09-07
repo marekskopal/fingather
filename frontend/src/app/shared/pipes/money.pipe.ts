@@ -2,10 +2,10 @@ import {inject, Pipe, PipeTransform} from '@angular/core';
 import { CurrencyService } from '@app/services';
 
 @Pipe({
-    name: 'currency',
+    name: 'money',
     standalone: true,
 })
-export class CurrencyPipe implements PipeTransform {
+export class MoneyPipe implements PipeTransform {
     private readonly currencyService = inject(CurrencyService);
 
     public async transform(value: string | null, currencyId: number): Promise<string> {

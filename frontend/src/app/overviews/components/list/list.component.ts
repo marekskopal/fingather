@@ -7,7 +7,7 @@ import { ModeEnum } from '@app/overviews/components/list/enum/mode-enum';
 import { CurrencyService, OverviewService, PortfolioService } from '@app/services';
 import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selector/portfolio-selector.component";
 import {TableValueComponent} from "@app/shared/components/table-value/table-value.component";
-import {CurrencyPipe} from "@app/shared/pipes/currency.pipe";
+import {MoneyPipe} from "@app/shared/pipes/money.pipe";
 import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
@@ -19,7 +19,7 @@ import {TranslateModule} from "@ngx-translate/core";
         PortfolioSelectorComponent,
         TableValueComponent,
         DecimalPipe,
-        CurrencyPipe,
+        MoneyPipe,
         AsyncPipe
     ]
 })

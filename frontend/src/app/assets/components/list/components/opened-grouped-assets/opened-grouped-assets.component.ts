@@ -8,7 +8,7 @@ import { Currency, GroupWithGroupData } from '@app/models';
 import { AssetsOrder } from '@app/models/enums/assets-order';
 import {TickerLogoComponent} from "@app/shared/components/ticker-logo/ticker-logo.component";
 import {ColoredValueDirective} from "@app/shared/directives/colored-value.directive";
-import {CurrencyPipe} from "@app/shared/pipes/currency.pipe";
+import {MoneyPipe} from "@app/shared/pipes/money.pipe";
 import {TranslateModule} from "@ngx-translate/core";
 
 
@@ -21,7 +21,7 @@ import {TranslateModule} from "@ngx-translate/core";
         MatIcon,
         TickerLogoComponent,
         DecimalPipe,
-        CurrencyPipe,
+        MoneyPipe,
         AsyncPipe,
         ColoredValueDirective,
         RouterLink
