@@ -260,7 +260,8 @@
           "processing": "Processing...",
           "uploaded": "Uploaded",
           "selectTicker": "Please select right asset for those tickers",
-          "allTickersSelectedAutomatically": "All tickers were selected automatically"
+          "allTickersSelectedAutomatically": "All tickers were selected automatically",
+          "pleaseWait": "It may take a few seconds. Please wait..."
         }
       },
       "search": {

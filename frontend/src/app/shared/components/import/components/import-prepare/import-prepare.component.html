@@ -31,12 +31,16 @@
             </a>
         }
 
-        <button
-            class="btn btn-primary"
-            (click)="createImport()"
-        >
-            <mat-icon>upload</mat-icon>
-            <span>{{ 'app.transactions.import.import.import' | translate }}</span>
-        </button>
+        <div class="loader">
+            <fingather-save-button
+                [saving]="$creatingImport()"
+                [icon]="'upload'"
+                [text]="'app.transactions.import.import.import' | translate"
+            />
+
+            @if ($creatingImport()) {
+                <span>{{ 'app.transactions.import.import.pleaseWait' | translate }} ({{$processed()}}%)</span>
+            }
+        </div>
     </div>
 </div>
