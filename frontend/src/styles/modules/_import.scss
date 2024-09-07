@@ -133,4 +133,15 @@ fingather-import-prepare {
             }
         }
     }
+
+    .loader {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: $spacing-md;
+
+        span {
+            color: $color-gray-lightest;
+        }
+    }
 }

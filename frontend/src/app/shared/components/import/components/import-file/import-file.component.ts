@@ -1,7 +1,18 @@
-import {ChangeDetectionStrategy, Component, computed, inject, input, OnInit, output, signal} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    computed,
+    inject,
+    Injector,
+    input,
+    OnInit,
+    output,
+    signal
+} from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
 import {ImportDataFile, ImportPrepare} from '@app/models';
 import {ImportService, PortfolioService} from "@app/services";
+import {FakeLoadingService} from "@app/services/fake-loading.service";
 import {ImportFileStatus} from "@app/shared/components/import/types/import-file-status";
 import {FileSizePipe} from "@app/shared/pipes/file-size.pipe";
 import {TranslateModule} from "@ngx-translate/core";
@@ -21,6 +32,10 @@ import {NgxFileDropEntry} from "ngx-file-drop";
 export class ImportFileComponent implements OnInit {
     private readonly importService = inject(ImportService);
     private readonly portfolioService = inject(PortfolioService);
+    private readonly injector = inject(Injector);
+    private readonly fakeLoadingService = Injector
+        .create({ providers: [FakeLoadingService], parent: this.injector })
+        .get(FakeLoadingService);
 
     public readonly $importId = input.required<number | null>({
         'alias': 'importId',
@@ -35,10 +50,7 @@ export class ImportFileComponent implements OnInit {
     protected readonly $fileName = computed<string>(() => this.$droppedFile().fileEntry.name);
     protected readonly $fileSize = signal<number>(0);
     protected readonly $status = signal<ImportFileStatus>(ImportFileStatus.New);
-    protected readonly $processed = signal<number>(0);
-
-    private loadingIntervalId: number | undefined = undefined;
-    private loadingStartTime: number = 0;
+    protected readonly $processed = this.fakeLoadingService.$processed;
 
     private readonly fileReader = new FileReader();
 
@@ -60,7 +72,7 @@ export class ImportFileComponent implements OnInit {
         }
 
         this.fileReader.onprogress = (): void => {
-            this.startLoading();
+            this.fakeLoadingService.startLoading();
         }
 
         const fileEntry = this.$droppedFile().fileEntry as FileSystemFileEntry;
@@ -85,20 +97,8 @@ export class ImportFileComponent implements OnInit {
         this.onUploadFinish$.emit(importPrepare);
     }
 
-    private startLoading(): void {
-        this.loadingStartTime = Date.now();
-
-        this.loadingIntervalId = setInterval(() => {
-            const elapsedTime = Date.now() - this.loadingStartTime;
-            const nextProcessed =  Math.round(Math.atan(elapsedTime / 3e3) / (Math.PI / 2) * 100);
-
-            this.$processed.set(nextProcessed);
-        }, 100);
-    }
-
     private finishLoading(): void {
-        clearInterval(this.loadingIntervalId);
-        this.$processed.set(100);
+        this.fakeLoadingService.finishLoading();
         this.$status.set(ImportFileStatus.Uploaded);
     }
 

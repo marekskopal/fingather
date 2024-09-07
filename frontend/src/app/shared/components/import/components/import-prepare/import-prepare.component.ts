@@ -1,6 +1,6 @@
 import {
     ChangeDetectionStrategy,
-    Component, effect, inject, input, output, signal
+    Component, effect, inject, Injector, input, output, signal
 } from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
 import {RouterLink} from "@angular/router";
@@ -9,6 +9,8 @@ import { ImportMapping } from '@app/models/import-mapping';
 import {ImportPrepareTicker} from "@app/models/import-prepare-ticker";
 import { ImportService
 } from '@app/services';
+import {FakeLoadingService} from "@app/services/fake-loading.service";
+import {SaveButtonComponent} from "@app/shared/components/save-button/save-button.component";
 import {TickerSelectorComponent} from "@app/shared/components/ticker-selector/ticker-selector.component";
 import {objectKeyValues, objectValues} from "@app/utils/object-utils";
 import {TranslateModule} from "@ngx-translate/core";
@@ -21,26 +23,34 @@ import {TranslateModule} from "@ngx-translate/core";
         TranslateModule,
         TickerSelectorComponent,
         RouterLink,
-        MatIcon
+        MatIcon,
+        SaveButtonComponent
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImportPrepareComponent {
     private readonly importDataService = inject(ImportService);
+    private readonly injector = inject(Injector);
+    private readonly fakeLoadingService = Injector
+        .create({ providers: [FakeLoadingService], parent: this.injector })
+        .get(FakeLoadingService);
 
-    public $importPrepares = input.required<ImportPrepare[]>({
+    public readonly $importPrepares = input.required<ImportPrepare[]>({
         'alias': 'importPrepares',
     });
-    public $showCancel = input<boolean>(true, {
+    public readonly $showCancel = input<boolean>(true, {
         alias: 'showCancel',
     });
-    public onImportFinish$ = output<void>({
+    public readonly onImportFinish$ = output<void>({
         'alias': 'onImportFinish',
     });
 
-    protected $multipleFoundTickers = signal<Record<string, ImportPrepareTicker>>({});
+    protected readonly $multipleFoundTickers = signal<Record<string, ImportPrepareTicker>>({});
 
-    protected $selectedTickers = signal<Record<string, number>>({});
+    protected readonly $selectedTickers = signal<Record<string, number>>({});
+
+    protected readonly $creatingImport = signal<boolean>(false);
+    protected readonly $processed = this.fakeLoadingService.$processed;
 
     public constructor() {
         effect(() => {
@@ -70,6 +80,9 @@ export class ImportPrepareComponent {
     }
 
     protected async createImport(): Promise<void> {
+        this.$creatingImport.set(true);
+        this.fakeLoadingService.startLoading();
+
         const importStart: ImportStart = {
             importId: this.$importPrepares()[0].importId,
             importMappings: [],
@@ -88,6 +101,9 @@ export class ImportPrepareComponent {
         }
 
         await this.importDataService.createImportStart(importStart);
+
+        this.fakeLoadingService.finishLoading();
+        this.$creatingImport.set(false);
 
         this.onImportFinish$.emit();
     }

@@ -1,6 +1,8 @@
 ﻿<button [disabled]="$saving()" class="btn btn-primary">
     @if($saving()) {
         <mat-spinner [diameter]="24" />
+    } @else if($icon()) {
+        <mat-icon>{{$icon()}}</mat-icon>
     }
     @if($text()) {
         <span>{{ $text() }}</span>

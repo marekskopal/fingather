@@ -1,6 +1,7 @@
 import {
     ChangeDetectionStrategy, Component, input,
 } from '@angular/core';
+import {MatIcon} from "@angular/material/icon";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {TranslateModule} from "@ngx-translate/core";
 
@@ -11,6 +12,7 @@ import {TranslateModule} from "@ngx-translate/core";
     imports: [
         TranslateModule,
         MatProgressSpinner,
+        MatIcon,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -20,5 +22,8 @@ export class SaveButtonComponent {
     })
     public readonly $text = input<string | null>(null, {
         alias: 'text',
+    })
+    public readonly $icon = input<string | null>(null, {
+        alias: 'icon',
     })
 }
