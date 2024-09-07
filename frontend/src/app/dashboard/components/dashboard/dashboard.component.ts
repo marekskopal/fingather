@@ -9,7 +9,7 @@ import { CurrencyService, GroupWithGroupDataService, PortfolioService } from '@a
 import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selector/portfolio-selector.component";
 import {PortfolioTotalComponent} from "@app/shared/components/portfolio-total/portfolio-total.component";
 import {ColoredValueDirective} from "@app/shared/directives/colored-value.directive";
-import {CurrencyPipe} from "@app/shared/pipes/currency.pipe";
+import {MoneyPipe} from "@app/shared/pipes/money.pipe";
 import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
@@ -23,7 +23,7 @@ import {TranslateModule} from "@ngx-translate/core";
         GroupChartComponent,
         ColoredValueDirective,
         DecimalPipe,
-        CurrencyPipe,
+        MoneyPipe,
         AsyncPipe
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,

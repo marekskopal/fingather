@@ -45,21 +45,21 @@
                             <tr>
                                 <td class="color-gray">{{group.name}}</td>
                                 <td class="color-gray"><strong>{{group.percentage | number:'1.2-2'}}%</strong></td>
-                                <td class="text-end color-gray">{{group.groupData.value | number:'1.2-2' | currency: defaultCurrency.id | async}}</td>
+                                <td class="text-end color-gray">{{group.groupData.value | number:'1.2-2' | money: defaultCurrency.id | async}}</td>
                                 <td class="text-end" [coloredValue]="group.groupData.gain">
-                                    <div>{{group.groupData.gain | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
+                                    <div>{{group.groupData.gain | number:'1.2-2' | money: defaultCurrency.id | async}}</div>
                                     <div>{{group.groupData.gainPercentage}}%</div>
                                 </td>
                                 <td class="text-end" [coloredValue]="group.groupData.dividendYield">
-                                    <div>{{group.groupData.dividendYield | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
+                                    <div>{{group.groupData.dividendYield | number:'1.2-2' | money: defaultCurrency.id | async}}</div>
                                     <div>{{group.groupData.dividendYieldPercentage}}%</div>
                                 </td>
                                 <td class="text-end" [coloredValue]="group.groupData.fxImpact">
-                                    <div>{{group.groupData.fxImpact | number:'1.2-2' | currency: defaultCurrency.id | async}}</div>
+                                    <div>{{group.groupData.fxImpact | number:'1.2-2' | money: defaultCurrency.id | async}}</div>
                                     <div>{{group.groupData.fxImpactPercentage}}%</div>
                                 </td>
                                 <td class="text-end" [coloredValue]="group.groupData.return">
-                                    <div><strong>{{group.groupData.return | number:'1.2-2' | currency: defaultCurrency.id | async}}</strong></div>
+                                    <div><strong>{{group.groupData.return | number:'1.2-2' | money: defaultCurrency.id | async}}</strong></div>
                                     <div><strong>{{group.groupData.returnPercentage}}%</strong></div>
                                 </td>
                             </tr>

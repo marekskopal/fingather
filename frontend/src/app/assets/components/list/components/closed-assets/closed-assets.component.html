@@ -30,11 +30,11 @@
                             </td>
                             <td class="text-end">
                                 <div>
-                                    <div class="smaller color-gray">{{asset.price | number:'1.2-2' | currency: asset.ticker.currencyId | async}}</div>
+                                    <div class="smaller color-gray">{{asset.price | number:'1.2-2' | money: asset.ticker.currencyId | async}}</div>
                                 </div>
                             </td>
                             <td class="text-end" [coloredValue]="asset.realizedGainDefaultCurrency">
-                                <div>{{asset.realizedGainDefaultCurrency | number:'1.2-2' | currency: $defaultCurrency().id | async}}</div>
+                                <div>{{asset.realizedGainDefaultCurrency | number:'1.2-2' | money: $defaultCurrency().id | async}}</div>
                             </td>
                             <td class="actions">
                                 <a routerLink="{{asset.id}}" class="btn btn-secondary">

@@ -7,7 +7,7 @@ import {RouterLink} from "@angular/router";
 import { AssetsWithProperties, Currency } from '@app/models';
 import {TickerLogoComponent} from "@app/shared/components/ticker-logo/ticker-logo.component";
 import {ColoredValueDirective} from "@app/shared/directives/colored-value.directive";
-import {CurrencyPipe} from "@app/shared/pipes/currency.pipe";
+import {MoneyPipe} from "@app/shared/pipes/money.pipe";
 import {TranslateModule} from "@ngx-translate/core";
 
 
@@ -19,7 +19,7 @@ import {TranslateModule} from "@ngx-translate/core";
         TranslateModule,
         TickerLogoComponent,
         DecimalPipe,
-        CurrencyPipe,
+        MoneyPipe,
         AsyncPipe,
         ColoredValueDirective,
         RouterLink,

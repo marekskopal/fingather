@@ -36,26 +36,26 @@
                         <td class="text-end">
                             @if (mode === ModeEnum.Interannually) {
                                 <fingather-table-value [value]="yearCalculatedData.valueInterannually">
-                                    {{yearCalculatedData.valueInterannually | number:'1.2-2' | currency: defaultCurrency.id | async}}
+                                    {{yearCalculatedData.valueInterannually | number:'1.2-2' | money: defaultCurrency.id | async}}
                                 </fingather-table-value>
                             } @else {
-                                {{yearCalculatedData.value | number:'1.2-2' | currency: defaultCurrency.id | async}}
+                                {{yearCalculatedData.value | number:'1.2-2' | money: defaultCurrency.id | async}}
                             }
                         </td>
                         <td class="text-end">
                             @if (mode === ModeEnum.Interannually) {
                                 <fingather-table-value [value]="yearCalculatedData.transactionValueInterannually">
-                                    {{yearCalculatedData.transactionValueInterannually | number:'1.2-2' | currency: defaultCurrency.id | async}}
+                                    {{yearCalculatedData.transactionValueInterannually | number:'1.2-2' | money: defaultCurrency.id | async}}
                                 </fingather-table-value>
                             } @else {
-                                {{yearCalculatedData.transactionValue | number:'1.2-2' | currency: defaultCurrency.id | async}}
+                                {{yearCalculatedData.transactionValue | number:'1.2-2' | money: defaultCurrency.id | async}}
                             }
                         </td>
                         <td class="text-end">
                             @if (mode === ModeEnum.Interannually) {
                                 <div class="small">
                                     <fingather-table-value [value]="yearCalculatedData.gainInterannually">
-                                        {{yearCalculatedData.gainInterannually | number:'1.2-2' | currency: defaultCurrency.id | async}}
+                                        {{yearCalculatedData.gainInterannually | number:'1.2-2' | money: defaultCurrency.id | async}}
                                     </fingather-table-value>
                                 </div>
                                 <div>
@@ -71,7 +71,7 @@
                             } @else {
                                 <div class="small">
                                     <fingather-table-value [value]="yearCalculatedData.gain">
-                                        {{yearCalculatedData.gain | number:'1.2-2' | currency: defaultCurrency.id | async}}
+                                        {{yearCalculatedData.gain | number:'1.2-2' | money: defaultCurrency.id | async}}
                                     </fingather-table-value>
                                 </div>
                                 <div>
@@ -89,11 +89,11 @@
                         <td class="text-end">
                             @if (mode === ModeEnum.Interannually) {
                                 <fingather-table-value [value]="yearCalculatedData.realizedGainInterannually">
-                                    {{yearCalculatedData.realizedGainInterannually | number:'1.2-2' | currency: defaultCurrency.id | async}}
+                                    {{yearCalculatedData.realizedGainInterannually | number:'1.2-2' | money: defaultCurrency.id | async}}
                                 </fingather-table-value>
                             } @else {
                                 <fingather-table-value [value]="yearCalculatedData.realizedGain">
-                                    {{yearCalculatedData.realizedGain | number:'1.2-2' | currency: defaultCurrency.id | async}}
+                                    {{yearCalculatedData.realizedGain | number:'1.2-2' | money: defaultCurrency.id | async}}
                                 </fingather-table-value>
                             }
                         </td>
@@ -101,7 +101,7 @@
                             @if (mode === ModeEnum.Interannually) {
                                 <div class="small">
                                     <fingather-table-value [value]="yearCalculatedData.dividendYieldInterannually">
-                                        {{yearCalculatedData.dividendYieldInterannually | number:'1.2-2' | currency: defaultCurrency.id | async}}
+                                        {{yearCalculatedData.dividendYieldInterannually | number:'1.2-2' | money: defaultCurrency.id | async}}
                                     </fingather-table-value>
                                 </div>
                                 <div>
@@ -117,7 +117,7 @@
                             } @else {
                                 <div class="small">
                                     <fingather-table-value [value]="yearCalculatedData.dividendYield">
-                                        {{yearCalculatedData.dividendYield | number:'1.2-2' | currency: defaultCurrency.id | async}}
+                                        {{yearCalculatedData.dividendYield | number:'1.2-2' | money: defaultCurrency.id | async}}
                                     </fingather-table-value>
                                 </div>
                                 <div>
@@ -136,7 +136,7 @@
                             @if (mode === ModeEnum.Interannually) {
                                 <div class="small">
                                     <fingather-table-value [value]="yearCalculatedData.fxImpactInterannually">
-                                        {{yearCalculatedData.fxImpactInterannually | number:'1.2-2' | currency: defaultCurrency.id | async}}
+                                        {{yearCalculatedData.fxImpactInterannually | number:'1.2-2' | money: defaultCurrency.id | async}}
                                     </fingather-table-value>
                                 </div>
                                 <div>
@@ -152,7 +152,7 @@
                             } @else {
                                 <div class="small">
                                     <fingather-table-value [value]="yearCalculatedData.fxImpact">
-                                        {{yearCalculatedData.fxImpact | number:'1.2-2' | currency: defaultCurrency.id | async}}
+                                        {{yearCalculatedData.fxImpact | number:'1.2-2' | money: defaultCurrency.id | async}}
                                     </fingather-table-value>
                                 </div>
                                 <div>
@@ -171,7 +171,7 @@
                             @if (mode === ModeEnum.Interannually) {
                                 <div class="small">
                                     <fingather-table-value [value]="yearCalculatedData.returnInterannually">
-                                        {{yearCalculatedData.returnInterannually | number:'1.2-2' | currency: defaultCurrency.id | async}}
+                                        {{yearCalculatedData.returnInterannually | number:'1.2-2' | money: defaultCurrency.id | async}}
                                     </fingather-table-value>
                                 </div>
                                 <div>
@@ -187,7 +187,7 @@
                             } @else {
                                 <div class="small">
                                     <fingather-table-value [value]="yearCalculatedData.return">
-                                        {{yearCalculatedData.return | number:'1.2-2' | currency: defaultCurrency.id | async}}
+                                        {{yearCalculatedData.return | number:'1.2-2' | money: defaultCurrency.id | async}}
                                     </fingather-table-value>
                                 </div>
                                 <div>

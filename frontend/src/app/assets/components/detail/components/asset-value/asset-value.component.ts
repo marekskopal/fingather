@@ -6,7 +6,7 @@ import {
 import {MatIcon} from "@angular/material/icon";
 import { AssetWithProperties, Currency} from '@app/models';
 import {ValueIconComponent} from "@app/shared/components/value-icon/value-icon.component";
-import {CurrencyPipe} from "@app/shared/pipes/currency.pipe";
+import {MoneyPipe} from "@app/shared/pipes/money.pipe";
 import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
@@ -17,7 +17,7 @@ import {TranslateModule} from "@ngx-translate/core";
         MatIcon,
         TranslateModule,
         DecimalPipe,
-        CurrencyPipe,
+        MoneyPipe,
         AsyncPipe,
         ValueIconComponent
     ],
