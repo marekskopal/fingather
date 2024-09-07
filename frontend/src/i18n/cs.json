@@ -418,8 +418,11 @@
         "records": "záznamů"
       },
       "colorPicker": {
-        "recommendedColors": "Recommended colors",
-        "custom": "Custom"
+        "recommendedColors": "Doporučené barvy",
+        "custom": "Vlastní"
+      },
+      "tickerSearchSelector": {
+        "search": "Hledat aktivum"
       }
     },
     "common": {

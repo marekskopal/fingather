@@ -1,3 +1,4 @@
+import {AsyncPipe} from "@angular/common";
 import {
     ChangeDetectionStrategy, Component, inject, OnInit, signal
 } from '@angular/core';
@@ -14,6 +15,7 @@ import { AssetWithProperties, Currency } from '@app/models';
 import { AssetService, CurrencyService } from '@app/services';
 import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selector/portfolio-selector.component";
 import {TickerLogoComponent} from "@app/shared/components/ticker-logo/ticker-logo.component";
+import {CurrencyCodePipe} from "@app/shared/pipes/currency-code.pipe";
 import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
@@ -29,7 +31,9 @@ import {TranslateModule} from "@ngx-translate/core";
         AssetValueComponent,
         FundamentalsComponent,
         TransactionListComponent,
-        DividendListComponent
+        DividendListComponent,
+        CurrencyCodePipe,
+        AsyncPipe
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -40,7 +44,6 @@ export class DetailComponent implements OnInit {
 
     private $asset = signal<AssetWithProperties | null>(null);
     protected defaultCurrency: Currency;
-    protected tickerCurrency: Currency | null = null;
     private id: number;
 
     public async ngOnInit(): Promise<void> {
@@ -48,10 +51,6 @@ export class DetailComponent implements OnInit {
 
         this.$asset.set(await this.assetService.getAsset(this.id));
         this.defaultCurrency = await this.currencyService.getDefaultCurrency();
-        const currenciesMap = await this.currencyService.getCurrenciesMap();
-        if (this.asset) {
-            this.tickerCurrency = currenciesMap.get(this.asset.ticker.currencyId) as Currency;
-        }
     }
 
     protected get asset(): AssetWithProperties | null {

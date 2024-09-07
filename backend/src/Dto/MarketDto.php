@@ -33,29 +33,4 @@ final readonly class MarketDto
 			currencyId: $market->getCurrency()->getId(),
 		);
 	}
-
-	/**
-	 * @param array{
-	 *     name: string,
-	 *     acronym: string,
-	 *     mic: string,
-	 *     exchangeCode: string,
-	 *     country: string,
-	 *     city: string,
-	 *     timezone: string,
-	 *     currencyId: int,
-	 * } $data */
-	public static function fromArray(array $data): self
-	{
-		return new self(
-			name: $data['name'],
-			acronym: $data['acronym'],
-			mic: $data['mic'],
-			exchangeCode: $data['exchangeCode'],
-			country: $data['country'],
-			city: $data['city'],
-			timezone: $data['timezone'],
-			currencyId: $data['currencyId'],
-		);
-	}
 }

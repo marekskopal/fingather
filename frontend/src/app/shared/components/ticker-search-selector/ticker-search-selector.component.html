@@ -1,0 +1,47 @@
+﻿<div ngbDropdown (openChange)="onOpenChange($event)">
+    <button type="button" [id]="$id()" ngbDropdownToggle>
+        @if(value) {
+            <div class="ticker">
+                <div class="ticker-info">
+                    <div class="ticker-ticker">
+                        {{value.ticker}}
+                    </div>
+                    <div class="ticker-name ellipsis">
+                        {{value.name}}
+                    </div>
+                </div>
+                <div class="ticker-data">
+                    <span class="tag">{{value.market.mic}}</span>
+                    <span>{{value.currencyId | currencyCode | async}}</span>
+                </div>
+            </div>
+        } @else {
+            <span>{{ $placeholder() }}</span>
+        }
+    </button>
+    <div ngbDropdownMenu [attr.aria-labelledby]="$id()">
+        <fingather-search-input
+            (onKeyup)="onSearchKeyUp($event)"
+            [id]="$id() + '-ticker-search'"
+            [showClearButton]="false"
+        />
+        @for(ticker of $tickers(); track ticker.id) {
+            <button type="button" ngbDropdownItem (click)="onSelect(ticker)">
+                <div class="ticker">
+                    <div class="ticker-info">
+                        <div class="ticker-ticker">
+                            <fingather-search-highlight [value]="ticker.ticker" [search]="$search()" />
+                        </div>
+                        <div class="ticker-name ellipsis">
+                            <fingather-search-highlight [value]="ticker.name" [search]="$search()" />
+                        </div>
+                    </div>
+                    <div class="ticker-data">
+                        <span class="tag">{{ticker.market.mic}}</span>
+                        <span>{{ticker.currencyId | currencyCode | async}}</span>
+                    </div>
+                </div>
+            </button>
+        }
+    </div>
+</div>

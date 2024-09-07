@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Model\Repository;
 
 use Cycle\ORM\Select;
+use Cycle\ORM\Select\QueryBuilder;
 use FinGather\Model\Entity\Ticker;
 
 /** @extends ARepository<Ticker> */
@@ -40,7 +41,11 @@ final class TickerRepository extends ARepository
 		}
 
 		if ($search !== null) {
-			$tickersSelect->where('ticker', 'like', $search . '%');
+			$tickersSelect->where(
+				fn (QueryBuilder $select) =>
+					$select->where('name', 'like', $search . '%')
+					->orWhere('ticker', 'like', $search . '%'),
+			);
 		}
 
 		if ($limit !== null) {

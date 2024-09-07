@@ -79,7 +79,9 @@ form {
 fingather-select,
 fingather-type-select,
 fingather-select-multi,
-fingather-color-picker {
+fingather-color-picker,
+fingather-ticker-search-selector,
+{
     display: block;
     width: 100%;
 
@@ -195,5 +197,64 @@ fingather-color-picker {
     .file-drop-text {
         color: $color-gray-lightest;
         margin-bottom: $spacing-md;
+    }
+}
+
+fingather-ticker-search-selector {
+    fingather-search-input {
+        display: block;
+        padding: $spacing-sm;
+    }
+
+    .ticker {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+
+        .ticker-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+
+            .ticker-ticker {
+                color: $color-white;
+            }
+            .ticker-name {
+                font-size: 0.875rem;
+                line-height: 20px;
+            };
+        }
+
+        .ticker-data {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: $spacing-md;
+        }
+    }
+
+    .dropdown-menu {
+        padding-top: 0;
+    }
+
+    .dropdown-item {
+        &:hover {
+            color: $color-gray-lightest;
+        }
+    }
+
+    .dropdown-toggle {
+        height: 56px;
+
+        &.show {
+            border: 0;
+            box-shadow: none;
+        }
+    }
+}
+
+fingather-search-highlight {
+    .highlight {
+        font-weight: 600;
     }
 }

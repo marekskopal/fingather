@@ -1,3 +1,3 @@
 export interface AssetCreate {
-    ticker: string;
+    tickerId: number;
 }
