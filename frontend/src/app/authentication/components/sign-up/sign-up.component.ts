@@ -34,6 +34,8 @@ export class SignUpComponent extends BaseForm implements OnInit {
     protected currencies: SelectItem<number, string>[] = [];
 
     public async ngOnInit(): Promise<void> {
+        this.$loading.set(true);
+
         const currencies = await this.currencyService.getCurrencies();
         this.currencies = currencies.map((currency) => {
             return {
@@ -53,6 +55,8 @@ export class SignUpComponent extends BaseForm implements OnInit {
             password: ['', [Validators.required, Validators.minLength(6)]],
             defaultCurrencyId: [this.currencies[0].key, Validators.required],
         });
+
+        this.$loading.set(false);
     }
 
     public async onSubmit(): Promise<void> {
