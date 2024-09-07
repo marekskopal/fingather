@@ -72,9 +72,9 @@
         "dividend": "Dividenda",
         "fxImpact": "FX dopad",
         "return": "Návratnost",
-        "about": "About",
+        "about": "O aktivu",
         "fundamentals": {
-          "header": "Fundamentals",
+          "header": "Fundamentální data",
           "valuationsMetrics": "Valuations Metrics",
           "financials": "Financials",
           "incomeStatement": "Income Statement",
