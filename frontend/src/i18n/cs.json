@@ -11,6 +11,7 @@
       "brokers": "Brokeři",
       "portfolios": "Portfólia",
       "users": "Uživatelé",
+      "apiKeys": "API klíče",
       "logout": "Odhlásit"
     },
     "dashboard": {
