@@ -17,6 +17,7 @@ import {
 import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selector/portfolio-selector.component";
 import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLinkButton, NgbNavOutlet} from "@ng-bootstrap/ng-bootstrap";
 import {TranslateModule} from "@ngx-translate/core";
+import {AssetsTabEnum} from "@app/assets/components/list/enums/assets-tab-enum";
 
 @Component({
     templateUrl: 'list.component.html',
@@ -50,7 +51,7 @@ export class ListComponent implements OnInit {
 
     protected defaultCurrency: Currency;
 
-    protected activeTab = 'open-positions';
+    protected activeTab: AssetsTabEnum = AssetsTabEnum.OpenedPositions;
 
     private readonly $withGroups = signal<boolean>(false);
     protected readonly $showPerAnnum = signal<boolean>(false);
@@ -115,4 +116,6 @@ export class ListComponent implements OnInit {
 
         this.refreshOpenedAssets();
     }
+
+    protected readonly AssetsTabEnum = AssetsTabEnum;
 }

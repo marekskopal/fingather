@@ -12,7 +12,7 @@
 </div>
 
 <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav nav-tabs" role="tablist">
-    <li [ngbNavItem]="'open-positions'">
+    <li [ngbNavItem]="AssetsTabEnum.OpenedPositions">
         <button ngbNavLink>
             {{ 'app.assets.list.openPositions' | translate }}
         </button>
@@ -49,7 +49,7 @@
             </div>
         </ng-template>
     </li>
-    <li [ngbNavItem]="'closed-positions'">
+    <li [ngbNavItem]="AssetsTabEnum.ClosedPositions">
         <button ngbNavLink>
             {{ 'app.assets.list.closedPositions' | translate }}
         </button>
@@ -60,7 +60,7 @@
             />
         </ng-template>
     </li>
-    <li [ngbNavItem]="'watch-list'">
+    <li [ngbNavItem]="AssetsTabEnum.WatchList">
         <button ngbNavLink>
             {{ 'app.assets.list.watchList' | translate }}
         </button>
