@@ -39,6 +39,7 @@ final class RevolutMapperTest extends TestCase
 	#[TestWith(['anycoin_export.csv', false])]
 	#[TestWith(['degiro_export.csv', false])]
 	#[TestWith(['interactive_brokers_export.csv', false])]
+	#[TestWith(['portu_export.csv', false])]
 	#[TestWith(['etoro_export.xlsx', false])]
 	#[TestWith(['trading212_export.csv', false])]
 	#[TestWith(['xtb_export.csv', false])]

@@ -259,6 +259,8 @@
           "uploading": "Uploading...",
           "processing": "Processing...",
           "uploaded": "Uploaded",
+          "notSupported": "File is not supported",
+          "error": "Error in importing file",
           "selectTicker": "Please select right asset for those tickers",
           "allTickersSelectedAutomatically": "All tickers were selected automatically",
           "pleaseWait": "It may take a few seconds. Please wait..."

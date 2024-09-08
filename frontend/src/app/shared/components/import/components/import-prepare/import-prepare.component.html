@@ -36,10 +36,11 @@
                 [saving]="$creatingImport()"
                 [icon]="'upload'"
                 [text]="'app.transactions.import.import.import' | translate"
+                (onClick)="createImport()"
             />
 
             @if ($creatingImport()) {
-                <span>{{ 'app.transactions.import.import.pleaseWait' | translate }} ({{$processed()}}%)</span>
+                <span class="loader-text">{{ 'app.transactions.import.import.pleaseWait' | translate }} ({{$processed()}}%)</span>
             }
         </div>
     </div>

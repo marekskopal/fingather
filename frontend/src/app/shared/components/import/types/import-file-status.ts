@@ -3,4 +3,6 @@ export enum ImportFileStatus {
     Uploading = 'Uploading',
     Processing = 'Processing',
     Uploaded = 'Uploaded',
+    NotSupported = 'NotSupported',
+    Error = 'Error',
 }

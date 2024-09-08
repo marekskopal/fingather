@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy, Component, input,
+    ChangeDetectionStrategy, Component, input, output,
 } from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
@@ -26,4 +26,11 @@ export class SaveButtonComponent {
     public readonly $icon = input<string | null>(null, {
         alias: 'icon',
     })
+    public readonly onClick$ = output<Event>({
+        alias: 'onClick',
+    });
+
+    protected handleOnClick(event: Event): void {
+        this.onClick$.emit(event);
+    }
 }

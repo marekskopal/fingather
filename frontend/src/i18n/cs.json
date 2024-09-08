@@ -259,6 +259,8 @@
           "uploading": "Nahrávám...",
           "processing": "Připravuji...",
           "uploaded": "Nahráno",
+          "notSupported": "Soubor není podporován",
+          "error": "Chyba v importovaném souboru",
           "selectTicker": "Prosím zvolte správná aktiva pro následující značky",
           "allTickersSelectedAutomatically": "Všechny značky byly vybrány automaticky",
           "pleaseWait": "Může to trvat několik vteřin. Prosím čekejte..."

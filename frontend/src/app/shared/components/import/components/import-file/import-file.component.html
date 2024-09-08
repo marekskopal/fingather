@@ -25,6 +25,10 @@
                         {{ 'app.transactions.import.import.uploading' | translate }}
                     } @else if($status() === ImportFileStatus.Processing) {
                         {{ 'app.transactions.import.import.processing' | translate }}
+                    } @else if($status() === ImportFileStatus.NotSupported) {
+                        <span class="red">{{ 'app.transactions.import.import.notSupported' | translate }}</span>
+                    } @else if($status() === ImportFileStatus.Error) {
+                        <span class="red">{{ 'app.transactions.import.import.error' | translate }}</span>
                     }
                 </span>
             </div>

@@ -140,7 +140,7 @@ fingather-import-prepare {
         align-items: flex-end;
         gap: $spacing-md;
 
-        span {
+        .loader-text {
             color: $color-gray-lightest;
         }
     }
