@@ -55,4 +55,8 @@ export class ImportComponent {
         this.$importId.set(importPrepare.importId);
         this.$importPrepares.update(() => [...this.$importPrepares(), importPrepare]);
     }
+
+    protected onImportFinish(): void {
+        this.onImportFinish$.emit();
+    }
 }

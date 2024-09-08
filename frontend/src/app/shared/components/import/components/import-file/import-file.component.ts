@@ -84,17 +84,27 @@ export class ImportFileComponent implements OnInit {
     private async createImportPrepare(importDataFile: ImportDataFile): Promise<void> {
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
-        const importPrepare = await this.importService.createImportPrepare(
-            {
-                importId: this.$importId(),
-                importDataFile: importDataFile
-            },
-            portfolio.id
-        );
+        try {
+            const importPrepare = await this.importService.createImportPrepare(
+                {
+                    importId: this.$importId(),
+                    importDataFile: importDataFile
+                },
+                portfolio.id
+            );
 
-        this.finishLoading();
+            this.finishLoading();
 
-        this.onUploadFinish$.emit(importPrepare);
+            this.onUploadFinish$.emit(importPrepare);
+        } catch (error) {
+            if (error === 'Imported file is not supported.') {
+                this.$status.set(ImportFileStatus.NotSupported);
+            } else {
+                this.$status.set(ImportFileStatus.Error);
+            }
+
+            this.fakeLoadingService.finishLoading();
+        }
     }
 
     private finishLoading(): void {

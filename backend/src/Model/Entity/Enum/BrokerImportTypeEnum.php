@@ -13,4 +13,5 @@ enum BrokerImportTypeEnum: string
 	case Revolut = 'Revolut';
 	case Anycoin = 'Anycoin';
 	case Degiro = 'Degiro';
+	case Portu = 'Portu';
 }

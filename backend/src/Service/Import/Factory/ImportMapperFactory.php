@@ -10,6 +10,7 @@ use FinGather\Service\Import\Mapper\DegiroMapper;
 use FinGather\Service\Import\Mapper\EtoroMapper;
 use FinGather\Service\Import\Mapper\InteractiveBrokersMapper;
 use FinGather\Service\Import\Mapper\MapperInterface;
+use FinGather\Service\Import\Mapper\PortuMapper;
 use FinGather\Service\Import\Mapper\RevolutMapper;
 use FinGather\Service\Import\Mapper\Trading212Mapper;
 use FinGather\Service\Import\Mapper\XtbMapper;
@@ -24,6 +25,7 @@ final class ImportMapperFactory
 		BrokerImportTypeEnum::Revolut->value => RevolutMapper::class,
 		BrokerImportTypeEnum::Anycoin->value => AnycoinMapper::class,
 		BrokerImportTypeEnum::Degiro->value => DegiroMapper::class,
+		BrokerImportTypeEnum::Portu->value => PortuMapper::class,
 	];
 
 	public function createImportMapper(string $fileName, string $contents): MapperInterface

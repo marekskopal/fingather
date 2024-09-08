@@ -1,4 +1,8 @@
-﻿<button [disabled]="$saving()" class="btn btn-primary">
+﻿<button
+    [disabled]="$saving()"
+    class="btn btn-primary"
+    (click)="handleOnClick($event)"
+>
     @if($saving()) {
         <mat-spinner [diameter]="24" />
     } @else if($icon()) {
