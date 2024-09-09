@@ -1,0 +1,47 @@
+﻿<ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav nav-tabs" role="tablist">
+    <li [ngbNavItem]="GroupDataTabEnum.GroupAllocation">
+        <button ngbNavLink>
+            {{ 'app.dashboard.groupsAllocation.groupsAllocation' | translate }}
+        </button>
+        <ng-template ngbNavContent>
+            <fingather-group-allocation
+                [groupsAllocationService]="groupWithGroupDataService"
+            />
+        </ng-template>
+    </li>
+
+    <li [ngbNavItem]="GroupDataTabEnum.CountryAllocation">
+        <button ngbNavLink>
+            {{ 'app.dashboard.groupsAllocation.countriesAllocation' | translate }}
+        </button>
+        <ng-template ngbNavContent>
+            <fingather-group-allocation
+                [groupsAllocationService]="countryWithCountryDataService"
+            />
+        </ng-template>
+    </li>
+
+    <li [ngbNavItem]="GroupDataTabEnum.SectorAllocation">
+        <button ngbNavLink>
+            {{ 'app.dashboard.groupsAllocation.sectorsAllocation' | translate }}
+        </button>
+        <ng-template ngbNavContent>
+            <fingather-group-allocation
+                [groupsAllocationService]="sectorWithSectorDataService"
+            />
+        </ng-template>
+    </li>
+
+    <li [ngbNavItem]="GroupDataTabEnum.IndustryAllocation">
+        <button ngbNavLink>
+            {{ 'app.dashboard.groupsAllocation.industriesAllocation' | translate }}
+        </button>
+        <ng-template ngbNavContent>
+            <fingather-group-allocation
+                [groupsAllocationService]="industryWithIndustryDataService"
+            />
+        </ng-template>
+    </li>
+</ul>
+
+<div [ngbNavOutlet]="nav" class="mt-4"></div>

@@ -37,7 +37,7 @@ class IndustryWithIndustryDataProvider
 				userId: $user->getId(),
 				name: $industry->getName(),
 				percentage: CalculatorUtils::toPercentage($industryData->getValue(), $portfolioData->getValue()),
-				industryData: IndustryDataDto::fromEntity($industryData),
+				groupData: IndustryDataDto::fromEntity($industryData),
 			);
 		}
 
