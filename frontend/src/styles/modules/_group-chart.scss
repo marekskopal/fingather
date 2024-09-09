@@ -1,5 +1,9 @@
 .group-chart {
     display: flex;
-    max-height: 240px;
     margin-bottom: 24px;
+
+    apx-chart {
+        max-height: 240px;
+        min-width: 240px;
+    }
 }

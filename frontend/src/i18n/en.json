@@ -17,7 +17,10 @@
     "dashboard": {
       "title": "Dashboard",
       "groupsAllocation": {
-        "caption": "Groups Allocation",
+        "groupsAllocation": "Groups Allocation",
+        "countriesAllocation": "Countries",
+        "sectorsAllocation": "Sectors",
+        "industriesAllocation": "Industries",
         "group": "Group",
         "allocation": "Allocation",
         "value": "Value",

@@ -9,6 +9,7 @@ import {
     OpenedGroupedAssetsComponent
 } from "@app/assets/components/list/components/opened-grouped-assets/opened-grouped-assets.component";
 import {WatchedAssetsComponent} from "@app/assets/components/list/components/watched-assets/watched-assets.component";
+import {AssetsTabEnum} from "@app/assets/components/list/enums/assets-tab-enum";
 import { AssetsWithProperties, Currency, GroupWithGroupData } from '@app/models';
 import { AssetsOrder } from '@app/models/enums/assets-order';
 import {
@@ -17,7 +18,6 @@ import {
 import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selector/portfolio-selector.component";
 import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLinkButton, NgbNavOutlet} from "@ng-bootstrap/ng-bootstrap";
 import {TranslateModule} from "@ngx-translate/core";
-import {AssetsTabEnum} from "@app/assets/components/list/enums/assets-tab-enum";
 
 @Component({
     templateUrl: 'list.component.html',
@@ -85,7 +85,7 @@ export class ListComponent implements OnInit {
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
         if (this.$withGroups()) {
-            const openedGroupedAssets = await this.groupWithGroupDataService.getGroupWithGroupData(
+            const openedGroupedAssets = await this.groupWithGroupDataService.getGroupsWithGroupData(
                 portfolio.id,
                 this.openedAssetsOrderBy,
             );

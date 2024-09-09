@@ -37,7 +37,7 @@ class CountryWithCountryDataProvider
 				userId: $user->getId(),
 				name: $country->getName(),
 				percentage: CalculatorUtils::toPercentage($countryData->getValue(), $portfolioData->getValue()),
-				countryData: CountryDataDto::fromEntity($countryData),
+				groupData: CountryDataDto::fromEntity($countryData),
 			);
 		}
 

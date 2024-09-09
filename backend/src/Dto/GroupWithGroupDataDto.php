@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Dto;
 
-final readonly class GroupWithGroupDataDto extends GroupWithAssetsDto
+final readonly class GroupWithGroupDataDto extends AbstractGroupWithGroupDataDto
 {
 	/**
 	 * @param list<int> $assetIds
@@ -14,13 +14,13 @@ final readonly class GroupWithGroupDataDto extends GroupWithAssetsDto
 		int $id,
 		int $userId,
 		string $name,
-		string $color,
-		array $assetIds,
-		array $assets,
-		public float $percentage,
-		public GroupDataDto $groupData,
+		public string $color,
+		public array $assetIds,
+		public array $assets,
+		float $percentage,
+		AbstractGroupDataDto $groupData,
 	)
 	{
-		parent::__construct($id, $userId, $name, $color, $assetIds, $assets);
+		parent::__construct($id, $userId, $name, $percentage, $groupData);
 	}
 }

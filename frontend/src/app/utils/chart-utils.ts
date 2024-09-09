@@ -47,6 +47,12 @@ export class ChartUtils {
         }
     }
 
+    public static getColor(number: number): string {
+
+
+        return this.colors()[number];
+    }
+
     public static theme(): ApexTheme {
         return {
             mode: 'dark',

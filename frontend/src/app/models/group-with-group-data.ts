@@ -1,6 +1,8 @@
-import { Group, GroupData } from '@app/models';
+import { AssetWithProperties} from '@app/models';
+import {AbstractGroupWithGroupDataEntity} from "@app/models/abstract-group-with-group-data-entity";
 
-export interface GroupWithGroupData extends Group {
-    percentage: number;
-    groupData: GroupData;
+export interface GroupWithGroupData extends AbstractGroupWithGroupDataEntity {
+    color: string;
+    assetIds: number[];
+    assets: AssetWithProperties[];
 }

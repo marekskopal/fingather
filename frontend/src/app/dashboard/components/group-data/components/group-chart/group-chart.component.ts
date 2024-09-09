@@ -1,10 +1,11 @@
 import {
-    ChangeDetectionStrategy, Component, computed, inject, OnInit, signal
+    ChangeDetectionStrategy, Component, computed, inject, input, OnInit, signal
 } from '@angular/core';
-import { GroupWithGroupData } from '@app/models';
-import { GroupWithGroupDataService, PortfolioService } from '@app/services';
+import {AbstractGroupWithGroupDataEntity} from "@app/models/abstract-group-with-group-data-entity";
+import { PortfolioService } from '@app/services';
 import {LegendComponent} from "@app/shared/components/legend/legend.component";
 import {LegendItem} from "@app/shared/components/legend/types/legend-item";
+import {ChartUtils} from "@app/utils/chart-utils";
 import {
     ApexChart, ApexFill, ApexLegend,
     ApexNonAxisChartSeries, ApexPlotOptions, ApexStates, ApexStroke, ApexTheme, ApexYAxis, NgApexchartsModule
@@ -35,16 +36,19 @@ export type ChartOptions = {
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupChartComponent implements OnInit {
-    private readonly groupWithGroupDataService = inject(GroupWithGroupDataService);
     private readonly portfolioService = inject(PortfolioService);
+
+    public readonly $groupsWithGroupData = input.required<AbstractGroupWithGroupDataEntity[]>({
+        alias: 'groupsWithGroupData',
+    });
 
     protected chartOptions: ChartOptions;
     protected readonly $loading = signal<boolean>(false);
-    protected readonly $groupsWithGroupData = signal<GroupWithGroupData[]>([]);
     protected readonly $legendItems = computed<LegendItem[]>(() => {
+        let $i = 0;
         return this.$groupsWithGroupData().map((groupWithGroupData) => {
             return {
-                color: groupWithGroupData.color,
+                color: groupWithGroupData.color ?? ChartUtils.getColor($i++),
                 name: groupWithGroupData.name,
                 value: groupWithGroupData.percentage,
             };
@@ -66,15 +70,14 @@ export class GroupChartComponent implements OnInit {
     public async refreshChart(): Promise<void> {
         this.$loading.set(true);
 
-        const portfolio = await this.portfolioService.getCurrentPortfolio();
-
-        const groupsWithGroupData = await this.groupWithGroupDataService.getGroupWithGroupData(portfolio.id);
-        this.$groupsWithGroupData.set(groupsWithGroupData);
-
-        const chartMap = this.mapChart(groupsWithGroupData);
+        const chartMap = this.mapChart(this.$groupsWithGroupData());
         this.chartOptions.series = chartMap.series;
         this.chartOptions.labels = chartMap.labels;
-        this.chartOptions.colors = chartMap.colors;
+
+        for (let i = 0; i < chartMap.colors.length; i++) {
+            this.chartOptions.colors[i] = chartMap.colors[i];
+        }
+
         this.$loading.set(false);
     }
 
@@ -97,7 +100,6 @@ export class GroupChartComponent implements OnInit {
             },
             stroke: {
                 width: 0,
-                colors: ['#1b2627']
             },
             states: {
                 active: {
@@ -119,15 +121,13 @@ export class GroupChartComponent implements OnInit {
                     }
                 }
             },
-            theme: {
-                mode: 'dark',
-            },
-            colors: [],
+            theme: ChartUtils.theme(),
+            colors: ChartUtils.colors(),
         };
     }
 
     private mapChart(
-        groupsWithGroupData: GroupWithGroupData[]
+        groupsWithGroupData: AbstractGroupWithGroupDataEntity[]
     ): { series: number[], labels: string[], colors: string[] } {
         const series: number[] = [];
         const labels: string[] = [];
@@ -136,7 +136,10 @@ export class GroupChartComponent implements OnInit {
         for (const groupWithGroupData of groupsWithGroupData) {
             series.push(groupWithGroupData.percentage);
             labels.push(groupWithGroupData.name);
-            colors.push(groupWithGroupData.color);
+
+            if (groupWithGroupData.color) {
+                colors.push(groupWithGroupData.color);
+            }
         }
 
         return {

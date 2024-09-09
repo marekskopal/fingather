@@ -37,7 +37,7 @@ class SectorWithSectorDataProvider
 				userId: $user->getId(),
 				name: $sector->getName(),
 				percentage: CalculatorUtils::toPercentage($sectorData->getValue(), $portfolioData->getValue()),
-				sectorData: SectorDataDto::fromEntity($sectorData),
+				groupData: SectorDataDto::fromEntity($sectorData),
 			);
 		}
 
