@@ -48,9 +48,9 @@ export class ChartUtils {
     }
 
     public static getColor(number: number): string {
+        const colorNumber = number % this.colors().length;
 
-
-        return this.colors()[number];
+        return this.colors()[colorNumber];
     }
 
     public static theme(): ApexTheme {
