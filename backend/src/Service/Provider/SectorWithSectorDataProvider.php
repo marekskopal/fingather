@@ -31,6 +31,9 @@ class SectorWithSectorDataProvider
 
 		foreach	($sectors as $sectorId => $sector) {
 			$sectorData = $this->sectorDataProvider->getSectorData($sector, $user, $portfolio, $dateTime);
+			if ($sectorData->getValue()->isZero()) {
+				continue;
+			}
 
 			$sectorsWithCountryData[] = new SectorWithSectorDataDto(
 				id: $sectorId,

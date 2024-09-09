@@ -31,6 +31,9 @@ class CountryWithCountryDataProvider
 
 		foreach	($countries as $countryId => $country) {
 			$countryData = $this->countryDataProvider->getCountryData($country, $user, $portfolio, $dateTime);
+			if ($countryData->getValue()->isZero()) {
+				continue;
+			}
 
 			$countriesWithCountryData[] = new CountryWithCountryDataDto(
 				id: $countryId,

@@ -31,6 +31,9 @@ class IndustryWithIndustryDataProvider
 
 		foreach	($industries as $industryId => $industry) {
 			$industryData = $this->industryDataProvider->getIndustryData($industry, $user, $portfolio, $dateTime);
+			if ($industryData->getValue()->isZero()) {
+				continue;
+			}
 
 			$industriesWithIndustryData[] = new IndustryWithIndustryDataDto(
 				id: $industryId,
