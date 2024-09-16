@@ -33,7 +33,6 @@ import {TranslateModule} from "@ngx-translate/core";
 export class AddEditApiKeyComponent extends BaseAddEditForm implements OnInit {
     private readonly apiKeyService = inject(ApiKeyService);
     private readonly portfolioService = inject(PortfolioService);
-    private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
 
     protected types: SelectItem<ApiKeyTypeEnum, ApiKeyTypeEnum>[] = [
@@ -43,9 +42,7 @@ export class AddEditApiKeyComponent extends BaseAddEditForm implements OnInit {
     public async ngOnInit(): Promise<void> {
         this.$loading.set(true);
 
-        if (this.route.snapshot.params['id'] !== undefined) {
-            this.$id.set(this.route.snapshot.params['id']);
-        }
+        this.initializeIdFromRoute();
 
         this.form = this.formBuilder.group({
             type: [ApiKeyTypeEnum.Trading212, Validators.required],

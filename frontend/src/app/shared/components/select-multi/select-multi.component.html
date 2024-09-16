@@ -15,16 +15,30 @@
     </button>
     <div ngbDropdownMenu [attr.aria-labelledby]="$id()">
         @for(item of $items(); track item.key) {
-            <button type="button" ngbDropdownItem (click)="onToggle(item.key, $event)">
-                <div class="form-check">
-                    <input
-                        class="form-check-input"
-                        type="checkbox"
-                        [checked]="hasKeyInValues(item.key)"
-                    >
-                    <div class="ellipsis">{{ item.label }}</div>
+            @if(itemIsDisabled(item.key)) {
+                <div class="dropdown-item disabled">
+                    <div class="form-check">
+                        <input
+                            class="form-check-input"
+                            type="checkbox"
+                            [checked]="false"
+                            disabled
+                        >
+                        <div class="ellipsis">{{ item.label }}</div>
+                    </div>
                 </div>
-            </button>
+            } @else {
+                <button type="button" ngbDropdownItem (click)="onToggle(item.key, $event)">
+                    <div class="form-check">
+                        <input
+                            class="form-check-input"
+                            type="checkbox"
+                            [checked]="hasKeyInValues(item.key)"
+                        >
+                        <div class="ellipsis">{{ item.label }}</div>
+                    </div>
+                </button>
+            }
         }
     </div>
 </div>

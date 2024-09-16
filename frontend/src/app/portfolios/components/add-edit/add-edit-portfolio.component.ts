@@ -32,7 +32,6 @@ import {TranslateModule} from "@ngx-translate/core";
 export class AddEditPortfolioComponent extends BaseAddEditForm implements OnInit {
     private readonly portfolioService = inject(PortfolioService);
     private readonly currencyService = inject(CurrencyService);
-    private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
 
     protected currencies: SelectItem<number, string>[] = [];
@@ -40,9 +39,7 @@ export class AddEditPortfolioComponent extends BaseAddEditForm implements OnInit
     public async ngOnInit(): Promise<void> {
         this.$loading.set(true);
 
-        if (this.route.snapshot.params['id'] !== undefined) {
-            this.$id.set(this.route.snapshot.params['id']);
-        }
+        this.initializeIdFromRoute();
 
         const currencies = await this.currencyService.getCurrencies();
         this.currencies = currencies.map((currency) => {
@@ -61,7 +58,6 @@ export class AddEditPortfolioComponent extends BaseAddEditForm implements OnInit
         const id = this.$id();
         if (id !== null) {
             const portfolio = await this.portfolioService.getPortfolio(id);
-            console.log(portfolio);
             this.form.patchValue(portfolio);
         }
 

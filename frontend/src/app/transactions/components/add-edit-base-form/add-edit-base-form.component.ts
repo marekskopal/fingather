@@ -26,7 +26,6 @@ export abstract class AddEditBaseFormComponent extends BaseAddEditForm implement
     private readonly brokerService = inject(BrokerService);
     private readonly currencyService = inject(CurrencyService);
     private readonly portfolioService = inject(PortfolioService);
-    private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
 
     protected assets: SelectItem<number, string>[] | null = null;
@@ -37,9 +36,7 @@ export abstract class AddEditBaseFormComponent extends BaseAddEditForm implement
     public async ngOnInit(): Promise<void> {
         this.$loading.set(true);
 
-        if (this.route.snapshot.params['id'] !== undefined) {
-            this.$id.set(this.route.snapshot.params['id']);
-        }
+        this.initializeIdFromRoute();
 
         const currentDate = formatDate((new Date()), 'y-MM-ddTHH:mm', 'en');
 

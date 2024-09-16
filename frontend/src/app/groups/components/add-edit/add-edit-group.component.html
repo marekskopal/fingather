@@ -53,6 +53,7 @@
                             id="assetIds"
                             formControlName="assetIds"
                             [items]="assets"
+                            [disabledItems]="disabledAssets"
                             [class.is-invalid]="$submitted() && f['assetIds'].errors"
                         />
                         <fingather-input-validator

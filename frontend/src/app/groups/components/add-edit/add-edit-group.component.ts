@@ -37,18 +37,15 @@ export class AddEditGroupComponent extends BaseAddEditForm implements OnInit {
     private readonly assetService = inject(AssetService);
     private readonly groupService = inject(GroupService);
     private readonly portfolioService = inject(PortfolioService);
-    private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
 
     protected assets: SelectItem<number, string>[] = [];
-    protected othersGroup: Group;
+    protected disabledAssets: SelectItem<number, string>[] = [];
 
     public async ngOnInit(): Promise<void> {
         this.$loading.set(true);
 
-        if (this.route.snapshot.params['id'] !== undefined) {
-            this.$id.set(this.route.snapshot.params['id']);
-        }
+        this.initializeIdFromRoute();
 
         this.form = this.formBuilder.group({
             name: ['', Validators.required],
@@ -66,7 +63,17 @@ export class AddEditGroupComponent extends BaseAddEditForm implements OnInit {
             }
         });
 
-        this.othersGroup = await this.groupService.getOthersGroup(portfolio.id);
+        const othersGroup = await this.groupService.getOthersGroup(portfolio.id);
+
+        this.disabledAssets = assets.filter((asset) =>
+            asset.groupId !== othersGroup.id
+            && asset.groupId !== this.$id()
+        ).map((asset) => {
+            return {
+                key: asset.id,
+                label: asset.ticker.name,
+            }
+        });
 
         const id = this.$id();
         if (id !== null) {
