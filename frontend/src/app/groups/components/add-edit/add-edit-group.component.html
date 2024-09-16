@@ -53,7 +53,7 @@
                             id="assetIds"
                             formControlName="assetIds"
                             [items]="assets"
-                            [disabledItems]="disabledAssets"
+                            [disabledItemMessage]="'app.groups.addEdit.assetDisabled'"
                             [class.is-invalid]="$submitted() && f['assetIds'].errors"
                         />
                         <fingather-input-validator

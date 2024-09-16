@@ -1,6 +1,6 @@
 import {computed, inject, signal} from '@angular/core';
-import {BaseForm} from "@app/shared/components/form/base-form";
 import {ActivatedRoute} from "@angular/router";
+import {BaseForm} from "@app/shared/components/form/base-form";
 
 export abstract class BaseAddEditForm extends BaseForm {
     protected readonly route = inject(ActivatedRoute);

@@ -19,8 +19,8 @@ export abstract class BaseSelectMultiComponent<K extends keyof any, V> implement
     public readonly $placeholder = input<string>('', {
         alias: 'placeholder',
     });
-    public readonly $disabledItems = input<SelectItem<K, V>[]>([], {
-        alias: 'disabledItems',
+    public readonly $disabledItemMessage = input<string | null>(null, {
+        alias: 'disabledItemMessage',
     });
 
     protected values: SelectItem<K, V>[] = [];
@@ -68,10 +68,6 @@ export abstract class BaseSelectMultiComponent<K extends keyof any, V> implement
 
     protected hasKeyInValues(key: K): boolean {
         return this.values.find((value) => value.key === key) !== undefined;
-    }
-
-    protected itemIsDisabled(key: K): boolean {
-        return this.$disabledItems().find((item) => item.key === key) !== undefined
     }
 
     private addValueIntoValues(key: K): void {

@@ -185,7 +185,8 @@
         "color": "Color",
         "colorRequired": "Color is required",
         "assets": "Assets",
-        "assetsRequired": "Assets is required"
+        "assetsRequired": "Assets is required",
+        "assetDisabled": "Asset is assigned to group „{{groupName}}“"
       },
       "list": {
         "title": "Groups",

@@ -185,7 +185,8 @@
         "color": "Barva",
         "colorRequired": "Barva je povinná",
         "assets": "Aktiva",
-        "assetsRequired": "Aktiva jsou povinná"
+        "assetsRequired": "Aktiva jsou povinná",
+        "assetDisabled": "Aktivum je přiřazené do skupiny „{{groupName}}“"
       },
       "list": {
         "title": "Skupiny",

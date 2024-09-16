@@ -40,6 +40,12 @@
         background-color: $color-gray;
         border-radius: $border-radius;
     }
+
+    &.disabled {
+        justify-content: space-between;
+        opacity: 0.6;
+        color: $color-gray-lightest;
+    }
 }
 
 .dropup .dropdown-toggle::after {

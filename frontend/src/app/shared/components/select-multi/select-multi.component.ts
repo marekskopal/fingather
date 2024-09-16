@@ -5,6 +5,7 @@ import {NG_VALUE_ACCESSOR} from "@angular/forms";
 import {MatIcon} from "@angular/material/icon";
 import {BaseSelectMultiComponent} from "@app/shared/components/select-multi/base-select-multi.component";
 import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from "@ng-bootstrap/ng-bootstrap";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
     selector: 'fingather-select-multi',
@@ -15,6 +16,8 @@ import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from "
         NgbDropdownToggle,
         NgbDropdownMenu,
         NgbDropdownItem,
+        MatIcon,
+        TranslateModule,
         MatIcon
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
