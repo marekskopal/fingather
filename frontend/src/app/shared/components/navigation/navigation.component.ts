@@ -6,6 +6,7 @@ import {MatIcon} from "@angular/material/icon";
 import {RouterLink, RouterLinkActive} from "@angular/router";
 import {AuthenticationService} from "@app/services/authentication.service";
 import {LanguageSelectorComponent} from "@app/shared/components/language-selector/language-selector.component";
+import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selector/portfolio-selector.component";
 import {NgbCollapse} from "@ng-bootstrap/ng-bootstrap";
 import {TranslateModule} from "@ngx-translate/core";
 
@@ -20,7 +21,8 @@ import {TranslateModule} from "@ngx-translate/core";
         NgbCollapse,
         MatIcon,
         TranslateModule,
-        LanguageSelectorComponent
+        LanguageSelectorComponent,
+        PortfolioSelectorComponent
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

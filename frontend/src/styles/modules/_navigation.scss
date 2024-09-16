@@ -3,12 +3,10 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 70px;
-    padding-right: 15px;
-    padding-left: 15px;
+    padding: $spacing-md;
     z-index: 1000;
     background: transparent;
-    align-items: flex-start;
+    justify-content: end;
 
     @include media-breakpoint-up(lg) {
         flex-direction: column !important;
@@ -84,6 +82,16 @@
     #navigation {
         padding-top: 20px;
         margin-bottom: 20px;
+        background-color: $color-black;
+        height: calc(100vh - 62px);
+
+        &.show {
+            display: flex;
+        }
+
+        @include media-breakpoint-up(lg) {
+            background-color: transparent;
+        }
     }
 
     .language-selector {
@@ -96,6 +104,40 @@
 
         .flag {
             margin-right: $spacing-xs;
+        }
+    }
+
+    .navbar-toggler {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        padding: 12px;
+        border: 0;
+        border-radius: $border-radius;
+
+        &:hover,
+        &:focus {
+            background-color: $color-gray;
+            box-shadow: none;
+        }
+
+        .navbar-icon {
+            display: block;
+            width: 24px;
+            height: 4px;
+            border-radius: 4px;
+            background-color: $color-green-light;
+        }
+
+        @include media-breakpoint-up(lg) {
+            display: none;
+        }
+    }
+
+    fingather-portfolio-selector {
+        @include media-breakpoint-up(lg) {
+            display: none;
         }
     }
 }
