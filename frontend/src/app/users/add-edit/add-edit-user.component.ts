@@ -33,7 +33,6 @@ import {TranslateModule} from "@ngx-translate/core";
 export class AddEditUserComponent extends BaseAddEditForm implements OnInit {
     private readonly userService = inject(UserService);
     private readonly currencyService = inject(CurrencyService);
-    private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
 
     protected currencies: SelectItem<number, string>[] = [];
@@ -45,9 +44,7 @@ export class AddEditUserComponent extends BaseAddEditForm implements OnInit {
     public async ngOnInit(): Promise<void> {
         this.$loading.set(true);
 
-        if (this.route.snapshot.params['id'] !== undefined) {
-            this.$id.set(this.route.snapshot.params['id']);
-        }
+        this.initializeIdFromRoute();
 
         const emailValidators = [Validators.email];
         const passwordValidators = [Validators.minLength(6)];
