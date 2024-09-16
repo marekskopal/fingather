@@ -1,7 +1,7 @@
 import { formatDate } from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import { Validators } from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
+import { Router} from '@angular/router';
 import {
     Transaction, TransactionActionType
 } from '@app/models';

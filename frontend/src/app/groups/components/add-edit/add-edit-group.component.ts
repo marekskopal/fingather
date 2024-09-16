@@ -4,8 +4,7 @@ import {
 } from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatIcon} from "@angular/material/icon";
-import {ActivatedRoute, Router, RouterLink} from "@angular/router";
-import { Group } from '@app/models';
+import { Router, RouterLink} from "@angular/router";
 import { AssetService, GroupService, PortfolioService
 } from '@app/services';
 import {ColorPickerComponent} from "@app/shared/components/color-picker/color-picker.component";
@@ -40,7 +39,6 @@ export class AddEditGroupComponent extends BaseAddEditForm implements OnInit {
     private readonly router = inject(Router);
 
     protected assets: SelectItem<number, string>[] = [];
-    protected disabledAssets: SelectItem<number, string>[] = [];
 
     public async ngOnInit(): Promise<void> {
         this.$loading.set(true);
@@ -55,23 +53,21 @@ export class AddEditGroupComponent extends BaseAddEditForm implements OnInit {
 
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
+        const groups = await this.groupService.getGroups(portfolio.id);
+        const groupNames: Record<number, string> = {}
+        for (const group of groups) {
+            groupNames[group.id] = group.name;
+        }
+
+        const othersGroup = await this.groupService.getOthersGroup(portfolio.id);
+
         const assets = await this.assetService.getAssets(portfolio.id);
         this.assets = assets.map((asset) => {
             return {
                 key: asset.id,
                 label: asset.ticker.name,
-            }
-        });
-
-        const othersGroup = await this.groupService.getOthersGroup(portfolio.id);
-
-        this.disabledAssets = assets.filter((asset) =>
-            asset.groupId !== othersGroup.id
-            && asset.groupId !== this.$id()
-        ).map((asset) => {
-            return {
-                key: asset.id,
-                label: asset.ticker.name,
+                disabled: asset.groupId !== othersGroup.id && asset.groupId !== this.$id(),
+                disabledLabel: groupNames[asset.groupId] ?? 'Other',
             }
         });
 

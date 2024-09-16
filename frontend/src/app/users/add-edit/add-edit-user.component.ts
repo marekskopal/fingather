@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatIcon} from "@angular/material/icon";
-import {ActivatedRoute, Router, RouterLink} from "@angular/router";
+import { Router, RouterLink} from "@angular/router";
 import { UserRoleEnum } from '@app/models/enums/user-role-enum';
 import { CurrencyService, UserService } from '@app/services';
 import {BaseAddEditForm} from "@app/shared/components/form/base-add-edit-form";

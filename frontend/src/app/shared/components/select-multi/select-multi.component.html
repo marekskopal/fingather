@@ -15,7 +15,7 @@
     </button>
     <div ngbDropdownMenu [attr.aria-labelledby]="$id()">
         @for(item of $items(); track item.key) {
-            @if(itemIsDisabled(item.key)) {
+            @if(item.disabled) {
                 <div class="dropdown-item disabled">
                     <div class="form-check">
                         <input
@@ -24,8 +24,21 @@
                             [checked]="false"
                             disabled
                         >
-                        <div class="ellipsis">{{ item.label }}</div>
+                        <div>
+                            <div class="ellipsis">{{ item.label }}</div>
+
+                            @if (item.disabledLabel) {
+                                <div class="smaller ellipsis">
+                                    @if($disabledItemMessage(); as disabledItemMessage) {
+                                        <div class="ellipsis">{{ disabledItemMessage | translate: { groupName: item.disabledLabel } }}</div>
+                                    } @else {
+                                        {{ item.disabledLabel }}
+                                    }
+                                </div>
+                            }
+                        </div>
                     </div>
+                    <mat-icon>lock</mat-icon>
                 </div>
             } @else {
                 <button type="button" ngbDropdownItem (click)="onToggle(item.key, $event)">
