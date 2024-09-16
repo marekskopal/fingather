@@ -16,8 +16,6 @@ fingather-app {
 }
 
 .app-container {
-    padding-top: 61px;
-
     @include media-breakpoint-up(lg) {
         padding-top: 0;
         padding-left: $navigation-width;
@@ -25,8 +23,13 @@ fingather-app {
 }
 
 .container-fluid {
-    padding-left: $spacing-lg;
-    padding-right: $spacing-lg;
+    padding-left: $spacing-md;
+    padding-right: $spacing-md;
+
+    @include media-breakpoint-up(lg) {
+        padding-left: $spacing-xl;
+        padding-right: $spacing-xl;
+    }
 }
 
 .content-container {
