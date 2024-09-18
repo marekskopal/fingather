@@ -9,7 +9,7 @@ import {GroupWithGroupDataService} from "@app/services";
 import {CountryWithCountryDataService} from "@app/services/country-with-country-data.service";
 import {IndustryWithIndustryDataService} from "@app/services/industry-with-industry-data.service";
 import {SectorWithSectorDataService} from "@app/services/sector-with-sector-data.service";
-import {ScrollShadowDirective} from "@app/shared/directives/scroll-shadow.directive";
+import {ScrollShadowDirective} from "@marekskopal/ng-scroll-shadow";
 import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLinkButton, NgbNavOutlet} from "@ng-bootstrap/ng-bootstrap";
 import {TranslateModule} from "@ngx-translate/core";
 
