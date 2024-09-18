@@ -1,5 +1,6 @@
 @import 'shared/variables';
 @import 'shared/bootstrap';
+@import '@marekskopal/ng-scroll-shadow';
 
 @import 'modules/mixins';
 @import 'modules/font';
@@ -29,7 +30,6 @@
 @import "modules/portfolios";
 @import "modules/groups";
 @import "modules/onboarding";
-@import "modules/scroll-shadow";
 
 .login {
     position: absolute;
