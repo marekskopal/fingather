@@ -1,4 +1,18 @@
 .portfolio-total {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: $spacing-lg;
+
+    @include media-breakpoint-up(sm) {
+        grid-template-columns: 1fr 1fr;
+    }
+    @include media-breakpoint-up(xl) {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+    @include media-breakpoint-up(xxl) {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+
     .card-body {
         .value + div {
             margin-top: 18px;
@@ -23,11 +37,23 @@
     }
 
     .portfolio-value {
-        height: 100%;
+        align-self: start;
+
+        @include media-breakpoint-up(sm) {
+            grid-row-start: 1;
+            grid-row-end: span 2;
+        }
+        @include media-breakpoint-up(xl) {
+            grid-row-start: 1;
+            grid-row-end: span 3;
+        }
+        @include media-breakpoint-up(xxl) {
+            grid-row-start: 1;
+            grid-row-end: span 2;
+        }
 
         .card-body {
-            height: 100%;
-            justify-content: space-between;
+            gap: $spacing-md;
         }
 
         .portfolio-value-chart {
