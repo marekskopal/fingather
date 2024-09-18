@@ -4,7 +4,10 @@
     align-items: center;
 
     .dropdown-toggle {
-        border: 0;
         padding-right: 0;
-    }
+
+        &:not(.show) {
+            border: 1px solid transparent;
+        }
+     }
 }

@@ -1,7 +1,11 @@
-﻿<nav class="navbar navbar-expand-lg">
+﻿<nav
+    class="navbar"
+    [class.collapsed]="isNavigationCollapsed"
+>
     <button
         (click)="toggleNavigation()"
         class="navbar-toggler"
+        [class.active]="!isNavigationCollapsed"
         type="button"
         data-bs-toggle="collapse"
         data-bs-target="#navigation"
@@ -13,14 +17,14 @@
         <span class="navbar-icon"></span>
         <span class="navbar-icon"></span>
     </button>
-    <div class="collapse navbar-collapse flex-column w-100" id="navigation" [ngbCollapse]="isNavigationCollapsed">
+    <div id="navigation">
         <a class="navbar-brand" routerLink="/" routerLinkActive="active">
             <img ngSrc="/images/fingather.svg" alt="FinGather" width="100" height="25">
         </a>
 
         <fingather-portfolio-selector />
 
-        <ul class="nav flex-column mb-auto">
+        <ul class="nav mb-auto">
             <li class="nav-item">
                 <a class="nav-link" (click)="collapseNavigation()" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                     <mat-icon>dashboard</mat-icon>
@@ -82,7 +86,7 @@
                 </a>
             </li>
         </ul>
-        <ul class="nav flex-column">
+        <ul class="nav">
             <fingather-language-selector />
 
             <li class="nav-item">
