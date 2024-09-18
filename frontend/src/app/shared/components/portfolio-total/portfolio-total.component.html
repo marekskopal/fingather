@@ -1,205 +1,180 @@
-﻿<div class="row portfolio-total">
-    <div class="col-lg-3 mb-4">
-        <div class="card portfolio-value">
-            <div class="card-header">
-                <span class="icon-circle icon-circle-small">
-                    <mat-icon>monitoring</mat-icon>
-                </span>
-                <h3 class="h6">{{ 'app.shared.portfolioTotal.portfolioValue' | translate }}</h3>
-            </div>
-            @if (portfolioData) {
-                <div class="card-body">
-                    <fingather-portfolio-value-chart
-                        [portfolio]="$portfolio()"
-                        [range]="PortfolioDataRangeEnum.All"
-                        [showLabels]="false"
-                        [sparkline]="true"
-                    />
-
-                    <span class="value h3">{{portfolioData.value | number:'1.2-2' | money: defaultCurrency.id | async}}</span>
-                </div>
-            } @else {
-                <div class="card-body text-center">
-                    <span class="spinner-border spinner-border-lg"></span>
-                </div>
-            }
+﻿<div class="portfolio-total">
+    <div class="card portfolio-value">
+        <div class="card-header">
+            <span class="icon-circle icon-circle-small">
+                <mat-icon>monitoring</mat-icon>
+            </span>
+            <h3 class="h6">{{ 'app.shared.portfolioTotal.portfolioValue' | translate }}</h3>
         </div>
+        @if (portfolioData) {
+            <div class="card-body">
+                <fingather-portfolio-value-chart
+                    [portfolio]="$portfolio()"
+                    [range]="PortfolioDataRangeEnum.All"
+                    [showLabels]="false"
+                    [sparkline]="true"
+                />
+
+                <span class="value h3">{{portfolioData.value | number:'1.2-2' | money: defaultCurrency.id | async}}</span>
+            </div>
+        } @else {
+            <div class="card-body text-center">
+                <span class="spinner-border spinner-border-lg"></span>
+            </div>
+        }
     </div>
 
-    <div class="col-lg-6">
-        <div class="row">
-            <div class="col-lg-6 mb-4">
-                <div class="card h-100">
-                    <div class="card-header">
-                        <span class="icon-circle icon-circle-small">
-                            <mat-icon>candlestick_chart</mat-icon>
-                        </span>
-                        <h3 class="h6">{{ 'app.shared.portfolioTotal.gain' | translate }}</h3>
-                    </div>
-                    @if (portfolioData) {
-                        <div class="card-body">
-                            <div class="value h3">
-                                <fingather-value-icon [value]="portfolioData.gain" />
-                                {{portfolioData.gain | number:'1.2-2' | money: defaultCurrency.id | async}}
-                            </div>
-                            <div [coloredValue]="portfolioData.gain">
-                                {{portfolioData.gainPercentage | number:'1.2-2'}}%
-                            </div>
-                            <div [coloredValue]="portfolioData.gain">
-                                {{portfolioData.gainPercentagePerAnnum | number:'1.2-2'}}%&nbsp;p.a.
-                            </div>
-                        </div>
-                    } @else {
-                        <div class="card-body text-center">
-                            <span class="spinner-border spinner-border-lg"></span>
-                        </div>
-                    }
-                </div>
-            </div>
-
-            <div class="col-lg-6 mb-4">
-                <div class="card h-100">
-                    <div class="card-header">
-                        <span class="icon-circle icon-circle-small">
-                            <mat-icon>savings</mat-icon>
-                        </span>
-                        <h3 class="h6">{{ 'app.shared.portfolioTotal.gainRealized' | translate }}</h3>
-                    </div>
-                    @if (portfolioData) {
-                        <div class="card-body">
-                            <div class="value h3">
-                                <fingather-value-icon [value]="portfolioData.realizedGain" />
-                                {{portfolioData.realizedGain | number:'1.2-2' | money: defaultCurrency.id | async}}
-                            </div>
-                        </div>
-                    } @else {
-                        <div class="card-body text-center">
-                            <span class="spinner-border spinner-border-lg"></span>
-                        </div>
-                    }
-                </div>
-            </div>
+    <div class="card">
+        <div class="card-header">
+            <span class="icon-circle icon-circle-small">
+                <mat-icon>candlestick_chart</mat-icon>
+            </span>
+            <h3 class="h6">{{ 'app.shared.portfolioTotal.gain' | translate }}</h3>
         </div>
-
-        <div class="row">
-            <div class="col-lg-6 mb-4">
-                <div class="card h-100">
-                    <div class="card-header">
-                        <span class="icon-circle icon-circle-small">
-                            <mat-icon>wallet</mat-icon>
-                        </span>
-                        <h3 class="h6">{{ 'app.shared.portfolioTotal.investedValue' | translate }}</h3>
-                    </div>
-                    @if (portfolioData) {
-                        <div class="card-body">
-                            <div class="value h3">
-                                {{portfolioData.transactionValue | number:'1.2-2' | money: defaultCurrency.id | async}}
-                            </div>
-                        </div>
-                    } @else {
-                        <div class="card-body text-center">
-                            <span class="spinner-border spinner-border-lg"></span>
-                        </div>
-                    }
+        @if (portfolioData) {
+            <div class="card-body">
+                <div class="value h3">
+                    <fingather-value-icon [value]="portfolioData.gain" />
+                    {{portfolioData.gain | number:'1.2-2' | money: defaultCurrency.id | async}}
+                </div>
+                <div [coloredValue]="portfolioData.gain">
+                    {{portfolioData.gainPercentage | number:'1.2-2'}}%
+                </div>
+                <div [coloredValue]="portfolioData.gain">
+                    {{portfolioData.gainPercentagePerAnnum | number:'1.2-2'}}%&nbsp;p.a.
                 </div>
             </div>
-
-            <div class="col-lg-6 mb-4">
-                <div class="card h-100">
-                    <div class="card-header">
-                        <span class="icon-circle icon-circle-small">
-                            <mat-icon>attach_money</mat-icon>
-                        </span>
-                        <h3 class="h6">{{ 'app.shared.portfolioTotal.fxImpact' | translate }}</h3>
-                    </div>
-                    @if (portfolioData) {
-                        <div class="card-body">
-                            <div class="value h3">
-                                <fingather-value-icon [value]="portfolioData.fxImpact" />
-                                {{portfolioData.fxImpact | number:'1.2-2' | money: defaultCurrency.id | async}}
-                            </div>
-                            <div [coloredValue]="portfolioData.fxImpact">
-                                {{portfolioData.fxImpactPercentage | number:'1.2-2'}}%
-                            </div>
-                            <div [coloredValue]="portfolioData.fxImpact">
-                                {{portfolioData.fxImpactPercentagePerAnnum | number:'1.2-2'}}%&nbsp;p.a.
-                            </div>
-                        </div>
-                    } @else {
-                        <div class="card-body text-center">
-                            <span class="spinner-border spinner-border-lg"></span>
-                        </div>
-                    }
-                </div>
+        } @else {
+            <div class="card-body text-center">
+                <span class="spinner-border spinner-border-lg"></span>
             </div>
-        </div>
+        }
     </div>
 
-    <div class="col-lg-3">
-        <div class="row">
-            <div class="col-12 mb-4">
-                <div class="card h-100">
-                    <div class="card-header">
-                        <span class="icon-circle icon-circle-small">
-                            <mat-icon>calendar_month</mat-icon>
-                        </span>
-                        <h3 class="h6">{{ 'app.shared.portfolioTotal.dividend' | translate }}</h3>
-                    </div>
-                    @if (portfolioData) {
-                        <div class="card-body">
-                            <div class="value h3">
-                                {{portfolioData.dividendYield | number:'1.2-2' | money: defaultCurrency.id | async}}
-                            </div>
-                            <div [coloredValue]="portfolioData.fxImpact">
-                                {{portfolioData.dividendYieldPercentage | number:'1.2-2'}}%
-                            </div>
-                            <div [coloredValue]="portfolioData.fxImpact">
-                                {{portfolioData.dividendYieldPercentagePerAnnum | number:'1.2-2'}}%&nbsp;p.a.
-                            </div>
-                        </div>
-                    } @else {
-                        <div class="card-body text-center">
-                            <span class="spinner-border spinner-border-lg"></span>
-                        </div>
-                    }
+    <div class="card">
+        <div class="card-header">
+            <span class="icon-circle icon-circle-small">
+                <mat-icon>savings</mat-icon>
+            </span>
+            <h3 class="h6">{{ 'app.shared.portfolioTotal.gainRealized' | translate }}</h3>
+        </div>
+        @if (portfolioData) {
+            <div class="card-body">
+                <div class="value h3">
+                    <fingather-value-icon [value]="portfolioData.realizedGain" />
+                    {{portfolioData.realizedGain | number:'1.2-2' | money: defaultCurrency.id | async}}
                 </div>
             </div>
+        } @else {
+            <div class="card-body text-center">
+                <span class="spinner-border spinner-border-lg"></span>
+            </div>
+        }
+    </div>
+
+    <div class="card ">
+        <div class="card-header">
+            <span class="icon-circle icon-circle-small">
+                <mat-icon>wallet</mat-icon>
+            </span>
+            <h3 class="h6">{{ 'app.shared.portfolioTotal.investedValue' | translate }}</h3>
         </div>
-        <div class="row">
-            <div class="col-12">
-                <div class="card h-100">
-                    <div class="card-header">
-                        <span class="icon-circle icon-circle-small">
-                            <mat-icon>account_balance</mat-icon>
-                        </span>
-                        <h3 class="h6">{{ 'app.shared.portfolioTotal.taxFee' | translate }}</h3>
-                    </div>
-                    @if (portfolioData) {
-                        <div class="card-body">
-                            <table class="tax-fee w-100">
-                                <tbody>
-                                    <tr class="color-gray">
-                                        <td>{{ 'app.shared.portfolioTotal.tax' | translate }}</td>
-                                        <td class="text-end">{{portfolioData.tax | number:'1.2-2' | money: defaultCurrency.id | async}}</td>
-                                    </tr>
-                                    <tr class="color-gray">
-                                        <td>{{ 'app.shared.portfolioTotal.fee' | translate }}</td>
-                                        <td class="text-end">{{portfolioData.fee | number:'1.2-2' | money: defaultCurrency.id | async}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>{{ 'app.shared.portfolioTotal.total' | translate }}</td>
-                                        <td class="text-end">{{parseFloat(portfolioData.tax) + parseFloat(portfolioData.fee) | number:'1.2-2' | money: defaultCurrency.id | async}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    } @else {
-                        <div class="card-body text-center">
-                            <span class="spinner-border spinner-border-lg"></span>
-                        </div>
-                    }
+        @if (portfolioData) {
+            <div class="card-body">
+                <div class="value h3">
+                    {{portfolioData.transactionValue | number:'1.2-2' | money: defaultCurrency.id | async}}
                 </div>
             </div>
+        } @else {
+            <div class="card-body text-center">
+                <span class="spinner-border spinner-border-lg"></span>
+            </div>
+        }
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <span class="icon-circle icon-circle-small">
+                <mat-icon>attach_money</mat-icon>
+            </span>
+            <h3 class="h6">{{ 'app.shared.portfolioTotal.fxImpact' | translate }}</h3>
         </div>
+        @if (portfolioData) {
+            <div class="card-body">
+                <div class="value h3">
+                    <fingather-value-icon [value]="portfolioData.fxImpact" />
+                    {{portfolioData.fxImpact | number:'1.2-2' | money: defaultCurrency.id | async}}
+                </div>
+                <div [coloredValue]="portfolioData.fxImpact">
+                    {{portfolioData.fxImpactPercentage | number:'1.2-2'}}%
+                </div>
+                <div [coloredValue]="portfolioData.fxImpact">
+                    {{portfolioData.fxImpactPercentagePerAnnum | number:'1.2-2'}}%&nbsp;p.a.
+                </div>
+            </div>
+        } @else {
+            <div class="card-body text-center">
+                <span class="spinner-border spinner-border-lg"></span>
+            </div>
+        }
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <span class="icon-circle icon-circle-small">
+                <mat-icon>calendar_month</mat-icon>
+            </span>
+            <h3 class="h6">{{ 'app.shared.portfolioTotal.dividend' | translate }}</h3>
+        </div>
+        @if (portfolioData) {
+            <div class="card-body">
+                <div class="value h3">
+                    {{portfolioData.dividendYield | number:'1.2-2' | money: defaultCurrency.id | async}}
+                </div>
+                <div [coloredValue]="portfolioData.fxImpact">
+                    {{portfolioData.dividendYieldPercentage | number:'1.2-2'}}%
+                </div>
+                <div [coloredValue]="portfolioData.fxImpact">
+                    {{portfolioData.dividendYieldPercentagePerAnnum | number:'1.2-2'}}%&nbsp;p.a.
+                </div>
+            </div>
+        } @else {
+            <div class="card-body text-center">
+                <span class="spinner-border spinner-border-lg"></span>
+            </div>
+        }
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <span class="icon-circle icon-circle-small">
+                <mat-icon>account_balance</mat-icon>
+            </span>
+            <h3 class="h6">{{ 'app.shared.portfolioTotal.taxFee' | translate }}</h3>
+        </div>
+        @if (portfolioData) {
+            <div class="card-body">
+                <table class="tax-fee w-100">
+                    <tbody>
+                        <tr class="color-gray">
+                            <td>{{ 'app.shared.portfolioTotal.tax' | translate }}</td>
+                            <td class="text-end">{{portfolioData.tax | number:'1.2-2' | money: defaultCurrency.id | async}}</td>
+                        </tr>
+                        <tr class="color-gray">
+                            <td>{{ 'app.shared.portfolioTotal.fee' | translate }}</td>
+                            <td class="text-end">{{portfolioData.fee | number:'1.2-2' | money: defaultCurrency.id | async}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ 'app.shared.portfolioTotal.total' | translate }}</td>
+                            <td class="text-end">{{parseFloat(portfolioData.tax) + parseFloat(portfolioData.fee) | number:'1.2-2' | money: defaultCurrency.id | async}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        } @else {
+            <div class="card-body text-center">
+                <span class="spinner-border spinner-border-lg"></span>
+            </div>
+        }
     </div>
 </div>
