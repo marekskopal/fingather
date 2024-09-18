@@ -118,6 +118,10 @@
                 display: flex;
             }
         }
+
+        @include media-breakpoint-up(lg) {
+            position: fixed;
+        }
     }
 
     .language-selector {
