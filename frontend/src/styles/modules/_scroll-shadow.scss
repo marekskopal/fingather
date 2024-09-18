@@ -1,0 +1,39 @@
+.scroll-shadow-wrapper {
+    position: relative;
+
+    &:before,
+    &:after {
+        content: '';
+        position: absolute;
+        display: block;
+        top: 0;
+        width: 48px;
+        height: 100%;
+        z-index: 100;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.15s ease-in-out;
+    }
+
+    &:before {
+        left: 0;
+        background: linear-gradient(270deg, rgba(38, 38, 38, 0) 0%, #262626 100%);
+    }
+
+    &:after {
+        right: 0;
+        background: linear-gradient(90deg, rgba(38, 38, 38, 0) 0%, #262626 100%);
+    }
+
+    &.can-scroll-left {
+        &:before {
+            opacity: 1;
+        }
+    }
+
+    &.can-scroll-right {
+        &:after {
+            opacity: 1;
+        }
+    }
+}
