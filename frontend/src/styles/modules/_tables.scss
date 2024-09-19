@@ -11,7 +11,9 @@ table {
         }
     }
 }
-.table {
+
+.table,
+.table-grid {
     margin-bottom: 0;
 
     > :not(caption) > * > th {
@@ -19,6 +21,33 @@ table {
         @include h6;
     }
 }
-.table-fixed {
-    table-layout: fixed;
+
+.table-grid {
+    display: grid;
+    border-collapse: collapse;
+    min-width: 100%;
+    overflow-x: auto;
+
+    thead,
+    tbody,
+    tr {
+        display: contents;
+    }
+
+    td {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+
+        &.text-end {
+            align-items: flex-end;
+        }
+
+        &.actions {
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-end;
+        }
+    }
 }
