@@ -10,6 +10,7 @@ import {GroupAllocationService} from "@app/services/group-allocation-service";
 import {ColoredValueDirective} from "@app/shared/directives/colored-value.directive";
 import {MoneyPipe} from "@app/shared/pipes/money.pipe";
 import {TranslateModule} from "@ngx-translate/core";
+import {ScrollShadowDirective} from "@marekskopal/ng-scroll-shadow";
 
 @Component({
     selector: 'fingather-group-allocation',
@@ -21,7 +22,8 @@ import {TranslateModule} from "@ngx-translate/core";
         ColoredValueDirective,
         DecimalPipe,
         MoneyPipe,
-        AsyncPipe
+        AsyncPipe,
+        ScrollShadowDirective
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

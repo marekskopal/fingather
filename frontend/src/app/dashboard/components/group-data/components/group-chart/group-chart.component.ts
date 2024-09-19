@@ -86,6 +86,7 @@ export class GroupChartComponent implements OnInit {
             series: [],
             chart: {
                 height: 240,
+                width: 240,
                 type: 'donut',
                 selection: {
                     enabled: false,
