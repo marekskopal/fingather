@@ -6,10 +6,15 @@
             </div>
         }
         <div class="card-body">
-            <table class="table table-fixed assets-table">
+            <table
+                class="table assets-table"
+                tableGrid
+                [columns]="tableGridColumns"
+                scrollShadow
+            >
                 <thead>
                     <tr>
-                        <th style="width: 24%">
+                        <th>
                             <a (click)="changeAssetsOrder(AssetsOrder.TickerName)" tabindex="0">
                                 {{ 'app.assets.list.name' | translate }}
                                 @if($assetsOrder() === AssetsOrder.TickerName) {
@@ -17,7 +22,7 @@
                                 }
                             </a>
                         </th>
-                        <th class="text-end" style="width: 9.5%">
+                        <th class="text-end">
                             <a (click)="changeAssetsOrder(AssetsOrder.Value)" tabindex="0">
                                 {{ 'app.assets.list.value' | translate }}
                                 @if($assetsOrder() === AssetsOrder.Value) {
@@ -25,7 +30,7 @@
                                 }
                             </a>
                         </th>
-                        <th class="text-end" style="width: 9.5%">
+                        <th class="text-end">
                             <a (click)="changeAssetsOrder(AssetsOrder.Gain)" tabindex="0">
                                 {{ 'app.assets.list.gain' | translate }}
                                 @if($assetsOrder() === AssetsOrder.Gain) {
@@ -33,7 +38,7 @@
                                 }
                             </a>
                         </th>
-                        <th class="text-end" style="width: 9.5%">
+                        <th class="text-end">
                             <a (click)="changeAssetsOrder(AssetsOrder.DividendYield)" tabindex="0">
                                 {{ 'app.assets.list.dividend' | translate }}
                                 @if($assetsOrder() === AssetsOrder.DividendYield) {
@@ -41,7 +46,7 @@
                                 }
                             </a>
                         </th>
-                        <th class="text-end" style="width: 9.5%">
+                        <th class="text-end">
                             <a (click)="changeAssetsOrder(AssetsOrder.FxImpact)" tabindex="0">
                                 {{ 'app.assets.list.fxImpact' | translate }}
                                 @if($assetsOrder() === AssetsOrder.FxImpact) {
@@ -49,7 +54,7 @@
                                 }
                             </a>
                         </th>
-                        <th class="text-end" style="width: 9.5%">
+                        <th class="text-end">
                             <a (click)="changeAssetsOrder(AssetsOrder.Return)" tabindex="0">
                                 {{ 'app.assets.list.return' | translate }}
                                 @if($assetsOrder() === AssetsOrder.Return) {
@@ -57,7 +62,7 @@
                                 }
                             </a>
                         </th>
-                        <th style="width: 9.5%"></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
