@@ -111,6 +111,9 @@
 
     &.collapsed {
         position: absolute;
+        width: auto;
+        left: auto;
+        right: 0;
 
         #navigation {
             display: none;
@@ -122,6 +125,9 @@
 
         @include media-breakpoint-up(lg) {
             position: fixed;
+            width: $navigation-width;
+            left: 0;
+            right: auto;
         }
     }
 
