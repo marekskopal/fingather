@@ -12,7 +12,7 @@
     @include media-breakpoint-up(lg) {
         flex-direction: column !important;
         width: $navigation-width;
-        height: 100vh;
+        height: 100dvh;
         padding-top: $spacing-xl;
         padding-left: $spacing-xl;
         padding-right: $spacing-xl;
@@ -96,7 +96,7 @@
         margin-bottom: 20px;
         background-color: $color-black;
         width: 100%;
-        height: 100vh;
+        height: 100dvh;
         margin-top: -62px;
         padding-bottom: $spacing-md;
         overflow-y: auto;
