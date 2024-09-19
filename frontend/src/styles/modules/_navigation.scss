@@ -99,6 +99,7 @@
         height: 100vh;
         margin-top: -62px;
         padding-bottom: $spacing-md;
+        overflow-y: auto;
 
         @include media-breakpoint-up(lg) {
             background-color: transparent;
