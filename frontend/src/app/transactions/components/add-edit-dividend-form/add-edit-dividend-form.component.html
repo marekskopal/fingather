@@ -1,17 +1,19 @@
-﻿<div class="header row">
-    <div class="col-md-3 order-md-2 text-end">
-        <fingather-portfolio-selector />
-    </div>
-    <div class="col-md-9 order-md-0">
+﻿<div class="header">
+    <div>
         @if ($id() === null) {
             <h1 class="h3">{{ 'app.shared.dividendDialog.headerAdd' | translate }}</h1>
         } @else {
             <h1 class="h3">{{ 'app.shared.dividendDialog.headerEdit' | translate }}</h1>
         }
+
         <a [routerLink]="$routerBackLink()" class="btn-link" tabindex="0">
             <mat-icon>chevron_left</mat-icon>
             {{ 'app.transactions.list.title' | translate }}
         </a>
+    </div>
+
+    <div class="header-controls d-none d-lg-block">
+        <fingather-portfolio-selector />
     </div>
 </div>
 

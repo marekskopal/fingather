@@ -1,15 +1,15 @@
-﻿<div class="header row">
-    <div class="col-md-3 order-md-2 text-end">
-        <fingather-portfolio-selector />
-    </div>
-    <div class="col-md-3 order-md-0">
-        <h1 class="h3">{{ 'app.portfolios.list.title' | translate }}</h1>
-    </div>
-    <div class="col-md-6 order-md-1 text-end">
-        <a routerLink="add-portfolio" class="btn btn-primary me-3" tabindex="0">
+﻿<div class="header">
+    <h1 class="h3">{{ 'app.portfolios.list.title' | translate }}</h1>
+
+    <div class="header-controls">
+        <a routerLink="add-portfolio" class="btn btn-primary" tabindex="0">
             <mat-icon>add</mat-icon>
             <span> {{ 'app.portfolios.list.addPortfolio' | translate }}</span>
         </a>
+
+        <div class="d-none d-lg-block">
+            <fingather-portfolio-selector />
+        </div>
     </div>
 </div>
 
