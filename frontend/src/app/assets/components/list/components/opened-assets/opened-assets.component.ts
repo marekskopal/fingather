@@ -12,6 +12,7 @@ import {TableGridDirective} from "@app/shared/directives/table-grid.directive";
 import {MoneyPipe} from "@app/shared/pipes/money.pipe";
 import {ScrollShadowDirective} from "@marekskopal/ng-scroll-shadow";
 import {TranslateModule} from "@ngx-translate/core";
+import {TableGridColumn} from "@app/shared/types/table-grid-column";
 
 
 @Component({
@@ -49,7 +50,7 @@ export class OpenedAssetsComponent {
         alias: 'changeAssetsOrder',
     });
 
-    protected readonly tableGridColumns = [
+    protected readonly tableGridColumns: TableGridColumn[] = [
         { min: '250px', max: '3fr' },
         { min: '106px', max: '1.2fr' },
         { min: '106px', max: '1.2fr' },

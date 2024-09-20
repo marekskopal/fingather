@@ -1,15 +1,24 @@
+$search-width: 352px;
+$dropdown-width: 256px;
+
 .transactions-search-wrapper {
     margin-bottom: $spacing-xl;
 
     .search-container {
         display: flex;
         justify-content: left;
-        align-items: center;
+        flex-direction: column;
+        gap: $spacing-xl;;
+
+        @include media-breakpoint-up(lg) {
+            flex-direction: row;
+            align-items: flex-start;
+        }
     }
 
     .search-input {
         display: inline-block;
-        width: 352px;
+        width: $search-width;
 
         .form-control {
             width: 100%;
@@ -17,25 +26,29 @@
     }
 
     .input-group {
-        width: auto;
-        align-items: center;
-    }
+        width: 100%;
+        flex-direction: column;
+        align-items: flex-start;
+        column-gap: $spacing-lg;
+        row-gap: $spacing-sm;
 
-    .input-group + .input-group {
-        margin-left: $spacing-xl;
+        @include media-breakpoint-up(lg) {
+            align-items: center;
+            flex-direction: row;
+            width: auto;
+        }
     }
 
     label {
         color: $color-gray-lightest;
-        margin-right: $spacing-lg;
     }
 
     .dropdown-toggle {
-        width: 256px;
+        width: $dropdown-width
     }
 
     .form-control {
-        width: 256px;
+        width: $dropdown-width
     }
 
     .filter-group {

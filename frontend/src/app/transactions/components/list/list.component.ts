@@ -15,6 +15,9 @@ import {TickerLogoComponent} from "@app/shared/components/ticker-logo/ticker-log
 import {SearchComponent} from "@app/transactions/components/search/search.component";
 import {TransactionSearch} from "@app/transactions/types/transaction-search";
 import {TranslateModule} from "@ngx-translate/core";
+import {ScrollShadowDirective} from "@marekskopal/ng-scroll-shadow";
+import {TableGridDirective} from "@app/shared/directives/table-grid.directive";
+import {TableGridColumn} from "@app/shared/types/table-grid-column";
 
 @Component({
     templateUrl: './list.component.html',
@@ -29,7 +32,9 @@ import {TranslateModule} from "@ngx-translate/core";
         TagComponent,
         TickerLogoComponent,
         DeleteButtonComponent,
-        PaginationComponent
+        PaginationComponent,
+        ScrollShadowDirective,
+        TableGridDirective
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -48,6 +53,14 @@ export class ListComponent implements OnInit {
         selectedType: null,
         created: null,
     });
+
+    protected readonly tableGridColumns: TableGridColumn[] = [
+        { min: '130px', max: '1.2fr' },
+        { min: '130px', max: '1.2fr' },
+        { min: '130px', max: '1.2fr' },
+        { min: '250px', max: '3fr' },
+        { min: '124px', max: '1fr' },
+    ];
 
     public ngOnInit(): void {
         this.refreshTransactions();

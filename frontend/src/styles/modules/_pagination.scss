@@ -1,14 +1,29 @@
+$pagination-line-breakpoint: 1580px;
+
 .pagination-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    flex-wrap: wrap;
     align-items: center;
     margin-top: $spacing-xl;
     margin-bottom: $spacing-xl;
+    gap: $spacing-lg;
     color: $color-gray-lightest;
+
+    @media (min-width: $pagination-line-breakpoint) {
+        justify-content: space-between;
+    }
 }
 
 .pagination {
+    width: 100%;
     margin: 0;
+    justify-content: center;
+
+    @media (min-width: $pagination-line-breakpoint) {
+        width: auto;
+        order: 2;
+    }
 }
 
 .page-link {
@@ -39,15 +54,26 @@
 }
 
 .page-item {
-    &:first-child .page-link {
+    &.page-item-previous .page-link,
+    &.page-item-next .page-link {
         padding: 7px $spacing-xs 6.5px;
+        white-space: nowrap;
+    }
+
+    &.page-item-previous .page-link {
         border-top-left-radius: $border-radius;
         border-bottom-left-radius: $border-radius;
     }
-    &:last-child .page-link {
-        padding: 7px $spacing-xs 6.5px;
+    &.page-item-next .page-link {
         border-top-right-radius: $border-radius;
         border-bottom-right-radius: $border-radius;
+    }
+
+    &:not(.page-item-previous):not(.page-item-next) {
+        display: none;
+        @include media-breakpoint-up(md) {
+            display: inline-block;
+        }
     }
 
     .mat-icon {
@@ -62,5 +88,15 @@
 .pagination-per-page {
     .dropdown-toggle {
         margin-left: $spacing-sm;
+    }
+
+    @media (min-width: $pagination-line-breakpoint) {
+        order: 3;
+    }
+}
+
+.pagination-total {
+    @media (min-width: $pagination-line-breakpoint) {
+        order: 1;
     }
 }
