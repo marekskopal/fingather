@@ -29,13 +29,18 @@
 
 <div class="card">
     <div class="card-body">
-        <table class="table table-fixed">
+        <table
+            class="table"
+            tableGrid
+            [columns]="tableGridColumns"
+            scrollShadow
+        >
             <thead>
                 <tr>
                     <th>{{ 'app.transactions.list.date' | translate }}</th>
                     <th>{{ 'app.transactions.list.created' | translate }}</th>
                     <th>{{ 'app.transactions.list.type' | translate }}</th>
-                    <th style="width: 40%">{{ 'app.transactions.list.asset' | translate }}</th>
+                    <th>{{ 'app.transactions.list.asset' | translate }}</th>
                     <th></th>
                 </tr>
             </thead>

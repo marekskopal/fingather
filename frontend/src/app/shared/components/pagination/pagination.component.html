@@ -1,12 +1,8 @@
 ﻿<nav
     class="pagination-container"
 >
-    <div class="pagination-total">
-        {{ 'app.shared.pagination.total' | translate }} {{$totalItems()}} {{ 'app.shared.pagination.records' | translate }}
-    </div>
-
     <ul class="pagination">
-        <li class="page-item">
+        <li class="page-item page-item-previous">
             <a class="page-link"
                [class.disabled]="$currentPage() === 1"
                tabindex="0"
@@ -31,7 +27,7 @@
             </li>
         }
 
-        <li class="page-item">
+        <li class="page-item page-item-next">
             <a class="page-link"
                tabindex="0"
                [class.disabled]="$currentPage() === $pagesCount()"
@@ -58,5 +54,9 @@
                 }
             </div>
         </div>
+    </div>
+
+    <div class="pagination-total">
+        {{ 'app.shared.pagination.total' | translate }} {{$totalItems()}} {{ 'app.shared.pagination.records' | translate }}
     </div>
 </nav>
