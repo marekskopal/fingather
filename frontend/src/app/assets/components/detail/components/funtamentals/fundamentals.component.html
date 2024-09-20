@@ -1,7 +1,7 @@
 ﻿<h3>
     {{ 'app.assets.detail.fundamentals.header' | translate }}
 </h3>
-<div class="asset-detail-fundamentals">
+<div class="asset-detail-fundamentals" scrollShadow>
     @if(tickerFundamental !== null) {
         <div ngbNav #fundamentalsNav="ngbNav" [(activeId)]="activeTab" orientation="vertical">
             <ng-container [ngbNavItem]="FundamentalsTabEnum.ValuationsMetrics">

@@ -8,6 +8,7 @@ import {
 import {FundamentalsTabEnum} from "@app/assets/components/detail/components/funtamentals/types/fundamentals-tab-enum";
 import { TickerFundamental } from '@app/models/ticker-fundamental';
 import { TickerFundamentalService } from '@app/services/ticker-fundamental.service';
+import {ScrollShadowDirective} from "@marekskopal/ng-scroll-shadow";
 import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLinkButton, NgbNavOutlet} from "@ng-bootstrap/ng-bootstrap";
 import {TranslateModule} from "@ngx-translate/core";
 
@@ -22,7 +23,8 @@ import {TranslateModule} from "@ngx-translate/core";
         NgbNavItem,
         TranslateModule,
         FundamentalRowComponent,
-        NgbNavOutlet
+        NgbNavOutlet,
+        ScrollShadowDirective
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

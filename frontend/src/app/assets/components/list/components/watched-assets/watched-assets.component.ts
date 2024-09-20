@@ -8,9 +8,9 @@ import { AssetsWithProperties } from '@app/models';
 import {TickerLogoComponent} from "@app/shared/components/ticker-logo/ticker-logo.component";
 import {TableGridDirective} from "@app/shared/directives/table-grid.directive";
 import {MoneyPipe} from "@app/shared/pipes/money.pipe";
+import {TableGridColumn} from "@app/shared/types/table-grid-column";
 import {ScrollShadowDirective} from "@marekskopal/ng-scroll-shadow";
 import {TranslateModule} from "@ngx-translate/core";
-import {TableGridColumn} from "@app/shared/types/table-grid-column";
 
 
 @Component({

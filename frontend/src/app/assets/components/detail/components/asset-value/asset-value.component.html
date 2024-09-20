@@ -1,105 +1,90 @@
 ﻿<div class="asset-detail-value">
-    <div class="row mb-4">
-        <div class="col-lg-4">
-            <div class="card">
-                <div class="card-header">
-                    <span class="icon-circle icon-circle-small">
-                        <mat-icon>monitoring</mat-icon>
-                    </span>
-                    <h3 class="h6">{{ 'app.assets.detail.value' | translate }}</h3>
-                </div>
-
-                <div class="card-body">
-                    <div class="value h3">
-                        {{asset.value | number:'1.2-2' | money: defaultCurrency.id | async}}
-                    </div>
-                </div>
-            </div>
+    <div class="card">
+        <div class="card-header">
+            <span class="icon-circle icon-circle-small">
+                <mat-icon>monitoring</mat-icon>
+            </span>
+            <h3 class="h6">{{ 'app.assets.detail.value' | translate }}</h3>
         </div>
-        <div class="col-lg-4">
-            <div class="card">
-                <div class="card-header">
-                    <span class="icon-circle icon-circle-small">
-                        <mat-icon>wallet</mat-icon>
-                    </span>
-                    <h3 class="h6">{{ 'app.assets.detail.investedValue' | translate }}</h3>
-                </div>
 
-                <div class="card-body">
-                    <div class="value h3">
-                        {{asset.transactionValueDefaultCurrency | number:'1.2-2' | money: defaultCurrency.id | async}}
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4">
-            <div class="card">
-                <div class="card-header">
-                    <span class="icon-circle icon-circle-small">
-                        <mat-icon>candlestick_chart</mat-icon>
-                    </span>
-                    <h3 class="h6">{{ 'app.assets.detail.gain' | translate }}</h3>
-                </div>
-
-                <div class="card-body">
-                    <div class="value h3">
-                        <fingather-value-icon [value]="asset.gainDefaultCurrency" />
-                        {{asset.gainDefaultCurrency | number:'1.2-2' | money: defaultCurrency.id | async}}
-                    </div>
-                </div>
+        <div class="card-body">
+            <div class="value h3">
+                {{asset.value | number:'1.2-2' | money: defaultCurrency.id | async}}
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-lg-4">
-            <div class="card">
-                <div class="card-header">
-                    <span class="icon-circle icon-circle-small">
-                        <mat-icon>calendar_month</mat-icon>
-                    </span>
-                    <h3 class="h6">{{ 'app.assets.detail.dividend' | translate }}</h3>
-                </div>
+    <div class="card">
+        <div class="card-header">
+            <span class="icon-circle icon-circle-small">
+                <mat-icon>wallet</mat-icon>
+            </span>
+            <h3 class="h6">{{ 'app.assets.detail.investedValue' | translate }}</h3>
+        </div>
 
-                <div class="card-body">
-                    <div class="value h3">
-                        {{asset.dividendYieldDefaultCurrency | number:'1.2-2' | money: defaultCurrency.id | async}}
-                    </div>
-                </div>
+        <div class="card-body">
+            <div class="value h3">
+                {{asset.transactionValueDefaultCurrency | number:'1.2-2' | money: defaultCurrency.id | async}}
             </div>
         </div>
-        <div class="col-lg-4">
-            <div class="card">
-                <div class="card-header">
-                    <span class="icon-circle icon-circle-small">
-                        <mat-icon>attach_money</mat-icon>
-                    </span>
-                    <h3 class="h6">{{ 'app.assets.detail.fxImpact' | translate }}</h3>
-                </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <span class="icon-circle icon-circle-small">
+                <mat-icon>candlestick_chart</mat-icon>
+            </span>
+            <h3 class="h6">{{ 'app.assets.detail.gain' | translate }}</h3>
+        </div>
 
-                <div class="card-body">
-                    <div class="value h3">
-                        <fingather-value-icon [value]="asset.fxImpact" />
-                        {{asset.fxImpact | number:'1.2-2' | money: defaultCurrency.id | async}}
-                    </div>
-                </div>
+        <div class="card-body">
+            <div class="value h3">
+                <fingather-value-icon [value]="asset.gainDefaultCurrency" />
+                {{asset.gainDefaultCurrency | number:'1.2-2' | money: defaultCurrency.id | async}}
             </div>
         </div>
-        <div class="col-lg-4">
-            <div class="card">
-                <div class="card-header">
-                    <span class="icon-circle icon-circle-small">
-                        <mat-icon>savings</mat-icon>
-                    </span>
-                    <h3 class="h6">{{ 'app.assets.detail.return' | translate }}</h3>
-                </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <span class="icon-circle icon-circle-small">
+                <mat-icon>calendar_month</mat-icon>
+            </span>
+            <h3 class="h6">{{ 'app.assets.detail.dividend' | translate }}</h3>
+        </div>
 
-                <div class="card-body">
-                    <div class="value h3">
-                        <fingather-value-icon [value]="asset.return" />
-                        {{asset.return | number:'1.2-2' | money: defaultCurrency.id | async}}
-                    </div>
-                </div>
+        <div class="card-body">
+            <div class="value h3">
+                {{asset.dividendYieldDefaultCurrency | number:'1.2-2' | money: defaultCurrency.id | async}}
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <span class="icon-circle icon-circle-small">
+                <mat-icon>attach_money</mat-icon>
+            </span>
+            <h3 class="h6">{{ 'app.assets.detail.fxImpact' | translate }}</h3>
+        </div>
+
+        <div class="card-body">
+            <div class="value h3">
+                <fingather-value-icon [value]="asset.fxImpact" />
+                {{asset.fxImpact | number:'1.2-2' | money: defaultCurrency.id | async}}
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <span class="icon-circle icon-circle-small">
+                <mat-icon>savings</mat-icon>
+            </span>
+            <h3 class="h6">{{ 'app.assets.detail.return' | translate }}</h3>
+        </div>
+
+        <div class="card-body">
+            <div class="value h3">
+                <fingather-value-icon [value]="asset.return" />
+                {{asset.return | number:'1.2-2' | money: defaultCurrency.id | async}}
             </div>
         </div>
     </div>
 </div>
+
