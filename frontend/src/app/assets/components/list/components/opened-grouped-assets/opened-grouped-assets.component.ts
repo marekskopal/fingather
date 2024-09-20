@@ -10,9 +10,9 @@ import {TickerLogoComponent} from "@app/shared/components/ticker-logo/ticker-log
 import {ColoredValueDirective} from "@app/shared/directives/colored-value.directive";
 import {TableGridDirective} from "@app/shared/directives/table-grid.directive";
 import {MoneyPipe} from "@app/shared/pipes/money.pipe";
+import {TableGridColumn} from "@app/shared/types/table-grid-column";
 import {ScrollShadowDirective} from "@marekskopal/ng-scroll-shadow";
 import {TranslateModule} from "@ngx-translate/core";
-import {TableGridColumn} from "@app/shared/types/table-grid-column";
 
 
 @Component({

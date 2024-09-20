@@ -12,12 +12,12 @@ import {PaginationComponent} from "@app/shared/components/pagination/pagination.
 import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selector/portfolio-selector.component";
 import {TagComponent} from "@app/shared/components/tag/tag.component";
 import {TickerLogoComponent} from "@app/shared/components/ticker-logo/ticker-logo.component";
-import {SearchComponent} from "@app/transactions/components/search/search.component";
-import {TransactionSearch} from "@app/transactions/types/transaction-search";
-import {TranslateModule} from "@ngx-translate/core";
-import {ScrollShadowDirective} from "@marekskopal/ng-scroll-shadow";
 import {TableGridDirective} from "@app/shared/directives/table-grid.directive";
 import {TableGridColumn} from "@app/shared/types/table-grid-column";
+import {SearchComponent} from "@app/transactions/components/search/search.component";
+import {TransactionSearch} from "@app/transactions/types/transaction-search";
+import {ScrollShadowDirective} from "@marekskopal/ng-scroll-shadow";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
     templateUrl: './list.component.html',
