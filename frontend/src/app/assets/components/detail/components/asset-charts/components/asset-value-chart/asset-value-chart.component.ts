@@ -1,6 +1,6 @@
 import {
     ChangeDetectionStrategy,
-    Component, inject, input, InputSignal, OnInit, signal,
+    Component, CSP_NONCE, inject, input, InputSignal, OnInit, signal,
 } from '@angular/core';
 import { AssetData } from '@app/models';
 import { RangeEnum } from '@app/models/enums/range-enum';
@@ -43,6 +43,7 @@ export type ChartOptions = {
 })
 export class AssetValueChartComponent implements OnInit {
     private readonly assetDataService = inject(AssetDataService);
+    private readonly nonce = inject(CSP_NONCE);
 
     public assetId: InputSignal<number> = input.required<number>();
     public height: InputSignal<string> = input<string>('auto');
@@ -95,7 +96,8 @@ export class AssetValueChartComponent implements OnInit {
                 },
                 animations: {
                     enabled: false
-                }
+                },
+                nonce: this.nonce ?? undefined,
             },
             dataLabels: {
                 enabled: false

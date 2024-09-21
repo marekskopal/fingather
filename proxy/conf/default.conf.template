@@ -31,8 +31,6 @@ server {
     add_header X-Frame-Options DENY;
     add_header X-Content-Type-Options nosniff;
 
-    add_header Content-Security-Policy "default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'self'; connect-src 'self'; font-src 'self' https://fonts.gstatic.com; frame-src 'self'; frame-ancestors 'none'; img-src 'self' data:; form-action 'self'; manifest-src 'self'; media-src 'self'; worker-src 'none'";
-
     if ($host != "${PROXY_HOST}") {
         return  301 $scheme://www.$host$request_uri;
     }
@@ -46,6 +44,11 @@ server {
 
     location / {
         proxy_pass http://frontend;
+
+        add_header Content-Security-Policy "default-src 'none'; script-src 'self' 'nonce-$request_id'; style-src 'self' 'nonce-$request_id'; object-src 'none'; base-uri 'self'; connect-src 'self'; font-src 'self' https://fonts.gstatic.com; frame-src 'self'; frame-ancestors 'none'; img-src 'self' data:; form-action 'self'; manifest-src 'self'; media-src 'self'; worker-src 'none'";
+
+        sub_filter_once off;
+        sub_filter random_nonce_value $request_id;
     }
 
     location /api {

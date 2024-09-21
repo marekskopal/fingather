@@ -1,6 +1,6 @@
 import {
     ChangeDetectionStrategy,
-    Component, inject, input, InputSignal, OnInit, signal,
+    Component, CSP_NONCE, inject, input, InputSignal, OnInit, signal,
 } from '@angular/core';
 import { TickerData } from '@app/models';
 import { AssetService, TickerDataService } from '@app/services';
@@ -41,6 +41,7 @@ export type ChartOptions = {
 export class AssetTickerChartComponent implements OnInit {
     private readonly tickerDataService = inject(TickerDataService);
     private readonly assetService = inject(AssetService);
+    private readonly nonce = inject(CSP_NONCE);
 
     public assetId: InputSignal<number> = input.required<number>();
     public assetTickerId: InputSignal<number> = input.required<number>();
@@ -93,7 +94,8 @@ export class AssetTickerChartComponent implements OnInit {
                 },
                 animations: {
                     enabled: false
-                }
+                },
+                nonce: this.nonce ?? undefined,
             },
             dataLabels: {
                 enabled: false
