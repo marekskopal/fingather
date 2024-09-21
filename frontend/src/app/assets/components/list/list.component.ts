@@ -16,6 +16,7 @@ import {
     AssetService, CurrencyService, GroupWithGroupDataService, PortfolioService
 } from '@app/services';
 import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selector/portfolio-selector.component";
+import {ScrollShadowDirective} from "@marekskopal/ng-scroll-shadow";
 import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLinkButton, NgbNavOutlet} from "@ng-bootstrap/ng-bootstrap";
 import {TranslateModule} from "@ngx-translate/core";
 
@@ -35,7 +36,8 @@ import {TranslateModule} from "@ngx-translate/core";
         OpenedAssetsComponent,
         ClosedAssetsComponent,
         WatchedAssetsComponent,
-        NgbNavOutlet
+        NgbNavOutlet,
+        ScrollShadowDirective
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -6,6 +6,7 @@ import {
 } from "@app/dividends/components/dividend-data-chart/dividends-data-chart.component";
 import { RangeEnum } from '@app/models/enums/range-enum';
 import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selector/portfolio-selector.component";
+import {ScrollShadowDirective} from "@marekskopal/ng-scroll-shadow";
 import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
@@ -16,7 +17,8 @@ import {TranslateModule} from "@ngx-translate/core";
         TranslateModule,
         DividendsDataChartComponent,
         MatIcon,
-        RouterLink
+        RouterLink,
+        ScrollShadowDirective
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

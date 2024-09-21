@@ -8,6 +8,7 @@ import { PortfolioService } from '@app/services';
 import {ApiKeyService} from "@app/services/api-key.service";
 import {DeleteButtonComponent} from "@app/shared/components/delete-button/delete-button.component";
 import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selector/portfolio-selector.component";
+import {ScrollShadowDirective} from "@marekskopal/ng-scroll-shadow";
 import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
@@ -19,6 +20,7 @@ import {TranslateModule} from "@ngx-translate/core";
         RouterLink,
         PortfolioSelectorComponent,
         DeleteButtonComponent,
+        ScrollShadowDirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

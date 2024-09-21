@@ -29,75 +29,70 @@
 
 <div class="card">
     <div class="card-body">
-        <table
-            class="table"
-            tableGrid
-            [columns]="tableGridColumns"
-            scrollShadow
-        >
-            <thead>
-                <tr>
-                    <th>{{ 'app.transactions.list.date' | translate }}</th>
-                    <th>{{ 'app.transactions.list.created' | translate }}</th>
-                    <th>{{ 'app.transactions.list.type' | translate }}</th>
-                    <th>{{ 'app.transactions.list.asset' | translate }}</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @for(transaction of transactionList?.transactions; track transaction.id) {
+        @if (transactionList !== null) {
+            <table
+                class="table"
+                tableGrid
+                [columns]="tableGridColumns"
+                scrollShadow
+            >
+                <thead>
                     <tr>
-                        <td class="color-gray">
-                            <div>{{transaction.actionCreated | date: 'y-MM-dd'}}</div>
-                            <div class="small">{{transaction.actionCreated | date: 'HH:mm'}}</div>
-                        </td>
-                        <td class="color-gray">
-                            <div>{{transaction.created | date: 'y-MM-dd'}}</div>
-                            <div class="small">{{transaction.created | date: 'HH:mm'}}</div>
-                        </td>
-                        <td>
-                            <fingather-tag [type]="transaction.actionType" />
-                        </td>
-                        <td>
-                            <div class="asset">
-                                <fingather-ticker-logo
-                                    [ticker]="transaction.ticker"
-                                    [width]="46"
-                                    [height]="46"
-                                />
-                                <div class="asset-text">
-                                    <div class="asset-ticker">{{transaction.ticker.ticker}}</div>
-                                    <div class="asset-name ellipsis">{{transaction.ticker.name}}</div>
+                        <th>{{ 'app.transactions.list.date' | translate }}</th>
+                        <th>{{ 'app.transactions.list.created' | translate }}</th>
+                        <th>{{ 'app.transactions.list.type' | translate }}</th>
+                        <th>{{ 'app.transactions.list.asset' | translate }}</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for(transaction of transactionList?.transactions; track transaction.id) {
+                        <tr>
+                            <td class="color-gray">
+                                <div class="text-nowrap">{{transaction.actionCreated | date: 'y-MM-dd'}}</div>
+                                <div class="small">{{transaction.actionCreated | date: 'HH:mm'}}</div>
+                            </td>
+                            <td class="color-gray">
+                                <div class="text-nowrap">{{transaction.created | date: 'y-MM-dd'}}</div>
+                                <div class="small">{{transaction.created | date: 'HH:mm'}}</div>
+                            </td>
+                            <td>
+                                <fingather-tag [type]="transaction.actionType" />
+                            </td>
+                            <td>
+                                <div class="asset">
+                                    <fingather-ticker-logo
+                                        [ticker]="transaction.ticker"
+                                        [width]="46"
+                                        [height]="46"
+                                    />
+                                    <div class="asset-text">
+                                        <div class="asset-ticker">{{transaction.ticker.ticker}}</div>
+                                        <div class="asset-name ellipsis">{{transaction.ticker.name}}</div>
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                        <td class="actions">
-                            @if (transaction.actionType === TransactionActionType.Dividend) {
-                                <a routerLink="edit-dividend/{{transaction.id}}" class="btn btn-secondary me-2" tabindex="0">
-                                    <mat-icon>edit</mat-icon>
-                                </a>
-                            } @else {
-                                <a routerLink="edit-transaction/{{transaction.id}}" class="btn btn-secondary me-2" tabindex="0">
-                                    <mat-icon>edit</mat-icon>
-                                </a>
-                            }
-                            <fingather-delete-button
-                                (onConfirm)="deleteTransaction(transaction.id)"
-                                [title]="'Delete transaction'"
-                                [message]="'Are you sure you want to delete transaction?'"
-                            />
-                        </td>
-                    </tr>
-                }
-                @if (transactionList === null) {
-                    <tr>
-                        <td colspan="7" class="text-center">
-                            <span class="spinner-border spinner-border-lg align-center"></span>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+                            </td>
+                            <td class="actions">
+                                @if (transaction.actionType === TransactionActionType.Dividend) {
+                                    <a routerLink="edit-dividend/{{transaction.id}}" class="btn btn-secondary" tabindex="0">
+                                        <mat-icon>edit</mat-icon>
+                                    </a>
+                                } @else {
+                                    <a routerLink="edit-transaction/{{transaction.id}}" class="btn btn-secondary" tabindex="0">
+                                        <mat-icon>edit</mat-icon>
+                                    </a>
+                                }
+                                <fingather-delete-button
+                                    (onConfirm)="deleteTransaction(transaction.id)"
+                                    [title]="'Delete transaction'"
+                                    [message]="'Are you sure you want to delete transaction?'"
+                                />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
     </div>
 </div>
 

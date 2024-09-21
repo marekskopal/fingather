@@ -11,6 +11,7 @@ import { TransactionActionType} from '@app/models';
 import {TransactionList} from "@app/models/transaction-list";
 import {DeleteButtonComponent} from "@app/shared/components/delete-button/delete-button.component";
 import {TagComponent} from "@app/shared/components/tag/tag.component";
+import {ScrollShadowDirective} from "@marekskopal/ng-scroll-shadow";
 import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
@@ -23,7 +24,8 @@ import {TranslateModule} from "@ngx-translate/core";
         RouterLink,
         MatIcon,
         DeleteButtonComponent,
-        DatePipe
+        DatePipe,
+        ScrollShadowDirective
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

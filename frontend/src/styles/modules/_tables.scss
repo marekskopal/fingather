@@ -4,11 +4,10 @@ table {
         vertical-align: middle;
     }
 
-    td {
-        &.actions {
-            text-align: right;
-            white-space: nowrap;
-        }
+    td.actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: $spacing-xs;
     }
 }
 

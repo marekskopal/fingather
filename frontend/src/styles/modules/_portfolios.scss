@@ -4,7 +4,10 @@
 
         .portfolio-header {
             display: flex;
+            flex-direction: column;
+            gap: $spacing-lg;
             margin-bottom: 32px;
+            align-items: flex-start;
 
             h2 {
                 display: flex;
@@ -13,13 +16,22 @@
                 margin-bottom: 0;
             }
 
+            .portfolio-header-title {
+                display: flex;
+            }
+
             .control-buttons {
                 display: flex;
-                justify-content: end;
             }
 
             .icon-circle {
                 margin-right: $spacing-lg;
+            }
+
+            @include media-breakpoint-up(md) {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
             }
         }
     }

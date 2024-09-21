@@ -12,6 +12,7 @@ import {
     PortfolioValueChartComponent
 } from "@app/shared/components/portfolio-value-chart/portfolio-value-chart.component";
 import {ColorEnum} from "@app/utils/enum/color-enum";
+import {ScrollShadowDirective} from "@marekskopal/ng-scroll-shadow";
 import {TranslateModule, TranslateService} from "@ngx-translate/core";
 
 @Component({
@@ -22,7 +23,8 @@ import {TranslateModule, TranslateService} from "@ngx-translate/core";
         PortfolioSelectorComponent,
         AssetSelectorComponent,
         LegendComponent,
-        PortfolioValueChartComponent
+        PortfolioValueChartComponent,
+        ScrollShadowDirective
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

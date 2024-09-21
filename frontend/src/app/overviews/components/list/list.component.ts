@@ -8,6 +8,7 @@ import { CurrencyService, OverviewService, PortfolioService } from '@app/service
 import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selector/portfolio-selector.component";
 import {TableValueComponent} from "@app/shared/components/table-value/table-value.component";
 import {MoneyPipe} from "@app/shared/pipes/money.pipe";
+import {ScrollShadowDirective} from "@marekskopal/ng-scroll-shadow";
 import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
@@ -20,7 +21,8 @@ import {TranslateModule} from "@ngx-translate/core";
         TableValueComponent,
         DecimalPipe,
         MoneyPipe,
-        AsyncPipe
+        AsyncPipe,
+        ScrollShadowDirective
     ]
 })
 export class ListComponent implements OnInit {
