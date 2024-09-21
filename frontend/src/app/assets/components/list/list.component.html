@@ -13,7 +13,14 @@
     </div>
 </div>
 
-<ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav nav-tabs" role="tablist">
+<ul
+    ngbNav
+    #nav="ngbNav"
+    [(activeId)]="activeTab"
+    class="nav nav-tabs"
+    role="tablist"
+    scrollShadow
+>
     <li [ngbNavItem]="AssetsTabEnum.OpenedPositions">
         <button ngbNavLink>
             {{ 'app.assets.list.openPositions' | translate }}

@@ -18,10 +18,12 @@
         <div class="card dark portfolio">
             <div class="card-body">
                 <div class="portfolio-header">
-                    <span class="icon-circle icon-circle-line">
-                        <mat-icon>wallet</mat-icon>
-                    </span>
-                    <h2 class="h4">{{portfolio.name}}</h2>
+                    <div class="portfolio-header-title">
+                        <span class="icon-circle icon-circle-line">
+                            <mat-icon>wallet</mat-icon>
+                        </span>
+                        <h2 class="h4">{{portfolio.name}}</h2>
+                    </div>
                     <div class="control-buttons">
                         <a routerLink="edit-portfolio/{{portfolio.id}}" class="btn btn-secondary me-2" tabindex="0">
                             <mat-icon>edit</mat-icon>

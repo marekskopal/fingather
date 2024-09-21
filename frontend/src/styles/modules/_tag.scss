@@ -1,5 +1,6 @@
 .tag {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
     height: 28px;
     padding: 3px 7px;
     color: $color-gray-lightest;
@@ -9,11 +10,9 @@
     line-height: 20px;
 
     &::before {
-        display: inline-block;
+        display: block;
         width: 8px;
         height: 8px;
-        vertical-align: middle;
-        margin-top: -3px;
         margin-right: 4px;
         border-radius: 50%;
     }

@@ -15,39 +15,36 @@
 
 <div class="card">
     <div class="card-body">
-        <table class="table table-fixed">
-            <thead>
-                <tr>
-                    <th style="width: 40%">{{ 'app.apiKeys.apiKeys.type' | translate }}</th>
-                    <th style="width: 40%">{{ 'app.apiKeys.apiKeys.apiKey' | translate }}</th>
-                    <th style="width: 20%"></th>
-                </tr>
-            </thead>
-            <tbody>
-                @for(apiKey of apiKeys; track apiKey.id) {
-                    <tr>
-                        <td>{{apiKey.type}}</td>
-                        <td>{{apiKey.apiKey}}</td>
-                        <td class="text-end" style="white-space: nowrap">
-                            <a routerLink="edit-api-key/{{apiKey.id}}" class="btn btn-secondary me-2" tabindex="0">
-                                <mat-icon>edit</mat-icon>
-                            </a>
-                            <fingather-delete-button
-                                (onConfirm)="deleteApiKey(apiKey.id)"
-                                [title]="'app.apiKeys.apiKeys.deleteTitle' | translate"
-                                [message]="'app.apiKeys.apiKeys.deleteMessage' | translate"
-                            />
-                        </td>
-                    </tr>
-                }
-                @if(apiKeys === null) {
-                    <tr>
-                        <td colspan="3" class="text-center">
-                            <span class="spinner-border spinner-border-lg align-center"></span>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+        @if(apiKeys !== null) {
+            <div class="table-responsive" scrollShadow>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th style="width: 40%">{{ 'app.apiKeys.apiKeys.type' | translate }}</th>
+                            <th style="width: 40%">{{ 'app.apiKeys.apiKeys.apiKey' | translate }}</th>
+                            <th style="width: 20%"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(apiKey of apiKeys; track apiKey.id) {
+                            <tr>
+                                <td>{{apiKey.type}}</td>
+                                <td>{{apiKey.apiKey}}</td>
+                                <td class="actions">
+                                    <a routerLink="edit-api-key/{{apiKey.id}}" class="btn btn-secondary" tabindex="0">
+                                        <mat-icon>edit</mat-icon>
+                                    </a>
+                                    <fingather-delete-button
+                                        (onConfirm)="deleteApiKey(apiKey.id)"
+                                        [title]="'app.apiKeys.apiKeys.deleteTitle' | translate"
+                                        [message]="'app.apiKeys.apiKeys.deleteMessage' | translate"
+                                    />
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
     </div>
 </div>
