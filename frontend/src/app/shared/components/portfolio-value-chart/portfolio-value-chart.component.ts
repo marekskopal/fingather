@@ -1,6 +1,6 @@
 import {
     ChangeDetectionStrategy,
-    Component, inject, input, OnChanges, OnInit, signal
+    Component, CSP_NONCE, inject, input, OnChanges, OnInit, signal
 } from '@angular/core';
 import {Portfolio, PortfolioDataWithBenchmarkData} from '@app/models';
 import { RangeEnum } from '@app/models/enums/range-enum';
@@ -37,6 +37,7 @@ export type ChartOptions = {
 export class PortfolioValueChartComponent implements OnInit, OnChanges {
     private readonly portfolioDataService = inject(PortfolioDataService);
     private readonly portfolioService = inject(PortfolioService);
+    private readonly nonce = inject(CSP_NONCE);
 
     public readonly $range = input.required<RangeEnum>({
         alias: 'range',
@@ -124,7 +125,8 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
                 },
                 animations: {
                     enabled: false,
-                }
+                },
+                nonce: this.nonce ?? undefined,
             },
             dataLabels: {
                 enabled: false
