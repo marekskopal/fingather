@@ -16,8 +16,23 @@ table {
     margin-bottom: 0;
 
     > :not(caption) > * > th {
-        padding: 1rem 1rem;
+        padding: $spacing-md $spacing-md;
         @include h6;
+    }
+
+    .th-title {
+        display: inline-flex;
+        align-items: center;
+        gap: $spacing-xs;
+        text-decoration: none;
+
+        .mat-icon {
+            width: 16px;
+            height: 16px;
+            font-size: 16px;
+            line-height: 16px;
+            color: $color-gray-lightest;
+        }
     }
 }
 
@@ -33,7 +48,8 @@ table {
         display: contents;
     }
 
-    td {
+    td,
+    th {
         display: flex;
         flex-direction: column;
         justify-content: center;

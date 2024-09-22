@@ -3,61 +3,85 @@
         <table
             class="table assets-table"
             tableGrid
-            [columns]="tableGridColumns"
+            [columns]="$tableGridColumns()"
             scrollShadow
         >
             <thead>
-            <tr>
-                <th>
-                    <a (click)="changeAssetsOrder(AssetsOrder.TickerName)" tabindex="0">
-                        {{ 'app.assets.list.name' | translate }}
-                        @if($assetsOrder() === AssetsOrder.TickerName) {
-                            &nbsp;<mat-icon>arrow_upward</mat-icon>
-                        }
-                    </a>
-                </th>
-                <th class="text-end">
-                    <a (click)="changeAssetsOrder(AssetsOrder.Value)" tabindex="0">
-                        {{ 'app.assets.list.value' | translate }}
-                        @if($assetsOrder() === AssetsOrder.Value) {
-                            &nbsp;<mat-icon>arrow_downward</mat-icon>
-                        }
-                    </a>
-                </th>
-                <th class="text-end">
-                    <a (click)="changeAssetsOrder(AssetsOrder.Gain)" tabindex="0">
-                        {{ 'app.assets.list.gain' | translate }}
-                        @if($assetsOrder() === AssetsOrder.Gain) {
-                            &nbsp;<mat-icon>arrow_downward</mat-icon>
-                        }
-                    </a>
-                </th>
-                <th class="text-end">
-                    <a (click)="changeAssetsOrder(AssetsOrder.DividendYield)" tabindex="0">
-                        {{ 'app.assets.list.dividend' | translate }}
-                        @if($assetsOrder() === AssetsOrder.DividendYield) {
-                            &nbsp;<mat-icon>arrow_downward</mat-icon>
-                        }
-                    </a>
-                </th>
-                <th class="text-end">
-                    <a (click)="changeAssetsOrder(AssetsOrder.FxImpact)" tabindex="0">
-                        {{ 'app.assets.list.fxImpact' | translate }}
-                        @if($assetsOrder() === AssetsOrder.FxImpact) {
-                            &nbsp;<mat-icon>arrow_downward</mat-icon>
-                        }
-                    </a>
-                </th>
-                <th class="text-end">
-                    <a (click)="changeAssetsOrder(AssetsOrder.Return)" tabindex="0">
-                        {{ 'app.assets.list.return' | translate }}
-                        @if($assetsOrder() === AssetsOrder.Return) {
-                            &nbsp;<mat-icon>arrow_downward</mat-icon>
-                        }
-                    </a>
-                </th>
-                <th></th>
-            </tr>
+                <tr>
+                    <th>
+                        <a
+                            class="th-title"
+                            (click)="changeAssetsOrder(AssetsOrder.TickerName)"
+                            tabindex="0"
+                        >
+                            {{ 'app.assets.list.name' | translate }}
+                            @if($assetsOrder() === AssetsOrder.TickerName) {
+                                <mat-icon>arrow_upward</mat-icon>
+                            }
+                        </a>
+                    </th>
+                    <th class="text-end">
+                        <a
+                            class="th-title"
+                            (click)="changeAssetsOrder(AssetsOrder.Value)"
+                            tabindex="0"
+                        >
+                            {{ 'app.assets.list.value' | translate }}
+                            @if($assetsOrder() === AssetsOrder.Value) {
+                                <mat-icon>arrow_downward</mat-icon>
+                            }
+                        </a>
+                    </th>
+                    <th class="text-end">
+                        <a
+                            class="th-title"
+                            (click)="changeAssetsOrder(AssetsOrder.Gain)"
+                            tabindex="0"
+                        >
+                            {{ 'app.assets.list.gain' | translate }}
+                            @if($assetsOrder() === AssetsOrder.Gain) {
+                                <mat-icon>arrow_downward</mat-icon>
+                            }
+                        </a>
+                    </th>
+                    <th class="text-end">
+                        <a
+                            class="th-title"
+                            (click)="changeAssetsOrder(AssetsOrder.DividendYield)"
+                            tabindex="0"
+                        >
+                            {{ 'app.assets.list.dividend' | translate }}
+                            @if($assetsOrder() === AssetsOrder.DividendYield) {
+                                <mat-icon>arrow_downward</mat-icon>
+                            }
+                        </a>
+                    </th>
+                    <th class="text-end">
+                        <a
+                            class="th-title"
+                            (click)="changeAssetsOrder(AssetsOrder.FxImpact)"
+                            tabindex="0"
+                        >
+                            {{ 'app.assets.list.fxImpact' | translate }}
+                            @if($assetsOrder() === AssetsOrder.FxImpact) {
+                                <mat-icon>arrow_downward</mat-icon>
+                            }
+                        </a>
+                    </th>
+                    <th class="text-end">
+                        <a
+                            class="th-title"
+                            (click)="changeAssetsOrder(AssetsOrder.Return)"
+                            tabindex="0"
+                        >
+                            {{ 'app.assets.list.return' | translate }}
+                            @if($assetsOrder() === AssetsOrder.Return) {
+                                <mat-icon>arrow_downward</mat-icon>
+                            }
+                        </a>
+                    </th>
+                    <th></th>
+                </tr>
             </thead>
             <tbody>
                 @for(asset of $assets().openAssets; track asset.id) {
