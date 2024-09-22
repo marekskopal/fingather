@@ -42,15 +42,11 @@
                 <fingather-legend [legendItems]="$legendItems()" />
             </div>
 
-            <div class="row">
-                <div class="col-12">
-                    <fingather-portfolio-value-chart
-                        [height]="'500px'"
-                        [range]="activeRange"
-                        [benchmarkAssetId]="$benchmarkAssetId()"
-                    />
-                </div>
-            </div>
+            <fingather-portfolio-value-chart
+                [height]="'500px'"
+                [range]="activeRange"
+                [benchmarkAssetId]="$benchmarkAssetId()"
+            />
         </div>
     </div>
 </div>
