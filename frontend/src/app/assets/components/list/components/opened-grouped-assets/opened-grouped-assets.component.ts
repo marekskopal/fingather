@@ -1,6 +1,6 @@
 import {AsyncPipe, DecimalPipe} from "@angular/common";
 import {
-    ChangeDetectionStrategy, Component, input, output
+    ChangeDetectionStrategy, Component, computed, input, output
 } from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
 import {RouterLink} from "@angular/router";
@@ -11,6 +11,8 @@ import {ColoredValueDirective} from "@app/shared/directives/colored-value.direct
 import {TableGridDirective} from "@app/shared/directives/table-grid.directive";
 import {MoneyPipe} from "@app/shared/pipes/money.pipe";
 import {TableGridColumn} from "@app/shared/types/table-grid-column";
+import {NumberUtils} from "@app/utils/number-utils";
+import {TableUtils} from "@app/utils/table-utils";
 import {ScrollShadowDirective} from "@marekskopal/ng-scroll-shadow";
 import {TranslateModule} from "@ngx-translate/core";
 
@@ -50,15 +52,33 @@ export class OpenedGroupedAssetsComponent {
         alias: 'changeAssetsOrder',
     });
 
-    protected readonly tableGridColumns: TableGridColumn[] = [
-        { min: '250px', max: '3fr' },
-        { min: '106px', max: '1.2fr' },
-        { min: '106px', max: '1.2fr' },
-        { min: '106px', max: '1.2fr' },
-        { min: '106px', max: '1.2fr' },
-        { min: '106px', max: '1.2fr' },
-        { min: '65px', max: '1fr' },
-    ];
+    protected readonly $tableGridColumns = computed<TableGridColumn[]>(() => {
+        let maxDigitsValue = 0;
+        let maxDigitsGain = 0;
+        let maxDigitsDividend= 0;
+        let maxDigitsFxImpact = 0;
+        let maxDigitsReturn = 0;
+
+        for (const group of this.$openedGroupedAssets()) {
+            for (const asset of group.assets) {
+                maxDigitsValue = Math.max(maxDigitsValue, NumberUtils.numberOfDigits(asset.value));
+                maxDigitsGain = Math.max(maxDigitsGain, NumberUtils.numberOfDigits(asset.gainDefaultCurrency));
+                maxDigitsDividend = Math.max(maxDigitsDividend, NumberUtils.numberOfDigits(asset.dividendYieldDefaultCurrency));
+                maxDigitsFxImpact = Math.max(maxDigitsFxImpact, NumberUtils.numberOfDigits(asset.fxImpact));
+                maxDigitsReturn = Math.max(maxDigitsReturn, NumberUtils.numberOfDigits(asset.return));
+            }
+        }
+
+        return [
+            { min: '250px', max: '3fr' },
+            { min: TableUtils.getTableGridColumnMinWidth(maxDigitsValue), max: '1.2fr' },
+            { min: TableUtils.getTableGridColumnMinWidth(maxDigitsGain), max: '1.2fr' },
+            { min: TableUtils.getTableGridColumnMinWidth(maxDigitsDividend), max: '1.2fr' },
+            { min: TableUtils.getTableGridColumnMinWidth(maxDigitsFxImpact), max: '1.2fr' },
+            { min: TableUtils.getTableGridColumnMinWidth(maxDigitsReturn), max: '1.2fr' },
+            { min: '65px', max: '1fr' },
+        ];
+    });
 
     protected changeAssetsOrder(orderBy: AssetsOrder): void {
         this.onChangeAssetsOrder$.emit(orderBy);
