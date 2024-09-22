@@ -15,7 +15,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                        @for (dividend of transactions ?? []; track dividend.id) {
+                        @for (dividend of transactions; track dividend.id) {
                             <tr>
                                 <td class="color-gray">
                                     <div class="text-nowrap">{{dividend.actionCreated | date: 'y-MM-dd'}}</div>
