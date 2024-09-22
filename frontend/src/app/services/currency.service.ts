@@ -10,6 +10,8 @@ export class CurrencyService {
     private readonly http = inject(HttpClient);
     private readonly portfolioService = inject(PortfolioService);
 
+    private isLoading: boolean = false;
+
     private currencies: Map<number, Currency> | null = null;
 
     public getCurrencies(): Promise<Currency[]> {
@@ -17,9 +19,16 @@ export class CurrencyService {
     }
 
     public async getCurrenciesMap(): Promise<Map<number, Currency>> {
+        while (this.isLoading) {
+            // eslint-disable-next-line no-await-in-loop, no-promise-executor-return
+            await new Promise((r) => setTimeout(r, 10));
+        }
+
         if (this.currencies !== null) {
             return this.currencies;
         }
+
+        this.isLoading = true;
 
         const currencies = await this.getCurrencies();
         this.currencies = new Map();
@@ -27,6 +36,8 @@ export class CurrencyService {
         for (const currency of currencies) {
             this.currencies.set(currency.id, currency);
         }
+
+        this.isLoading = false;
 
         return this.currencies;
     }
