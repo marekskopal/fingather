@@ -1,6 +1,6 @@
 import {AsyncPipe} from "@angular/common";
 import {
-    ChangeDetectionStrategy, Component, ElementRef, inject, input, signal,
+    ChangeDetectionStrategy, Component, ElementRef, inject, input, OnInit, signal,
 } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
 import {Ticker} from "@app/models";
@@ -35,7 +35,7 @@ import {TranslateModule} from "@ngx-translate/core";
         }
     ]
 })
-export class TickerSearchSelectorComponent implements ControlValueAccessor {
+export class TickerSearchSelectorComponent implements ControlValueAccessor, OnInit {
     private readonly tickerService = inject(TickerService);
     private readonly elementRef = inject(ElementRef);
 
@@ -74,6 +74,10 @@ export class TickerSearchSelectorComponent implements ControlValueAccessor {
         this.disabled = disabled;
     }
 
+    public ngOnInit(): void {
+        this.onSearchKeyUp(null);
+    }
+
     protected onSelect(value: Ticker | null): void {
         this.value = value;
 
@@ -85,7 +89,9 @@ export class TickerSearchSelectorComponent implements ControlValueAccessor {
 
     protected async onSearchKeyUp(search: string | null): Promise<void> {
         this.$search.set(search);
-        const tickers = await this.tickerService.getTickers(search, 20);
+        const tickers = search === null || search === '' ?
+            await this.tickerService.getTickersMostUsed(20) :
+            await this.tickerService.getTickers(search, 20);
         this.$tickers.set(tickers);
     }
 

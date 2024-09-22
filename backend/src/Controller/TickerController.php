@@ -37,4 +37,21 @@ final class TickerController
 
 		return new JsonResponse($tickers);
 	}
+
+	#[RouteGet(Routes::TickersMostUsed->value)]
+	public function actionGetTickersMostUsed(ServerRequestInterface $request): ResponseInterface
+	{
+		/** @var array{limit?: string, offset?: string, actionTypes?: string} $queryParams */
+		$queryParams = $request->getQueryParams();
+
+		$limit = ($queryParams['limit'] ?? null) !== null ? (int) $queryParams['limit'] : null;
+		$offset = ($queryParams['offset'] ?? null) !== null ? (int) $queryParams['offset'] : null;
+
+		$tickers = array_map(
+			fn (Ticker $ticker): TickerDto => TickerDto::fromEntity($ticker),
+			$this->tickerProvider->getTickersMostUsed(limit: $limit, offset: $offset),
+		);
+
+		return new JsonResponse($tickers);
+	}
 }

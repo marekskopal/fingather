@@ -27,6 +27,23 @@ export class TickerService {
             params = params.set('offset', offset);
         }
 
-        return firstValueFrom(this.http.get<Ticker[]>(`${environment.apiUrl}/ticker`, { params }));
+        return firstValueFrom(this.http.get<Ticker[]>(`${environment.apiUrl}/tickers`, { params }));
+    }
+
+    public getTickersMostUsed(
+        limit: number | null = null,
+        offset: number | null = null
+    ): Promise<Ticker[]> {
+        let params = new HttpParams();
+
+        if (limit !== null) {
+            params = params.set('limit', limit);
+        }
+
+        if (offset !== null) {
+            params = params.set('offset', offset);
+        }
+
+        return firstValueFrom(this.http.get<Ticker[]>(`${environment.apiUrl}/tickers/most-used`, { params }));
     }
 }

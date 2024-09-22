@@ -62,7 +62,8 @@ enum Routes: string
 
 	case SectorsWithSectorData = '/api/sectors-with-sector-data/{portfolioId:number}';
 
-	case Tickers = '/api/ticker';
+	case Tickers = '/api/tickers';
+	case TickersMostUsed = '/api/tickers/most-used';
 
 	case TickerFundamental = '/api/ticker-fundamental/{tickerId:number}';
 

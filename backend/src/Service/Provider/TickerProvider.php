@@ -33,6 +33,14 @@ class TickerProvider
 		return iterator_to_array($this->tickerRepository->findActiveTickers());
 	}
 
+	/** @return list<Ticker> */
+	public function getTickersMostUsed(?int $limit = null, ?int $offset = null,): array
+	{
+		return iterator_to_array(
+			$this->tickerRepository->findTickersMostUsed(limit: $limit, offset: $offset),
+		);
+	}
+
 	/**
 	 * @param list<int> $marketIds
 	 * @return list<Ticker>

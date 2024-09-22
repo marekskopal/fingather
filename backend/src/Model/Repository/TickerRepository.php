@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Model\Repository;
 
+use Cycle\Database\Query\SelectQuery;
 use Cycle\ORM\Select;
 use Cycle\ORM\Select\QueryBuilder;
 use FinGather\Model\Entity\Ticker;
@@ -81,6 +82,44 @@ final class TickerRepository extends ARepository
 		return $this->select()
 			->where('id', 'in', $activeTickersSelect)
 			->fetchAll();
+	}
+
+	/** @return list<Ticker> */
+	public function findTickersMostUsed(?int $limit = null, ?int $offset = null): iterable
+	{
+		$mostUsedTickersSelect = $this->orm->getSource(Ticker::class)
+			->getDatabase()
+			->select('ticker_id')
+			->from('assets')
+			->groupBy('ticker_id')
+			->orderBy('count(*)', SelectQuery::SORT_DESC)
+			->limit($limit)
+			->offset($offset)
+			->fetchAll();
+
+		$mostUsedTickerIds = array_column($mostUsedTickersSelect, 'ticker_id');
+
+		$tickers = iterator_to_array(
+			$this->select()
+				->where('id', 'in', $mostUsedTickerIds)
+				->fetchAll(),
+		);
+
+		usort(
+			$tickers,
+			fn (Ticker $a, Ticker $b): int =>
+				array_search(
+					$a->getId(),
+					$mostUsedTickerIds,
+					true,
+				) <=> array_search(
+					$b->getId(),
+					$mostUsedTickerIds,
+					true,
+				),
+		);
+
+		return $tickers;
 	}
 
 	/**
