@@ -12,6 +12,10 @@ fingather-help {
             line-height: 16px;
             color: $color-gray-lightest;
         }
+
+        &:hover {
+            cursor: help;
+        }
     }
 
     .tooltip {
