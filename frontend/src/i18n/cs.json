@@ -363,7 +363,14 @@
         "taxFee": "Daně/Poplatky",
         "tax": "Daňě",
         "fee": "Poplatky",
-        "total": "Celkem"
+        "total": "Celkem",
+        "help": {
+          "portfolioValue": "Celková hodnota všech aktiv v portfoliu bez realizovaného zisku, dividend, měnového dopadu, daní a poplatků.",
+          "gain": "Rozdíl mezi investovanou částkou a aktuální hodnotou portfolia.",
+          "gainRealized": "Zisk nebo ztráta realizovaný z prodeje aktiv.",
+          "investedValue": "Celková investovaná částka do všech aktiv v portfoliu bez daní a poplatků.",
+          "fxImpact": "Dopad směnných kurzů na hodnotu portfolia."
+        }
       },
       "dividendDialog": {
         "headerAdd": "Přidat dividendu",

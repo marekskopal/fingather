@@ -1,7 +1,6 @@
 @import 'shared/variables';
 @import 'shared/bootstrap';
 @import '@marekskopal/ng-scroll-shadow';
-
 @import 'modules/mixins';
 @import 'modules/font';
 @import 'modules/typo';
@@ -22,15 +21,16 @@
 @import 'modules/ticker-logo';
 @import 'modules/transactions';
 @import 'modules/transaction-search';
-@import "modules/pagination";
-@import "modules/portfolio-selector";
-@import "modules/assets";
-@import "modules/import";
-@import "modules/history";
-@import "modules/portfolios";
-@import "modules/groups";
-@import "modules/onboarding";
-@import "modules/widths";
+@import 'modules/pagination';
+@import 'modules/portfolio-selector';
+@import 'modules/assets';
+@import 'modules/import';
+@import 'modules/history';
+@import 'modules/portfolios';
+@import 'modules/groups';
+@import 'modules/onboarding';
+@import 'modules/widths';
+@import 'modules/help';
 
 .login {
     position: absolute;
