@@ -5,6 +5,7 @@
                 <mat-icon>monitoring</mat-icon>
             </span>
             <h3 class="h6">{{ 'app.shared.portfolioTotal.portfolioValue' | translate }}</h3>
+            <fingather-help [text]="'app.shared.portfolioTotal.help.portfolioValue' | translate" />
         </div>
         @if (portfolioData) {
             <div class="card-body">
@@ -30,6 +31,7 @@
                 <mat-icon>candlestick_chart</mat-icon>
             </span>
             <h3 class="h6">{{ 'app.shared.portfolioTotal.gain' | translate }}</h3>
+            <fingather-help [text]="'app.shared.portfolioTotal.help.gain' | translate" />
         </div>
         @if (portfolioData) {
             <div class="card-body">
@@ -57,6 +59,7 @@
                 <mat-icon>savings</mat-icon>
             </span>
             <h3 class="h6">{{ 'app.shared.portfolioTotal.gainRealized' | translate }}</h3>
+            <fingather-help [text]="'app.shared.portfolioTotal.help.gainRealized' | translate" />
         </div>
         @if (portfolioData) {
             <div class="card-body">
@@ -78,6 +81,7 @@
                 <mat-icon>wallet</mat-icon>
             </span>
             <h3 class="h6">{{ 'app.shared.portfolioTotal.investedValue' | translate }}</h3>
+            <fingather-help [text]="'app.shared.portfolioTotal.help.investedValue' | translate" />
         </div>
         @if (portfolioData) {
             <div class="card-body">
@@ -98,6 +102,7 @@
                 <mat-icon>attach_money</mat-icon>
             </span>
             <h3 class="h6">{{ 'app.shared.portfolioTotal.fxImpact' | translate }}</h3>
+            <fingather-help [text]="'app.shared.portfolioTotal.help.fxImpact' | translate" />
         </div>
         @if (portfolioData) {
             <div class="card-body">

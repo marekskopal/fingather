@@ -363,7 +363,14 @@
         "taxFee": "Tax/Fee",
         "tax": "Tax",
         "fee": "Fee",
-        "total": "Total"
+        "total": "Total",
+        "help": {
+          "portfolioValue": "Total value of all assets in the portfolio without realized gain, dividends, forex impact, taxes and fees.",
+          "gain": "Difference between invested value and current value of the portfolio",
+          "gainRealized": "Realized gain from selling assets.",
+          "investedValue": "Total invested value of the portfolio without taxes and fees.",
+          "fxImpact": "The impact of exchange rates on the value of the portfolio."
+        }
       },
       "dividendDialog": {
         "headerAdd": "Add Dividend",

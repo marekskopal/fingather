@@ -6,6 +6,7 @@ import {MatIcon} from "@angular/material/icon";
 import {Currency, Portfolio, PortfolioData} from '@app/models';
 import { RangeEnum } from '@app/models/enums/range-enum';
 import { CurrencyService, PortfolioDataService, PortfolioService } from '@app/services';
+import {HelpComponent} from "@app/shared/components/help/help.component";
 import {
     PortfolioValueChartComponent
 } from "@app/shared/components/portfolio-value-chart/portfolio-value-chart.component";
@@ -26,7 +27,8 @@ import {TranslateModule} from "@ngx-translate/core";
         AsyncPipe,
         TranslateModule,
         ValueIconComponent,
-        ColoredValueDirective
+        ColoredValueDirective,
+        HelpComponent
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

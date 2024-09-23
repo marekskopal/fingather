@@ -11,6 +11,7 @@
 
     .card-header {
         display: flex;
+        gap: $spacing-sm;
         padding-bottom: 14px;
         border-bottom: 1px solid $color-gray-lighter;
 
@@ -34,10 +35,6 @@
 
     .card-header + .card-body {
         margin-top: 24px;
-    }
-
-    .icon-circle {
-        margin-right: 13px;
     }
 
     &.form {

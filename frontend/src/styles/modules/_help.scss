@@ -1,0 +1,92 @@
+$arrow-height: 8px;
+
+fingather-help {
+    .help {
+        display: flex;
+        margin-top: 9px;
+
+        .mat-icon {
+            height: 16px;
+            width: 16px;
+            font-size: 16px;
+            line-height: 16px;
+            color: $color-gray-lightest;
+        }
+    }
+
+    .tooltip {
+        max-width: 300px;
+        z-index: 1000;
+        border: 1px solid $color-gray-lighter;
+        border-radius: $border-radius;
+        background-color: $color-gray-light;
+        color: $color-gray-lightest;
+
+        .tooltip-inner {
+            padding: $spacing-md;
+            font-size: 1rem;
+            line-height: 24px;
+        }
+
+        .tooltip-arrow {
+            display: block;
+            width: $arrow-height * 2;
+            height: $arrow-height;
+
+            &::before {
+                position: absolute;
+                content: "";
+                border-color: transparent;
+                border-style: solid;
+            }
+        }
+
+        &.bs-tooltip-top .tooltip-arrow {
+            bottom: calc(-1 * $arrow-height);
+
+            &::before {
+                top: 0;
+                left: 3px;
+                border-width: $arrow-height calc($arrow-height * .5) 0;
+                border-top-color: $color-gray-lighter;
+            }
+        }
+
+        &.bs-tooltip-bottom .tooltip-arrow {
+            top: calc(-1 * $arrow-height);
+
+            &::before {
+                bottom: 0;
+                left: 3px;
+                border-width: 0 calc($arrow-height * .5) $arrow-height;
+                border-bottom-color: $color-gray-lighter;
+            }
+        }
+
+        &.bs-tooltip-start .tooltip-arrow {
+            right: calc(-1 * $arrow-height);
+            width: $arrow-height;
+            height: $arrow-height * 2;
+
+            &::before {
+                top: 3px;
+                left: 0;
+                border-width: calc($arrow-height* .5) 0 calc($arrow-height * .5) $arrow-height;
+                border-left-color: $color-gray-lighter;
+            }
+        }
+
+        &.bs-tooltip-end .tooltip-arrow {
+            left: calc(-1 * $arrow-height);
+            width: $arrow-height;
+            height: $arrow-height * 2;
+
+            &::before {
+                top: 3px;
+                right: 0;
+                border-width: calc($arrow-height * .5) $arrow-height calc($arrow-height * .5) 0;
+                border-right-color: $color-gray-lighter;
+            }
+        }
+    }
+}
