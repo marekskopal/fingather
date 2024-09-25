@@ -5,6 +5,7 @@ import { Asset } from '@app/models';
 import { RangeEnum } from '@app/models/enums/range-enum';
 import { AssetService, PortfolioService } from '@app/services';
 import {AssetSelectorComponent} from "@app/shared/components/asset-selector/asset-selector.component";
+import {DateInputComponent} from "@app/shared/components/date-input/date-input.component";
 import {LegendComponent} from "@app/shared/components/legend/legend.component";
 import {LegendItem} from "@app/shared/components/legend/types/legend-item";
 import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selector/portfolio-selector.component";
@@ -13,7 +14,7 @@ import {
 } from "@app/shared/components/portfolio-value-chart/portfolio-value-chart.component";
 import {ColorEnum} from "@app/utils/enum/color-enum";
 import {ScrollShadowDirective} from "@marekskopal/ng-scroll-shadow";
-import {TranslateModule, TranslateService} from "@ngx-translate/core";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'history.component.html',
@@ -24,16 +25,18 @@ import {TranslateModule, TranslateService} from "@ngx-translate/core";
         AssetSelectorComponent,
         LegendComponent,
         PortfolioValueChartComponent,
-        ScrollShadowDirective
+        ScrollShadowDirective,
+        DateInputComponent
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HistoryComponent implements OnInit {
     private readonly assetService = inject(AssetService);
     private readonly portfolioService = inject(PortfolioService);
-    private readonly translateService = inject(TranslateService);
 
     protected activeRange: RangeEnum = RangeEnum.YTD;
+    protected customRangeFrom: string | null = null;
+    protected customRangeTo: string | null = null;
     private readonly $assets = signal<Asset[]>([]);
     protected readonly $benchmarkAssetId = signal<number | null>(null);
 
@@ -45,6 +48,7 @@ export class HistoryComponent implements OnInit {
         {range: RangeEnum.YTD, text: 'app.history.history.ytd', number: null},
         {range: RangeEnum.OneYear, text: 'app.history.history.y', number: 1},
         {range: RangeEnum.All, text: 'app.history.history.all', number: null},
+        {range: RangeEnum.Custom, text: 'app.history.history.custom', number: null},
     ];
     protected $legendItems = computed<LegendItem[]>(() => {
         const legendItems: LegendItem[] = [
@@ -88,7 +92,23 @@ export class HistoryComponent implements OnInit {
         this.activeRange = activeRange;
     }
 
+    protected changeCustomRangeFrom(event: Event): void {
+        this.activeRange = RangeEnum.Custom;
+
+        const target = event.target as HTMLInputElement;
+        this.customRangeFrom = target.value;
+    }
+
+    protected changeCustomRangeTo(event: Event): void {
+        this.activeRange = RangeEnum.Custom;
+
+        const target = event.target as HTMLInputElement;
+        this.customRangeTo = target.value;
+    }
+
     protected changeBenchmarkAsset(asset: Asset): void {
         this.$benchmarkAssetId.set(asset.id);
     }
+
+    protected readonly RangeEnum = RangeEnum;
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Utils;
 
 use Nette\Utils\Strings;
+use function Safe\preg_replace;
 
 final class StringUtils
 {

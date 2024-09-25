@@ -13,4 +13,5 @@ enum RangeEnum: string
 	case YTD = 'YTD';
 	case OneYear = 'OneYear';
 	case All = 'All';
+	case Custom = 'Custom';
 }
