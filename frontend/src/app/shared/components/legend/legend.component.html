@@ -17,7 +17,7 @@
                     }
                 </span>
             </div>
-            @if(legendItem.value !== null) {
+            @if(legendItem.value !== null && legendItem.value !== undefined) {
                 <div>
                     <span class="legend-value">
                         {{legendItem.value | number:'1.2-2'}}%
