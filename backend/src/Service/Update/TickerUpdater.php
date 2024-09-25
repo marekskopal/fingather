@@ -235,7 +235,7 @@ final class TickerUpdater
 			return;
 		}
 
-		$country = $this->countryRepository->findCountryByIsoCode($profile->country);
+		$country = $this->countryRepository->findCountryByName($profile->country);
 		if ($country === null) {
 			$othersCountry = $this->countryRepository->findOthersCountry();
 			$ticker->setCountry($othersCountry);

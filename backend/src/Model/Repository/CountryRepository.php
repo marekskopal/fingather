@@ -9,11 +9,11 @@ use FinGather\Model\Entity\Country;
 /** @extends ARepository<Country> */
 final class CountryRepository extends ARepository
 {
-	public function findCountryByIsoCode(string $name): ?Country
+	public function findCountryByName(string $name): ?Country
 	{
-		return $this->findOne([
-			'iso_code' => $name,
-		]);
+		$countrySelect = $this->select();
+		$countrySelect->where('name', 'like', $name . '%');
+		return $countrySelect->fetchOne();
 	}
 
 	public function findOthersCountry(): Country
