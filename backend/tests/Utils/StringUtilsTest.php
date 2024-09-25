@@ -14,6 +14,8 @@ final class StringUtilsTest extends TestCase
 {
 	#[TestWith(['teSt', 'Test'])]
 	#[TestWith(['test — test', 'Test - Test'])]
+	#[TestWith(['test-test', 'Test - Test'])]
+	#[TestWith(['test  -  test', 'Test - Test'])]
 	public function testSanitizeName(string $name, string $expectedSanitizedName): void
 	{
 		self::assertSame($expectedSanitizedName, StringUtils::sanitizeName($name));
