@@ -238,7 +238,7 @@ class TickerRelationsMigration extends Migration
 			['id' => 205, 'iso_code' => 'SE', 'iso_code3' => 'SWE', 'name' => 'Sweden'],
 			['id' => 206, 'iso_code' => 'CH', 'iso_code3' => 'CHE', 'name' => 'Switzerland'],
 			['id' => 207, 'iso_code' => 'SY', 'iso_code3' => 'SYR', 'name' => 'Syrian Arab Republic'],
-			['id' => 208, 'iso_code' => 'TW', 'iso_code3' => 'TWN', 'name' => 'Taiwan, Province of China'],
+			['id' => 208, 'iso_code' => 'TW', 'iso_code3' => 'TWN', 'name' => 'Taiwan'],
 			['id' => 209, 'iso_code' => 'TJ', 'iso_code3' => 'TJK', 'name' => 'Tajikistan'],
 			['id' => 210, 'iso_code' => 'TZ', 'iso_code3' => 'TZA', 'name' => 'Tanzania, United Republic of'],
 			['id' => 211, 'iso_code' => 'TH', 'iso_code3' => 'THA', 'name' => 'Thailand'],
