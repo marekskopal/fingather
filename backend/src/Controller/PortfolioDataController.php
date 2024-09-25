@@ -61,7 +61,14 @@ final class PortfolioDataController
 	#[RouteGet(Routes::PortfolioDataRange->value)]
 	public function actionGetPortfolioDataRange(ServerRequestInterface $request, int $portfolioId): ResponseInterface
 	{
-		/** @var array{range: value-of<RangeEnum>, benchmarkAssetId?: string} $queryParams */
+		/**
+		 * @var array{
+		 *     range: value-of<RangeEnum>,
+		 *     benchmarkAssetId?: string,
+		 *     customRangeFrom?: string|null,
+		 *     customRangeTo?: string|null,
+		 * } $queryParams
+		 */
 		$queryParams = $request->getQueryParams();
 
 		$user = $this->requestService->getUser($request);
@@ -79,6 +86,11 @@ final class PortfolioDataController
 
 		$benchmarkAssetId = ($queryParams['benchmarkAssetId'] ?? null) !== null ? (int) $queryParams['benchmarkAssetId'] : null;
 		$benchmarkAsset = $benchmarkAssetId !== null ? $this->assetProvider->getAsset($user, $benchmarkAssetId) : null;
+
+		$customRangeFrom = ($queryParams['customRangeFrom'] ?? null) !== null
+			? new DateTimeImmutable($queryParams['customRangeFrom'])
+			: null;
+		$customRangeTo = ($queryParams['customRangeTo'] ?? null) !== null ? new DateTimeImmutable($queryParams['customRangeTo']) : null;
 
 		$transactions = $this->transactionProvider->getTransactions(
 			user: $user,
@@ -98,8 +110,10 @@ final class PortfolioDataController
 		$benchmarkDataFromDate = null;
 
 		$datePeriod = DateTimeUtils::getDatePeriod(
-			$range,
-			$firstTransaction->getActionCreated(),
+			range: $range,
+			customRangeFrom: $customRangeFrom?->getInnerDateTime(),
+			customRangeTo: $customRangeTo?->getInnerDateTime(),
+			firstDate: $firstTransaction->getActionCreated(),
 			shiftStartDate: $range === RangeEnum::All,
 		);
 		foreach ($datePeriod as $dateTime) {

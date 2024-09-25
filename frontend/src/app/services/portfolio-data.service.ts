@@ -17,13 +17,23 @@ export class PortfolioDataService {
     public getPortfolioDataRange(
         portfolioId: number,
         range: RangeEnum,
-        benchmarkAssetId: number | null = null
+        benchmarkAssetId: number | null = null,
+        customRangeFrom: string | null = null,
+        customRangeTo: string | null = null
     ): Promise<PortfolioDataWithBenchmarkData[]> {
         let params = new HttpParams();
         params = params.set('range', range);
 
         if (benchmarkAssetId !== null) {
             params = params.set('benchmarkAssetId', benchmarkAssetId);
+        }
+
+        if (customRangeFrom !== null) {
+            params = params.set('customRangeFrom', customRangeFrom);
+        }
+
+        if (customRangeTo !== null) {
+            params = params.set('customRangeTo', customRangeTo);
         }
 
         return firstValueFrom(this.http.get<PortfolioDataWithBenchmarkData[]>(

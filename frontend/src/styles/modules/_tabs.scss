@@ -18,6 +18,9 @@
 
     .nav-link{
         position: relative;
+        display: flex;
+        align-items: center;
+        gap: $spacing-xs;
         margin: 0;
         padding: $spacing-md $spacing-lg ($spacing-md - 1px);
         z-index: 1;
@@ -36,8 +39,24 @@
         }
 
         &:not(.active):hover {
-            padding: 16px 24px 15px;
+            padding: $spacing-md $spacing-lg ($spacing-md - 1px);
             border: 1px solid $color-gray-light;
+        }
+
+        &.inputs {
+            padding: $spacing-xs $spacing-lg ($spacing-xs - 1px);
+
+            &:not(.active):hover {
+                padding: $spacing-xs $spacing-lg ($spacing-xs - 1px);
+            }
+
+            &.active {
+                padding: $spacing-xs $spacing-lg;
+            }
+
+            input {
+                min-width: 160px;
+            }
         }
     }
 }

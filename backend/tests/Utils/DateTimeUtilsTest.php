@@ -29,7 +29,13 @@ final class DateTimeUtilsTest extends TestCase
 	#[TestWith([RangeEnum::All, new DateTimeImmutable('-1 year'), true, 14])]
 	public function testGetDatePeriod(RangeEnum $range, ?DateTimeImmutable $firstDate, bool $shiftStartDate, int $expectedCount): void
 	{
-		$datePeriod = DateTimeUtils::getDatePeriod($range, $firstDate, $shiftStartDate);
+		$datePeriod = DateTimeUtils::getDatePeriod(
+			range: $range,
+			customRangeFrom: null,
+			customRangeTo: null,
+			firstDate: $firstDate,
+			shiftStartDate: $shiftStartDate,
+		);
 		$array = iterator_to_array($datePeriod->getIterator());
 
 		self::assertCount($expectedCount, $array);

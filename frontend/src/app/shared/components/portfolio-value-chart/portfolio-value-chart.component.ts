@@ -42,6 +42,12 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
     public readonly $range = input.required<RangeEnum>({
         alias: 'range',
     });
+    public readonly $customRangeFrom = input<string | null>(null, {
+        alias: 'customRangeFrom',
+    });
+    public readonly $customRangeTo = input<string | null>(null, {
+        alias: 'customRangeTo',
+    });
     public readonly $portfolio = input<Portfolio | null>(null, {
         alias: 'portfolio',
     });
@@ -84,7 +90,9 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
         const portfolioData = await this.portfolioDataService.getPortfolioDataRange(
             portfolio.id,
             this.$range(),
-            this.$benchmarkAssetId()
+            this.$benchmarkAssetId(),
+            this.$customRangeFrom(),
+            this.$customRangeTo(),
         );
 
         const chartMap = this.mapChart(portfolioData);

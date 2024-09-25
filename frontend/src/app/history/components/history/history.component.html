@@ -19,9 +19,25 @@
                             (click)="changeActiveRange(range.range)"
                             class="nav-link"
                             [class.active]="range.range === activeRange"
+                            [class.inputs]="range.range === RangeEnum.Custom"
                             tabindex="0"
                         >
-                            @if(range.number !== null){{{range.number}}}{{ range.text | translate }}
+                            @if(range.range === RangeEnum.Custom) {
+                                <span>{{ range.text | translate }}</span>
+                                <fingather-date-input
+                                    id="custom-date-from"
+                                    [placeholder]="'app.history.history.from' | translate"
+                                    (change)="changeCustomRangeFrom($event)"
+                                />
+                                <span>{{'app.history.history.to' | translate}}</span>
+                                <fingather-date-input
+                                    id="custom-date-to"
+                                    [placeholder]="'app.history.history.to' | translate"
+                                    (change)="changeCustomRangeTo($event)"
+                                />
+                            } @else {
+                                @if(range.number !== null){{{range.number}}}{{ range.text | translate }}
+                            }
                         </a>
                     </li>
                 }
@@ -46,6 +62,8 @@
                 [height]="'500px'"
                 [range]="activeRange"
                 [benchmarkAssetId]="$benchmarkAssetId()"
+                [customRangeFrom]="customRangeFrom"
+                [customRangeTo]="customRangeTo"
             />
         </div>
     </div>

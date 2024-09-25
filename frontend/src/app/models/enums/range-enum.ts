@@ -6,4 +6,5 @@ export enum RangeEnum {
     YTD = 'YTD',
     OneYear = 'OneYear',
     All = 'All',
+    Custom = 'Custom',
 }

@@ -29,7 +29,11 @@ final class DividendDataCalculator
 			return [];
 		}
 
-		$period = DateTimeUtils::getDatePeriod($range, $firstTransaction->getActionCreated(), shiftStartDate: $range === RangeEnum::All);
+		$period = DateTimeUtils::getDatePeriod(
+			range: $range,
+			firstDate: $firstTransaction->getActionCreated(),
+			shiftStartDate: $range === RangeEnum::All,
+		);
 
 		$actionCreatedAfter = $period->getStartDate();
 		assert($actionCreatedAfter instanceof DateTimeImmutable);
@@ -88,6 +92,7 @@ final class DividendDataCalculator
 			RangeEnum::YTD => $date->format('Y-m') . '-01',
 			RangeEnum::OneYear => $date->format('Y-m') . '-01',
 			RangeEnum::All => $date->format('Y-m') . '-01',
+			RangeEnum::Custom => $date->format('Y-m') . '-01',
 		};
 	}
 }
