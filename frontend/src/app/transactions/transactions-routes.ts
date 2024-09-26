@@ -7,7 +7,7 @@ import {
     AddEditTransactionFormComponent
 } from "@app/transactions/components/add-edit-transaction-form/add-edit-transaction-form.component";
 import {ImportTransactionsComponent} from "@app/transactions/components/import/import-transactions.component";
-import { ListComponent } from '@app/transactions/components/list/list.component';
+import { TransactionsComponent } from '@app/transactions/components/list/transactions.component';
 
 export default [
     {
@@ -16,7 +16,7 @@ export default [
         children: [
             {
                 path: '',
-                component: ListComponent
+                component: TransactionsComponent
             },
             {
                 path: 'add-transaction',

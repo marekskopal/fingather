@@ -1,0 +1,97 @@
+@if($showSearch()) {
+    <fingather-transactions-search
+        (onSearch)="changeTransactionSearch($event)"
+    />
+}
+
+<div class="card">
+    <div class="card-body">
+        @if (transactionList !== null) {
+            <table
+                class="table"
+                tableGrid
+                [columns]="$tableGridColumns()"
+                scrollShadow
+            >
+                <thead>
+                    <tr>
+                        @for ($column of $columns(); track $index) {
+                            <th>
+                                @if ($column === TransactionGridColumnEnum.Date) {
+                                    {{ 'app.transactions.list.date' | translate }}
+                                } @else if ($column === TransactionGridColumnEnum.Created) {
+                                    {{ 'app.transactions.list.created' | translate }}
+                                } @else if ($column === TransactionGridColumnEnum.Type) {
+                                    {{ 'app.transactions.list.type' | translate }}
+                                } @else if ($column === TransactionGridColumnEnum.Asset) {
+                                    {{ 'app.transactions.list.asset' | translate }}
+                                }
+                            </th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @for(transaction of transactionList.transactions; track transaction.id) {
+                        <tr>
+                            @for ($column of $columns(); track $index) {
+                                @if ($column === TransactionGridColumnEnum.Date) {
+                                    <td class="color-gray">
+                                        <div class="text-nowrap">{{transaction.actionCreated | date: 'y-MM-dd'}}</div>
+                                        <div class="small">{{transaction.actionCreated | date: 'HH:mm'}}</div>
+                                    </td>
+                                } @else if ($column === TransactionGridColumnEnum.Created) {
+                                    <td class="color-gray">
+                                        <div class="text-nowrap">{{transaction.created | date: 'y-MM-dd'}}</div>
+                                        <div class="small">{{transaction.created | date: 'HH:mm'}}</div>
+                                    </td>
+                                } @else if ($column === TransactionGridColumnEnum.Type) {
+                                    <td>
+                                        <fingather-tag [type]="transaction.actionType" />
+                                    </td>
+                                } @else if ($column === TransactionGridColumnEnum.Asset) {
+                                    <td>
+                                        <div class="asset">
+                                            <fingather-ticker-logo
+                                                [ticker]="transaction.ticker"
+                                                [width]="46"
+                                                [height]="46"
+                                            />
+                                            <div class="asset-text">
+                                                <div class="asset-ticker">{{transaction.ticker.ticker}}</div>
+                                                <div class="asset-name ellipsis">{{transaction.ticker.name}}</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                } @else if ($column === TransactionGridColumnEnum.Actions) {
+                                    <td class="actions">
+                                        @if (transaction.actionType === TransactionActionType.Dividend) {
+                                            <a routerLink="edit-dividend/{{transaction.id}}" class="btn btn-secondary" tabindex="0">
+                                                <mat-icon>edit</mat-icon>
+                                            </a>
+                                        } @else {
+                                            <a routerLink="edit-transaction/{{transaction.id}}" class="btn btn-secondary" tabindex="0">
+                                                <mat-icon>edit</mat-icon>
+                                            </a>
+                                        }
+                                        <fingather-delete-button
+                                            (onConfirm)="deleteTransaction(transaction.id)"
+                                            [title]="'Delete transaction'"
+                                            [message]="'Are you sure you want to delete transaction?'"
+                                        />
+                                    </td>
+                                }
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+
+<fingather-pagination
+    [totalItems]="transactionList !== null ? transactionList.count : 0"
+    [defaultPageSize]="pageSize"
+    (onSelectPage)="changePage($event)"
+    (onChangePageSize)="changePageSize($event)"
+/>

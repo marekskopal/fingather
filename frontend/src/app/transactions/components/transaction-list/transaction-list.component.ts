@@ -1,6 +1,6 @@
 import {DatePipe} from "@angular/common";
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal
+    ChangeDetectionStrategy, ChangeDetectorRef, Component, computed, inject, input, OnInit, signal
 } from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
 import {RouterLink} from "@angular/router";
@@ -15,12 +15,16 @@ import {TickerLogoComponent} from "@app/shared/components/ticker-logo/ticker-log
 import {TableGridDirective} from "@app/shared/directives/table-grid.directive";
 import {TableGridColumn} from "@app/shared/types/table-grid-column";
 import {SearchComponent} from "@app/transactions/components/search/search.component";
+import {
+    TransactionGridColumnEnum
+} from "@app/transactions/components/transaction-list/enums/transaction-grid-column-enum";
 import {TransactionSearch} from "@app/transactions/types/transaction-search";
 import {ScrollShadowDirective} from "@marekskopal/ng-scroll-shadow";
 import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
-    templateUrl: './list.component.html',
+    selector: 'fingather-transaction-list',
+    templateUrl: './transaction-list.component.html',
     standalone: true,
     imports: [
         PortfolioSelectorComponent,
@@ -38,10 +42,32 @@ import {TranslateModule} from "@ngx-translate/core";
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ListComponent implements OnInit {
+export class TransactionListComponent implements OnInit {
     private readonly transactionService = inject(TransactionService);
     private readonly portfolioService = inject(PortfolioService);
     private readonly changeDetectorRef = inject(ChangeDetectorRef);
+
+    public readonly $assetId = input<number | null>(null, {
+        alias: 'assetId',
+    });
+
+    public readonly $actionTypes = input<TransactionActionType[] | null>(null, {
+        alias: 'actionTypes',
+    });
+
+    public readonly $columns = input<TransactionGridColumnEnum[]>([
+        TransactionGridColumnEnum.Date,
+        TransactionGridColumnEnum.Created,
+        TransactionGridColumnEnum.Type,
+        TransactionGridColumnEnum.Asset,
+        TransactionGridColumnEnum.Actions
+    ], {
+        alias: 'columns',
+    });
+
+    public readonly $showSearch = input<boolean>(true, {
+        alias: 'showSearch',
+    });
 
     private page: number = 1;
     public pageSize: number = 50;
@@ -54,13 +80,31 @@ export class ListComponent implements OnInit {
         created: null,
     });
 
-    protected readonly tableGridColumns: TableGridColumn[] = [
-        { min: '130px', max: '1.2fr' },
-        { min: '130px', max: '1.2fr' },
-        { min: '130px', max: '1.2fr' },
-        { min: '250px', max: '3fr' },
-        { min: '124px', max: '1fr' },
-    ];
+    protected readonly $tableGridColumns = computed<TableGridColumn[]>(() => {
+        const columns: TableGridColumn[] = [];
+
+        for (const column of this.$columns()) {
+            switch (column) {
+                case TransactionGridColumnEnum.Date:
+                    columns.push({ min: '130px', max: '1.2fr' });
+                    break;
+                case TransactionGridColumnEnum.Created:
+                    columns.push({ min: '130px', max: '1.2fr' });
+                    break;
+                case TransactionGridColumnEnum.Type:
+                    columns.push({ min: '130px', max: '1.2fr' });
+                    break;
+                case TransactionGridColumnEnum.Asset:
+                    columns.push({ min: '250px', max: '3fr' });
+                    break;
+                case TransactionGridColumnEnum.Actions:
+                    columns.push({ min: '124px', max: '1fr' });
+                    break;
+            }
+        }
+
+        return columns;
+    });
 
     public ngOnInit(): void {
         this.refreshTransactions();
@@ -91,8 +135,8 @@ export class ListComponent implements OnInit {
 
         const transactionList = await this.transactionService.getTransactions(
             portfolio.id,
-            null,
-            transactionSearch.selectedType !== null ? [transactionSearch.selectedType] : null,
+            this.$assetId(),
+            transactionSearch.selectedType !== null ? [transactionSearch.selectedType] : this.$actionTypes(),
             transactionSearch.search,
             transactionSearch.created,
             this.pageSize,
@@ -128,4 +172,5 @@ export class ListComponent implements OnInit {
     }
 
     protected readonly TransactionActionType = TransactionActionType;
+    protected readonly TransactionGridColumnEnum = TransactionGridColumnEnum;
 }

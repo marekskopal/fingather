@@ -4,8 +4,13 @@ import {RouterLink} from "@angular/router";
 import {
     DividendsDataChartComponent
 } from "@app/dividends/components/dividend-data-chart/dividends-data-chart.component";
+import {TransactionActionType} from "@app/models";
 import { RangeEnum } from '@app/models/enums/range-enum';
 import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selector/portfolio-selector.component";
+import {
+    TransactionGridColumnEnum
+} from "@app/transactions/components/transaction-list/enums/transaction-grid-column-enum";
+import {TransactionListComponent} from "@app/transactions/components/transaction-list/transaction-list.component";
 import {ScrollShadowDirective} from "@marekskopal/ng-scroll-shadow";
 import {TranslateModule} from "@ngx-translate/core";
 
@@ -18,7 +23,8 @@ import {TranslateModule} from "@ngx-translate/core";
         DividendsDataChartComponent,
         MatIcon,
         RouterLink,
-        ScrollShadowDirective
+        ScrollShadowDirective,
+        TransactionListComponent
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -38,4 +44,7 @@ export class DividendsHistoryComponent {
     protected changeActiveRange(activeRange: RangeEnum): void {
         this.activeRange = activeRange;
     }
+
+    protected readonly TransactionActionType = TransactionActionType;
+    protected readonly TransactionGridColumnEnum = TransactionGridColumnEnum;
 }
