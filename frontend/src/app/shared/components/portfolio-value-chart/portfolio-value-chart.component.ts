@@ -68,9 +68,6 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
 
     public ngOnInit(): void {
         this.initializeChartOptions();
-        this.initializeBenchmarkChartOptions();
-
-        this.refreshChart();
 
         this.portfolioService.subscribe(() => {
             this.refreshChart();
