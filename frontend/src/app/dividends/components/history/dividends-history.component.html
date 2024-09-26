@@ -6,7 +6,7 @@
     </div>
 </div>
 
-<div class="card">
+<div class="card dividends-chart-container">
     <div class="card-body">
         <ul class="nav nav-tabs" scrollShadow>
             @for (range of ranges; track range.range) {
@@ -28,3 +28,9 @@
         />
     </div>
 </div>
+
+<fingather-transaction-list
+    [actionTypes]="[TransactionActionType.Dividend, TransactionActionType.DividendTax]"
+    [showSearch]="false"
+    [columns]="[TransactionGridColumnEnum.Date, TransactionGridColumnEnum.Created, TransactionGridColumnEnum.Asset, TransactionGridColumnEnum.Actions]"
+/>

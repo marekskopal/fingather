@@ -27,8 +27,8 @@ fingather-app {
     padding-right: $spacing-md;
 
     @include media-breakpoint-up(lg) {
-        padding-left: $spacing-xl;
-        padding-right: $spacing-xl;
+        padding-left: $spacing-lg;
+        padding-right: $spacing-lg;
     }
 }
 
