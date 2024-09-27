@@ -69,6 +69,14 @@ export class TransactionListComponent implements OnInit {
         alias: 'showSearch',
     });
 
+    public readonly $showCard = input<boolean>(true, {
+        alias: 'showCard',
+    });
+
+    public readonly $showPagination = input<boolean>(true, {
+        alias: 'showPagination',
+    });
+
     private page: number = 1;
     public pageSize: number = 50;
 
@@ -139,8 +147,8 @@ export class TransactionListComponent implements OnInit {
             transactionSearch.selectedType !== null ? [transactionSearch.selectedType] : this.$actionTypes(),
             transactionSearch.search,
             transactionSearch.created,
-            this.pageSize,
-            (this.page - 1) * this.pageSize
+            this.$showPagination() ? this.pageSize : null,
+            this.$showPagination() ? (this.page - 1) * this.pageSize : null,
         );
         this.$transactionList.set(transactionList);
     }

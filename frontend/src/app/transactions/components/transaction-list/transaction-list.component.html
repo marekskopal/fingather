@@ -4,8 +4,12 @@
     />
 }
 
-<div class="card">
-    <div class="card-body">
+<div
+    [class.card]="$showCard()"
+>
+    <div
+        [class.card-body]="$showCard()"
+    >
         @if (transactionList !== null) {
             <table
                 class="table"
@@ -89,9 +93,11 @@
     </div>
 </div>
 
-<fingather-pagination
-    [totalItems]="transactionList !== null ? transactionList.count : 0"
-    [defaultPageSize]="pageSize"
-    (onSelectPage)="changePage($event)"
-    (onChangePageSize)="changePageSize($event)"
-/>
+@if($showPagination()) {
+    <fingather-pagination
+        [totalItems]="transactionList !== null ? transactionList.count : 0"
+        [defaultPageSize]="pageSize"
+        (onSelectPage)="changePage($event)"
+        (onChangePageSize)="changePageSize($event)"
+    />
+}

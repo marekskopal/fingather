@@ -6,16 +6,16 @@ import {MatIcon} from "@angular/material/icon";
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {AssetChartsComponent} from "@app/assets/components/detail/components/asset-charts/asset-charts.component";
 import {AssetValueComponent} from "@app/assets/components/detail/components/asset-value/asset-value.component";
-import {DividendListComponent} from "@app/assets/components/detail/components/dividends/dividend-list.component";
 import {FundamentalsComponent} from "@app/assets/components/detail/components/funtamentals/fundamentals.component";
-import {
-    TransactionListComponent
-} from "@app/assets/components/detail/components/transactions/transaction-list.component";
-import { AssetWithProperties, Currency } from '@app/models';
+import {AssetWithProperties, Currency, TransactionActionType} from '@app/models';
 import { AssetService, CurrencyService } from '@app/services';
 import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selector/portfolio-selector.component";
 import {TickerLogoComponent} from "@app/shared/components/ticker-logo/ticker-logo.component";
 import {CurrencyCodePipe} from "@app/shared/pipes/currency-code.pipe";
+import {
+    TransactionGridColumnEnum
+} from "@app/transactions/components/transaction-list/enums/transaction-grid-column-enum";
+import {TransactionListComponent} from "@app/transactions/components/transaction-list/transaction-list.component";
 import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
@@ -30,10 +30,9 @@ import {TranslateModule} from "@ngx-translate/core";
         AssetChartsComponent,
         AssetValueComponent,
         FundamentalsComponent,
-        TransactionListComponent,
-        DividendListComponent,
         CurrencyCodePipe,
-        AsyncPipe
+        AsyncPipe,
+        TransactionListComponent
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -56,4 +55,7 @@ export class DetailComponent implements OnInit {
     protected get asset(): AssetWithProperties | null {
         return this.$asset();
     }
+
+    protected readonly TransactionActionType = TransactionActionType;
+    protected readonly TransactionGridColumnEnum = TransactionGridColumnEnum;
 }

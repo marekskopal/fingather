@@ -59,12 +59,40 @@
             </div>
         </div>
 
-        <fingather-transaction-list
-            [asset]="asset"
-        />
+        <div class="card asset-detail-transactions">
+            <div class="card-body">
+                <div class="table-header">
+                    <h3>{{ 'app.assets.transactions.title' | translate }}</h3>
 
-        <fingather-dividend-list
-            [asset]="asset"
-        />
+                    <a routerLink="/transactions/add-transaction" class="btn btn-primary" tabindex="0">{{ 'app.assets.transactions.addTransaction' | translate }}</a>
+                </div>
+                <fingather-transaction-list
+                    [assetId]="asset.id"
+                    [actionTypes]="[TransactionActionType.Buy, TransactionActionType.Sell]"
+                    [columns]="[TransactionGridColumnEnum.Date, TransactionGridColumnEnum.Type, TransactionGridColumnEnum.Actions]"
+                    [showSearch]="false"
+                    [showCard]="false"
+                    [showPagination]="false"
+                />
+            </div>
+        </div>
+
+        <div class="card asset-detail-dividends">
+            <div class="card-detail">
+                <div class="table-header">
+                    <h3>{{ 'app.assets.dividends.title' | translate }}</h3>
+
+                    <a routerLink="/transactions/add-dividend" class="btn btn-primary" tabindex="0">{{ 'app.assets.dividends.addDividend' | translate }}</a>
+                </div>
+                <fingather-transaction-list
+                    [assetId]="asset.id"
+                    [actionTypes]="[TransactionActionType.Dividend]"
+                    [columns]="[TransactionGridColumnEnum.Date, TransactionGridColumnEnum.Actions]"
+                    [showSearch]="false"
+                    [showCard]="false"
+                    [showPagination]="false"
+                />
+            </div>
+        </div>
     </div>
 }
