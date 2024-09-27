@@ -65,11 +65,11 @@
                                 } @else if ($column === TransactionGridColumnEnum.Actions) {
                                     <td class="actions">
                                         @if (transaction.actionType === TransactionActionType.Dividend) {
-                                            <a routerLink="edit-dividend/{{transaction.id}}" class="btn btn-secondary" tabindex="0">
+                                            <a routerLink="/transactions/edit-dividend/{{transaction.id}}" class="btn btn-secondary" tabindex="0">
                                                 <mat-icon>edit</mat-icon>
                                             </a>
                                         } @else {
-                                            <a routerLink="edit-transaction/{{transaction.id}}" class="btn btn-secondary" tabindex="0">
+                                            <a routerLink="/transactions/edit-transaction/{{transaction.id}}" class="btn btn-secondary" tabindex="0">
                                                 <mat-icon>edit</mat-icon>
                                             </a>
                                         }
