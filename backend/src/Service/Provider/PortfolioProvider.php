@@ -19,8 +19,8 @@ class PortfolioProvider
 	{
 	}
 
-	/** @return iterable<Portfolio> */
-	public function getPortfolios(User $user): iterable
+	/** @return list<Portfolio> */
+	public function getPortfolios(User $user): array
 	{
 		return $this->portfolioRepository->findPortfolios($user->getId());
 	}
@@ -28,10 +28,10 @@ class PortfolioProvider
 	/** @return list<Portfolio> */
 	public function getOtherPortfolios(User $user, Portfolio $portfolio): array
 	{
-		return array_filter(
-			iterator_to_array($this->getPortfolios($user)),
+		return array_values(array_filter(
+			$this->getPortfolios($user),
 			fn (Portfolio $otherPortfolio) => $otherPortfolio->getId() !== $portfolio->getId(),
-		);
+		));
 	}
 
 	public function getPortfolio(User $user, int $portfolioId): ?Portfolio

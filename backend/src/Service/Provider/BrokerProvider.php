@@ -16,8 +16,8 @@ class BrokerProvider
 	{
 	}
 
-	/** @return iterable<Broker> */
-	public function getBrokers(User $user, Portfolio $portfolio): iterable
+	/** @return list<Broker> */
+	public function getBrokers(User $user, Portfolio $portfolio): array
 	{
 		return $this->brokerRepository->findBrokers($user->getId(), $portfolio->getId());
 	}

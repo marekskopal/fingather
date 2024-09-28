@@ -228,6 +228,7 @@
 					@return,
 					@template,
 					@extends,
+					@implements,
 					@method,
 					@phpstan-ignore-next-line
 				"/>

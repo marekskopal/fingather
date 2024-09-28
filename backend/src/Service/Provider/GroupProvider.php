@@ -20,8 +20,8 @@ class GroupProvider
 	) {
 	}
 
-	/** @return iterable<Group> */
-	public function getGroups(User $user, Portfolio $portfolio): iterable
+	/** @return list<Group> */
+	public function getGroups(User $user, Portfolio $portfolio): array
 	{
 		return $this->groupRepository->findGroups($user->getId(), $portfolio->getId());
 	}

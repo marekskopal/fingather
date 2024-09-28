@@ -9,8 +9,8 @@ use FinGather\Model\Entity\User;
 /** @extends ARepository<User> */
 final class UserRepository extends ARepository
 {
-	/** @return iterable<User> */
-	public function findUsers(): iterable
+	/** @return list<User> */
+	public function findUsers(): array
 	{
 		return $this->findAll();
 	}

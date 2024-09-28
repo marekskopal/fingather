@@ -34,6 +34,7 @@ final class TracyLogger extends Logger
 		}
 
 		$datetime = new DateTimeImmutable();
+		//@phpstan-ignore-next-line
 		$message = $datetime->format('Y-m-d h:i:s') . ' ' . $message;
 
 		$exceptionFile = parent::log($message, $level);

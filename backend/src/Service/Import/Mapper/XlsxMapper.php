@@ -38,7 +38,7 @@ abstract class XlsxMapper implements XlsxMapperInterface
 
 		unlink($tempFile);
 
-		return $sheetData;
+		return array_values($sheetData);
 	}
 
 	/** @return list<int>|null */

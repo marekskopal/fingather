@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace FinGather\Model\Repository;
 
-use Cycle\ORM\Select\Repository;
 use FinGather\Model\Entity\Enum\MarketTypeEnum;
 use FinGather\Model\Entity\Market;
 
-/** @extends Repository<Market> */
-final class MarketRepository extends Repository
+/** @extends ARepository<Market> */
+final class MarketRepository extends ARepository
 {
 	/** @var array<string,Market|null> */
 	private array $marketsByExchangeCode = [];

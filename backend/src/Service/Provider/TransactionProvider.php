@@ -46,7 +46,7 @@ class TransactionProvider
 			TransactionOrderByEnum::ActionCreated->value => OrderDirectionEnum::DESC,
 		],
 	): array {
-		return iterator_to_array($this->transactionRepository->findTransactions(
+		return $this->transactionRepository->findTransactions(
 			$user->getId(),
 			$portfolio?->getId(),
 			$asset?->getId(),
@@ -58,7 +58,7 @@ class TransactionProvider
 			$limit,
 			$offset,
 			$orderBy,
-		));
+		);
 	}
 
 	/** @param list<TransactionActionTypeEnum> $actionTypes */

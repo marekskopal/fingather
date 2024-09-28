@@ -16,8 +16,8 @@ class ApiKeyProvider
 	{
 	}
 
-	/** @return iterable<ApiKey> */
-	public function getApiKeys(?User $user = null, ?Portfolio $portfolio = null): iterable
+	/** @return list<ApiKey> */
+	public function getApiKeys(?User $user = null, ?Portfolio $portfolio = null): array
 	{
 		return $this->apiKeyRepository->findApiKeys(
 			userId: $user?->getId(),

@@ -26,9 +26,7 @@ final class TickerRepository extends ARepository
 		 *     ticker: string,
 		 * }> $tickers
 		 */
-		$tickers = iterator_to_array(
-			$this->getTickersSelect($marketId, $search, $limit, $offset)->buildQuery()->columns(['ticker'])->fetchAll(),
-		);
+		$tickers = $this->getTickersSelect($marketId, $search, $limit, $offset)->buildQuery()->columns(['ticker'])->fetchAll();
 		return array_map(fn(array $ticker): string => $ticker['ticker'], $tickers);
 	}
 
@@ -99,11 +97,9 @@ final class TickerRepository extends ARepository
 
 		$mostUsedTickerIds = array_column($mostUsedTickersSelect, 'ticker_id');
 
-		$tickers = iterator_to_array(
-			$this->select()
-				->where('id', 'in', $mostUsedTickerIds)
-				->fetchAll(),
-		);
+		$tickers = $this->select()
+			->where('id', 'in', $mostUsedTickerIds)
+			->fetchAll();
 
 		usort(
 			$tickers,
