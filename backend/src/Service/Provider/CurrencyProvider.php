@@ -13,8 +13,8 @@ class CurrencyProvider
 	{
 	}
 
-	/** @return iterable<Currency> */
-	public function getCurrencies(): iterable
+	/** @return list<Currency> */
+	public function getCurrencies(): array
 	{
 		return $this->currencyRepository->findCurrencies();
 	}

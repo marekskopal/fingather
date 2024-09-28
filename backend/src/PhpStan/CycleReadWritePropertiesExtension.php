@@ -15,6 +15,7 @@ class CycleReadWritePropertiesExtension implements ReadWritePropertiesExtension
 {
 	public function isAlwaysRead(PropertyReflection $property, string $propertyName): bool
 	{
+		//@phpstan-ignore-next-line
 		if (!($property instanceof PhpPropertyReflection)) {
 			return false;
 		}

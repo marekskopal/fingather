@@ -7,22 +7,59 @@ namespace FinGather\Model\Repository;
 use Cycle\ORM\EntityManager;
 use Cycle\ORM\ORM;
 use Cycle\ORM\Select;
-use Cycle\ORM\Select\Repository;
 
 /**
  * @template TEntity of object
- * @extends Repository<TEntity>
- * @method array<int, TEntity> findAll(array $scope = [], array $orderBy = [])
+ * @implements RepositoryInterface<TEntity>
  */
-abstract class ARepository extends Repository
+abstract class ARepository implements RepositoryInterface
 {
 	protected readonly EntityManager $entityManager;
 
-	public function __construct(Select $select, protected readonly ORM $orm)
+	/** @param Select<TEntity> $select */
+	public function __construct(private Select $select, protected readonly ORM $orm)
 	{
-		parent::__construct($select);
-
 		$this->entityManager = new EntityManager($this->orm);
+	}
+
+	public function __clone()
+	{
+		$this->select = clone $this->select;
+	}
+
+	/**
+	 * @param int $id
+	 * @return TEntity|null
+	 */
+	//@phpstan-ignore-next-line
+	public function findByPK(mixed $id): ?object
+	{
+		return $this->select()->wherePK($id)->fetchOne();
+	}
+
+	/**
+	 * @param array<mixed> $scope
+	 * @return TEntity|null
+	 */
+	public function findOne(array $scope = []): ?object
+	{
+		return $this->select()->fetchOne($scope);
+	}
+
+	/**
+	 * @param array<mixed> $scope
+	 * @param array<string, string> $orderBy
+	 * @return list<TEntity>
+	 */
+	public function findAll(array $scope = [], array $orderBy = []): array
+	{
+		return $this->select()->where($scope)->orderBy($orderBy)->fetchAll();
+	}
+
+	/** @return Select<TEntity> */
+	public function select(): Select
+	{
+		return clone $this->select;
 	}
 
 	/** @param TEntity $entity */

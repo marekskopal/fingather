@@ -16,7 +16,7 @@ class Group extends AEntity
 	public const string OthersName = 'Others';
 	public const string OthersColor = '#2c3d3f';
 
-	/** @param array<int, Asset> $assets */
+	/** @param list<Asset> $assets */
 	public function __construct(
 		#[RefersTo(target: User::class)]
 		private User $user,
@@ -63,7 +63,7 @@ class Group extends AEntity
 		$this->color = $color;
 	}
 
-	/** @return array<int, Asset> */
+	/** @return list<Asset> */
 	public function getAssets(): array
 	{
 		return $this->assets;

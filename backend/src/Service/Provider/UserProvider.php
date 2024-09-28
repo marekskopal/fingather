@@ -21,8 +21,8 @@ class UserProvider
 	) {
 	}
 
-	/** @return iterable<User> */
-	public function getUsers(): iterable
+	/** @return list<User> */
+	public function getUsers(): array
 	{
 		return $this->userRepository->findUsers();
 	}

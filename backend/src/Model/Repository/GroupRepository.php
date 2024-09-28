@@ -9,8 +9,8 @@ use FinGather\Model\Entity\Group;
 /** @extends ARepository<Group> */
 final class GroupRepository extends ARepository
 {
-	/** @return iterable<Group> */
-	public function findGroups(int $userId, int $portfolioId): iterable
+	/** @return list<Group> */
+	public function findGroups(int $userId, int $portfolioId): array
 	{
 		return $this->findAll([
 			'user_id' => $userId,

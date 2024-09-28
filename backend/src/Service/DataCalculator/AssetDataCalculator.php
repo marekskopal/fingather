@@ -158,7 +158,7 @@ final class AssetDataCalculator
 
 	/**
 	 * @param list<Split> $splits
-	 * @param list<TransactionBuyDto> $buys
+	 * @param array<int, TransactionBuyDto> $buys
 	 */
 	private function processTransaction(
 		Transaction $transaction,
@@ -247,7 +247,7 @@ final class AssetDataCalculator
 		return $splitFactor;
 	}
 
-	/** @param list<TransactionBuyDto> $buys */
+	/** @param array<int, TransactionBuyDto> $buys */
 	private function countTransactionValue(array $buys): TransactionValueDto
 	{
 		$transactionValue = new Decimal(0);
@@ -283,7 +283,7 @@ final class AssetDataCalculator
 	}
 
 	/**
-	 * @param list<TransactionBuyDto> $buys
+	 * @param array<int, TransactionBuyDto> $buys
 	 * @param list<Split> $splits
 	 */
 	private function countTransactionRealizedGain(

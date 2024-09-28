@@ -21,7 +21,7 @@ final class AssetRepository extends ARepository
 		?int $countryId = null,
 		?int $sectorId = null,
 		?int $industryId = null,
-	): iterable
+	): array
 	{
 		return $this->getAssetsSelect($userId, $portfolioId, $dateTime, $groupId, $countryId, $sectorId, $industryId)->fetchAll();
 	}

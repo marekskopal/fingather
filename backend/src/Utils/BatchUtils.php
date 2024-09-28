@@ -7,9 +7,9 @@ namespace FinGather\Utils;
 final class BatchUtils
 {
 	/**
-	 * @param array<T> $items
+	 * @param list<T> $items
 	 * @param int $batchSize
-	 * @param callable(array<T>): void $callback
+	 * @param callable(list<T>): void $callback
 	 * @template T
 	 */
 	public static function batchCall(array $items, int $batchSize, callable $callback): void

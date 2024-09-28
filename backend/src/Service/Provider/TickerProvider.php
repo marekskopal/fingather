@@ -17,9 +17,7 @@ class TickerProvider
 	/** @return list<Ticker> */
 	public function getTickers(?Market $market = null, ?string $search = null, ?int $limit = null, ?int $offset = null,): array
 	{
-		return iterator_to_array(
-			$this->tickerRepository->findTickers(marketId: $market?->getId(), search: $search, limit: $limit, offset: $offset),
-		);
+		return $this->tickerRepository->findTickers(marketId: $market?->getId(), search: $search, limit: $limit, offset: $offset);
 	}
 
 	public function getTicker(int $tickerId): ?Ticker
@@ -30,15 +28,13 @@ class TickerProvider
 	/** @return list<Ticker> */
 	public function getActiveTickers(): array
 	{
-		return iterator_to_array($this->tickerRepository->findActiveTickers());
+		return $this->tickerRepository->findActiveTickers();
 	}
 
 	/** @return list<Ticker> */
 	public function getTickersMostUsed(?int $limit = null, ?int $offset = null,): array
 	{
-		return iterator_to_array(
-			$this->tickerRepository->findTickersMostUsed(limit: $limit, offset: $offset),
-		);
+		return $this->tickerRepository->findTickersMostUsed(limit: $limit, offset: $offset);
 	}
 
 	/**
@@ -47,7 +43,7 @@ class TickerProvider
 	 */
 	public function getTickersByTicker(string $ticker, ?array $marketIds = null, ?string $isin = null): array
 	{
-		return iterator_to_array($this->tickerRepository->findTickersByTicker($ticker, $marketIds, $isin));
+		return $this->tickerRepository->findTickersByTicker($ticker, $marketIds, $isin);
 	}
 
 	/** @param list<int> $marketIds */
@@ -68,7 +64,7 @@ class TickerProvider
 	 */
 	public function getTickersByIsin(string $isin, ?array $marketIds = null): array
 	{
-		return iterator_to_array($this->tickerRepository->findTickersByIsin($isin, $marketIds));
+		return $this->tickerRepository->findTickersByIsin($isin, $marketIds);
 	}
 
 	/** @param list<int> $marketIds */

@@ -58,6 +58,7 @@ final class Trading212Mapper extends CsvMapper
 	}
 
 	/** @return list<int>|null */
+	//@phpstan-ignore-next-line
 	public function getAllowedMarketIds(): ?array
 	{
 		return [

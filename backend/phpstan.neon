@@ -1,5 +1,8 @@
+includes:
+	- phar://phpstan.phar/conf/bleedingEdge.neon
+
 parameters:
-    level: 9
+    level: max
     phpVersion: 80300
     parallel:
         processTimeout: 300.0

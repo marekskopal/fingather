@@ -10,8 +10,8 @@ use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 /** @extends ARepository<Broker> */
 final class BrokerRepository extends ARepository
 {
-	/** @return iterable<Broker> */
-	public function findBrokers(int $userId, int $portfolioId): iterable
+	/** @return list<Broker> */
+	public function findBrokers(int $userId, int $portfolioId): array
 	{
 		return $this->findAll([
 			'user_id' => $userId,

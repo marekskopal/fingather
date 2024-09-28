@@ -9,8 +9,8 @@ use FinGather\Model\Entity\Portfolio;
 /** @extends ARepository<Portfolio> */
 final class PortfolioRepository extends ARepository
 {
-	/** @return iterable<Portfolio> */
-	public function findPortfolios(int $userId): iterable
+	/** @return list<Portfolio> */
+	public function findPortfolios(int $userId): array
 	{
 		return $this->findAll([
 			'user_id' => $userId,

@@ -9,8 +9,8 @@ use FinGather\Model\Entity\ApiKey;
 /** @extends ARepository<ApiKey> */
 final class ApiKeyRepository extends ARepository
 {
-	/** @return iterable<ApiKey> */
-	public function findApiKeys(?int $userId, ?int $portfolioId): iterable
+	/** @return list<ApiKey> */
+	public function findApiKeys(?int $userId, ?int $portfolioId): array
 	{
 		$apiKeysSelect = $this->select();
 

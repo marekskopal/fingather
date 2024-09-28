@@ -35,7 +35,7 @@ class TickerDataProvider
 	/** @return list<TickerData> */
 	public function getTickerDatas(Ticker $ticker, DateTimeImmutable $fromDate, DateTimeImmutable $toDate): array
 	{
-		return iterator_to_array($this->tickerDataRepository->findTickerDatas($ticker->getId(), $fromDate, $toDate));
+		return $this->tickerDataRepository->findTickerDatas($ticker->getId(), $fromDate, $toDate);
 	}
 
 	/** @return array<TickerDataAdjustedDto> */

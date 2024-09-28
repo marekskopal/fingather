@@ -22,7 +22,7 @@ final class EtoroMapper extends XlsxMapper
 			'created' => fn (array $record): string => DateTimeImmutable::createFromFormat('d/m/Y H:i:s', $record['A'])->format(
 				'Y-m-d H:i:s',
 			),
-			'ticker' => fn (array $record): ?string => explode('/', $record['C'])[0] ?? null,
+			'ticker' => fn (array $record): string => explode('/', $record['C'])[0],
 			'units' => fn (array $record): ?string => $record['E'] !== '-' ? $record['E'] : null,
 			'price' => 'D',
 			'currency' => fn (array $record): ?string => explode('/', $record['C'])[1] ?? null,

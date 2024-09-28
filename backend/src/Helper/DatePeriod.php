@@ -8,11 +8,7 @@ use ArrayIterator;
 use DateTimeImmutable;
 use Iterator;
 
-/**
- * @method DateTimeImmutable current()
- * @method DateTimeImmutable getStartDate()
- * @method DateTimeImmutable getEndDate()
- */
+/** @extends \DatePeriod<DateTimeImmutable, DateTimeImmutable, int|null> */
 final class DatePeriod extends \DatePeriod
 {
 	public function getIterator(): Iterator

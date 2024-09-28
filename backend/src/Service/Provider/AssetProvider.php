@@ -32,16 +32,14 @@ class AssetProvider
 		?Industry $industry = null,
 	): array
 	{
-		return iterator_to_array(
-			$this->assetRepository->findAssets(
-				$user->getId(),
-				$portfolio->getId(),
-				$dateTime,
-				$group?->getId(),
-				$country?->getId(),
-				$sector?->getId(),
-				$industry?->getId(),
-			),
+		return $this->assetRepository->findAssets(
+			$user->getId(),
+			$portfolio->getId(),
+			$dateTime,
+			$group?->getId(),
+			$country?->getId(),
+			$sector?->getId(),
+			$industry?->getId(),
 		);
 	}
 

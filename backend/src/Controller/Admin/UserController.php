@@ -52,7 +52,7 @@ final class UserController extends AdminController
 					transactionCount: $this->transactionProvider->countTransactions($user),
 				);
 			},
-			iterator_to_array($this->userProvider->getUsers()),
+			$this->userProvider->getUsers(),
 		);
 
 		return new JsonResponse($brokers);

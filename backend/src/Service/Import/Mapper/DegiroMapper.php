@@ -27,18 +27,21 @@ final class DegiroMapper extends CsvMapper
 				if (preg_match(self::DecsriptionRegex, $record['Popis'], $matches) === 0) {
 					return null;
 				}
+				//@phpstan-ignore-next-line
 				return str_replace(',', '.', $matches['units']);
 			},
 			'price' => function (array $record): ?string {
 				if (preg_match(self::DecsriptionRegex, $record['Popis'], $matches) === 0) {
 					return null;
 				}
+				//@phpstan-ignore-next-line
 				return str_replace(',', '.', $matches['price']);
 			},
 			'currency' => function (array $record): ?string {
 				if (preg_match(self::DecsriptionRegex, $record['Popis'], $matches) === 0) {
 					return null;
 				}
+				//@phpstan-ignore-next-line
 				return str_replace(',', '.', $matches['currency']);
 			},
 			'tax' => fn(array $record): ?string => str_contains(strtolower($record['Popis']), 'tax') || str_contains(
