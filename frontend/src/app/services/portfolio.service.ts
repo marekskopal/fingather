@@ -68,12 +68,20 @@ export class PortfolioService extends NotifyService {
     }
 
     public updatePortfolio(id: number, portfolio: Portfolio): Promise<Portfolio> {
+        if (this.currentPortfolio?.id === id) {
+            this.cleanCurrentPortfolio();
+        }
+
         return firstValueFrom<Portfolio>(
             this.http.put<Portfolio>(`${environment.apiUrl}/portfolio/${id}`, portfolio)
         );
     }
 
     public deletePortfolio(id: number): Promise<OkResponse> {
+        if (this.currentPortfolio?.id === id) {
+            this.cleanCurrentPortfolio();
+        }
+
         return firstValueFrom<OkResponse>(this.http.delete<OkResponse>(`${environment.apiUrl}/portfolio/${id}`));
     }
 }
