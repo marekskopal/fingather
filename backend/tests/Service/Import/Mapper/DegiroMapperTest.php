@@ -7,13 +7,21 @@ namespace FinGather\Tests\Service\Import\Mapper;
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Service\Import\Mapper\DegiroMapper;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\TestWith;
+use PHPUnit\Framework\Attributes\DataProviderExternal;
 use PHPUnit\Framework\TestCase;
 use function Safe\file_get_contents;
 
 #[CoversClass(DegiroMapper::class)]
 final class DegiroMapperTest extends TestCase
 {
+	//@phpstan-ignore-next-line
+	public function __construct(string $name)
+	{
+		parent::__construct($name);
+
+		ImportTestDataProvider::setCurrentTestFile('degiro_export.csv');
+	}
+
 	public function testGetImportType(): void
 	{
 		$mapper = new DegiroMapper();
@@ -39,14 +47,7 @@ final class DegiroMapperTest extends TestCase
 		self::assertArrayHasKey('importIdentifier', $mapping);
 	}
 
-	#[TestWith(['degiro_export.csv', true])]
-	#[TestWith(['anycoin_export.csv', false])]
-	#[TestWith(['interactive_brokers_export.csv', false])]
-	#[TestWith(['portu_export.csv', false])]
-	#[TestWith(['revolut_export.csv', false])]
-	#[TestWith(['etoro_export.xlsx', false])]
-	#[TestWith(['trading212_export.csv', false])]
-	#[TestWith(['xtb_export.csv', false])]
+	#[DataProviderExternal(ImportTestDataProvider::class, 'additionProvider')]
 	public function testCheck(string $fileName, bool $expected): void
 	{
 		$mapper = new DegiroMapper();

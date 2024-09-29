@@ -7,13 +7,21 @@ namespace FinGather\Tests\Service\Import\Mapper;
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Service\Import\Mapper\RevolutMapper;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\TestWith;
+use PHPUnit\Framework\Attributes\DataProviderExternal;
 use PHPUnit\Framework\TestCase;
 use function Safe\file_get_contents;
 
 #[CoversClass(RevolutMapper::class)]
 final class RevolutMapperTest extends TestCase
 {
+	//@phpstan-ignore-next-line
+	public function __construct(string $name)
+	{
+		parent::__construct($name);
+
+		ImportTestDataProvider::setCurrentTestFile('revolut_export.csv');
+	}
+
 	public function testGetImportType(): void
 	{
 		$mapper = new RevolutMapper();
@@ -35,14 +43,7 @@ final class RevolutMapperTest extends TestCase
 		self::assertArrayHasKey('total', $mappings);
 	}
 
-	#[TestWith(['revolut_export.csv', true])]
-	#[TestWith(['anycoin_export.csv', false])]
-	#[TestWith(['degiro_export.csv', false])]
-	#[TestWith(['interactive_brokers_export.csv', false])]
-	#[TestWith(['portu_export.csv', false])]
-	#[TestWith(['etoro_export.xlsx', false])]
-	#[TestWith(['trading212_export.csv', false])]
-	#[TestWith(['xtb_export.csv', false])]
+	#[DataProviderExternal(ImportTestDataProvider::class, 'additionProvider')]
 	public function testCheck(string $fileName, bool $expected): void
 	{
 		$mapper = new RevolutMapper();

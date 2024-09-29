@@ -93,7 +93,7 @@ final class DegiroMapper extends CsvMapper
 		$columns = explode(',', $lines[0]);
 
 		foreach ($columns as $key => $column) {
-			if ($column !== '') {
+			if ($key === 0 || $column !== '') {
 				continue;
 			}
 
