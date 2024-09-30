@@ -14,4 +14,6 @@ enum BrokerImportTypeEnum: string
 	case Anycoin = 'Anycoin';
 	case Degiro = 'Degiro';
 	case Portu = 'Portu';
+	case Coinbase = 'Coinbase';
+	case Binance = 'Binance';
 }
