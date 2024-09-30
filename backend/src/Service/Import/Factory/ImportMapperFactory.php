@@ -6,6 +6,8 @@ namespace FinGather\Service\Import\Factory;
 
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Service\Import\Mapper\AnycoinMapper;
+use FinGather\Service\Import\Mapper\BinanceMapper;
+use FinGather\Service\Import\Mapper\CoinbaseMapper;
 use FinGather\Service\Import\Mapper\DegiroMapper;
 use FinGather\Service\Import\Mapper\EtoroMapper;
 use FinGather\Service\Import\Mapper\InteractiveBrokersMapper;
@@ -26,6 +28,8 @@ final class ImportMapperFactory
 		BrokerImportTypeEnum::Anycoin->value => AnycoinMapper::class,
 		BrokerImportTypeEnum::Degiro->value => DegiroMapper::class,
 		BrokerImportTypeEnum::Portu->value => PortuMapper::class,
+		BrokerImportTypeEnum::Coinbase->value => CoinbaseMapper::class,
+		BrokerImportTypeEnum::Binance->value => BinanceMapper::class,
 	];
 
 	public function createImportMapper(string $fileName, string $contents): MapperInterface

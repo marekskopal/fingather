@@ -57,9 +57,8 @@ final class Trading212Mapper extends CsvMapper
 			array_key_exists('No. of shares', $records[1]);
 	}
 
-	/** @return list<int>|null */
-	//@phpstan-ignore-next-line
-	public function getAllowedMarketIds(): ?array
+	/** @return list<int> */
+	public function getAllowedMarketIds(): array
 	{
 		return [
 			//NASDAQ
