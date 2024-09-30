@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Service\Import\Mapper;
 
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
+use FinGather\Service\Import\Mapper\Dto\MappingDto;
 
 final class InteractiveBrokersMapper extends CsvMapper
 {
@@ -13,23 +14,22 @@ final class InteractiveBrokersMapper extends CsvMapper
 		return BrokerImportTypeEnum::InteractiveBrokers;
 	}
 
-	/** @return array<string, string|callable> */
-	public function getMapping(): array
+	public function getMapping(): MappingDto
 	{
-		return [
-			'actionType' => 'Buy/Sell',
-			'created' => fn (array $record): string => str_replace(';', ' ', $record['DateTime']),
-			'ticker' => 'Symbol',
-			'isin' => 'ISIN',
-			'marketMic' => fn (array $record): string => 'X' . $record['Exchange'],
-			'units' => 'Quantity',
-			'price' => 'TradePrice',
-			'currency' => 'CurrencyPrimary',
-			'tax' => 'Taxes',
-			'fee' => fn (array $record): string => (string) abs((int) $record['IBCommission']),
-			'feeCurrency' => 'IBCommissionCurrency',
-			'importIdentifier' => 'TransactionID',
-		];
+		return new MappingDto(
+			actionType: 'Buy/Sell',
+			created: fn (array $record): string => str_replace(';', ' ', $record['DateTime']),
+			ticker: 'Symbol',
+			isin: 'ISIN',
+			marketMic: fn (array $record): string => 'X' . $record['Exchange'],
+			units: 'Quantity',
+			price: 'TradePrice',
+			currency: 'CurrencyPrimary',
+			tax: 'Taxes',
+			fee: fn (array $record): string => (string) abs((int) $record['IBCommission']),
+			feeCurrency: 'IBCommissionCurrency',
+			importIdentifier: 'TransactionID',
+		);
 	}
 
 	public function check(string $content, string $fileName): bool

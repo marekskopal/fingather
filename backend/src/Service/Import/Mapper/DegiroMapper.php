@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Service\Import\Mapper;
 
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
+use FinGather\Service\Import\Mapper\Dto\MappingDto;
 use function Safe\preg_match;
 
 final class DegiroMapper extends CsvMapper
@@ -16,52 +17,51 @@ final class DegiroMapper extends CsvMapper
 		return BrokerImportTypeEnum::Degiro;
 	}
 
-	/** @return array<string, string|callable> */
-	public function getMapping(): array
+	public function getMapping(): MappingDto
 	{
-		return [
-			'actionType' => 'Popis',
-			'created' => fn (array $record): string => $record['Datum'] . ' ' . $record['Čas'],
-			'isin' => 'ISIN',
-			'units' => function (array $record): ?string {
+		return new MappingDto(
+			actionType: 'Popis',
+			created: fn (array $record): string => $record['Datum'] . ' ' . $record['Čas'],
+			isin: 'ISIN',
+			units: function (array $record): ?string {
 				if (preg_match(self::DecsriptionRegex, $record['Popis'], $matches) === 0) {
 					return null;
 				}
 				//@phpstan-ignore-next-line
 				return str_replace(',', '.', $matches['units']);
 			},
-			'price' => function (array $record): ?string {
+			price: function (array $record): ?string {
 				if (preg_match(self::DecsriptionRegex, $record['Popis'], $matches) === 0) {
 					return null;
 				}
 				//@phpstan-ignore-next-line
 				return str_replace(',', '.', $matches['price']);
 			},
-			'currency' => function (array $record): ?string {
+			currency: function (array $record): ?string {
 				if (preg_match(self::DecsriptionRegex, $record['Popis'], $matches) === 0) {
 					return null;
 				}
 				//@phpstan-ignore-next-line
 				return str_replace(',', '.', $matches['currency']);
 			},
-			'tax' => fn(array $record): ?string => str_contains(strtolower($record['Popis']), 'tax') || str_contains(
+			tax: fn(array $record): ?string => str_contains(strtolower($record['Popis']), 'tax') || str_contains(
 				strtolower($record['Popis']),
 				'daň',
 			) ? $record['Pohyb2'] : null,
-			'taxCurrency' => fn(array $record): ?string => str_contains(strtolower($record['Popis']), 'tax') || str_contains(
+			taxCurrency: fn(array $record): ?string => str_contains(strtolower($record['Popis']), 'tax') || str_contains(
 				strtolower($record['Popis']),
 				'daň',
 			) ? $record['Pohyb'] : null,
-			'fee' => fn(array $record): ?string => str_contains(strtolower($record['Popis']), 'fee') || str_contains(
+			fee: fn(array $record): ?string => str_contains(strtolower($record['Popis']), 'fee') || str_contains(
 				strtolower($record['Popis']),
 				'poplatek',
 			) ? $record['Pohyb2'] : null,
-			'feeCurrency' => fn(array $record): ?string => str_contains(strtolower($record['Popis']), 'fee') || str_contains(
+			feeCurrency: fn(array $record): ?string => str_contains(strtolower($record['Popis']), 'fee') || str_contains(
 				strtolower($record['Popis']),
 				'poplatek',
 			) ? $record['Pohyb'] : null,
-			'importIdentifier' => 'ID objednávky',
-		];
+			importIdentifier: 'ID objednávky',
+		);
 	}
 
 	public function check(string $content, string $fileName): bool

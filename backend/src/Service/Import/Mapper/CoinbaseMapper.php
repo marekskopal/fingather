@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Service\Import\Mapper;
 
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
+use FinGather\Service\Import\Mapper\Dto\MappingDto;
 use FinGather\Service\Import\Mapper\Dto\MoneyValueDto;
 use function Safe\preg_match;
 
@@ -15,20 +16,19 @@ final class CoinbaseMapper extends CsvMapper
 		return BrokerImportTypeEnum::Coinbase;
 	}
 
-	/** @return array<string, string|callable> */
-	public function getMapping(): array
+	public function getMapping(): MappingDto
 	{
-		return [
-			'actionType' => 'Transaction Type',
-			'created' => 'Timestamp',
-			'ticker' => 'Asset',
-			'units' => 'Quantity Transacted',
-			'price' => fn (array $record): string => $this->getMoneyValue($record['Price at Transaction'])->value ?? '0',
-			'currency' => 'Price Currency',
-			'fee' => fn (array $record): string => $this->getMoneyValue($record['Fees and/or Spread'])->value ?? '0',
-			'feeCurrency' => 'Price Currency',
-			'importIdentifier' => 'ID',
-		];
+		return new MappingDto(
+			actionType: 'Transaction Type',
+			created: 'Timestamp',
+			ticker: 'Asset',
+			units: 'Quantity Transacted',
+			price: fn (array $record): string => $this->getMoneyValue($record['Price at Transaction'])->value ?? '0',
+			currency: 'Price Currency',
+			fee: fn (array $record): string => $this->getMoneyValue($record['Fees and/or Spread'])->value ?? '0',
+			feeCurrency: 'Price Currency',
+			importIdentifier: 'ID',
+		);
 	}
 
 	public function check(string $content, string $fileName): bool

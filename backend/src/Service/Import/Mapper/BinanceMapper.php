@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Service\Import\Mapper;
 
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
+use FinGather\Service\Import\Mapper\Dto\MappingDto;
 use FinGather\Service\Import\Mapper\Dto\MoneyValueDto;
 
 final class BinanceMapper extends CsvMapper
@@ -104,18 +105,17 @@ final class BinanceMapper extends CsvMapper
 		return new MoneyValueDto($price, $currency);
 	}
 
-	/** @return array<string, string|callable> */
-	public function getMapping(): array
+	public function getMapping(): MappingDto
 	{
-		return [
-			'actionType' => 'Operation',
-			'created' => 'UTC_Time',
-			'ticker' => 'Coin',
-			'units' => 'Change',
-			'price' => 'Price',
-			'currency' => 'Currency',
-			'importIdentifier' => 'Remark',
-		];
+		return new MappingDto(
+			actionType: 'Operation',
+			created: 'UTC_Time',
+			ticker: 'Coin',
+			units: 'Change',
+			price: 'Price',
+			currency: 'Currency',
+			importIdentifier: 'Remark',
+		);
 	}
 
 	public function check(string $content, string $fileName): bool

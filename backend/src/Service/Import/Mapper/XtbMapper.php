@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Service\Import\Mapper;
 
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
+use FinGather\Service\Import\Mapper\Dto\MappingDto;
 
 final class XtbMapper extends CsvMapper
 {
@@ -18,17 +19,16 @@ final class XtbMapper extends CsvMapper
 		return BrokerImportTypeEnum::Xtb;
 	}
 
-	/** @return array<string, string|callable> */
-	public function getMapping(): array
+	public function getMapping(): MappingDto
 	{
-		return [
-			'actionType' => 'Type',
-			'created' => 'Time',
-			'ticker' => fn (array $record): string => substr($record['Symbol'], 0, (int) strrpos($record['Symbol'], '.')),
-			'units' => fn (array $record): ?string => $this->getInfoFromComment($record['Comment'])[self::Units],
-			'price' => fn (array $record): ?string => $this->getInfoFromComment($record['Comment'])[self::Price],
-			'importIdentifier' => 'ID',
-		];
+		return new MappingDto(
+			actionType: 'Type',
+			created: 'Time',
+			ticker: fn (array $record): string => substr($record['Symbol'], 0, (int) strrpos($record['Symbol'], '.')),
+			units: fn (array $record): ?string => $this->getInfoFromComment($record['Comment'])[self::Units],
+			price: fn (array $record): ?string => $this->getInfoFromComment($record['Comment'])[self::Price],
+			importIdentifier: 'ID',
+		);
 	}
 
 	public function getCsvDelimiter(): string

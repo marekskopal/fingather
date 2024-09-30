@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Service\Import\Mapper;
 
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
+use FinGather\Service\Import\Mapper\Dto\MappingDto;
 
 final class PortuMapper extends CsvMapper
 {
@@ -13,18 +14,17 @@ final class PortuMapper extends CsvMapper
 		return BrokerImportTypeEnum::Portu;
 	}
 
-	/** @return array<string, string|callable> */
-	public function getMapping(): array
+	public function getMapping(): MappingDto
 	{
-		return [
-			'actionType' => 'Typ',
-			'created' => 'Datum',
-			'ticker' => fn (array $record): string =>
+		return new MappingDto(
+			actionType: 'Typ',
+			created: 'Datum',
+			ticker: fn (array $record): string =>
 				explode(' ', $record['Symbol'])[0],
-			'units' => fn (array $record): string => str_replace(',', '.', $record['Kusy / Pozice']),
-			'price' => 'Cena',
-			'currency' => 'Měna',
-		];
+			units: fn (array $record): string => str_replace(',', '.', $record['Kusy / Pozice']),
+			price: 'Cena',
+			currency: 'Měna',
+		);
 	}
 
 	public function check(string $content, string $fileName): bool
