@@ -28,6 +28,7 @@ final class CoinbaseMapper extends CsvMapper
 			fee: fn (array $record): string => $this->getMoneyValue($record['Fees and/or Spread'])->value ?? '0',
 			feeCurrency: 'Price Currency',
 			importIdentifier: 'ID',
+			notes: 'Notes',
 		);
 	}
 
@@ -70,9 +71,9 @@ final class CoinbaseMapper extends CsvMapper
 		preg_match('/^([^\d]+)([\d.]+)$/', $value, $matches);
 		return new MoneyValueDto(
 			//@phpstan-ignore-next-line
-			$matches[1],
-			//@phpstan-ignore-next-line
 			$matches[2],
+			//@phpstan-ignore-next-line
+			$matches[1],
 		);
 	}
 }
