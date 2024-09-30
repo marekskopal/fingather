@@ -42,7 +42,7 @@ final class BinanceMapperTest extends TestCase
 		$records = $mapper->getRecords($fileContent);
 
 		self::assertCount(4, $records);
-		self::assertArrayHasKey('Price', $records[1]);
+		self::assertArrayHasKey('Total', $records[1]);
 		self::assertArrayHasKey('Currency', $records[1]);
 	}
 
@@ -56,7 +56,7 @@ final class BinanceMapperTest extends TestCase
 		self::assertNotNull($mapping->created);
 		self::assertNotNull($mapping->ticker);
 		self::assertNotNull($mapping->units);
-		self::assertNotNull($mapping->price);
+		self::assertNotNull($mapping->total);
 		self::assertNotNull($mapping->currency);
 		self::assertNotNull($mapping->importIdentifier);
 	}

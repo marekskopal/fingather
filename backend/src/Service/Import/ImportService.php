@@ -150,6 +150,11 @@ final class ImportService
 				$units = $units->negate();
 			}
 
+			$price = $transactionRecord->price;
+			if ($price === null && $transactionRecord->total !== null) {
+				$price = $transactionRecord->total->div($units);
+			}
+
 			$transaction = $this->transactionProvider->createTransaction(
 				user: $user,
 				portfolio: $portfolio,
@@ -159,7 +164,7 @@ final class ImportService
 				actionCreated: $transactionRecord->created ?? new DateTimeImmutable(),
 				createType: TransactionCreateTypeEnum::Import,
 				units: $units,
-				price: $transactionRecord->price,
+				price: $price,
 				currency: $currency,
 				tax: $transactionRecord->tax,
 				taxCurrency: $taxCurrency,

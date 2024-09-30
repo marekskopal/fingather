@@ -52,7 +52,7 @@ final class BinanceMapper extends CsvMapper
 				'Coin' => $record['Coin'],
 				'Change' => $record['Change'],
 				'Remark' => $record['Remark'],
-				'Price' => $price->value,
+				'Total' => $price->value,
 				'Currency' => $price->currency,
 			];
 		}
@@ -112,7 +112,7 @@ final class BinanceMapper extends CsvMapper
 			created: 'UTC_Time',
 			ticker: 'Coin',
 			units: 'Change',
-			price: 'Price',
+			total: 'Total',
 			currency: 'Currency',
 			importIdentifier: 'Remark',
 		);
