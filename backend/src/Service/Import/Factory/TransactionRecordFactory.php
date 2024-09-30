@@ -24,6 +24,7 @@ final class TransactionRecordFactory
 			created: $this->mapCsvRecordColumnToDate($mapping->created, $csvRecord),
 			units: $this->mapCsvRecordColumnToDecimal($mapping->units, $csvRecord),
 			price: $this->mapCsvRecordColumnToDecimal($mapping->price, $csvRecord),
+			total: $this->mapCsvRecordColumnToDecimal($mapping->total, $csvRecord),
 			currency: $this->mapCsvRecordColumn($mapping->currency, $csvRecord),
 			tax: $this->mapCsvRecordColumnToDecimal($mapping->tax, $csvRecord),
 			taxCurrency: $this->mapCsvRecordColumn($mapping->taxCurrency, $csvRecord),

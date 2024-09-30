@@ -17,6 +17,7 @@ final readonly class TransactionRecord
 		public ?DateTimeImmutable $created = null,
 		public ?Decimal $units = null,
 		public ?Decimal $price = null,
+		public ?Decimal $total = null,
 		public ?string $currency = null,
 		public ?Decimal $tax = null,
 		public ?string $taxCurrency = null,
