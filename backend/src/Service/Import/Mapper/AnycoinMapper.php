@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Service\Import\Mapper;
 
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
+use FinGather\Service\Import\Mapper\Dto\MappingDto;
 use FinGather\Utils\DateTimeUtils;
 use Safe\DateTimeImmutable;
 
@@ -15,20 +16,19 @@ final class AnycoinMapper extends CsvMapper
 		return BrokerImportTypeEnum::Anycoin;
 	}
 
-	/** @return array<string, string|callable> */
-	public function getMapping(): array
+	public function getMapping(): MappingDto
 	{
-		return [
-			'actionType' => 'ACTION',
-			'created' => fn (array $record): string => DateTimeUtils::formatZulu(
+		return new MappingDto(
+			actionType: 'ACTION',
+			created: fn (array $record): string => DateTimeUtils::formatZulu(
 				DateTimeImmutable::createFromFormat('j. n. Y H:i:s', $record['DATE']),
 			),
-			'ticker' => fn (array $record): string => substr($record['SYMBOL'], 0, 3),
-			'units' => 'QUANTY',
-			'price' => 'PRICE',
-			'currency' => fn (array $record): string => substr($record['SYMBOL'], 4, 3),
-			'importIdentifier' => 'UID',
-		];
+			ticker: fn (array $record): string => substr($record['SYMBOL'], 0, 3),
+			units: 'QUANTY',
+			price: 'PRICE',
+			currency: fn (array $record): string => substr($record['SYMBOL'], 4, 3),
+			importIdentifier: 'UID',
+		);
 	}
 
 	public function check(string $content, string $fileName): bool

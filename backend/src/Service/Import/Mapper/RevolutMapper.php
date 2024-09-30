@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Service\Import\Mapper;
 
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
+use FinGather\Service\Import\Mapper\Dto\MappingDto;
 use function Safe\preg_replace;
 
 final class RevolutMapper extends CsvMapper
@@ -14,18 +15,17 @@ final class RevolutMapper extends CsvMapper
 		return BrokerImportTypeEnum::Revolut;
 	}
 
-	/** @return array<string, string|callable> */
-	public function getMapping(): array
+	public function getMapping(): MappingDto
 	{
-		return [
-			'actionType' => 'Type',
-			'created' => 'Date',
-			'ticker' => 'Ticker',
-			'units' => 'Quantity',
-			'price' => fn (array $record): string => preg_replace('/[^0-9-.]/', '', $record['Price per share']),
-			'currency' => 'Currency',
-			'total' => fn (array $record): string => preg_replace('/[^0-9-.]/', '', $record['Total Amount']),
-		];
+		return new MappingDto(
+			actionType: 'Type',
+			created: 'Date',
+			ticker: 'Ticker',
+			units: 'Quantity',
+			price: fn (array $record): string => preg_replace('/[^0-9-.]/', '', $record['Price per share']),
+			currency: 'Currency',
+			total: fn (array $record): string => preg_replace('/[^0-9-.]/', '', $record['Total Amount']),
+		);
 	}
 
 	public function check(string $content, string $fileName): bool

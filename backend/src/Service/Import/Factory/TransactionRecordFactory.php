@@ -14,48 +14,70 @@ final class TransactionRecordFactory
 	/** @param array<string, string> $csvRecord */
 	public function createFromCsvRecord(MapperInterface $mapper, array $csvRecord): TransactionRecord
 	{
-		$mappedRecord = $this->mapCsvRecord($mapper, $csvRecord);
+		$mapping = $mapper->getMapping();
 
 		return new TransactionRecord(
-			ticker: $mappedRecord['ticker'] ?? null,
-			isin: $mappedRecord['isin'] ?? null,
-			marketMic: isset($mappedRecord['marketMic']) ? strtoupper($mappedRecord['marketMic']) : null,
-			actionType: strtolower($mappedRecord['actionType'] ?? ''),
-			created: new DateTimeImmutable($mappedRecord['created'] ?? ''),
-			units: isset($mappedRecord['units']) ? new Decimal($mappedRecord['units']) : null,
-			price: isset($mappedRecord['price']) ? new Decimal($mappedRecord['price']) : null,
-			currency: $mappedRecord['currency'],
-			tax: isset($mappedRecord['tax']) ? new Decimal($mappedRecord['tax']) : null,
-			taxCurrency: $mappedRecord['taxCurrency'] ?? null,
-			fee: isset($mappedRecord['fee']) ? new Decimal($mappedRecord['fee']) : null,
-			feeCurrency: $mappedRecord['feeCurrency'] ?? null,
-			notes: $mappedRecord['notes'] ?? null,
-			importIdentifier: $mappedRecord['importIdentifier'] ?? null,
+			ticker: $this->mapCsvRecordColumn($mapping->ticker, $csvRecord),
+			isin: $this->mapCsvRecordColumn($mapping->isin, $csvRecord),
+			marketMic: $this->mapCsvRecordColumnToUpper($mapping->actionType, $csvRecord),
+			actionType: $this->mapCsvRecordColumnToLower($mapping->actionType, $csvRecord),
+			created: $this->mapCsvRecordColumnToDate($mapping->created, $csvRecord),
+			units: $this->mapCsvRecordColumnToDecimal($mapping->units, $csvRecord),
+			price: $this->mapCsvRecordColumnToDecimal($mapping->price, $csvRecord),
+			currency: $this->mapCsvRecordColumn($mapping->currency, $csvRecord),
+			tax: $this->mapCsvRecordColumnToDecimal($mapping->tax, $csvRecord),
+			taxCurrency: $this->mapCsvRecordColumn($mapping->taxCurrency, $csvRecord),
+			fee: $this->mapCsvRecordColumnToDecimal($mapping->fee, $csvRecord),
+			feeCurrency: $this->mapCsvRecordColumn($mapping->feeCurrency, $csvRecord),
+			notes: $this->mapCsvRecordColumn($mapping->notes, $csvRecord),
+			importIdentifier: $this->mapCsvRecordColumn($mapping->importIdentifier, $csvRecord),
 		);
 	}
 
-	/**
-	 * @param array<string, string> $csvRecord
-	 * @return array<string, string|null>
-	 */
-	private function mapCsvRecord(MapperInterface $mapper, array $csvRecord): array
+	/** @param array<string, string> $csvRecord */
+	private function mapCsvRecordColumn(string|callable|null $mapping, array $csvRecord): ?string
 	{
-		$mappedRecord = [];
-
-		foreach ($mapper->getMapping() as $attribute => $recordKey) {
-			if ($recordKey === null) {
-				$mappedRecord[$attribute] = null;
-				continue;
-			}
-
-			if (!is_string($recordKey)) {
-				$mappedRecord[$attribute] = $recordKey($csvRecord);
-				continue;
-			}
-
-			$mappedRecord[$attribute] = $csvRecord[$recordKey] ?? null;
+		if ($mapping === null) {
+			return null;
 		}
 
-		return array_map(fn(?string $item): ?string => $item !== '' ? $item : null, $mappedRecord);
+		if (is_callable($mapping)) {
+			return $this->sanitizeEmptyItem($mapping($csvRecord));
+		}
+
+		return $this->sanitizeEmptyItem($csvRecord[$mapping] ?? null);
+	}
+
+	/** @param array<string, string> $csvRecord */
+	private function mapCsvRecordColumnToDecimal(string|callable|null $mapping, array $csvRecord): ?Decimal
+	{
+		$mappedCsvRecordColumn = $this->mapCsvRecordColumn($mapping, $csvRecord);
+		return isset($mappedCsvRecordColumn) ? new Decimal($mappedCsvRecordColumn) : null;
+	}
+
+	/** @param array<string, string> $csvRecord */
+	private function mapCsvRecordColumnToDate(string|callable|null $mapping, array $csvRecord): ?DateTimeImmutable
+	{
+		$mappedCsvRecordColumn = $this->mapCsvRecordColumn($mapping, $csvRecord);
+		return isset($mappedCsvRecordColumn) ? new DateTimeImmutable($mappedCsvRecordColumn) : null;
+	}
+
+	/** @param array<string, string> $csvRecord */
+	private function mapCsvRecordColumnToUpper(string|callable|null $mapping, array $csvRecord): ?string
+	{
+		$mappedCsvRecordColumn = $this->mapCsvRecordColumn($mapping, $csvRecord);
+		return isset($mappedCsvRecordColumn) ? strtoupper($mappedCsvRecordColumn) : null;
+	}
+
+	/** @param array<string, string> $csvRecord */
+	private function mapCsvRecordColumnToLower(string|callable|null $mapping, array $csvRecord): ?string
+	{
+		$mappedCsvRecordColumn = $this->mapCsvRecordColumn($mapping, $csvRecord);
+		return isset($mappedCsvRecordColumn) ? strtolower($mappedCsvRecordColumn) : null;
+	}
+
+	private function sanitizeEmptyItem(?string $item): ?string
+	{
+		return $item !== '' ? $item : null;
 	}
 }

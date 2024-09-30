@@ -5,13 +5,16 @@ declare(strict_types=1);
 namespace FinGather\Tests\Service\Import\Mapper;
 
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
+use FinGather\Service\Import\Mapper\Dto\MappingDto;
 use FinGather\Service\Import\Mapper\RevolutMapper;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProviderExternal;
+use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use function Safe\file_get_contents;
 
 #[CoversClass(RevolutMapper::class)]
+#[UsesClass(MappingDto::class)]
 final class RevolutMapperTest extends TestCase
 {
 	//@phpstan-ignore-next-line
@@ -34,13 +37,13 @@ final class RevolutMapperTest extends TestCase
 
 		$mappings = $mapper->getMapping();
 
-		self::assertArrayHasKey('actionType', $mappings);
-		self::assertArrayHasKey('created', $mappings);
-		self::assertArrayHasKey('ticker', $mappings);
-		self::assertArrayHasKey('units', $mappings);
-		self::assertArrayHasKey('price', $mappings);
-		self::assertArrayHasKey('currency', $mappings);
-		self::assertArrayHasKey('total', $mappings);
+		self::assertNotNull($mappings->actionType);
+		self::assertNotNull($mappings->created);
+		self::assertNotNull($mappings->ticker);
+		self::assertNotNull($mappings->units);
+		self::assertNotNull($mappings->price);
+		self::assertNotNull($mappings->currency);
+		self::assertNotNull($mappings->total);
 	}
 
 	#[DataProviderExternal(ImportTestDataProvider::class, 'additionProvider')]

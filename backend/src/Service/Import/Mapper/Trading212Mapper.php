@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Service\Import\Mapper;
 
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
+use FinGather\Service\Import\Mapper\Dto\MappingDto;
 
 final class Trading212Mapper extends CsvMapper
 {
@@ -13,32 +14,31 @@ final class Trading212Mapper extends CsvMapper
 		return BrokerImportTypeEnum::Trading212;
 	}
 
-	/** @return array<string, string|callable> */
-	public function getMapping(): array
+	public function getMapping(): MappingDto
 	{
-		return [
-			'actionType' => 'Action',
-			'created' => 'Time',
-			'ticker' => 'Ticker',
-			'isin' => 'ISIN',
-			'units' => 'No. of shares',
-			'price' => fn (array $record): string => str_starts_with(
+		return new MappingDto(
+			actionType: 'Action',
+			created: 'Time',
+			ticker: 'Ticker',
+			isin: 'ISIN',
+			units: 'No. of shares',
+			price: fn (array $record): string => str_starts_with(
 				$record['Action'],
 				'Dividend',
 			) ? $record['Total'] : $record['Price / share'],
-			'currency' => fn (array $record): string => str_starts_with(
+			currency: fn (array $record): string => str_starts_with(
 				$record['Action'],
 				'Dividend',
 			) ? $record['Currency (Total)'] : $record['Currency (Price / share)'],
-			'tax' => 'Stamp duty reserve tax',
-			'taxCurrency' => 'Currency (Stamp duty reserve tax)',
-			'fee' => 'Currency conversion fee',
-			'feeCurrency' => 'Currency (Currency conversion fee)',
-			'importIdentifier' => fn (array $record): string =>
+			tax: 'Stamp duty reserve tax',
+			taxCurrency: 'Currency (Stamp duty reserve tax)',
+			fee: 'Currency conversion fee',
+			feeCurrency: 'Currency (Currency conversion fee)',
+			importIdentifier: fn (array $record): string =>
 				$record['ID'] !== '' ?
 					$record['ID'] :
 					$record['Time'] . '|' . $record['Ticker'] . '|' . $record['No. of shares'],
-		];
+		);
 	}
 
 	public function check(string $content, string $fileName): bool
