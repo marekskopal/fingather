@@ -8,6 +8,7 @@ use FinGather\Model\Entity\Import;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\ImportRepository;
+use Ramsey\Uuid\UuidInterface;
 use Safe\DateTimeImmutable;
 
 class ImportProvider
@@ -16,17 +17,18 @@ class ImportProvider
 	{
 	}
 
-	public function getImport(User $user, int $importId): ?Import
+	public function getImportByUuid(User $user, UuidInterface $uuid): ?Import
 	{
-		return $this->importRepository->findImport($importId, $user->getId());
+		return $this->importRepository->findImportByUuid($uuid, $user->getId());
 	}
 
-	public function createImport(User $user, Portfolio $portfolio): Import
+	public function createImport(User $user, Portfolio $portfolio, UuidInterface $uuid): Import
 	{
 		$import = new Import(
 			user: $user,
 			portfolio: $portfolio,
 			created: new DateTimeImmutable(),
+			uuid: $uuid,
 		);
 		$this->importRepository->persist($import);
 

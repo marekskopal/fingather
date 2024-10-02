@@ -84,7 +84,7 @@ export class ImportPrepareComponent {
         this.fakeLoadingService.startLoading();
 
         const importStart: ImportStart = {
-            importId: this.$importPrepares()[0].importId,
+            uuid: this.$importPrepares()[0].uuid,
             importMappings: [],
         };
 

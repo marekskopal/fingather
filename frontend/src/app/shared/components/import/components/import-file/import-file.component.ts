@@ -37,8 +37,8 @@ export class ImportFileComponent implements OnInit {
         .create({ providers: [FakeLoadingService], parent: this.injector })
         .get(FakeLoadingService);
 
-    public readonly $importId = input.required<number | null>({
-        'alias': 'importId',
+    public readonly $uuid = input.required<string>({
+        'alias': 'uuid',
     });
     public readonly $droppedFile = input.required<NgxFileDropEntry>({
         'alias': 'droppedFile',
@@ -87,7 +87,7 @@ export class ImportFileComponent implements OnInit {
         try {
             const importPrepare = await this.importService.createImportPrepare(
                 {
-                    importId: this.$importId(),
+                    uuid: this.$uuid(),
                     importDataFile: importDataFile
                 },
                 portfolio.id

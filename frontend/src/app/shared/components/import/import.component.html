@@ -33,7 +33,7 @@
         <div class="import-file-wrapper">
             @for (droppedFile of droppedFiles; track droppedFile) {
                 <fingather-import-file
-                    [importId]="$importId()"
+                    [uuid]="uuid"
                     [droppedFile]="droppedFile"
                     (onUploadFinish)="onFileUploaded($event)"
                 />

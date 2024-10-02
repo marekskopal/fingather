@@ -17,6 +17,7 @@ use MarekSkopal\Trading212\Dto\HistoricalItems\DataIncluded;
 use MarekSkopal\Trading212\Dto\HistoricalItems\Export;
 use MarekSkopal\Trading212\Dto\HistoricalItems\ExportCsv;
 use MarekSkopal\Trading212\Trading212;
+use Ramsey\Uuid\Uuid;
 use Safe\DateTimeImmutable;
 use Safe\Exceptions\FilesystemException;
 use function Safe\file_get_contents;
@@ -114,7 +115,7 @@ class Trading212Processor implements ProcessorInterface
 			return;
 		}
 
-		$import = $this->importProvider->createImport($apiImport->getUser(), $apiImport->getPortfolio());
+		$import = $this->importProvider->createImport($apiImport->getUser(), $apiImport->getPortfolio(), Uuid::uuid4());
 		$this->importFileProvider->createImportFile($import, 'trading212.csv', $csvFile);
 
 		$this->importService->importDataFiles($import);
