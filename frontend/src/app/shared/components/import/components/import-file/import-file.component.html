@@ -8,9 +8,13 @@
                 {{ $fileName() }}
             </div>
         </div>
-        <div class="import-file-close">
+        <a
+            class="import-file-close"
+            (click)="deleteFile()"
+            tabindex="0"
+        >
             <mat-icon>close</mat-icon>
-        </div>
+        </a>
     </div>
     <div class="import-file-progress">
         <div class="import-file-progress-info">

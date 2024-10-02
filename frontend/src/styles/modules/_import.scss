@@ -57,6 +57,15 @@ fingather-import {
                 }
             }
         }
+
+        .import-file-close {
+            cursor: pointer;
+            color: $color-gray-lightest;
+
+            &:hover {
+                color: $color-white;
+            }
+        }
     }
 
     .import-file-progress {

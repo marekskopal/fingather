@@ -6,6 +6,7 @@ namespace FinGather\Service\Provider;
 
 use FinGather\Model\Entity\Import;
 use FinGather\Model\Entity\ImportFile;
+use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\ImportFileRepository;
 use Safe\DateTimeImmutable;
 
@@ -13,6 +14,20 @@ class ImportFileProvider
 {
 	public function __construct(private readonly ImportFileRepository $importFileRepository)
 	{
+	}
+
+	public function getImportFile(int $importFileId, User $user): ?ImportFile
+	{
+		$importFile = $this->importFileRepository->findImportFile($importFileId);
+		if ($importFile === null) {
+			return null;
+		}
+
+		if ($importFile->getImport()->getUser()->getId() !== $user->getId()) {
+			return null;
+		}
+
+		return $importFile;
 	}
 
 	/** @return iterable<ImportFile> */
@@ -32,5 +47,10 @@ class ImportFileProvider
 		$this->importFileRepository->persist($importFile);
 
 		return $importFile;
+	}
+
+	public function deleteImportFile(ImportFile $importFile): void
+	{
+		$this->importFileRepository->delete($importFile);
 	}
 }

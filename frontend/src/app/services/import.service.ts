@@ -23,4 +23,10 @@ export class ImportService {
             this.http.post<OkResponse>(`${environment.apiUrl}/import/import-start`, importStart)
         );
     }
+
+    public deleteImportFile(importFileId: number): Promise<OkResponse> {
+        return firstValueFrom<OkResponse>(
+            this.http.delete<OkResponse>(`${environment.apiUrl}/import/import-file/${importFileId}`)
+        );
+    }
 }

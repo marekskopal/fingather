@@ -18,6 +18,7 @@ final readonly class ImportPrepareDto
 	public function __construct(
 		public int $importId,
 		public UuidInterface $uuid,
+		public int $importFileId,
 		public array $notFoundTickers,
 		public array $multipleFoundTickers,
 		public array $okFoundTickers,
@@ -29,6 +30,7 @@ final readonly class ImportPrepareDto
 		return new self(
 			importId: $prepareImport->import->getId(),
 			uuid: $prepareImport->import->getUuid(),
+			importFileId: $prepareImport->importFile->getId(),
 			notFoundTickers: array_map(
 				fn (PrepareImportTicker $item): ImportPrepareTickerDto => ImportPrepareTickerDto::fromImportPrepareTicker($item),
 				array_values($prepareImport->notFoundTickers),

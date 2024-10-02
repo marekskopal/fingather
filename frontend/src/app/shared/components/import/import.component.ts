@@ -7,6 +7,7 @@ import {RouterLink} from "@angular/router";
 import { ImportPrepare} from '@app/models';
 import {ImportFileComponent} from "@app/shared/components/import/components/import-file/import-file.component";
 import {ImportPrepareComponent} from "@app/shared/components/import/components/import-prepare/import-prepare.component";
+import {DeletedImportFile} from "@app/shared/components/import/types/deleted-import-file";
 import {TranslateModule} from "@ngx-translate/core";
 import {NgxFileDropEntry, NgxFileDropModule} from 'ngx-file-drop';
 import {v4} from 'uuid';
@@ -52,8 +53,17 @@ export class ImportComponent {
         }
     }
 
-    public async onFileUploaded(importPrepare: ImportPrepare): Promise<void> {
+    public onFileUploaded(importPrepare: ImportPrepare): void {
         this.$importPrepares.update(() => [...this.$importPrepares(), importPrepare]);
+    }
+
+    public onDeleteFile(deletedFile: DeletedImportFile): void {
+        this.droppedFiles = this.droppedFiles.filter(
+            (file) => file.fileEntry.name !== deletedFile.droppedFile.fileEntry.name
+        );
+        this.$importPrepares.update(() => this.$importPrepares().filter(
+            (importPrepare) => importPrepare.importFileId !== deletedFile.importFileId)
+        );
     }
 
     protected onImportFinish(): void {

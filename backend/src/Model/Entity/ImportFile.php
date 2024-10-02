@@ -25,6 +25,11 @@ class ImportFile extends AEntity
 	) {
 	}
 
+	public function getImport(): Import
+	{
+		return $this->import;
+	}
+
 	public function getFileName(): string
 	{
 		return $this->fileName;
