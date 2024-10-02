@@ -13,6 +13,7 @@ import {MatIcon} from "@angular/material/icon";
 import {ImportDataFile, ImportPrepare} from '@app/models';
 import {ImportService, PortfolioService} from "@app/services";
 import {FakeLoadingService} from "@app/services/fake-loading.service";
+import {DeletedImportFile} from "@app/shared/components/import/types/deleted-import-file";
 import {ImportFileStatus} from "@app/shared/components/import/types/import-file-status";
 import {FileSizePipe} from "@app/shared/pipes/file-size.pipe";
 import {TranslateModule} from "@ngx-translate/core";
@@ -46,11 +47,16 @@ export class ImportFileComponent implements OnInit {
     public readonly onUploadFinish$ =  output<ImportPrepare>({
         'alias': 'onUploadFinish',
     });
+    public readonly onDeleteFile$ =  output<DeletedImportFile>({
+        'alias': 'onDeleteFile',
+    });
 
     protected readonly $fileName = computed<string>(() => this.$droppedFile().fileEntry.name);
     protected readonly $fileSize = signal<number>(0);
     protected readonly $status = signal<ImportFileStatus>(ImportFileStatus.New);
     protected readonly $processed = this.fakeLoadingService.$processed;
+
+    private readonly $importFileId = signal<number | null>(null);
 
     private readonly fileReader = new FileReader();
 
@@ -81,6 +87,20 @@ export class ImportFileComponent implements OnInit {
         });
     }
 
+    protected async deleteFile(): Promise<void> {
+        const importFileId = this.$importFileId();
+        if (importFileId === null) {
+            return;
+        }
+
+        await this.importService.deleteImportFile(importFileId);
+
+        this.onDeleteFile$.emit({
+            importFileId: importFileId,
+            droppedFile: this.$droppedFile()
+        });
+    }
+
     private async createImportPrepare(importDataFile: ImportDataFile): Promise<void> {
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
@@ -92,6 +112,8 @@ export class ImportFileComponent implements OnInit {
                 },
                 portfolio.id
             );
+
+            this.$importFileId.set(importPrepare.importFileId);
 
             this.finishLoading();
 

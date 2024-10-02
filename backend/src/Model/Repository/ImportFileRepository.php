@@ -9,6 +9,13 @@ use FinGather\Model\Entity\ImportFile;
 /** @extends ARepository<ImportFile> */
 final class ImportFileRepository extends ARepository
 {
+	public function findImportFile(int $importFileId): ?ImportFile
+	{
+		return $this->findOne([
+			'id' => $importFileId,
+		]);
+	}
+
 	/** @return iterable<ImportFile> */
 	public function findImportFiles(int $importId): iterable
 	{

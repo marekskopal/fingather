@@ -90,7 +90,7 @@ final class ImportPrepareService
 			}
 		}
 
-		$this->importFileProvider->createImportFile(
+		$importFile = $this->importFileProvider->createImportFile(
 			import: $import,
 			fileName: $importPrepareData->importDataFile->fileName,
 			contents: $importPrepareData->importDataFile->contents,
@@ -98,6 +98,7 @@ final class ImportPrepareService
 
 		return new PrepareImport(
 			import: $import,
+			importFile: $importFile,
 			notFoundTickers: $notFoundTickers,
 			multipleFoundTickers: $multipleFoundTickers,
 			okFoundTickers: $okFoundTickers,

@@ -12,11 +12,13 @@ use FinGather\Response\OkResponse;
 use FinGather\Route\Routes;
 use FinGather\Service\Import\ImportPrepareService;
 use FinGather\Service\Import\ImportService;
+use FinGather\Service\Provider\ImportFileProvider;
 use FinGather\Service\Provider\ImportMappingProvider;
 use FinGather\Service\Provider\ImportProvider;
 use FinGather\Service\Provider\PortfolioProvider;
 use FinGather\Service\Request\RequestService;
 use Laminas\Diactoros\Response\JsonResponse;
+use MarekSkopal\Router\Attribute\RouteDelete;
 use MarekSkopal\Router\Attribute\RoutePost;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -27,6 +29,7 @@ final class ImportController
 		private readonly ImportService $importService,
 		private readonly ImportPrepareService $importPrepareService,
 		private readonly ImportProvider $importProvider,
+		private readonly ImportFileProvider $importFileProvider,
 		private readonly ImportMappingProvider $importMappingProvider,
 		private readonly PortfolioProvider $portfolioProvider,
 		private readonly RequestService $requestService,
@@ -74,6 +77,26 @@ final class ImportController
 		$this->importMappingProvider->createImportMappingFromImportStart($user, $importStart);
 
 		$this->importService->importDataFiles($import);
+
+		return new OkResponse();
+	}
+
+	#[RouteDelete(Routes::ImportImportFile->value)]
+	public function actionDeleteImportFile(ServerRequestInterface $request, int $importFileId): ResponseInterface
+	{
+		if ($importFileId < 1) {
+			return new NotFoundResponse('Import file id is required.');
+		}
+
+		$importFile = $this->importFileProvider->getImportFile(
+			importFileId: $importFileId,
+			user: $this->requestService->getUser($request),
+		);
+		if ($importFile === null) {
+			return new NotFoundResponse('Import file with id "' . $importFile . '" was not found.');
+		}
+
+		$this->importFileProvider->deleteImportFile($importFile);
 
 		return new OkResponse();
 	}

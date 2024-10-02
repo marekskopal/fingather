@@ -46,6 +46,7 @@ enum Routes: string
 
 	case ImportPrepare = '/api/import/import-prepare/{portfolioId:number}';
 	case ImportStart = '/api/import/import-start';
+	case ImportImportFile = '/api/import/import-file/{importFileId:number}';
 
 	case IndustriesWithIndustryData = '/api/industries-with-industry-data/{portfolioId:number}';
 

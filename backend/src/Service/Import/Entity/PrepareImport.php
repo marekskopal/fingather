@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Service\Import\Entity;
 
 use FinGather\Model\Entity\Import;
+use FinGather\Model\Entity\ImportFile;
 
 final readonly class PrepareImport
 {
@@ -15,6 +16,7 @@ final readonly class PrepareImport
 	 */
 	public function __construct(
 		public Import $import,
+		public ImportFile $importFile,
 		public array $notFoundTickers,
 		public array $multipleFoundTickers,
 		public array $okFoundTickers,
