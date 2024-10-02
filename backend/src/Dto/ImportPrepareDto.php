@@ -6,6 +6,7 @@ namespace FinGather\Dto;
 
 use FinGather\Service\Import\Entity\PrepareImport;
 use FinGather\Service\Import\Entity\PrepareImportTicker;
+use Ramsey\Uuid\UuidInterface;
 
 final readonly class ImportPrepareDto
 {
@@ -16,6 +17,7 @@ final readonly class ImportPrepareDto
 	 */
 	public function __construct(
 		public int $importId,
+		public UuidInterface $uuid,
 		public array $notFoundTickers,
 		public array $multipleFoundTickers,
 		public array $okFoundTickers,
@@ -26,6 +28,7 @@ final readonly class ImportPrepareDto
 	{
 		return new self(
 			importId: $prepareImport->import->getId(),
+			uuid: $prepareImport->import->getUuid(),
 			notFoundTickers: array_map(
 				fn (PrepareImportTicker $item): ImportPrepareTickerDto => ImportPrepareTickerDto::fromImportPrepareTicker($item),
 				array_values($prepareImport->notFoundTickers),

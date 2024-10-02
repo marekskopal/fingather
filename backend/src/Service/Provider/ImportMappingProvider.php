@@ -60,7 +60,7 @@ class ImportMappingProvider
 
 	public function createImportMappingFromImportStart(User $user, ImportStartDto $importStart): void
 	{
-		$import = $this->importRepository->findImport($importStart->importId, $user->getId());
+		$import = $this->importRepository->findImportByUuid($importStart->uuid, $user->getId());
 		if ($import === null) {
 			return;
 		}

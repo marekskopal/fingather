@@ -4,18 +4,20 @@ declare(strict_types=1);
 
 namespace FinGather\Dto;
 
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 use function Safe\json_decode;
 
 final readonly class ImportStartDto
 {
 	/** @param list<ImportMappingDto> $importMappings */
-	public function __construct(public int $importId, public array $importMappings)
+	public function __construct(public UuidInterface $uuid, public array $importMappings)
 	{
 	}
 
 	/**
 	 * @param array{
-	 *     importId: int,
+	 *     uuid: string,
 	 *     importMappings: list<array{
 	 *         importTicker: string,
 	 *         tickerId: int,
@@ -26,7 +28,7 @@ final readonly class ImportStartDto
 	private static function fromArray(array $data): self
 	{
 		return new self(
-			importId: $data['importId'],
+			uuid: Uuid::fromString($data['uuid']),
 			importMappings: array_map(
 				fn (array $importMapping): ImportMappingDto => ImportMappingDto::fromArray($importMapping),
 				$data['importMappings'],
@@ -38,7 +40,7 @@ final readonly class ImportStartDto
 	{
 		/**
 		 * @var array{
-		 *     importId: int,
+		 *     uuid: string,
 		 *     importMappings: list<array{
 		 *         importTicker: string,
 		 *         tickerId: int,

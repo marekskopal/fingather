@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Import;
 
+use Cycle\Database\Exception\StatementException\ConstrainException;
 use FinGather\Dto\ImportDataFileDto;
 use FinGather\Dto\ImportPrepareDataDto;
+use FinGather\Model\Entity\Import;
 use FinGather\Model\Entity\ImportMapping;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\Ticker;
@@ -77,12 +79,14 @@ final class ImportPrepareService
 			multipleFoundTickers: $multipleFoundTickers,
 		);
 
-		if ($importPrepareData->importId === null) {
-			$import = $this->importProvider->createImport(user: $user, portfolio: $portfolio);
-		} else {
-			$import = $this->importProvider->getImport($user, $importPrepareData->importId);
-			if ($import === null) {
-				throw new \RuntimeException('Import not found');
+		$import = $this->importProvider->getImportByUuid($user, $importPrepareData->uuid);
+		if ($import === null) {
+			try {
+				$import = $this->importProvider->createImport(user: $user, portfolio: $portfolio, uuid: $importPrepareData->uuid);
+			} catch (ConstrainException) {
+				// Import with this UUID already exists
+				$import = $this->importProvider->getImportByUuid($user, $importPrepareData->uuid);
+				assert($import instanceof Import);
 			}
 		}
 

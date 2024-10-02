@@ -52,7 +52,8 @@ final class ImportController
 		try {
 			$importPrepare = $this->importPrepareService->prepareImport($user, $portfolio, $importData);
 		} catch (\RuntimeException $e) {
-			return new NotFoundResponse('Imported file is not supported.');
+			throw $e;
+			//return new NotFoundResponse('Imported file is not supported.');
 		}
 
 		return new JsonResponse(ImportPrepareDto::fromImportPrepare($importPrepare));
@@ -65,7 +66,7 @@ final class ImportController
 
 		$user = $this->requestService->getUser($request);
 
-		$import = $this->importProvider->getImport($user, $importStart->importId);
+		$import = $this->importProvider->getImportByUuid($user, $importStart->uuid);
 		if ($import === null) {
 			return new NotFoundResponse('Import was not found');
 		}

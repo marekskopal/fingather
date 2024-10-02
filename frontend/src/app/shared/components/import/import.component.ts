@@ -9,6 +9,7 @@ import {ImportFileComponent} from "@app/shared/components/import/components/impo
 import {ImportPrepareComponent} from "@app/shared/components/import/components/import-prepare/import-prepare.component";
 import {TranslateModule} from "@ngx-translate/core";
 import {NgxFileDropEntry, NgxFileDropModule} from 'ngx-file-drop';
+import {v4} from 'uuid';
 
 @Component({
     templateUrl: 'import.component.html',
@@ -34,7 +35,7 @@ export class ImportComponent {
 
     protected $importPrepares = signal<ImportPrepare[]>([]);
     protected droppedFiles: NgxFileDropEntry[] = [];
-    protected $importId = signal<number | null>(null);
+    protected uuid = v4();
 
     public onFileDropped(files: NgxFileDropEntry[]): void {
         for (const droppedFile of files) {
@@ -52,11 +53,11 @@ export class ImportComponent {
     }
 
     public async onFileUploaded(importPrepare: ImportPrepare): Promise<void> {
-        this.$importId.set(importPrepare.importId);
         this.$importPrepares.update(() => [...this.$importPrepares(), importPrepare]);
     }
 
     protected onImportFinish(): void {
+        this.uuid = v4();
         this.onImportFinish$.emit();
     }
 }
