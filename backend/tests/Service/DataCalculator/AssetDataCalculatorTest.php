@@ -144,6 +144,41 @@ final class AssetDataCalculatorTest extends TestCase
 				'dividendYield' => 0.0,
 				'dividendYieldDefaultCurrency' => 0.0,
 			],
+			'one buy, one sell (minus)' => [
+				'transactions' => [
+					TransactionFixture::getTransaction(
+						actionType: TransactionActionTypeEnum::Buy,
+						units: new Decimal(1),
+						price: new Decimal(10),
+						priceTickerCurrency: new Decimal(10),
+						priceDefaultCurrency: new Decimal(10),
+					),
+					TransactionFixture::getTransaction(
+						actionType: TransactionActionTypeEnum::Sell,
+						units: new Decimal(-2),
+						price: new Decimal(10),
+						priceTickerCurrency: new Decimal(10),
+						priceDefaultCurrency: new Decimal(10),
+					),
+				],
+				'splits' => [],
+				'lastTickerDataClose' => 10.0,
+				'exchangeRate' => 1.0,
+				'price' => 10.0,
+				'units' => 0.0,
+				'value' => 0.0,
+				'transactionValue' => 0.0,
+				'transactionValueDefaultCurrency' => 0.0,
+				'averagePrice' => 0.0,
+				'averagePriceDefaultCurrency' => 0.0,
+				'gain' => 0.0,
+				'gainDefaultCurrency' => 0.0,
+				'gainPercentage' => 0.0,
+				'realizedGain' => 0.0,
+				'realizedGainDefaultCurrency' => 0.0,
+				'dividendYield' => 0.0,
+				'dividendYieldDefaultCurrency' => 0.0,
+			],
 			'two buy, one sell with split (zero gain)' => [
 				'transactions' => [
 					TransactionFixture::getTransaction(
