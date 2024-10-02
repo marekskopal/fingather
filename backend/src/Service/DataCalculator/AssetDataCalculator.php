@@ -106,6 +106,10 @@ final class AssetDataCalculator
 			);
 		}
 
+		if ($units->isNegative()) {
+			$units = new Decimal(0);
+		}
+
 		$transactionValue = $this->countTransactionValue($buys);
 
 		$lastTickerData = $this->tickerDataProvider->getLastTickerData($asset->getTicker(), $dateTime);
