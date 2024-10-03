@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ed37c3ac839dd9b62b192d2bba70c078",
+    "content-hash": "7c3d5b3ecfd49bbf835af708f71342b8",
     "packages": [
         {
             "name": "brick/math",
@@ -1581,12 +1581,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/marekskopal/route.git",
-                "reference": "1f8693a361864d28b63ba124cbd97663bb31bccb"
+                "reference": "718c621e6948a992cabf4d27af9f24e8281e7a22"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/marekskopal/route/zipball/1f8693a361864d28b63ba124cbd97663bb31bccb",
-                "reference": "1f8693a361864d28b63ba124cbd97663bb31bccb",
+                "url": "https://api.github.com/repos/marekskopal/route/zipball/718c621e6948a992cabf4d27af9f24e8281e7a22",
+                "reference": "718c621e6948a992cabf4d27af9f24e8281e7a22",
                 "shasum": ""
             },
             "require": {
@@ -1595,7 +1595,7 @@
                 "php": "^8.0",
                 "psr/container": "^1.0|^2.0",
                 "psr/http-factory": "^1.0",
-                "psr/http-message": "^1.0.1",
+                "psr/http-message": "^1.1|^2.0",
                 "psr/http-server-handler": "^1.0.1",
                 "psr/http-server-middleware": "^1.0.1",
                 "psr/simple-cache": "^2.0|^3.0"
@@ -1679,7 +1679,7 @@
                     "url": "https://github.com/philipobenito"
                 }
             ],
-            "time": "2024-02-27T15:46:11+00:00"
+            "time": "2024-10-03T21:55:23+00:00"
         },
         {
             "name": "maennchen/zipstream-php",
@@ -3093,16 +3093,16 @@
         },
         {
             "name": "psr/http-message",
-            "version": "1.1",
+            "version": "2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/http-message.git",
-                "reference": "cb6ce4845ce34a8ad9e68117c10ee90a29919eba"
+                "reference": "402d35bcb92c70c026d1a6a9883f06b2ead23d71"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-message/zipball/cb6ce4845ce34a8ad9e68117c10ee90a29919eba",
-                "reference": "cb6ce4845ce34a8ad9e68117c10ee90a29919eba",
+                "url": "https://api.github.com/repos/php-fig/http-message/zipball/402d35bcb92c70c026d1a6a9883f06b2ead23d71",
+                "reference": "402d35bcb92c70c026d1a6a9883f06b2ead23d71",
                 "shasum": ""
             },
             "require": {
@@ -3111,7 +3111,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.1.x-dev"
+                    "dev-master": "2.0.x-dev"
                 }
             },
             "autoload": {
@@ -3126,7 +3126,7 @@
             "authors": [
                 {
                     "name": "PHP-FIG",
-                    "homepage": "http://www.php-fig.org/"
+                    "homepage": "https://www.php-fig.org/"
                 }
             ],
             "description": "Common interface for HTTP messages",
@@ -3140,9 +3140,9 @@
                 "response"
             ],
             "support": {
-                "source": "https://github.com/php-fig/http-message/tree/1.1"
+                "source": "https://github.com/php-fig/http-message/tree/2.0"
             },
-            "time": "2023-04-04T09:50:52+00:00"
+            "time": "2023-04-04T09:54:51+00:00"
         },
         {
             "name": "psr/http-server-handler",
