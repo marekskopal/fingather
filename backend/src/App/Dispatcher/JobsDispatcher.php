@@ -9,6 +9,7 @@ use FinGather\Jobs\Handler\ApiImportPrepareCheckHandler;
 use FinGather\Jobs\Handler\ApiImportProcessCheckHandler;
 use FinGather\Jobs\Handler\EmailVerifyHandler;
 use FinGather\Jobs\Handler\JobHandler;
+use FinGather\Service\Provider\CurrentTransactionProvider;
 use FinGather\Service\Queue\Enum\QueueEnum;
 use Psr\Log\LoggerInterface;
 use Spiral\RoadRunner\Environment\Mode;
@@ -33,6 +34,9 @@ final class JobsDispatcher implements Dispatcher
 		$logger = $application->container->get(LoggerInterface::class);
 		assert($logger instanceof LoggerInterface);
 
+		$currentTransactionProvider = $application->container->get(CurrentTransactionProvider::class);
+		assert($currentTransactionProvider instanceof CurrentTransactionProvider);
+
 		while ($task = $consumer->waitTask()) {
 			try {
 				$handlerClass = match ($task->getQueue()) {
@@ -50,6 +54,8 @@ final class JobsDispatcher implements Dispatcher
 
 				//fix SQL cache for each task
 				$application->dbContext->getOrm()->getHeap()->clean();
+
+				$currentTransactionProvider->clear();
 
 				// Clean up hanging references
 				gc_collect_cycles();

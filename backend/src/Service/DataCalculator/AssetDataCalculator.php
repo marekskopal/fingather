@@ -13,22 +13,20 @@ use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\Split;
 use FinGather\Model\Entity\Transaction;
 use FinGather\Model\Entity\User;
-use FinGather\Model\Repository\Enum\OrderDirectionEnum;
-use FinGather\Model\Repository\Enum\TransactionOrderByEnum;
 use FinGather\Service\DataCalculator\Dto\AssetDataDto;
 use FinGather\Service\DataCalculator\Dto\TransactionBuyDto;
 use FinGather\Service\DataCalculator\Dto\TransactionValueDto;
 use FinGather\Service\DataCalculator\Dto\ValueDto;
+use FinGather\Service\Provider\CurrentTransactionProvider;
 use FinGather\Service\Provider\ExchangeRateProvider;
 use FinGather\Service\Provider\SplitProvider;
 use FinGather\Service\Provider\TickerDataProvider;
-use FinGather\Service\Provider\TransactionProvider;
 use FinGather\Utils\CalculatorUtils;
 
 final class AssetDataCalculator
 {
 	public function __construct(
-		private readonly TransactionProvider $transactionProvider,
+		private readonly CurrentTransactionProvider $currentTransactionProvider,
 		private readonly SplitProvider $splitProvider,
 		private readonly TickerDataProvider $tickerDataProvider,
 		private readonly ExchangeRateProvider $exchangeRateProvider,
@@ -37,23 +35,11 @@ final class AssetDataCalculator
 
 	public function calculate(User $user, Portfolio $portfolio, Asset $asset, DateTimeImmutable $dateTime): ?AssetDataDto
 	{
-		$transactions = $this->transactionProvider->getTransactions(
+		$transactions = $this->currentTransactionProvider->getTransactions(
 			user: $user,
 			portfolio: $portfolio,
 			asset: $asset,
 			actionCreatedBefore: $dateTime,
-			actionTypes: [
-				TransactionActionTypeEnum::Buy,
-				TransactionActionTypeEnum::Sell,
-				TransactionActionTypeEnum::Dividend,
-				TransactionActionTypeEnum::Tax,
-				TransactionActionTypeEnum::Fee,
-				TransactionActionTypeEnum::DividendTax,
-			],
-			orderBy: [
-				TransactionOrderByEnum::BrokerId->value => OrderDirectionEnum::ASC,
-				TransactionOrderByEnum::ActionCreated->value => OrderDirectionEnum::ASC,
-			],
 		);
 		if (count($transactions) === 0) {
 			return null;
