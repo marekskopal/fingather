@@ -24,10 +24,10 @@ use FinGather\Service\DataCalculator\Dto\AssetDataDto;
 use FinGather\Service\DataCalculator\Dto\TransactionBuyDto;
 use FinGather\Service\DataCalculator\Dto\TransactionValueDto;
 use FinGather\Service\DataCalculator\Dto\ValueDto;
+use FinGather\Service\Provider\CurrentTransactionProvider;
 use FinGather\Service\Provider\ExchangeRateProvider;
 use FinGather\Service\Provider\SplitProvider;
 use FinGather\Service\Provider\TickerDataProvider;
-use FinGather\Service\Provider\TransactionProvider;
 use FinGather\Tests\Fixtures\Model\Entity\AssetFixture;
 use FinGather\Tests\Fixtures\Model\Entity\PortfolioFixture;
 use FinGather\Tests\Fixtures\Model\Entity\SplitFixture;
@@ -611,8 +611,8 @@ final class AssetDataCalculatorTest extends TestCase
 		Decimal $exchangeRate,
 	): AssetDataCalculator
 	{
-		$transactionProvider = $this->createMock(TransactionProvider::class);
-		$transactionProvider->method('getTransactions')
+		$currentTransactionProvider = $this->createMock(CurrentTransactionProvider::class);
+		$currentTransactionProvider->method('getTransactions')
 			->willReturn($transactions);
 
 		$splitProvider = $this->createMock(SplitProvider::class);
@@ -627,6 +627,6 @@ final class AssetDataCalculatorTest extends TestCase
 		$exchangeRateProvider->method('getExchangeRate')
 			->willReturn($exchangeRate);
 
-		return new AssetDataCalculator($transactionProvider, $splitProvider, $tickerDataProvider, $exchangeRateProvider);
+		return new AssetDataCalculator($currentTransactionProvider, $splitProvider, $tickerDataProvider, $exchangeRateProvider);
 	}
 }

@@ -7,6 +7,7 @@ namespace FinGather\App\Dispatcher;
 use FinGather\App\ApplicationFactory;
 use FinGather\Middleware\Exception\NotAuthorizedException;
 use FinGather\Response\ErrorResponse;
+use FinGather\Service\Provider\CurrentTransactionProvider;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
@@ -37,6 +38,9 @@ final class HttpDispatcher implements Dispatcher
 		$logger = $application->container->get(LoggerInterface::class);
 		assert($logger instanceof LoggerInterface);
 
+		$currentTransactionProvider = $application->container->get(CurrentTransactionProvider::class);
+		assert($currentTransactionProvider instanceof CurrentTransactionProvider);
+
 		try {
 			while (true) {
 				$request = $this->psr7->waitRequest();
@@ -52,6 +56,8 @@ final class HttpDispatcher implements Dispatcher
 
 				//fix SQL cache for each request
 				$application->dbContext->getOrm()->getHeap()->clean();
+
+				$currentTransactionProvider->clear();
 
 				// Clean up hanging references
 				gc_collect_cycles();

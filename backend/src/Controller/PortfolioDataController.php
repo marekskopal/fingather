@@ -8,15 +8,13 @@ use FinGather\Dto\Enum\RangeEnum;
 use FinGather\Dto\PortfolioDataDto;
 use FinGather\Dto\PortfolioDataWithBenchmarkDataDto;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
-use FinGather\Model\Repository\Enum\OrderDirectionEnum;
-use FinGather\Model\Repository\Enum\TransactionOrderByEnum;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Route\Routes;
 use FinGather\Service\Provider\AssetProvider;
 use FinGather\Service\Provider\BenchmarkDataProvider;
+use FinGather\Service\Provider\CurrentTransactionProvider;
 use FinGather\Service\Provider\PortfolioDataProvider;
 use FinGather\Service\Provider\PortfolioProvider;
-use FinGather\Service\Provider\TransactionProvider;
 use FinGather\Service\Request\RequestService;
 use FinGather\Utils\DateTimeUtils;
 use Laminas\Diactoros\Response\JsonResponse;
@@ -29,7 +27,7 @@ final class PortfolioDataController
 {
 	public function __construct(
 		private readonly PortfolioDataProvider $portfolioDataProvider,
-		private readonly TransactionProvider $transactionProvider,
+		private readonly CurrentTransactionProvider $currentTransactionProvider,
 		private readonly BenchmarkDataProvider $benchmarkDataProvider,
 		private readonly AssetProvider $assetProvider,
 		private readonly PortfolioProvider $portfolioProvider,
@@ -92,11 +90,10 @@ final class PortfolioDataController
 			: null;
 		$customRangeTo = ($queryParams['customRangeTo'] ?? null) !== null ? new DateTimeImmutable($queryParams['customRangeTo']) : null;
 
-		$transactions = $this->transactionProvider->getTransactions(
+		$transactions = $this->currentTransactionProvider->getTransactions(
 			user: $user,
 			portfolio: $portfolio,
 			actionTypes: [TransactionActionTypeEnum::Buy, TransactionActionTypeEnum::Sell],
-			orderBy: [TransactionOrderByEnum::ActionCreated->value => OrderDirectionEnum::ASC],
 		);
 
 		if (count($transactions) === 0) {
