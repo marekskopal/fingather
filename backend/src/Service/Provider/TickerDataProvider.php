@@ -8,6 +8,7 @@ use Cycle\Database\Exception\StatementException\ConstrainException;
 use DateInterval;
 use DateTimeImmutable;
 use Decimal\Decimal;
+use FinGather\Cache\Cache;
 use FinGather\Model\Entity\Enum\MarketTypeEnum;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\TickerData;
@@ -25,11 +26,14 @@ class TickerDataProvider
 {
 	private const TwelveDataTimeSeriesMaxResults = 5000;
 
+	private readonly Cache $cache;
+
 	public function __construct(
 		private readonly TickerDataRepository $tickerDataRepository,
 		private readonly SplitProvider $splitProvider,
 		private readonly TwelveData $twelveData,
 	) {
+		$this->cache = new Cache(self::class);
 	}
 
 	/** @return list<TickerData> */
@@ -69,7 +73,7 @@ class TickerDataProvider
 		);
 	}
 
-	public function getLastTickerData(Ticker $ticker, DateTimeImmutable $beforeDate): ?TickerData
+	public function getLastTickerDataClose(Ticker $ticker, DateTimeImmutable $beforeDate): ?Decimal
 	{
 		$dayOfWeek = (int) $beforeDate->format('w');
 
@@ -79,14 +83,23 @@ class TickerDataProvider
 			$beforeDate = $beforeDate->sub(DateInterval::createFromDateString('1 day'));
 		}
 
+		$key = $ticker->getId() . '-' . $beforeDate->getTimestamp();
+		/** @var Decimal|null $lastTickerDataClose */
+		$lastTickerDataClose = $this->cache->get($key);
+		if ($lastTickerDataClose !== null) {
+			return $lastTickerDataClose;
+		}
+
 		$lastTickerData = $this->tickerDataRepository->findLastTickerData($ticker->getId(), $beforeDate);
 		if ($lastTickerData !== null) {
-			return $lastTickerData;
+			$this->cache->set($key, $lastTickerData->getClose());
+
+			return $lastTickerData->getClose();
 		}
 
 		$this->updateTickerData($ticker, true);
 
-		return $this->tickerDataRepository->findLastTickerData($ticker->getId(), $beforeDate);
+		return $this->tickerDataRepository->findLastTickerData($ticker->getId(), $beforeDate)?->getClose();
 	}
 
 	public function updateTickerData(Ticker $ticker, bool $fullHistory = false): ?DateTimeImmutable
@@ -195,6 +208,9 @@ class TickerDataProvider
 			} catch (ConstrainException) {
 				//ignore duplicate tickers
 			}
+
+			$key = $ticker->getId() . '-' . $timeSeriesValue->datetime->getTimestamp();
+			$this->cache->delete($key);
 		}
 	}
 }
