@@ -6,10 +6,12 @@ namespace FinGather\Service\Authentication;
 
 use FinGather\Dto\AuthenticationDto;
 use FinGather\Dto\CredentialsDto;
+use FinGather\Middleware\AuthorizationMiddleware;
 use FinGather\Model\Entity\User;
 use FinGather\Service\Authentication\Exceptions\AuthenticationException;
 use FinGather\Service\Provider\UserProvider;
 use Firebase\JWT\JWT;
+use Psr\Http\Message\ServerRequestInterface;
 
 final class AuthenticationService
 {
@@ -45,6 +47,14 @@ final class AuthenticationService
 			accessToken: $this->createToken($user->getId(), $accessTokenExpiration),
 			refreshToken: $this->createToken($user->getId(), $refreshTokenExpiration),
 			userId: $user->getId(),
+		);
+	}
+
+	public function addAuthenticationHeader(ServerRequestInterface $request, User $user): ServerRequestInterface
+	{
+		return $request->withHeader(
+			AuthorizationMiddleware::AuthHeader,
+			AuthorizationMiddleware::AuthHeaderType . $this->createAuthentication($user)->accessToken,
 		);
 	}
 
