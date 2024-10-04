@@ -63,9 +63,9 @@ abstract class ARepository implements RepositoryInterface
 	}
 
 	/** @param TEntity $entity */
-	public function persist(object $entity): void
+	public function persist(object $entity, bool $cascade = false): void
 	{
-		$this->entityManager->persist($entity)->run();
+		$this->entityManager->persist($entity, $cascade)->run();
 	}
 
 	/** @param TEntity $entity */
