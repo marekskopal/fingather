@@ -25,12 +25,13 @@ use FinGather\Service\DataCalculator\Dto\TransactionBuyDto;
 use FinGather\Service\DataCalculator\Dto\TransactionValueDto;
 use FinGather\Service\DataCalculator\Dto\ValueDto;
 use FinGather\Service\Provider\CurrentTransactionProvider;
+use FinGather\Service\Provider\Dto\SplitDto;
 use FinGather\Service\Provider\ExchangeRateProvider;
 use FinGather\Service\Provider\SplitProvider;
 use FinGather\Service\Provider\TickerDataProvider;
 use FinGather\Tests\Fixtures\Model\Entity\AssetFixture;
 use FinGather\Tests\Fixtures\Model\Entity\PortfolioFixture;
-use FinGather\Tests\Fixtures\Model\Entity\SplitFixture;
+use FinGather\Tests\Fixtures\Model\Entity\SplitDtoFixture;
 use FinGather\Tests\Fixtures\Model\Entity\TickerDataFixture;
 use FinGather\Tests\Fixtures\Model\Entity\TransactionFixture;
 use FinGather\Tests\Fixtures\Model\Entity\UserFixture;
@@ -87,7 +88,7 @@ final class AssetDataCalculatorTest extends TestCase
 	/**
 	 * @return array<string, array{
 	 *     transactions: Transaction[],
-	 *     splits: Split[],
+	 *     splits: list<SplitDto>,
 	 *     lastTickerDataClose: float,
 	 *     exchangeRate: float,
 	 *     price: float,
@@ -207,7 +208,7 @@ final class AssetDataCalculatorTest extends TestCase
 					),
 				],
 				'splits' => [
-					SplitFixture::getSplit(
+					SplitDtoFixture::getSplitDto(
 						date: new DateTimeImmutable('2024-01-03'),
 						factor: new Decimal(2),
 					),
@@ -259,7 +260,7 @@ final class AssetDataCalculatorTest extends TestCase
 				'lastTickerDataClose' => 5.0,
 				'exchangeRate' => 1.0,
 				'splits' => [
-					SplitFixture::getSplit(
+					SplitDtoFixture::getSplitDto(
 						date: new DateTimeImmutable('2024-01-03'),
 						factor: new Decimal(2),
 					),
@@ -307,11 +308,11 @@ final class AssetDataCalculatorTest extends TestCase
 					),
 				],
 				'splits' => [
-					SplitFixture::getSplit(
+					SplitDtoFixture::getSplitDto(
 						date: new DateTimeImmutable('2024-01-03'),
 						factor: new Decimal(2),
 					),
-					SplitFixture::getSplit(
+					SplitDtoFixture::getSplitDto(
 						date: new DateTimeImmutable('2024-01-05'),
 						factor: new Decimal(2),
 					),
@@ -363,7 +364,7 @@ final class AssetDataCalculatorTest extends TestCase
 				'lastTickerDataClose' => 7.5,
 				'exchangeRate' => 1.0,
 				'splits' => [
-					SplitFixture::getSplit(
+					SplitDtoFixture::getSplitDto(
 						date: new DateTimeImmutable('2024-01-03'),
 						factor: new Decimal(2),
 					),
@@ -513,11 +514,11 @@ final class AssetDataCalculatorTest extends TestCase
 				'lastTickerDataClose' => 171.05,
 				'exchangeRate' => 23.7282,
 				'splits' => [
-					SplitFixture::getSplit(
+					SplitDtoFixture::getSplitDto(
 						date: new DateTimeImmutable('2020-08-31'),
 						factor: new Decimal(5),
 					),
-					SplitFixture::getSplit(
+					SplitDtoFixture::getSplitDto(
 						date: new DateTimeImmutable('2022-08-25'),
 						factor: new Decimal(3),
 					),
@@ -542,7 +543,7 @@ final class AssetDataCalculatorTest extends TestCase
 
 	/**
 	 * @param list<Transaction> $transactions
-	 * @param list<Split> $splits
+	 * @param list<SplitDto> $splits
 	 */
 	#[DataProvider('calculateDataProvider')]
 	public function testCalculate(
@@ -602,7 +603,7 @@ final class AssetDataCalculatorTest extends TestCase
 
 	/**
 	 * @param list<Transaction> $transactions
-	 * @param list<Split> $splits
+	 * @param list<SplitDto> $splits
 	 */
 	private function createAssetDataCalculator(
 		array $transactions,

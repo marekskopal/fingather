@@ -10,7 +10,6 @@ use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Portfolio;
-use FinGather\Model\Entity\Split;
 use FinGather\Model\Entity\Transaction;
 use FinGather\Model\Entity\User;
 use FinGather\Service\DataCalculator\Dto\AssetDataDto;
@@ -18,6 +17,7 @@ use FinGather\Service\DataCalculator\Dto\TransactionBuyDto;
 use FinGather\Service\DataCalculator\Dto\TransactionValueDto;
 use FinGather\Service\DataCalculator\Dto\ValueDto;
 use FinGather\Service\Provider\CurrentTransactionProvider;
+use FinGather\Service\Provider\Dto\SplitDto;
 use FinGather\Service\Provider\ExchangeRateProvider;
 use FinGather\Service\Provider\SplitProvider;
 use FinGather\Service\Provider\TickerDataProvider;
@@ -147,7 +147,7 @@ final class AssetDataCalculator
 	}
 
 	/**
-	 * @param list<Split> $splits
+	 * @param list<SplitDto> $splits
 	 * @param array<int, TransactionBuyDto> $buys
 	 */
 	private function processTransaction(
@@ -223,14 +223,14 @@ final class AssetDataCalculator
 		$realizedGainDefaultCurrency = $realizedGainDefaultCurrency->add($transactionRealizedGain->valueDefaultCurrency);
 	}
 
-	/** @param list<Split> $splits */
+	/** @param list<SplitDto> $splits */
 	private function countSplitFactor(DateTimeImmutable $dateFrom, DateTimeImmutable $dateTo, array $splits): Decimal
 	{
 		$splitFactor = new Decimal(1, 8);
 
 		foreach ($splits as $split) {
-			if ($split->getDate() >= $dateFrom && $split->getDate() <= $dateTo) {
-				$splitFactor = $splitFactor->mul($split->getFactor());
+			if ($split->date >= $dateFrom && $split->date <= $dateTo) {
+				$splitFactor = $splitFactor->mul($split->factor);
 			}
 		}
 
@@ -274,7 +274,7 @@ final class AssetDataCalculator
 
 	/**
 	 * @param array<int, TransactionBuyDto> $buys
-	 * @param list<Split> $splits
+	 * @param list<SplitDto> $splits
 	 */
 	private function countTransactionRealizedGain(
 		array &$buys,

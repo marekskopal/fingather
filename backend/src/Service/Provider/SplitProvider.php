@@ -6,23 +6,42 @@ namespace FinGather\Service\Provider;
 
 use DateTimeImmutable;
 use Decimal\Decimal;
+use FinGather\Cache\Cache;
 use FinGather\Model\Entity\Split;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Repository\SplitRepository;
+use FinGather\Service\Provider\Dto\SplitDto;
 use MarekSkopal\TwelveData\Enum\RangeEnum;
 use MarekSkopal\TwelveData\Exception\NotFoundException;
 use MarekSkopal\TwelveData\TwelveData;
 
 class SplitProvider
 {
+	private readonly Cache $cache;
+
 	public function __construct(private readonly SplitRepository $splitRepository, private readonly TwelveData $twelveData)
 	{
+		$this->cache = new Cache(self::class);
 	}
 
-	/** @return list<Split> */
+	/** @return list<SplitDto> */
 	public function getSplits(Ticker $ticker): array
 	{
-		return $this->splitRepository->findSplits($ticker->getId());
+		$key = (string) $ticker->getId();
+
+		/** @var list<SplitDto>|null $splits */
+		$splits = $this->cache->get($key);
+		if ($splits !== null) {
+			return $splits;
+		}
+
+		$splits = array_map(
+			fn(Split $split): SplitDto => SplitDto::fromEntity($split),
+			$this->splitRepository->findSplits($ticker->getId()),
+		);
+		$this->cache->set($key, $splits);
+
+		return $splits;
 	}
 
 	public function getSplit(Ticker $ticker, ?DateTimeImmutable $date = null): ?Split
@@ -32,7 +51,7 @@ class SplitProvider
 
 	public function createSplit(Ticker $ticker, DateTimeImmutable $date, Decimal $factor): Split
 	{
-		$split = new Split(ticker: $ticker, date: $date, factor: $factor);
+		$split = new Split(tickerId: $ticker->getId(), date: $date, factor: $factor);
 		$this->splitRepository->persist($split);
 
 		return $split;
@@ -61,5 +80,7 @@ class SplitProvider
 				factor: (new Decimal((string) $split->fromFactor))->div(new Decimal((string) $split->toFactor)),
 			);
 		}
+
+		$this->cache->delete((string) $ticker->getId());
 	}
 }
