@@ -6,7 +6,7 @@ namespace FinGather\Model\Entity;
 
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
-use Cycle\Annotated\Annotation\Relation\RefersTo;
+use Cycle\Annotated\Annotation\ForeignKey;
 use Cycle\ORM\Parser\Typecast;
 use DateTimeImmutable;
 use Decimal\Decimal;
@@ -21,8 +21,9 @@ use MarekSkopal\Cycle\Decimal\DecimalTypecast;
 class Split extends AEntity
 {
 	public function __construct(
-		#[RefersTo(target: Ticker::class)]
-		private Ticker $ticker,
+		#[Column(type: 'integer')]
+		#[ForeignKey(target: Ticker::class)]
+		private int $tickerId,
 		#[Column(type: 'timestamp')]
 		private DateTimeImmutable $date,
 		#[ColumnDecimal(precision: 8, scale: 4)]

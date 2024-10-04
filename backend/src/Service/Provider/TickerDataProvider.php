@@ -47,11 +47,11 @@ class TickerDataProvider
 			function (TickerData $tickerData) use ($splits): TickerDataAdjustedDto {
 				$splitFactor = new Decimal(1);
 				foreach ($splits as $split) {
-					if ($split->getDate() <= $tickerData->getDate()) {
+					if ($split->date <= $tickerData->getDate()) {
 						continue;
 					}
 
-					$splitFactor = $splitFactor->mul($split->getFactor());
+					$splitFactor = $splitFactor->mul($split->factor);
 				}
 
 				return new TickerDataAdjustedDto(
