@@ -19,11 +19,11 @@ use Psr\Http\Server\RequestHandlerInterface;
 final class AuthorizationMiddleware implements MiddlewareInterface
 {
 	/** @api */
-	public const AttributeToken = 'token';
-	public const AttributeUser = 'user';
+	public const string AttributeToken = 'token';
+	public const string AttributeUser = 'user';
 
-	private const AuthHeader = 'Authorization';
-	private const AuthHeaderType = 'Bearer ';
+	public const string AuthHeader = 'Authorization';
+	public const string AuthHeaderType = 'Bearer ';
 
 	public function __construct(private readonly UserProvider $userProvider)
 	{

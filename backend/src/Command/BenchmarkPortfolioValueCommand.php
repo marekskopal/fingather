@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace FinGather\Command;
 
 use FinGather\App\ApplicationFactory;
-use FinGather\Controller\PortfolioDataController;
 use FinGather\Dto\Enum\RangeEnum;
-use FinGather\Middleware\AuthorizationMiddleware;
+use FinGather\Service\Authentication\AuthenticationService;
 use FinGather\Service\Provider\DataProvider;
 use FinGather\Service\Provider\PortfolioDataProvider;
 use FinGather\Service\Provider\PortfolioProvider;
@@ -42,8 +41,8 @@ final class BenchmarkPortfolioValueCommand extends AbstractCommand
 		$portfolioDataProvider = $application->container->get(PortfolioDataProvider::class);
 		assert($portfolioDataProvider instanceof PortfolioDataProvider);
 
-		$portfolioDataController = $application->container->get(PortfolioDataController::class);
-		assert($portfolioDataController instanceof PortfolioDataController);
+		$authenticationService = $application->container->get(AuthenticationService::class);
+		assert($authenticationService instanceof AuthenticationService);
 
 		$userId = 2;
 		$user = $userProvider->getUser($userId);
@@ -55,13 +54,13 @@ final class BenchmarkPortfolioValueCommand extends AbstractCommand
 		$portfolio = $portfolioProvider->getDefaultPortfolio($user);
 
 		$serverRequest = new ServerRequest('GET', '/api/portfolio-data-range/' . $portfolio->getId());
-		$serverRequest = $serverRequest->withAttribute(AuthorizationMiddleware::AttributeUser, $user);
 		$serverRequest = $serverRequest->withQueryParams(['range' => RangeEnum::All->value]);
+		$serverRequest = $authenticationService->addAuthenticationHeader($serverRequest, $user);
 
 		//BEGIN
 		$timeStart = hrtime(true);
 
-		$portfolioDataController->actionGetPortfolioDataRange($serverRequest, $portfolio->getId());
+		$application->handler->handle($serverRequest);
 
 		$timeEnd = hrtime(true);
 		//END
