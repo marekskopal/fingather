@@ -32,7 +32,6 @@ use FinGather\Service\Provider\TickerDataProvider;
 use FinGather\Tests\Fixtures\Model\Entity\AssetFixture;
 use FinGather\Tests\Fixtures\Model\Entity\PortfolioFixture;
 use FinGather\Tests\Fixtures\Model\Entity\SplitDtoFixture;
-use FinGather\Tests\Fixtures\Model\Entity\TickerDataFixture;
 use FinGather\Tests\Fixtures\Model\Entity\TransactionFixture;
 use FinGather\Tests\Fixtures\Model\Entity\UserFixture;
 use FinGather\Utils\CalculatorUtils;
@@ -68,7 +67,7 @@ final class AssetDataCalculatorTest extends TestCase
 		$assetDataCalculator = $this->createAssetDataCalculator(
 			transactions: [],
 			splits: [],
-			lastTickerData: TickerDataFixture::getTickerData(),
+			lastTickerDataClose: new Decimal(10),
 			exchangeRate: new Decimal(1),
 		);
 
@@ -570,9 +569,7 @@ final class AssetDataCalculatorTest extends TestCase
 		$assetDataCalculator = $this->createAssetDataCalculator(
 			transactions: $transactions,
 			splits: $splits,
-			lastTickerData: TickerDataFixture::getTickerData(
-				close: new Decimal((string) $lastTickerDataClose),
-			),
+			lastTickerDataClose: new Decimal((string) $lastTickerDataClose),
 			exchangeRate: new Decimal((string) $exchangeRate),
 		);
 
@@ -608,7 +605,7 @@ final class AssetDataCalculatorTest extends TestCase
 	private function createAssetDataCalculator(
 		array $transactions,
 		array $splits,
-		TickerData $lastTickerData,
+		Decimal $lastTickerDataClose,
 		Decimal $exchangeRate,
 	): AssetDataCalculator
 	{
@@ -621,8 +618,8 @@ final class AssetDataCalculatorTest extends TestCase
 			->willReturn($splits);
 
 		$tickerDataProvider = self::createStub(TickerDataProvider::class);
-		$tickerDataProvider->method('getLastTickerData')
-			->willReturn($lastTickerData);
+		$tickerDataProvider->method('getLastTickerDataClose')
+			->willReturn($lastTickerDataClose);
 
 		$exchangeRateProvider = $this->createMock(ExchangeRateProvider::class);
 		$exchangeRateProvider->method('getExchangeRate')

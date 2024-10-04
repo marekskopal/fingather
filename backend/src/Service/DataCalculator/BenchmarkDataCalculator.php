@@ -57,8 +57,8 @@ final class BenchmarkDataCalculator
 			));
 		}
 
-		$benchmarkAssetTickerData = $this->tickerDataProvider->getLastTickerData($benchmarkAsset->getTicker(), $dateTime);
-		if ($benchmarkAssetTickerData !== null) {
+		$benchmarkAssetTickerDataClose = $this->tickerDataProvider->getLastTickerDataClose($benchmarkAsset->getTicker(), $dateTime);
+		if ($benchmarkAssetTickerDataClose !== null) {
 			$benchmarkExchangeRateDefaultCurrency = $this->exchangeRateProvider->getExchangeRate(
 				$dateTime,
 				$benchmarkTickerCurrency,
@@ -68,7 +68,7 @@ final class BenchmarkDataCalculator
 			$benchmarkUnitsSum = $benchmarkUnitsSum->add($benchmarkFromDateUnits);
 
 			$value = $benchmarkUnitsSum->mul(
-				$benchmarkAssetTickerData->getClose()->mul($benchmarkExchangeRateDefaultCurrency),
+				$benchmarkAssetTickerDataClose->mul($benchmarkExchangeRateDefaultCurrency),
 			);
 		} else {
 			$value = new Decimal(0);
@@ -90,11 +90,11 @@ final class BenchmarkDataCalculator
 
 		$transactionActionCreated = $transaction->getActionCreated();
 
-		$benchmarkTransactionAssetTickerData = $this->tickerDataProvider->getLastTickerData(
+		$benchmarkTransactionAssetTickerDataClose = $this->tickerDataProvider->getLastTickerDataClose(
 			$benchmarkAssetTicker,
 			$transactionActionCreated,
 		);
-		if ($benchmarkTransactionAssetTickerData === null) {
+		if ($benchmarkTransactionAssetTickerDataClose === null) {
 			return new Decimal(0);
 		}
 
@@ -108,7 +108,7 @@ final class BenchmarkDataCalculator
 			$defaultCurrency,
 		);
 
-		$benchmarkPrice = $benchmarkTransactionAssetTickerData->getClose();
+		$benchmarkPrice = $benchmarkTransactionAssetTickerDataClose;
 		$benchmarkPriceUnitDefaultCurrency = $benchmarkPrice->mul($benchmarkTransactionExchangeRateDefaultCurrency);
 
 		$this->transactionBenchmarkUnits[$key] = $transactionUnits->mul($transactionPriceUnitDefaultCurrency)->div(

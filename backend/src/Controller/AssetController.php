@@ -57,12 +57,12 @@ final class AssetController
 		$assetDtos = [];
 
 		foreach ($assets as $asset) {
-			$lastTickerData = $this->tickerDataProvider->getLastTickerData($asset->getTicker(), $dateTime);
-			if ($lastTickerData === null) {
+			$lastTickerDataClose = $this->tickerDataProvider->getLastTickerDataClose($asset->getTicker(), $dateTime);
+			if ($lastTickerDataClose === null) {
 				continue;
 			}
 
-			$assetDtos[] = AssetDto::fromEntity($asset, $lastTickerData->getClose());
+			$assetDtos[] = AssetDto::fromEntity($asset, $lastTickerDataClose);
 		}
 
 		return new JsonResponse($assetDtos);
@@ -116,12 +116,12 @@ final class AssetController
 
 		$assetData = $this->assetDataProvider->getAssetData($user, $asset->getPortfolio(), $asset, $dateTime);
 		if ($assetData === null) {
-			$lastTickerData = $this->tickerDataProvider->getLastTickerData($asset->getTicker(), $dateTime);
-			if ($lastTickerData === null) {
+			$lastTickerDataClose = $this->tickerDataProvider->getLastTickerDataClose($asset->getTicker(), $dateTime);
+			if ($lastTickerDataClose === null) {
 				return new NotFoundResponse('Asset with id "' . $assetId . '" was not found.');
 			}
 
-			return new JsonResponse(AssetDto::fromEntity($asset, $lastTickerData->getClose()));
+			return new JsonResponse(AssetDto::fromEntity($asset, $lastTickerDataClose));
 		}
 
 		return new JsonResponse(AssetWithPropertiesDto::fromEntity($asset, $assetData, 0));
@@ -150,8 +150,8 @@ final class AssetController
 		}
 
 		$dateTime = new DateTimeImmutable();
-		$lastTickerData = $this->tickerDataProvider->getLastTickerData($ticker, $dateTime);
-		if ($lastTickerData === null) {
+		$lastTickerDataClose = $this->tickerDataProvider->getLastTickerDataClose($ticker, $dateTime);
+		if ($lastTickerDataClose === null) {
 			return new NotFoundResponse('Ticker Data for ticker with id "' . $ticker->getId() . '" was not found.');
 		}
 
@@ -159,6 +159,6 @@ final class AssetController
 			user: $user,
 			portfolio: $portfolio,
 			ticker: $ticker,
-		), $lastTickerData->getClose()));
+		), $lastTickerDataClose));
 	}
 }

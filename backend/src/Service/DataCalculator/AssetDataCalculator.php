@@ -98,8 +98,8 @@ final class AssetDataCalculator
 
 		$transactionValue = $this->countTransactionValue($buys);
 
-		$lastTickerData = $this->tickerDataProvider->getLastTickerData($asset->getTicker(), $dateTime);
-		$price = $lastTickerData?->getClose() ?? new Decimal(0);
+		$lastTickerDataClose = $this->tickerDataProvider->getLastTickerDataClose($asset->getTicker(), $dateTime);
+		$price = $lastTickerDataClose ?? new Decimal(0);
 
 		$value = $units->mul($price);
 		$gain = $value->sub($transactionValue->value);
