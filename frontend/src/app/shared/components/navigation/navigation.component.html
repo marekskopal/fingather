@@ -22,7 +22,9 @@
             <img ngSrc="/images/fingather.svg" alt="FinGather" width="100" height="25">
         </a>
 
-        <fingather-portfolio-selector />
+        @if (!isNavigationCollapsed) {
+            <fingather-portfolio-selector />
+        }
 
         <ul class="nav mb-auto">
             <li class="nav-item">
