@@ -15,6 +15,7 @@ final class BinanceMapper extends CsvMapper
 		return BrokerImportTypeEnum::Binance;
 	}
 
+	/** @return list<array<string, string>> */
 	public function getRecords(string $content): array
 	{
 		$csvRecords = parent::getRecords($content);
