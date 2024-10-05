@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Provider;
 
-use Cycle\Database\Exception\StatementException\ConstrainException;
 use DateTimeImmutable;
 use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\AssetData;
@@ -77,17 +76,7 @@ class AssetDataProvider
 			firstTransactionActionCreated: $assetDataDto->firstTransactionActionCreated,
 		);
 
-		try {
-			$this->assetDataRepository->persist($assetData);
-		} catch (ConstrainException) {
-			$assetData = $this->assetDataRepository->findAssetData(
-				userId: $user->getId(),
-				portfolioId: $portfolio->getId(),
-				assetId: $asset->getId(),
-				date: $dateTime,
-			);
-			assert($assetData instanceof AssetData);
-		}
+		$this->assetDataRepository->addToBulkInsert($assetData);
 
 		return $assetData;
 	}

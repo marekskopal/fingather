@@ -7,6 +7,7 @@ namespace FinGather\App;
 use Cycle\ORM\ORM;
 use FinGather\Cache\Cache;
 use FinGather\Middleware\AuthorizationMiddleware;
+use FinGather\Middleware\BulkInsertMiddleware;
 use FinGather\Model\Entity\ApiImport;
 use FinGather\Model\Entity\ApiKey;
 use FinGather\Model\Entity\Asset;
@@ -68,6 +69,7 @@ use FinGather\Model\Repository\UserRepository;
 use FinGather\Route\Strategy\JsonStrategy;
 use FinGather\Service\Dbal\DbContext;
 use FinGather\Service\Logger\Logger;
+use FinGather\Service\Provider\BulkInsertProvider;
 use FinGather\Service\Request\RequestService;
 use FinGather\Service\Request\RequestServiceInterface;
 use Http\Discovery\Psr17FactoryDiscovery;
@@ -125,6 +127,15 @@ final class ApplicationFactory
 			fn (): OpenFigi => new OpenFigi(new \MarekSkopal\OpenFigi\Config\Config($openfigiApiKey !== '' ? $openfigiApiKey : null)),
 		);
 
+		self::initializeOrmContainer($container, $dbContext);
+
+		$container->add(RequestServiceInterface::class, fn () => new RequestService());
+
+		return $container;
+	}
+
+	private static function initializeOrmContainer(Container $container, DbContext $dbContext): void
+	{
 		$container->add(ORM::class, $dbContext->getOrm());
 
 		$orm = $container->get(ORM::class);
@@ -160,9 +171,11 @@ final class ApplicationFactory
 		$container->add(TransactionRepository::class, fn () => $orm->getRepository(Transaction::class));
 		$container->add(UserRepository::class, fn () => $orm->getRepository(User::class));
 
-		$container->add(RequestServiceInterface::class, fn () => new RequestService());
-
-		return $container;
+		$bulkInsertProvider = $container->get(BulkInsertProvider::class);
+		assert($bulkInsertProvider instanceof BulkInsertProvider);
+		$assetDataRepository = $container->get(AssetDataRepository::class);
+		assert($assetDataRepository instanceof AssetDataRepository);
+		$bulkInsertProvider->addRepository($assetDataRepository);
 	}
 
 	private static function initializeRequestHandler(ContainerInterface $container): RequestHandlerInterface
@@ -187,6 +200,10 @@ final class ApplicationFactory
 		$authorizationMiddleware = $container->get(AuthorizationMiddleware::class);
 		assert($authorizationMiddleware instanceof AuthorizationMiddleware);
 		$router->middleware($authorizationMiddleware);
+
+		$bulkInsertMiddleware = $container->get(BulkInsertMiddleware::class);
+		assert($bulkInsertMiddleware instanceof BulkInsertMiddleware);
+		$router->middleware($bulkInsertMiddleware);
 
 		return $router;
 	}

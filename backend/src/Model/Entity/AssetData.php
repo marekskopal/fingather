@@ -9,6 +9,7 @@ use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\RefersTo;
 use Cycle\ORM\Parser\Typecast;
 use DateTimeImmutable;
+use DateTimeInterface;
 use Decimal\Decimal;
 use FinGather\Model\Repository\AssetDataRepository;
 use MarekSkopal\Cycle\Decimal\ColumnDecimal;
@@ -18,7 +19,7 @@ use MarekSkopal\Cycle\Decimal\DecimalTypecast;
 	Typecast::class,
 	DecimalTypecast::class,
 ])]
-class AssetData extends AEntity
+class AssetData extends AEntity implements BulkInsertEntityInterface
 {
 	public function __construct(
 		#[RefersTo(target: User::class)]
@@ -241,5 +242,83 @@ class AssetData extends AEntity
 	public function getFirstTransactionActionCreated(): DateTimeImmutable
 	{
 		return $this->firstTransactionActionCreated;
+	}
+
+	/** @return list<string> */
+	public function getBulkInsertColumns(): array
+	{
+		return [
+			'user_id',
+			'portfolio_id',
+			'asset_id',
+			'date',
+			'price',
+			'units',
+			'value',
+			'transaction_value',
+			'transaction_value_default_currency',
+			'average_price',
+			'average_price_default_currency',
+			'gain',
+			'gain_default_currency',
+			'gain_percentage',
+			'gain_percentage_per_annum',
+			'realized_gain',
+			'realized_gain_default_currency',
+			'dividend_yield',
+			'dividend_yield_default_currency',
+			'dividend_yield_percentage',
+			'dividend_yield_percentage_per_annum',
+			'fx_impact',
+			'fx_impact_percentage',
+			'fx_impact_percentage_per_annum',
+			'return',
+			'return_percentage',
+			'return_percentage_per_annum',
+			'tax',
+			'tax_default_currency',
+			'fee',
+			'fee_default_currency',
+			'first_transaction_action_created',
+		];
+	}
+
+	/** @return list<string|int|float|DateTimeInterface> */
+	public function getBulkInsertValues(): array
+	{
+		return [
+			$this->user->getId(),
+			$this->portfolio->getId(),
+			$this->asset->getId(),
+			$this->date,
+			(string) $this->price,
+			(string) $this->units,
+			(string) $this->value,
+			(string) $this->transactionValue,
+			(string) $this->transactionValueDefaultCurrency,
+			(string) $this->averagePrice,
+			(string) $this->averagePriceDefaultCurrency,
+			(string) $this->gain,
+			(string) $this->gainDefaultCurrency,
+			$this->gainPercentage,
+			$this->gainPercentagePerAnnum,
+			(string) $this->realizedGain,
+			(string) $this->realizedGainDefaultCurrency,
+			(string) $this->dividendYield,
+			(string) $this->dividendYieldDefaultCurrency,
+			$this->dividendYieldPercentage,
+			$this->dividendYieldPercentagePerAnnum,
+			(string) $this->fxImpact,
+			(string) $this->fxImpactPercentage,
+			$this->fxImpactPercentagePerAnnum,
+			(string) $this->return,
+			$this->returnPercentage,
+			$this->returnPercentagePerAnnum,
+			(string) $this->tax,
+			(string) $this->taxDefaultCurrency,
+			(string) $this->fee,
+			(string) $this->feeDefaultCurrency,
+			$this->firstTransactionActionCreated,
+		];
 	}
 }

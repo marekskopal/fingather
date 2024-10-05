@@ -8,8 +8,8 @@ use DateTimeImmutable;
 use FinGather\Model\Entity\AssetData;
 use FinGather\Model\Entity\PortfolioData;
 
-/** @extends ARepository<AssetData> */
-final class AssetDataRepository extends ARepository
+/** @extends ABulkInsertRepository<AssetData> */
+final class AssetDataRepository extends ABulkInsertRepository
 {
 	public function findAssetData(int $userId, int $portfolioId, int $assetId, DateTimeImmutable $date): ?AssetData
 	{
