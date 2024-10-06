@@ -21,7 +21,7 @@ class SplitProvider
 
 	public function __construct(private readonly SplitRepository $splitRepository, private readonly TwelveData $twelveData)
 	{
-		$this->cache = new Cache(self::class);
+		$this->cache = new Cache(namespace: self::class);
 	}
 
 	/** @return list<SplitDto> */

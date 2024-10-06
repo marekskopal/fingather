@@ -81,7 +81,7 @@ final readonly class DbContext
 		// Initialize annotations
 		//AnnotationRegistry::registerLoader('class_exists');
 
-		$cache = new Cache(self::CacheNamespace);
+		$cache = new Cache(namespace: self::CacheNamespace);
 		$schema = $cache->get(self::CacheKey);
 		if ($schema !== null && is_array($schema)) {
 			$this->orm = new ORM(new Factory($this->dbal), new Schema($schema));
