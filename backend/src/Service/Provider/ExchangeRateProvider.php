@@ -21,7 +21,7 @@ class ExchangeRateProvider
 
 	public function __construct(private readonly ExchangeRateRepository $exchangeRateRepository, private readonly TwelveData $twelveData,)
 	{
-		$this->cache = new Cache(self::class);
+		$this->cache = new Cache(namespace: self::class);
 	}
 
 	public function getExchangeRate(DateTimeImmutable $date, Currency $currencyFrom, Currency $currencyTo): Decimal

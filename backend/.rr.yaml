@@ -69,5 +69,12 @@ kv:
         config:
             addr: ${MEMCACHED_HOST}:${MEMCACHED_PORT}
 
+    redis:
+        driver: redis
+        config:
+            addrs:
+                - ${REDIS_HOST}:${REDIS_PORT}
+            password: ${REDIS_PASSWORD}
+
 rpc:
     listen: tcp://127.0.0.1:6001

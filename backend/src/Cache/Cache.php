@@ -16,7 +16,7 @@ final class Cache implements CacheInterface
 {
 	private readonly StorageInterface $storage;
 
-	public function __construct(private readonly ?string $namespace = null)
+	public function __construct(CacheDriverEnum $driver = CacheDriverEnum::Memcached, private readonly ?string $namespace = null)
 	{
 		/** @var non-empty-string $address */
 		$address = Environment::fromGlobals()->getRPCAddress();
@@ -24,7 +24,7 @@ final class Cache implements CacheInterface
 
 		$this->storage = (new Factory($rpc))
 			->withSerializer(new IgbinarySerializer())
-			->select('memcached');
+			->select($driver->value);
 	}
 
 	public function get(string $key, mixed $default = null): mixed

@@ -33,7 +33,7 @@ class TickerDataProvider
 		private readonly SplitProvider $splitProvider,
 		private readonly TwelveData $twelveData,
 	) {
-		$this->cache = new Cache(self::class);
+		$this->cache = new Cache(namespace: self::class);
 	}
 
 	/** @return list<TickerData> */
