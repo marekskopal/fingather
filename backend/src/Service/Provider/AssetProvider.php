@@ -17,7 +17,7 @@ use FinGather\Model\Repository\AssetRepository;
 
 class AssetProvider
 {
-	public function __construct(private readonly AssetRepository $assetRepository, private readonly GroupProvider $groupProvider,)
+	public function __construct(private readonly AssetRepository $assetRepository)
 	{
 	}
 
@@ -69,11 +69,9 @@ class AssetProvider
 		return $this->assetRepository->findAsset($assetId, $user->getId());
 	}
 
-	public function createAsset(User $user, Portfolio $portfolio, Ticker $ticker): Asset
+	public function createAsset(User $user, Portfolio $portfolio, Ticker $ticker, Group $othersGroup): Asset
 	{
-		$group = $this->groupProvider->getOthersGroup($user, $portfolio);
-
-		$asset = new Asset(user: $user, portfolio: $portfolio, ticker: $ticker, group: $group);
+		$asset = new Asset(user: $user, portfolio: $portfolio, ticker: $ticker, group: $othersGroup);
 
 		$this->assetRepository->persist($asset);
 

@@ -15,7 +15,7 @@ use FinGather\Service\DataCalculator\DataCalculator;
 use FinGather\Service\DataCalculator\Dto\CalculatedDataDto;
 use FinGather\Utils\DateTimeUtils;
 
-class CalculatedDataProvider
+class CalculatedGroupDataProvider
 {
 	public function __construct(
 		private readonly DataCalculator $dataCalculator,
@@ -24,7 +24,7 @@ class CalculatedDataProvider
 	) {
 	}
 
-	public function getCalculatedDate(
+	public function getCalculatedData(
 		User $user,
 		Portfolio $portfolio,
 		DateTimeImmutable $dateTime,

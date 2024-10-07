@@ -4,70 +4,56 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Provider;
 
-use Cycle\Database\Exception\StatementException\ConstrainException;
 use DateTimeImmutable;
 use FinGather\Model\Entity\Group;
-use FinGather\Model\Entity\GroupData;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
-use FinGather\Model\Repository\GroupDataRepository;
+use FinGather\Service\Cache\CacheDriverEnum;
+use FinGather\Service\Cache\CacheFactory;
+use FinGather\Service\Cache\CacheWithTags;
+use FinGather\Service\DataCalculator\Dto\CalculatedDataDto;
 use FinGather\Utils\DateTimeUtils;
 
 class GroupDataProvider
 {
-	public function __construct(
-		private readonly GroupDataRepository $groupDataRepository,
-		private readonly CalculatedDataProvider $calculatedDataProvider,
-	) {
+	private CacheWithTags $cache;
+
+	public function __construct(private readonly CalculatedGroupDataProvider $calculatedDataProvider, CacheFactory $cacheFactory)
+	{
+		$this->cache = $cacheFactory->create(driver: CacheDriverEnum::Redis, namespace: self::class);
 	}
 
-	public function getGroupData(Group $group, User $user, Portfolio $portfolio, DateTimeImmutable $dateTime): GroupData
+	public function getGroupData(Group $group, User $user, Portfolio $portfolio, DateTimeImmutable $dateTime): CalculatedDataDto
 	{
 		$dateTime = DateTimeUtils::setEndOfDateTime($dateTime);
 
-		$groupData = $this->groupDataRepository->findGroupData($group->getId(), $dateTime);
+		$key = $group->getId() . '-' . $portfolio->getId() . '-' . $dateTime->getTimestamp();
+
+		/** @var CalculatedDataDto|null $groupData */
+		$groupData = $this->cache->get($key);
 		if ($groupData !== null) {
 			return $groupData;
 		}
 
-		$calculatedData = $this->calculatedDataProvider->getCalculatedDate($user, $portfolio, $dateTime, $group);
+		$calculatedData = $this->calculatedDataProvider->getCalculatedData($user, $portfolio, $dateTime, $group);
 
-		$groupData = new GroupData(
-			group: $group,
-			user: $user,
-			portfolio: $portfolio,
+		$this->cache->setWithTags(
+			key: $key,
+			value: $calculatedData,
+			userId: $user->getId(),
+			portfolioId: $portfolio->getId(),
 			date: $dateTime,
-			value: $calculatedData->value,
-			transactionValue: $calculatedData->transactionValue,
-			gain: $calculatedData->gain,
-			gainPercentage: $calculatedData->gainPercentage,
-			gainPercentagePerAnnum: $calculatedData->gainPercentagePerAnnum,
-			realizedGain: $calculatedData->realizedGain,
-			dividendYield: $calculatedData->dividendYield,
-			dividendYieldPercentage: $calculatedData->dividendYieldPercentage,
-			dividendYieldPercentagePerAnnum: $calculatedData->dividendYieldPercentagePerAnnum,
-			fxImpact: $calculatedData->fxImpact,
-			fxImpactPercentage: $calculatedData->fxImpactPercentage,
-			fxImpactPercentagePerAnnum: $calculatedData->fxImpactPercentagePerAnnum,
-			return: $calculatedData->return,
-			returnPercentage: $calculatedData->returnPercentage,
-			returnPercentagePerAnnum: $calculatedData->returnPercentagePerAnnum,
-			tax: $calculatedData->tax,
-			fee: $calculatedData->fee,
 		);
 
-		try {
-			$this->groupDataRepository->persist($groupData);
-		} catch (ConstrainException) {
-			$groupData = $this->groupDataRepository->findGroupData($group->getId(), $dateTime);
-			assert($groupData instanceof GroupData);
-		}
-
-		return $groupData;
+		return $calculatedData;
 	}
 
 	public function deleteUserGroupData(?User $user = null, ?Portfolio $portfolio = null, ?DateTimeImmutable $date = null): void
 	{
-		$this->groupDataRepository->deleteUserGroupData($user?->getId(), $portfolio?->getId(), $date);
+		$this->cache->deleteWithTags(
+			$user?->getId(),
+			$portfolio?->getId(),
+			$date,
+		);
 	}
 }

@@ -4,28 +4,46 @@ declare(strict_types=1);
 
 namespace FinGather\Dto;
 
-use FinGather\Model\Entity\GroupData;
+use Decimal\Decimal;
+use FinGather\Service\DataCalculator\Dto\CalculatedDataDto;
 
-final readonly class GroupDataDto extends AbstractGroupDataDto
+readonly class GroupDataDto
 {
-	public static function fromEntity(GroupData $groupData): self
+	public function __construct(
+		public Decimal $value,
+		public Decimal $transactionValue,
+		public Decimal $gain,
+		public float $gainPercentage,
+		public float $gainPercentagePerAnnum,
+		public Decimal $dividendYield,
+		public float $dividendYieldPercentage,
+		public float $dividendYieldPercentagePerAnnum,
+		public Decimal $fxImpact,
+		public float $fxImpactPercentage,
+		public float $fxImpactPercentagePerAnnum,
+		public Decimal $return,
+		public float $returnPercentage,
+		public float $returnPercentagePerAnnum,
+	) {
+	}
+
+	public static function fromCalculatedDataDto(CalculatedDataDto $calculatedDataDto): self
 	{
 		return new self(
-			id: $groupData->getId(),
-			value: $groupData->getValue(),
-			transactionValue: $groupData->getTransactionValue(),
-			gain: $groupData->getGain(),
-			gainPercentage: $groupData->getGainPercentage(),
-			gainPercentagePerAnnum: $groupData->getGainPercentagePerAnnum(),
-			dividendYield: $groupData->getdividendYield(),
-			dividendYieldPercentage: $groupData->getdividendYieldPercentage(),
-			dividendYieldPercentagePerAnnum: $groupData->getdividendYieldPercentagePerAnnum(),
-			fxImpact: $groupData->getFxImpact(),
-			fxImpactPercentage: $groupData->getFxImpactPercentage(),
-			fxImpactPercentagePerAnnum: $groupData->getFxImpactPercentagePerAnnum(),
-			return: $groupData->getReturn(),
-			returnPercentage: $groupData->getReturnPercentage(),
-			returnPercentagePerAnnum: $groupData->getReturnPercentagePerAnnum(),
+			$calculatedDataDto->value,
+			$calculatedDataDto->transactionValue,
+			$calculatedDataDto->gain,
+			$calculatedDataDto->gainPercentage,
+			$calculatedDataDto->gainPercentagePerAnnum,
+			$calculatedDataDto->dividendYield,
+			$calculatedDataDto->dividendYieldPercentage,
+			$calculatedDataDto->dividendYieldPercentagePerAnnum,
+			$calculatedDataDto->fxImpact,
+			$calculatedDataDto->fxImpactPercentage,
+			$calculatedDataDto->fxImpactPercentagePerAnnum,
+			$calculatedDataDto->return,
+			$calculatedDataDto->returnPercentage,
+			$calculatedDataDto->returnPercentagePerAnnum,
 		);
 	}
 }

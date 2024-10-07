@@ -4,70 +4,56 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Provider;
 
-use Cycle\Database\Exception\StatementException\ConstrainException;
 use DateTimeImmutable;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\Sector;
-use FinGather\Model\Entity\SectorData;
 use FinGather\Model\Entity\User;
-use FinGather\Model\Repository\SectorDataRepository;
+use FinGather\Service\Cache\CacheDriverEnum;
+use FinGather\Service\Cache\CacheFactory;
+use FinGather\Service\Cache\CacheWithTags;
+use FinGather\Service\DataCalculator\Dto\CalculatedDataDto;
 use FinGather\Utils\DateTimeUtils;
 
 class SectorDataProvider
 {
-	public function __construct(
-		private readonly SectorDataRepository $sectorDataRepository,
-		private readonly CalculatedDataProvider $calculatedDataProvider,
-	) {
+	private CacheWithTags $cache;
+
+	public function __construct(private readonly CalculatedGroupDataProvider $calculatedDataProvider, CacheFactory $cacheFactory)
+	{
+		$this->cache = $cacheFactory->create(driver: CacheDriverEnum::Redis, namespace: self::class);
 	}
 
-	public function getSectorData(Sector $sector, User $user, Portfolio $portfolio, DateTimeImmutable $dateTime): SectorData
+	public function getSectorData(Sector $sector, User $user, Portfolio $portfolio, DateTimeImmutable $dateTime): CalculatedDataDto
 	{
 		$dateTime = DateTimeUtils::setEndOfDateTime($dateTime);
 
-		$sectorData = $this->sectorDataRepository->findSectorData($sector->getId(), $portfolio->getId(), $dateTime);
+		$key = $sector->getId() . '-' . $portfolio->getId() . '-' . $dateTime->getTimestamp();
+
+		/** @var CalculatedDataDto|null $sectorData */
+		$sectorData = $this->cache->get($key);
 		if ($sectorData !== null) {
 			return $sectorData;
 		}
 
-		$calculatedData = $this->calculatedDataProvider->getCalculatedDate($user, $portfolio, $dateTime, sector: $sector);
+		$calculatedData = $this->calculatedDataProvider->getCalculatedData($user, $portfolio, $dateTime, sector: $sector);
 
-		$sectorData = new SectorData(
-			sector: $sector,
-			user: $user,
-			portfolio: $portfolio,
+		$this->cache->setWithTags(
+			key: $key,
+			value: $calculatedData,
+			userId: $user->getId(),
+			portfolioId: $portfolio->getId(),
 			date: $dateTime,
-			value: $calculatedData->value,
-			transactionValue: $calculatedData->transactionValue,
-			gain: $calculatedData->gain,
-			gainPercentage: $calculatedData->gainPercentage,
-			gainPercentagePerAnnum: $calculatedData->gainPercentagePerAnnum,
-			realizedGain: $calculatedData->realizedGain,
-			dividendYield: $calculatedData->dividendYield,
-			dividendYieldPercentage: $calculatedData->dividendYieldPercentage,
-			dividendYieldPercentagePerAnnum: $calculatedData->dividendYieldPercentagePerAnnum,
-			fxImpact: $calculatedData->fxImpact,
-			fxImpactPercentage: $calculatedData->fxImpactPercentage,
-			fxImpactPercentagePerAnnum: $calculatedData->fxImpactPercentagePerAnnum,
-			return: $calculatedData->return,
-			returnPercentage: $calculatedData->returnPercentage,
-			returnPercentagePerAnnum: $calculatedData->returnPercentagePerAnnum,
-			tax: $calculatedData->tax,
-			fee: $calculatedData->fee,
 		);
 
-		try {
-			$this->sectorDataRepository->persist($sectorData);
-		} catch (ConstrainException) {
-			$sectorData = $this->sectorDataRepository->findSectorData($sector->getId(), $sector->getId(), $dateTime);
-			assert($sectorData instanceof SectorData);
-		}
-
-		return $sectorData;
+		return $calculatedData;
 	}
 
 	public function deleteUserSectorData(?User $user = null, ?Portfolio $portfolio = null, ?DateTimeImmutable $date = null): void
 	{
-		$this->sectorDataRepository->deleteUserSectorData($user?->getId(), $portfolio?->getId(), $date);
+		$this->cache->deleteWithTags(
+			$user?->getId(),
+			$portfolio?->getId(),
+			$date,
+		);
 	}
 }

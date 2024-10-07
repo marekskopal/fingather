@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Provider;
 
-use FinGather\Dto\SectorDataDto;
+use FinGather\Dto\GroupDataDto;
 use FinGather\Dto\SectorWithSectorDataDto;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
@@ -31,7 +31,7 @@ class SectorWithSectorDataProvider
 
 		foreach	($sectors as $sectorId => $sector) {
 			$sectorData = $this->sectorDataProvider->getSectorData($sector, $user, $portfolio, $dateTime);
-			if ($sectorData->getValue()->isZero()) {
+			if ($sectorData->value->isZero()) {
 				continue;
 			}
 
@@ -39,8 +39,8 @@ class SectorWithSectorDataProvider
 				id: $sectorId,
 				userId: $user->getId(),
 				name: $sector->getName(),
-				percentage: CalculatorUtils::toPercentage($sectorData->getValue(), $portfolioData->getValue()),
-				groupData: SectorDataDto::fromEntity($sectorData),
+				percentage: CalculatorUtils::toPercentage($sectorData->value, $portfolioData->getValue()),
+				groupData: GroupDataDto::fromCalculatedDataDto($sectorData),
 			);
 		}
 
