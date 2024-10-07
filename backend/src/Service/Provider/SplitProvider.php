@@ -6,10 +6,11 @@ namespace FinGather\Service\Provider;
 
 use DateTimeImmutable;
 use Decimal\Decimal;
-use FinGather\Cache\Cache;
 use FinGather\Model\Entity\Split;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Repository\SplitRepository;
+use FinGather\Service\Cache\Cache;
+use FinGather\Service\Cache\CacheFactory;
 use FinGather\Service\Provider\Dto\SplitDto;
 use MarekSkopal\TwelveData\Enum\RangeEnum;
 use MarekSkopal\TwelveData\Exception\NotFoundException;
@@ -19,9 +20,13 @@ class SplitProvider
 {
 	private readonly Cache $cache;
 
-	public function __construct(private readonly SplitRepository $splitRepository, private readonly TwelveData $twelveData)
+	public function __construct(
+		private readonly SplitRepository $splitRepository,
+		private readonly TwelveData $twelveData,
+		CacheFactory $cacheFactory,
+	)
 	{
-		$this->cache = new Cache(namespace: self::class);
+		$this->cache = $cacheFactory->create(namespace: self::class);
 	}
 
 	/** @return list<SplitDto> */

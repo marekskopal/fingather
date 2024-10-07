@@ -6,11 +6,11 @@ namespace FinGather\Model\Entity;
 
 use DateTimeInterface;
 
-interface BulkInsertEntityInterface
+interface BulkQueryEntityInterface
 {
 	/** @return list<string> */
 	public function getBulkInsertColumns(): array;
 
-	/** @return list<string|int|float|DateTimeInterface> */
+	/** @return list<string|int|float|DateTimeInterface|null> */
 	public function getBulkInsertValues(): array;
 }

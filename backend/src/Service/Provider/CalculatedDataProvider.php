@@ -54,8 +54,8 @@ class CalculatedDataProvider
 				continue;
 			}
 
-			if ($firstTransactionActionCreated > $assetData->getFirstTransactionActionCreated()) {
-				$firstTransactionActionCreated = $assetData->getFirstTransactionActionCreated();
+			if ($firstTransactionActionCreated > $assetData->firstTransactionActionCreated) {
+				$firstTransactionActionCreated = $assetData->firstTransactionActionCreated;
 			}
 
 			$assetDatas[] = $assetData;

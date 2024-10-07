@@ -8,11 +8,12 @@ use Cycle\Database\Exception\StatementException\ConstrainException;
 use DateInterval;
 use DateTimeImmutable;
 use Decimal\Decimal;
-use FinGather\Cache\Cache;
 use FinGather\Model\Entity\Enum\MarketTypeEnum;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\TickerData;
 use FinGather\Model\Repository\TickerDataRepository;
+use FinGather\Service\Cache\Cache;
+use FinGather\Service\Cache\CacheFactory;
 use FinGather\Service\Provider\Dto\TickerDataAdjustedDto;
 use FinGather\Utils\DateTimeUtils;
 use MarekSkopal\TwelveData\Dto\CoreData\TimeSeries;
@@ -32,8 +33,9 @@ class TickerDataProvider
 		private readonly TickerDataRepository $tickerDataRepository,
 		private readonly SplitProvider $splitProvider,
 		private readonly TwelveData $twelveData,
+		CacheFactory $cacheFactory,
 	) {
-		$this->cache = new Cache(namespace: self::class);
+		$this->cache = $cacheFactory->create(namespace: self::class);
 	}
 
 	/** @return list<TickerData> */

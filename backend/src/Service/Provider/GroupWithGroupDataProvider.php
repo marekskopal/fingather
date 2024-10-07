@@ -40,7 +40,7 @@ class GroupWithGroupDataProvider
 			$assetDto = AssetWithPropertiesDto::fromEntity(
 				$asset,
 				$assetData,
-				CalculatorUtils::toPercentage($assetData->getValue(), $portfolioData->getValue()),
+				CalculatorUtils::toPercentage($assetData->value, $portfolioData->getValue()),
 			);
 
 			$group = $asset->getGroup();

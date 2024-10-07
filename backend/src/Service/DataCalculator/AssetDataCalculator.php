@@ -115,6 +115,7 @@ final class AssetDataCalculator
 		$fxImpactPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($fxImpactPercentage, $fromFirstTransactionDays);
 
 		return new AssetDataDto(
+			date: $dateTime,
 			price: $price,
 			units: $units,
 			value: $value->mul($exchangeRate),

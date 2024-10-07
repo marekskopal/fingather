@@ -5,15 +5,14 @@ declare(strict_types=1);
 namespace FinGather\App;
 
 use Cycle\ORM\ORM;
-use FinGather\Cache\Cache;
 use FinGather\Middleware\AuthorizationMiddleware;
 use FinGather\Middleware\BulkInsertMiddleware;
 use FinGather\Model\Entity\ApiImport;
 use FinGather\Model\Entity\ApiKey;
 use FinGather\Model\Entity\Asset;
-use FinGather\Model\Entity\AssetData;
 use FinGather\Model\Entity\BenchmarkData;
 use FinGather\Model\Entity\Broker;
+use FinGather\Model\Entity\CacheTag;
 use FinGather\Model\Entity\Country;
 use FinGather\Model\Entity\CountryData;
 use FinGather\Model\Entity\Currency;
@@ -39,10 +38,10 @@ use FinGather\Model\Entity\Transaction;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\ApiImportRepository;
 use FinGather\Model\Repository\ApiKeyRepository;
-use FinGather\Model\Repository\AssetDataRepository;
 use FinGather\Model\Repository\AssetRepository;
 use FinGather\Model\Repository\BenchmarkDataRepository;
 use FinGather\Model\Repository\BrokerRepository;
+use FinGather\Model\Repository\CacheTagRepository;
 use FinGather\Model\Repository\CountryDataRepository;
 use FinGather\Model\Repository\CountryRepository;
 use FinGather\Model\Repository\CurrencyRepository;
@@ -67,9 +66,10 @@ use FinGather\Model\Repository\TickerRepository;
 use FinGather\Model\Repository\TransactionRepository;
 use FinGather\Model\Repository\UserRepository;
 use FinGather\Route\Strategy\JsonStrategy;
+use FinGather\Service\Cache\Cache;
 use FinGather\Service\Dbal\DbContext;
 use FinGather\Service\Logger\Logger;
-use FinGather\Service\Provider\BulkInsertProvider;
+use FinGather\Service\Provider\BulkQueryProvider;
 use FinGather\Service\Request\RequestService;
 use FinGather\Service\Request\RequestServiceInterface;
 use Http\Discovery\Psr17FactoryDiscovery;
@@ -144,9 +144,9 @@ final class ApplicationFactory
 		$container->add(ApiImportRepository::class, fn () => $orm->getRepository(ApiImport::class));
 		$container->add(ApiKeyRepository::class, fn () => $orm->getRepository(ApiKey::class));
 		$container->add(AssetRepository::class, fn () => $orm->getRepository(Asset::class));
-		$container->add(AssetDataRepository::class, fn () => $orm->getRepository(AssetData::class));
 		$container->add(BenchmarkDataRepository::class, fn () => $orm->getRepository(BenchmarkData::class));
 		$container->add(BrokerRepository::class, fn () => $orm->getRepository(Broker::class));
+		$container->add(CacheTagRepository::class, fn () => $orm->getRepository(CacheTag::class));
 		$container->add(CountryRepository::class, fn () => $orm->getRepository(Country::class));
 		$container->add(CountryDataRepository::class, fn () => $orm->getRepository(CountryData::class));
 		$container->add(CurrencyRepository::class, fn () => $orm->getRepository(Currency::class));
@@ -171,11 +171,11 @@ final class ApplicationFactory
 		$container->add(TransactionRepository::class, fn () => $orm->getRepository(Transaction::class));
 		$container->add(UserRepository::class, fn () => $orm->getRepository(User::class));
 
-		$bulkInsertProvider = $container->get(BulkInsertProvider::class);
-		assert($bulkInsertProvider instanceof BulkInsertProvider);
-		$assetDataRepository = $container->get(AssetDataRepository::class);
-		assert($assetDataRepository instanceof AssetDataRepository);
-		$bulkInsertProvider->addRepository($assetDataRepository);
+		$bulkInsertProvider = $container->get(BulkQueryProvider::class);
+		assert($bulkInsertProvider instanceof BulkQueryProvider);
+		$cacheTagRepository = $container->get(CacheTagRepository::class);
+		assert($cacheTagRepository instanceof CacheTagRepository);
+		$bulkInsertProvider->addRepository($cacheTagRepository);
 	}
 
 	private static function initializeRequestHandler(ContainerInterface $container): RequestHandlerInterface

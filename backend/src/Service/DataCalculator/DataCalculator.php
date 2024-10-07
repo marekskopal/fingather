@@ -6,13 +6,13 @@ namespace FinGather\Service\DataCalculator;
 
 use DateTimeImmutable;
 use Decimal\Decimal;
-use FinGather\Model\Entity\AssetData;
+use FinGather\Service\DataCalculator\Dto\AssetDataDto;
 use FinGather\Service\DataCalculator\Dto\CalculatedDataDto;
 use FinGather\Utils\CalculatorUtils;
 
 final class DataCalculator
 {
-	/** @param array<int, AssetData> $assets */
+	/** @param array<int, AssetDataDto> $assets */
 	public function calculate(
 		array $assets,
 		DateTimeImmutable $dateTime,

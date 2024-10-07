@@ -7,10 +7,11 @@ namespace FinGather\Service\Provider;
 use DateInterval;
 use DateTimeImmutable;
 use Decimal\Decimal;
-use FinGather\Cache\Cache;
 use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\ExchangeRate;
 use FinGather\Model\Repository\ExchangeRateRepository;
+use FinGather\Service\Cache\Cache;
+use FinGather\Service\Cache\CacheFactory;
 use MarekSkopal\TwelveData\Exception\BadRequestException;
 use MarekSkopal\TwelveData\Exception\NotFoundException;
 use MarekSkopal\TwelveData\TwelveData;
@@ -19,9 +20,13 @@ class ExchangeRateProvider
 {
 	private readonly Cache $cache;
 
-	public function __construct(private readonly ExchangeRateRepository $exchangeRateRepository, private readonly TwelveData $twelveData,)
+	public function __construct(
+		private readonly ExchangeRateRepository $exchangeRateRepository,
+		private readonly TwelveData $twelveData,
+		CacheFactory $cacheFactory,
+	)
 	{
-		$this->cache = new Cache(namespace: self::class);
+		$this->cache = $cacheFactory->create(namespace: self::class);
 	}
 
 	public function getExchangeRate(DateTimeImmutable $date, Currency $currencyFrom, Currency $currencyTo): Decimal

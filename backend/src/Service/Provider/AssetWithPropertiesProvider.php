@@ -49,7 +49,7 @@ class AssetWithPropertiesProvider
 			$assetDto = AssetWithPropertiesDto::fromEntity(
 				$asset,
 				$assetData,
-				CalculatorUtils::toPercentage($assetData->getValue(), $portfolioData->getValue()),
+				CalculatorUtils::toPercentage($assetData->value, $portfolioData->getValue()),
 			);
 
 			if ($assetData->isClosed()) {

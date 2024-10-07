@@ -6,32 +6,32 @@ namespace FinGather\Service\Provider;
 
 use DateTimeImmutable;
 use FinGather\Model\Entity\Asset;
-use FinGather\Model\Entity\AssetData;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
-use FinGather\Model\Repository\AssetDataRepository;
+use FinGather\Service\Cache\CacheDriverEnum;
+use FinGather\Service\Cache\CacheFactory;
+use FinGather\Service\Cache\CacheWithTags;
 use FinGather\Service\DataCalculator\AssetDataCalculator;
+use FinGather\Service\DataCalculator\Dto\AssetDataDto;
 use FinGather\Utils\DateTimeUtils;
 
 class AssetDataProvider
 {
-	public function __construct(
-		private readonly AssetDataRepository $assetDataRepository,
-		private readonly AssetDataCalculator $assetDataCalculator,
-	) {
+	private CacheWithTags $cache;
+
+	public function __construct(private readonly AssetDataCalculator $assetDataCalculator, CacheFactory $cacheFactory,)
+	{
+		$this->cache = $cacheFactory->create(driver: CacheDriverEnum::Redis, namespace: self::class);
 	}
 
-	public function getAssetData(User $user, Portfolio $portfolio, Asset $asset, DateTimeImmutable $dateTime): ?AssetData
+	public function getAssetData(User $user, Portfolio $portfolio, Asset $asset, DateTimeImmutable $dateTime): ?AssetDataDto
 	{
 		$dateTime = DateTimeUtils::setEndOfDateTime($dateTime);
 
-		$assetData = $this->assetDataRepository->findAssetData(
-			userId: $user->getId(),
-			portfolioId: $portfolio->getId(),
-			assetId: $asset->getId(),
-			date: $dateTime,
-		);
+		$key = $asset->getId() . $dateTime->getTimestamp();
 
+		/** @var AssetDataDto|null $assetData */
+		$assetData = $this->cache->get($key);
 		if ($assetData !== null) {
 			return $assetData;
 		}
@@ -41,48 +41,23 @@ class AssetDataProvider
 			return null;
 		}
 
-		$assetData = new AssetData(
-			user: $user,
-			portfolio: $portfolio,
-			asset: $asset,
+		$this->cache->setWithTags(
+			key: $key,
+			value: $assetDataDto,
+			userId: $user->getId(),
+			portfolioId: $portfolio->getId(),
 			date: $dateTime,
-			price: $assetDataDto->price,
-			units: $assetDataDto->units,
-			value: $assetDataDto->value,
-			transactionValue: $assetDataDto->transactionValue,
-			transactionValueDefaultCurrency: $assetDataDto->transactionValueDefaultCurrency,
-			averagePrice: $assetDataDto->averagePrice,
-			averagePriceDefaultCurrency: $assetDataDto->averagePriceDefaultCurrency,
-			gain: $assetDataDto->gain,
-			gainDefaultCurrency: $assetDataDto->gainDefaultCurrency,
-			gainPercentage: $assetDataDto->gainPercentage,
-			gainPercentagePerAnnum: $assetDataDto->gainPercentagePerAnnum,
-			realizedGain: $assetDataDto->realizedGain,
-			realizedGainDefaultCurrency: $assetDataDto->realizedGainDefaultCurrency,
-			dividendYield: $assetDataDto->dividendYield,
-			dividendYieldDefaultCurrency: $assetDataDto->dividendYieldDefaultCurrency,
-			dividendYieldPercentage: $assetDataDto->dividendYieldPercentage,
-			dividendYieldPercentagePerAnnum: $assetDataDto->dividendYieldPercentagePerAnnum,
-			fxImpact: $assetDataDto->fxImpact,
-			fxImpactPercentage: $assetDataDto->fxImpactPercentage,
-			fxImpactPercentagePerAnnum: $assetDataDto->fxImpactPercentagePerAnnum,
-			return: $assetDataDto->return,
-			returnPercentage: $assetDataDto->returnPercentage,
-			returnPercentagePerAnnum: $assetDataDto->returnPercentagePerAnnum,
-			tax: $assetDataDto->tax,
-			taxDefaultCurrency: $assetDataDto->taxDefaultCurrency,
-			fee: $assetDataDto->fee,
-			feeDefaultCurrency: $assetDataDto->feeDefaultCurrency,
-			firstTransactionActionCreated: $assetDataDto->firstTransactionActionCreated,
 		);
-
-		$this->assetDataRepository->addToBulkInsert($assetData);
 
 		return $assetData;
 	}
 
 	public function deleteAssetData(?User $user = null, ?Portfolio $portfolio = null, ?DateTimeImmutable $date = null): void
 	{
-		$this->assetDataRepository->deleteAssetData($user?->getId(), $portfolio?->getId(), $date);
+		$this->cache->deleteWithTags(
+			$user?->getId(),
+			$portfolio?->getId(),
+			$date,
+		);
 	}
 }
