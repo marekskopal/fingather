@@ -36,14 +36,14 @@ class AssetDataProvider
 			return $assetData;
 		}
 
-		$assetDataDto = $this->assetDataCalculator->calculate($user, $portfolio, $asset, $dateTime);
-		if ($assetDataDto === null) {
+		$assetData = $this->assetDataCalculator->calculate($user, $portfolio, $asset, $dateTime);
+		if ($assetData === null) {
 			return null;
 		}
 
 		$this->cache->setWithTags(
 			key: $key,
-			value: $assetDataDto,
+			value: $assetData,
 			userId: $user->getId(),
 			portfolioId: $portfolio->getId(),
 			date: $dateTime,
