@@ -53,7 +53,7 @@ final class PortfolioDataController
 
 		$portfolioData = $this->portfolioDataProvider->getPortfolioData($user, $portfolio, $dateTime);
 
-		return new JsonResponse(PortfolioDataDto::fromEntity($portfolioData));
+		return new JsonResponse(PortfolioDataDto::fromCalculatedDataDto($portfolioData));
 	}
 
 	#[RouteGet(Routes::PortfolioDataRange->value)]
@@ -120,7 +120,7 @@ final class PortfolioDataController
 			$portfolioData = $this->portfolioDataProvider->getPortfolioData($user, $portfolio, $dateTimeConverted);
 
 			if ($benchmarkAsset === null) {
-				$portfolioDatas[] = PortfolioDataWithBenchmarkDataDto::fromEntity($portfolioData);
+				$portfolioDatas[] = PortfolioDataWithBenchmarkDataDto::fromCalculatedDataDto($portfolioData);
 				continue;
 			}
 
@@ -130,10 +130,10 @@ final class PortfolioDataController
 					portfolio: $portfolio,
 					benchmarkAsset: $benchmarkAsset,
 					benchmarkFromDateTime: $datePeriod->getStartDate(),
-					portfolioDataValue: $portfolioData->getValue(),
+					portfolioDataValue: $portfolioData->value,
 				);
 
-				$portfolioDatas[] = PortfolioDataWithBenchmarkDataDto::fromEntity($portfolioData, $benchmarkDataFromDate);
+				$portfolioDatas[] = PortfolioDataWithBenchmarkDataDto::fromCalculatedDataDto($portfolioData, $benchmarkDataFromDate);
 			}
 
 			$benchmarkData = $this->benchmarkDataProvider->getBenchmarkData(
@@ -143,10 +143,10 @@ final class PortfolioDataController
 				transactions: $transactions,
 				dateTime: $dateTimeConverted,
 				benchmarkFromDateTime: $datePeriod->getStartDate(),
-				benchmarkFromDateUnits: $benchmarkDataFromDate->getUnits(),
+				benchmarkFromDateUnits: $benchmarkDataFromDate->units,
 			);
 
-			$portfolioDatas[] = PortfolioDataWithBenchmarkDataDto::fromEntity($portfolioData, $benchmarkData);
+			$portfolioDatas[] = PortfolioDataWithBenchmarkDataDto::fromCalculatedDataDto($portfolioData, $benchmarkData);
 		}
 
 		return new JsonResponse($portfolioDatas);

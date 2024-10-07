@@ -6,7 +6,6 @@ namespace FinGather\Model\Repository;
 
 use DateTimeImmutable;
 use FinGather\Model\Entity\CacheTag;
-use FinGather\Model\Entity\PortfolioData;
 use FinGather\Service\Cache\CacheDriverEnum;
 
 /** @extends ABulkQueryRepository<CacheTag> */
@@ -46,7 +45,7 @@ final class CacheTagRepository extends ABulkQueryRepository
 		?DateTimeImmutable $date = null,
 	): void
 	{
-		$deleteAssetData = $this->orm->getSource(PortfolioData::class)
+		$deleteAssetData = $this->orm->getSource(CacheTag::class)
 			->getDatabase()
 			->delete('cache_tags')
 			->where('driver', $driver->value);

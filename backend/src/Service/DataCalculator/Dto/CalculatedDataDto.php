@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace FinGather\Service\DataCalculator\Dto;
 
+use DateTimeImmutable;
 use Decimal\Decimal;
 
 final readonly class CalculatedDataDto
 {
 	public function __construct(
+		public DateTimeImmutable $date,
 		public Decimal $value,
 		public Decimal $transactionValue,
 		public Decimal $gain,

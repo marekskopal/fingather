@@ -44,11 +44,11 @@ final class OverviewDataCalculator
 
 			$portfolioDataFromDate = null;
 			if ($yearFromDate !== null) {
-				$portfolioDataFromDate = PortfolioDataDto::fromEntity(
+				$portfolioDataFromDate = PortfolioDataDto::fromCalculatedDataDto(
 					$this->portfolioDataProvider->getPortfolioData($user, $portfolio, $yearFromDate),
 				);
 			}
-			$portfolioDataToDate = PortfolioDataDto::fromEntity(
+			$portfolioDataToDate = PortfolioDataDto::fromCalculatedDataDto(
 				$this->portfolioDataProvider->getPortfolioData($user, $portfolio, $yearToDate),
 			);
 			$yearFromDate = $yearToDate;

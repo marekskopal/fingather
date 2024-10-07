@@ -40,7 +40,7 @@ class GroupWithGroupDataProvider
 			$assetDto = AssetWithPropertiesDto::fromEntity(
 				$asset,
 				$assetData,
-				CalculatorUtils::toPercentage($assetData->value, $portfolioData->getValue()),
+				CalculatorUtils::toPercentage($assetData->value, $portfolioData->value),
 			);
 
 			$group = $asset->getGroup();
@@ -66,7 +66,7 @@ class GroupWithGroupDataProvider
 				color: $group->getColor(),
 				assetIds: array_map(fn (AssetWithPropertiesDto $asset): int => $asset->id, $groupAssets[$groupId]),
 				assets: $groupAssets[$groupId],
-				percentage: CalculatorUtils::toPercentage($groupData->value, $portfolioData->getValue()),
+				percentage: CalculatorUtils::toPercentage($groupData->value, $portfolioData->value),
 				groupData: GroupDataDto::fromCalculatedDataDto($groupData),
 			);
 		}

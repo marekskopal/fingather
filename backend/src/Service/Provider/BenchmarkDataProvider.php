@@ -7,21 +7,26 @@ namespace FinGather\Service\Provider;
 use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Model\Entity\Asset;
-use FinGather\Model\Entity\BenchmarkData;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\Transaction;
 use FinGather\Model\Entity\User;
-use FinGather\Model\Repository\BenchmarkDataRepository;
+use FinGather\Service\Cache\CacheDriverEnum;
+use FinGather\Service\Cache\CacheFactory;
+use FinGather\Service\Cache\CacheWithTags;
 use FinGather\Service\DataCalculator\BenchmarkDataCalculator;
+use FinGather\Service\DataCalculator\Dto\BenchmarkDataDto;
 
 class BenchmarkDataProvider
 {
+	private CacheWithTags $cache;
+
 	public function __construct(
-		private readonly BenchmarkDataRepository $benchmarkDataRepository,
 		private readonly BenchmarkDataCalculator $benchmarkDataCalculator,
 		private readonly ExchangeRateProvider $exchangeRateProvider,
 		private readonly TickerDataProvider $tickerDataProvider,
+		CacheFactory $cacheFactory,
 	) {
+		$this->cache = $cacheFactory->create(driver: CacheDriverEnum::Redis, namespace: self::class);
 	}
 
 	/** @param list<Transaction> $transactions */
@@ -33,21 +38,19 @@ class BenchmarkDataProvider
 		DateTimeImmutable $dateTime,
 		DateTimeImmutable $benchmarkFromDateTime,
 		Decimal $benchmarkFromDateUnits,
-	): BenchmarkData {
+	): BenchmarkDataDto {
 		$dateTime = $dateTime->setTime(0, 0);
 		$benchmarkFromDateTime = $benchmarkFromDateTime->setTime(0, 0);
 
-		$benchmarkData = $this->benchmarkDataRepository->findBenchmarkData(
-			$portfolio->getId(),
-			$benchmarkAsset->getId(),
-			$dateTime,
-			$benchmarkFromDateTime,
-		);
+		$key = $portfolio->getId() . '-' . $benchmarkAsset->getId() . '-' . $dateTime->getTimestamp() . '-' . $benchmarkFromDateTime->getTimestamp();
+
+		/** @var BenchmarkDataDto|null $benchmarkData */
+		$benchmarkData = $this->cache->get($key);
 		if ($benchmarkData !== null) {
 			return $benchmarkData;
 		}
 
-		$benchmarkDataDto = $this->benchmarkDataCalculator->calculate(
+		$benchmarkData = $this->benchmarkDataCalculator->calculate(
 			$portfolio,
 			$transactions,
 			$benchmarkAsset,
@@ -56,17 +59,12 @@ class BenchmarkDataProvider
 			$benchmarkFromDateUnits,
 		);
 
-		$benchmarkData = new BenchmarkData(
-			user: $user,
-			portfolio: $portfolio,
-			asset: $benchmarkAsset,
-			date: $dateTime,
-			fromDate: $benchmarkFromDateTime,
-			value: $benchmarkDataDto->value,
-			units: $benchmarkDataDto->units,
+		$this->cache->setWithTags(
+			key: $key,
+			value: $benchmarkData,
+			userId: $user->getId(),
+			portfolioId: $portfolio->getId(),
 		);
-
-		$this->benchmarkDataRepository->persist($benchmarkData);
 
 		return $benchmarkData;
 	}
@@ -77,15 +75,13 @@ class BenchmarkDataProvider
 		Asset $benchmarkAsset,
 		DateTimeImmutable $benchmarkFromDateTime,
 		Decimal $portfolioDataValue,
-	): BenchmarkData {
+	): BenchmarkDataDto {
 		$benchmarkFromDateTime = $benchmarkFromDateTime->setTime(0, 0);
 
-		$benchmarkData = $this->benchmarkDataRepository->findBenchmarkData(
-			$portfolio->getId(),
-			$benchmarkAsset->getId(),
-			$benchmarkFromDateTime,
-			$benchmarkFromDateTime,
-		);
+		$key = $portfolio->getId() . '-' . $benchmarkAsset->getId() . '-' . $benchmarkFromDateTime->getTimestamp() . '-' . $benchmarkFromDateTime->getTimestamp();
+
+		/** @var BenchmarkDataDto|null $benchmarkData */
+		$benchmarkData = $this->cache->get($key);
 		if ($benchmarkData !== null) {
 			return $benchmarkData;
 		}
@@ -110,23 +106,24 @@ class BenchmarkDataProvider
 			$benchmarkUnits = new Decimal(0);
 		}
 
-		$benchmarkData = new BenchmarkData(
-			user: $user,
-			portfolio: $portfolio,
-			asset: $benchmarkAsset,
-			date: $benchmarkFromDateTime,
-			fromDate: $benchmarkFromDateTime,
-			value: $portfolioDataValue,
-			units: $benchmarkUnits,
-		);
+		$benchmarkData = new BenchmarkDataDto(value: $portfolioDataValue, units: $benchmarkUnits);
 
-		$this->benchmarkDataRepository->persist($benchmarkData);
+		$this->cache->setWithTags(
+			key: $key,
+			value: $benchmarkData,
+			userId: $user->getId(),
+			portfolioId: $portfolio->getId(),
+		);
 
 		return $benchmarkData;
 	}
 
 	public function deleteBenchmarkData(?User $user = null, ?Portfolio $portfolio = null, ?DateTimeImmutable $date = null): void
 	{
-		$this->benchmarkDataRepository->deleteBenchmarkData($user?->getId(), $portfolio?->getId(), $date);
+		$this->cache->deleteWithTags(
+			$user?->getId(),
+			$portfolio?->getId(),
+			$date,
+		);
 	}
 }

@@ -50,6 +50,7 @@ final class DataCalculator
 		$fxImpactPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($fxImpactPercentage, $fromFirstTransactionDays);
 
 		return new CalculatedDataDto(
+			date: $dateTime,
 			value: $sumAssetValue,
 			transactionValue: $sumAssetTransactionValueDefaultCurrency,
 			gain: $sumGainDefaultCurrency,

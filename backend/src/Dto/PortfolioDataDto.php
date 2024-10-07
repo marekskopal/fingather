@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace FinGather\Dto;
 
 use Decimal\Decimal;
-use FinGather\Model\Entity\PortfolioData;
+use FinGather\Service\DataCalculator\Dto\CalculatedDataDto;
 use FinGather\Utils\DateTimeUtils;
 
 final readonly class PortfolioDataDto
 {
 	public function __construct(
-		public int $id,
 		public string $date,
 		public Decimal $value,
 		public Decimal $transactionValue,
@@ -33,28 +32,27 @@ final readonly class PortfolioDataDto
 	) {
 	}
 
-	public static function fromEntity(PortfolioData $portfolioData): self
+	public static function fromCalculatedDataDto(CalculatedDataDto $calculatedData): self
 	{
 		return new self(
-			id: $portfolioData->getId(),
-			date: DateTimeUtils::formatZulu($portfolioData->getDate()),
-			value: $portfolioData->getValue(),
-			transactionValue: $portfolioData->getTransactionValue(),
-			gain: $portfolioData->getGain(),
-			gainPercentage: $portfolioData->getGainPercentage(),
-			gainPercentagePerAnnum: $portfolioData->getGainPercentagePerAnnum(),
-			realizedGain: $portfolioData->getRealizedGain(),
-			dividendYield: $portfolioData->getdividendYield(),
-			dividendYieldPercentage: $portfolioData->getdividendYieldPercentage(),
-			dividendYieldPercentagePerAnnum: $portfolioData->getdividendYieldPercentagePerAnnum(),
-			fxImpact: $portfolioData->getFxImpact(),
-			fxImpactPercentage: $portfolioData->getFxImpactPercentage(),
-			fxImpactPercentagePerAnnum: $portfolioData->getFxImpactPercentagePerAnnum(),
-			return: $portfolioData->getReturn(),
-			returnPercentage: $portfolioData->getReturnPercentage(),
-			returnPercentagePerAnnum: $portfolioData->getReturnPercentagePerAnnum(),
-			tax: $portfolioData->getTax(),
-			fee: $portfolioData->getFee(),
+			date: DateTimeUtils::formatZulu($calculatedData->date),
+			value: $calculatedData->value,
+			transactionValue: $calculatedData->transactionValue,
+			gain: $calculatedData->gain,
+			gainPercentage: $calculatedData->gainPercentage,
+			gainPercentagePerAnnum: $calculatedData->gainPercentagePerAnnum,
+			realizedGain: $calculatedData->realizedGain,
+			dividendYield: $calculatedData->dividendYield,
+			dividendYieldPercentage: $calculatedData->dividendYieldPercentage,
+			dividendYieldPercentagePerAnnum: $calculatedData->dividendYieldPercentagePerAnnum,
+			fxImpact: $calculatedData->fxImpact,
+			fxImpactPercentage: $calculatedData->fxImpactPercentage,
+			fxImpactPercentagePerAnnum: $calculatedData->fxImpactPercentagePerAnnum,
+			return: $calculatedData->return,
+			returnPercentage: $calculatedData->returnPercentage,
+			returnPercentagePerAnnum: $calculatedData->returnPercentagePerAnnum,
+			tax: $calculatedData->tax,
+			fee: $calculatedData->fee,
 		);
 	}
 }
