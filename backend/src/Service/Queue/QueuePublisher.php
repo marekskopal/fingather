@@ -16,6 +16,8 @@ final class QueuePublisher
 {
 	private readonly Jobs $jobs;
 
+	private const int DefaultDelay = 5;
+
 	public function __construct()
 	{
 		/** @var non-empty-string $address */
@@ -25,14 +27,15 @@ final class QueuePublisher
 		);
 	}
 
-	public function publishMessage(object $message, QueueEnum $queueType): QueuedTaskInterface
+	/** @param positive-int $delay */
+	public function publishMessage(object $message, QueueEnum $queueType, int $delay = self::DefaultDelay): QueuedTaskInterface
 	{
 		$queue = $this->jobs->connect($queueType->value);
 
 		$payload = json_encode($message);
 
 		return $queue->dispatch($queue->create($queueType->value, $payload, new Options(
-			delay: 5,
+			delay: $delay,
 		)));
 	}
 }

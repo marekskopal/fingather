@@ -17,6 +17,8 @@ use FinGather\Command\TickerDataUpdateCommand;
 use FinGather\Command\TickerFundamentalUpdateCommand;
 use FinGather\Command\TickerUpdateCommand;
 use FinGather\Command\TickerLogoUpdateCommand;
+use FinGather\Command\WarmupAllCommand;
+use FinGather\Command\WarmupAsyncCommand;
 use Symfony\Component\Console\Application;
 
 $application = new Application();
@@ -33,5 +35,7 @@ $application->add(new TickerUpdateCommand());
 $application->add(new ApiImportPrepareCheckCommand());
 $application->add(new ApiImportProcessCheckCommand());
 $application->add(new BenchmarkPortfolioValueCommand());
+$application->add(new WarmupAllCommand());
+$application->add(new WarmupAsyncCommand());
 
 $application->run();

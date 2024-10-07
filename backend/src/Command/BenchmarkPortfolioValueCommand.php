@@ -14,9 +14,8 @@ use FinGather\Service\Provider\UserProvider;
 use GuzzleHttp\Psr7\ServerRequest;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use function Safe\hrtime;
 
-final class BenchmarkPortfolioValueCommand extends AbstractCommand
+final class BenchmarkPortfolioValueCommand extends AbstractBenchmarkCommand
 {
 	protected function configure(): void
 	{
@@ -57,16 +56,7 @@ final class BenchmarkPortfolioValueCommand extends AbstractCommand
 		$serverRequest = $serverRequest->withQueryParams(['range' => RangeEnum::All->value]);
 		$serverRequest = $authenticationService->addAuthenticationHeader($serverRequest, $user);
 
-		//BEGIN
-		$timeStart = hrtime(true);
-
-		$application->handler->handle($serverRequest);
-
-		$timeEnd = hrtime(true);
-		//END
-
-		//@phpstan-ignore-next-line
-		$benchmarkTime = ($timeEnd - $timeStart) / 1000000;
+		$benchmarkTime = $this->benchmark(fn() => $application->handler->handle($serverRequest));
 
 		$this->writeln('Benchmark was ended - ' . $benchmarkTime . 'ms', $output);
 
