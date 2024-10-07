@@ -4,31 +4,38 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Provider;
 
-use Cycle\Database\Exception\StatementException\ConstrainException;
 use DateTimeImmutable;
 use FinGather\Model\Entity\Portfolio;
-use FinGather\Model\Entity\PortfolioData;
 use FinGather\Model\Entity\User;
-use FinGather\Model\Repository\PortfolioDataRepository;
+use FinGather\Service\Cache\CacheDriverEnum;
+use FinGather\Service\Cache\CacheFactory;
+use FinGather\Service\Cache\CacheWithTags;
 use FinGather\Service\DataCalculator\DataCalculator;
+use FinGather\Service\DataCalculator\Dto\CalculatedDataDto;
 use FinGather\Utils\DateTimeUtils;
 
 class PortfolioDataProvider
 {
+	private CacheWithTags $cache;
+
 	public function __construct(
-		private readonly PortfolioDataRepository $portfolioDataRepository,
 		private readonly DataCalculator $dataCalculator,
 		private readonly AssetProvider $assetProvider,
 		private readonly AssetDataProvider $assetDataProvider,
 		private readonly TransactionProvider $transactionProvider,
+		CacheFactory $cacheFactory,
 	) {
+		$this->cache = $cacheFactory->create(driver: CacheDriverEnum::Redis, namespace: self::class);
 	}
 
-	public function getPortfolioData(User $user, Portfolio $portfolio, DateTimeImmutable $dateTime): PortfolioData
+	public function getPortfolioData(User $user, Portfolio $portfolio, DateTimeImmutable $dateTime): CalculatedDataDto
 	{
 		$dateTime = DateTimeUtils::setEndOfDateTime($dateTime);
 
-		$portfolioData = $this->portfolioDataRepository->findPortfolioData($user->getId(), $portfolio->getId(), $dateTime);
+		$key = $portfolio->getId() . '-' . $dateTime->getTimestamp();
+
+		/** @var CalculatedDataDto|null $portfolioData */
+		$portfolioData = $this->cache->get($key);
 		if ($portfolioData !== null) {
 			return $portfolioData;
 		}
@@ -52,41 +59,23 @@ class PortfolioDataProvider
 
 		$calculatedData = $this->dataCalculator->calculate($assetDatas, $dateTime, $fistTransactionActionCreated);
 
-		$portfolioData = new PortfolioData(
-			user: $user,
-			portfolio: $portfolio,
+		$this->cache->setWithTags(
+			key: $key,
+			value: $calculatedData,
+			userId: $user->getId(),
+			portfolioId: $portfolio->getId(),
 			date: $dateTime,
-			value: $calculatedData->value,
-			transactionValue: $calculatedData->transactionValue,
-			gain: $calculatedData->gain,
-			gainPercentage: $calculatedData->gainPercentage,
-			gainPercentagePerAnnum: $calculatedData->gainPercentagePerAnnum,
-			dividendYield: $calculatedData->dividendYield,
-			dividendYieldPercentage: $calculatedData->dividendYieldPercentage,
-			dividendYieldPercentagePerAnnum: $calculatedData->dividendYieldPercentagePerAnnum,
-			fxImpact: $calculatedData->fxImpact,
-			fxImpactPercentage: $calculatedData->fxImpactPercentage,
-			fxImpactPercentagePerAnnum: $calculatedData->fxImpactPercentagePerAnnum,
-			return: $calculatedData->return,
-			returnPercentage: $calculatedData->returnPercentage,
-			returnPercentagePerAnnum: $calculatedData->returnPercentagePerAnnum,
-			tax: $calculatedData->tax,
-			fee: $calculatedData->fee,
-			realizedGain: $calculatedData->realizedGain,
 		);
 
-		try {
-			$this->portfolioDataRepository->persist($portfolioData);
-		} catch (ConstrainException) {
-			$portfolioData = $this->portfolioDataRepository->findPortfolioData($user->getId(), $portfolio->getId(), $dateTime);
-			assert($portfolioData instanceof PortfolioData);
-		}
-
-		return $portfolioData;
+		return $calculatedData;
 	}
 
 	public function deletePortfolioData(?User $user = null, ?Portfolio $portfolio = null, ?DateTimeImmutable $date = null): void
 	{
-		$this->portfolioDataRepository->deletePortfolioData($user?->getId(), $portfolio?->getId(), $date);
+		$this->cache->deleteWithTags(
+			$user?->getId(),
+			$portfolio?->getId(),
+			$date,
+		);
 	}
 }

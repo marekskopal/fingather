@@ -35,6 +35,8 @@ abstract class ABulkQueryRepository extends ARepository implements BulkQueryRepo
 			$insert->values($entity->getBulkInsertValues());
 		}
 
+		$this->bulkInsertEntities = [];
+
 		$insert->run();
 	}
 
@@ -51,6 +53,8 @@ abstract class ABulkQueryRepository extends ARepository implements BulkQueryRepo
 		foreach ($this->bulkDeleteWhere as $where) {
 			$delete->where($where[0], $where[1]);
 		}
+
+		$this->bulkDeleteWhere = [];
 
 		$delete->run();
 	}

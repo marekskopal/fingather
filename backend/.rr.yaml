@@ -23,6 +23,7 @@ http:
             max_worker_memory: 256
         num_workers: ${BACKEND_ROADRUNNER_WORKERS:-5}
         debug: ${BACKEND_ROADRUNNER_DEBUG:-0}
+        allocate_timeout: 10s
 
 logs:
     mode: production
