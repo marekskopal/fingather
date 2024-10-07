@@ -28,7 +28,7 @@ class AssetDataProvider
 	{
 		$dateTime = DateTimeUtils::setEndOfDateTime($dateTime);
 
-		$key = $asset->getId() . $dateTime->getTimestamp();
+		$key = $asset->getId() . '-' . $dateTime->getTimestamp();
 
 		/** @var AssetDataDto|null $assetData */
 		$assetData = $this->cache->get($key);

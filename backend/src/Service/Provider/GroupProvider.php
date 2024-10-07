@@ -8,7 +8,6 @@ use FinGather\Model\Entity\Group;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\AssetRepository;
-use FinGather\Model\Repository\GroupDataRepository;
 use FinGather\Model\Repository\GroupRepository;
 
 class GroupProvider
@@ -16,7 +15,7 @@ class GroupProvider
 	public function __construct(
 		private readonly GroupRepository $groupRepository,
 		private readonly AssetRepository $assetRepository,
-		private readonly GroupDataRepository $groupDataRepository,
+		private readonly GroupDataProvider $groupDataProvider,
 	) {
 	}
 
@@ -52,8 +51,7 @@ class GroupProvider
 			$this->assetRepository->persist($asset);
 		}
 
-		$othersGroup = $this->getOthersGroup($user, $portfolio);
-		$this->groupDataRepository->deleteGroupData($othersGroup->getId());
+		$this->groupDataProvider->deleteUserGroupData(user: $user, portfolio: $portfolio);
 
 		return $group;
 	}
@@ -81,7 +79,8 @@ class GroupProvider
 		$this->groupRepository->persist($group);
 
 		$user = $group->getUser();
-		$othersGroup = $this->getOthersGroup($user, $group->getPortfolio());
+		$portfolio = $group->getPortfolio();
+		$othersGroup = $this->getOthersGroup($user, $portfolio);
 
 		foreach ($group->getAssets() as $asset) {
 			$asset->setGroup($othersGroup);
@@ -98,22 +97,23 @@ class GroupProvider
 			$this->assetRepository->persist($asset);
 		}
 
-		$this->groupDataRepository->deleteGroupData($othersGroup->getId());
-		$this->groupDataRepository->deleteGroupData($group->getId());
+		$this->groupDataProvider->deleteUserGroupData(user: $user, portfolio: $portfolio);
 
 		return $group;
 	}
 
 	public function deleteGroup(Group $group): void
 	{
-		$othersGroup = $this->getOthersGroup($group->getUser(), $group->getPortfolio());
+		$user = $group->getUser();
+		$portfolio = $group->getPortfolio();
+		$othersGroup = $this->getOthersGroup($user, $portfolio);
 
 		foreach ($group->getAssets() as $asset) {
 			$asset->setGroup($othersGroup);
 			$this->assetRepository->persist($asset);
 		}
 
-		$this->groupDataRepository->deleteGroupData($othersGroup->getId());
+		$this->groupDataProvider->deleteUserGroupData(user: $user, portfolio: $portfolio);
 
 		$this->groupRepository->delete($group);
 	}

@@ -4,70 +4,56 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Provider;
 
-use Cycle\Database\Exception\StatementException\ConstrainException;
 use DateTimeImmutable;
 use FinGather\Model\Entity\Industry;
-use FinGather\Model\Entity\IndustryData;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
-use FinGather\Model\Repository\IndustryDataRepository;
+use FinGather\Service\Cache\CacheDriverEnum;
+use FinGather\Service\Cache\CacheFactory;
+use FinGather\Service\Cache\CacheWithTags;
+use FinGather\Service\DataCalculator\Dto\CalculatedDataDto;
 use FinGather\Utils\DateTimeUtils;
 
 class IndustryDataProvider
 {
-	public function __construct(
-		private readonly IndustryDataRepository $industryDataRepository,
-		private readonly CalculatedDataProvider $calculatedDataProvider,
-	) {
+	private CacheWithTags $cache;
+
+	public function __construct(private readonly CalculatedGroupDataProvider $calculatedDataProvider, CacheFactory $cacheFactory)
+	{
+		$this->cache = $cacheFactory->create(driver: CacheDriverEnum::Redis, namespace: self::class);
 	}
 
-	public function getIndustryData(Industry $industry, User $user, Portfolio $portfolio, DateTimeImmutable $dateTime): IndustryData
+	public function getIndustryData(Industry $industry, User $user, Portfolio $portfolio, DateTimeImmutable $dateTime): CalculatedDataDto
 	{
 		$dateTime = DateTimeUtils::setEndOfDateTime($dateTime);
 
-		$industryData = $this->industryDataRepository->findIndustryData($industry->getId(), $portfolio->getId(), $dateTime);
+		$key = $industry->getId() . '-' . $portfolio->getId() . '-' . $dateTime->getTimestamp();
+
+		/** @var CalculatedDataDto|null $industryData */
+		$industryData = $this->cache->get($key);
 		if ($industryData !== null) {
 			return $industryData;
 		}
 
-		$calculatedData = $this->calculatedDataProvider->getCalculatedDate($user, $portfolio, $dateTime, industry: $industry);
+		$calculatedData = $this->calculatedDataProvider->getCalculatedData($user, $portfolio, $dateTime, industry: $industry);
 
-		$industryData = new IndustryData(
-			industry: $industry,
-			user: $user,
-			portfolio: $portfolio,
+		$this->cache->setWithTags(
+			key: $key,
+			value: $calculatedData,
+			userId: $user->getId(),
+			portfolioId: $portfolio->getId(),
 			date: $dateTime,
-			value: $calculatedData->value,
-			transactionValue: $calculatedData->transactionValue,
-			gain: $calculatedData->gain,
-			gainPercentage: $calculatedData->gainPercentage,
-			gainPercentagePerAnnum: $calculatedData->gainPercentagePerAnnum,
-			realizedGain: $calculatedData->realizedGain,
-			dividendYield: $calculatedData->dividendYield,
-			dividendYieldPercentage: $calculatedData->dividendYieldPercentage,
-			dividendYieldPercentagePerAnnum: $calculatedData->dividendYieldPercentagePerAnnum,
-			fxImpact: $calculatedData->fxImpact,
-			fxImpactPercentage: $calculatedData->fxImpactPercentage,
-			fxImpactPercentagePerAnnum: $calculatedData->fxImpactPercentagePerAnnum,
-			return: $calculatedData->return,
-			returnPercentage: $calculatedData->returnPercentage,
-			returnPercentagePerAnnum: $calculatedData->returnPercentagePerAnnum,
-			tax: $calculatedData->tax,
-			fee: $calculatedData->fee,
 		);
 
-		try {
-			$this->industryDataRepository->persist($industryData);
-		} catch (ConstrainException) {
-			$industryData = $this->industryDataRepository->findIndustryData($industry->getId(), $industry->getId(), $dateTime);
-			assert($industryData instanceof IndustryData);
-		}
-
-		return $industryData;
+		return $calculatedData;
 	}
 
 	public function deleteUserIndustryData(?User $user = null, ?Portfolio $portfolio = null, ?DateTimeImmutable $date = null): void
 	{
-		$this->industryDataRepository->deleteUserIndustryData($user?->getId(), $portfolio?->getId(), $date);
+		$this->cache->deleteWithTags(
+			$user?->getId(),
+			$portfolio?->getId(),
+			$date,
+		);
 	}
 }

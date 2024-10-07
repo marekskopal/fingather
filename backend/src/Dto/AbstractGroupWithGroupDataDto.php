@@ -11,7 +11,7 @@ abstract readonly class AbstractGroupWithGroupDataDto
 		public int $userId,
 		public string $name,
 		public float $percentage,
-		public AbstractGroupDataDto $groupData,
+		public GroupDataDto $groupData,
 	) {
 	}
 }

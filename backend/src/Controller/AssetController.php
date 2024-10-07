@@ -12,6 +12,7 @@ use FinGather\Route\Routes;
 use FinGather\Service\Provider\AssetDataProvider;
 use FinGather\Service\Provider\AssetProvider;
 use FinGather\Service\Provider\AssetWithPropertiesProvider;
+use FinGather\Service\Provider\GroupProvider;
 use FinGather\Service\Provider\PortfolioProvider;
 use FinGather\Service\Provider\TickerDataProvider;
 use FinGather\Service\Provider\TickerProvider;
@@ -33,6 +34,7 @@ final class AssetController
 		private readonly TickerProvider $tickerProvider,
 		private readonly TickerDataProvider $tickerDataProvider,
 		private readonly PortfolioProvider $portfolioProvider,
+		private readonly GroupProvider $groupProvider,
 		private readonly RequestService $requestService,
 	) {
 	}
@@ -159,6 +161,7 @@ final class AssetController
 			user: $user,
 			portfolio: $portfolio,
 			ticker: $ticker,
+			othersGroup: $this->groupProvider->getOthersGroup($user, $portfolio),
 		), $lastTickerDataClose));
 	}
 }

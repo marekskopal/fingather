@@ -18,7 +18,7 @@ final readonly class GroupWithGroupDataDto extends AbstractGroupWithGroupDataDto
 		public array $assetIds,
 		public array $assets,
 		float $percentage,
-		AbstractGroupDataDto $groupData,
+		GroupDataDto $groupData,
 	)
 	{
 		parent::__construct($id, $userId, $name, $percentage, $groupData);

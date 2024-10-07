@@ -17,16 +17,14 @@ final class CacheFactory
 
 	public function create(CacheDriverEnum $driver = CacheDriverEnum::Memcached, ?string $namespace = null): CacheWithTags
 	{
-		if (isset($this->caches[$driver->value][(string) $namespace])) {
-			return $this->caches[$driver->value][(string) $namespace];
+		$namespaceKey = $namespace ?? '';
+
+		if (isset($this->caches[$driver->value][$namespaceKey])) {
+			return $this->caches[$driver->value][$namespaceKey];
 		}
 
-		$this->caches[$driver->value][(string) $namespace] = new CacheWithTags(
-			$this->cacheTagRepository,
-			driver: $driver,
-			namespace: $namespace,
-		);
+		$this->caches[$driver->value][$namespaceKey] = new CacheWithTags($this->cacheTagRepository, driver: $driver, namespace: $namespace);
 
-		return $this->caches[$driver->value][(string) $namespace];
+		return $this->caches[$driver->value][$namespaceKey];
 	}
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Provider;
 
-use FinGather\Dto\IndustryDataDto;
+use FinGather\Dto\GroupDataDto;
 use FinGather\Dto\IndustryWithIndustryDataDto;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
@@ -31,7 +31,7 @@ class IndustryWithIndustryDataProvider
 
 		foreach	($industries as $industryId => $industry) {
 			$industryData = $this->industryDataProvider->getIndustryData($industry, $user, $portfolio, $dateTime);
-			if ($industryData->getValue()->isZero()) {
+			if ($industryData->value->isZero()) {
 				continue;
 			}
 
@@ -39,8 +39,8 @@ class IndustryWithIndustryDataProvider
 				id: $industryId,
 				userId: $user->getId(),
 				name: $industry->getName(),
-				percentage: CalculatorUtils::toPercentage($industryData->getValue(), $portfolioData->getValue()),
-				groupData: IndustryDataDto::fromEntity($industryData),
+				percentage: CalculatorUtils::toPercentage($industryData->value, $portfolioData->getValue()),
+				groupData: GroupDataDto::fromCalculatedDataDto($industryData),
 			);
 		}
 

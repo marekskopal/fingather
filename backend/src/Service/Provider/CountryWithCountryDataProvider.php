@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Provider;
 
-use FinGather\Dto\CountryDataDto;
 use FinGather\Dto\CountryWithCountryDataDto;
+use FinGather\Dto\GroupDataDto;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Utils\CalculatorUtils;
@@ -31,7 +31,7 @@ class CountryWithCountryDataProvider
 
 		foreach	($countries as $countryId => $country) {
 			$countryData = $this->countryDataProvider->getCountryData($country, $user, $portfolio, $dateTime);
-			if ($countryData->getValue()->isZero()) {
+			if ($countryData->value->isZero()) {
 				continue;
 			}
 
@@ -39,8 +39,8 @@ class CountryWithCountryDataProvider
 				id: $countryId,
 				userId: $user->getId(),
 				name: $country->getName(),
-				percentage: CalculatorUtils::toPercentage($countryData->getValue(), $portfolioData->getValue()),
-				groupData: CountryDataDto::fromEntity($countryData),
+				percentage: CalculatorUtils::toPercentage($countryData->value, $portfolioData->getValue()),
+				groupData: GroupDataDto::fromCalculatedDataDto($countryData),
 			);
 		}
 
