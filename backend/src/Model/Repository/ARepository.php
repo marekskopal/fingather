@@ -73,4 +73,9 @@ abstract class ARepository implements RepositoryInterface
 	{
 		$this->entityManager->delete($entity)->run();
 	}
+
+	public function getOrm(): ORM
+	{
+		return $this->orm;
+	}
 }

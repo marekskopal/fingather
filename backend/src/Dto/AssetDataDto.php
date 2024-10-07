@@ -6,7 +6,6 @@ namespace FinGather\Dto;
 
 use DateTimeImmutable;
 use Decimal\Decimal;
-use FinGather\Model\Entity\AssetData;
 use FinGather\Utils\DateTimeUtils;
 
 final readonly class AssetDataDto
@@ -20,14 +19,14 @@ final readonly class AssetDataDto
 	) {
 	}
 
-	public static function fromEntity(AssetData $assetData): self
+	public static function fromEntity(\FinGather\Service\DataCalculator\Dto\AssetDataDto $assetData): self
 	{
 		return new self(
-			date: DateTimeUtils::formatZulu($assetData->getDate()),
-			transactionValue: $assetData->getTransactionValue(),
-			transactionValueDefaultCurrency: $assetData->getTransactionValueDefaultCurrency(),
-			gain: $assetData->getGain(),
-			gainDefaultCurrency: $assetData->getGainDefaultCurrency(),
+			date: DateTimeUtils::formatZulu($assetData->date),
+			transactionValue: $assetData->transactionValue,
+			transactionValueDefaultCurrency: $assetData->transactionValueDefaultCurrency,
+			gain: $assetData->gain,
+			gainDefaultCurrency: $assetData->gainDefaultCurrency,
 		);
 	}
 

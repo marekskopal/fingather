@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Command;
 
-use FinGather\Cache\Cache;
+use FinGather\Service\Cache\Cache;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

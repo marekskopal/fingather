@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Middleware;
 
-use FinGather\Service\Provider\BulkInsertProvider;
+use FinGather\Service\Provider\BulkQueryProvider;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -12,7 +12,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 final class BulkInsertMiddleware implements MiddlewareInterface
 {
-	public function __construct(private readonly BulkInsertProvider $bulkInsertProvider)
+	public function __construct(private readonly BulkQueryProvider $bulkInsertProvider)
 	{
 	}
 
@@ -20,7 +20,7 @@ final class BulkInsertMiddleware implements MiddlewareInterface
 	{
 		$response = $handler->handle($request);
 
-		$this->bulkInsertProvider->bulkInsertAll();
+		$this->bulkInsertProvider->runAll();
 
 		return $response;
 	}

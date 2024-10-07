@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace FinGather\Cache;
+namespace FinGather\Service\Cache;
 
 use DateInterval;
 use Psr\SimpleCache\CacheInterface;
@@ -12,11 +12,14 @@ use Spiral\RoadRunner\KeyValue\Factory;
 use Spiral\RoadRunner\KeyValue\Serializer\IgbinarySerializer;
 use Spiral\RoadRunner\KeyValue\StorageInterface;
 
-final class Cache implements CacheInterface
+class Cache implements CacheInterface
 {
-	private readonly StorageInterface $storage;
+	protected readonly StorageInterface $storage;
 
-	public function __construct(CacheDriverEnum $driver = CacheDriverEnum::Memcached, private readonly ?string $namespace = null)
+	public function __construct(
+		protected readonly CacheDriverEnum $driver = CacheDriverEnum::Memcached,
+		protected readonly ?string $namespace = null,
+	)
 	{
 		/** @var non-empty-string $address */
 		$address = Environment::fromGlobals()->getRPCAddress();
@@ -24,7 +27,7 @@ final class Cache implements CacheInterface
 
 		$this->storage = (new Factory($rpc))
 			->withSerializer(new IgbinarySerializer())
-			->select($driver->value);
+			->select($this->driver->value);
 	}
 
 	public function get(string $key, mixed $default = null): mixed

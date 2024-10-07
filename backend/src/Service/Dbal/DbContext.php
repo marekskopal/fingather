@@ -34,7 +34,7 @@ use Cycle\Schema\Generator\RenderTables;
 use Cycle\Schema\Generator\ResetTables;
 use Cycle\Schema\Generator\ValidateEntities;
 use Cycle\Schema\Registry;
-use FinGather\Cache\Cache;
+use FinGather\Service\Cache\Cache;
 use Spiral\Tokenizer\Config\TokenizerConfig;
 use Spiral\Tokenizer\Tokenizer;
 

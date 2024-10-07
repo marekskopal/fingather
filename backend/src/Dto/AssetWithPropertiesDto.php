@@ -6,7 +6,7 @@ namespace FinGather\Dto;
 
 use Decimal\Decimal;
 use FinGather\Model\Entity\Asset;
-use FinGather\Model\Entity\AssetData;
+use FinGather\Service\DataCalculator\Dto\AssetDataDto;
 
 final readonly class AssetWithPropertiesDto
 {
@@ -47,7 +47,7 @@ final readonly class AssetWithPropertiesDto
 	) {
 	}
 
-	public static function fromEntity(Asset $asset, AssetData $assetData, float $percentage): self
+	public static function fromEntity(Asset $asset, AssetDataDto $assetData, float $percentage): self
 	{
 		return new self(
 			id: $asset->getId(),
@@ -55,33 +55,33 @@ final readonly class AssetWithPropertiesDto
 			ticker: TickerDto::fromEntity($asset->getTicker()),
 			groupId: $asset->getGroup()->getId(),
 			isClosed: $assetData->isClosed(),
-			price: $assetData->getPrice(),
-			units: $assetData->getUnits(),
-			value: $assetData->getValue(),
-			transactionValue: $assetData->getTransactionValue(),
-			transactionValueDefaultCurrency: $assetData->getTransactionValueDefaultCurrency(),
-			averagePrice: $assetData->getAveragePrice(),
-			averagePriceDefaultCurrency: $assetData->getAveragePriceDefaultCurrency(),
-			gain: $assetData->getGain(),
-			gainDefaultCurrency: $assetData->getGainDefaultCurrency(),
-			gainPercentage: $assetData->getGainPercentage(),
-			gainPercentagePerAnnum: $assetData->getGainPercentagePerAnnum(),
-			realizedGain: $assetData->getRealizedGain(),
-			realizedGainDefaultCurrency: $assetData->getRealizedGainDefaultCurrency(),
-			dividendYield: $assetData->getdividendYield(),
-			dividendYieldDefaultCurrency: $assetData->getdividendYieldDefaultCurrency(),
-			dividendYieldPercentage: $assetData->getdividendYieldPercentage(),
-			dividendYieldPercentagePerAnnum: $assetData->getdividendYieldPercentagePerAnnum(),
-			fxImpact: $assetData->getFxImpact(),
-			fxImpactPercentage: $assetData->getFxImpactPercentage(),
-			fxImpactPercentagePerAnnum: $assetData->getFxImpactPercentagePerAnnum(),
-			return: $assetData->getReturn(),
-			returnPercentage: $assetData->getReturnPercentage(),
-			returnPercentagePerAnnum: $assetData->getReturnPercentagePerAnnum(),
-			tax: $assetData->getTax(),
-			taxDefaultCurrency: $assetData->getTaxDefaultCurrency(),
-			fee: $assetData->getFee(),
-			feeDefaultCurrency: $assetData->getFeeDefaultCurrency(),
+			price: $assetData->price,
+			units: $assetData->units,
+			value: $assetData->value,
+			transactionValue: $assetData->transactionValue,
+			transactionValueDefaultCurrency: $assetData->transactionValueDefaultCurrency,
+			averagePrice: $assetData->averagePrice,
+			averagePriceDefaultCurrency: $assetData->averagePriceDefaultCurrency,
+			gain: $assetData->gain,
+			gainDefaultCurrency: $assetData->gainDefaultCurrency,
+			gainPercentage: $assetData->gainPercentage,
+			gainPercentagePerAnnum: $assetData->gainPercentagePerAnnum,
+			realizedGain: $assetData->realizedGain,
+			realizedGainDefaultCurrency: $assetData->realizedGainDefaultCurrency,
+			dividendYield: $assetData->dividendYield,
+			dividendYieldDefaultCurrency: $assetData->dividendYieldDefaultCurrency,
+			dividendYieldPercentage: $assetData->dividendYieldPercentage,
+			dividendYieldPercentagePerAnnum: $assetData->dividendYieldPercentagePerAnnum,
+			fxImpact: $assetData->fxImpact,
+			fxImpactPercentage: $assetData->fxImpactPercentage,
+			fxImpactPercentagePerAnnum: $assetData->fxImpactPercentagePerAnnum,
+			return: $assetData->return,
+			returnPercentage: $assetData->returnPercentage,
+			returnPercentagePerAnnum: $assetData->returnPercentagePerAnnum,
+			tax: $assetData->tax,
+			taxDefaultCurrency: $assetData->taxDefaultCurrency,
+			fee: $assetData->fee,
+			feeDefaultCurrency: $assetData->feeDefaultCurrency,
 			percentage: $percentage,
 		);
 	}

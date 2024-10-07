@@ -1,6 +1,8 @@
 <?php
 
-namespace FinGather\Cache;
+declare(strict_types=1);
+
+namespace FinGather\Service\Cache;
 
 enum CacheDriverEnum: string
 {

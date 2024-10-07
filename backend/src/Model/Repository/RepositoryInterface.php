@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Model\Repository;
 
+use Cycle\ORM\ORM;
 use Cycle\ORM\Select;
 
 /**
@@ -40,4 +41,6 @@ interface RepositoryInterface extends \Cycle\ORM\RepositoryInterface
 
 	/** @param TEntity $entity */
 	public function delete(object $entity): void;
+
+	public function getOrm(): ORM;
 }

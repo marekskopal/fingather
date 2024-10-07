@@ -10,6 +10,7 @@ use Decimal\Decimal;
 final readonly class AssetDataDto
 {
 	public function __construct(
+		public DateTimeImmutable $date,
 		public Decimal $price,
 		public Decimal $units,
 		public Decimal $value,
@@ -39,5 +40,15 @@ final readonly class AssetDataDto
 		public Decimal $feeDefaultCurrency,
 		public DateTimeImmutable $firstTransactionActionCreated,
 	) {
+	}
+
+	public function isOpen(): bool
+	{
+		return $this->units->isPositive() && !$this->units->isZero();
+	}
+
+	public function isClosed(): bool
+	{
+		return !$this->isOpen();
 	}
 }
