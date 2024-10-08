@@ -46,6 +46,7 @@ use FinGather\Model\Repository\ImportRepository;
 use FinGather\Model\Repository\IndustryRepository;
 use FinGather\Model\Repository\MarketRepository;
 use FinGather\Model\Repository\PortfolioRepository;
+use FinGather\Model\Repository\RepositoryInterface;
 use FinGather\Model\Repository\SectorRepository;
 use FinGather\Model\Repository\SplitRepository;
 use FinGather\Model\Repository\TickerDataRepository;
@@ -56,6 +57,7 @@ use FinGather\Model\Repository\UserRepository;
 use FinGather\Route\Strategy\JsonStrategy;
 use FinGather\Service\Cache\Cache;
 use FinGather\Service\Dbal\DbContext;
+use FinGather\Service\Dbal\QueryProvider;
 use FinGather\Service\Logger\Logger;
 use FinGather\Service\Provider\BulkQueryProvider;
 use FinGather\Service\Request\RequestService;
@@ -129,35 +131,48 @@ final class ApplicationFactory
 		$orm = $container->get(ORM::class);
 		assert($orm instanceof ORM);
 
-		$container->add(ApiImportRepository::class, fn () => $orm->getRepository(ApiImport::class));
-		$container->add(ApiKeyRepository::class, fn () => $orm->getRepository(ApiKey::class));
-		$container->add(AssetRepository::class, fn () => $orm->getRepository(Asset::class));
-		$container->add(BrokerRepository::class, fn () => $orm->getRepository(Broker::class));
-		$container->add(CacheTagRepository::class, fn () => $orm->getRepository(CacheTag::class));
-		$container->add(CountryRepository::class, fn () => $orm->getRepository(Country::class));
-		$container->add(CurrencyRepository::class, fn () => $orm->getRepository(Currency::class));
-		$container->add(EmailVerifyRepository::class, fn () => $orm->getRepository(EmailVerify::class));
-		$container->add(ExchangeRateRepository::class, fn () => $orm->getRepository(ExchangeRate::class));
-		$container->add(GroupRepository::class, fn () => $orm->getRepository(Group::class));
-		$container->add(IndustryRepository::class, fn () => $orm->getRepository(Industry::class));
-		$container->add(ImportRepository::class, fn () => $orm->getRepository(Import::class));
-		$container->add(ImportFileRepository::class, fn () => $orm->getRepository(ImportFile::class));
-		$container->add(ImportMappingRepository::class, fn () => $orm->getRepository(ImportMapping::class));
-		$container->add(MarketRepository::class, fn () => $orm->getRepository(Market::class));
-		$container->add(PortfolioRepository::class, fn () => $orm->getRepository(Portfolio::class));
-		$container->add(SectorRepository::class, fn () => $orm->getRepository(Sector::class));
-		$container->add(SplitRepository::class, fn () => $orm->getRepository(Split::class));
-		$container->add(TickerDataRepository::class, fn () => $orm->getRepository(TickerData::class));
-		$container->add(TickerFundamentalRepository::class, fn () => $orm->getRepository(TickerFundamental::class));
-		$container->add(TickerRepository::class, fn () => $orm->getRepository(Ticker::class));
-		$container->add(TransactionRepository::class, fn () => $orm->getRepository(Transaction::class));
-		$container->add(UserRepository::class, fn () => $orm->getRepository(User::class));
+		self::addRepository($container, $orm, ApiImportRepository::class, ApiImport::class);
+		self::addRepository($container, $orm, ApiKeyRepository::class, ApiKey::class);
+		self::addRepository($container, $orm, AssetRepository::class, Asset::class);
+		self::addRepository($container, $orm, BrokerRepository::class, Broker::class);
+		self::addRepository($container, $orm, CacheTagRepository::class, CacheTag::class);
+		self::addRepository($container, $orm, CountryRepository::class, Country::class);
+		self::addRepository($container, $orm, CurrencyRepository::class, Currency::class);
+		self::addRepository($container, $orm, EmailVerifyRepository::class, EmailVerify::class);
+		self::addRepository($container, $orm, ExchangeRateRepository::class, ExchangeRate::class);
+		self::addRepository($container, $orm, GroupRepository::class, Group::class);
+		self::addRepository($container, $orm, IndustryRepository::class, Industry::class);
+		self::addRepository($container, $orm, ImportRepository::class, Import::class);
+		self::addRepository($container, $orm, ImportFileRepository::class, ImportFile::class);
+		self::addRepository($container, $orm, ImportMappingRepository::class, ImportMapping::class);
+		self::addRepository($container, $orm, MarketRepository::class, Market::class);
+		self::addRepository($container, $orm, PortfolioRepository::class, Portfolio::class);
+		self::addRepository($container, $orm, SectorRepository::class, Sector::class);
+		self::addRepository($container, $orm, SplitRepository::class, Split::class);
+		self::addRepository($container, $orm, TickerDataRepository::class, TickerData::class);
+		self::addRepository($container, $orm, TickerFundamentalRepository::class, TickerFundamental::class);
+		self::addRepository($container, $orm, TickerRepository::class, Ticker::class);
+		self::addRepository($container, $orm, TransactionRepository::class, Transaction::class);
+		self::addRepository($container, $orm, UserRepository::class, User::class);
 
 		$bulkInsertProvider = $container->get(BulkQueryProvider::class);
 		assert($bulkInsertProvider instanceof BulkQueryProvider);
 		$cacheTagRepository = $container->get(CacheTagRepository::class);
 		assert($cacheTagRepository instanceof CacheTagRepository);
 		$bulkInsertProvider->addRepository($cacheTagRepository);
+	}
+
+	/**
+	 * @param class-string<RepositoryInterface<TEntity>> $repositoryClass
+	 * @param class-string<TEntity> $entityClass
+	 * @template TEntity of object
+	 */
+	private static function addRepository(Container $container, ORM $orm, string $repositoryClass, string $entityClass): void
+	{
+		$repository = $orm->getRepository($entityClass);
+		// @phpstan-ignore-next-line
+		$repository->setQueryProvider(new QueryProvider($entityClass, $orm));
+		$container->add($repositoryClass, fn () => $repository);
 	}
 
 	private static function initializeRequestHandler(ContainerInterface $container): RequestHandlerInterface

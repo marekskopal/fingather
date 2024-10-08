@@ -28,6 +28,22 @@ final class CacheWithTags extends Cache
 		?int $portfolioId = null,
 		?DateTimeImmutable $date = null,
 	): bool {
+		$this->cacheTagRepository->getQueryProvider()->transaction(function () use ($key, $userId, $portfolioId, $date): void {
+			$this->cacheTagRepository->getQueryProvider()->delete()
+				->where('key', $this->namespace . $key)
+				->run();
+			$cacheTag = new CacheTag(
+				key: $this->namespace . $key,
+				driver: $this->driver,
+				userId: $userId,
+				portfolioId: $portfolioId,
+				date: $date,
+			);
+			$this->cacheTagRepository->persist($cacheTag);
+		});
+
+		// TODO:Fix bulk insert and delete
+		/*
 		$this->cacheTagRepository->addToBulkDelete('key', $this->namespace . $key);
 		$this->cacheTagRepository->addToBulkInsert(
 			new CacheTag(
@@ -38,6 +54,7 @@ final class CacheWithTags extends Cache
 				date: $date,
 			),
 		);
+		*/
 		return $this->set($key, $value, $ttl);
 	}
 

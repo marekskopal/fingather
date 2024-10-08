@@ -6,6 +6,7 @@ namespace FinGather\Model\Repository;
 
 use Cycle\ORM\ORM;
 use Cycle\ORM\Select;
+use FinGather\Service\Dbal\QueryProvider;
 
 /**
  * @template TEntity of object
@@ -43,4 +44,13 @@ interface RepositoryInterface extends \Cycle\ORM\RepositoryInterface
 	public function delete(object $entity): void;
 
 	public function getOrm(): ORM;
+
+	/** @return QueryProvider<TEntity> */
+	public function getQueryProvider(): QueryProvider;
+
+	/**
+	 * @internal
+	 * @param QueryProvider<TEntity> $queryProvider
+	 */
+	public function setQueryProvider(QueryProvider $queryProvider): void;
 }
