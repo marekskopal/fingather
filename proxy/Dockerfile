@@ -1,2 +1,2 @@
-FROM nginx:1.27.1-alpine
+FROM nginx:1.27.2-alpine
 COPY ["./conf/default.conf.template","/etc/nginx/templates/default.conf.template"]
