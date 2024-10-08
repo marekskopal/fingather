@@ -1,4 +1,4 @@
-FROM node:20.17.0-alpine AS build
+FROM node:20.18.0-alpine AS build
 WORKDIR /app
 
 RUN npm install -g pnpm
@@ -10,6 +10,6 @@ COPY ./src /app/src
 COPY ./angular.json ./tsconfig.app.json ./tsconfig.json ./tsconfig.spec.json ./
 RUN npm run build-prod
 
-FROM nginx:1.27.1-alpine AS runtime
+FROM nginx:1.27.2-alpine AS runtime
 COPY --from=build /app/dist/fingather /usr/share/nginx/html
 COPY ["./conf/default.conf","/etc/nginx/conf.d/default.conf"]
