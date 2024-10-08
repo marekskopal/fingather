@@ -23,7 +23,11 @@ final class CacheFactory
 			return $this->caches[$driver->value][$namespaceKey];
 		}
 
-		$this->caches[$driver->value][$namespaceKey] = new CacheWithTags($this->cacheTagRepository, driver: $driver, namespace: $namespace);
+		$this->caches[$driver->value][$namespaceKey] = new CacheWithTags(
+			cacheTagRepository: $this->cacheTagRepository,
+			driver: $driver,
+			namespace: $namespace,
+		);
 
 		return $this->caches[$driver->value][$namespaceKey];
 	}

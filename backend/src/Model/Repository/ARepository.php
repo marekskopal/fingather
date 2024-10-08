@@ -7,6 +7,7 @@ namespace FinGather\Model\Repository;
 use Cycle\ORM\EntityManager;
 use Cycle\ORM\ORM;
 use Cycle\ORM\Select;
+use FinGather\Service\Dbal\QueryProvider;
 
 /**
  * @template TEntity of object
@@ -15,6 +16,9 @@ use Cycle\ORM\Select;
 abstract class ARepository implements RepositoryInterface
 {
 	protected readonly EntityManager $entityManager;
+
+	/** @var QueryProvider<TEntity> */
+	private QueryProvider $queryProvider;
 
 	/** @param Select<TEntity> $select */
 	public function __construct(private Select $select, protected readonly ORM $orm)
@@ -77,5 +81,24 @@ abstract class ARepository implements RepositoryInterface
 	public function getOrm(): ORM
 	{
 		return $this->orm;
+	}
+
+	/** @return QueryProvider<TEntity> */
+	public function getQueryProvider(): QueryProvider
+	{
+		return $this->queryProvider;
+	}
+
+	/**
+	 * @internal
+	 * @param QueryProvider<TEntity> $queryProvider
+	 */
+	public function setQueryProvider(QueryProvider $queryProvider): void
+	{
+		if (isset($this->queryProvider)) {
+			throw new \LogicException('QueryProvider is already set');
+		}
+
+		$this->queryProvider = $queryProvider;
 	}
 }

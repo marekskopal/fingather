@@ -58,8 +58,7 @@ final class AssetRepository extends ARepository
 		}
 
 		if ($dateTime !== null) {
-			$transactionAssetSelect = $this->orm->getSource(Asset::class)
-				->getDatabase()
+			$transactionAssetSelect = $this->getQueryProvider()
 				->select('asset_id')
 				->from('transactions')
 				->where('user_id', $userId)
