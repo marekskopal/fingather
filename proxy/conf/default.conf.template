@@ -27,6 +27,8 @@ server {
     ssl_certificate /etc/nginx/ssl/server.pem;
     ssl_certificate_key /etc/nginx/ssl/server.key;
 
+    ssl_dhparam /etc/ssl/dhparam.pem;
+
     if ($host != "${PROXY_HOST}") {
         return  301 $scheme://www.$host$request_uri;
     }
