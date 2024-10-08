@@ -7,16 +7,17 @@ namespace FinGather\Service\Provider;
 use DateTimeImmutable;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
-use FinGather\Service\Cache\CacheDriverEnum;
 use FinGather\Service\Cache\CacheFactory;
-use FinGather\Service\Cache\CacheWithTags;
+use FinGather\Service\Cache\CacheStorageEnum;
+use FinGather\Service\Cache\CacheTagEnum;
 use FinGather\Service\DataCalculator\DataCalculator;
 use FinGather\Service\DataCalculator\Dto\CalculatedDataDto;
 use FinGather\Utils\DateTimeUtils;
+use Nette\Caching\Cache;
 
 class PortfolioDataProvider
 {
-	private CacheWithTags $cache;
+	private Cache $cache;
 
 	public function __construct(
 		private readonly DataCalculator $dataCalculator,
@@ -25,7 +26,7 @@ class PortfolioDataProvider
 		private readonly TransactionProvider $transactionProvider,
 		CacheFactory $cacheFactory,
 	) {
-		$this->cache = $cacheFactory->create(driver: CacheDriverEnum::Redis, namespace: self::class);
+		$this->cache = $cacheFactory->create(driver: CacheStorageEnum::Redis, namespace: self::class);
 	}
 
 	public function getPortfolioData(User $user, Portfolio $portfolio, DateTimeImmutable $dateTime): CalculatedDataDto
@@ -35,7 +36,7 @@ class PortfolioDataProvider
 		$key = $portfolio->getId() . '-' . $dateTime->getTimestamp();
 
 		/** @var CalculatedDataDto|null $portfolioData */
-		$portfolioData = $this->cache->get($key);
+		$portfolioData = $this->cache->load($key);
 		if ($portfolioData !== null) {
 			return $portfolioData;
 		}
@@ -59,12 +60,10 @@ class PortfolioDataProvider
 
 		$calculatedData = $this->dataCalculator->calculate($assetDatas, $dateTime, $fistTransactionActionCreated);
 
-		$this->cache->setWithTags(
+		$this->cache->save(
 			key: $key,
-			value: $calculatedData,
-			userId: $user->getId(),
-			portfolioId: $portfolio->getId(),
-			date: $dateTime,
+			data: $calculatedData,
+			dependencies: CacheTagEnum::getCacheTags($user, $portfolio, $dateTime),
 		);
 
 		return $calculatedData;
@@ -72,10 +71,8 @@ class PortfolioDataProvider
 
 	public function deletePortfolioData(?User $user = null, ?Portfolio $portfolio = null, ?DateTimeImmutable $date = null): void
 	{
-		$this->cache->deleteWithTags(
-			$user?->getId(),
-			$portfolio?->getId(),
-			$date,
+		$this->cache->clean(
+			CacheTagEnum::getCacheTags($user, $portfolio, $date),
 		);
 	}
 }

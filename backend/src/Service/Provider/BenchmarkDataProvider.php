@@ -10,15 +10,16 @@ use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\Transaction;
 use FinGather\Model\Entity\User;
-use FinGather\Service\Cache\CacheDriverEnum;
 use FinGather\Service\Cache\CacheFactory;
-use FinGather\Service\Cache\CacheWithTags;
+use FinGather\Service\Cache\CacheStorageEnum;
+use FinGather\Service\Cache\CacheTagEnum;
 use FinGather\Service\DataCalculator\BenchmarkDataCalculator;
 use FinGather\Service\DataCalculator\Dto\BenchmarkDataDto;
+use Nette\Caching\Cache;
 
 class BenchmarkDataProvider
 {
-	private CacheWithTags $cache;
+	private Cache $cache;
 
 	public function __construct(
 		private readonly BenchmarkDataCalculator $benchmarkDataCalculator,
@@ -26,7 +27,7 @@ class BenchmarkDataProvider
 		private readonly TickerDataProvider $tickerDataProvider,
 		CacheFactory $cacheFactory,
 	) {
-		$this->cache = $cacheFactory->create(driver: CacheDriverEnum::Redis, namespace: self::class);
+		$this->cache = $cacheFactory->create(driver: CacheStorageEnum::Redis, namespace: self::class);
 	}
 
 	/** @param list<Transaction> $transactions */
@@ -45,7 +46,7 @@ class BenchmarkDataProvider
 		$key = $portfolio->getId() . '-' . $benchmarkAsset->getId() . '-' . $dateTime->getTimestamp() . '-' . $benchmarkFromDateTime->getTimestamp();
 
 		/** @var BenchmarkDataDto|null $benchmarkData */
-		$benchmarkData = $this->cache->get($key);
+		$benchmarkData = $this->cache->load($key);
 		if ($benchmarkData !== null) {
 			return $benchmarkData;
 		}
@@ -59,11 +60,10 @@ class BenchmarkDataProvider
 			$benchmarkFromDateUnits,
 		);
 
-		$this->cache->setWithTags(
+		$this->cache->save(
 			key: $key,
-			value: $benchmarkData,
-			userId: $user->getId(),
-			portfolioId: $portfolio->getId(),
+			data: $benchmarkData,
+			dependencies: CacheTagEnum::getCacheTags($user, $portfolio),
 		);
 
 		return $benchmarkData;
@@ -81,7 +81,7 @@ class BenchmarkDataProvider
 		$key = $portfolio->getId() . '-' . $benchmarkAsset->getId() . '-' . $benchmarkFromDateTime->getTimestamp() . '-' . $benchmarkFromDateTime->getTimestamp();
 
 		/** @var BenchmarkDataDto|null $benchmarkData */
-		$benchmarkData = $this->cache->get($key);
+		$benchmarkData = $this->cache->load($key);
 		if ($benchmarkData !== null) {
 			return $benchmarkData;
 		}
@@ -108,11 +108,10 @@ class BenchmarkDataProvider
 
 		$benchmarkData = new BenchmarkDataDto(value: $portfolioDataValue, units: $benchmarkUnits);
 
-		$this->cache->setWithTags(
+		$this->cache->save(
 			key: $key,
-			value: $benchmarkData,
-			userId: $user->getId(),
-			portfolioId: $portfolio->getId(),
+			data: $benchmarkData,
+			dependencies: CacheTagEnum::getCacheTags($user, $portfolio),
 		);
 
 		return $benchmarkData;
@@ -120,10 +119,8 @@ class BenchmarkDataProvider
 
 	public function deleteBenchmarkData(?User $user = null, ?Portfolio $portfolio = null, ?DateTimeImmutable $date = null): void
 	{
-		$this->cache->deleteWithTags(
-			$user?->getId(),
-			$portfolio?->getId(),
-			$date,
+		$this->cache->clean(
+			CacheTagEnum::getCacheTags($user, $portfolio, $date),
 		);
 	}
 }

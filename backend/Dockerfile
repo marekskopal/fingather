@@ -18,6 +18,8 @@ RUN install-php-extensions \
     gd \
     protobuf \
     igbinary \
+    memcached \
+    redis \
     xhprof
 
 RUN set -x \

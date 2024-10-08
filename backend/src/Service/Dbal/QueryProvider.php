@@ -33,6 +33,7 @@ final class QueryProvider
 		return $this->database->select($columns);
 	}
 
+	/** @api */
 	public function delete(): DeleteQuery
 	{
 		return $this->database->delete($this->table);
