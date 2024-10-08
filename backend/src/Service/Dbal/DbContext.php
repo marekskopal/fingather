@@ -34,7 +34,7 @@ use Cycle\Schema\Generator\RenderTables;
 use Cycle\Schema\Generator\ResetTables;
 use Cycle\Schema\Generator\ValidateEntities;
 use Cycle\Schema\Registry;
-use FinGather\Service\Cache\Cache;
+use FinGather\Service\Cache\CacheFactory;
 use Spiral\Tokenizer\Config\TokenizerConfig;
 use Spiral\Tokenizer\Tokenizer;
 
@@ -81,7 +81,7 @@ final readonly class DbContext
 		// Initialize annotations
 		//AnnotationRegistry::registerLoader('class_exists');
 
-		$cache = new Cache(namespace: self::CacheNamespace);
+		$cache = CacheFactory::createPsrCache(namespace: self::CacheNamespace);
 		$schema = $cache->get(self::CacheKey);
 		if ($schema !== null && is_array($schema)) {
 			$this->orm = new ORM(new Factory($this->dbal), new Schema($schema));

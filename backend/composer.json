@@ -12,6 +12,7 @@
     ],
     "require": {
         "php": ">=8.3",
+        "contributte/redis": "^0.6.0",
         "cycle/annotated": "^4.1",
         "cycle/database": "^2.10",
         "cycle/entity-behavior-uuid": "^1.2",
@@ -31,6 +32,7 @@
         "marekskopal/router": "^1.0",
         "marekskopal/trading212": "^1.0",
         "marekskopal/twelvedata": "^0.3",
+        "nette/caching": "^3.3",
         "nette/utils": "^4.0",
         "nyholm/psr7": "^1.8",
         "php-decimal/php-decimal": "^1.1",
@@ -47,7 +49,6 @@
         "spiral/goridge": "^4.2",
         "spiral/roadrunner-http": "^3.3",
         "spiral/roadrunner-jobs": "^4.3",
-        "spiral/roadrunner-kv": "^4.0",
         "spiral/roadrunner-worker": "^3.5",
         "spiral/tokenizer": "^3.12",
         "symfony/console": "^7.0",

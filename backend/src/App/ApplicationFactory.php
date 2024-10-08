@@ -11,7 +11,6 @@ use FinGather\Model\Entity\ApiImport;
 use FinGather\Model\Entity\ApiKey;
 use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Broker;
-use FinGather\Model\Entity\CacheTag;
 use FinGather\Model\Entity\Country;
 use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\EmailVerify;
@@ -34,7 +33,6 @@ use FinGather\Model\Repository\ApiImportRepository;
 use FinGather\Model\Repository\ApiKeyRepository;
 use FinGather\Model\Repository\AssetRepository;
 use FinGather\Model\Repository\BrokerRepository;
-use FinGather\Model\Repository\CacheTagRepository;
 use FinGather\Model\Repository\CountryRepository;
 use FinGather\Model\Repository\CurrencyRepository;
 use FinGather\Model\Repository\EmailVerifyRepository;
@@ -55,11 +53,10 @@ use FinGather\Model\Repository\TickerRepository;
 use FinGather\Model\Repository\TransactionRepository;
 use FinGather\Model\Repository\UserRepository;
 use FinGather\Route\Strategy\JsonStrategy;
-use FinGather\Service\Cache\Cache;
+use FinGather\Service\Cache\CacheFactory;
 use FinGather\Service\Dbal\DbContext;
 use FinGather\Service\Dbal\QueryProvider;
 use FinGather\Service\Logger\Logger;
-use FinGather\Service\Provider\BulkQueryProvider;
 use FinGather\Service\Request\RequestService;
 use FinGather\Service\Request\RequestServiceInterface;
 use Http\Discovery\Psr17FactoryDiscovery;
@@ -70,6 +67,8 @@ use MarekSkopal\OpenFigi\OpenFigi;
 use MarekSkopal\Router\Builder\RouterBuilder;
 use MarekSkopal\TwelveData\Config\Config;
 use MarekSkopal\TwelveData\TwelveData;
+use Predis\Client;
+use Predis\ClientInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -117,6 +116,15 @@ final class ApplicationFactory
 			fn (): OpenFigi => new OpenFigi(new \MarekSkopal\OpenFigi\Config\Config($openfigiApiKey !== '' ? $openfigiApiKey : null)),
 		);
 
+		$container->add(
+			ClientInterface::class,
+			fn (): ClientInterface => new Client('tcp://' . getenv('REDIS_HOST') . ':' . getenv('REDIS_PORT'), [
+				'parameters' => [
+					'password' => (string) getenv('REDIS_PASSWORD'),
+				],
+			]),
+		);
+
 		self::initializeOrmContainer($container, $dbContext);
 
 		$container->add(RequestServiceInterface::class, fn () => new RequestService());
@@ -135,7 +143,6 @@ final class ApplicationFactory
 		self::addRepository($container, $orm, ApiKeyRepository::class, ApiKey::class);
 		self::addRepository($container, $orm, AssetRepository::class, Asset::class);
 		self::addRepository($container, $orm, BrokerRepository::class, Broker::class);
-		self::addRepository($container, $orm, CacheTagRepository::class, CacheTag::class);
 		self::addRepository($container, $orm, CountryRepository::class, Country::class);
 		self::addRepository($container, $orm, CurrencyRepository::class, Currency::class);
 		self::addRepository($container, $orm, EmailVerifyRepository::class, EmailVerify::class);
@@ -155,11 +162,9 @@ final class ApplicationFactory
 		self::addRepository($container, $orm, TransactionRepository::class, Transaction::class);
 		self::addRepository($container, $orm, UserRepository::class, User::class);
 
-		$bulkInsertProvider = $container->get(BulkQueryProvider::class);
-		assert($bulkInsertProvider instanceof BulkQueryProvider);
-		$cacheTagRepository = $container->get(CacheTagRepository::class);
-		assert($cacheTagRepository instanceof CacheTagRepository);
-		$bulkInsertProvider->addRepository($cacheTagRepository);
+		//Add bulk repositories
+		//$bulkInsertProvider = $container->get(BulkQueryProvider::class);
+		//assert($bulkInsertProvider instanceof BulkQueryProvider);
 	}
 
 	/**
@@ -183,7 +188,7 @@ final class ApplicationFactory
 
 		$router = (new RouterBuilder())
 			->setClassDirectories([__DIR__ . '/../Controller'])
-			->setCache(new Cache())
+			->setCache(CacheFactory::createPsrCache())
 			->build();
 
 		$router->setStrategy($strategy);

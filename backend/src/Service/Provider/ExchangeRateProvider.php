@@ -10,11 +10,11 @@ use Decimal\Decimal;
 use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\ExchangeRate;
 use FinGather\Model\Repository\ExchangeRateRepository;
-use FinGather\Service\Cache\Cache;
 use FinGather\Service\Cache\CacheFactory;
 use MarekSkopal\TwelveData\Exception\BadRequestException;
 use MarekSkopal\TwelveData\Exception\NotFoundException;
 use MarekSkopal\TwelveData\TwelveData;
+use Nette\Caching\Cache;
 
 class ExchangeRateProvider
 {
@@ -35,14 +35,14 @@ class ExchangeRateProvider
 
 		$key = $date->getTimestamp() . '_' . $currencyFrom->getCode() . '_' . $currencyTo->getCode();
 
-		$exchangeRate = $this->cache->get($key);
+		$exchangeRate = $this->cache->load($key);
 		if ($exchangeRate instanceof Decimal) {
 			return $exchangeRate;
 		}
 
 		if ($currencyFrom->getId() === $currencyTo->getId()) {
 			$exchangeRate = new Decimal(1);
-			$this->cache->set($key, $exchangeRate);
+			$this->cache->save($key, $exchangeRate);
 
 			return $exchangeRate;
 		}
@@ -62,7 +62,7 @@ class ExchangeRateProvider
 
 		if ($currencyFrom->getCode() === 'USD') {
 			$exchangeRate = $this->getExchangeRateUsd($date, $currencyTo);
-			$this->cache->set($key, $exchangeRate);
+			$this->cache->save($key, $exchangeRate);
 
 			return $exchangeRate;
 		}
@@ -72,7 +72,7 @@ class ExchangeRateProvider
 
 		$exchangeRate = $exchangeRateToUsd->div($exchangeRateFromUsd);
 
-		$this->cache->set($key, $exchangeRate);
+		$this->cache->save($key, $exchangeRate);
 
 		return $exchangeRate;
 	}

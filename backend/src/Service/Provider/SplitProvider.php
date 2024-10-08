@@ -9,12 +9,12 @@ use Decimal\Decimal;
 use FinGather\Model\Entity\Split;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Repository\SplitRepository;
-use FinGather\Service\Cache\Cache;
 use FinGather\Service\Cache\CacheFactory;
 use FinGather\Service\Provider\Dto\SplitDto;
 use MarekSkopal\TwelveData\Enum\RangeEnum;
 use MarekSkopal\TwelveData\Exception\NotFoundException;
 use MarekSkopal\TwelveData\TwelveData;
+use Nette\Caching\Cache;
 
 class SplitProvider
 {
@@ -35,7 +35,7 @@ class SplitProvider
 		$key = (string) $ticker->getId();
 
 		/** @var list<SplitDto>|null $splits */
-		$splits = $this->cache->get($key);
+		$splits = $this->cache->load($key);
 		if ($splits !== null) {
 			return $splits;
 		}
@@ -44,7 +44,7 @@ class SplitProvider
 			fn(Split $split): SplitDto => SplitDto::fromEntity($split),
 			$this->splitRepository->findSplits($ticker->getId()),
 		);
-		$this->cache->set($key, $splits);
+		$this->cache->save($key, $splits);
 
 		return $splits;
 	}
@@ -86,6 +86,6 @@ class SplitProvider
 			);
 		}
 
-		$this->cache->delete((string) $ticker->getId());
+		$this->cache->remove((string) $ticker->getId());
 	}
 }

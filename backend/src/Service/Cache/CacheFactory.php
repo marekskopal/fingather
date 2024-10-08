@@ -4,18 +4,25 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Cache;
 
-use FinGather\Model\Repository\CacheTagRepository;
+use Contributte\Redis\Caching\RedisJournal;
+use Contributte\Redis\Caching\RedisStorage;
+use Contributte\Redis\Serializer\IgbinarySerializer;
+use Nette\Bridges\Psr\PsrCacheAdapter;
+use Nette\Caching\Cache;
+use Nette\Caching\Storages\MemcachedStorage;
+use Predis\ClientInterface;
+use Psr\SimpleCache\CacheInterface;
 
 final class CacheFactory
 {
-	/** @var array<string, array<string, CacheWithTags>> */
+	/** @var array<string, array<string, Cache>> */
 	private array $caches = [];
 
-	public function __construct(private readonly CacheTagRepository $cacheTagRepository)
+	public function __construct(private readonly ClientInterface $clientInterface)
 	{
 	}
 
-	public function create(CacheDriverEnum $driver = CacheDriverEnum::Memcached, ?string $namespace = null): CacheWithTags
+	public function create(CacheStorageEnum $driver = CacheStorageEnum::Memcached, ?string $namespace = null): Cache
 	{
 		$namespaceKey = $namespace ?? '';
 
@@ -23,12 +30,35 @@ final class CacheFactory
 			return $this->caches[$driver->value][$namespaceKey];
 		}
 
-		$this->caches[$driver->value][$namespaceKey] = new CacheWithTags(
-			cacheTagRepository: $this->cacheTagRepository,
-			driver: $driver,
-			namespace: $namespace,
-		);
+		$this->caches[$driver->value][$namespaceKey] = match ($driver) {
+			CacheStorageEnum::Memcached => self::createMemcachedCache($namespace),
+			CacheStorageEnum::Redis => self::createRedisCache($this->clientInterface, $namespace),
+		};
 
 		return $this->caches[$driver->value][$namespaceKey];
+	}
+
+	public static function createPsrCache(CacheStorageEnum $driver = CacheStorageEnum::Memcached, ?string $namespace = null): CacheInterface
+	{
+		$cache = match ($driver) {
+			CacheStorageEnum::Memcached => self::createMemcachedCache($namespace),
+			CacheStorageEnum::Redis => throw new \RuntimeException('Not implemented yet'),
+		};
+		return new PsrCacheAdapter($cache->getStorage());
+	}
+
+	private static function createMemcachedCache(?string $namespace = null): Cache
+	{
+		$storage = new MemcachedStorage(
+			host: (string) getenv('MEMCACHED_HOST'),
+			port: (int) getenv('MEMCACHED_PORT'),
+		);
+		return new Cache($storage, $namespace);
+	}
+
+	private static function createRedisCache(ClientInterface $clientInterface, ?string $namespace = null): Cache
+	{
+		$storage = new RedisStorage($clientInterface, new RedisJournal($clientInterface), new IgbinarySerializer());
+		return new Cache($storage, $namespace);
 	}
 }

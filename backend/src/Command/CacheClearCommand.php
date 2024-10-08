@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Command;
 
-use FinGather\Service\Cache\Cache;
+use FinGather\Service\Cache\CacheFactory;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -18,7 +18,7 @@ final class CacheClearCommand extends Command
 
 	protected function execute(InputInterface $input, OutputInterface $output): int
 	{
-		$cache = new Cache();
+		$cache = CacheFactory::createPsrCache();
 		$cache->clear();
 
 		return 0;
