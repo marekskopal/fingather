@@ -9,6 +9,7 @@ use FinGather\Jobs\Handler\ApiImportPrepareCheckHandler;
 use FinGather\Jobs\Handler\ApiImportProcessCheckHandler;
 use FinGather\Jobs\Handler\EmailVerifyHandler;
 use FinGather\Jobs\Handler\JobHandler;
+use FinGather\Jobs\Handler\UserWarmupHandler;
 use FinGather\Service\Provider\BulkQueryProvider;
 use FinGather\Service\Provider\CurrentTransactionProvider;
 use FinGather\Service\Queue\Enum\QueueEnum;
@@ -47,6 +48,7 @@ final class JobsDispatcher implements Dispatcher
 					QueueEnum::EmailVerify->value => EmailVerifyHandler::class,
 					QueueEnum::ApiImportPrepareCheck->value => ApiImportPrepareCheckHandler::class,
 					QueueEnum::ApiImportProcessCheck->value => ApiImportProcessCheckHandler::class,
+					QueueEnum::UserWarmup->value => UserWarmupHandler::class,
 					default => throw new \InvalidArgumentException('Unprocessable queue [' . $task->getQueue() . ']'),
 				};
 
