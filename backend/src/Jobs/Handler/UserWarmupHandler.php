@@ -7,12 +7,17 @@ namespace FinGather\Jobs\Handler;
 use FinGather\Service\Provider\UserProvider;
 use FinGather\Service\Warmup\Dto\UserWarmupDto;
 use FinGather\Service\Warmup\UserWarmup;
+use Psr\Log\LoggerInterface;
 use Spiral\RoadRunner\Jobs\Task\ReceivedTaskInterface;
 use function Safe\json_decode;
 
 class UserWarmupHandler implements JobHandler
 {
-	public function __construct(private readonly UserWarmup $userWarmup, private readonly UserProvider $userProvider)
+	public function __construct(
+		private readonly UserWarmup $userWarmup,
+		private readonly UserProvider $userProvider,
+		private readonly LoggerInterface $logger,
+	)
 	{
 	}
 
@@ -26,6 +31,8 @@ class UserWarmupHandler implements JobHandler
 		$payload = json_decode($task->getPayload(), assoc: true);
 
 		$userWarmup = UserWarmupDto::fromArray($payload);
+
+		$this->logger->info('User warmup started', ['userId' => $userWarmup->userId]);
 
 		$user = $this->userProvider->getUser($userWarmup->userId);
 		if ($user === null) {
