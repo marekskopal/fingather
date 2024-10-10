@@ -14,6 +14,6 @@ abstract class AbstractCommand extends Command
 	{
 		$datetime = new DateTimeImmutable();
 
-		$output->writeln($datetime->format('Y-m-d h:i:s') . ' ' . $message);
+		$output->writeln($datetime->format('Y-m-d H:i:s') . ' ' . $message);
 	}
 }
