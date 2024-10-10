@@ -8,7 +8,6 @@ use FinGather\Service\Cache\CacheFactory;
 use FinGather\Service\Cache\CacheStorageEnum;
 use Nette\Caching\Cache;
 use Predis\Client;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
