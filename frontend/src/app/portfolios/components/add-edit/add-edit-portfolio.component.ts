@@ -92,7 +92,11 @@ export class AddEditPortfolioComponent extends BaseAddEditForm implements OnInit
     }
 
     private async createPortfolio(): Promise<void> {
-        await this.portfolioService.createPortfolio(this.form.value);
+        const portfolio = await this.portfolioService.createPortfolio(this.form.value);
+
+        this.portfolioService.cleanCurrentPortfolio();
+        this.portfolioService.setCurrentPortfolio(portfolio);
+        await this.portfolioService.getDefaultPortfolio();
 
         this.alertService.success('Group added successfully', { keepAfterRouteChange: true });
         this.portfolioService.notify();
