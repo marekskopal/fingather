@@ -6,7 +6,7 @@ import {ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatIcon} from "@angular/material/icon";
 import { Router, RouterLink} from "@angular/router";
 import { UserRoleEnum } from '@app/models/enums/user-role-enum';
-import { CurrencyService, UserService } from '@app/services';
+import {CurrencyService, CurrentUserService, UserService} from '@app/services';
 import {BaseAddEditForm} from "@app/shared/components/form/base-add-edit-form";
 import {InputValidatorComponent} from "@app/shared/components/input-validator/input-validator.component";
 import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selector/portfolio-selector.component";
@@ -33,6 +33,7 @@ import {TranslateModule} from "@ngx-translate/core";
 export class AddEditUserComponent extends BaseAddEditForm implements OnInit {
     private readonly userService = inject(UserService);
     private readonly currencyService = inject(CurrencyService);
+    private readonly currentUserService = inject(CurrentUserService);
     private readonly router = inject(Router);
 
     protected currencies: SelectItem<number, string>[] = [];
@@ -43,6 +44,11 @@ export class AddEditUserComponent extends BaseAddEditForm implements OnInit {
 
     public async ngOnInit(): Promise<void> {
         this.$loading.set(true);
+
+        const currentUser = await this.currentUserService.getCurrentUser();
+        if (currentUser.role !== UserRoleEnum.Admin) {
+            this.router.navigate(['/']);
+        }
 
         this.initializeIdFromRoute();
 

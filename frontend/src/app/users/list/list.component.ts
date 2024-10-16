@@ -1,10 +1,9 @@
-import {
-    ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal
-} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal} from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
-import {RouterLink} from "@angular/router";
-import { User, UserWithStatistic } from '@app/models';
-import { CurrentUserService, UserService } from '@app/services';
+import {Router, RouterLink} from "@angular/router";
+import {User, UserWithStatistic} from '@app/models';
+import {UserRoleEnum} from "@app/models/enums/user-role-enum";
+import {CurrentUserService, UserService} from '@app/services';
 import {DeleteButtonComponent} from "@app/shared/components/delete-button/delete-button.component";
 import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selector/portfolio-selector.component";
 import {ScrollShadowDirective} from "@marekskopal/ng-scroll-shadow";
@@ -27,14 +26,18 @@ export class ListComponent implements OnInit {
     private readonly userService = inject(UserService);
     private readonly currentUserService = inject(CurrentUserService);
     private readonly changeDetectorRef = inject(ChangeDetectorRef);
+    private readonly router = inject(Router);
 
     private readonly $users = signal<UserWithStatistic[]>([]);
     protected currentUser: User;
 
     public async ngOnInit(): Promise<void> {
-        this.refreshUsers();
-
         this.currentUser = await this.currentUserService.getCurrentUser();
+        if (this.currentUser.role !== UserRoleEnum.Admin) {
+            this.router.navigate(['/']);
+        }
+
+        this.refreshUsers();
 
         this.userService.subscribe(() => {
             this.refreshUsers();
