@@ -117,12 +117,24 @@ fingather-import-prepare {
         justify-content: space-between;
     }
 
-    .table {
+    .import-prepare-tickers {
+        display: flex;
+        flex-direction: column;
+        row-gap: $spacing-xs;
         margin-bottom: 30px;
 
-        td {
-            border: 0;
-            padding: 0 0 $spacing-xs 0;
+        .import-prepare-ticker {
+            display: flex;
+            align-items: center;
+            gap: $spacing-md;
+
+            .import-prepare-ticker-ticker {
+                width: 70px;
+            }
+
+            .import-prepare-ticker-select {
+                width: calc(100% - 70px);
+            }
         }
     }
 
@@ -137,8 +149,9 @@ fingather-import-prepare {
                 width: 100%;
             }
 
-            .tag {
-                margin-left: $spacing-xs;
+            button {
+                display: flex;
+                gap: $spacing-xs;
             }
         }
     }
