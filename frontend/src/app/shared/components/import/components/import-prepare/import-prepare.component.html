@@ -7,22 +7,20 @@
     <p>{{ 'app.transactions.import.import.allTickersSelectedAutomatically' | translate }}</p>
 }
 <div class="import-prepare">
-    <table class="table">
-        <tbody>
-            @for (importPrepareTicker of objectValues($multipleFoundTickers()); track importPrepareTicker) {
-                <tr>
-                    <td>{{ importPrepareTicker.ticker }}</td>
-                    <td>
-                        <fingather-ticker-selector
-                            [tickers]="importPrepareTicker.tickers"
-                            [selectedTickerId]="$selectedTickers()[importPrepareTicker.brokerId + '-' + importPrepareTicker.ticker]"
-                            (onChangeTicker)="onChangeTicker($event, importPrepareTicker.brokerId + '-' + importPrepareTicker.ticker)"
-                        />
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <div class="import-prepare-tickers">
+        @for (importPrepareTicker of objectValues($multipleFoundTickers()); track importPrepareTicker) {
+            <div class="import-prepare-ticker">
+                <div class="import-prepare-ticker-ticker">{{ importPrepareTicker.ticker }}</div>
+                <div class="import-prepare-ticker-select">
+                    <fingather-ticker-selector
+                        [tickers]="importPrepareTicker.tickers"
+                        [selectedTickerId]="$selectedTickers()[importPrepareTicker.brokerId + '-' + importPrepareTicker.ticker]"
+                        (onChangeTicker)="onChangeTicker($event, importPrepareTicker.brokerId + '-' + importPrepareTicker.ticker)"
+                    />
+                </div>
+            </div>
+        }
+    </div>
 
     <div class="form-group">
         @if ($showCancel()) {

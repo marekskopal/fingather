@@ -1,19 +1,23 @@
 ﻿<div class="ticker-selector" ngbDropdown>
-    <button type="button" id="tickerSelector" ngbDropdownToggle>
-        <span>
-            @if ($selectedTicker(); as selectedTicker) {
-                <span>{{ selectedTicker.name }}</span><span class="tag">{{selectedTicker.market.mic}}</span>
-            } @else if($placeholder()) {
-                <span>{{ $placeholder() }}</span>
-            } @else {
-                <span>{{ 'app.common.choose' | translate }}</span>
-            }
-        </span>
+    <button
+        type="button"
+        [id]="'tickerSelector' + $selectedTickerId()"
+        ngbDropdownToggle
+    >
+        @if ($selectedTicker(); as selectedTicker) {
+            <div class="ellipsis">{{ selectedTicker.name }}</div><div class="tag">{{selectedTicker.market.mic}}</div>
+        } @else if($placeholder()) {
+            <div class="ellipsis">{{ $placeholder() }}</div>
+        } @else {
+            <div class="ellipsis">{{ 'app.common.choose' | translate }}</div>
+        }
     </button>
-    <div ngbDropdownMenu aria-labelledby="tickerSelector">
+    <div
+        ngbDropdownMenu
+        [attr.aria-labelledby]="'tickerSelector' + $selectedTickerId()">
         @for(ticker of $tickers(); track ticker.id) {
             <button ngbDropdownItem (click)="changeTicker(ticker)">
-                <span>{{ ticker.name }}</span><span class="tag">{{ticker.market.mic}}</span>
+                <div class="ellipsis">{{ ticker.name }}</div><div class="tag">{{ticker.market.mic}}</div>
             </button>
         }
     </div>
