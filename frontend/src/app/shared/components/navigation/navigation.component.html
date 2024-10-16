@@ -81,7 +81,7 @@
                     <span>{{ 'app.navbar.apiKeys' | translate }}</span>
                 </a>
             </li>
-            @if(currentUser?.role === UserRoleEnum.Admin) {
+            @if($currentUser()?.role === UserRoleEnum.Admin) {
                 <li class="nav-item">
                     <a class="nav-link" (click)="collapseNavigation()" routerLink="/users" routerLinkActive="active">
                         <mat-icon>group</mat-icon>
