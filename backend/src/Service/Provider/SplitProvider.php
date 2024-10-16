@@ -74,6 +74,8 @@ class SplitProvider
 			return;
 		}
 
+		$splitCreated = false;
+
 		foreach ($splits->splits as $split) {
 			if ($this->getSplit(ticker: $ticker, date: $split->date) !== null) {
 				continue;
@@ -84,8 +86,12 @@ class SplitProvider
 				date: $split->date,
 				factor: (new Decimal((string) $split->fromFactor))->div(new Decimal((string) $split->toFactor)),
 			);
+
+			$splitCreated = true;
 		}
 
-		$this->cache->remove((string) $ticker->getId());
+		if ($splitCreated) {
+			$this->cache->remove((string) $ticker->getId());
+		}
 	}
 }
