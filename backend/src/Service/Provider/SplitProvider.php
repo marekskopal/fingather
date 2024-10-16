@@ -11,20 +11,13 @@ use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Repository\SplitRepository;
 use FinGather\Service\Cache\CacheFactory;
 use FinGather\Service\Provider\Dto\SplitDto;
-use MarekSkopal\TwelveData\Enum\RangeEnum;
-use MarekSkopal\TwelveData\Exception\NotFoundException;
-use MarekSkopal\TwelveData\TwelveData;
 use Nette\Caching\Cache;
 
 class SplitProvider
 {
 	private readonly Cache $cache;
 
-	public function __construct(
-		private readonly SplitRepository $splitRepository,
-		private readonly TwelveData $twelveData,
-		CacheFactory $cacheFactory,
-	)
+	public function __construct(private readonly SplitRepository $splitRepository, CacheFactory $cacheFactory,)
 	{
 		$this->cache = $cacheFactory->create(namespace: self::class);
 	}
@@ -62,36 +55,8 @@ class SplitProvider
 		return $split;
 	}
 
-	public function updateSplits(Ticker $ticker): void
+	public function cleanCache(Ticker $ticker): void
 	{
-		try {
-			$splits = $this->twelveData->getFundamentals()->splits(
-				symbol: $ticker->getTicker(),
-				micCode: $ticker->getMarket()->getMic(),
-				range: RangeEnum::Full,
-			);
-		} catch (NotFoundException) {
-			return;
-		}
-
-		$splitCreated = false;
-
-		foreach ($splits->splits as $split) {
-			if ($this->getSplit(ticker: $ticker, date: $split->date) !== null) {
-				continue;
-			}
-
-			$this->createSplit(
-				ticker: $ticker,
-				date: $split->date,
-				factor: (new Decimal((string) $split->fromFactor))->div(new Decimal((string) $split->toFactor)),
-			);
-
-			$splitCreated = true;
-		}
-
-		if ($splitCreated) {
-			$this->cache->remove((string) $ticker->getId());
-		}
+		$this->cache->remove((string) $ticker->getId());
 	}
 }
