@@ -99,12 +99,19 @@ final class AssetRepository extends ARepository
 		]);
 	}
 
-	public function findAssetByTickerId(int $userId, int $portfolioId, int $tickerId): ?Asset
+	public function findAssetByTickerId(int $tickerId, ?int $userId = null, ?int $portfolioId = null): ?Asset
 	{
-		return $this->findOne([
-			'user_id' => $userId,
-			'portfolio_id' => $portfolioId,
-			'ticker_id' => $tickerId,
-		]);
+		$assetsSelect = $this->select()
+			->where('ticker_id', $tickerId);
+
+		if ($userId !== null) {
+			$assetsSelect->where('user_id', $userId);
+		}
+
+		if ($portfolioId !== null) {
+			$assetsSelect->where('portfolio_id', $portfolioId);
+		}
+
+		return $assetsSelect->fetchOne();
 	}
 }

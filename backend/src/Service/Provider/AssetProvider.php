@@ -14,10 +14,14 @@ use FinGather\Model\Entity\Sector;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\AssetRepository;
+use FinGather\Service\Update\TickerRelationsUpdater;
 
 class AssetProvider
 {
-	public function __construct(private readonly AssetRepository $assetRepository)
+	public function __construct(
+		private readonly AssetRepository $assetRepository,
+		private readonly TickerRelationsUpdater $tickerRelationsUpdater,
+	)
 	{
 	}
 
@@ -71,6 +75,8 @@ class AssetProvider
 
 	public function createAsset(User $user, Portfolio $portfolio, Ticker $ticker, Group $othersGroup): Asset
 	{
+		$this->tickerRelationsUpdater->checkAndUpdateTicker($ticker);
+
 		$asset = new Asset(user: $user, portfolio: $portfolio, ticker: $ticker, group: $othersGroup);
 
 		$this->assetRepository->persist($asset);
@@ -80,14 +86,15 @@ class AssetProvider
 
 	public function getOrCreateAsset(User $user, Portfolio $portfolio, Ticker $ticker, Group $othersGroup): Asset
 	{
-		$asset = $this->assetRepository->findAssetByTickerId($user->getId(), $portfolio->getId(), $ticker->getId());
+		$asset = $this->assetRepository->findAssetByTickerId(
+			tickerId: $ticker->getId(),
+			userId: $user->getId(),
+			portfolioId: $portfolio->getId(),
+		);
 		if ($asset !== null) {
 			return $asset;
 		}
 
-		$asset = new Asset(user: $user, portfolio: $portfolio, ticker: $ticker, group: $othersGroup);
-		$this->assetRepository->persist($asset);
-
-		return $asset;
+		return $this->createAsset(user: $user, portfolio: $portfolio, ticker: $ticker, othersGroup: $othersGroup);
 	}
 }

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace FinGather\Command;
 
 use FinGather\App\ApplicationFactory;
-use FinGather\Service\Provider\SplitProvider;
 use FinGather\Service\Provider\TickerProvider;
+use FinGather\Service\Update\SplitUpdater;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -23,15 +23,15 @@ final class SplitUpdateCommand extends AbstractCommand
 
 		$application = ApplicationFactory::create();
 
-		$splitProvider = $application->container->get(SplitProvider::class);
-		assert($splitProvider instanceof SplitProvider);
+		$splitUpdater = $application->container->get(SplitUpdater::class);
+		assert($splitUpdater instanceof SplitUpdater);
 
 		$tickerProvider = $application->container->get(TickerProvider::class);
 		assert($tickerProvider instanceof TickerProvider);
 
 		$activeTickers = $tickerProvider->getActiveTickers();
 		foreach ($activeTickers as $ticker) {
-			$splitProvider->updateSplits($ticker);
+			$splitUpdater->updateSplits($ticker);
 		}
 
 		$this->writeln('Updated "' . count($activeTickers) . '" Tickers.', $output);
