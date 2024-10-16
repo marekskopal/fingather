@@ -1,6 +1,6 @@
 import {NgOptimizedImage} from "@angular/common";
 import {
-    ChangeDetectionStrategy, Component, inject, OnInit,
+    ChangeDetectionStrategy, Component, inject, OnInit, signal,
 } from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
 import {RouterLink, RouterLinkActive} from "@angular/router";
@@ -35,10 +35,11 @@ export class NavigationComponent implements OnInit {
 
     protected isNavigationCollapsed: boolean = true;
 
-    protected currentUser: User | null = null;
+    protected $currentUser = signal<User | null>(null);
 
     public async ngOnInit(): Promise<void> {
-        this.currentUser = await this.currentUserService.getCurrentUser();
+        const currentUser = await this.currentUserService.getCurrentUser();
+        this.$currentUser.set(currentUser);
     }
 
     public logout(): void {
