@@ -23,7 +23,7 @@ final class VerifyEmail
 		return <<<HTML
 <html>
 <body style="{$fontStyleGray} background-color:#000000">
-	<div style="padding: 96px 24px;">
+	<div style="padding: 96px 24px; background-color:#000000; border-radius: 16px">
 		<div style="margin: 0 auto 48px; width: 650px; text-align: center">
 			<img src="https://www.fingather.com/app/images/fingather.png" alt="FinGather" title="FinGather" width="280" height="70" style="display:block" />
 		</div>
