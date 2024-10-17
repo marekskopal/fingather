@@ -49,6 +49,8 @@ class IndustryDataProvider
 
 	public function deleteUserIndustryData(?User $user = null, ?Portfolio $portfolio = null, ?DateTimeImmutable $date = null): void
 	{
+		$date = $date !== null ? DateTimeUtils::setEndOfDateTime($date) : null;
+
 		$this->cache->clean(
 			CacheTagEnum::getCacheTags($user, $portfolio, $date),
 		);
