@@ -15,6 +15,7 @@ use FinGather\Service\Cache\CacheStorageEnum;
 use FinGather\Service\Cache\CacheTagEnum;
 use FinGather\Service\DataCalculator\BenchmarkDataCalculator;
 use FinGather\Service\DataCalculator\Dto\BenchmarkDataDto;
+use FinGather\Utils\DateTimeUtils;
 use Nette\Caching\Cache;
 
 class BenchmarkDataProvider
@@ -40,8 +41,8 @@ class BenchmarkDataProvider
 		DateTimeImmutable $benchmarkFromDateTime,
 		Decimal $benchmarkFromDateUnits,
 	): BenchmarkDataDto {
-		$dateTime = $dateTime->setTime(0, 0);
-		$benchmarkFromDateTime = $benchmarkFromDateTime->setTime(0, 0);
+		$dateTime = DateTimeUtils::setStartOfDateTime($dateTime);
+		$benchmarkFromDateTime = DateTimeUtils::setStartOfDateTime($benchmarkFromDateTime);
 
 		$key = $portfolio->getId() . '-' . $benchmarkAsset->getId() . '-' . $dateTime->getTimestamp() . '-' . $benchmarkFromDateTime->getTimestamp();
 
@@ -76,7 +77,7 @@ class BenchmarkDataProvider
 		DateTimeImmutable $benchmarkFromDateTime,
 		Decimal $portfolioDataValue,
 	): BenchmarkDataDto {
-		$benchmarkFromDateTime = $benchmarkFromDateTime->setTime(0, 0);
+		$benchmarkFromDateTime = DateTimeUtils::setStartOfDateTime($benchmarkFromDateTime);
 
 		$key = $portfolio->getId() . '-' . $benchmarkAsset->getId() . '-' . $benchmarkFromDateTime->getTimestamp() . '-' . $benchmarkFromDateTime->getTimestamp();
 
@@ -117,10 +118,10 @@ class BenchmarkDataProvider
 		return $benchmarkData;
 	}
 
-	public function deleteBenchmarkData(?User $user = null, ?Portfolio $portfolio = null, ?DateTimeImmutable $date = null): void
+	public function deleteBenchmarkData(?User $user = null, ?Portfolio $portfolio = null): void
 	{
 		$this->cache->clean(
-			CacheTagEnum::getCacheTags($user, $portfolio, $date),
+			CacheTagEnum::getCacheTags($user, $portfolio),
 		);
 	}
 }

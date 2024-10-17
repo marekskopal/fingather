@@ -11,6 +11,7 @@ use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\ExchangeRate;
 use FinGather\Model\Repository\ExchangeRateRepository;
 use FinGather\Service\Cache\CacheFactory;
+use FinGather\Utils\DateTimeUtils;
 use MarekSkopal\TwelveData\Exception\BadRequestException;
 use MarekSkopal\TwelveData\Exception\NotFoundException;
 use MarekSkopal\TwelveData\TwelveData;
@@ -31,7 +32,7 @@ class ExchangeRateProvider
 
 	public function getExchangeRate(DateTimeImmutable $date, Currency $currencyFrom, Currency $currencyTo): Decimal
 	{
-		$date = $date->setTime(0, 0);
+		$date = DateTimeUtils::setStartOfDateTime($date);
 
 		$key = $date->getTimestamp() . '_' . $currencyFrom->getCode() . '_' . $currencyTo->getCode();
 

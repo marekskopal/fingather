@@ -34,7 +34,7 @@ class DataProvider
 		$this->assetDataProvider->deleteAssetData($user, $portfolio, $date);
 		$this->groupDataProvider->deleteUserGroupData($user, $portfolio, $date);
 		$this->portfolioDataProvider->deletePortfolioData($user, $portfolio, $date);
-		$this->benchmarkDataProvider->deleteBenchmarkData($user, $portfolio, $date);
+		$this->benchmarkDataProvider->deleteBenchmarkData($user, $portfolio);
 		$this->countryDataProvider->deleteUserCountryData($user, $portfolio, $date);
 		$this->sectorDataProvider->deleteUserSectorData($user, $portfolio, $date);
 		$this->industryDataProvider->deleteUserIndustryData($user, $portfolio, $date);
