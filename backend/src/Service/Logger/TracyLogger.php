@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace FinGather\Service\Logger;
 
 use ErrorException;
-use Safe\DateTimeImmutable;
 use Tracy\Helpers;
 use Tracy\Logger;
+use function Safe\date;
 use function Safe\file_put_contents;
 use function Safe\json_encode;
 use function Safe\preg_replace;
@@ -19,6 +19,7 @@ final class TracyLogger extends Logger
 	public static function formatLogLine(mixed $message, ?string $exceptionFile = null): string
 	{
 		return implode(' ', [
+			date('[Y-m-d H-i-s]'),
 			preg_replace('#\s*\r?\n\s*#', ' ', self::formatMessage($message)),
 			' @  ' . Helpers::getSource(),
 			$exceptionFile !== null ? ' @@  ' . basename($exceptionFile) : null,
@@ -32,15 +33,6 @@ final class TracyLogger extends Logger
 			$context = $message['context'] ?? [];
 			$message = $message['exception'];
 		}
-
-		$datetime = new DateTimeImmutable();
-
-		if (is_array($message) || is_object($message)) {
-			$message = json_encode($message);
-		}
-
-		//@phpstan-ignore-next-line
-		$message = $datetime->format('Y-m-d h:i:s') . ' ' . $message;
 
 		$exceptionFile = parent::log($message, $level);
 
