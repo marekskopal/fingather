@@ -55,8 +55,7 @@ final class ImportController
 		try {
 			$importPrepare = $this->importPrepareService->prepareImport($user, $portfolio, $importData);
 		} catch (\RuntimeException $e) {
-			throw $e;
-			//return new NotFoundResponse('Imported file is not supported.');
+			return new NotFoundResponse('Imported file is not supported.');
 		}
 
 		return new JsonResponse(ImportPrepareDto::fromImportPrepare($importPrepare));
