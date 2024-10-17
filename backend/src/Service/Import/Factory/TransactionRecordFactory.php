@@ -42,7 +42,7 @@ final class TransactionRecordFactory
 			return null;
 		}
 
-		if (is_callable($mapping)) {
+		if (!is_string($mapping)) {
 			return $this->sanitizeEmptyItem($mapping($csvRecord));
 		}
 
