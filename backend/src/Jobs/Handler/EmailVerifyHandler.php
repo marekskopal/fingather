@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Jobs\Handler;
 
 use FinGather\Dto\EmailVerifyDto;
+use FinGather\Email\VerifyEmail;
 use FinGather\Model\Entity\Enum\UserRoleEnum;
 use Psr\Log\LoggerInterface;
 use Spiral\RoadRunner\Jobs\Task\ReceivedTaskInterface;
@@ -51,23 +52,10 @@ final class EmailVerifyHandler implements JobHandler
 			->from($from)
 			->to($emailVerify->user->email)
 			->subject('FinGather - Verify your email.')
-			->html($this->getEmailText($emailVerify));
+			->html(VerifyEmail::getHtml($emailVerify));
 
 		$this->logger->info('Send verify email to: ' . $emailVerify->user->email);
 
 		$mailer->send($email);
-	}
-
-	private function getEmailText(EmailVerifyDto $emailVerify): string
-	{
-		$host = (string) getenv('PROXY_HOST');
-		$port = (int) getenv('PROXY_PORT_SSL');
-
-		$verifyUrl = 'https://' . $host . ($port !== 443 ? ':' . $port : '') . '/email-verify/' . $emailVerify->token;
-
-		return '
-			<h1>FinGather - Verify your email</h1>
-			<p>Please verify you email on <a href="' . $verifyUrl . '">' . $verifyUrl . '</a></p>
-		';
 	}
 }
