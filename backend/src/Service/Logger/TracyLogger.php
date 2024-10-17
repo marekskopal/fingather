@@ -34,6 +34,11 @@ final class TracyLogger extends Logger
 		}
 
 		$datetime = new DateTimeImmutable();
+
+		if (is_array($message) || is_object($message)) {
+			$message = json_encode($message);
+		}
+
 		//@phpstan-ignore-next-line
 		$message = $datetime->format('Y-m-d h:i:s') . ' ' . $message;
 
