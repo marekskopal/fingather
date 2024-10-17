@@ -56,6 +56,10 @@ final class EmailVerifyHandler implements JobHandler
 
 		$this->logger->info('Send verify email to: ' . $emailVerify->user->email);
 
-		$mailer->send($email);
+		try {
+			$mailer->send($email);
+		} catch (\Throwable $e) {
+			$this->logger->error('Error sending verify email: ' . $e->getMessage());
+		}
 	}
 }
