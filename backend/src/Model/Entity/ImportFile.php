@@ -20,7 +20,7 @@ class ImportFile extends AEntity
 		private DateTimeImmutable $created,
 		#[Column(type: 'string')]
 		private string $fileName,
-		#[Column(type: 'longText')]
+		#[Column(type: 'longBinary')]
 		private string $contents,
 	) {
 	}
