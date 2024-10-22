@@ -3,6 +3,7 @@
 .form-control {
     padding: 7px $spacing-sm;
     color: $color-gray-lightest;
+    border: 1px solid $color-gray-lighter;
 
     &:focus {
         color: $color-gray-lightest;
@@ -19,6 +20,7 @@
     position: relative;
     padding: 7px $spacing-sm;
     color: $color-gray-lightest;
+    border: 1px solid $color-gray-lighter;
     background-image: none;
 
     &:focus {
