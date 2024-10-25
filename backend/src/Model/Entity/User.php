@@ -6,6 +6,7 @@ namespace FinGather\Model\Entity;
 
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
+use FinGather\Attribute\ColumnEnum;
 use FinGather\Model\Entity\Enum\UserRoleEnum;
 use FinGather\Model\Repository\UserRepository;
 
@@ -19,7 +20,7 @@ class User extends AEntity
 		private string $password,
 		#[Column(type: 'string')]
 		private string $name,
-		#[Column(type: 'enum(User,Admin)', typecast: UserRoleEnum::class)]
+		#[ColumnEnum(enum: UserRoleEnum::class)]
 		private UserRoleEnum $role,
 		#[Column(type: 'boolean', default: false)]
 		private bool $isEmailVerified,
