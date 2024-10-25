@@ -7,6 +7,7 @@ namespace FinGather\Model\Entity;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\RefersTo;
+use FinGather\Attribute\ColumnEnum;
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Model\Repository\BrokerRepository;
 
@@ -20,10 +21,7 @@ class Broker extends AEntity
 		private Portfolio $portfolio,
 		#[Column(type: 'string')]
 		private string $name,
-		#[Column(
-			type: 'enum(Trading212,InteractiveBrokers,Xtb,Etoro,Revolut,Anycoin,Degiro,Portu,Coinbase,Binance,FioBanka)',
-			typecast: BrokerImportTypeEnum::class,
-		)]
+		#[ColumnEnum(enum: BrokerImportTypeEnum::class)]
 		private BrokerImportTypeEnum $importType,
 	) {
 	}

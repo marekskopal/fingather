@@ -11,6 +11,7 @@ use Cycle\Annotated\Annotation\Relation\RefersTo;
 use Cycle\ORM\Parser\Typecast;
 use DateTimeImmutable;
 use Decimal\Decimal;
+use FinGather\Attribute\ColumnEnum;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Enum\TransactionCreateTypeEnum;
 use FinGather\Model\Repository\TransactionRepository;
@@ -33,14 +34,13 @@ class Transaction extends AEntity
 		#[Column(type: 'integer', nullable: true)]
 		#[ForeignKey(target: Broker::class)]
 		private ?int $brokerId,
-		#[Column(type: 'enum(Undefined,Buy,Sell,Dividend,Tax,Fee,DividendTax)', typecast: TransactionActionTypeEnum::class)]
+		#[ColumnEnum(enum: TransactionActionTypeEnum::class)]
 		private TransactionActionTypeEnum $actionType,
 		#[Column(type: 'timestamp')]
 		private DateTimeImmutable $actionCreated,
-		#[Column(
-			type: 'enum(Manual,Import)',
+		#[ColumnEnum(
+			enum: TransactionCreateTypeEnum::class,
 			default: TransactionCreateTypeEnum::Manual->value,
-			typecast: TransactionCreateTypeEnum::class,
 		)]
 		private TransactionCreateTypeEnum $createType,
 		#[Column(type: 'timestamp')]

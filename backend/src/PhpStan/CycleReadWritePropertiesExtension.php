@@ -6,6 +6,7 @@ namespace FinGather\PhpStan;
 
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Relation\RefersTo;
+use FinGather\Attribute\ColumnEnum;
 use MarekSkopal\Cycle\Decimal\ColumnDecimal;
 use PHPStan\Reflection\Php\PhpPropertyReflection;
 use PHPStan\Reflection\PropertyReflection;
@@ -26,6 +27,7 @@ class CycleReadWritePropertiesExtension implements ReadWritePropertiesExtension
 				Column::class,
 				RefersTo::class,
 				ColumnDecimal::class,
+				ColumnEnum::class,
 			], true)) {
 				return true;
 			}

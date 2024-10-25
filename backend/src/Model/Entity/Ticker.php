@@ -7,6 +7,7 @@ namespace FinGather\Model\Entity;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\RefersTo;
+use FinGather\Attribute\ColumnEnum;
 use FinGather\Model\Entity\Enum\TickerTypeEnum;
 use FinGather\Model\Repository\TickerRepository;
 
@@ -22,7 +23,7 @@ class Ticker extends AEntity
 		private Market $market,
 		#[RefersTo(target: Currency::class)]
 		private Currency $currency,
-		#[Column(type: 'enum(Stock,Etf,Crypto)', default: TickerTypeEnum::Stock->value, typecast: TickerTypeEnum::class)]
+		#[ColumnEnum(enum: TickerTypeEnum::class, default: TickerTypeEnum::Stock->value)]
 		private TickerTypeEnum $type,
 		#[Column(type: 'string', nullable: true)]
 		private ?string $isin,

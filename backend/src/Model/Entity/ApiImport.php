@@ -8,6 +8,7 @@ use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\RefersTo;
 use DateTimeImmutable;
+use FinGather\Attribute\ColumnEnum;
 use FinGather\Model\Entity\Enum\ApiImportStatusEnum;
 use FinGather\Model\Repository\ApiImportRepository;
 
@@ -21,7 +22,7 @@ class ApiImport extends AEntity
 		private Portfolio $portfolio,
 		#[RefersTo(target: ApiKey::class, innerKey:'api_key_id')]
 		private ApiKey $apiKey,
-		#[Column(type: 'enum(New,Waiting,InProgress,Finished,Error)', typecast: ApiImportStatusEnum::class)]
+		#[ColumnEnum(enum: ApiImportStatusEnum::class)]
 		private ApiImportStatusEnum $status,
 		#[Column(type: 'timestamp')]
 		protected DateTimeImmutable $dateFrom,

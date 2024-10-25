@@ -7,6 +7,7 @@ namespace FinGather\Model\Entity;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\RefersTo;
+use FinGather\Attribute\ColumnEnum;
 use FinGather\Model\Entity\Enum\ApiKeyTypeEnum;
 use FinGather\Model\Repository\ApiKeyRepository;
 
@@ -18,7 +19,7 @@ class ApiKey extends AEntity
 		private User $user,
 		#[RefersTo(target: Portfolio::class)]
 		private Portfolio $portfolio,
-		#[Column(type: 'enum(Trading212)', typecast: ApiKeyTypeEnum::class)]
+		#[ColumnEnum(enum: ApiKeyTypeEnum::class)]
 		private ApiKeyTypeEnum $type,
 		#[Column(type: 'string')]
 		private string $apiKey,
