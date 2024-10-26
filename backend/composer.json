@@ -28,6 +28,7 @@
         "league/route": "dev-php8",
         "marekskopal/buggregator-client": "^0.1.0",
         "marekskopal/cycle-decimal": "^0.3",
+        "marekskopal/cycle-enum": "^1.0",
         "marekskopal/openfigi": "^0.2",
         "marekskopal/router": "^1.0",
         "marekskopal/trading212": "^1.0",

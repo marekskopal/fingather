@@ -7,9 +7,9 @@ namespace FinGather\Model\Entity;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\RefersTo;
-use FinGather\Attribute\ColumnEnum;
 use FinGather\Model\Entity\Enum\MarketTypeEnum;
 use FinGather\Model\Repository\MarketRepository;
+use MarekSkopal\Cycle\Enum\ColumnEnum;
 
 #[Entity(repository: MarketRepository::class)]
 class Market extends AEntity

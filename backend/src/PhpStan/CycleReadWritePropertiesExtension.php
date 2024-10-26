@@ -6,8 +6,8 @@ namespace FinGather\PhpStan;
 
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Relation\RefersTo;
-use FinGather\Attribute\ColumnEnum;
 use MarekSkopal\Cycle\Decimal\ColumnDecimal;
+use MarekSkopal\Cycle\Enum\ColumnEnum;
 use PHPStan\Reflection\Php\PhpPropertyReflection;
 use PHPStan\Reflection\PropertyReflection;
 use PHPStan\Rules\Properties\ReadWritePropertiesExtension;

@@ -7,9 +7,9 @@ namespace FinGather\Model\Entity;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\RefersTo;
-use FinGather\Attribute\ColumnEnum;
 use FinGather\Model\Entity\Enum\TickerTypeEnum;
 use FinGather\Model\Repository\TickerRepository;
+use MarekSkopal\Cycle\Enum\ColumnEnum;
 
 #[Entity(repository: TickerRepository::class)]
 class Ticker extends AEntity

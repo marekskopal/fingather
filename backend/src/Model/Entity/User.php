@@ -6,9 +6,9 @@ namespace FinGather\Model\Entity;
 
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
-use FinGather\Attribute\ColumnEnum;
 use FinGather\Model\Entity\Enum\UserRoleEnum;
 use FinGather\Model\Repository\UserRepository;
+use MarekSkopal\Cycle\Enum\ColumnEnum;
 
 #[Entity(repository: UserRepository::class)]
 class User extends AEntity

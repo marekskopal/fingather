@@ -8,9 +8,9 @@ use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\RefersTo;
 use DateTimeImmutable;
-use FinGather\Attribute\ColumnEnum;
 use FinGather\Model\Entity\Enum\ApiImportStatusEnum;
 use FinGather\Model\Repository\ApiImportRepository;
+use MarekSkopal\Cycle\Enum\ColumnEnum;
 
 #[Entity(repository: ApiImportRepository::class)]
 class ApiImport extends AEntity
