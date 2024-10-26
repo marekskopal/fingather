@@ -11,12 +11,12 @@ use Cycle\Annotated\Annotation\Relation\RefersTo;
 use Cycle\ORM\Parser\Typecast;
 use DateTimeImmutable;
 use Decimal\Decimal;
-use FinGather\Attribute\ColumnEnum;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Enum\TransactionCreateTypeEnum;
 use FinGather\Model\Repository\TransactionRepository;
 use MarekSkopal\Cycle\Decimal\ColumnDecimal;
 use MarekSkopal\Cycle\Decimal\DecimalTypecast;
+use MarekSkopal\Cycle\Enum\ColumnEnum;
 
 #[Entity(repository: TransactionRepository::class, typecast: [
 	Typecast::class,
