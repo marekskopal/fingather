@@ -152,7 +152,8 @@ final class ImportService
 
 			$price = $transactionRecord->price;
 			if ($price === null && $transactionRecord->total !== null) {
-				$price = $transactionRecord->total->div($units);
+				// Avoid division by zero in dividends
+				$price = $units->isZero() ? $transactionRecord->total : $transactionRecord->total->div($units);
 			}
 
 			$transaction = $this->transactionProvider->createTransaction(

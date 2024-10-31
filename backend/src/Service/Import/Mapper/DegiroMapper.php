@@ -10,7 +10,7 @@ use function Safe\preg_match;
 
 final class DegiroMapper extends CsvMapper
 {
-	private const DecsriptionRegex = '/(?<action>[^ ]+) (?<units>[0-9]+) (?<name>[^ ]+) - [^@]+@(?<price>[0-9]+,[0-9]+) (?<currency>[^ ]+)/';
+	private const DescriptionRegex = '/(?<action>[^ ]+) (?<units>[0-9]+) (?<name>[^@]+)@(?<price>[0-9]+(,[0-9]+)?) (?<currency>[^ ]+)/';
 
 	public function getImportType(): BrokerImportTypeEnum
 	{
@@ -23,27 +23,10 @@ final class DegiroMapper extends CsvMapper
 			actionType: 'Popis',
 			created: fn (array $record): string => $record['Datum'] . ' ' . $record['Čas'],
 			isin: 'ISIN',
-			units: function (array $record): ?string {
-				if (preg_match(self::DecsriptionRegex, $record['Popis'], $matches) === 0) {
-					return null;
-				}
-				//@phpstan-ignore-next-line
-				return str_replace(',', '.', $matches['units']);
-			},
-			price: function (array $record): ?string {
-				if (preg_match(self::DecsriptionRegex, $record['Popis'], $matches) === 0) {
-					return null;
-				}
-				//@phpstan-ignore-next-line
-				return str_replace(',', '.', $matches['price']);
-			},
-			currency: function (array $record): ?string {
-				if (preg_match(self::DecsriptionRegex, $record['Popis'], $matches) === 0) {
-					return null;
-				}
-				//@phpstan-ignore-next-line
-				return str_replace(',', '.', $matches['currency']);
-			},
+			units: fn (array $record): ?string => $this->parseFromDescription($record['Popis'], 'units'),
+			price: fn (array $record): ?string => $this->parseFromDescription($record['Popis'], 'price'),
+			total: fn (array $record): ?string => $record['Pohyb2'],
+			currency: fn (array $record): ?string => $record['Pohyb'] ?? $this->parseFromDescription($record['Popis'], 'currency'),
 			tax: fn(array $record): ?string => str_contains(strtolower($record['Popis']), 'tax') || str_contains(
 				strtolower($record['Popis']),
 				'daň',
@@ -60,7 +43,13 @@ final class DegiroMapper extends CsvMapper
 				strtolower($record['Popis']),
 				'poplatek',
 			) ? $record['Pohyb'] : null,
-			importIdentifier: 'ID objednávky',
+			importIdentifier: fn (array $record): string => implode(' ', [
+				$record['Datum'],
+				$record['Čas'],
+				$record['Popis'],
+				$record['ISIN'],
+				$record['ID objednávky'],
+			]),
 		);
 	}
 
@@ -102,5 +91,14 @@ final class DegiroMapper extends CsvMapper
 		$lines[0] = implode(',', $columns);
 
 		return implode("\n", $lines);
+	}
+
+	private function parseFromDescription(string $description, string $variableName): ?string
+	{
+		if (preg_match(self::DescriptionRegex, $description, $matches) === 0) {
+			return null;
+		}
+		//@phpstan-ignore-next-line
+		return str_replace(',', '.', $matches[$variableName]);
 	}
 }
