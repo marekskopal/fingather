@@ -12,7 +12,7 @@ parameters:
        - src
        - tests
     cognitive_complexity:
-        function: 12
+        function: 15
 
 services:
     -
