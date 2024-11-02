@@ -127,24 +127,26 @@ final class ImportPrepareService
 	/** @param list<TransactionRecord> $transactionRecords */
 	private function createIsinsFromTransactionRecords(array $transactionRecords): void
 	{
-		$isins = [];
-		foreach ($transactionRecords as $transactionRecord) {
-			if (!isset($transactionRecord->isin)) {
+		$isinsToUpdate = [];
+
+		$transactionRecordsIsins = array_unique(array_filter(array_map(
+			fn(TransactionRecord $transactionRecord): ?string => $transactionRecord->isin,
+			$transactionRecords,
+		), fn(?string $isin): bool => $isin !== null));
+
+		foreach ($transactionRecordsIsins as $transactionRecordsIsin) {
+			if ($this->tickerProvider->getTickerByIsin($transactionRecordsIsin) !== null) {
 				continue;
 			}
 
-			if ($this->tickerProvider->getTickerByIsin($transactionRecord->isin) !== null) {
-				continue;
-			}
-
-			$isins[] = $transactionRecord->isin;
+			$isinsToUpdate[] = $transactionRecordsIsin;
 		}
 
-		if (count($isins) === 0) {
+		if (count($isinsToUpdate) === 0) {
 			return;
 		}
 
-		$this->tickerIsinUpdater->updateTickerIsins($isins);
+		$this->tickerIsinUpdater->updateTickerIsins($isinsToUpdate);
 	}
 
 	/**
