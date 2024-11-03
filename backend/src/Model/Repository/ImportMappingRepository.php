@@ -9,8 +9,8 @@ use FinGather\Model\Entity\ImportMapping;
 /** @extends ARepository<ImportMapping> */
 final class ImportMappingRepository extends ARepository
 {
-	/** @return iterable<ImportMapping> */
-	public function findImportMappings(int $userId, int $portfolioId, int $brokerId): iterable
+	/** @return list<ImportMapping> */
+	public function findImportMappings(int $userId, int $portfolioId, int $brokerId): array
 	{
 		return $this->findAll([
 			'user_id' => $userId,

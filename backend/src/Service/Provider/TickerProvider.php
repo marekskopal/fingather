@@ -38,7 +38,7 @@ class TickerProvider
 	}
 
 	/**
-	 * @param list<int> $marketIds
+	 * @param list<int>|null $marketIds
 	 * @return list<Ticker>
 	 */
 	public function getTickersByTicker(string $ticker, ?array $marketIds = null, ?string $isin = null): array
@@ -46,20 +46,20 @@ class TickerProvider
 		return $this->tickerRepository->findTickersByTicker($ticker, $marketIds, $isin);
 	}
 
-	/** @param list<int> $marketIds */
+	/** @param list<int>|null $marketIds */
 	public function countTickersByTicker(string $ticker, ?array $marketIds = null, ?string $isin = null): int
 	{
 		return $this->tickerRepository->countTickersByTicker($ticker, $marketIds, $isin);
 	}
 
-	/** @param list<int> $marketIds */
+	/** @param list<int>|null $marketIds */
 	public function getTickerByTicker(string $ticker, ?array $marketIds = null, ?string $isin = null): ?Ticker
 	{
 		return $this->tickerRepository->findTickerByTicker($ticker, $marketIds, $isin);
 	}
 
 	/**
-	 * @param list<int> $marketIds
+	 * @param list<int>|null $marketIds
 	 * @return list<Ticker>
 	 */
 	public function getTickersByIsin(string $isin, ?array $marketIds = null): array
@@ -67,13 +67,13 @@ class TickerProvider
 		return $this->tickerRepository->findTickersByIsin($isin, $marketIds);
 	}
 
-	/** @param list<int> $marketIds */
+	/** @param list<int>|null $marketIds */
 	public function countTickersByIsin(string $isin, ?array $marketIds = null): int
 	{
 		return $this->tickerRepository->countTickersByIsin($isin, $marketIds);
 	}
 
-	/** @param list<int> $marketIds */
+	/** @param list<int>|null $marketIds */
 	public function getTickerByIsin(string $isin, ?array $marketIds = null): ?Ticker
 	{
 		return $this->tickerRepository->findTickerByIsin($isin, $marketIds);

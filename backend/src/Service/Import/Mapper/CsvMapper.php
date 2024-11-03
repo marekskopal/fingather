@@ -21,7 +21,7 @@ abstract class CsvMapper implements CsvMapperInterface
 			$csv->setHeaderOffset(0);
 
 			/** @var list<array<string, string>> $records */
-			$records = iterator_to_array($csv->getRecords());
+			$records = iterator_to_array($csv->getRecords(), preserve_keys: true);
 
 			return $records;
 		} catch (SyntaxError) {

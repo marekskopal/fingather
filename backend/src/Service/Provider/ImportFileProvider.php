@@ -30,8 +30,8 @@ class ImportFileProvider
 		return $importFile;
 	}
 
-	/** @return iterable<ImportFile> */
-	public function getImportFiles(Import $import): iterable
+	/** @return list<ImportFile> */
+	public function getImportFiles(Import $import): array
 	{
 		return $this->importFileRepository->findImportFiles($import->getId());
 	}

@@ -43,7 +43,12 @@ class Trading212Processor implements ProcessorInterface
 		} else {
 			$transactions = iterator_to_array($trading212->getHistoricalItems()->orders(
 				limit: 50,
-			)->fetchAll());
+			)->fetchAll(), false);
+
+			if (count($transactions) === 0) {
+				return;
+			}
+
 			$firstTransaction = $transactions[array_key_last($transactions)];
 			$dateFrom = $firstTransaction->dateCreated;
 		}

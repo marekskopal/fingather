@@ -92,7 +92,7 @@ final class ImportController
 			user: $this->requestService->getUser($request),
 		);
 		if ($importFile === null) {
-			return new NotFoundResponse('Import file with id "' . $importFile . '" was not found.');
+			return new NotFoundResponse('Import file with id "' . $importFileId . '" was not found.');
 		}
 
 		$this->importFileProvider->deleteImportFile($importFile);

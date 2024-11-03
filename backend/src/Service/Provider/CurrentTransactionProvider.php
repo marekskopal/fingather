@@ -33,9 +33,9 @@ class CurrentTransactionProvider
 		?DateTimeImmutable $actionCreatedBefore = null,
 		?array $actionTypes = null,
 	): array {
-		$transactions = $this->loadTransactions(user: $user, portfolio: $portfolio);
+		$loadedTransactions = $this->loadTransactions(user: $user, portfolio: $portfolio);
 
-		$transactions = $asset !== null ? $transactions[$asset->getId()] ?? [] : array_merge(...array_values($transactions));
+		$transactions = $asset !== null ? $loadedTransactions[$asset->getId()] ?? [] : array_merge(...array_values($loadedTransactions));
 
 		if ($actionCreatedBefore !== null) {
 			$transactions = array_values(array_filter(

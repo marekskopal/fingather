@@ -16,8 +16,8 @@ final class ImportFileRepository extends ARepository
 		]);
 	}
 
-	/** @return iterable<ImportFile> */
-	public function findImportFiles(int $importId): iterable
+	/** @return list<ImportFile> */
+	public function findImportFiles(int $importId): array
 	{
 		return $this->findAll([
 			'import_id' => $importId,

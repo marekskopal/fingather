@@ -31,13 +31,14 @@ final class TracyLogger extends Logger
 		/** @see \Tracy\Bridges\Psr\TracyToPsrLoggerAdapter::log() */
 		if (is_array($message) && isset($message['exception']) && $message['exception'] instanceof \Throwable) {
 			$context = $message['context'] ?? [];
+			//@phpstan-ignore-next-line
 			$message = $message['exception'];
 		}
 
 		$exceptionFile = parent::log($message, $level);
 
 		set_error_handler(
-			function ($severity, $message, $file, $line): void {
+			function (int $severity, string $message, ?string $file, ?int $line): void {
 				throw new ErrorException($message, $severity, $severity, $file, $line);
 			},
 		);

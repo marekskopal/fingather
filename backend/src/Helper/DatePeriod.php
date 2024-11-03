@@ -14,7 +14,7 @@ final class DatePeriod extends \DatePeriod
 	public function getIterator(): Iterator
 	{
 		return new ArrayIterator(array_merge(
-			iterator_to_array(parent::getIterator()),
+			iterator_to_array(parent::getIterator(), false),
 			[parent::getEndDate()],
 		));
 	}

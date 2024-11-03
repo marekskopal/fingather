@@ -119,7 +119,7 @@ final class TickerRepository extends ARepository
 	}
 
 	/**
-	 * @param list<int> $marketIds
+	 * @param list<int>|null $marketIds
 	 * @return list<Ticker>
 	 */
 	public function findTickersByTicker(string $ticker, ?array $marketIds = null, ?string $isin = null): iterable
@@ -128,14 +128,14 @@ final class TickerRepository extends ARepository
 			->fetchAll();
 	}
 
-	/** @param list<int> $marketIds */
+	/** @param list<int>|null $marketIds */
 	public function countTickersByTicker(string $ticker, ?array $marketIds = null, ?string $isin = null): int
 	{
 		return $this->getTickerByTickerSelect($ticker, $marketIds, $isin)
 			->count();
 	}
 
-	/** @param list<int> $marketIds */
+	/** @param list<int>|null $marketIds */
 	public function findTickerByTicker(string $ticker, ?array $marketIds = null, ?string $isin = null): ?Ticker
 	{
 		return $this->getTickerByTickerSelect($ticker, $marketIds, $isin)
@@ -143,7 +143,7 @@ final class TickerRepository extends ARepository
 	}
 
 	/**
-	 * @param list<int> $marketIds
+	 * @param list<int>|null $marketIds
 	 * @return Select<Ticker>
 	 */
 	private function getTickerByTickerSelect(string $ticker, ?array $marketIds = null, ?string $isin = null): Select
@@ -163,7 +163,7 @@ final class TickerRepository extends ARepository
 	}
 
 	/**
-	 * @param list<int> $marketIds
+	 * @param list<int>|null $marketIds
 	 * @return list<Ticker>
 	 */
 	public function findTickersByIsin(string $isin, ?array $marketIds = null): iterable
@@ -172,14 +172,14 @@ final class TickerRepository extends ARepository
 			->fetchAll();
 	}
 
-	/** @param list<int> $marketIds */
+	/** @param list<int>|null $marketIds */
 	public function countTickersByIsin(string $isin, ?array $marketIds = null): int
 	{
 		return $this->getTickerByIsinSelect($isin, $marketIds)
 			->count();
 	}
 
-	/** @param list<int> $marketIds */
+	/** @param list<int>|null $marketIds */
 	public function findTickerByIsin(string $isin, ?array $marketIds = null): ?Ticker
 	{
 		return $this->getTickerByIsinSelect($isin, $marketIds)
@@ -187,7 +187,7 @@ final class TickerRepository extends ARepository
 	}
 
 	/**
-	 * @param list<int> $marketIds
+	 * @param list<int>|null $marketIds
 	 * @return Select<Ticker>
 	 */
 	private function getTickerByIsinSelect(string $isin, ?array $marketIds = null): Select

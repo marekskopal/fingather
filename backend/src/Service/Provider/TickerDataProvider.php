@@ -44,7 +44,7 @@ class TickerDataProvider
 		return $this->tickerDataRepository->findTickerDatas($ticker->getId(), $fromDate, $toDate);
 	}
 
-	/** @return array<TickerDataAdjustedDto> */
+	/** @return list<TickerDataAdjustedDto> */
 	public function getAdjustedTickerDatas(Ticker $ticker, DateTimeImmutable $fromDate, DateTimeImmutable $toDate): array
 	{
 		$splits = $this->splitProvider->getSplits($ticker);

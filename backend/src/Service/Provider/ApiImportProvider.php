@@ -18,7 +18,7 @@ class ApiImportProvider
 	{
 	}
 
-	/** @return iterable<ApiImport> */
+	/** @return list<ApiImport> */
 	public function getApiImports(?User $user = null, ?Portfolio $portfolio = null, ?ApiImportStatusEnum $apiImportStatus = null): iterable
 	{
 		return $this->apiImportRepository->findApiImports(

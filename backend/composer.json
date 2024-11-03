@@ -66,6 +66,7 @@
         "phpstan/phpstan-strict-rules": "^1.5",
         "phpunit/phpunit": "^11.0",
         "shipmonk/composer-dependency-analyser": "^1.5",
+        "shipmonk/phpstan-rules": "^3.2",
         "slevomat/coding-standard": "^8.14",
         "spatie/ray": "^1.39",
         "thecodingmachine/phpstan-safe-rule": "^1.2",
