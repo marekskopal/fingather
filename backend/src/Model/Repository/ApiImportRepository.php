@@ -10,8 +10,8 @@ use FinGather\Model\Entity\Enum\ApiImportStatusEnum;
 /** @extends ARepository<ApiImport> */
 final class ApiImportRepository extends ARepository
 {
-	/** @return iterable<ApiImport> */
-	public function findApiImports(?int $userId = null, ?int $portfolioId = null, ?ApiImportStatusEnum $apiImportStatus = null): iterable
+	/** @return list<ApiImport> */
+	public function findApiImports(?int $userId = null, ?int $portfolioId = null, ?ApiImportStatusEnum $apiImportStatus = null): array
 	{
 		$apiImportsSelect = $this->select();
 

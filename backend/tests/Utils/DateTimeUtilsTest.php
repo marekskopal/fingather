@@ -36,7 +36,7 @@ final class DateTimeUtilsTest extends TestCase
 			firstDate: $firstDate,
 			shiftStartDate: $shiftStartDate,
 		);
-		$array = iterator_to_array($datePeriod->getIterator());
+		$array = iterator_to_array($datePeriod->getIterator(), false);
 
 		self::assertCount($expectedCount, $array);
 	}

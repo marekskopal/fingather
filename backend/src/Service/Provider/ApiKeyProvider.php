@@ -32,10 +32,10 @@ class ApiKeyProvider
 
 	public function createApiKey(User $user, Portfolio $portfolio, ApiKeyTypeEnum $type, string $apiKey): ApiKey
 	{
-		$apiKey = new ApiKey(user: $user, portfolio: $portfolio, type: $type, apiKey: $apiKey);
-		$this->apiKeyRepository->persist($apiKey);
+		$createdApiKey = new ApiKey(user: $user, portfolio: $portfolio, type: $type, apiKey: $apiKey);
+		$this->apiKeyRepository->persist($createdApiKey);
 
-		return $apiKey;
+		return $createdApiKey;
 	}
 
 	public function updateApiKey(ApiKey $apiKeyEntity, string $apiKey): ApiKey

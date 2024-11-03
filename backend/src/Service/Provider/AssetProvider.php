@@ -25,7 +25,7 @@ class AssetProvider
 	{
 	}
 
-	/** @return array<int, Asset> */
+	/** @return list<Asset> */
 	public function getAssets(
 		User $user,
 		Portfolio $portfolio,

@@ -32,7 +32,7 @@ final class TickerFundamentalController
 
 		$ticker = $this->tickerProvider->getTicker($tickerId);
 		if ($ticker === null) {
-			return new NotFoundResponse('Ticker with id "' . $ticker . '" was not found.');
+			return new NotFoundResponse('Ticker with id "' . $tickerId . '" was not found.');
 		}
 
 		$tickerFundamental = $this->tickerFundamentalProvider->getTickerFundamental($ticker);

@@ -10,13 +10,14 @@ use Decimal\Decimal;
 class TransactionBuyDto
 {
 	public function __construct(
-		public ?int $brokerId,
-		public DateTimeImmutable $actionCreated,
+		public readonly ?int $brokerId,
+		public readonly DateTimeImmutable $actionCreated,
+		//@phpstan-ignore-next-line
 		public Decimal $units,
-		public Decimal $priceTickerCurrency,
-		public Decimal $priceDefaultCurrency,
-		public Decimal $priceWithSplitTickerCurrency,
-		public Decimal $priceWithSplitDefaultCurrency,
+		public readonly Decimal $priceTickerCurrency,
+		public readonly Decimal $priceDefaultCurrency,
+		public readonly Decimal $priceWithSplitTickerCurrency,
+		public readonly Decimal $priceWithSplitDefaultCurrency,
 	) {
 	}
 }

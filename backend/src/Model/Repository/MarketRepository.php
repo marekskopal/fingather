@@ -13,8 +13,8 @@ final class MarketRepository extends ARepository
 	/** @var array<string,Market|null> */
 	private array $marketsByExchangeCode = [];
 
-	/** @return iterable<Market> */
-	public function findMarkets(?MarketTypeEnum $type = null): iterable
+	/** @return list<Market> */
+	public function findMarkets(?MarketTypeEnum $type = null): array
 	{
 		if ($type === null) {
 			return $this->findAll();

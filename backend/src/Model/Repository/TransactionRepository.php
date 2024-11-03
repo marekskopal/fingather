@@ -16,7 +16,7 @@ use FinGather\Model\Repository\Enum\TransactionOrderByEnum;
 final class TransactionRepository extends ARepository
 {
 	/**
-	 * @param list<TransactionActionTypeEnum> $actionTypes
+	 * @param list<TransactionActionTypeEnum>|null $actionTypes
 	 * @param array<value-of<TransactionOrderByEnum>,OrderDirectionEnum> $orderBy
 	 * @return list<Transaction>
 	 */
@@ -50,7 +50,7 @@ final class TransactionRepository extends ARepository
 		)->fetchAll();
 	}
 
-	/** @param list<TransactionActionTypeEnum> $actionTypes */
+	/** @param list<TransactionActionTypeEnum>|null $actionTypes */
 	public function countTransactions(
 		int $userId,
 		?int $portfolioId = null,
@@ -74,7 +74,7 @@ final class TransactionRepository extends ARepository
 	}
 
 	/**
-	 * @param list<TransactionActionTypeEnum> $actionTypes
+	 * @param list<TransactionActionTypeEnum>|null $actionTypes
 	 * @param array<value-of<TransactionOrderByEnum>,OrderDirectionEnum> $orderBy
 	 * @return Select<Transaction>
 	 */

@@ -20,7 +20,7 @@ final class DatePeriodTest extends TestCase
 
 		$datePeriod = new DatePeriod($startDate, new DateInterval('P1D'), $endDate);
 
-		$array = iterator_to_array($datePeriod->getIterator());
+		$array = iterator_to_array($datePeriod->getIterator(), false);
 
 		self::assertCount(3, $array);
 	}

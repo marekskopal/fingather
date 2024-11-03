@@ -27,7 +27,7 @@ class TransactionProvider
 	}
 
 	/**
-	 * @param list<TransactionActionTypeEnum> $actionTypes
+	 * @param list<TransactionActionTypeEnum>|null $actionTypes
 	 * @param array<value-of<TransactionOrderByEnum>,OrderDirectionEnum> $orderBy
 	 * @return list<Transaction>
 	 */
@@ -61,7 +61,7 @@ class TransactionProvider
 		);
 	}
 
-	/** @param list<TransactionActionTypeEnum> $actionTypes */
+	/** @param list<TransactionActionTypeEnum>|null $actionTypes */
 	public function countTransactions(
 		User $user,
 		?Portfolio $portfolio = null,

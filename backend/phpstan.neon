@@ -21,6 +21,16 @@ parameters:
     checkTooWideReturnTypesInProtectedAndPublicMethods: true
     reportAnyTypeWideningInVarTag: true
 
+    shipmonkRules:
+        allowComparingOnlyComparableTypes:
+            enabled: false
+        forbidCheckedExceptionInCallable:
+            enabled: false
+        uselessPrivatePropertyDefaultValue:
+            enabled: false
+        forbidUnusedMatchResult:
+            enabled: false
+
 services:
     -
         class: FinGather\PhpStan\CycleReadWritePropertiesExtension
