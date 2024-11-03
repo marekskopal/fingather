@@ -33,6 +33,7 @@ abstract class XlsxMapper implements XlsxMapperInterface
 			return [];
 		}
 
+		/** @var array<array<string, string>> $sheetData */
 		$sheetData = $sheet->toArray(null, true, true, true);
 		array_shift($sheetData);
 

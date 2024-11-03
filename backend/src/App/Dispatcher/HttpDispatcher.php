@@ -20,8 +20,6 @@ use const FILE_APPEND;
 
 final class HttpDispatcher implements Dispatcher
 {
-	private PSR7Worker $psr7;
-
 	public function canServe(EnvironmentInterface $env): bool
 	{
 		return $env->getMode() === Mode::MODE_HTTP;
@@ -31,7 +29,7 @@ final class HttpDispatcher implements Dispatcher
 	{
 		$worker = Worker::create();
 		$factory = new Psr17Factory();
-		$this->psr7 = new PSR7Worker($worker, $factory, $factory, $factory);
+		$psr7Worker = new PSR7Worker($worker, $factory, $factory, $factory);
 
 		$application = ApplicationFactory::create();
 
@@ -43,7 +41,7 @@ final class HttpDispatcher implements Dispatcher
 
 		try {
 			while (true) {
-				$request = $this->psr7->waitRequest();
+				$request = $psr7Worker->waitRequest();
 
 				if ($request === null) {
 					$logger->debug('Request is null: worker will terminate.');
@@ -52,7 +50,7 @@ final class HttpDispatcher implements Dispatcher
 				}
 
 				$response = $application->handler->handle($request);
-				$this->psr7->respond($response);
+				$psr7Worker->respond($response);
 
 				//fix SQL cache for each request
 				$application->dbContext->getOrm()->getHeap()->clean();
@@ -63,11 +61,16 @@ final class HttpDispatcher implements Dispatcher
 				gc_collect_cycles();
 			}
 		} catch (\Throwable $e) {
-			$this->handleException($e, $logger, $request ?? null);
+			$this->handleException($e, $psr7Worker, $logger, $request ?? null);
 		}
 	}
 
-	private function handleException(\Throwable $e, ?LoggerInterface $logger, ?ServerRequestInterface $request): void
+	private function handleException(
+		\Throwable $e,
+		PSR7Worker $psr7Worker,
+		?LoggerInterface $logger,
+		?ServerRequestInterface $request,
+	): void
 	{
 		if ($logger === null) {
 			// Failsafe in case the logger is not initialized yet
@@ -84,12 +87,12 @@ final class HttpDispatcher implements Dispatcher
 
 		if ($request === null) {
 			// Dummy wait for a request (roadrunner cannot respond without a request)
-			$this->psr7->waitRequest();
+			$psr7Worker->waitRequest();
 		}
 
-		$this->psr7->respond(ErrorResponse::fromException($e));
+		$psr7Worker->respond(ErrorResponse::fromException($e));
 
 		// Stop and pass the request to the next worker process
-		$this->psr7->getWorker()->stop();
+		$psr7Worker->getWorker()->stop();
 	}
 }

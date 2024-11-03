@@ -8,6 +8,7 @@ use function Safe\hrtime;
 
 abstract class AbstractBenchmarkCommand extends AbstractCommand
 {
+	/** @param callable(): mixed $callback */
 	protected function benchmark(callable $callback): int
 	{
 		$timeStart = hrtime(true);

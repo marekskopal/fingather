@@ -21,7 +21,7 @@ final class XtbMapper extends CsvMapper
 
 	public function getMapping(): MappingDto
 	{
-		return new MappingDto(
+		$mappingDto = new MappingDto(
 			actionType: 'Type',
 			created: 'Time',
 			ticker: fn (array $record): string => substr($record['Symbol'], 0, (int) strrpos($record['Symbol'], '.')),
@@ -29,6 +29,7 @@ final class XtbMapper extends CsvMapper
 			price: fn (array $record): ?string => $this->getInfoFromComment($record['Comment'])[self::Price],
 			importIdentifier: 'ID',
 		);
+		return $mappingDto;
 	}
 
 	public function getCsvDelimiter(): string

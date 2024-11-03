@@ -32,6 +32,7 @@ final class JsonStrategy extends \League\Route\Strategy\JsonStrategy
 			$route->getVars(),
 		);
 
+		/** @var ResponseInterface $response */
 		$response = $controller($request, ...$vars);
 
 		if ($this->isJsonSerializable($response)) {

@@ -15,6 +15,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use stdClass;
 
 final class AuthorizationMiddleware implements MiddlewareInterface
 {
@@ -63,6 +64,7 @@ final class AuthorizationMiddleware implements MiddlewareInterface
 		$jwtToken = substr($authorizationHeader, strlen(self::AuthHeaderType));
 
 		try {
+			/** @var object{id: int}&stdClass $token */
 			$token = JWT::decode($jwtToken, new Key((string) getenv('AUTHORIZATION_TOKEN_KEY'), AuthenticationService::TokenAlgorithm));
 		} catch (ExpiredException $exception) {
 			if ($request->getUri()->getPath() !== Routes::AuthenticationRefreshToken->value) {

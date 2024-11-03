@@ -68,12 +68,9 @@ final class CoinbaseMapper extends CsvMapper
 
 	private function getMoneyValue(string $value): MoneyValueDto
 	{
+		$matches = [];
 		preg_match('/^([^\d]+)([\d.]+)$/', $value, $matches);
-		return new MoneyValueDto(
-			//@phpstan-ignore-next-line
-			$matches[2],
-			//@phpstan-ignore-next-line
-			$matches[1],
-		);
+		/** @var array{0: string, 1: string, 2:string} $matches */
+		return new MoneyValueDto($matches[2], $matches[1]);
 	}
 }

@@ -18,6 +18,7 @@ abstract class ARepository implements RepositoryInterface
 	protected readonly EntityManager $entityManager;
 
 	/** @var QueryProvider<TEntity> */
+	// @phpstan-ignore-next-line
 	private QueryProvider $queryProvider;
 
 	/** @param Select<TEntity> $select */

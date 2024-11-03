@@ -25,7 +25,7 @@ final class DegiroMapper extends CsvMapper
 			isin: 'ISIN',
 			units: fn (array $record): ?string => $this->parseFromDescription($record['Popis'], 'units'),
 			price: fn (array $record): ?string => $this->parseFromDescription($record['Popis'], 'price'),
-			total: fn (array $record): ?string => $record['Pohyb2'],
+			total: 'Pohyb2',
 			currency: fn (array $record): ?string => $record['Pohyb'] ?? $this->parseFromDescription($record['Popis'], 'currency'),
 			tax: fn(array $record): ?string => str_contains(strtolower($record['Popis']), 'tax') || str_contains(
 				strtolower($record['Popis']),
@@ -95,6 +95,7 @@ final class DegiroMapper extends CsvMapper
 
 	private function parseFromDescription(string $description, string $variableName): ?string
 	{
+		$matches = [];
 		if (preg_match(self::DescriptionRegex, $description, $matches) === 0) {
 			return null;
 		}

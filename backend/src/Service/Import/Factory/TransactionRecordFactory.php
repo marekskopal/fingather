@@ -35,7 +35,10 @@ final class TransactionRecordFactory
 		);
 	}
 
-	/** @param array<string, string> $csvRecord */
+	/**
+	 * @param string|callable(array<string> $record): (string|null)|null $mapping
+	 * @param array<string, string> $csvRecord
+	 */
 	private function mapCsvRecordColumn(string|callable|null $mapping, array $csvRecord): ?string
 	{
 		if ($mapping === null) {
@@ -49,28 +52,40 @@ final class TransactionRecordFactory
 		return $this->sanitizeEmptyItem($csvRecord[$mapping] ?? null);
 	}
 
-	/** @param array<string, string> $csvRecord */
+	/**
+	 * @param string|callable(array<string> $record): (string|null)|null $mapping
+	 * @param array<string, string> $csvRecord
+	 */
 	private function mapCsvRecordColumnToDecimal(string|callable|null $mapping, array $csvRecord): ?Decimal
 	{
 		$mappedCsvRecordColumn = $this->mapCsvRecordColumn($mapping, $csvRecord);
 		return isset($mappedCsvRecordColumn) ? new Decimal($mappedCsvRecordColumn) : null;
 	}
 
-	/** @param array<string, string> $csvRecord */
+	/**
+	 * @param string|callable(array<string> $record): (string|null)|null $mapping
+	 * @param array<string, string> $csvRecord
+	 */
 	private function mapCsvRecordColumnToDate(string|callable|null $mapping, array $csvRecord): ?DateTimeImmutable
 	{
 		$mappedCsvRecordColumn = $this->mapCsvRecordColumn($mapping, $csvRecord);
 		return isset($mappedCsvRecordColumn) ? new DateTimeImmutable($mappedCsvRecordColumn) : null;
 	}
 
-	/** @param array<string, string> $csvRecord */
+	/**
+	 * @param string|callable(array<string> $record): (string|null)|null $mapping
+	 * @param array<string, string> $csvRecord
+	 */
 	private function mapCsvRecordColumnToUpper(string|callable|null $mapping, array $csvRecord): ?string
 	{
 		$mappedCsvRecordColumn = $this->mapCsvRecordColumn($mapping, $csvRecord);
 		return isset($mappedCsvRecordColumn) ? strtoupper($mappedCsvRecordColumn) : null;
 	}
 
-	/** @param array<string, string> $csvRecord */
+	/**
+	 * @param string|callable(array<string> $record): (string|null)|null $mapping
+	 * @param array<string, string> $csvRecord
+	 */
 	private function mapCsvRecordColumnToLower(string|callable|null $mapping, array $csvRecord): ?string
 	{
 		$mappedCsvRecordColumn = $this->mapCsvRecordColumn($mapping, $csvRecord);

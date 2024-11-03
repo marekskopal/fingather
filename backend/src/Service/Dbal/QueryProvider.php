@@ -39,6 +39,7 @@ final class QueryProvider
 		return $this->database->delete($this->table);
 	}
 
+	/** @param callable(): void $callback */
 	public function transaction(callable $callback): void
 	{
 		$this->database->transaction($callback);
