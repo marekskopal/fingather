@@ -1666,12 +1666,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/marekskopal/route.git",
-                "reference": "718c621e6948a992cabf4d27af9f24e8281e7a22"
+                "reference": "98fc93751f79f9fd9ab095eeafd1bb777fc2e4a7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/marekskopal/route/zipball/718c621e6948a992cabf4d27af9f24e8281e7a22",
-                "reference": "718c621e6948a992cabf4d27af9f24e8281e7a22",
+                "url": "https://api.github.com/repos/marekskopal/route/zipball/98fc93751f79f9fd9ab095eeafd1bb777fc2e4a7",
+                "reference": "98fc93751f79f9fd9ab095eeafd1bb777fc2e4a7",
                 "shasum": ""
             },
             "require": {
@@ -1764,7 +1764,7 @@
                     "url": "https://github.com/philipobenito"
                 }
             ],
-            "time": "2024-10-03T21:55:23+00:00"
+            "time": "2024-11-03T00:14:43+00:00"
         },
         {
             "name": "maennchen/zipstream-php",
