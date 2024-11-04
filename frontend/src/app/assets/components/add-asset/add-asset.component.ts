@@ -12,7 +12,7 @@ import {
     TickerSearchSelectorComponent
 } from "@app/shared/components/ticker-search-selector/ticker-search-selector.component";
 import {NgbHighlight, NgbTypeahead} from "@ng-bootstrap/ng-bootstrap";
-import {TranslateModule} from "@ngx-translate/core";
+import { TranslatePipe} from "@ngx-translate/core";
 
 
 @Component({
@@ -23,7 +23,7 @@ import {TranslateModule} from "@ngx-translate/core";
         PortfolioSelectorComponent,
         RouterLink,
         MatIcon,
-        TranslateModule,
+        TranslatePipe,
         ReactiveFormsModule,
         NgbTypeahead,
         InputValidatorComponent,

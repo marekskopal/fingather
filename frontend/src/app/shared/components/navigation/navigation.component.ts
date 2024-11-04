@@ -11,7 +11,7 @@ import {AuthenticationService} from "@app/services/authentication.service";
 import {LanguageSelectorComponent} from "@app/shared/components/language-selector/language-selector.component";
 import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selector/portfolio-selector.component";
 import {NgbCollapse} from "@ng-bootstrap/ng-bootstrap";
-import {TranslateModule} from "@ngx-translate/core";
+import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     selector: 'fingather-navigation',
@@ -23,7 +23,7 @@ import {TranslateModule} from "@ngx-translate/core";
         NgOptimizedImage,
         NgbCollapse,
         MatIcon,
-        TranslateModule,
+        TranslatePipe,
         LanguageSelectorComponent,
         PortfolioSelectorComponent
     ],

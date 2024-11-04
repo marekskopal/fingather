@@ -12,14 +12,14 @@ import {
 } from "@app/transactions/components/transaction-list/enums/transaction-grid-column-enum";
 import {TransactionListComponent} from "@app/transactions/components/transaction-list/transaction-list.component";
 import {ScrollShadowDirective} from "@marekskopal/ng-scroll-shadow";
-import {TranslateModule} from "@ngx-translate/core";
+import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'dividends-history.component.html',
     standalone: true,
     imports: [
         PortfolioSelectorComponent,
-        TranslateModule,
+        TranslatePipe,
         DividendsDataChartComponent,
         MatIcon,
         RouterLink,

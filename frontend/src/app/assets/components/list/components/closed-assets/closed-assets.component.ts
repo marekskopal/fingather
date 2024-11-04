@@ -11,7 +11,7 @@ import {TableGridDirective} from "@app/shared/directives/table-grid.directive";
 import {MoneyPipe} from "@app/shared/pipes/money.pipe";
 import {TableGridColumn} from "@app/shared/types/table-grid-column";
 import {ScrollShadowDirective} from "@marekskopal/ng-scroll-shadow";
-import {TranslateModule} from "@ngx-translate/core";
+import { TranslatePipe} from "@ngx-translate/core";
 
 
 @Component({
@@ -19,7 +19,7 @@ import {TranslateModule} from "@ngx-translate/core";
     templateUrl: 'closed-assets.component.html',
     standalone: true,
     imports: [
-        TranslateModule,
+        TranslatePipe,
         TickerLogoComponent,
         DecimalPipe,
         MoneyPipe,

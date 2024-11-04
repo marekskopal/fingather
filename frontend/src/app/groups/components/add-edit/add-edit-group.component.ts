@@ -14,13 +14,13 @@ import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selec
 import {SaveButtonComponent} from "@app/shared/components/save-button/save-button.component";
 import {SelectMultiComponent} from "@app/shared/components/select-multi/select-multi.component";
 import {SelectItem} from "@app/shared/types/select-item";
-import {TranslateModule} from "@ngx-translate/core";
+import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'add-edit-group.component.html',
     standalone: true,
     imports: [
-        TranslateModule,
+        TranslatePipe,
         PortfolioSelectorComponent,
         RouterLink,
         MatIcon,

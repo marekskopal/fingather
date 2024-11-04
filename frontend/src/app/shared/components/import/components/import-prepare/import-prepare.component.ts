@@ -13,14 +13,14 @@ import {FakeLoadingService} from "@app/services/fake-loading.service";
 import {SaveButtonComponent} from "@app/shared/components/save-button/save-button.component";
 import {TickerSelectorComponent} from "@app/shared/components/ticker-selector/ticker-selector.component";
 import {objectKeyValues, objectValues} from "@app/utils/object-utils";
-import {TranslateModule} from "@ngx-translate/core";
+import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'import-prepare.component.html',
     selector: 'fingather-import-prepare',
     standalone: true,
     imports: [
-        TranslateModule,
+        TranslatePipe,
         TickerSelectorComponent,
         RouterLink,
         MatIcon,

@@ -13,7 +13,7 @@ import {
 import {ValueIconComponent} from "@app/shared/components/value-icon/value-icon.component";
 import {ColoredValueDirective} from "@app/shared/directives/colored-value.directive";
 import {MoneyPipe} from "@app/shared/pipes/money.pipe";
-import {TranslateModule} from "@ngx-translate/core";
+import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     selector: 'fingather-portfolio-total',
@@ -25,7 +25,7 @@ import {TranslateModule} from "@ngx-translate/core";
         DecimalPipe,
         MoneyPipe,
         AsyncPipe,
-        TranslateModule,
+        TranslatePipe,
         ValueIconComponent,
         ColoredValueDirective,
         HelpComponent

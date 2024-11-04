@@ -9,14 +9,14 @@ import {InputValidatorComponent} from "@app/shared/components/input-validator/in
 import {SaveButtonComponent} from "@app/shared/components/save-button/save-button.component";
 import {SelectComponent} from "@app/shared/components/select/select.component";
 import {SelectItem} from "@app/shared/types/select-item";
-import {TranslateModule} from "@ngx-translate/core";
+import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'sign-up.component.html',
     standalone: true,
     imports: [
         ReactiveFormsModule,
-        TranslateModule,
+        TranslatePipe,
         InputValidatorComponent,
         SelectComponent,
         SaveButtonComponent,

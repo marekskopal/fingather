@@ -5,7 +5,7 @@ import {MatIcon} from "@angular/material/icon";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import { AlertService } from '@app/services';
 import { ConfirmDialogService } from '@app/services/confirm-dialog.service';
-import {TranslateModule} from "@ngx-translate/core";
+import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     selector: 'fingather-delete-button',
@@ -13,7 +13,7 @@ import {TranslateModule} from "@ngx-translate/core";
     standalone: true,
     imports: [
         MatIcon,
-        TranslateModule,
+        TranslatePipe,
         MatProgressSpinner
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,

@@ -8,14 +8,14 @@ import { PortfolioService } from '@app/services';
 import {DeleteButtonComponent} from "@app/shared/components/delete-button/delete-button.component";
 import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selector/portfolio-selector.component";
 import {PortfolioTotalComponent} from "@app/shared/components/portfolio-total/portfolio-total.component";
-import {TranslateModule} from "@ngx-translate/core";
+import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'list.component.html',
     standalone: true,
     imports: [
         PortfolioSelectorComponent,
-        TranslateModule,
+        TranslatePipe,
         RouterLink,
         MatIcon,
         DeleteButtonComponent,

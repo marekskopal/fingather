@@ -9,14 +9,14 @@ import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selec
 import {TableValueComponent} from "@app/shared/components/table-value/table-value.component";
 import {MoneyPipe} from "@app/shared/pipes/money.pipe";
 import {ScrollShadowDirective} from "@marekskopal/ng-scroll-shadow";
-import {TranslateModule} from "@ngx-translate/core";
+import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     templateUrl: './list.component.html',
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
-        TranslateModule,
+        TranslatePipe,
         PortfolioSelectorComponent,
         TableValueComponent,
         DecimalPipe,

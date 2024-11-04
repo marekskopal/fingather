@@ -7,7 +7,7 @@ import {Color} from "@app/shared/types/color";
 import {SelectItem} from "@app/shared/types/select-item";
 import {ColorEnum} from "@app/utils/enum/color-enum";
 import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from "@ng-bootstrap/ng-bootstrap";
-import {TranslateModule} from "@ngx-translate/core";
+import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     selector: 'fingather-color-picker',
@@ -18,7 +18,7 @@ import {TranslateModule} from "@ngx-translate/core";
         NgbDropdownToggle,
         NgbDropdownMenu,
         NgbDropdownItem,
-        TranslateModule,
+        TranslatePipe,
         MatIcon
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,

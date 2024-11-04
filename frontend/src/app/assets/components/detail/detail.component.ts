@@ -16,7 +16,7 @@ import {
     TransactionGridColumnEnum
 } from "@app/transactions/components/transaction-list/enums/transaction-grid-column-enum";
 import {TransactionListComponent} from "@app/transactions/components/transaction-list/transaction-list.component";
-import {TranslateModule} from "@ngx-translate/core";
+import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'detail.component.html',
@@ -25,7 +25,7 @@ import {TranslateModule} from "@ngx-translate/core";
         PortfolioSelectorComponent,
         RouterLink,
         MatIcon,
-        TranslateModule,
+        TranslatePipe,
         TickerLogoComponent,
         AssetChartsComponent,
         AssetValueComponent,

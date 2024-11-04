@@ -14,13 +14,13 @@ import {
 } from "@app/shared/components/portfolio-value-chart/portfolio-value-chart.component";
 import {ColorEnum} from "@app/utils/enum/color-enum";
 import {ScrollShadowDirective} from "@marekskopal/ng-scroll-shadow";
-import {TranslateModule} from "@ngx-translate/core";
+import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'history.component.html',
     standalone: true,
     imports: [
-        TranslateModule,
+        TranslatePipe,
         PortfolioSelectorComponent,
         AssetSelectorComponent,
         LegendComponent,

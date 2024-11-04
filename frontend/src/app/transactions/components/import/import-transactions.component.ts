@@ -3,14 +3,14 @@ import {MatIcon} from "@angular/material/icon";
 import {Router, RouterLink} from "@angular/router";
 import {ImportComponent} from "@app/shared/components/import/import.component";
 import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selector/portfolio-selector.component";
-import {TranslateModule} from "@ngx-translate/core";
+import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'import-transactions.component.html',
     standalone: true,
     imports: [
         PortfolioSelectorComponent,
-        TranslateModule,
+        TranslatePipe,
         RouterLink,
         MatIcon,
         ImportComponent

@@ -3,7 +3,7 @@ import {
 } from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
 import { NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {TranslateModule} from "@ngx-translate/core";
+import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     selector: 'fingather-help',
@@ -12,7 +12,7 @@ import {TranslateModule} from "@ngx-translate/core";
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
         MatIcon,
-        TranslateModule,
+        TranslatePipe,
         NgbTooltip
     ]
 })

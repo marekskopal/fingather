@@ -10,7 +10,7 @@ import { TickerFundamental } from '@app/models/ticker-fundamental';
 import { TickerFundamentalService } from '@app/services/ticker-fundamental.service';
 import {ScrollShadowDirective} from "@marekskopal/ng-scroll-shadow";
 import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLinkButton, NgbNavOutlet} from "@ng-bootstrap/ng-bootstrap";
-import {TranslateModule} from "@ngx-translate/core";
+import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'fundamentals.component.html',
@@ -21,7 +21,7 @@ import {TranslateModule} from "@ngx-translate/core";
         NgbNav,
         NgbNavLinkButton,
         NgbNavItem,
-        TranslateModule,
+        TranslatePipe,
         FundamentalRowComponent,
         NgbNavOutlet,
         ScrollShadowDirective

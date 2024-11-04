@@ -3,14 +3,14 @@ import {
     ChangeDetectionStrategy, Component, input,
 } from '@angular/core';
 import {LegendItem} from "@app/shared/components/legend/types/legend-item";
-import {TranslateModule} from "@ngx-translate/core";
+import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     selector: 'fingather-legend',
     templateUrl: 'legend.component.html',
     standalone: true,
     imports: [
-        TranslateModule,
+        TranslatePipe,
         DecimalPipe
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,

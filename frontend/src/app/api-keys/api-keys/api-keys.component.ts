@@ -9,13 +9,13 @@ import {ApiKeyService} from "@app/services/api-key.service";
 import {DeleteButtonComponent} from "@app/shared/components/delete-button/delete-button.component";
 import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selector/portfolio-selector.component";
 import {ScrollShadowDirective} from "@marekskopal/ng-scroll-shadow";
-import {TranslateModule} from "@ngx-translate/core";
+import {TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'api-keys.component.html',
     standalone: true,
     imports: [
-        TranslateModule,
+        TranslatePipe,
         MatIcon,
         RouterLink,
         PortfolioSelectorComponent,

@@ -18,7 +18,7 @@ import {
 import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selector/portfolio-selector.component";
 import {ScrollShadowDirective} from "@marekskopal/ng-scroll-shadow";
 import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLinkButton, NgbNavOutlet} from "@ng-bootstrap/ng-bootstrap";
-import {TranslateModule} from "@ngx-translate/core";
+import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'list.component.html',
@@ -29,7 +29,7 @@ import {TranslateModule} from "@ngx-translate/core";
         NgbNavLinkButton,
         NgbNavContent,
         RouterLink,
-        TranslateModule,
+        TranslatePipe,
         MatIcon,
         PortfolioSelectorComponent,
         OpenedGroupedAssetsComponent,

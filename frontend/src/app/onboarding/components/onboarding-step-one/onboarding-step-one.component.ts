@@ -7,14 +7,14 @@ import {BaseOnboardingComponent} from "@app/onboarding/components/base-onboardin
 import {PortfolioService} from "@app/services";
 import {InputValidatorComponent} from "@app/shared/components/input-validator/input-validator.component";
 import {SaveButtonComponent} from "@app/shared/components/save-button/save-button.component";
-import {TranslateModule} from "@ngx-translate/core";
+import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     selector: 'fingather-onboarding-step-one',
     templateUrl: 'onboarding-step-one.component.html',
     standalone: true,
     imports: [
-        TranslateModule,
+        TranslatePipe,
         NgOptimizedImage,
         MatIcon,
         ReactiveFormsModule,
