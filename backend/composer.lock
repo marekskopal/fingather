@@ -2635,22 +2635,22 @@
         },
         {
             "name": "nette/robot-loader",
-            "version": "v4.0.2",
+            "version": "v4.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/robot-loader.git",
-                "reference": "6a921e88345fc7263b89ed878c927efc7c5e6092"
+                "reference": "45d67753fb4865bb718e9a6c9be69cc9470137b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/robot-loader/zipball/6a921e88345fc7263b89ed878c927efc7c5e6092",
-                "reference": "6a921e88345fc7263b89ed878c927efc7c5e6092",
+                "url": "https://api.github.com/repos/nette/robot-loader/zipball/45d67753fb4865bb718e9a6c9be69cc9470137b7",
+                "reference": "45d67753fb4865bb718e9a6c9be69cc9470137b7",
                 "shasum": ""
             },
             "require": {
                 "ext-tokenizer": "*",
                 "nette/utils": "^4.0",
-                "php": "8.0 - 8.3"
+                "php": "8.0 - 8.4"
             },
             "require-dev": {
                 "nette/tester": "^2.4",
@@ -2695,9 +2695,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/robot-loader/issues",
-                "source": "https://github.com/nette/robot-loader/tree/v4.0.2"
+                "source": "https://github.com/nette/robot-loader/tree/v4.0.3"
             },
-            "time": "2024-06-18T20:19:22+00:00"
+            "time": "2024-06-18T20:26:39+00:00"
         },
         {
             "name": "nette/schema",
