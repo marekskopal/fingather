@@ -8,7 +8,7 @@ import { ImportPrepare} from '@app/models';
 import {ImportFileComponent} from "@app/shared/components/import/components/import-file/import-file.component";
 import {ImportPrepareComponent} from "@app/shared/components/import/components/import-prepare/import-prepare.component";
 import {DeletedImportFile} from "@app/shared/components/import/types/deleted-import-file";
-import {TranslateModule} from "@ngx-translate/core";
+import { TranslatePipe} from "@ngx-translate/core";
 import {NgxFileDropEntry, NgxFileDropModule} from 'ngx-file-drop';
 import {v4} from 'uuid';
 
@@ -21,7 +21,7 @@ import {v4} from 'uuid';
         MatIcon,
         ImportFileComponent,
         RouterLink,
-        TranslateModule,
+        TranslatePipe,
         ImportPrepareComponent
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,

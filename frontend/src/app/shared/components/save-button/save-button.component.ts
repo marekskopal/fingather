@@ -3,14 +3,14 @@ import {
 } from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
-import {TranslateModule} from "@ngx-translate/core";
+import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     selector: 'fingather-save-button',
     templateUrl: 'save-button.component.html',
     standalone: true,
     imports: [
-        TranslateModule,
+        TranslatePipe,
         MatProgressSpinner,
         MatIcon,
     ],

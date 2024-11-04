@@ -7,14 +7,14 @@ import {SearchInputComponent} from "@app/shared/components/search-input/search-i
 import {TagComponent} from "@app/shared/components/tag/tag.component";
 import {TransactionSearch} from "@app/transactions/types/transaction-search";
 import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from "@ng-bootstrap/ng-bootstrap";
-import {TranslateModule} from "@ngx-translate/core";
+import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     selector: 'fingather-transactions-search',
     templateUrl: './search.component.html',
     standalone: true,
     imports: [
-        TranslateModule,
+        TranslatePipe,
         SearchInputComponent,
         NgbDropdown,
         NgbDropdownToggle,

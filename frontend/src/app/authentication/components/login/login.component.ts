@@ -6,14 +6,14 @@ import { AuthenticationService } from '@app/services/authentication.service';
 import { BaseForm } from '@app/shared/components/form/base-form';
 import {InputValidatorComponent} from "@app/shared/components/input-validator/input-validator.component";
 import {SaveButtonComponent} from "@app/shared/components/save-button/save-button.component";
-import {TranslateModule} from "@ngx-translate/core";
+import {TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'login.component.html',
     standalone: true,
     imports: [
         ReactiveFormsModule,
-        TranslateModule,
+        TranslatePipe,
         InputValidatorComponent,
         SaveButtonComponent,
         RouterLink

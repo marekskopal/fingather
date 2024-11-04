@@ -9,7 +9,7 @@ import {SearchHighlightComponent} from "@app/shared/components/search-highlight/
 import {SearchInputComponent} from "@app/shared/components/search-input/search-input.component";
 import {CurrencyCodePipe} from "@app/shared/pipes/currency-code.pipe";
 import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from "@ng-bootstrap/ng-bootstrap";
-import {TranslateModule} from "@ngx-translate/core";
+import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     selector: 'fingather-ticker-search-selector',
@@ -22,7 +22,7 @@ import {TranslateModule} from "@ngx-translate/core";
         NgbDropdownItem,
         CurrencyCodePipe,
         AsyncPipe,
-        TranslateModule,
+        TranslatePipe,
         SearchInputComponent,
         SearchHighlightComponent,
     ],

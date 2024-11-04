@@ -13,14 +13,14 @@ import {SelectComponent} from "@app/shared/components/select/select.component";
 import {TypeSelectComponent} from "@app/shared/components/type-select/type-select.component";
 import {SelectItem} from "@app/shared/types/select-item";
 import {AddEditBaseFormComponent} from "@app/transactions/components/add-edit-base-form/add-edit-base-form.component";
-import {TranslateModule} from "@ngx-translate/core";
+import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'add-edit-transaction-form.component.html',
     standalone: true,
     imports: [
         PortfolioSelectorComponent,
-        TranslateModule,
+        TranslatePipe,
         RouterLink,
         MatIcon,
         ReactiveFormsModule,

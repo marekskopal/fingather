@@ -9,14 +9,14 @@ import {InputValidatorComponent} from "@app/shared/components/input-validator/in
 import {SaveButtonComponent} from "@app/shared/components/save-button/save-button.component";
 import {SelectComponent} from "@app/shared/components/select/select.component";
 import {SelectItem} from "@app/shared/types/select-item";
-import {TranslateModule} from "@ngx-translate/core";
+import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     selector: 'fingather-onboarding-step-two',
     templateUrl: 'onboarding-step-two.component.html',
     standalone: true,
     imports: [
-        TranslateModule,
+        TranslatePipe,
         MatIcon,
         ReactiveFormsModule,
         InputValidatorComponent,

@@ -11,7 +11,7 @@ import {IndustryWithIndustryDataService} from "@app/services/industry-with-indus
 import {SectorWithSectorDataService} from "@app/services/sector-with-sector-data.service";
 import {ScrollShadowDirective} from "@marekskopal/ng-scroll-shadow";
 import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLinkButton, NgbNavOutlet} from "@ng-bootstrap/ng-bootstrap";
-import {TranslateModule} from "@ngx-translate/core";
+import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     selector: 'fingather-group-data',
@@ -23,7 +23,7 @@ import {TranslateModule} from "@ngx-translate/core";
         NgbNavLinkButton,
         NgbNavContent,
         NgbNavOutlet,
-        TranslateModule,
+        TranslatePipe,
         GroupAllocationComponent,
         ScrollShadowDirective
     ],

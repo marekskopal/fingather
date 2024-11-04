@@ -11,14 +11,14 @@ import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selec
 import {SaveButtonComponent} from "@app/shared/components/save-button/save-button.component";
 import {SelectComponent} from "@app/shared/components/select/select.component";
 import {AddEditBaseFormComponent} from "@app/transactions/components/add-edit-base-form/add-edit-base-form.component";
-import {TranslateModule} from "@ngx-translate/core";
+import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'add-edit-dividend-form.component.html',
     standalone: true,
     imports: [
         PortfolioSelectorComponent,
-        TranslateModule,
+        TranslatePipe,
         RouterLink,
         MatIcon,
         ReactiveFormsModule,

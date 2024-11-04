@@ -3,7 +3,7 @@ import {
 } from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
 import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from "@ng-bootstrap/ng-bootstrap";
-import {TranslateModule} from "@ngx-translate/core";
+import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     selector: 'fingather-pagination',
@@ -11,7 +11,7 @@ import {TranslateModule} from "@ngx-translate/core";
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
-        TranslateModule,
+        TranslatePipe,
         MatIcon,
         NgbDropdown,
         NgbDropdownToggle,

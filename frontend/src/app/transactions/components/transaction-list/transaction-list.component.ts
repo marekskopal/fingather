@@ -20,7 +20,7 @@ import {
 } from "@app/transactions/components/transaction-list/enums/transaction-grid-column-enum";
 import {TransactionSearch} from "@app/transactions/types/transaction-search";
 import {ScrollShadowDirective} from "@marekskopal/ng-scroll-shadow";
-import {TranslateModule} from "@ngx-translate/core";
+import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     selector: 'fingather-transaction-list',
@@ -28,7 +28,7 @@ import {TranslateModule} from "@ngx-translate/core";
     standalone: true,
     imports: [
         PortfolioSelectorComponent,
-        TranslateModule,
+        TranslatePipe,
         RouterLink,
         MatIcon,
         SearchComponent,

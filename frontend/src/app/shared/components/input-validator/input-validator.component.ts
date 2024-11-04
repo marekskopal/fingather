@@ -3,14 +3,14 @@ import {
 } from '@angular/core';
 import {AbstractControl} from "@angular/forms";
 import {objectKeyValues} from "@app/utils/object-utils";
-import {TranslateModule} from "@ngx-translate/core";
+import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     selector: 'fingather-input-validator',
     templateUrl: 'input-validator.component.html',
     standalone: true,
     imports: [
-        TranslateModule,
+        TranslatePipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
     host: {'class': 'invalid-feedback'},

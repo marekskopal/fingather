@@ -18,14 +18,14 @@ import {SearchComponent} from "@app/transactions/components/search/search.compon
 import {TransactionListComponent} from "@app/transactions/components/transaction-list/transaction-list.component";
 import {TransactionSearch} from "@app/transactions/types/transaction-search";
 import {ScrollShadowDirective} from "@marekskopal/ng-scroll-shadow";
-import {TranslateModule} from "@ngx-translate/core";
+import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     templateUrl: './transactions.component.html',
     standalone: true,
     imports: [
         PortfolioSelectorComponent,
-        TranslateModule,
+        TranslatePipe,
         RouterLink,
         MatIcon,
         SearchComponent,

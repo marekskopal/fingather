@@ -14,7 +14,7 @@ import {TableGridColumn} from "@app/shared/types/table-grid-column";
 import {NumberUtils} from "@app/utils/number-utils";
 import {TableUtils} from "@app/utils/table-utils";
 import {ScrollShadowDirective} from "@marekskopal/ng-scroll-shadow";
-import {TranslateModule} from "@ngx-translate/core";
+import { TranslatePipe} from "@ngx-translate/core";
 
 
 @Component({
@@ -22,7 +22,7 @@ import {TranslateModule} from "@ngx-translate/core";
     templateUrl: 'opened-grouped-assets.component.html',
     standalone: true,
     imports: [
-        TranslateModule,
+        TranslatePipe,
         MatIcon,
         TickerLogoComponent,
         DecimalPipe,

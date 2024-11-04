@@ -10,14 +10,14 @@ import {GroupAllocationService} from "@app/services/group-allocation-service";
 import {ColoredValueDirective} from "@app/shared/directives/colored-value.directive";
 import {MoneyPipe} from "@app/shared/pipes/money.pipe";
 import {ScrollShadowDirective} from "@marekskopal/ng-scroll-shadow";
-import {TranslateModule} from "@ngx-translate/core";
+import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     selector: 'fingather-group-allocation',
     templateUrl: 'group-allocation.component.html',
     standalone: true,
     imports: [
-        TranslateModule,
+        TranslatePipe,
         GroupChartComponent,
         ColoredValueDirective,
         DecimalPipe,
