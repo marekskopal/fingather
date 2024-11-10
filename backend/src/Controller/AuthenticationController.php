@@ -12,7 +12,6 @@ use FinGather\Response\BoolResponse;
 use FinGather\Response\ConflictResponse;
 use FinGather\Response\NotAuthorizedResponse;
 use FinGather\Response\NotFoundResponse;
-use FinGather\Response\OkResponse;
 use FinGather\Route\Routes;
 use FinGather\Service\Authentication\AuthenticationService;
 use FinGather\Service\Authentication\Exceptions\AuthenticationException;
@@ -115,7 +114,10 @@ final class AuthenticationController
 			isEmailVerified: false,
 		);
 
-		return new OkResponse();
+		return new JsonResponse($this->authenticationService->authenticate(new CredentialsDto(
+			$signUp->email,
+			$signUp->password,
+		)));
 	}
 
 	#[RoutePost(Routes::AuthenticationEmailExists->value)]
