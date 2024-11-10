@@ -121,16 +121,6 @@ services:
         volumes:
             - redis_volume:/data
 
-    maildev:
-        image: maildev/maildev:2.1.0
-        restart: unless-stopped
-        environment:
-            MAILDEV_BASE_PATHNAME: /maildev
-        networks:
-            - backend
-        profiles:
-            - dev
-
     adminer:
         image: adminer:4.8.1
         restart: unless-stopped
