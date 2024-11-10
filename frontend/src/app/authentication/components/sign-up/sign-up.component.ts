@@ -1,8 +1,8 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
-import {ActivatedRoute, Router, RouterLink} from '@angular/router';
+import { Router, RouterLink} from '@angular/router';
 import { UniqueEmailValidator } from '@app/authentication/validator/UniqueEmailValidator';
-import { CurrencyService } from '@app/services';
+import {CurrencyService, CurrentUserService} from '@app/services';
 import { AuthenticationService } from '@app/services/authentication.service';
 import { BaseForm } from '@app/shared/components/form/base-form';
 import {InputValidatorComponent} from "@app/shared/components/input-validator/input-validator.component";
@@ -25,11 +25,11 @@ import { TranslatePipe} from "@ngx-translate/core";
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SignUpComponent extends BaseForm implements OnInit {
-    private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
     private readonly authenticationService = inject(AuthenticationService);
     private readonly uniqueEmailValidator = inject(UniqueEmailValidator);
     private readonly currencyService = inject(CurrencyService);
+    private readonly currentUserService = inject(CurrentUserService);
 
     protected currencies: SelectItem<number, string>[] = [];
 
@@ -74,8 +74,10 @@ export class SignUpComponent extends BaseForm implements OnInit {
         try {
             await this.authenticationService.signUp(this.form.value);
 
-            this.alertService.success('Registration successful', { keepAfterRouteChange: true });
-            this.router.navigate(['../login'], { relativeTo: this.route });
+            const currentUser = await this.currentUserService.getCurrentUser();
+            const returnUrl = currentUser.isOnboardingCompleted ? '/' : '/onboarding/step-one';
+
+            this.router.navigateByUrl(returnUrl);
         } catch (error) {
             if (error instanceof Error) {
                 this.alertService.error(error.message);

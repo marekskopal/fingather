@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { SignUp } from '@app/models';
 import { Authentication } from '@app/models/authentication';
 import { BoolResponse } from '@app/models/bool-response';
-import { OkResponse } from '@app/models/ok-response';
 import { CurrentUserService } from '@app/services/current-user.service';
 import { PortfolioService } from '@app/services/portfolio.service';
 import { environment } from '@environments/environment';
@@ -41,13 +40,7 @@ export class AuthenticationService {
             })
         );
 
-        // store user details and jwt token in local storage to keep user logged in between page refreshes
-        localStorage.setItem('authentication', JSON.stringify(authentication));
-        this.$authentication.set(authentication);
-        this.portfolioService.cleanCurrentPortfolio();
-        this.currentUserService.cleanCurrentUser();
-
-        return authentication;
+        return this.setAuthentication(authentication);
     }
 
     public logout(): void {
@@ -59,10 +52,12 @@ export class AuthenticationService {
         this.router.navigate(['/authentication/login']);
     }
 
-    public signUp(signUp: SignUp): Promise<OkResponse> {
-        return firstValueFrom<OkResponse>(
-            this.http.post<OkResponse>(`${environment.apiUrl}/authentication/sign-up`, signUp)
+    public async signUp(signUp: SignUp): Promise<Authentication> {
+        const authentication = await firstValueFrom<Authentication>(
+            this.http.post<Authentication>(`${environment.apiUrl}/authentication/sign-up`, signUp)
         );
+
+        return this.setAuthentication(authentication);
     }
 
     public async isEmailExists(email: string): Promise<boolean> {
@@ -88,6 +83,15 @@ export class AuthenticationService {
 
         localStorage.setItem('authentication', JSON.stringify(authentication));
         this.$authentication.set(authentication);
+
+        return authentication;
+    }
+
+    private setAuthentication(authentication: Authentication): Authentication {
+        localStorage.setItem('authentication', JSON.stringify(authentication));
+        this.$authentication.set(authentication);
+        this.portfolioService.cleanCurrentPortfolio();
+        this.currentUserService.cleanCurrentUser();
 
         return authentication;
     }
