@@ -88,8 +88,16 @@
     }
 
     .import-prepare {
-        .btn {
+        .loader {
             width: 100%;
+
+            fingather-save-button {
+                width: 100%;
+            }
+
+            .btn {
+                width: 100%;
+            }
         }
     }
 }
