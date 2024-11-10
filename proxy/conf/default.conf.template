@@ -59,10 +59,6 @@ server {
         include fastcgi_params;
     }
 
-    #location /maildev {
-    #    proxy_pass http://maildev:1080;
-    #}
-
     location /adminer {
         proxy_pass http://adminer:8080/;
     }
