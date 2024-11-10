@@ -118,22 +118,32 @@ fingather-import-prepare {
     }
 
     .import-prepare-tickers {
-        display: flex;
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: minmax(100px, 1fr);
         row-gap: $spacing-xs;
+        column-gap: $spacing-md;;
         margin-bottom: 30px;
 
         .import-prepare-ticker {
-            display: flex;
-            align-items: center;
-            gap: $spacing-md;
+            display: contents;
 
             .import-prepare-ticker-ticker {
-                width: 70px;
+                align-content: center;
             }
 
             .import-prepare-ticker-select {
-                width: calc(100% - 70px);
+                display: flex;
+                margin-bottom: $spacing-sm;
+            }
+        }
+
+        @include media-breakpoint-up(sm) {
+            grid-template-columns: auto minmax(100px, 1fr);
+
+            .import-prepare-ticker {
+                .import-prepare-ticker-select {
+                    margin-bottom: 0;
+                }
             }
         }
     }
@@ -149,9 +159,19 @@ fingather-import-prepare {
                 width: 100%;
             }
 
-            button {
+            .button-content {
                 display: flex;
+                justify-content: space-between;
+                width: 100%;
+                max-width: calc(100% - 30px);
                 gap: $spacing-xs;
+                align-items: center;
+            }
+
+            .dropdown-item {
+                .button-content {
+                    max-width: 100%;
+                }
             }
         }
     }
