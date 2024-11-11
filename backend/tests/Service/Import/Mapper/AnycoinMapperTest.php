@@ -11,7 +11,6 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProviderExternal;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
-use function Safe\file_get_contents;
 
 #[CoversClass(AnycoinMapper::class)]
 #[UsesClass(MappingDto::class)]
@@ -52,6 +51,9 @@ final class AnycoinMapperTest extends TestCase
 		$mapper = new AnycoinMapper();
 
 		$fileContent = file_get_contents(__DIR__ . '/../../../Fixtures/Import/File/' . $fileName);
+		if ($fileContent === false) {
+			self::fail('File not found');
+		}
 
 		self::assertSame($expected, $mapper->check($fileContent, $fileName));
 	}

@@ -13,7 +13,6 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Log\LoggerInterface;
-use function Safe\json_encode;
 use const FILTER_VALIDATE_INT;
 
 final class JsonStrategy extends \League\Route\Strategy\JsonStrategy
@@ -37,6 +36,10 @@ final class JsonStrategy extends \League\Route\Strategy\JsonStrategy
 
 		if ($this->isJsonSerializable($response)) {
 			$body = json_encode($response, $this->jsonFlags);
+			if ($body === false) {
+				throw new \RuntimeException(json_last_error_msg(), json_last_error());
+			}
+
 			$response = $this->responseFactory->createResponse();
 			$response->getBody()->write($body);
 		}

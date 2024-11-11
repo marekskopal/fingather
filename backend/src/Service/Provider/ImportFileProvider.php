@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Provider;
 
+use DateTimeImmutable;
 use FinGather\Model\Entity\Import;
 use FinGather\Model\Entity\ImportFile;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\ImportFileRepository;
-use Safe\DateTimeImmutable;
 
 class ImportFileProvider
 {

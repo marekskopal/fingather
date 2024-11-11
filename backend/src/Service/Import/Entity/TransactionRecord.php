@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Import\Entity;
 
+use DateTimeImmutable;
 use Decimal\Decimal;
-use Safe\DateTimeImmutable;
 
 final readonly class TransactionRecord
 {

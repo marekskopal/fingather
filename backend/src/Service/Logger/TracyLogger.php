@@ -7,10 +7,6 @@ namespace FinGather\Service\Logger;
 use ErrorException;
 use Tracy\Helpers;
 use Tracy\Logger;
-use function Safe\date;
-use function Safe\file_put_contents;
-use function Safe\json_encode;
-use function Safe\preg_replace;
 use const FILE_APPEND;
 use const PHP_EOL;
 

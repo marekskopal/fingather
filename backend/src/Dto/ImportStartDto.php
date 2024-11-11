@@ -6,7 +6,6 @@ namespace FinGather\Dto;
 
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
-use function Safe\json_decode;
 
 final readonly class ImportStartDto
 {
@@ -48,7 +47,7 @@ final readonly class ImportStartDto
 		 *     }>
 		 * } $data
 		 */
-		$data = json_decode($json, assoc: true);
+		$data = json_decode($json, associative: true);
 		return self::fromArray($data);
 	}
 }

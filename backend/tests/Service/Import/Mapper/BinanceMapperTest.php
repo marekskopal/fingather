@@ -12,7 +12,6 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProviderExternal;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
-use function Safe\file_get_contents;
 
 #[CoversClass(BinanceMapper::class)]
 #[UsesClass(MappingDto::class)]
@@ -38,6 +37,9 @@ final class BinanceMapperTest extends TestCase
 		$mapper = new BinanceMapper();
 
 		$fileContent = file_get_contents(__DIR__ . '/../../../Fixtures/Import/File/binance_export.csv');
+		if ($fileContent === false) {
+			self::fail('File not found');
+		}
 
 		$records = $mapper->getRecords($fileContent);
 
@@ -67,6 +69,9 @@ final class BinanceMapperTest extends TestCase
 		$mapper = new BinanceMapper();
 
 		$fileContent = file_get_contents(__DIR__ . '/../../../Fixtures/Import/File/' . $fileName);
+		if ($fileContent === false) {
+			self::fail('File not found');
+		}
 
 		self::assertSame($expected, $mapper->check($fileContent, $fileName));
 	}

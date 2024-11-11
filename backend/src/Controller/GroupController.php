@@ -19,7 +19,6 @@ use MarekSkopal\Router\Attribute\RoutePost;
 use MarekSkopal\Router\Attribute\RoutePut;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use function Safe\json_decode;
 
 final class GroupController
 {
@@ -104,7 +103,7 @@ final class GroupController
 		}
 
 		/** @var array{name: string, color: string, assetIds: list<int>} $requestBody */
-		$requestBody = json_decode($request->getBody()->getContents(), assoc: true);
+		$requestBody = json_decode($request->getBody()->getContents(), associative: true);
 
 		return new JsonResponse(GroupDto::fromEntity($this->groupProvider->createGroup(
 			user: $user,
@@ -131,7 +130,7 @@ final class GroupController
 		}
 
 		/** @var array{name: string, color: string, assetIds: list<int>} $requestBody */
-		$requestBody = json_decode($request->getBody()->getContents(), assoc: true);
+		$requestBody = json_decode($request->getBody()->getContents(), associative: true);
 
 		return new JsonResponse(GroupDto::fromEntity($this->groupProvider->updateGroup(
 			group: $group,

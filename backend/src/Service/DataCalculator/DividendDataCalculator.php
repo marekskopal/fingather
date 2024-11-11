@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Service\DataCalculator;
 
+use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Dto\Enum\RangeEnum;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
@@ -13,7 +14,6 @@ use FinGather\Service\DataCalculator\Dto\DividendDataAssetDto;
 use FinGather\Service\DataCalculator\Dto\DividendDataIntervalDto;
 use FinGather\Service\Provider\TransactionProvider;
 use FinGather\Utils\DateTimeUtils;
-use Safe\DateTimeImmutable;
 
 final class DividendDataCalculator
 {
@@ -36,9 +36,7 @@ final class DividendDataCalculator
 		);
 
 		$actionCreatedAfter = $period->getStartDate();
-		assert($actionCreatedAfter instanceof DateTimeImmutable);
 		$actionCreatedBefore = $period->getEndDate();
-		assert($actionCreatedBefore instanceof DateTimeImmutable);
 
 		$transactions = $this->transactionProvider->getTransactions(
 			user: $user,
@@ -82,7 +80,7 @@ final class DividendDataCalculator
 		return $dividendDataIntervals;
 	}
 
-	private function getDateRangeKey(\DateTimeImmutable $date, RangeEnum $range): string
+	private function getDateRangeKey(DateTimeImmutable $date, RangeEnum $range): string
 	{
 		return match ($range) {
 			RangeEnum::SevenDays => $date->format('Y-m-d'),

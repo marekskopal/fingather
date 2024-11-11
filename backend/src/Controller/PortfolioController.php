@@ -19,7 +19,6 @@ use MarekSkopal\Router\Attribute\RoutePost;
 use MarekSkopal\Router\Attribute\RoutePut;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use function Safe\json_decode;
 
 final class PortfolioController
 {
@@ -76,7 +75,7 @@ final class PortfolioController
 		$user = $this->requestService->getUser($request);
 
 		/** @var array{currencyId: int, name: string, isDefault: bool} $requestBody */
-		$requestBody = json_decode($request->getBody()->getContents(), assoc: true);
+		$requestBody = json_decode($request->getBody()->getContents(), associative: true);
 
 		$currency = $this->currencyProvider->getCurrency($requestBody['currencyId']);
 		if ($currency === null) {
@@ -107,7 +106,7 @@ final class PortfolioController
 		}
 
 		/** @var array{currencyId?: int, name?: string, isDefault?: bool} $requestBody */
-		$requestBody = json_decode($request->getBody()->getContents(), assoc: true);
+		$requestBody = json_decode($request->getBody()->getContents(), associative: true);
 
 		if (($requestBody['currencyId'] ?? null) === null) {
 			$currency = $portfolio->getCurrency();

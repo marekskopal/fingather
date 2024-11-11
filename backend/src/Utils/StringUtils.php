@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace FinGather\Utils;
 
 use Nette\Utils\Strings;
-use function Safe\preg_replace;
 
 final class StringUtils
 {
@@ -15,7 +14,7 @@ final class StringUtils
 		//remove multiple spaces
 		$name = preg_replace('/\s+/', ' ', $name);
 		//fix hyphens
-		$name = str_replace('—', '-', $name);
+		$name = str_replace('—', '-', $name ?? '');
 		//fix spaces around hyphens
 		$name = str_replace(' - ', '-', $name);
 		$name = str_replace('-', ' - ', $name);

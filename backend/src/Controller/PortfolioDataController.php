@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Controller;
 
+use DateTimeImmutable;
 use FinGather\Dto\Enum\RangeEnum;
 use FinGather\Dto\PortfolioDataDto;
 use FinGather\Dto\PortfolioDataWithBenchmarkDataDto;
@@ -22,7 +23,6 @@ use Laminas\Diactoros\Response\JsonResponse;
 use MarekSkopal\Router\Attribute\RouteGet;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Safe\DateTimeImmutable;
 
 final class PortfolioDataController
 {
@@ -110,16 +110,14 @@ final class PortfolioDataController
 
 		$datePeriod = DateTimeUtils::getDatePeriod(
 			range: $range,
-			customRangeFrom: $customRangeFrom?->getInnerDateTime(),
-			customRangeTo: $customRangeTo?->getInnerDateTime(),
+			customRangeFrom: $customRangeFrom,
+			customRangeTo: $customRangeTo,
 			firstDate: $firstTransaction->getActionCreated(),
 			shiftStartDate: $range === RangeEnum::All,
 		);
 		foreach ($datePeriod as $dateTime) {
-			/** @var \DateTimeImmutable $dateTime */
-			$dateTimeConverted = DateTimeImmutable::createFromRegular($dateTime);
-
-			$portfolioData = $this->portfolioDataProvider->getPortfolioData($user, $portfolio, $dateTimeConverted);
+			/** @var DateTimeImmutable $dateTime */
+			$portfolioData = $this->portfolioDataProvider->getPortfolioData($user, $portfolio, $dateTime);
 
 			if ($benchmarkAsset === null) {
 				$portfolioDatas[] = PortfolioDataWithBenchmarkDataDto::fromCalculatedDataDto($portfolioData);
@@ -143,7 +141,7 @@ final class PortfolioDataController
 				portfolio: $portfolio,
 				benchmarkAsset: $benchmarkAsset,
 				transactions: $transactions,
-				dateTime: $dateTimeConverted,
+				dateTime: $dateTime,
 				benchmarkFromDateTime: $datePeriod->getStartDate(),
 				benchmarkFromDateUnits: $benchmarkDataFromDate->units,
 			);

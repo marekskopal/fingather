@@ -11,7 +11,6 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProviderExternal;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
-use function Safe\file_get_contents;
 
 #[CoversClass(EtoroMapper::class)]
 #[UsesClass(MappingDto::class)]
@@ -51,6 +50,9 @@ final class EtoroMapperTest extends TestCase
 		$mapper = new EtoroMapper();
 
 		$fileContent = file_get_contents(__DIR__ . '/../../../Fixtures/Import/File/etoro_export.xlsx');
+		if ($fileContent === false) {
+			self::fail('File not found');
+		}
 
 		$records = $mapper->getRecords($fileContent);
 
@@ -63,6 +65,9 @@ final class EtoroMapperTest extends TestCase
 		$mapper = new EtoroMapper();
 
 		$fileContent = file_get_contents(__DIR__ . '/../../../Fixtures/Import/File/' . $fileName);
+		if ($fileContent === false) {
+			self::fail('File not found');
+		}
 
 		self::assertSame($expected, $mapper->check($fileContent, $fileName));
 	}

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Tests\Service\DataCalculator;
 
+use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Country;
@@ -39,7 +40,6 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
-use Safe\DateTimeImmutable;
 
 #[CoversClass(AssetDataCalculator::class)]
 #[UsesClass(Asset::class)]

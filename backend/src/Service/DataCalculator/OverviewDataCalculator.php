@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Service\DataCalculator;
 
+use DateTimeImmutable;
 use FinGather\Dto\PortfolioDataDto;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
@@ -11,7 +12,6 @@ use FinGather\Service\DataCalculator\Dto\YearCalculatedDataDto;
 use FinGather\Service\Provider\PortfolioDataProvider;
 use FinGather\Service\Provider\TransactionProvider;
 use FinGather\Utils\CalculatorUtils;
-use Safe\DateTimeImmutable;
 
 final class OverviewDataCalculator
 {

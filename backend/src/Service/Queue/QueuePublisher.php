@@ -10,7 +10,6 @@ use Spiral\RoadRunner\Environment;
 use Spiral\RoadRunner\Jobs\Jobs;
 use Spiral\RoadRunner\Jobs\Options;
 use Spiral\RoadRunner\Jobs\Task\QueuedTaskInterface;
-use function Safe\json_encode;
 
 final class QueuePublisher
 {
@@ -33,6 +32,9 @@ final class QueuePublisher
 		$queue = $this->jobs->connect($queueType->value);
 
 		$payload = json_encode($message);
+		if ($payload === false) {
+			throw new \RuntimeException('Failed to encode message to JSON.');
+		}
 
 		return $queue->dispatch($queue->create($queueType->value, $payload, new Options(
 			delay: $delay,

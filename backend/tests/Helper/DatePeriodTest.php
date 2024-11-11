@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace FinGather\Tests\Helper;
 
 use DateInterval;
+use DateTimeImmutable;
 use FinGather\Helper\DatePeriod;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
-use Safe\DateTimeImmutable;
 
 #[CoversClass(DatePeriod::class)]
 final class DatePeriodTest extends TestCase

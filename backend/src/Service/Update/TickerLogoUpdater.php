@@ -10,10 +10,6 @@ use FinGather\Model\Repository\TickerRepository;
 use MarekSkopal\TwelveData\Dto\Fundamentals\Logo;
 use MarekSkopal\TwelveData\Exception\NotFoundException;
 use MarekSkopal\TwelveData\TwelveData;
-use Safe\Exceptions\FilesystemException;
-use function Safe\file_get_contents;
-use function Safe\file_put_contents;
-use function Safe\mkdir;
 
 final class TickerLogoUpdater
 {
@@ -55,9 +51,8 @@ final class TickerLogoUpdater
 			return;
 		}
 
-		try {
-			$fileContents = file_get_contents($url);
-		} catch (FilesystemException) {
+		$fileContents = file_get_contents($url);
+		if ($fileContents === false) {
 			return;
 		}
 

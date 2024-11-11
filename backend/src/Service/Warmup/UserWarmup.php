@@ -6,13 +6,13 @@ namespace FinGather\Service\Warmup;
 
 use DateInterval;
 use DatePeriod;
+use DateTimeImmutable;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Service\Provider\DataProvider;
 use FinGather\Service\Provider\PortfolioDataProvider;
 use FinGather\Service\Provider\PortfolioProvider;
 use FinGather\Service\Provider\TransactionProvider;
-use Safe\DateTimeImmutable;
 
 final class UserWarmup
 {

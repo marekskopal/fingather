@@ -7,7 +7,6 @@ namespace FinGather\Jobs\Handler;
 use FinGather\Dto\ApiImportPrepareCheckDto;
 use FinGather\Service\Import\ApiImport\ApiImportService;
 use Spiral\RoadRunner\Jobs\Task\ReceivedTaskInterface;
-use function Safe\json_decode;
 
 final class ApiImportPrepareCheckHandler implements JobHandler
 {
@@ -24,7 +23,7 @@ final class ApiImportPrepareCheckHandler implements JobHandler
 		 *     apiKeyId: int,
 		 * } $payload
 		 */
-		$payload = json_decode($task->getPayload(), assoc: true);
+		$payload = json_decode($task->getPayload(), associative: true);
 
 		$apiImportPrepareCheck = ApiImportPrepareCheckDto::fromArray($payload);
 

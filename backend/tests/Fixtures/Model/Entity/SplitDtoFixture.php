@@ -14,7 +14,7 @@ final class SplitDtoFixture
 	public static function getSplitDto(?DateTimeImmutable $date = null, ?Decimal $factor = null): SplitDto
 	{
 		return new SplitDto(
-			date: $date ?? new \Safe\DateTimeImmutable(),
+			date: $date ?? new DateTimeImmutable(),
 			factor: $factor ?? new Decimal(1),
 		);
 	}

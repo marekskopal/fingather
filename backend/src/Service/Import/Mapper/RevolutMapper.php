@@ -6,7 +6,6 @@ namespace FinGather\Service\Import\Mapper;
 
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Service\Import\Mapper\Dto\MappingDto;
-use function Safe\preg_replace;
 
 final class RevolutMapper extends CsvMapper
 {
@@ -22,9 +21,9 @@ final class RevolutMapper extends CsvMapper
 			created: 'Date',
 			ticker: 'Ticker',
 			units: 'Quantity',
-			price: fn (array $record): string => preg_replace('/[^0-9-.]/', '', $record['Price per share']),
+			price: fn (array $record): ?string => preg_replace('/[^0-9-.]/', '', $record['Price per share']),
 			currency: 'Currency',
-			total: fn (array $record): string => preg_replace('/[^0-9-.]/', '', $record['Total Amount']),
+			total: fn (array $record): ?string => preg_replace('/[^0-9-.]/', '', $record['Total Amount']),
 		);
 	}
 

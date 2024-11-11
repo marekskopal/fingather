@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Command;
 
-use Safe\DateTimeImmutable;
+use DateTimeImmutable;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Output\OutputInterface;
 

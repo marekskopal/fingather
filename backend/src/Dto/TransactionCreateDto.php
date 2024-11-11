@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace FinGather\Dto;
 
+use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
-use Safe\DateTimeImmutable;
-use function Safe\json_decode;
 
 final readonly class TransactionCreateDto
 {
@@ -81,7 +80,7 @@ final readonly class TransactionCreateDto
 		 *     importIdentifier?: string|null
 		 * } $data
 		 */
-		$data = json_decode($json, assoc: true);
+		$data = json_decode($json, associative: true);
 		return self::fromArray($data);
 	}
 }

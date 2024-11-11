@@ -12,7 +12,6 @@ use FinGather\Service\Provider\UserProvider;
 use MarekSkopal\Router\Attribute\RoutePost;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use function Safe\json_decode;
 
 final class EmailVerifyController
 {
@@ -24,7 +23,7 @@ final class EmailVerifyController
 	public function actionPostEmailVerify(ServerRequestInterface $request): ResponseInterface
 	{
 		/** @var array{token: string} $requestBody */
-		$requestBody = json_decode($request->getBody()->getContents(), assoc: true);
+		$requestBody = json_decode($request->getBody()->getContents(), associative: true);
 
 		$emailVerify = $this->emailVerifyProvider->getEmailVerify($requestBody['token']);
 		if ($emailVerify === null) {

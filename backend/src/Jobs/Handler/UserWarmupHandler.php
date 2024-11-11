@@ -9,7 +9,6 @@ use FinGather\Service\Warmup\Dto\UserWarmupDto;
 use FinGather\Service\Warmup\UserWarmup;
 use Psr\Log\LoggerInterface;
 use Spiral\RoadRunner\Jobs\Task\ReceivedTaskInterface;
-use function Safe\json_decode;
 
 class UserWarmupHandler implements JobHandler
 {
@@ -28,7 +27,7 @@ class UserWarmupHandler implements JobHandler
 		 *     userId: int
 		 * } $payload
 		 */
-		$payload = json_decode($task->getPayload(), assoc: true);
+		$payload = json_decode($task->getPayload(), associative: true);
 
 		$userWarmup = UserWarmupDto::fromArray($payload);
 

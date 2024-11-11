@@ -112,7 +112,7 @@ class TransactionProvider
 		?string $notes,
 		?string $importIdentifier,
 	): Transaction {
-		$created = new \Safe\DateTimeImmutable();
+		$created = new DateTimeImmutable();
 
 		$tickerCurrency = $asset->getTicker()->getCurrency();
 		$defaultCurrency = $portfolio->getCurrency();
@@ -169,7 +169,7 @@ class TransactionProvider
 		?string $notes,
 		?string $importIdentifier,
 	): Transaction {
-		$modified = new \Safe\DateTimeImmutable();
+		$modified = new DateTimeImmutable();
 
 		$tickerCurrency = $asset->getTicker()->getCurrency();
 		$defaultCurrency = $transaction->getPortfolio()->getCurrency();

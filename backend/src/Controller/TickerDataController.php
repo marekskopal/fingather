@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Controller;
 
 use DateInterval;
+use DateTimeImmutable;
 use FinGather\Dto\TickerDataDto;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Route\Routes;
@@ -15,7 +16,6 @@ use Laminas\Diactoros\Response\JsonResponse;
 use MarekSkopal\Router\Attribute\RouteGet;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Safe\DateTimeImmutable;
 
 final class TickerDataController
 {

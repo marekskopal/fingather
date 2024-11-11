@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Controller;
 
+use DateTimeImmutable;
 use FinGather\Dto\TransactionCreateDto;
 use FinGather\Dto\TransactionDto;
 use FinGather\Dto\TransactionListDto;
@@ -27,7 +28,6 @@ use MarekSkopal\Router\Attribute\RoutePost;
 use MarekSkopal\Router\Attribute\RoutePut;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Safe\DateTimeImmutable;
 
 final class TransactionController
 {
@@ -81,9 +81,8 @@ final class TransactionController
 
 		$created = null;
 		if (($queryParams['created'] ?? null) !== null) {
-			try {
-				$created = DateTimeImmutable::createFromFormat('Y-m-d', $queryParams['created']);
-			} catch (\Throwable $e) {
+			$created = DateTimeImmutable::createFromFormat('Y-m-d', $queryParams['created']);
+			if ($created === false) {
 				return new NotFoundResponse('Invalid date format. Use "Y-m-d" format.');
 			}
 		}
@@ -292,7 +291,7 @@ final class TransactionController
 		$this->dataProvider->deleteUserData(
 			$transaction->getUser(),
 			$transaction->getPortfolio(),
-			DateTimeImmutable::createFromRegular($transaction->getActionCreated()),
+			$transaction->getActionCreated(),
 		);
 
 		return new OkResponse();

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Provider;
 
+use DateTimeImmutable;
 use FinGather\Model\Entity\Import;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\ImportRepository;
 use Ramsey\Uuid\UuidInterface;
-use Safe\DateTimeImmutable;
 
 class ImportProvider
 {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Controller;
 
+use DateTimeImmutable;
 use FinGather\Dto\AssetDto;
 use FinGather\Dto\AssetWithPropertiesDto;
 use FinGather\Dto\Enum\AssetOrderEnum;
@@ -22,8 +23,6 @@ use MarekSkopal\Router\Attribute\RouteGet;
 use MarekSkopal\Router\Attribute\RoutePost;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Safe\DateTimeImmutable;
-use function Safe\json_decode;
 
 final class AssetController
 {
@@ -144,7 +143,7 @@ final class AssetController
 		}
 
 		/** @var array{tickerId: int} $requestBody */
-		$requestBody = json_decode($request->getBody()->getContents(), assoc: true);
+		$requestBody = json_decode($request->getBody()->getContents(), associative: true);
 
 		$ticker = $this->tickerProvider->getTicker($requestBody['tickerId']);
 		if ($ticker === null) {
