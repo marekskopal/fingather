@@ -37,7 +37,7 @@ class CalculatedGroupDataProvider
 		$dateTime = DateTimeUtils::setEndOfDateTime($dateTime);
 
 		$assetDatas = [];
-		$firstTransactionActionCreated = new \Safe\DateTimeImmutable();
+		$firstTransactionActionCreated = new DateTimeImmutable();
 
 		$assets = $this->assetProvider->getAssets(
 			user: $user,

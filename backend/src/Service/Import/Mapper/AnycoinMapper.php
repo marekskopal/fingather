@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Import\Mapper;
 
+use DateTimeImmutable;
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Service\Import\Mapper\Dto\MappingDto;
 use FinGather\Utils\DateTimeUtils;
-use Safe\DateTimeImmutable;
 
 final class AnycoinMapper extends CsvMapper
 {
@@ -20,9 +20,10 @@ final class AnycoinMapper extends CsvMapper
 	{
 		return new MappingDto(
 			actionType: 'ACTION',
-			created: fn (array $record): string => DateTimeUtils::formatZulu(
-				DateTimeImmutable::createFromFormat('j. n. Y H:i:s', $record['DATE']),
-			),
+			created: function (array $record): ?string {
+				$datetime = DateTimeImmutable::createFromFormat('j. n. Y H:i:s', $record['DATE']);
+				return $datetime instanceof DateTimeImmutable ? DateTimeUtils::formatZulu($datetime) : null;
+			},
 			ticker: fn (array $record): string => substr($record['SYMBOL'], 0, 3),
 			units: 'QUANTY',
 			price: 'PRICE',

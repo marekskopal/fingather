@@ -17,7 +17,6 @@ use Psr\Log\LoggerInterface;
 use Spiral\RoadRunner\Environment\Mode;
 use Spiral\RoadRunner\EnvironmentInterface;
 use Spiral\RoadRunner\Jobs\Consumer;
-use function Safe\file_put_contents;
 use const FILE_APPEND;
 
 final class JobsDispatcher implements Dispatcher

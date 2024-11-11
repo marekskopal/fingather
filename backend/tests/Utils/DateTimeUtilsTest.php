@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace FinGather\Tests\Utils;
 
+use DateTimeImmutable;
 use FinGather\Dto\Enum\RangeEnum;
 use FinGather\Helper\DatePeriod;
 use FinGather\Utils\DateTimeUtils;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\TestCase;
-use Safe\DateTimeImmutable;
 
 #[CoversClass(DateTimeUtils::class)]
 #[CoversClass(DatePeriod::class)]

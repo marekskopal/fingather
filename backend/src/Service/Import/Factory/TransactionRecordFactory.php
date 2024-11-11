@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Import\Factory;
 
+use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Service\Import\Entity\TransactionRecord;
 use FinGather\Service\Import\Mapper\MapperInterface;
-use Safe\DateTimeImmutable;
 
 final class TransactionRecordFactory
 {

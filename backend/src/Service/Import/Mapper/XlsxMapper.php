@@ -6,9 +6,6 @@ namespace FinGather\Service\Import\Mapper;
 
 use PhpOffice\PhpSpreadsheet\Exception;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
-use function Safe\file_put_contents;
-use function Safe\tempnam;
-use function Safe\unlink;
 use const PATHINFO_EXTENSION;
 
 abstract class XlsxMapper implements XlsxMapperInterface
@@ -22,6 +19,9 @@ abstract class XlsxMapper implements XlsxMapperInterface
 		$reader->setReadDataOnly(true);
 
 		$tempFile = tempnam(sys_get_temp_dir(), self::TEMP_FILE_PREFIX);
+		if ($tempFile === false) {
+			return [];
+		}
 
 		file_put_contents($tempFile, $content);
 

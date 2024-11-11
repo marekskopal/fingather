@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Service\Import\ApiImport\Processor;
 
 use DateInterval;
+use DateTimeImmutable;
 use FinGather\Model\Entity\ApiImport;
 use FinGather\Model\Entity\ApiKey;
 use FinGather\Model\Entity\Enum\ApiImportStatusEnum;
@@ -18,9 +19,6 @@ use MarekSkopal\Trading212\Dto\HistoricalItems\Export;
 use MarekSkopal\Trading212\Dto\HistoricalItems\ExportCsv;
 use MarekSkopal\Trading212\Trading212;
 use Ramsey\Uuid\Uuid;
-use Safe\DateTimeImmutable;
-use Safe\Exceptions\FilesystemException;
-use function Safe\file_get_contents;
 
 class Trading212Processor implements ProcessorInterface
 {
@@ -107,15 +105,14 @@ class Trading212Processor implements ProcessorInterface
 			return;
 		}
 
-		try {
-			$downloadLink = $export->downloadLink;
-			assert($downloadLink !== null);
-			$csvFile = file_get_contents($downloadLink);
-		} catch (FilesystemException $exception) {
+		$downloadLink = $export->downloadLink;
+		assert($downloadLink !== null);
+		$csvFile = file_get_contents($downloadLink);
+		if ($csvFile === false) {
 			$this->apiImportProvider->updateApiImport(
 				apiImport: $apiImport,
 				status: ApiImportStatusEnum::Error,
-				error: 'Error downloading file: ' . $exception->getMessage(),
+				error: 'Error downloading file: ' . $downloadLink,
 			);
 			return;
 		}

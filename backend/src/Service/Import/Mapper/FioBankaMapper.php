@@ -6,8 +6,6 @@ namespace FinGather\Service\Import\Mapper;
 
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Service\Import\Mapper\Dto\MappingDto;
-use Safe\Exceptions\IconvException;
-use function Safe\iconv;
 
 final class FioBankaMapper extends CsvMapper
 {
@@ -64,10 +62,9 @@ final class FioBankaMapper extends CsvMapper
 
 	protected function sanitizeContent(string $content): string
 	{
-		try {
-			$content = @iconv('WINDOWS-1250', 'UTF-8//TRANSLIT', $content);
-		} catch (IconvException) {
-			return $content;
+		$content = @iconv('WINDOWS-1250', 'UTF-8//TRANSLIT', $content);
+		if ($content === false) {
+			return '';
 		}
 
 		$lines = explode("\n", $content);

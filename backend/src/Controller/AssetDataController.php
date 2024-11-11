@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Controller;
 
+use DateTimeImmutable;
 use FinGather\Dto\AssetDataDto;
 use FinGather\Dto\Enum\RangeEnum;
 use FinGather\Response\NotFoundResponse;
@@ -17,7 +18,6 @@ use Laminas\Diactoros\Response\JsonResponse;
 use MarekSkopal\Router\Attribute\RouteGet;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Safe\DateTimeImmutable;
 
 final class AssetDataController
 {
@@ -67,15 +67,8 @@ final class AssetDataController
 			shiftStartDate: $range === RangeEnum::All,
 		);
 		foreach ($datePeriod as $dateTime) {
-			/** @var \DateTimeImmutable $dateTime */
-			$dateTimeConverted = DateTimeImmutable::createFromRegular($dateTime);
-
-			$assetData = $this->assetDataProvider->getAssetData(
-				user: $user,
-				portfolio: $portfolio,
-				asset: $asset,
-				dateTime: $dateTimeConverted,
-			);
+			/** @var DateTimeImmutable $dateTime */
+			$assetData = $this->assetDataProvider->getAssetData(user: $user, portfolio: $portfolio, asset: $asset, dateTime: $dateTime);
 
 			if ($assetData === null) {
 				$assetDatas[] = AssetDataDto::fromNull($dateTime);

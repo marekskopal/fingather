@@ -25,7 +25,6 @@ use Laminas\Diactoros\Response\JsonResponse;
 use MarekSkopal\Router\Attribute\RoutePost;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use function Safe\json_decode;
 
 final class AuthenticationController
 {
@@ -41,7 +40,7 @@ final class AuthenticationController
 	public function actionPostLogin(ServerRequestInterface $request): ResponseInterface
 	{
 		/** @var array{email: string, password:string} $requestBody*/
-		$requestBody = json_decode($request->getBody()->getContents(), assoc: true);
+		$requestBody = json_decode($request->getBody()->getContents(), associative: true);
 
 		$credentials = new CredentialsDto($requestBody['email'], $requestBody['password']);
 
@@ -60,7 +59,7 @@ final class AuthenticationController
 		 *     refreshToken: string,
 		 * } $requestBody
 		 */
-		$requestBody = json_decode($request->getBody()->getContents(), assoc: true);
+		$requestBody = json_decode($request->getBody()->getContents(), associative: true);
 
 		$refreshToken = RefreshTokenDto::fromArray($requestBody);
 
@@ -91,7 +90,7 @@ final class AuthenticationController
 		 *     defaultCurrencyId: int,
 		 * } $requestBody
 		 */
-		$requestBody = json_decode($request->getBody()->getContents(), assoc: true);
+		$requestBody = json_decode($request->getBody()->getContents(), associative: true);
 
 		$signUp = SignUpDto::fromArray($requestBody);
 
@@ -128,7 +127,7 @@ final class AuthenticationController
 		 *     email: string,
 		 * } $requestBody
 		 */
-		$requestBody = json_decode($request->getBody()->getContents(), assoc: true);
+		$requestBody = json_decode($request->getBody()->getContents(), associative: true);
 
 		$existsUser = $this->userProvider->getUserByEmail($requestBody['email']);
 

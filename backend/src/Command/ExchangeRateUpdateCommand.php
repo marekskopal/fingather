@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace FinGather\Command;
 
+use DateTimeImmutable;
 use FinGather\App\ApplicationFactory;
 use FinGather\Service\Provider\CurrencyProvider;
 use FinGather\Service\Provider\DataProvider;
 use FinGather\Service\Provider\ExchangeRateProvider;
-use Safe\DateTimeImmutable;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 

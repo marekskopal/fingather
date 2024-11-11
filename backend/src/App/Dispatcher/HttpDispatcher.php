@@ -15,7 +15,6 @@ use Spiral\RoadRunner\Environment\Mode;
 use Spiral\RoadRunner\EnvironmentInterface;
 use Spiral\RoadRunner\Http\PSR7Worker;
 use Spiral\RoadRunner\Worker;
-use function Safe\file_put_contents;
 use const FILE_APPEND;
 
 final class HttpDispatcher implements Dispatcher

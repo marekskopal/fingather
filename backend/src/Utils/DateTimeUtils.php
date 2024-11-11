@@ -30,50 +30,37 @@ final class DateTimeUtils
 	): DatePeriod {
 		return match ($range) {
 			RangeEnum::SevenDays => new DatePeriod(
-				// @phpstan-ignore-next-line
 				(new DateTimeImmutable('-1 week' . ($shiftStartDate ? ' -1 day' : '')))->setTime(0, 0),
 				new DateInterval('P1D'),
-				// @phpstan-ignore-next-line
 				new DateTimeImmutable('today'),
 			),
 			RangeEnum::OneMonth => new DatePeriod(
-				// @phpstan-ignore-next-line
 				(new DateTimeImmutable('-1 month' . ($shiftStartDate ? ' -1 day' : '')))->setTime(0, 0),
 				new DateInterval('P1D'),
-				// @phpstan-ignore-next-line
 				new DateTimeImmutable('today'),
 			),
 			RangeEnum::ThreeMonths => new DatePeriod(
-				// @phpstan-ignore-next-line
 				(new DateTimeImmutable('-3 months' . ($shiftStartDate ? ' -1 day' : '')))->setTime(0, 0),
 				new DateInterval('P1D'),
-				// @phpstan-ignore-next-line
 				new DateTimeImmutable('today'),
 			),
 			RangeEnum::SixMonths => new DatePeriod(
-				// @phpstan-ignore-next-line
 				(new DateTimeImmutable('-3 months' . ($shiftStartDate ? ' -1 week' : '')))->setTime(0, 0),
 				new DateInterval('P1W'),
-				// @phpstan-ignore-next-line
 				new DateTimeImmutable('today'),
 			),
 			RangeEnum::YTD => new DatePeriod(
-				// @phpstan-ignore-next-line
 				(new DateTimeImmutable('first day of january this year' . ($shiftStartDate ? ' -1 week' : '')))->setTime(0, 0),
 				new DateInterval('P1W'),
-				// @phpstan-ignore-next-line
 				new DateTimeImmutable('today'),
 			),
 			RangeEnum::OneYear => new DatePeriod(
-				// @phpstan-ignore-next-line
 				(new DateTimeImmutable('-1 year' . ($shiftStartDate ? ' -1 week' : '')))->setTime(0, 0),
 				new DateInterval('P1W'),
-				// @phpstan-ignore-next-line
 				new DateTimeImmutable('today'),
 			),
 			RangeEnum::All => (function () use ($firstDate, $shiftStartDate): DatePeriod {
 				$startDate = self::getStartDate($firstDate, $shiftStartDate);
-				// @phpstan-ignore-next-line
 				$endDate = new DateTimeImmutable('today');
 
 				return new DatePeriod(
@@ -84,7 +71,6 @@ final class DateTimeUtils
 			})(),
 			RangeEnum::Custom => (function () use ($customRangeFrom, $customRangeTo, $shiftStartDate): DatePeriod {
 				$startDate = $customRangeFrom ?? self::getStartDate($customRangeFrom, $shiftStartDate);
-				// @phpstan-ignore-next-line
 				$endDate = $customRangeTo ?? new DateTimeImmutable('today');
 
 				return new DatePeriod(
@@ -109,9 +95,7 @@ final class DateTimeUtils
 	private static function getStartDate(?DateTimeImmutable $firstDate = null, bool $shiftStartDate = false): DateTimeImmutable
 	{
 		return $shiftStartDate
-			// @phpstan-ignore-next-line
 			? (($firstDate ?? new DateTimeImmutable(self::FirstDate))->sub(DateInterval::createFromDateString('1 month'))->setTime(0, 0))
-			// @phpstan-ignore-next-line
 			: (($firstDate ?? new DateTimeImmutable(self::FirstDate))->setTime(0, 0));
 	}
 

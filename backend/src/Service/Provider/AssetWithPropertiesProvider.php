@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Provider;
 
+use DateTimeImmutable;
 use FinGather\Dto\AssetDto;
 use FinGather\Dto\AssetsWithPropertiesDto;
 use FinGather\Dto\AssetWithPropertiesDto;
@@ -11,7 +12,6 @@ use FinGather\Dto\Enum\AssetOrderEnum;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Utils\CalculatorUtils;
-use Safe\DateTimeImmutable;
 
 class AssetWithPropertiesProvider
 {

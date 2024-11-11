@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Import\Mapper;
 
+use DateTimeImmutable;
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Service\Import\Mapper\Dto\MappingDto;
-use Safe\DateTimeImmutable;
 
 final class EtoroMapper extends XlsxMapper
 {
@@ -19,9 +19,12 @@ final class EtoroMapper extends XlsxMapper
 	{
 		return new MappingDto(
 			actionType: 'B',
-			created: fn (array $record): string => DateTimeImmutable::createFromFormat('d/m/Y H:i:s', $record['A'])->format(
-				'Y-m-d H:i:s',
-			),
+			created: function (array $record): ?string {
+				$dateTime = DateTimeImmutable::createFromFormat('d/m/Y H:i:s', $record['A']);
+				return $dateTime instanceof DateTimeImmutable ? $dateTime->format(
+					'Y-m-d H:i:s',
+				) : null;
+			},
 			ticker: fn (array $record): string => explode('/', $record['C'])[0],
 			units: fn (array $record): ?string => $record['E'] !== '-' ? $record['E'] : null,
 			price: 'D',

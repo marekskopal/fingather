@@ -6,6 +6,7 @@ namespace FinGather\Service\Provider;
 
 use Cycle\Database\Exception\StatementException\ConstrainException;
 use DateInterval;
+use DateTime;
 use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Model\Entity\Enum\MarketTypeEnum;
@@ -21,7 +22,6 @@ use MarekSkopal\TwelveData\Exception\BadRequestException;
 use MarekSkopal\TwelveData\Exception\NotFoundException;
 use MarekSkopal\TwelveData\TwelveData;
 use Nette\Caching\Cache;
-use Safe\DateTime;
 
 class TickerDataProvider
 {
@@ -121,7 +121,7 @@ class TickerDataProvider
 			$actualDate->sub(DateInterval::createFromDateString('1 day'));
 		}
 
-		$firstDate = new \Safe\DateTimeImmutable(DateTimeUtils::FirstDate . ' 00:00:00');
+		$firstDate = new DateTimeImmutable(DateTimeUtils::FirstDate . ' 00:00:00');
 
 		if ($lastTickerData !== null && ($actualDate->getTimestamp() - $lastTickerData->getDate()->getTimestamp() < 86400)) {
 			return null;

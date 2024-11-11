@@ -25,7 +25,6 @@ use MarekSkopal\Router\Attribute\RoutePost;
 use MarekSkopal\Router\Attribute\RoutePut;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use function Safe\json_decode;
 
 final class UserController extends AdminController
 {
@@ -81,7 +80,7 @@ final class UserController extends AdminController
 		$this->checkAdminRole($request);
 
 		/** @var array{email: string, name: string, password: string, defaultCurrencyId: int, role: value-of<UserRoleEnum>} $requestBody */
-		$requestBody = json_decode($request->getBody()->getContents(), assoc: true);
+		$requestBody = json_decode($request->getBody()->getContents(), associative: true);
 
 		$userCreateDto = UserCreateDto::fromArray($requestBody);
 
@@ -120,7 +119,7 @@ final class UserController extends AdminController
 		}
 
 		/** @var array{name: string, password: string, defaultCurrencyId: int, role: value-of<UserRoleEnum>} $requestBody */
-		$requestBody = json_decode($request->getBody()->getContents(), assoc: true);
+		$requestBody = json_decode($request->getBody()->getContents(), associative: true);
 
 		return new JsonResponse(UserDto::fromEntity($this->userProvider->updateUser(
 			user: $user,

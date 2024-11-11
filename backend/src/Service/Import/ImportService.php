@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Import;
 
+use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Model\Entity\Broker;
 use FinGather\Model\Entity\Currency;
@@ -32,7 +33,6 @@ use FinGather\Service\Provider\ImportProvider;
 use FinGather\Service\Provider\TickerProvider;
 use FinGather\Service\Provider\TransactionProvider;
 use Psr\Log\LoggerInterface;
-use Safe\DateTimeImmutable;
 
 final class ImportService
 {
@@ -87,7 +87,7 @@ final class ImportService
 			return;
 		}
 
-		$this->dataProvider->deleteUserData($user, $portfolio, DateTimeImmutable::createFromRegular($firstDate));
+		$this->dataProvider->deleteUserData($user, $portfolio, $firstDate);
 	}
 
 	private function importDataFile(
@@ -96,8 +96,8 @@ final class ImportService
 		Portfolio $portfolio,
 		Group $othersGroup,
 		Currency $defaultCurrency,
-		?\DateTimeImmutable $firstDate,
-	): ?\DateTimeImmutable {
+		?DateTimeImmutable $firstDate,
+	): ?DateTimeImmutable {
 		try {
 			$importMapper = $this->importMapperFactory->createImportMapper(
 				fileName: $importFile->getFileName(),

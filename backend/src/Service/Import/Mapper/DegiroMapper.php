@@ -6,7 +6,6 @@ namespace FinGather\Service\Import\Mapper;
 
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Service\Import\Mapper\Dto\MappingDto;
-use function Safe\preg_match;
 
 final class DegiroMapper extends CsvMapper
 {

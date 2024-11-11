@@ -20,7 +20,6 @@ use MarekSkopal\Router\Attribute\RoutePost;
 use MarekSkopal\Router\Attribute\RoutePut;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use function Safe\json_decode;
 
 final class BrokerController
 {
@@ -86,7 +85,7 @@ final class BrokerController
 		}
 
 		/** @var array{name: string, importType: value-of<BrokerImportTypeEnum>} $requestBody */
-		$requestBody = json_decode($request->getBody()->getContents(), assoc: true);
+		$requestBody = json_decode($request->getBody()->getContents(), associative: true);
 
 		return new JsonResponse(BrokerDto::fromEntity($this->brokerProvider->createBroker(
 			user: $user,
@@ -112,7 +111,7 @@ final class BrokerController
 		}
 
 		/** @var array{name: string, importType: value-of<BrokerImportTypeEnum>} $requestBody */
-		$requestBody = json_decode($request->getBody()->getContents(), assoc: true);
+		$requestBody = json_decode($request->getBody()->getContents(), associative: true);
 
 		return new JsonResponse(BrokerDto::fromEntity($this->brokerProvider->updateBroker(
 			broker: $broker,

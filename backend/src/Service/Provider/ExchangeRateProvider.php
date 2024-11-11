@@ -48,7 +48,7 @@ class ExchangeRateProvider
 			return $exchangeRate;
 		}
 
-		$today = new \Safe\DateTimeImmutable('today');
+		$today = new DateTimeImmutable('today');
 		if ($date->getTimestamp() === $today->getTimestamp()) {
 			$date = $date->sub(DateInterval::createFromDateString('1 day'));
 		}
@@ -89,7 +89,7 @@ class ExchangeRateProvider
 		}
 
 		$lastExchangeRate = $this->exchangeRateRepository->findLastExchangeRate($currencyTo->getId());
-		$startDate = $lastExchangeRate?->getDate() ?? new \Safe\DateTimeImmutable('2020-01-01');
+		$startDate = $lastExchangeRate?->getDate() ?? new DateTimeImmutable('2020-01-01');
 
 		try {
 			$timeSeries = $this->twelveData->getCoreData()->timeSeries(symbol: 'USD/' . $code, startDate: $startDate);

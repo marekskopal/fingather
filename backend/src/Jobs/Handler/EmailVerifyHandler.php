@@ -12,7 +12,6 @@ use Spiral\RoadRunner\Jobs\Task\ReceivedTaskInterface;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\Transport;
 use Symfony\Component\Mime\Email;
-use function Safe\json_decode;
 
 final class EmailVerifyHandler implements JobHandler
 {
@@ -34,7 +33,7 @@ final class EmailVerifyHandler implements JobHandler
 		 *     token: string,
 		 * } $payload
 		 */
-		$payload = json_decode($task->getPayload(), assoc: true);
+		$payload = json_decode($task->getPayload(), associative: true);
 
 		$emailVerify = EmailVerifyDto::fromArray($payload);
 

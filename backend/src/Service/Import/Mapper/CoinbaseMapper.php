@@ -7,7 +7,6 @@ namespace FinGather\Service\Import\Mapper;
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Service\Import\Mapper\Dto\MappingDto;
 use FinGather\Service\Import\Mapper\Dto\MoneyValueDto;
-use function Safe\preg_match;
 
 final class CoinbaseMapper extends CsvMapper
 {
@@ -70,7 +69,6 @@ final class CoinbaseMapper extends CsvMapper
 	{
 		$matches = [];
 		preg_match('/^([^\d]+)([\d.]+)$/', $value, $matches);
-		/** @var array{0: string, 1: string, 2:string} $matches */
-		return new MoneyValueDto($matches[2], $matches[1]);
+		return new MoneyValueDto($matches[2] ?? '0', $matches[1] ?? '');
 	}
 }

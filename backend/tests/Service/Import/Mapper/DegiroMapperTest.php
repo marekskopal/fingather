@@ -13,7 +13,6 @@ use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
-use function Safe\file_get_contents;
 
 #[CoversClass(DegiroMapper::class)]
 #[UsesClass(MappingDto::class)]
@@ -58,6 +57,9 @@ final class DegiroMapperTest extends TestCase
 		$mapper = new DegiroMapper();
 
 		$fileContent = file_get_contents(__DIR__ . '/../../../Fixtures/Import/File/' . $fileName);
+		if ($fileContent === false) {
+			self::fail('File not found');
+		}
 
 		self::assertSame($expected, $mapper->check($fileContent, $fileName));
 	}
@@ -75,6 +77,9 @@ final class DegiroMapperTest extends TestCase
 		$reflection = new ReflectionClass($mapper);
 
 		$fileContent = file_get_contents(__DIR__ . '/../../../Fixtures/Import/File/degiro_export.csv');
+		if ($fileContent === false) {
+			self::fail('File not found');
+		}
 
 		$method = $reflection->getMethod('sanitizeContent');
 		$method->setAccessible(true);

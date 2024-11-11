@@ -20,7 +20,6 @@ use MarekSkopal\Router\Attribute\RoutePost;
 use MarekSkopal\Router\Attribute\RoutePut;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use function Safe\json_decode;
 
 final class ApiKeyController
 {
@@ -86,7 +85,7 @@ final class ApiKeyController
 		}
 
 		/** @var array{type: value-of<ApiKeyTypeEnum>, apiKey: string} $requestBody */
-		$requestBody = json_decode($request->getBody()->getContents(), assoc: true);
+		$requestBody = json_decode($request->getBody()->getContents(), associative: true);
 
 		return new JsonResponse(ApiKeyDto::fromEntity($this->apiKeyProvider->createApiKey(
 			user: $user,
@@ -112,7 +111,7 @@ final class ApiKeyController
 		}
 
 		/** @var array{apiKey: string} $requestBody */
-		$requestBody = json_decode($request->getBody()->getContents(), assoc: true);
+		$requestBody = json_decode($request->getBody()->getContents(), associative: true);
 
 		return new JsonResponse(ApiKeyDto::fromEntity($this->apiKeyProvider->updateApiKey(
 			apiKeyEntity: $apiKey,

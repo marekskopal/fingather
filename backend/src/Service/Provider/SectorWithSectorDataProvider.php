@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Provider;
 
+use DateTimeImmutable;
 use FinGather\Dto\GroupDataDto;
 use FinGather\Dto\SectorWithSectorDataDto;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Utils\CalculatorUtils;
-use Safe\DateTimeImmutable;
 
 class SectorWithSectorDataProvider
 {

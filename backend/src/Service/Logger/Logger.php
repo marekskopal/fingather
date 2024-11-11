@@ -7,8 +7,6 @@ namespace FinGather\Service\Logger;
 use Psr\Log\LoggerInterface;
 use Tracy\Bridges\Psr\TracyToPsrLoggerAdapter;
 use Tracy\Debugger;
-use function Safe\ini_set;
-use function Safe\mb_internal_encoding;
 use const E_ALL;
 
 final class Logger

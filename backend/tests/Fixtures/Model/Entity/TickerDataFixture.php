@@ -23,7 +23,7 @@ final class TickerDataFixture
 	): TickerData {
 		return new TickerData(
 			ticker: $ticker ?? TickerFixture::getTicker(),
-			date: $date ?? new \Safe\DateTimeImmutable(),
+			date: $date ?? new DateTimeImmutable(),
 			open: $open ?? new Decimal(10),
 			high: $high ?? new Decimal(20),
 			low: $low ?? new Decimal(5),
