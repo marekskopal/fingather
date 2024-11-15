@@ -136,10 +136,10 @@
                 <div class="value h3">
                     {{portfolioData.dividendYield | number:'1.2-2' | money: defaultCurrency.id | async}}
                 </div>
-                <div [coloredValue]="portfolioData.fxImpact">
+                <div [coloredValue]="portfolioData.dividendYield">
                     {{portfolioData.dividendYieldPercentage | number:'1.2-2'}}%
                 </div>
-                <div [coloredValue]="portfolioData.fxImpact">
+                <div [coloredValue]="portfolioData.dividendYield">
                     {{portfolioData.dividendYieldPercentagePerAnnum | number:'1.2-2'}}%&nbsp;p.a.
                 </div>
             </div>
