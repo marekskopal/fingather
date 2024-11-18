@@ -6,6 +6,7 @@ namespace FinGather\Service\Import\Mapper;
 
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Service\Import\Mapper\Dto\MappingDto;
+use Override;
 
 final class XtbMapper extends CsvMapper
 {
@@ -32,6 +33,7 @@ final class XtbMapper extends CsvMapper
 		return $mappingDto;
 	}
 
+	#[Override]
 	public function getCsvDelimiter(): string
 	{
 		return ';';

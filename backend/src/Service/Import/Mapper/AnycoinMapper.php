@@ -8,6 +8,7 @@ use DateTimeImmutable;
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Service\Import\Mapper\Dto\MappingDto;
 use FinGather\Utils\DateTimeUtils;
+use Override;
 
 final class AnycoinMapper extends CsvMapper
 {
@@ -32,6 +33,7 @@ final class AnycoinMapper extends CsvMapper
 		);
 	}
 
+	#[Override]
 	public function check(string $content, string $fileName): bool
 	{
 		if (!parent::check($content, $fileName)) {

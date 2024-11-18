@@ -6,6 +6,7 @@ namespace FinGather\Service\Import\Mapper;
 
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Service\Import\Mapper\Dto\MappingDto;
+use Override;
 
 final class DegiroMapper extends CsvMapper
 {
@@ -69,6 +70,7 @@ final class DegiroMapper extends CsvMapper
 			array_key_exists('Popis', $records[1]);
 	}
 
+	#[Override]
 	protected function sanitizeContent(string $content): string
 	{
 		$lines = explode("\n", $content);

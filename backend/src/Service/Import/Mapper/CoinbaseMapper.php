@@ -7,6 +7,7 @@ namespace FinGather\Service\Import\Mapper;
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Service\Import\Mapper\Dto\MappingDto;
 use FinGather\Service\Import\Mapper\Dto\MoneyValueDto;
+use Override;
 
 final class CoinbaseMapper extends CsvMapper
 {
@@ -50,11 +51,13 @@ final class CoinbaseMapper extends CsvMapper
 	}
 
 	/** @return list<int> */
+	#[Override]
 	public function getAllowedMarketIds(): array
 	{
 		return [83];
 	}
 
+	#[Override]
 	protected function sanitizeContent(string $content): string
 	{
 		$lines = explode("\n", $content);

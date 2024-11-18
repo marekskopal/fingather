@@ -7,6 +7,7 @@ namespace FinGather\Route\Strategy;
 use FinGather\Middleware\Exception\NotAuthorizedException;
 use FinGather\Response\ErrorResponse;
 use League\Route\Route;
+use Override;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -22,6 +23,7 @@ final class JsonStrategy extends \League\Route\Strategy\JsonStrategy
 		parent::__construct($responseFactory, $jsonFlags);
 	}
 
+	#[Override]
 	public function invokeRouteCallable(Route $route, ServerRequestInterface $request): ResponseInterface
 	{
 		$controller = $route->getCallable($this->getContainer());
@@ -47,6 +49,7 @@ final class JsonStrategy extends \League\Route\Strategy\JsonStrategy
 		return $this->decorateResponse($response);
 	}
 
+	#[Override]
 	public function getThrowableHandler(): MiddlewareInterface
 	{
 		return new class ($this->logger) implements MiddlewareInterface

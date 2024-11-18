@@ -6,6 +6,7 @@ namespace FinGather\Service\Import\Mapper;
 
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Service\Import\Mapper\Dto\MappingDto;
+use Override;
 
 final class Trading212Mapper extends CsvMapper
 {
@@ -41,6 +42,7 @@ final class Trading212Mapper extends CsvMapper
 		);
 	}
 
+	#[Override]
 	public function check(string $content, string $fileName): bool
 	{
 		if (!parent::check($content, $fileName)) {
@@ -58,6 +60,7 @@ final class Trading212Mapper extends CsvMapper
 	}
 
 	/** @return list<int> */
+	#[Override]
 	public function getAllowedMarketIds(): array
 	{
 		return [

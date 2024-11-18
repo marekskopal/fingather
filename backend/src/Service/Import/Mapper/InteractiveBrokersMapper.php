@@ -6,6 +6,7 @@ namespace FinGather\Service\Import\Mapper;
 
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Service\Import\Mapper\Dto\MappingDto;
+use Override;
 
 final class InteractiveBrokersMapper extends CsvMapper
 {
@@ -32,6 +33,7 @@ final class InteractiveBrokersMapper extends CsvMapper
 		);
 	}
 
+	#[Override]
 	public function check(string $content, string $fileName): bool
 	{
 		if (!parent::check($content, $fileName)) {
