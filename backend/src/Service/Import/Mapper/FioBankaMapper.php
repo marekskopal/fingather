@@ -6,6 +6,7 @@ namespace FinGather\Service\Import\Mapper;
 
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Service\Import\Mapper\Dto\MappingDto;
+use Override;
 
 final class FioBankaMapper extends CsvMapper
 {
@@ -48,6 +49,7 @@ final class FioBankaMapper extends CsvMapper
 	}
 
 	/** @return list<int> */
+	#[Override]
 	public function getAllowedMarketIds(): array
 	{
 		return [
@@ -55,11 +57,13 @@ final class FioBankaMapper extends CsvMapper
 		];
 	}
 
+	#[Override]
 	public function getCsvDelimiter(): string
 	{
 		return ';';
 	}
 
+	#[Override]
 	protected function sanitizeContent(string $content): string
 	{
 		$content = @iconv('WINDOWS-1250', 'UTF-8//TRANSLIT', $content);

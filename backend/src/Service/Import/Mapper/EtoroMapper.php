@@ -7,6 +7,7 @@ namespace FinGather\Service\Import\Mapper;
 use DateTimeImmutable;
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Service\Import\Mapper\Dto\MappingDto;
+use Override;
 
 final class EtoroMapper extends XlsxMapper
 {
@@ -33,6 +34,7 @@ final class EtoroMapper extends XlsxMapper
 		);
 	}
 
+	#[Override]
 	public function getSheetIndex(): int
 	{
 		return 2;
