@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "24db2116a3a75895b556c66cf1cc19c8",
+    "content-hash": "9266f2ad5f130e27052a8c064318b0a6",
     "packages": [
         {
             "name": "brick/math",
@@ -1662,16 +1662,16 @@
         },
         {
             "name": "league/route",
-            "version": "dev-main",
+            "version": "6.1.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/marekskopal/route.git",
-                "reference": "b39e45c7901cbe2ec9ac943e1f59efbe4f9ff067"
+                "url": "https://github.com/thephpleague/route.git",
+                "reference": "fe973177260c19cb696654f1b0f868a8388ee035"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/marekskopal/route/zipball/b39e45c7901cbe2ec9ac943e1f59efbe4f9ff067",
-                "reference": "b39e45c7901cbe2ec9ac943e1f59efbe4f9ff067",
+                "url": "https://api.github.com/repos/thephpleague/route/zipball/fe973177260c19cb696654f1b0f868a8388ee035",
+                "reference": "fe973177260c19cb696654f1b0f868a8388ee035",
                 "shasum": ""
             },
             "require": {
@@ -1680,7 +1680,7 @@
                 "php": "^8.1",
                 "psr/container": "^2.0",
                 "psr/http-factory": "^1.0",
-                "psr/http-message": "^1.1|^2.0",
+                "psr/http-message": "^2.0",
                 "psr/http-server-handler": "^1.0.1",
                 "psr/http-server-middleware": "^1.0.1",
                 "psr/simple-cache": "^3.0"
@@ -1715,25 +1715,7 @@
                     "League\\Route\\": "src"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "League\\Route\\": "tests"
-                },
-                "files": [
-                    "tests/Fixture/function.php"
-                ]
-            },
-            "scripts": {
-                "analyse": [
-                    "vendor/bin/phpstan analyse -l 4 --no-progress src"
-                ],
-                "check": [
-                    "vendor/bin/phpunit && vendor/bin/phpstan analyse -l 4 --no-progress src"
-                ],
-                "test": [
-                    "vendor/bin/phpunit"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1757,15 +1739,16 @@
                 "router"
             ],
             "support": {
-                "source": "https://github.com/marekskopal/route/tree/main"
+                "issues": "https://github.com/thephpleague/route/issues",
+                "source": "https://github.com/thephpleague/route/tree/6.1.1"
             },
             "funding": [
                 {
-                    "type": "github",
-                    "url": "https://github.com/philipobenito"
+                    "url": "https://github.com/philipobenito",
+                    "type": "github"
                 }
             ],
-            "time": "2024-11-18T20:39:45+00:00"
+            "time": "2024-11-20T12:31:36+00:00"
         },
         {
             "name": "maennchen/zipstream-php",
@@ -9346,18 +9329,9 @@
             "time": "2024-03-03T12:36:25+00:00"
         }
     ],
-    "aliases": [
-        {
-            "package": "league/route",
-            "version": "dev-main",
-            "alias": "6.0",
-            "alias_normalized": "6.0.0.0"
-        }
-    ],
+    "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "league/route": 20
-    },
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
