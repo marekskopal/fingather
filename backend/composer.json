@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "php": ">=8.3",
+        "php": ">=8.4",
         "contributte/redis": "^0.6.0",
         "cycle/annotated": "^4.1",
         "cycle/database": "^2.10",
@@ -83,7 +83,7 @@
     },
     "config": {
         "platform": {
-            "php": "8.3"
+            "php": "8.4"
         },
         "sort-packages": true,
         "allow-plugins": {
