@@ -1,6 +1,6 @@
 import {
     ChangeDetectionStrategy,
-    Component, inject, input, InputSignal, OnDestroy, OnInit
+    Component, inject, input, InputSignal, OnDestroy, OnInit,
 } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { Alert, AlertType } from '@app/models';
@@ -86,7 +86,7 @@ export class AlertComponent implements OnInit, OnDestroy {
             [AlertType.Success]: 'alert alert-success',
             [AlertType.Error]: 'alert alert-danger',
             [AlertType.Info]: 'alert alert-info',
-            [AlertType.Warning]: 'alert alert-warning'
+            [AlertType.Warning]: 'alert alert-warning',
         };
 
         classes.push(alertTypeClass[alert.type]);

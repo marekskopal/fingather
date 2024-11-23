@@ -17,13 +17,12 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
 @Component({
     selector: 'fingather-app',
     templateUrl: 'app.component.html',
-    standalone: true,
     imports: [
         CommonModule,
         NgbModule,
         NavigationComponent,
         AlertComponent,
-        RouterOutlet
+        RouterOutlet,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -34,7 +33,7 @@ export class AppComponent {
 
     public constructor(
         private readonly translateService: TranslateService,
-        private readonly matIconRegistry: MatIconRegistry
+        private readonly matIconRegistry: MatIconRegistry,
     ) {
         translateService.addLangs(['en', 'cs']);
         translateService.use(localStorage.getItem('currentLanguage') ?? 'en');

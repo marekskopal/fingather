@@ -2,14 +2,14 @@ import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core'
 import {ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatIcon} from "@angular/material/icon";
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
-import { AssetService, PortfolioService
+import { AssetService, PortfolioService,
 } from '@app/services';
 import { BaseForm } from "@app/shared/components/form/base-form";
 import {InputValidatorComponent} from "@app/shared/components/input-validator/input-validator.component";
 import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selector/portfolio-selector.component";
 import {SaveButtonComponent} from "@app/shared/components/save-button/save-button.component";
 import {
-    TickerSearchSelectorComponent
+    TickerSearchSelectorComponent,
 } from "@app/shared/components/ticker-search-selector/ticker-search-selector.component";
 import {NgbHighlight, NgbTypeahead} from "@ng-bootstrap/ng-bootstrap";
 import { TranslatePipe} from "@ngx-translate/core";
@@ -17,7 +17,6 @@ import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'add-asset.component.html',
-    standalone: true,
     imports: [
         NgbHighlight,
         PortfolioSelectorComponent,
@@ -28,7 +27,7 @@ import { TranslatePipe} from "@ngx-translate/core";
         NgbTypeahead,
         InputValidatorComponent,
         SaveButtonComponent,
-        TickerSearchSelectorComponent
+        TickerSearchSelectorComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

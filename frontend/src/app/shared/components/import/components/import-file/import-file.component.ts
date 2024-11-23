@@ -7,7 +7,7 @@ import {
     input,
     OnInit,
     output,
-    signal
+    signal,
 } from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
 import {ImportDataFile, ImportPrepare} from '@app/models';
@@ -22,11 +22,10 @@ import {NgxFileDropEntry} from "ngx-file-drop";
 @Component({
     templateUrl: 'import-file.component.html',
     selector: 'fingather-import-file',
-    standalone: true,
     imports: [
         MatIcon,
         FileSizePipe,
-        TranslateModule
+        TranslateModule,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -64,7 +63,7 @@ export class ImportFileComponent implements OnInit {
         this.fileReader.onload = (): void => {
             this.createImportPrepare({
                 fileName: this.$droppedFile().fileEntry.name,
-                contents: this.fileReader.result as string
+                contents: this.fileReader.result as string,
             });
         };
 
@@ -97,7 +96,7 @@ export class ImportFileComponent implements OnInit {
 
         this.onDeleteFile$.emit({
             importFileId: importFileId,
-            droppedFile: this.$droppedFile()
+            droppedFile: this.$droppedFile(),
         });
     }
 
@@ -108,9 +107,9 @@ export class ImportFileComponent implements OnInit {
             const importPrepare = await this.importService.createImportPrepare(
                 {
                     uuid: this.$uuid(),
-                    importDataFile: importDataFile
+                    importDataFile: importDataFile,
                 },
-                portfolio.id
+                portfolio.id,
             );
 
             this.$importFileId.set(importPrepare.importFileId);

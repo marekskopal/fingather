@@ -8,13 +8,12 @@ import {TranslateModule} from "@ngx-translate/core";
 @Component({
     selector: 'fingather-asset-selector',
     templateUrl: 'asset-selector.component.html',
-    standalone: true,
     imports: [
         NgbDropdown,
         NgbDropdownToggle,
         NgbDropdownMenu,
         NgbDropdownItem,
-        TranslateModule
+        TranslateModule,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

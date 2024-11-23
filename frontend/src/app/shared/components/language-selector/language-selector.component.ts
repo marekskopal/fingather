@@ -8,13 +8,12 @@ import {TranslateService} from "@ngx-translate/core";
 @Component({
     selector: 'fingather-language-selector',
     templateUrl: 'language-selector.component.html',
-    standalone: true,
     imports: [
         NgbDropdown,
         NgbDropdownToggle,
         NgbDropdownMenu,
         NgbDropdownItem,
-        NgOptimizedImage
+        NgOptimizedImage,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

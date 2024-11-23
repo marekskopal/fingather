@@ -1,8 +1,8 @@
 import {
-    ChangeDetectionStrategy, Component, inject
+    ChangeDetectionStrategy, Component, inject,
 } from '@angular/core';
 import {
-    GroupAllocationComponent
+    GroupAllocationComponent,
 } from "@app/dashboard/components/group-data/components/group-allocation/group-allocation.component";
 import {GroupDataTabEnum} from "@app/dashboard/components/group-data/enums/GroupDataTabEnum";
 import {GroupWithGroupDataService} from "@app/services";
@@ -16,7 +16,6 @@ import { TranslatePipe} from "@ngx-translate/core";
 @Component({
     selector: 'fingather-group-data',
     templateUrl: 'group-data.component.html',
-    standalone: true,
     imports: [
         NgbNav,
         NgbNavItem,
@@ -25,7 +24,7 @@ import { TranslatePipe} from "@ngx-translate/core";
         NgbNavOutlet,
         TranslatePipe,
         GroupAllocationComponent,
-        ScrollShadowDirective
+        ScrollShadowDirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

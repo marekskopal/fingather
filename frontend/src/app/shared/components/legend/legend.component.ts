@@ -8,10 +8,9 @@ import { TranslatePipe} from "@ngx-translate/core";
 @Component({
     selector: 'fingather-legend',
     templateUrl: 'legend.component.html',
-    standalone: true,
     imports: [
         TranslatePipe,
-        DecimalPipe
+        DecimalPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

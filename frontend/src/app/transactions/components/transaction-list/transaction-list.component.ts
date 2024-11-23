@@ -1,6 +1,6 @@
 import {DatePipe} from "@angular/common";
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef, Component, computed, inject, input, OnInit, signal
+    ChangeDetectionStrategy, ChangeDetectorRef, Component, computed, inject, input, OnInit, signal,
 } from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
 import {RouterLink} from "@angular/router";
@@ -16,7 +16,7 @@ import {TableGridDirective} from "@app/shared/directives/table-grid.directive";
 import {TableGridColumn} from "@app/shared/types/table-grid-column";
 import {SearchComponent} from "@app/transactions/components/search/search.component";
 import {
-    TransactionGridColumnEnum
+    TransactionGridColumnEnum,
 } from "@app/transactions/components/transaction-list/enums/transaction-grid-column-enum";
 import {TransactionSearch} from "@app/transactions/types/transaction-search";
 import {ScrollShadowDirective} from "@marekskopal/ng-scroll-shadow";
@@ -25,7 +25,6 @@ import { TranslatePipe} from "@ngx-translate/core";
 @Component({
     selector: 'fingather-transaction-list',
     templateUrl: './transaction-list.component.html',
-    standalone: true,
     imports: [
         PortfolioSelectorComponent,
         TranslatePipe,
@@ -38,7 +37,7 @@ import { TranslatePipe} from "@ngx-translate/core";
         DeleteButtonComponent,
         PaginationComponent,
         ScrollShadowDirective,
-        TableGridDirective
+        TableGridDirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -60,7 +59,7 @@ export class TransactionListComponent implements OnInit {
         TransactionGridColumnEnum.Created,
         TransactionGridColumnEnum.Type,
         TransactionGridColumnEnum.Asset,
-        TransactionGridColumnEnum.Actions
+        TransactionGridColumnEnum.Actions,
     ], {
         alias: 'columns',
     });

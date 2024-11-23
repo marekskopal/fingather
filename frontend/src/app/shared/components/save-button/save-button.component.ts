@@ -8,7 +8,6 @@ import { TranslatePipe} from "@ngx-translate/core";
 @Component({
     selector: 'fingather-save-button',
     templateUrl: 'save-button.component.html',
-    standalone: true,
     imports: [
         TranslatePipe,
         MatProgressSpinner,

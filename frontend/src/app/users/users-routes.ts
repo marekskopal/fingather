@@ -10,16 +10,16 @@ export default [
         children: [
             {
                 path: '',
-                component: ListComponent
+                component: ListComponent,
             },
             {
                 path: 'add-user',
-                component: AddEditUserComponent
+                component: AddEditUserComponent,
             },
             {
                 path: 'edit-user/:id',
-                component: AddEditUserComponent
+                component: AddEditUserComponent,
             },
-        ]
-    }
+        ],
+    },
 ] satisfies Route[];

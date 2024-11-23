@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy, Component, computed, input, output, signal
+    ChangeDetectionStrategy, Component, computed, input, output, signal,
 } from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
 import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from "@ng-bootstrap/ng-bootstrap";
@@ -8,7 +8,6 @@ import { TranslatePipe} from "@ngx-translate/core";
 @Component({
     selector: 'fingather-pagination',
     templateUrl: 'pagination.component.html',
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
         TranslatePipe,
@@ -16,8 +15,8 @@ import { TranslatePipe} from "@ngx-translate/core";
         NgbDropdown,
         NgbDropdownToggle,
         NgbDropdownMenu,
-        NgbDropdownItem
-    ]
+        NgbDropdownItem,
+    ],
 })
 export class PaginationComponent {
     public readonly $totalItems = input.required<number>({
@@ -51,7 +50,7 @@ export class PaginationComponent {
             this.$totalItems(),
             this.$pageSize(),
             this.$maxPages(),
-            this.$currentPage()
+            this.$currentPage(),
         );
     });
 
@@ -77,7 +76,7 @@ export class PaginationComponent {
         totalItems: number,
         itemsPerPage: number,
         maxPages: number,
-        currentPage: number
+        currentPage: number,
     ): (number | string)[] {
         const totalPages = Math.ceil(totalItems / itemsPerPage);
         const pages: (number | string)[] = [];

@@ -13,20 +13,20 @@ export class ImportService {
         return firstValueFrom<ImportPrepare>(
             this.http.post<ImportPrepare>(
                 `${environment.apiUrl}/import/import-prepare/${portfolioId}`,
-                importPrepareData
-            )
+                importPrepareData,
+            ),
         );
     }
 
     public createImportStart(importStart: ImportStart): Promise<OkResponse> {
         return firstValueFrom<OkResponse>(
-            this.http.post<OkResponse>(`${environment.apiUrl}/import/import-start`, importStart)
+            this.http.post<OkResponse>(`${environment.apiUrl}/import/import-start`, importStart),
         );
     }
 
     public deleteImportFile(importFileId: number): Promise<OkResponse> {
         return firstValueFrom<OkResponse>(
-            this.http.delete<OkResponse>(`${environment.apiUrl}/import/import-file/${importFileId}`)
+            this.http.delete<OkResponse>(`${environment.apiUrl}/import/import-file/${importFileId}`),
         );
     }
 }

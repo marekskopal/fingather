@@ -14,7 +14,6 @@ import { TranslatePipe} from "@ngx-translate/core";
 @Component({
     selector: 'fingather-onboarding-step-two',
     templateUrl: 'onboarding-step-two.component.html',
-    standalone: true,
     imports: [
         TranslatePipe,
         MatIcon,
@@ -22,7 +21,7 @@ import { TranslatePipe} from "@ngx-translate/core";
         InputValidatorComponent,
         SaveButtonComponent,
         SelectComponent,
-        RouterLink
+        RouterLink,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

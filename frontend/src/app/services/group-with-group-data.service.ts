@@ -16,7 +16,7 @@ export class GroupWithGroupDataService implements GroupAllocationService {
 
     public getGroupsWithGroupData(
         portfolioId: number,
-        orderBy: AssetsOrder | null = null
+        orderBy: AssetsOrder | null = null,
     ): Promise<GroupWithGroupData[]> {
         let params = new HttpParams();
 
@@ -27,8 +27,8 @@ export class GroupWithGroupDataService implements GroupAllocationService {
         return firstValueFrom<GroupWithGroupData[]>(
             this.http.get<GroupWithGroupData[]>(
                 `${environment.apiUrl}/groups-with-group-data/${portfolioId}`,
-                { params }
-            )
+                { params },
+            ),
         );
     }
 }

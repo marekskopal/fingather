@@ -1,15 +1,14 @@
 import {NgOptimizedImage} from "@angular/common";
 import {
-    ChangeDetectionStrategy, Component, input
+    ChangeDetectionStrategy, Component, input,
 } from '@angular/core';
 import { Ticker } from '@app/models';
 
 @Component({
     selector: 'fingather-ticker-logo',
     templateUrl: 'ticker-logo.component.html',
-    standalone: true,
     imports: [
-        NgOptimizedImage
+        NgOptimizedImage,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

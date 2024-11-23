@@ -3,7 +3,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {MatIcon} from "@angular/material/icon";
 import {RouterLink} from "@angular/router";
 import {
-    Transaction, TransactionActionType
+    Transaction, TransactionActionType,
 } from '@app/models';
 import {DateInputComponent} from "@app/shared/components/date-input/date-input.component";
 import {InputValidatorComponent} from "@app/shared/components/input-validator/input-validator.component";
@@ -15,7 +15,6 @@ import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'add-edit-dividend-form.component.html',
-    standalone: true,
     imports: [
         PortfolioSelectorComponent,
         TranslatePipe,
@@ -25,7 +24,7 @@ import { TranslatePipe} from "@ngx-translate/core";
         SelectComponent,
         InputValidatorComponent,
         DateInputComponent,
-        SaveButtonComponent
+        SaveButtonComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

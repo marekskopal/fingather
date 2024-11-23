@@ -17,7 +17,6 @@ import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'add-edit-user.component.html',
-    standalone: true,
     imports: [
         TranslatePipe,
         PortfolioSelectorComponent,
@@ -26,7 +25,7 @@ import { TranslatePipe} from "@ngx-translate/core";
         ReactiveFormsModule,
         InputValidatorComponent,
         SelectComponent,
-        SaveButtonComponent
+        SaveButtonComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -39,7 +38,7 @@ export class AddEditUserComponent extends BaseAddEditForm implements OnInit {
     protected currencies: SelectItem<number, string>[] = [];
     protected roles: SelectItem<UserRoleEnum, UserRoleEnum>[] = [
         {key: UserRoleEnum.User, label: UserRoleEnum.User},
-        {key: UserRoleEnum.Admin, label: UserRoleEnum.Admin}
+        {key: UserRoleEnum.Admin, label: UserRoleEnum.Admin},
     ];
 
     public async ngOnInit(): Promise<void> {

@@ -12,7 +12,7 @@ export class EmailVerifyService {
         return firstValueFrom<OkResponse>(
             this.http.post<OkResponse>(`${environment.apiUrl}/email-verify`, {
                 token,
-            })
+            }),
         );
     }
 }

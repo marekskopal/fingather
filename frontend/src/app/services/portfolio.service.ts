@@ -61,7 +61,7 @@ export class PortfolioService extends NotifyService {
         }
 
         this.defaultPortfolio = await lastValueFrom<Portfolio>(
-            this.http.get<Portfolio>(`${environment.apiUrl}/portfolio/default`)
+            this.http.get<Portfolio>(`${environment.apiUrl}/portfolio/default`),
         );
 
         return this.defaultPortfolio;
@@ -73,7 +73,7 @@ export class PortfolioService extends NotifyService {
         }
 
         return firstValueFrom<Portfolio>(
-            this.http.put<Portfolio>(`${environment.apiUrl}/portfolio/${id}`, portfolio)
+            this.http.put<Portfolio>(`${environment.apiUrl}/portfolio/${id}`, portfolio),
         );
     }
 

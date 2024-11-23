@@ -12,7 +12,6 @@ import { TranslatePipe} from "@ngx-translate/core";
 @Component({
     selector: 'fingather-transactions-search',
     templateUrl: './search.component.html',
-    standalone: true,
     imports: [
         TranslatePipe,
         SearchInputComponent,
@@ -21,7 +20,7 @@ import { TranslatePipe} from "@ngx-translate/core";
         NgbDropdownMenu,
         NgbDropdownItem,
         TagComponent,
-        DateInputComponent
+        DateInputComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

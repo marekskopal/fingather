@@ -1,6 +1,6 @@
 import {AsyncPipe, DecimalPipe} from "@angular/common";
 import {
-    ChangeDetectionStrategy, Component, computed, input, output
+    ChangeDetectionStrategy, Component, computed, input, output,
 } from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
 import {RouterLink} from "@angular/router";
@@ -20,7 +20,6 @@ import { TranslatePipe} from "@ngx-translate/core";
 @Component({
     selector: 'fingather-opened-assets',
     templateUrl: 'opened-assets.component.html',
-    standalone: true,
     imports: [
         TranslatePipe,
         MatIcon,
@@ -31,7 +30,7 @@ import { TranslatePipe} from "@ngx-translate/core";
         ColoredValueDirective,
         RouterLink,
         TableGridDirective,
-        ScrollShadowDirective
+        ScrollShadowDirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

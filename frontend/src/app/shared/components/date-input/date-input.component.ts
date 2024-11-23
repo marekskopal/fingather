@@ -12,9 +12,9 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
         {
             provide: NG_VALUE_ACCESSOR,
             multi:true,
-            useExisting: DateInputComponent
-        }
-    ]
+            useExisting: DateInputComponent,
+        },
+    ],
 })
 export class DateInputComponent implements ControlValueAccessor {
     public readonly $id = input.required<string>({

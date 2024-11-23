@@ -32,7 +32,7 @@ export class AssetService extends NotifyService {
 
     public getAsset(id: number): Promise<AssetWithProperties> {
         return firstValueFrom<AssetWithProperties>(
-            this.http.get<AssetWithProperties>(`${environment.apiUrl}/asset/${id}`)
+            this.http.get<AssetWithProperties>(`${environment.apiUrl}/asset/${id}`),
         );
     }
 }

@@ -18,7 +18,7 @@ export class AuthenticationService {
 
     public $authentication = signal<Authentication | null>(null);
     public $isLoggedIn = computed<boolean>(
-        () => this.$authentication() !== null
+        () => this.$authentication() !== null,
     );
 
     public constructor() {
@@ -37,7 +37,7 @@ export class AuthenticationService {
             this.http.post<Authentication>(`${environment.apiUrl}/authentication/login`, {
                 email,
                 password,
-            })
+            }),
         );
 
         return this.setAuthentication(authentication);
@@ -54,7 +54,7 @@ export class AuthenticationService {
 
     public async signUp(signUp: SignUp): Promise<Authentication> {
         const authentication = await firstValueFrom<Authentication>(
-            this.http.post<Authentication>(`${environment.apiUrl}/authentication/sign-up`, signUp)
+            this.http.post<Authentication>(`${environment.apiUrl}/authentication/sign-up`, signUp),
         );
 
         return this.setAuthentication(authentication);
@@ -64,7 +64,7 @@ export class AuthenticationService {
         const response = await firstValueFrom<BoolResponse>(
             this.http.post<BoolResponse>(`${environment.apiUrl}/authentication/email-exists`, {
                 email,
-            })
+            }),
         );
 
         return response.value;
@@ -77,8 +77,8 @@ export class AuthenticationService {
                 {
                     refreshToken: this.$authentication()?.refreshToken,
                 },
-                { withCredentials: true }
-            )
+                { withCredentials: true },
+            ),
         );
 
         localStorage.setItem('authentication', JSON.stringify(authentication));

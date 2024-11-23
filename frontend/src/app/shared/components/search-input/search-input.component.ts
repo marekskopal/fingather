@@ -6,9 +6,8 @@ import {MatIcon} from "@angular/material/icon";
 @Component({
     selector: 'fingather-search-input',
     templateUrl: 'search-input.component.html',
-    standalone: true,
     imports: [
-        MatIcon
+        MatIcon,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

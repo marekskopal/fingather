@@ -10,16 +10,16 @@ export default [
         children: [
             {
                 path: '',
-                component: ListComponent
+                component: ListComponent,
             },
             {
                 path: 'add-portfolio',
-                component: AddEditPortfolioComponent
+                component: AddEditPortfolioComponent,
             },
             {
                 path: 'edit-portfolio/:id',
-                component: AddEditPortfolioComponent
+                component: AddEditPortfolioComponent,
             },
-        ]
-    }
+        ],
+    },
 ] satisfies Route[];

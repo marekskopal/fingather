@@ -13,14 +13,13 @@ import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'sign-up.component.html',
-    standalone: true,
     imports: [
         ReactiveFormsModule,
         TranslatePipe,
         InputValidatorComponent,
         SelectComponent,
         SaveButtonComponent,
-        RouterLink
+        RouterLink,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -50,7 +49,7 @@ export class SignUpComponent extends BaseForm implements OnInit {
                 '',
                 [Validators.required, Validators.email],
                 [this.uniqueEmailValidator.validate.bind(this.uniqueEmailValidator)],
-                'blur'
+                'blur',
             ],
             password: ['', [Validators.required, Validators.minLength(6)]],
             defaultCurrencyId: [this.currencies[0].key, Validators.required],

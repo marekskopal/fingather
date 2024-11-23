@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal
+    ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal,
 } from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
 import {RouterLink} from "@angular/router";
@@ -12,14 +12,13 @@ import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'group-list.component.html',
-    standalone: true,
     imports: [
         TranslatePipe,
         PortfolioSelectorComponent,
         RouterLink,
         MatIcon,
         DeleteButtonComponent,
-        ScrollShadowDirective
+        ScrollShadowDirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

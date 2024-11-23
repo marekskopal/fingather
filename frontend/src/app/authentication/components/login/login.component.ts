@@ -10,13 +10,12 @@ import {TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'login.component.html',
-    standalone: true,
     imports: [
         ReactiveFormsModule,
         TranslatePipe,
         InputValidatorComponent,
         SaveButtonComponent,
-        RouterLink
+        RouterLink,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -28,7 +27,7 @@ export class LoginComponent extends BaseForm implements OnInit {
     public ngOnInit(): void {
         this.form = this.formBuilder.group({
             email: ['', [Validators.required, Validators.email]],
-            password: ['', Validators.required]
+            password: ['', Validators.required],
         });
     }
 

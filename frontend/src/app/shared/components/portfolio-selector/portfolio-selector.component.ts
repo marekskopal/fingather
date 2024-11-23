@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy, Component, inject, OnInit, signal
+    ChangeDetectionStrategy, Component, inject, OnInit, signal,
 } from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
 import {RouterLink} from "@angular/router";
@@ -10,14 +10,13 @@ import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from "
 @Component({
     selector: 'fingather-portfolio-selector',
     templateUrl: 'portfolio-selector.component.html',
-    standalone: true,
     imports: [
         RouterLink,
         MatIcon,
         NgbDropdown,
         NgbDropdownToggle,
         NgbDropdownMenu,
-        NgbDropdownItem
+        NgbDropdownItem,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

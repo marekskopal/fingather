@@ -1,6 +1,6 @@
 import {AsyncPipe, DecimalPipe} from "@angular/common";
 import {
-    ChangeDetectionStrategy, Component, input
+    ChangeDetectionStrategy, Component, input,
 } from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
 import {RouterLink} from "@angular/router";
@@ -16,7 +16,6 @@ import { TranslatePipe} from "@ngx-translate/core";
 @Component({
     selector: 'fingather-watched-assets',
     templateUrl: 'watched-assets.component.html',
-    standalone: true,
     imports: [
         TranslatePipe,
         TickerLogoComponent,
@@ -26,7 +25,7 @@ import { TranslatePipe} from "@ngx-translate/core";
         MoneyPipe,
         AsyncPipe,
         ScrollShadowDirective,
-        TableGridDirective
+        TableGridDirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

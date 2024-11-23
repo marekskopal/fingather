@@ -1,6 +1,6 @@
 import {
     ChangeDetectionStrategy,
-    Component, inject, OnInit
+    Component, inject, OnInit,
 } from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatIcon} from "@angular/material/icon";
@@ -17,7 +17,6 @@ import {TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'add-edit-api-key.component.html',
-    standalone: true,
     imports: [
         ReactiveFormsModule,
         RouterLink,

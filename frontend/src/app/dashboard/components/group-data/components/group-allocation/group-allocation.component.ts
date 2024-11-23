@@ -1,6 +1,6 @@
 import {AsyncPipe, DecimalPipe} from "@angular/common";
 import {
-    ChangeDetectionStrategy, Component, inject, input, OnInit, signal
+    ChangeDetectionStrategy, Component, inject, input, OnInit, signal,
 } from '@angular/core';
 import {GroupChartComponent} from "@app/dashboard/components/group-data/components/group-chart/group-chart.component";
 import { Currency } from '@app/models';
@@ -15,7 +15,6 @@ import { TranslatePipe} from "@ngx-translate/core";
 @Component({
     selector: 'fingather-group-allocation',
     templateUrl: 'group-allocation.component.html',
-    standalone: true,
     imports: [
         TranslatePipe,
         GroupChartComponent,
@@ -23,7 +22,7 @@ import { TranslatePipe} from "@ngx-translate/core";
         DecimalPipe,
         MoneyPipe,
         AsyncPipe,
-        ScrollShadowDirective
+        ScrollShadowDirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

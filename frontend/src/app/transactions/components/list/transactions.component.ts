@@ -1,6 +1,6 @@
 import {DatePipe} from "@angular/common";
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal
+    ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal,
 } from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
 import {RouterLink} from "@angular/router";
@@ -22,7 +22,6 @@ import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     templateUrl: './transactions.component.html',
-    standalone: true,
     imports: [
         PortfolioSelectorComponent,
         TranslatePipe,
@@ -36,7 +35,7 @@ import { TranslatePipe} from "@ngx-translate/core";
         PaginationComponent,
         ScrollShadowDirective,
         TableGridDirective,
-        TransactionListComponent
+        TransactionListComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -98,7 +97,7 @@ export class TransactionsComponent implements OnInit {
             transactionSearch.search,
             transactionSearch.created,
             this.pageSize,
-            (this.page - 1) * this.pageSize
+            (this.page - 1) * this.pageSize,
         );
         this.$transactionList.set(transactionList);
     }

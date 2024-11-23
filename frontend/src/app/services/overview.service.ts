@@ -10,7 +10,7 @@ export class OverviewService {
 
     public getYearCalculatedData(portfolioId: number): Promise<YearCalculatedData[]> {
         return firstValueFrom<YearCalculatedData[]>(
-            this.http.get<YearCalculatedData[]>(`${environment.apiUrl}/overview/year-overview/${portfolioId}`)
+            this.http.get<YearCalculatedData[]>(`${environment.apiUrl}/overview/year-overview/${portfolioId}`),
         );
     }
 }

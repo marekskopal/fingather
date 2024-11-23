@@ -10,7 +10,6 @@ import { TranslatePipe} from "@ngx-translate/core";
 @Component({
     selector: 'fingather-select-multi',
     templateUrl: 'select-multi.component.html',
-    standalone: true,
     imports: [
         NgbDropdown,
         NgbDropdownToggle,
@@ -18,16 +17,16 @@ import { TranslatePipe} from "@ngx-translate/core";
         NgbDropdownItem,
         MatIcon,
         TranslatePipe,
-        MatIcon
+        MatIcon,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,
             multi: true,
-            useExisting: SelectMultiComponent
-        }
-    ]
+            useExisting: SelectMultiComponent,
+        },
+    ],
 })
 export class SelectMultiComponent extends BaseSelectMultiComponent<string | number, string> {
 }

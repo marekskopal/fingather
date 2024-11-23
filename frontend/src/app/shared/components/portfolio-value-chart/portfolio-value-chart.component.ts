@@ -1,6 +1,6 @@
 import {
     ChangeDetectionStrategy,
-    Component, CSP_NONCE, inject, input, OnChanges, OnInit, signal
+    Component, CSP_NONCE, inject, input, OnChanges, OnInit, signal,
 } from '@angular/core';
 import {Portfolio, PortfolioDataWithBenchmarkData} from '@app/models';
 import { RangeEnum } from '@app/models/enums/range-enum';
@@ -8,7 +8,7 @@ import { PortfolioDataService, PortfolioService } from '@app/services';
 import {ChartUtils} from "@app/utils/chart-utils";
 import {
     ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill,
-    ApexGrid, ApexLegend, ApexStroke, ApexTheme, ApexXAxis, ApexYAxis, NgApexchartsModule
+    ApexGrid, ApexLegend, ApexStroke, ApexTheme, ApexXAxis, ApexYAxis, NgApexchartsModule,
 } from 'ng-apexcharts';
 
 export type ChartOptions = {
@@ -28,11 +28,10 @@ export type ChartOptions = {
 @Component({
     templateUrl: 'portfolio-value-chart.component.html',
     selector: 'fingather-portfolio-value-chart',
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
-        NgApexchartsModule
-    ]
+        NgApexchartsModule,
+    ],
 })
 export class PortfolioValueChartComponent implements OnInit, OnChanges {
     private readonly portfolioDataService = inject(PortfolioDataService);
@@ -120,10 +119,10 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
                 height: this.$height(),
                 type: 'area',
                 zoom: {
-                    enabled: false
+                    enabled: false,
                 },
                 toolbar: {
-                    show: false
+                    show: false,
                 },
                 sparkline: {
                     enabled: this.$sparkline(),
@@ -134,7 +133,7 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
                 nonce: this.nonce ?? undefined,
             },
             dataLabels: {
-                enabled: false
+                enabled: false,
             },
             stroke: {
                 curve: 'straight',
@@ -172,7 +171,7 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
     }
 
     private mapChart(
-        portfolioDatas: PortfolioDataWithBenchmarkData[]
+        portfolioDatas: PortfolioDataWithBenchmarkData[],
     ): {
             valueSeries: number[],
             investedValueSeries: number[],
@@ -182,12 +181,12 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
         return {
             valueSeries: portfolioDatas.map((portfolioData) => parseFloat(portfolioData.value)),
             investedValueSeries: portfolioDatas.map(
-                (portfolioData) => parseFloat(portfolioData.transactionValue)
+                (portfolioData) => parseFloat(portfolioData.transactionValue),
             ),
             benchmarkSeries: this.$benchmarkAssetId() !== null
                 ? portfolioDatas.map((portfolioData) => parseFloat(portfolioData.benchmarkData?.value ?? '0.0'))
                 : [],
-            categories: portfolioDatas.map((portfolioData) => portfolioData.date)
+            categories: portfolioDatas.map((portfolioData) => portfolioData.date),
         };
     }
 }

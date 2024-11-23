@@ -8,6 +8,6 @@ export default [
         component: LayoutComponent,
         children: [
             { path: '', component: DividendsHistoryComponent },
-        ]
-    }
+        ],
+    },
 ] satisfies Route[];

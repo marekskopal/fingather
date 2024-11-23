@@ -10,22 +10,21 @@ import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from "
 @Component({
     selector: 'fingather-type-select',
     templateUrl: 'type-select.component.html',
-    standalone: true,
     imports: [
         NgbDropdown,
         NgbDropdownToggle,
         NgbDropdownMenu,
         NgbDropdownItem,
-        TagComponent
+        TagComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,
             multi: true,
-            useExisting: TypeSelectComponent
-        }
-    ]
+            useExisting: TypeSelectComponent,
+        },
+    ],
 })
 export class TypeSelectComponent extends BaseSelectComponent<TransactionActionType, TransactionActionType> {
     protected readonly TransactionActionType = TransactionActionType;

@@ -1,10 +1,10 @@
 import {Route} from '@angular/router';
 import {LayoutComponent} from "@app/shared/components/layout/layout.component";
 import {
-    AddEditDividendFormComponent
+    AddEditDividendFormComponent,
 } from "@app/transactions/components/add-edit-dividend-form/add-edit-dividend-form.component";
 import {
-    AddEditTransactionFormComponent
+    AddEditTransactionFormComponent,
 } from "@app/transactions/components/add-edit-transaction-form/add-edit-transaction-form.component";
 import {ImportTransactionsComponent} from "@app/transactions/components/import/import-transactions.component";
 import { TransactionsComponent } from '@app/transactions/components/list/transactions.component';
@@ -16,28 +16,28 @@ export default [
         children: [
             {
                 path: '',
-                component: TransactionsComponent
+                component: TransactionsComponent,
             },
             {
                 path: 'add-transaction',
-                component: AddEditTransactionFormComponent
+                component: AddEditTransactionFormComponent,
             },
             {
                 path: 'edit-transaction/:id',
-                component: AddEditTransactionFormComponent
+                component: AddEditTransactionFormComponent,
             },
             {
                 path: 'add-dividend',
-                component: AddEditDividendFormComponent
+                component: AddEditDividendFormComponent,
             },
             {
                 path: 'edit-dividend/:id',
-                component: AddEditDividendFormComponent
+                component: AddEditDividendFormComponent,
             },
             {
                 path: 'import',
-                component: ImportTransactionsComponent
+                component: ImportTransactionsComponent,
             },
-        ]
-    }
+        ],
+    },
 ] satisfies Route[];

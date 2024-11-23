@@ -16,7 +16,7 @@ export class UserService extends NotifyService {
 
     public getUsers(): Promise<UserWithStatistic[]> {
         return firstValueFrom<UserWithStatistic[]>(
-            this.http.get<UserWithStatistic[]>(`${environment.apiUrl}/admin/user`)
+            this.http.get<UserWithStatistic[]>(`${environment.apiUrl}/admin/user`),
         );
     }
 
@@ -26,7 +26,7 @@ export class UserService extends NotifyService {
 
     public updateUser(id: number, user: User): Promise<User> {
         return firstValueFrom<User>(
-            this.http.put<User>(`${environment.apiUrl}/admin/user/${id}`, user)
+            this.http.put<User>(`${environment.apiUrl}/admin/user/${id}`, user),
         );
     }
 

@@ -18,13 +18,13 @@ export class TableGridDirective implements OnInit {
         this.renderer.addClass(this.el.nativeElement, 'table-grid');
 
         const gridTemplateColumns = this.$columns().map(
-            column => `minmax(${column.min}, ${column.max})`
+            column => `minmax(${column.min}, ${column.max})`,
         );
 
         this.renderer.setStyle(
             this.el.nativeElement,
             'grid-template-columns',
-            gridTemplateColumns.join(' ')
+            gridTemplateColumns.join(' '),
         );
     }
 }

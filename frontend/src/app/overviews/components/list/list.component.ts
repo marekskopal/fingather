@@ -1,6 +1,6 @@
 import {AsyncPipe, DecimalPipe} from "@angular/common";
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal
+    ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal,
 } from '@angular/core';
 import { Currency, YearCalculatedData } from '@app/models';
 import { ModeEnum } from '@app/overviews/components/list/enum/mode-enum';
@@ -13,7 +13,6 @@ import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     templateUrl: './list.component.html',
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
         TranslatePipe,
@@ -22,8 +21,8 @@ import { TranslatePipe} from "@ngx-translate/core";
         DecimalPipe,
         MoneyPipe,
         AsyncPipe,
-        ScrollShadowDirective
-    ]
+        ScrollShadowDirective,
+    ],
 })
 export class ListComponent implements OnInit {
     private readonly overviewService = inject(OverviewService);

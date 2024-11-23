@@ -17,7 +17,6 @@ import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'add-edit-transaction-form.component.html',
-    standalone: true,
     imports: [
         PortfolioSelectorComponent,
         TranslatePipe,
@@ -28,14 +27,14 @@ import { TranslatePipe} from "@ngx-translate/core";
         InputValidatorComponent,
         TypeSelectComponent,
         DateInputComponent,
-        SaveButtonComponent
+        SaveButtonComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddEditTransactionFormComponent extends AddEditBaseFormComponent implements OnInit {
     protected actionTypes: SelectItem<TransactionActionType, TransactionActionType>[] = [
         {key: TransactionActionType.Buy, label: TransactionActionType.Buy},
-        {key: TransactionActionType.Sell, label: TransactionActionType.Sell}
+        {key: TransactionActionType.Sell, label: TransactionActionType.Sell},
     ];
 
     protected processCreateTransaction(): Transaction {

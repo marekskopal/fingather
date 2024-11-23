@@ -9,8 +9,8 @@ export default [
         children: [
             {
                 path: '',
-                component: HistoryComponent
+                component: HistoryComponent,
             },
-        ]
-    }
+        ],
+    },
 ] satisfies Route[];

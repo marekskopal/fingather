@@ -11,7 +11,7 @@ import {
     ApexChart, ApexDataLabels, ApexFill, ApexGrid, ApexStroke,
     ApexTheme,
     ApexTitleSubtitle,
-    ApexXAxis, ApexYAxis, NgApexchartsModule
+    ApexXAxis, ApexYAxis, NgApexchartsModule,
 } from 'ng-apexcharts';
 
 export type ChartOptions = {
@@ -32,9 +32,8 @@ export type ChartOptions = {
 @Component({
     templateUrl: 'asset-ticker-chart.component.html',
     selector: 'fingather-asset-ticker-chart',
-    standalone: true,
     imports: [
-        NgApexchartsModule
+        NgApexchartsModule,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -87,25 +86,25 @@ export class AssetTickerChartComponent implements OnInit {
                 height: this.height(),
                 type: 'area',
                 zoom: {
-                    enabled: false
+                    enabled: false,
                 },
                 toolbar: {
-                    show: false
+                    show: false,
                 },
                 animations: {
-                    enabled: false
+                    enabled: false,
                 },
                 nonce: this.nonce ?? undefined,
             },
             dataLabels: {
-                enabled: false
+                enabled: false,
             },
             stroke: {
-                curve: 'smooth'
+                curve: 'smooth',
             },
             title: {
                 text: '',
-                align: 'left'
+                align: 'left',
             },
             xaxis: ChartUtils.xAxis(),
             yaxis: ChartUtils.yAxis(),
@@ -121,9 +120,9 @@ export class AssetTickerChartComponent implements OnInit {
                                 background: '#7597f2',
                             },
                             text: 'Average Buy Price - ',
-                        }
-                    }
-                ]
+                        },
+                    },
+                ],
             },
             theme: ChartUtils.theme(),
             fill: ChartUtils.gradientFill(),
@@ -135,7 +134,7 @@ export class AssetTickerChartComponent implements OnInit {
     private mapAssetTickerData(assetTickerDatas: TickerData[]): { series: number[], categories: string[] } {
         return {
             series: assetTickerDatas.map((data) => parseFloat(data.close)),
-            categories: assetTickerDatas.map((data) => data.date)
+            categories: assetTickerDatas.map((data) => data.date),
         };
     }
 }

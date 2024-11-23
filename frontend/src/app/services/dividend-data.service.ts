@@ -22,8 +22,8 @@ export class DividendDataService extends NotifyService {
         return firstValueFrom<DividendDataDateInterval[]>(
             this.http.get<DividendDataDateInterval[]>(
                 `${environment.apiUrl}/dividend-data-range/${portfolioId}`,
-                { params }
-            )
+                { params },
+            ),
         );
     }
 }

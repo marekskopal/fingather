@@ -15,7 +15,7 @@ import {
     ApexStroke,
     ApexTheme,
     ApexTitleSubtitle,
-    ApexXAxis, ApexYAxis, NgApexchartsModule
+    ApexXAxis, ApexYAxis, NgApexchartsModule,
 } from 'ng-apexcharts';
 
 export type ChartOptions = {
@@ -35,9 +35,8 @@ export type ChartOptions = {
 @Component({
     templateUrl: 'asset-value-chart.component.html',
     selector: 'fingather-asset-value-chart',
-    standalone: true,
     imports: [
-        NgApexchartsModule
+        NgApexchartsModule,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -89,25 +88,25 @@ export class AssetValueChartComponent implements OnInit {
                 height: this.height(),
                 type: 'area',
                 zoom: {
-                    enabled: false
+                    enabled: false,
                 },
                 toolbar: {
-                    show: false
+                    show: false,
                 },
                 animations: {
-                    enabled: false
+                    enabled: false,
                 },
                 nonce: this.nonce ?? undefined,
             },
             dataLabels: {
-                enabled: false
+                enabled: false,
             },
             stroke: {
-                curve: 'smooth'
+                curve: 'smooth',
             },
             title: {
                 text: '',
-                align: 'left'
+                align: 'left',
             },
             grid: ChartUtils.grid(),
             xaxis: ChartUtils.xAxis(),
@@ -126,12 +125,12 @@ export class AssetValueChartComponent implements OnInit {
         return {
             gainSeries: assetDatas.map(
                 (assetData) => parseFloat(assetData.transactionValueDefaultCurrency)
-                    + parseFloat(assetData.gainDefaultCurrency)
+                    + parseFloat(assetData.gainDefaultCurrency),
             ),
             transactionValueSeries: assetDatas.map(
-                (assetData) => parseFloat(assetData.transactionValueDefaultCurrency)
+                (assetData) => parseFloat(assetData.transactionValueDefaultCurrency),
             ),
-            categories: assetDatas.map((assetData) => assetData.date)
+            categories: assetDatas.map((assetData) => assetData.date),
         };
     }
 }

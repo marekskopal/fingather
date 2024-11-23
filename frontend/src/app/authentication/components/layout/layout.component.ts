@@ -5,10 +5,9 @@ import { AuthenticationService } from '@app/services/authentication.service';
 
 @Component({
     templateUrl: 'layout.component.html',
-    standalone: true,
     imports: [
         NgOptimizedImage,
-        RouterOutlet
+        RouterOutlet,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -16,8 +16,8 @@ export class AssetDataService {
         return firstValueFrom<AssetData[]>(
             this.http.get<AssetData[]>(
                 `${environment.apiUrl}/asset-data-range/${assetId}`,
-                { params }
-            )
+                { params },
+            ),
         );
     }
 }

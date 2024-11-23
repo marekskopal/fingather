@@ -7,13 +7,12 @@ import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'import-transactions.component.html',
-    standalone: true,
     imports: [
         PortfolioSelectorComponent,
         TranslatePipe,
         RouterLink,
         MatIcon,
-        ImportComponent
+        ImportComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

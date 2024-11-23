@@ -1,6 +1,6 @@
 import {
     ChangeDetectionStrategy,
-    Component, inject, OnInit
+    Component, inject, OnInit,
 } from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatIcon} from "@angular/material/icon";
@@ -16,7 +16,6 @@ import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'add-edit-portfolio.component.html',
-    standalone: true,
     imports: [
         PortfolioSelectorComponent,
         TranslatePipe,
@@ -25,7 +24,7 @@ import { TranslatePipe} from "@ngx-translate/core";
         SelectComponent,
         RouterLink,
         SaveButtonComponent,
-        MatIcon
+        MatIcon,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
