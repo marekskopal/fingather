@@ -9,7 +9,6 @@ import { TransactionList } from '@app/models/transaction-list';
 import { PortfolioService, TransactionService } from '@app/services';
 import {DeleteButtonComponent} from "@app/shared/components/delete-button/delete-button.component";
 import {PaginationComponent} from "@app/shared/components/pagination/pagination.component";
-import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selector/portfolio-selector.component";
 import {TagComponent} from "@app/shared/components/tag/tag.component";
 import {TickerLogoComponent} from "@app/shared/components/ticker-logo/ticker-logo.component";
 import {TableGridDirective} from "@app/shared/directives/table-grid.directive";
@@ -26,7 +25,6 @@ import { TranslatePipe} from "@ngx-translate/core";
     selector: 'fingather-transaction-list',
     templateUrl: './transaction-list.component.html',
     imports: [
-        PortfolioSelectorComponent,
         TranslatePipe,
         RouterLink,
         MatIcon,

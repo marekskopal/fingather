@@ -2,7 +2,6 @@ import {
     ChangeDetectionStrategy,
     Component, effect, inject, Injector, input, output, signal,
 } from '@angular/core';
-import {MatIcon} from "@angular/material/icon";
 import {RouterLink} from "@angular/router";
 import {ImportPrepare, ImportStart, Ticker, TransactionActionType} from '@app/models';
 import { ImportMapping } from '@app/models/import-mapping';
@@ -22,7 +21,6 @@ import { TranslatePipe} from "@ngx-translate/core";
         TranslatePipe,
         TickerSelectorComponent,
         RouterLink,
-        MatIcon,
         SaveButtonComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,

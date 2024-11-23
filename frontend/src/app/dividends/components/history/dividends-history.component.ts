@@ -1,6 +1,4 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import {MatIcon} from "@angular/material/icon";
-import {RouterLink} from "@angular/router";
 import {
     DividendsDataChartComponent,
 } from "@app/dividends/components/dividend-data-chart/dividends-data-chart.component";
@@ -20,8 +18,6 @@ import { TranslatePipe} from "@ngx-translate/core";
         PortfolioSelectorComponent,
         TranslatePipe,
         DividendsDataChartComponent,
-        MatIcon,
-        RouterLink,
         ScrollShadowDirective,
         TransactionListComponent,
     ],
