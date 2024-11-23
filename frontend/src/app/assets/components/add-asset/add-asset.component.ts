@@ -11,20 +11,17 @@ import {SaveButtonComponent} from "@app/shared/components/save-button/save-butto
 import {
     TickerSearchSelectorComponent,
 } from "@app/shared/components/ticker-search-selector/ticker-search-selector.component";
-import {NgbHighlight, NgbTypeahead} from "@ng-bootstrap/ng-bootstrap";
 import { TranslatePipe} from "@ngx-translate/core";
 
 
 @Component({
     templateUrl: 'add-asset.component.html',
     imports: [
-        NgbHighlight,
         PortfolioSelectorComponent,
         RouterLink,
         MatIcon,
         TranslatePipe,
         ReactiveFormsModule,
-        NgbTypeahead,
         InputValidatorComponent,
         SaveButtonComponent,
         TickerSearchSelectorComponent,
