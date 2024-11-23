@@ -10,11 +10,10 @@ import { TranslatePipe} from "@ngx-translate/core";
 @Component({
     selector: 'fingather-delete-button',
     templateUrl: 'delete-button.component.html',
-    standalone: true,
     imports: [
         MatIcon,
         TranslatePipe,
-        MatProgressSpinner
+        MatProgressSpinner,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

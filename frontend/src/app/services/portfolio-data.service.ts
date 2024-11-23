@@ -19,7 +19,7 @@ export class PortfolioDataService {
         range: RangeEnum,
         benchmarkAssetId: number | null = null,
         customRangeFrom: string | null = null,
-        customRangeTo: string | null = null
+        customRangeTo: string | null = null,
     ): Promise<PortfolioDataWithBenchmarkData[]> {
         let params = new HttpParams();
         params = params.set('range', range);
@@ -38,7 +38,7 @@ export class PortfolioDataService {
 
         return firstValueFrom(this.http.get<PortfolioDataWithBenchmarkData[]>(
             `${environment.apiUrl}/portfolio-data-range/${portfolioId}`,
-            { params }
+            { params },
         ));
     }
 }

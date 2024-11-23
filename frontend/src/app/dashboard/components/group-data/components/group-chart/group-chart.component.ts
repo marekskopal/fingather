@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy, Component, computed, CSP_NONCE, inject, input, OnInit, signal
+    ChangeDetectionStrategy, Component, computed, CSP_NONCE, inject, input, OnInit, signal,
 } from '@angular/core';
 import {AbstractGroupWithGroupDataEntity} from "@app/models/abstract-group-with-group-data-entity";
 import { PortfolioService } from '@app/services';
@@ -8,7 +8,7 @@ import {LegendItem} from "@app/shared/components/legend/types/legend-item";
 import {ChartUtils} from "@app/utils/chart-utils";
 import {
     ApexChart, ApexFill, ApexLegend,
-    ApexNonAxisChartSeries, ApexPlotOptions, ApexStates, ApexStroke, ApexTheme, ApexYAxis, NgApexchartsModule
+    ApexNonAxisChartSeries, ApexPlotOptions, ApexStates, ApexStroke, ApexTheme, ApexYAxis, NgApexchartsModule,
 } from 'ng-apexcharts';
 
 export type ChartOptions = {
@@ -28,10 +28,9 @@ export type ChartOptions = {
 @Component({
     templateUrl: 'group-chart.component.html',
     selector: 'fingather-dashboard-group-chart',
-    standalone: true,
     imports: [
         NgApexchartsModule,
-        LegendComponent
+        LegendComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -99,7 +98,7 @@ export class GroupChartComponent implements OnInit {
             },
             labels: [],
             fill: {
-                opacity: 1
+                opacity: 1,
             },
             stroke: {
                 width: 0,
@@ -107,22 +106,22 @@ export class GroupChartComponent implements OnInit {
             states: {
                 active: {
                     filter: {
-                        type: 'none'
-                    }
-                }
+                        type: 'none',
+                    },
+                },
             },
             yaxis: {
-                show: false
+                show: false,
             },
             legend: {
-                show: false
+                show: false,
             },
             plotOptions: {
                 pie: {
                     donut: {
-                        size: '60%'
-                    }
-                }
+                        size: '60%',
+                    },
+                },
             },
             theme: ChartUtils.theme(),
             colors: ChartUtils.colors(),
@@ -130,7 +129,7 @@ export class GroupChartComponent implements OnInit {
     }
 
     private mapChart(
-        groupsWithGroupData: AbstractGroupWithGroupDataEntity[]
+        groupsWithGroupData: AbstractGroupWithGroupDataEntity[],
     ): { series: number[], labels: string[], colors: string[] } {
         const series: number[] = [];
         const labels: string[] = [];

@@ -7,7 +7,7 @@ export class ContentLayoutService {
 
     public readonly $contentCenter = computed<boolean>(() =>
         !this.authenticationService.$isLoggedIn()
-        || this.$thisContentCenter()
+        || this.$thisContentCenter(),
     );
 
     private readonly $thisContentCenter = signal<boolean>(false);

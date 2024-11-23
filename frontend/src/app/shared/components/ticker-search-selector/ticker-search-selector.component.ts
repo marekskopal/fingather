@@ -14,7 +14,6 @@ import { TranslatePipe} from "@ngx-translate/core";
 @Component({
     selector: 'fingather-ticker-search-selector',
     templateUrl: 'ticker-search-selector.component.html',
-    standalone: true,
     imports: [
         NgbDropdown,
         NgbDropdownToggle,
@@ -31,9 +30,9 @@ import { TranslatePipe} from "@ngx-translate/core";
         {
             provide: NG_VALUE_ACCESSOR,
             multi: true,
-            useExisting: TickerSearchSelectorComponent
-        }
-    ]
+            useExisting: TickerSearchSelectorComponent,
+        },
+    ],
 })
 export class TickerSearchSelectorComponent implements ControlValueAccessor, OnInit {
     private readonly tickerService = inject(TickerService);

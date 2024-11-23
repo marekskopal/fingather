@@ -10,12 +10,12 @@ export default [
         children: [
             {
                 path: 'login',
-                component: LoginComponent
+                component: LoginComponent,
             },
             {
                 path: 'sign-up',
-                component: SignUpComponent
-            }
-        ]
-    }
+                component: SignUpComponent,
+            },
+        ],
+    },
 ] satisfies Route[];

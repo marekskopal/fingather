@@ -18,8 +18,8 @@ export class CountryWithCountryDataService implements GroupAllocationService {
     ): Promise<CountryWithCountryData[]> {
         return firstValueFrom<CountryWithCountryData[]>(
             this.http.get<CountryWithCountryData[]>(
-                `${environment.apiUrl}/countries-with-country-data/${portfolioId}`
-            )
+                `${environment.apiUrl}/countries-with-country-data/${portfolioId}`,
+            ),
         );
     }
 }

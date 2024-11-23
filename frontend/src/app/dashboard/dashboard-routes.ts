@@ -8,8 +8,8 @@ export default [
         component: LayoutComponent,
         children: [
             {
-                path: '', component: DashboardComponent
+                path: '', component: DashboardComponent,
             },
-        ]
-    }
+        ],
+    },
 ] satisfies Route[];

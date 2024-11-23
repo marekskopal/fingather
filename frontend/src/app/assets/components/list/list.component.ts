@@ -1,19 +1,19 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal
+    ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal,
 } from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
 import {RouterLink} from "@angular/router";
 import {ClosedAssetsComponent} from "@app/assets/components/list/components/closed-assets/closed-assets.component";
 import {OpenedAssetsComponent} from "@app/assets/components/list/components/opened-assets/opened-assets.component";
 import {
-    OpenedGroupedAssetsComponent
+    OpenedGroupedAssetsComponent,
 } from "@app/assets/components/list/components/opened-grouped-assets/opened-grouped-assets.component";
 import {WatchedAssetsComponent} from "@app/assets/components/list/components/watched-assets/watched-assets.component";
 import {AssetsTabEnum} from "@app/assets/components/list/enums/assets-tab-enum";
 import { AssetsWithProperties, Currency, GroupWithGroupData } from '@app/models';
 import { AssetsOrder } from '@app/models/enums/assets-order';
 import {
-    AssetService, CurrencyService, GroupWithGroupDataService, PortfolioService
+    AssetService, CurrencyService, GroupWithGroupDataService, PortfolioService,
 } from '@app/services';
 import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selector/portfolio-selector.component";
 import {ScrollShadowDirective} from "@marekskopal/ng-scroll-shadow";
@@ -22,7 +22,6 @@ import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'list.component.html',
-    standalone: true,
     imports: [
         NgbNav,
         NgbNavItem,
@@ -37,7 +36,7 @@ import { TranslatePipe} from "@ngx-translate/core";
         ClosedAssetsComponent,
         WatchedAssetsComponent,
         NgbNavOutlet,
-        ScrollShadowDirective
+        ScrollShadowDirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -3,7 +3,7 @@ import {
     Component, CSP_NONCE, inject, input, InputSignal, OnChanges, OnInit, signal,
 } from '@angular/core';
 import {
-    DividendDataDateInterval
+    DividendDataDateInterval,
 } from '@app/models';
 import { RangeEnum } from '@app/models/enums/range-enum';
 import { DividendDataService, PortfolioService } from '@app/services';
@@ -30,9 +30,8 @@ export type ChartOptions = {
 @Component({
     templateUrl: 'dividends-data-chart.component.html',
     selector: 'fingather-dividends-data-chart',
-    standalone: true,
     imports: [
-        NgApexchartsModule
+        NgApexchartsModule,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -80,10 +79,10 @@ export class DividendsDataChartComponent implements OnInit, OnChanges {
                 height: 600,
                 stacked: true,
                 zoom: {
-                    enabled: false
+                    enabled: false,
                 },
                 toolbar: {
-                    show: false
+                    show: false,
                 },
                 animations: {
                     enabled: false,
@@ -92,20 +91,20 @@ export class DividendsDataChartComponent implements OnInit, OnChanges {
             },
             plotOptions: {
                 bar: {
-                    horizontal: false
-                }
+                    horizontal: false,
+                },
             },
             dataLabels: {
-                enabled: false
+                enabled: false,
             },
             xaxis: ChartUtils.xAxis(),
             yaxis: ChartUtils.yAxis(),
             legend: {
-                show: false
+                show: false,
             },
             theme: ChartUtils.theme(),
             fill: {
-                opacity: 1
+                opacity: 1,
             },
             grid: ChartUtils.grid(),
             colors: ChartUtils.colors(),
@@ -113,7 +112,7 @@ export class DividendsDataChartComponent implements OnInit, OnChanges {
     }
 
     private mapChart(
-        dividendData: DividendDataDateInterval[]
+        dividendData: DividendDataDateInterval[],
     ): { series: { name: string, data: number[] }[], categories: string[] } {
         const categories: string[] = [];
 
@@ -133,7 +132,7 @@ export class DividendsDataChartComponent implements OnInit, OnChanges {
 
                     const seriesDataItem: { name: string, data: number[] } = {
                         name: dividendDataAsset.tickerName,
-                        data: initialData
+                        data: initialData,
                     };
                     seriesData.set(dividendDataAsset.id, seriesDataItem);
                 }

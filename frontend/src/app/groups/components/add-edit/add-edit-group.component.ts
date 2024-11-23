@@ -1,11 +1,11 @@
 import {
     ChangeDetectionStrategy,
-    Component, inject, OnInit
+    Component, inject, OnInit,
 } from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatIcon} from "@angular/material/icon";
 import { Router, RouterLink} from "@angular/router";
-import { AssetService, GroupService, PortfolioService
+import { AssetService, GroupService, PortfolioService,
 } from '@app/services';
 import {ColorPickerComponent} from "@app/shared/components/color-picker/color-picker.component";
 import {BaseAddEditForm} from "@app/shared/components/form/base-add-edit-form";
@@ -18,7 +18,6 @@ import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'add-edit-group.component.html',
-    standalone: true,
     imports: [
         TranslatePipe,
         PortfolioSelectorComponent,
@@ -28,7 +27,7 @@ import { TranslatePipe} from "@ngx-translate/core";
         InputValidatorComponent,
         SaveButtonComponent,
         SelectMultiComponent,
-        ColorPickerComponent
+        ColorPickerComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

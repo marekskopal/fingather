@@ -8,21 +8,20 @@ import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from "
 @Component({
     selector: 'fingather-select',
     templateUrl: 'select.component.html',
-    standalone: true,
     imports: [
         NgbDropdown,
         NgbDropdownToggle,
         NgbDropdownMenu,
-        NgbDropdownItem
+        NgbDropdownItem,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,
             multi: true,
-            useExisting: SelectComponent
-        }
-    ]
+            useExisting: SelectComponent,
+        },
+    ],
 })
 export class SelectComponent extends BaseSelectComponent<string | number, string> {
 }

@@ -1,9 +1,9 @@
 import {
     ChangeDetectionStrategy,
-    Component, inject, input, InputSignal, OnInit, signal
+    Component, inject, input, InputSignal, OnInit, signal,
 } from '@angular/core';
 import {
-    FundamentalRowComponent
+    FundamentalRowComponent,
 } from "@app/assets/components/detail/components/funtamentals/components/fundamental-row/fundamental-row.component";
 import {FundamentalsTabEnum} from "@app/assets/components/detail/components/funtamentals/types/fundamentals-tab-enum";
 import { TickerFundamental } from '@app/models/ticker-fundamental';
@@ -15,7 +15,6 @@ import { TranslatePipe} from "@ngx-translate/core";
 @Component({
     templateUrl: 'fundamentals.component.html',
     selector: 'fingather-ticker-fundamentals',
-    standalone: true,
     imports: [
         NgbNavContent,
         NgbNav,
@@ -24,7 +23,7 @@ import { TranslatePipe} from "@ngx-translate/core";
         TranslatePipe,
         FundamentalRowComponent,
         NgbNavOutlet,
-        ScrollShadowDirective
+        ScrollShadowDirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

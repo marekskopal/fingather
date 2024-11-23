@@ -5,10 +5,9 @@ import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'verify.component.html',
-    standalone: true,
     imports: [
         TranslatePipe,
-        RouterLink
+        RouterLink,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

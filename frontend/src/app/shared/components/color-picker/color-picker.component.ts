@@ -12,23 +12,22 @@ import { TranslatePipe} from "@ngx-translate/core";
 @Component({
     selector: 'fingather-color-picker',
     templateUrl: 'color-picker.component.html',
-    standalone: true,
     imports: [
         NgbDropdown,
         NgbDropdownToggle,
         NgbDropdownMenu,
         NgbDropdownItem,
         TranslatePipe,
-        MatIcon
+        MatIcon,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,
             multi: true,
-            useExisting: ColorPickerComponent
-        }
-    ]
+            useExisting: ColorPickerComponent,
+        },
+    ],
 })
 export class ColorPickerComponent implements ControlValueAccessor {
     public readonly $id = input.required<string>({

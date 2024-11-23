@@ -8,7 +8,7 @@ export default [
         component: LayoutComponent,
         children: [
             { path: ':token', component: VerifyComponent },
-        ]
-    }
+        ],
+    },
 ] satisfies Route[];
 

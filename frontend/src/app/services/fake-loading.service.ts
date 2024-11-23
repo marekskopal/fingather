@@ -1,7 +1,7 @@
 import { Injectable, signal} from '@angular/core';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class FakeLoadingService {
     public readonly $processed = signal<number>(0);

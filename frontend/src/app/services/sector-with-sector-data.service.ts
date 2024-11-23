@@ -18,8 +18,8 @@ export class SectorWithSectorDataService implements GroupAllocationService {
     ): Promise<SectorWithSectorData[]> {
         return firstValueFrom<SectorWithSectorData[]>(
             this.http.get<SectorWithSectorData[]>(
-                `${environment.apiUrl}/sectors-with-sector-data/${portfolioId}`
-            )
+                `${environment.apiUrl}/sectors-with-sector-data/${portfolioId}`,
+            ),
         );
     }
 }

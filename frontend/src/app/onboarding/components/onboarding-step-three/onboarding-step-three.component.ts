@@ -8,12 +8,11 @@ import { TranslatePipe} from "@ngx-translate/core";
 @Component({
     selector: 'fingather-onboarding-step-three',
     templateUrl: 'onboarding-step-three.component.html',
-    standalone: true,
     imports: [
         TranslatePipe,
         MatIcon,
         RouterLink,
-        ImportComponent
+        ImportComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

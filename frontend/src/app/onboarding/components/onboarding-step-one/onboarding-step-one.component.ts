@@ -12,14 +12,13 @@ import { TranslatePipe} from "@ngx-translate/core";
 @Component({
     selector: 'fingather-onboarding-step-one',
     templateUrl: 'onboarding-step-one.component.html',
-    standalone: true,
     imports: [
         TranslatePipe,
         NgOptimizedImage,
         MatIcon,
         ReactiveFormsModule,
         InputValidatorComponent,
-        SaveButtonComponent
+        SaveButtonComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

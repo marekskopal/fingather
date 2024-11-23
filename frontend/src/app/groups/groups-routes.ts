@@ -10,16 +10,16 @@ export default [
         children: [
             {
                 path: '',
-                component: GroupListComponent
+                component: GroupListComponent,
             },
             {
                 path: 'add-group',
-                component: AddEditGroupComponent
+                component: AddEditGroupComponent,
             },
             {
                 path: 'edit-group/:id',
-                component: AddEditGroupComponent
+                component: AddEditGroupComponent,
             },
-        ]
-    }
+        ],
+    },
 ] satisfies Route[];

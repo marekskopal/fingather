@@ -13,7 +13,7 @@ describe('OnboardingService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [],
-            providers: [OnboardingService, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+            providers: [OnboardingService, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()],
         });
 
         service = TestBed.inject(OnboardingService);

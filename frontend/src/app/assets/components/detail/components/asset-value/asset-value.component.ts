@@ -12,14 +12,13 @@ import { TranslatePipe} from "@ngx-translate/core";
 @Component({
     templateUrl: 'asset-value.component.html',
     selector: 'fingather-asset-value',
-    standalone: true,
     imports: [
         MatIcon,
         TranslatePipe,
         DecimalPipe,
         MoneyPipe,
         AsyncPipe,
-        ValueIconComponent
+        ValueIconComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

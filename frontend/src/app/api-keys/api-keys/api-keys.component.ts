@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal
+    ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal,
 } from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
 import {RouterLink} from "@angular/router";
@@ -13,7 +13,6 @@ import {TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'api-keys.component.html',
-    standalone: true,
     imports: [
         TranslatePipe,
         MatIcon,

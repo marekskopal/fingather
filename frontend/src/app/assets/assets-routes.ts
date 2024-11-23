@@ -12,16 +12,16 @@ export default [
         children: [
             {
                 path: '',
-                component: ListComponent
+                component: ListComponent,
             },
             {
                 path: 'add-asset',
-                component: AddAssetComponent
+                component: AddAssetComponent,
             },
             {
                 path: ':id',
-                component: DetailComponent
+                component: DetailComponent,
             },
-        ]
-    }
+        ],
+    },
 ] satisfies Route[];

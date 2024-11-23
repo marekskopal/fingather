@@ -16,7 +16,6 @@ import { TranslatePipe} from "@ngx-translate/core";
 @Component({
     selector: 'fingather-navigation',
     templateUrl: 'navigation.component.html',
-    standalone: true,
     imports: [
         RouterLink,
         RouterLinkActive,
@@ -25,7 +24,7 @@ import { TranslatePipe} from "@ngx-translate/core";
         MatIcon,
         TranslatePipe,
         LanguageSelectorComponent,
-        PortfolioSelectorComponent
+        PortfolioSelectorComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

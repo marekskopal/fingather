@@ -13,7 +13,7 @@ export class TransactionService extends NotifyService {
 
     public createTransaction(transaction: Transaction, portfolioId: number): Promise<Transaction> {
         return firstValueFrom<Transaction>(
-            this.http.post<Transaction>(`${environment.apiUrl}/transactions/${portfolioId}`, transaction)
+            this.http.post<Transaction>(`${environment.apiUrl}/transactions/${portfolioId}`, transaction),
         );
     }
 
@@ -53,19 +53,19 @@ export class TransactionService extends NotifyService {
         }
 
         return firstValueFrom<TransactionList>(
-            this.http.get<TransactionList>(`${environment.apiUrl}/transactions/${portfolioId}`, { params })
+            this.http.get<TransactionList>(`${environment.apiUrl}/transactions/${portfolioId}`, { params }),
         );
     }
 
     public getTransaction(id: number): Promise<Transaction> {
         return firstValueFrom<Transaction>(
-            this.http.get<Transaction>(`${environment.apiUrl}/transaction/${id}`)
+            this.http.get<Transaction>(`${environment.apiUrl}/transaction/${id}`),
         );
     }
 
     public updateTransaction(id: number, transaction: Transaction): Promise<Transaction> {
         return firstValueFrom<Transaction>(
-            this.http.put<Transaction>(`${environment.apiUrl}/transaction/${id}`, transaction)
+            this.http.put<Transaction>(`${environment.apiUrl}/transaction/${id}`, transaction),
         );
     }
 

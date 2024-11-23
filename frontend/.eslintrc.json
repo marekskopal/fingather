@@ -19,8 +19,8 @@
         "plugin:@angular-eslint/template/process-inline-templates"
       ],
       "rules": {
-        "@angular-eslint/prefer-standalone": "error",
         "@angular-eslint/prefer-on-push-component-change-detection": "error",
+        "comma-dangle": ["error", "always-multiline"],
         "no-continue": "off",
         "no-return-assign": "off",
         "class-methods-use-this": "off",

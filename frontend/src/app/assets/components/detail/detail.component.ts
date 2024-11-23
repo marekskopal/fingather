@@ -1,6 +1,6 @@
 import {AsyncPipe} from "@angular/common";
 import {
-    ChangeDetectionStrategy, Component, inject, OnInit, signal
+    ChangeDetectionStrategy, Component, inject, OnInit, signal,
 } from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
 import {ActivatedRoute, RouterLink} from '@angular/router';
@@ -13,14 +13,13 @@ import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selec
 import {TickerLogoComponent} from "@app/shared/components/ticker-logo/ticker-logo.component";
 import {CurrencyCodePipe} from "@app/shared/pipes/currency-code.pipe";
 import {
-    TransactionGridColumnEnum
+    TransactionGridColumnEnum,
 } from "@app/transactions/components/transaction-list/enums/transaction-grid-column-enum";
 import {TransactionListComponent} from "@app/transactions/components/transaction-list/transaction-list.component";
 import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'detail.component.html',
-    standalone: true,
     imports: [
         PortfolioSelectorComponent,
         RouterLink,
@@ -32,7 +31,7 @@ import { TranslatePipe} from "@ngx-translate/core";
         FundamentalsComponent,
         CurrencyCodePipe,
         AsyncPipe,
-        TransactionListComponent
+        TransactionListComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

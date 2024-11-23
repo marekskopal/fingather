@@ -3,10 +3,10 @@ import {
     Component, input,
 } from '@angular/core';
 import {
-    AssetTickerChartComponent
+    AssetTickerChartComponent,
 } from "@app/assets/components/detail/components/asset-charts/components/asset-ticker-chart/asset-ticker-chart.component";
 import {
-    AssetValueChartComponent
+    AssetValueChartComponent,
 } from "@app/assets/components/detail/components/asset-charts/components/asset-value-chart/asset-value-chart.component";
 import {AssetChartsTabEnum} from "@app/assets/components/detail/components/asset-charts/types/asset-charts-tab-enum";
 import { AssetWithProperties} from '@app/models';
@@ -15,7 +15,6 @@ import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLinkButton, NgbNavOutlet} from 
 @Component({
     templateUrl: 'asset-charts.component.html',
     selector: 'fingather-asset-charts',
-    standalone: true,
     imports: [
         NgbNav,
         NgbNavItem,
@@ -23,7 +22,7 @@ import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLinkButton, NgbNavOutlet} from 
         NgbNavContent,
         AssetTickerChartComponent,
         AssetValueChartComponent,
-        NgbNavOutlet
+        NgbNavOutlet,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

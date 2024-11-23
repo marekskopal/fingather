@@ -19,15 +19,15 @@ bootstrapApplication(AppComponent, {
             loader: {
                 provide: TranslateLoader,
                 useFactory: HttpLoaderFactory,
-                deps: [HttpClient]
-            }
+                deps: [HttpClient],
+            },
         }),
         {
             provide: HTTP_INTERCEPTORS,
             useClass: JwtInterceptor,
-            multi: true
+            multi: true,
         },
         provideHttpClient(withInterceptorsFromDi()),
         provideExperimentalZonelessChangeDetection(),
-    ]
+    ],
 });

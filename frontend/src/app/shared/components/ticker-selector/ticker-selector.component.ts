@@ -8,13 +8,12 @@ import {TranslateModule} from "@ngx-translate/core";
 @Component({
     selector: 'fingather-ticker-selector',
     templateUrl: 'ticker-selector.component.html',
-    standalone: true,
     imports: [
         NgbDropdown,
         NgbDropdownToggle,
         NgbDropdownMenu,
         NgbDropdownItem,
-        TranslateModule
+        TranslateModule,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -16,7 +16,7 @@ export class CurrentUserService {
         }
 
         this.currentUser = await lastValueFrom<User>(
-            this.http.get<User>(`${environment.apiUrl}/current-user`)
+            this.http.get<User>(`${environment.apiUrl}/current-user`),
         );
 
         return this.currentUser;

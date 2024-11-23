@@ -2,13 +2,13 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
 import {RouterLink} from "@angular/router";
 import {
-    DividendsDataChartComponent
+    DividendsDataChartComponent,
 } from "@app/dividends/components/dividend-data-chart/dividends-data-chart.component";
 import {TransactionActionType} from "@app/models";
 import { RangeEnum } from '@app/models/enums/range-enum';
 import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selector/portfolio-selector.component";
 import {
-    TransactionGridColumnEnum
+    TransactionGridColumnEnum,
 } from "@app/transactions/components/transaction-list/enums/transaction-grid-column-enum";
 import {TransactionListComponent} from "@app/transactions/components/transaction-list/transaction-list.component";
 import {ScrollShadowDirective} from "@marekskopal/ng-scroll-shadow";
@@ -16,7 +16,6 @@ import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'dividends-history.component.html',
-    standalone: true,
     imports: [
         PortfolioSelectorComponent,
         TranslatePipe,
@@ -24,7 +23,7 @@ import { TranslatePipe} from "@ngx-translate/core";
         MatIcon,
         RouterLink,
         ScrollShadowDirective,
-        TransactionListComponent
+        TransactionListComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

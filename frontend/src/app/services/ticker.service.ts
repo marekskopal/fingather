@@ -11,7 +11,7 @@ export class TickerService {
     public getTickers(
         search: string | null = null,
         limit: number | null = null,
-        offset: number | null = null
+        offset: number | null = null,
     ): Promise<Ticker[]> {
         let params = new HttpParams();
 
@@ -32,7 +32,7 @@ export class TickerService {
 
     public getTickersMostUsed(
         limit: number | null = null,
-        offset: number | null = null
+        offset: number | null = null,
     ): Promise<Ticker[]> {
         let params = new HttpParams();
 

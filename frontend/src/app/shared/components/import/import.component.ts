@@ -1,6 +1,6 @@
 import {
     ChangeDetectionStrategy,
-    Component, input, output, signal
+    Component, input, output, signal,
 } from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
 import {RouterLink} from "@angular/router";
@@ -15,14 +15,13 @@ import {v4} from 'uuid';
 @Component({
     templateUrl: 'import.component.html',
     selector: 'fingather-import',
-    standalone: true,
     imports: [
         NgxFileDropModule,
         MatIcon,
         ImportFileComponent,
         RouterLink,
         TranslatePipe,
-        ImportPrepareComponent
+        ImportPrepareComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -59,10 +58,10 @@ export class ImportComponent {
 
     public onDeleteFile(deletedFile: DeletedImportFile): void {
         this.droppedFiles = this.droppedFiles.filter(
-            (file) => file.fileEntry.name !== deletedFile.droppedFile.fileEntry.name
+            (file) => file.fileEntry.name !== deletedFile.droppedFile.fileEntry.name,
         );
         this.$importPrepares.update(() => this.$importPrepares().filter(
-            (importPrepare) => importPrepare.importFileId !== deletedFile.importFileId)
+            (importPrepare) => importPrepare.importFileId !== deletedFile.importFileId),
         );
     }
 

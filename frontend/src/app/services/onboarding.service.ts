@@ -10,7 +10,7 @@ export class OnboardingService {
 
     public onboardingComplete(): Promise<OkResponse> {
         return firstValueFrom<OkResponse>(
-            this.http.post<OkResponse>(`${environment.apiUrl}/onboarding-complete`, {})
+            this.http.post<OkResponse>(`${environment.apiUrl}/onboarding-complete`, {}),
         );
     }
 }

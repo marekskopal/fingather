@@ -7,9 +7,8 @@ import {TranslateModule} from "@ngx-translate/core";
 @Component({
     selector: 'fingather-tag',
     templateUrl: 'tag.component.html',
-    standalone: true,
     imports: [
-        TranslateModule
+        TranslateModule,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

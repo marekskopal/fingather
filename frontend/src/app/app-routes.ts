@@ -5,57 +5,57 @@ export const appRoutes: Routes = [
     {
         path: '',
         loadChildren: () => import('./dashboard/dashboard-routes'),
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard],
     },
     {
         path: 'assets',
         loadChildren: () => import('./assets/assets-routes'),
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard],
     },
     {
         path: 'dividends',
         loadChildren: () => import('./dividends/dividends-routes'),
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard],
     },
     {
         path: 'transactions',
         loadChildren: () => import('./transactions/transactions-routes'),
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard],
     },
     {
         path: 'overviews',
         loadChildren: () => import('./overviews/overviews-routes'),
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard],
     },
     {
         path: 'history',
         loadChildren: () => import('./history/history-routes'),
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard],
     },
     {
         path: 'groups',
         loadChildren: () => import('./groups/groups-routes'),
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard],
     },
     {
         path: 'portfolios',
         loadChildren: () => import('./portfolios/portfolios-routes'),
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard],
     },
     {
         path: 'users',
         loadChildren: () => import('./users/users-routes'),
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard],
     },
     {
         path: 'onboarding',
         loadChildren: () => import('./onboarding/onboarding-routes'),
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard],
     },
     {
         path: 'api-keys',
         loadChildren: () => import('./api-keys/api-keys-routes'),
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard],
     },
     {
         path: 'email-verify',
@@ -67,5 +67,5 @@ export const appRoutes: Routes = [
     },
 
     // otherwise redirect to home
-    { path: '**', redirectTo: '' }
+    { path: '**', redirectTo: '' },
 ];

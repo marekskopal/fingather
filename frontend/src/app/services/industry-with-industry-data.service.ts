@@ -18,8 +18,8 @@ export class IndustryWithIndustryDataService implements GroupAllocationService {
     ): Promise<IndustryWithIndustryData[]> {
         return firstValueFrom<IndustryWithIndustryData[]>(
             this.http.get<IndustryWithIndustryData[]>(
-                `${environment.apiUrl}/industries-with-industry-data/${portfolioId}`
-            )
+                `${environment.apiUrl}/industries-with-industry-data/${portfolioId}`,
+            ),
         );
     }
 }

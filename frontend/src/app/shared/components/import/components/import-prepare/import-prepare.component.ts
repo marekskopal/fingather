@@ -1,13 +1,13 @@
 import {
     ChangeDetectionStrategy,
-    Component, effect, inject, Injector, input, output, signal
+    Component, effect, inject, Injector, input, output, signal,
 } from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
 import {RouterLink} from "@angular/router";
 import {ImportPrepare, ImportStart, Ticker, TransactionActionType} from '@app/models';
 import { ImportMapping } from '@app/models/import-mapping';
 import {ImportPrepareTicker} from "@app/models/import-prepare-ticker";
-import { ImportService
+import { ImportService,
 } from '@app/services';
 import {FakeLoadingService} from "@app/services/fake-loading.service";
 import {SaveButtonComponent} from "@app/shared/components/save-button/save-button.component";
@@ -18,13 +18,12 @@ import { TranslatePipe} from "@ngx-translate/core";
 @Component({
     templateUrl: 'import-prepare.component.html',
     selector: 'fingather-import-prepare',
-    standalone: true,
     imports: [
         TranslatePipe,
         TickerSelectorComponent,
         RouterLink,
         MatIcon,
-        SaveButtonComponent
+        SaveButtonComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

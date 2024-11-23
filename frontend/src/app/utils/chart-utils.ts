@@ -11,7 +11,7 @@ export class ChartUtils {
                 inverseColors: false,
                 opacityFrom: 0.8,
                 opacityTo: 0,
-                stops: [0, 90, 100]
+                stops: [0, 90, 100],
             },
         };
     }
@@ -69,14 +69,14 @@ export class ChartUtils {
                     colors: ColorEnum.colorGrayLightest,
                     fontSize: '14px',
                     fontFamily: 'Gaist, sans-serif',
-                }
+                },
             },
             axisBorder: {
                 color: ColorEnum.colorGrayLighter,
             },
             axisTicks: {
                 color: ColorEnum.colorGrayLighter,
-            }
+            },
         };
     }
 

@@ -11,14 +11,13 @@ import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'list.component.html',
-    standalone: true,
     imports: [
         TranslatePipe,
         PortfolioSelectorComponent,
         RouterLink,
         MatIcon,
         DeleteButtonComponent,
-        ScrollShadowDirective
+        ScrollShadowDirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

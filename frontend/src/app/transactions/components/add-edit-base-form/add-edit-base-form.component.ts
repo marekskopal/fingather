@@ -3,14 +3,14 @@ import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core'
 import { Validators } from '@angular/forms';
 import { Router} from '@angular/router';
 import {
-    Transaction, TransactionActionType
+    Transaction, TransactionActionType,
 } from '@app/models';
 import {
     AssetService,
     BrokerService,
     CurrencyService,
     PortfolioService,
-    TransactionService
+    TransactionService,
 } from '@app/services';
 import {BaseAddEditForm} from "@app/shared/components/form/base-add-edit-form";
 import {SelectItem} from "@app/shared/types/select-item";

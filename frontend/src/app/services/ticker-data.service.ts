@@ -10,7 +10,7 @@ export class TickerDataService {
 
     public getTickerDatas(assetTickerId: number): Promise<TickerData[]> {
         return firstValueFrom<TickerData[]>(
-            this.http.get<TickerData[]>(`${environment.apiUrl}/ticker-data/${assetTickerId}`)
+            this.http.get<TickerData[]>(`${environment.apiUrl}/ticker-data/${assetTickerId}`),
         );
     }
 }

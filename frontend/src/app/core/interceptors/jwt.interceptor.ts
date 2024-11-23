@@ -1,5 +1,5 @@
 import {
-    HttpEvent, HttpHandler, HttpInterceptor, HttpRequest
+    HttpEvent, HttpHandler, HttpInterceptor, HttpRequest,
 } from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
 import { AuthenticationService } from '@app/services/authentication.service';
@@ -58,8 +58,8 @@ export class JwtInterceptor implements HttpInterceptor {
 
         return request.clone({
             setHeaders: {
-                Authorization: `Bearer ${this.authorizationService.$authentication()?.accessToken}`
-            }
+                Authorization: `Bearer ${this.authorizationService.$authentication()?.accessToken}`,
+            },
         });
     }
 
