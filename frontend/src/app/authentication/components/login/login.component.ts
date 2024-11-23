@@ -32,7 +32,7 @@ export class LoginComponent extends BaseForm implements OnInit {
     }
 
     public async onSubmit(): Promise<void> {
-        this.$submitted.set(true);
+        this.submitted.set(true);
 
         // reset alerts on submit
         this.alertService.clear();
@@ -42,7 +42,7 @@ export class LoginComponent extends BaseForm implements OnInit {
             return;
         }
 
-        this.$saving.set(true);
+        this.saving.set(true);
         try {
             await this.authorizationService.login(this.f['email'].value, this.f['password'].value);
 
@@ -55,7 +55,7 @@ export class LoginComponent extends BaseForm implements OnInit {
                 this.alertService.error(error.message);
             }
         } finally {
-            this.$saving.set(false);
+            this.saving.set(false);
         }
     }
 }

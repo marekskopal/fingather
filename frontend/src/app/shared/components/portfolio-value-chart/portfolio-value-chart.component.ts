@@ -38,32 +38,17 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
     private readonly portfolioService = inject(PortfolioService);
     private readonly nonce = inject(CSP_NONCE);
 
-    public readonly $range = input.required<RangeEnum>({
-        alias: 'range',
-    });
-    public readonly $customRangeFrom = input<string | null>(null, {
-        alias: 'customRangeFrom',
-    });
-    public readonly $customRangeTo = input<string | null>(null, {
-        alias: 'customRangeTo',
-    });
-    public readonly $portfolio = input<Portfolio | null>(null, {
-        alias: 'portfolio',
-    });
-    public readonly $benchmarkAssetId = input<number | null>(null, {
-        alias: 'benchmarkAssetId',
-    });
-    public readonly $height = input<string>('auto', {
-        alias: 'height',
-    });
-    public readonly $showLabels = input<boolean>(true, {
-        alias: 'showLabels',
-    });
-    public readonly $sparkline = input<boolean>(false, {
-        alias: 'sparkline',
-    });
+    public readonly range = input.required<RangeEnum>();
+    public readonly customRangeFrom = input<string | null>(null);
+    public readonly customRangeTo = input<string | null>(null);
+    public readonly portfolio = input<Portfolio | null>(null);
+    public readonly benchmarkAssetId = input<number | null>(null);
+    public readonly height = input<string>('auto');
+    public readonly showLabels = input<boolean>(true);
+    public readonly sparkline = input<boolean>(false);
+
     protected chartOptions: ChartOptions;
-    protected readonly $loading = signal<boolean>(false);
+    protected readonly loading = signal<boolean>(false);
 
     public ngOnInit(): void {
         this.initializeChartOptions();
@@ -79,16 +64,16 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
     }
 
     private async refreshChart(): Promise<void> {
-        this.$loading.set(true);
+        this.loading.set(true);
 
-        const portfolio = this.$portfolio() ?? await this.portfolioService.getCurrentPortfolio();
+        const portfolio = this.portfolio() ?? await this.portfolioService.getCurrentPortfolio();
 
         const portfolioData = await this.portfolioDataService.getPortfolioDataRange(
             portfolio.id,
-            this.$range(),
-            this.$benchmarkAssetId(),
-            this.$customRangeFrom(),
-            this.$customRangeTo(),
+            this.range(),
+            this.benchmarkAssetId(),
+            this.customRangeFrom(),
+            this.customRangeTo(),
         );
 
         const chartMap = this.mapChart(portfolioData);
@@ -98,7 +83,7 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
         if (chartMap.benchmarkSeries.length > 0) {
             this.chartOptions.series[2].data = chartMap.benchmarkSeries;
         }
-        this.$loading.set(false);
+        this.loading.set(false);
     }
 
     private initializeChartOptions(): void {
@@ -116,7 +101,7 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
                 },
             ],
             chart: {
-                height: this.$height(),
+                height: this.height(),
                 type: 'area',
                 zoom: {
                     enabled: false,
@@ -125,7 +110,7 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
                     show: false,
                 },
                 sparkline: {
-                    enabled: this.$sparkline(),
+                    enabled: this.sparkline(),
                 },
                 animations: {
                     enabled: false,
@@ -140,8 +125,8 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
                 width: 3,
             },
             grid: ChartUtils.grid(),
-            xaxis: ChartUtils.xAxis(this.$showLabels()),
-            yaxis: ChartUtils.yAxis(this.$showLabels()),
+            xaxis: ChartUtils.xAxis(this.showLabels()),
+            yaxis: ChartUtils.yAxis(this.showLabels()),
             legend: {
                 show: false,
             },
@@ -150,7 +135,7 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
             colors: ChartUtils.colors(3),
         };
 
-        if (this.$benchmarkAssetId() !== null) {
+        if (this.benchmarkAssetId() !== null) {
             this.chartOptions.series[2] = {
                 name: 'Benchmark',
                 data: [],
@@ -159,7 +144,7 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
     }
 
     private initializeBenchmarkChartOptions(): void {
-        if (this.$benchmarkAssetId() === null) {
+        if (this.benchmarkAssetId() === null) {
             return;
         }
 
@@ -183,7 +168,7 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
             investedValueSeries: portfolioDatas.map(
                 (portfolioData) => parseFloat(portfolioData.transactionValue),
             ),
-            benchmarkSeries: this.$benchmarkAssetId() !== null
+            benchmarkSeries: this.benchmarkAssetId() !== null
                 ? portfolioDatas.map((portfolioData) => parseFloat(portfolioData.benchmarkData?.value ?? '0.0'))
                 : [],
             categories: portfolioDatas.map((portfolioData) => portfolioData.date),

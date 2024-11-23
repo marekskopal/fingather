@@ -46,7 +46,7 @@ export class AssetTickerChartComponent implements OnInit {
     public assetTickerId: InputSignal<number> = input.required<number>();
     public height: InputSignal<string> = input<string>('auto');
     public chartOptions: ChartOptions;
-    protected $loading = signal<boolean>(true);
+    protected loading = signal<boolean>(true);
 
     public ngOnInit(): void {
         this.initializeChartOptions();
@@ -55,7 +55,7 @@ export class AssetTickerChartComponent implements OnInit {
     }
 
     private async refreshChart(): Promise<void> {
-        this.$loading.set(true);
+        this.loading.set(true);
 
         const assetTickerDatas = await this.tickerDataService.getTickerDatas(this.assetTickerId());
 
@@ -71,7 +71,7 @@ export class AssetTickerChartComponent implements OnInit {
         // @ts-expect-error yaxis is always an array
         this.chartOptions.annotations.yaxis[0].label.text = `Average Buy Price - ${asset.averagePrice}`;
 
-        this.$loading.set(false);
+        this.loading.set(false);
     }
 
     private initializeChartOptions(): void {

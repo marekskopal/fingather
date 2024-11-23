@@ -32,17 +32,13 @@ export class FundamentalsComponent implements OnInit {
 
     public tickerId: InputSignal<number> = input.required<number>();
 
-    protected $tickerFundamental = signal<TickerFundamental | null>(null);
+    protected tickerFundamental = signal<TickerFundamental | null>(null);
 
     protected activeTab: FundamentalsTabEnum = FundamentalsTabEnum.ValuationsMetrics;
     protected readonly FundamentalsTabEnum = FundamentalsTabEnum;
 
     public async ngOnInit(): Promise<void> {
         const tickerFundamental = await this.tickerFundamentalService.getTickerFundamental(this.tickerId());
-        this.$tickerFundamental.set(tickerFundamental);
-    }
-
-    protected get tickerFundamental(): TickerFundamental | null {
-        return this.$tickerFundamental();
+        this.tickerFundamental.set(tickerFundamental);
     }
 }

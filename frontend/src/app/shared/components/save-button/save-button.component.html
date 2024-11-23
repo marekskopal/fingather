@@ -1,15 +1,15 @@
 ﻿<button
-    [disabled]="$saving()"
+    [disabled]="saving()"
     class="btn btn-primary"
     (click)="handleOnClick($event)"
 >
-    @if($saving()) {
+    @if(saving()) {
         <mat-spinner [diameter]="24" />
-    } @else if($icon()) {
-        <mat-icon>{{$icon()}}</mat-icon>
+    } @else if(icon()) {
+        <mat-icon>{{icon()}}</mat-icon>
     }
-    @if($text()) {
-        <span>{{ $text() }}</span>
+    @if(text()) {
+        <span>{{ text() }}</span>
     } @else {
         <span>{{ 'app.common.save' | translate }}</span>
     }

@@ -26,14 +26,10 @@ import {v4} from 'uuid';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImportComponent {
-    public $showCancel = input<boolean>(true, {
-        alias: 'showCancel',
-    });
-    public onImportFinish$ = output<void>({
-        'alias': 'onImportFinish',
-    });
+    public showCancel = input<boolean>(true);
+    public afterImportFinish = output<void>();
 
-    protected $importPrepares = signal<ImportPrepare[]>([]);
+    protected importPrepares = signal<ImportPrepare[]>([]);
     protected droppedFiles: NgxFileDropEntry[] = [];
     protected uuid = v4();
 
@@ -53,20 +49,20 @@ export class ImportComponent {
     }
 
     public onFileUploaded(importPrepare: ImportPrepare): void {
-        this.$importPrepares.update(() => [...this.$importPrepares(), importPrepare]);
+        this.importPrepares.update(() => [...this.importPrepares(), importPrepare]);
     }
 
     public onDeleteFile(deletedFile: DeletedImportFile): void {
         this.droppedFiles = this.droppedFiles.filter(
             (file) => file.fileEntry.name !== deletedFile.droppedFile.fileEntry.name,
         );
-        this.$importPrepares.update(() => this.$importPrepares().filter(
+        this.importPrepares.update(() => this.importPrepares().filter(
             (importPrepare) => importPrepare.importFileId !== deletedFile.importFileId),
         );
     }
 
     protected onImportFinish(): void {
         this.uuid = v4();
-        this.onImportFinish$.emit();
+        this.afterImportFinish.emit();
     }
 }

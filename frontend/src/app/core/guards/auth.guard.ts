@@ -8,7 +8,7 @@ export class AuthGuard {
     private readonly authenticationService = inject(AuthenticationService);
 
     public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-        if (this.authenticationService.$isLoggedIn()) {
+        if (this.authenticationService.isLoggedIn()) {
             return true;
         }
 

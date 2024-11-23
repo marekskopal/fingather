@@ -34,11 +34,11 @@ export class NavigationComponent implements OnInit {
 
     protected isNavigationCollapsed: boolean = true;
 
-    protected $currentUser = signal<User | null>(null);
+    protected currentUser = signal<User | null>(null);
 
     public async ngOnInit(): Promise<void> {
         const currentUser = await this.currentUserService.getCurrentUser();
-        this.$currentUser.set(currentUser);
+        this.currentUser.set(currentUser);
     }
 
     public logout(): void {

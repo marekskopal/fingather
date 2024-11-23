@@ -17,10 +17,10 @@ import {TranslateModule} from "@ngx-translate/core";
 export class ConfirmDialogComponent {
     private readonly activeModal = inject(NgbActiveModal);
 
-    public $title = signal<string>('');
-    public $message = signal<string>('');
-    public $buttonOkText = signal<string>('OK');
-    public $buttonCancelText = signal<string>('Cancel');
+    public title = signal<string>('');
+    public message = signal<string>('');
+    public buttonOkText = signal<string>('OK');
+    public buttonCancelText = signal<string>('Cancel');
 
     public decline(): void {
         this.activeModal.close(false);

@@ -30,9 +30,7 @@ import { TranslatePipe} from "@ngx-translate/core";
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WatchedAssetsComponent {
-    public readonly $assets = input.required<AssetsWithProperties | null>({
-        alias: 'assets',
-    });
+    public readonly assets = input.required<AssetsWithProperties | null>();
 
     protected readonly tableGridColumns: TableGridColumn[] = [
         { min: '250px', max: '3fr' },

@@ -16,20 +16,12 @@ import { TranslatePipe} from "@ngx-translate/core";
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SaveButtonComponent {
-    public readonly $saving = input.required<boolean>({
-        alias: 'saving',
-    })
-    public readonly $text = input<string | null>(null, {
-        alias: 'text',
-    })
-    public readonly $icon = input<string | null>(null, {
-        alias: 'icon',
-    })
-    public readonly onClick$ = output<Event>({
-        alias: 'onClick',
-    });
+    public readonly saving = input.required<boolean>();
+    public readonly text = input<string | null>(null);
+    public readonly icon = input<string | null>(null);
+    public readonly afterClick = output<Event>();
 
     protected handleOnClick(event: Event): void {
-        this.onClick$.emit(event);
+        this.afterClick.emit(event);
     }
 }

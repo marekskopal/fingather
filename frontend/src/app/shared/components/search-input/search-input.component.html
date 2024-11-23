@@ -1,12 +1,12 @@
 ﻿<div class="search-input">
     <input
         type="text"
-        [id]="$id()"
+        [id]="id()"
         class="form-control"
-        [value]="$value()"
+        [value]="value()"
         (keyup)="handleKeyup($event)"
     >
-    @if($showClearButton()) {
+    @if(showClearButton()) {
         <button class="clear-search" (click)="clearSearch()">
             <mat-icon>close</mat-icon>
         </button>

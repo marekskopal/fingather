@@ -1,13 +1,13 @@
 ﻿<div ngbDropdown>
-    <button type="button" [id]="$id()" ngbDropdownToggle>
+    <button type="button" [id]="id()" ngbDropdownToggle>
         @if(value) {
             <span><fingather-tag [type]="value.label ?? TransactionActionType.Undefined" /></span>
         } @else {
-            <span>{{ $placeholder() }}</span>
+            <span>{{ placeholder() }}</span>
         }
     </button>
-    <div ngbDropdownMenu [attr.aria-labelledby]="$id()">
-        @for(item of $items(); track item.key) {
+    <div ngbDropdownMenu [attr.aria-labelledby]="id()">
+        @for(item of items(); track item.key) {
             <button type="button" ngbDropdownItem (click)="onSelect(item.key)">
                 <fingather-tag [type]="item.label ?? TransactionActionType.Undefined" />
             </button>

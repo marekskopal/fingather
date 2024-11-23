@@ -35,7 +35,7 @@ export class OnboardingStepTwoComponent extends BaseOnboardingComponent implemen
     public override async ngOnInit(): Promise<void> {
         super.ngOnInit();
 
-        this.$loading.set(true);
+        this.loading.set(true);
 
         this.portfolio = await this.portfolioService.getCurrentPortfolio();
 
@@ -51,11 +51,11 @@ export class OnboardingStepTwoComponent extends BaseOnboardingComponent implemen
             currencyId: [this.portfolio.currencyId, Validators.required],
         });
 
-        this.$loading.set(false);
+        this.loading.set(false);
     }
 
     public async onSubmit(): Promise<void> {
-        this.$submitted.set(true);
+        this.submitted.set(true);
 
         // reset alerts on submit
         this.alertService.clear();
@@ -65,7 +65,7 @@ export class OnboardingStepTwoComponent extends BaseOnboardingComponent implemen
             return;
         }
 
-        this.$saving.set(true);
+        this.saving.set(true);
         try {
             this.updatePortfolio(this.portfolio.id);
         } catch (error) {
@@ -73,7 +73,7 @@ export class OnboardingStepTwoComponent extends BaseOnboardingComponent implemen
                 this.alertService.error(error.message);
             }
         } finally {
-            this.$saving.set(false);
+            this.saving.set(false);
         }
     }
 

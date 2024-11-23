@@ -4,10 +4,10 @@
     tabindex="0"
 >
     <input
-        [id]="$id()"
-        [type]="value === null ? 'text' : $inputType()"
+        [id]="id()"
+        [type]="value === null ? 'text' : inputType()"
         class="form-control"
-        [placeholder]="$placeholder()"
+        [placeholder]="placeholder()"
         (focus)="onInputFocus($event)"
         (blur)="onInputBlur($event)"
         (change)="selectDate($event)"

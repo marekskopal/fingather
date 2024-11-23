@@ -16,7 +16,5 @@ import { TranslatePipe} from "@ngx-translate/core";
     ],
 })
 export class HelpComponent {
-    public $text = input.required<string>({
-        alias: 'text',
-    });
+    public text = input.required<string>();
 }

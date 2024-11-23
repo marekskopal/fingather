@@ -16,13 +16,13 @@ export class VerifyComponent implements OnInit {
     private readonly emailVerifyService = inject(EmailVerifyService);
 
     private token: string;
-    protected $validated = signal<boolean>(false);
+    protected validated = signal<boolean>(false);
 
     public async ngOnInit(): Promise<void> {
         this.token = this.route.snapshot.params['token'];
 
         await this.emailVerifyService.verifyEmail(this.token);
 
-        this.$validated.set(true);
+        this.validated.set(true);
     }
 }

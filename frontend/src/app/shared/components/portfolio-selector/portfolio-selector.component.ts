@@ -23,29 +23,21 @@ import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from "
 export class PortfolioSelectorComponent implements OnInit {
     private readonly portfolioService = inject(PortfolioService);
 
-    private readonly $portfolios = signal<Portfolio[] | null>(null);
-    private readonly $currentPortfolio = signal<Portfolio | null>(null);
+    protected readonly portfolios = signal<Portfolio[] | null>(null);
+    protected readonly currentPortfolio = signal<Portfolio | null>(null);
 
     public async ngOnInit(): Promise<void> {
         const portfolio = await this.portfolioService.getCurrentPortfolio();
-        this.$currentPortfolio.set(portfolio);
+        this.currentPortfolio.set(portfolio);
 
         const portfolios = await this.portfolioService.getPortfolios();
-        this.$portfolios.set(portfolios);
-    }
-
-    protected get portfolios(): Portfolio[] | null {
-        return this.$portfolios();
-    }
-
-    protected get currentPortfolio(): Portfolio | null {
-        return this.$currentPortfolio();
+        this.portfolios.set(portfolios);
     }
 
     public async changeCurrentPortfolio(portfolioId: number): Promise<void> {
         const portfolio = await this.portfolioService.getPortfolio(portfolioId);
         this.portfolioService.setCurrentPortfolio(portfolio);
-        this.$currentPortfolio.set(portfolio);
+        this.currentPortfolio.set(portfolio);
         this.portfolioService.notify();
     }
 }

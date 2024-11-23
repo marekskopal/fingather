@@ -21,36 +21,28 @@ export class DeleteButtonComponent {
     private readonly confirmDialogService = inject(ConfirmDialogService);
     private readonly alertService = inject(AlertService);
 
-    public readonly onConfirm$ = output({
-        alias: 'onConfirm',
-    });
+    public readonly confirm = output();
 
-    public readonly $title = input.required<string>({
-        alias: 'title',
-    });
-    public readonly $message = input.required<string>({
-        alias: 'message',
-    });
-    public readonly $showText = input<boolean>(false, {
-        alias: 'showText',
-    });
+    public readonly title = input.required<string>();
+    public readonly message = input.required<string>();
+    public readonly showText = input<boolean>(false);
 
-    protected readonly $isDeleting = signal<boolean>(false);
+    protected readonly isDeleting = signal<boolean>(false);
 
     protected async delete(): Promise<void> {
-        this.$isDeleting.set(true);
+        this.isDeleting.set(true);
 
         try {
             const confirmed = await this.confirmDialogService.confirm(
-                this.$title(),
-                this.$message(),
+                this.title(),
+                this.message(),
             );
             if (!confirmed) {
-                this.$isDeleting.set(false);
+                this.isDeleting.set(false);
                 return;
             }
 
-            await this.onConfirm$.emit();
+            await this.confirm.emit();
         } catch (error) {
             // eslint-disable-next-line no-console
             console.error(error);
@@ -58,7 +50,7 @@ export class DeleteButtonComponent {
                 this.alertService.error(error.message);
             }
         } finally {
-            this.$isDeleting.set(false);
+            this.isDeleting.set(false);
         }
     }
 }

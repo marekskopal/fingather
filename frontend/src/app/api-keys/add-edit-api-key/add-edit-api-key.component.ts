@@ -39,7 +39,7 @@ export class AddEditApiKeyComponent extends BaseAddEditForm implements OnInit {
     ];
 
     public async ngOnInit(): Promise<void> {
-        this.$loading.set(true);
+        this.loading.set(true);
 
         this.initializeIdFromRoute();
 
@@ -48,17 +48,17 @@ export class AddEditApiKeyComponent extends BaseAddEditForm implements OnInit {
             apiKey: ['', Validators.required],
         });
 
-        const id = this.$id();
+        const id = this.id();
         if (id !== null) {
             const apiKey = await this.apiKeyService.getApiKey(id);
             this.form.patchValue(apiKey);
         }
 
-        this.$loading.set(false);
+        this.loading.set(false);
     }
 
     public onSubmit(): void {
-        this.$submitted.set(true);
+        this.submitted.set(true);
 
         // reset alerts on submit
         this.alertService.clear();
@@ -68,9 +68,9 @@ export class AddEditApiKeyComponent extends BaseAddEditForm implements OnInit {
             return;
         }
 
-        this.$saving.set(true);
+        this.saving.set(true);
         try {
-            if (this.$id() === null) {
+            if (this.id() === null) {
                 this.createApiKey();
             } else {
                 this.updateApiKey();
@@ -80,7 +80,7 @@ export class AddEditApiKeyComponent extends BaseAddEditForm implements OnInit {
                 this.alertService.error(error.message);
             }
         } finally {
-            this.$saving.set(false);
+            this.saving.set(false);
         }
     }
 
@@ -90,11 +90,11 @@ export class AddEditApiKeyComponent extends BaseAddEditForm implements OnInit {
 
         this.alertService.success('API key added successfully', { keepAfterRouteChange: true });
         this.apiKeyService.notify();
-        this.router.navigate([this.$routerBackLink()], { relativeTo: this.route });
+        this.router.navigate([this.routerBackLink()], { relativeTo: this.route });
     }
 
     private async updateApiKey(): Promise<void> {
-        const id = this.$id();
+        const id = this.id();
         if (id === null) {
             return;
         }
@@ -103,6 +103,6 @@ export class AddEditApiKeyComponent extends BaseAddEditForm implements OnInit {
 
         this.alertService.success('Update successful', { keepAfterRouteChange: true });
         this.apiKeyService.notify();
-        this.router.navigate([this.$routerBackLink()], { relativeTo: this.route });
+        this.router.navigate([this.routerBackLink()], { relativeTo: this.route });
     }
 }

@@ -29,7 +29,7 @@
             <div class="subtitle">{{ 'app.onboarding.steps.currency' | translate }}</div>
         </div>
 
-        @if (!$loading()) {
+        @if (!loading()) {
             <form [formGroup]="form" (ngSubmit)="onSubmit()">
                 <div class="form-group-step-two">
                     <label for="currencyId">{{ 'app.onboarding.stepTwo.currency' | translate }}</label>
@@ -41,7 +41,7 @@
                     />
                     <fingather-input-validator
                         [control]="f['currencyId']"
-                        [isSubmitted]="$submitted()"
+                        [isSubmitted]="submitted()"
                         [errorMessages]="{
                             required: 'app.onboarding.stepTwo.currencyRequired',
                         }"
@@ -50,7 +50,7 @@
                 <div class="button-group">
                     <p>{{ 'app.onboarding.stepTwo.saveAndContinue' | translate }}</p>
                     <fingather-save-button
-                        [saving]="$saving()"
+                        [saving]="saving()"
                         [text]="'app.onboarding.stepTwo.importAssets' | translate"
                     />
                 </div>

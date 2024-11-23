@@ -8,12 +8,10 @@ import {Directive, ElementRef, inject, input, OnInit} from "@angular/core";
 export class ColoredValueDirective implements OnInit {
     private readonly el = inject(ElementRef);
 
-    public $coloredValue = input.required<number | string | null>({
-        alias: 'coloredValue',
-    });
+    public coloredValue = input.required<number | string | null>();
 
     public ngOnInit(): void {
-        let coloredValue = this.$coloredValue();
+        let coloredValue = this.coloredValue();
 
         if (typeof coloredValue === 'string') {
             coloredValue = parseFloat(coloredValue);

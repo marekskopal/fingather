@@ -33,7 +33,7 @@ export class JwtInterceptor implements HttpInterceptor {
         } catch (err: any) {
             if (
                 [401, 403].includes(err.status)
-                && this.authorizationService.$isLoggedIn()
+                && this.authorizationService.isLoggedIn()
                 && request.url !== this.refreshTokenUrl
             ) {
                 return this.handleRefreshToken(request, next);
@@ -47,7 +47,7 @@ export class JwtInterceptor implements HttpInterceptor {
     }
 
     private setAuthorizationHeader(request: HttpRequest<any>): HttpRequest<any> {
-        if (!this.authorizationService.$isLoggedIn()) {
+        if (!this.authorizationService.isLoggedIn()) {
             return request;
         }
 
@@ -58,7 +58,7 @@ export class JwtInterceptor implements HttpInterceptor {
 
         return request.clone({
             setHeaders: {
-                Authorization: `Bearer ${this.authorizationService.$authentication()?.accessToken}`,
+                Authorization: `Bearer ${this.authorizationService.authentication()?.accessToken}`,
             },
         });
     }

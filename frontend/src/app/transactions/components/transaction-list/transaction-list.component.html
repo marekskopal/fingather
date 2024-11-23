@@ -1,25 +1,25 @@
-@if($showSearch()) {
+@if(showSearch()) {
     <fingather-transactions-search
-        (onSearch)="changeTransactionSearch($event)"
+        (afterSearch)="changeTransactionSearch($event)"
     />
 }
 
 <div
-    [class.card]="$showCard()"
+    [class.card]="showCard()"
 >
     <div
-        [class.card-body]="$showCard()"
+        [class.card-body]="showCard()"
     >
-        @if (transactionList !== null) {
+        @if (transactionList(); as transactionList) {
             <table
                 class="table"
                 tableGrid
-                [columns]="$tableGridColumns()"
+                [columns]="tableGridColumns()"
                 scrollShadow
             >
                 <thead>
                     <tr>
-                        @for ($column of $columns(); track $index) {
+                        @for ($column of columns(); track $index) {
                             <th>
                                 @if ($column === TransactionGridColumnEnum.Date) {
                                     {{ 'app.transactions.list.date' | translate }}
@@ -37,7 +37,7 @@
                 <tbody>
                     @for(transaction of transactionList.transactions; track transaction.id) {
                         <tr>
-                            @for ($column of $columns(); track $index) {
+                            @for ($column of columns(); track $index) {
                                 @if ($column === TransactionGridColumnEnum.Date) {
                                     <td class="color-gray">
                                         <div class="text-nowrap">{{transaction.actionCreated | date: 'y-MM-dd'}}</div>
@@ -78,7 +78,7 @@
                                             </a>
                                         }
                                         <fingather-delete-button
-                                            (onConfirm)="deleteTransaction(transaction.id)"
+                                            (confirm)="deleteTransaction(transaction.id)"
                                             [title]="'Delete transaction'"
                                             [message]="'Are you sure you want to delete transaction?'"
                                         />
@@ -93,11 +93,11 @@
     </div>
 </div>
 
-@if($showPagination()) {
+@if(showPagination()) {
     <fingather-pagination
-        [totalItems]="transactionList !== null ? transactionList.count : 0"
+        [totalItems]="transactionList() !== null ? transactionList()?.count ?? 0 : 0"
         [defaultPageSize]="pageSize"
-        (onSelectPage)="changePage($event)"
-        (onChangePageSize)="changePageSize($event)"
+        (afterSelectPage)="changePage($event)"
+        (afterChangePageSize)="changePageSize($event)"
     />
 }

@@ -36,21 +36,21 @@
                     <label class="form-check-label" for="showPerAnnum">{{ 'app.assets.list.showPerAnnum' | translate }}</label>
                 </div>
 
-                @if (openedGroupedAssets !== null) {
+                @if (openedGroupedAssets(); as openedGroupedAssets) {
                     <fingather-opened-grouped-assets
                         [openedGroupedAssets]="openedGroupedAssets"
                         [assetsOrder]="openedAssetsOrderBy"
-                        [showPerAnnum]="$showPerAnnum()"
+                        [showPerAnnum]="showPerAnnum()"
                         [defaultCurrency]="defaultCurrency"
-                        (changeAssetsOrder)="changeOpenedAssetsOrderBy($event)"
+                        (afterChangeAssetsOrder)="changeOpenedAssetsOrderBy($event)"
                     />
-                } @else if (assetsWithProperties !== null) {
+                } @else if (assetsWithProperties()) {
                     <fingather-opened-assets
-                        [assets]="assetsWithProperties"
+                        [assets]="assetsWithProperties()!"
                         [assetsOrder]="openedAssetsOrderBy"
-                        [showPerAnnum]="$showPerAnnum()"
+                        [showPerAnnum]="showPerAnnum()"
                         [defaultCurrency]="defaultCurrency"
-                        (changeAssetsOrder)="changeOpenedAssetsOrderBy($event)"
+                        (afterChangeAssetsOrder)="changeOpenedAssetsOrderBy($event)"
                     />
                 } @else {
                     <span class="spinner-border spinner-border-lg align-center"></span>
@@ -64,7 +64,7 @@
         </button>
         <ng-template ngbNavContent>
             <fingather-closed-assets
-                [assets]="assetsWithProperties"
+                [assets]="assetsWithProperties()"
                 [defaultCurrency]="defaultCurrency"
             />
         </ng-template>
@@ -75,7 +75,7 @@
         </button>
         <ng-template ngbNavContent>
             <fingather-watched-assets
-                [assets]="assetsWithProperties"
+                [assets]="assetsWithProperties()"
             />
         </ng-template>
     </li>

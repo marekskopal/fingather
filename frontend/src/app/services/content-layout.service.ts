@@ -5,14 +5,14 @@ import {AuthenticationService} from "@app/services/authentication.service";
 export class ContentLayoutService {
     private readonly authenticationService = inject(AuthenticationService);
 
-    public readonly $contentCenter = computed<boolean>(() =>
-        !this.authenticationService.$isLoggedIn()
-        || this.$thisContentCenter(),
+    public readonly contentCenter = computed<boolean>(() =>
+        !this.authenticationService.isLoggedIn()
+        || this.thisContentCenter(),
     );
 
-    private readonly $thisContentCenter = signal<boolean>(false);
+    private readonly thisContentCenter = signal<boolean>(false);
 
     public setContentCenter(value: boolean): void {
-        this.$thisContentCenter.set(value);
+        this.thisContentCenter.set(value);
     }
 }

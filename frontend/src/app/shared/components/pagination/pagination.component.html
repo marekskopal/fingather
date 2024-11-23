@@ -4,20 +4,20 @@
     <ul class="pagination">
         <li class="page-item page-item-previous">
             <a class="page-link"
-               [class.disabled]="$currentPage() === 1"
+               [class.disabled]="currentPage() === 1"
                tabindex="0"
-               (click)="onSelectPage($currentPage() - 1)"
+               (click)="onSelectPage(currentPage() - 1)"
             >
                 <mat-icon>arrow_left_alt</mat-icon>
                 <span>{{ 'app.shared.pagination.previous' | translate }}</span>
             </a>
         </li>
 
-        @for(page of $pages(); track page) {
+        @for(page of pages(); track page) {
             <li class="page-item">
                 @if(!isDelimiterPage(page)) {
                     <a class="page-link"
-                       [class.active]="page === $currentPage()"
+                       [class.active]="page === currentPage()"
                        (click)="onSelectPage(page)"
                        tabindex="0"
                     >{{page}}</a>
@@ -30,8 +30,8 @@
         <li class="page-item page-item-next">
             <a class="page-link"
                tabindex="0"
-               [class.disabled]="$currentPage() === $pagesCount()"
-               (click)="onSelectPage($currentPage() + 1)"
+               [class.disabled]="currentPage() === pagesCount()"
+               (click)="onSelectPage(currentPage() + 1)"
             >
                 <span>{{ 'app.shared.pagination.next' | translate }}</span>
                 <mat-icon>arrow_right_alt</mat-icon>
@@ -44,10 +44,10 @@
 
         <div ngbDropdown placement="top-end" class="d-inline-block">
             <button type="button" id="recordsPerPage" ngbDropdownToggle>
-                {{ $pageSize() }}
+                {{ pageSize() }}
             </button>
             <div ngbDropdownMenu aria-labelledby="recordsPerPage">
-                @for(pageSizeOption of $pageSizeOptions(); track pageSizeOption) {
+                @for(pageSizeOption of pageSizeOptions(); track pageSizeOption) {
                     <button ngbDropdownItem (click)="changePageSize(pageSizeOption)">
                         {{pageSizeOption}}
                     </button>
@@ -57,6 +57,6 @@
     </div>
 
     <div class="pagination-total">
-        {{ 'app.shared.pagination.total' | translate }} {{$totalItems()}} {{ 'app.shared.pagination.records' | translate }}
+        {{ 'app.shared.pagination.total' | translate }} {{totalItems()}} {{ 'app.shared.pagination.records' | translate }}
     </div>
 </nav>

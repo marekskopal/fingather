@@ -34,29 +34,23 @@ export class ImportPrepareComponent {
         .create({ providers: [FakeLoadingService], parent: this.injector })
         .get(FakeLoadingService);
 
-    public readonly $importPrepares = input.required<ImportPrepare[]>({
-        'alias': 'importPrepares',
-    });
-    public readonly $showCancel = input<boolean>(true, {
-        alias: 'showCancel',
-    });
-    public readonly onImportFinish$ = output<void>({
-        'alias': 'onImportFinish',
-    });
+    public readonly importPrepares = input.required<ImportPrepare[]>();
+    public readonly showCancel = input<boolean>(true);
+    public readonly afterImportFinish = output<void>();
 
-    protected readonly $multipleFoundTickers = signal<Record<string, ImportPrepareTicker>>({});
+    protected readonly multipleFoundTickers = signal<Record<string, ImportPrepareTicker>>({});
 
-    protected readonly $selectedTickers = signal<Record<string, number>>({});
+    protected readonly selectedTickers = signal<Record<string, number>>({});
 
-    protected readonly $creatingImport = signal<boolean>(false);
-    protected readonly $processed = this.fakeLoadingService.$processed;
+    protected readonly creatingImport = signal<boolean>(false);
+    protected readonly processed = this.fakeLoadingService.processed;
 
     public constructor() {
         effect(() => {
             const multipleFoundTickers: Record<string, ImportPrepareTicker> = {};
             const selectedTickers: Record<string, number> = {};
 
-            for (const importPrepare of this.$importPrepares()) {
+            for (const importPrepare of this.importPrepares()) {
                 for (const importPrepareTicker of importPrepare.multipleFoundTickers) {
                     const key = `${importPrepareTicker.brokerId}-${importPrepareTicker.ticker}`;
 
@@ -65,29 +59,29 @@ export class ImportPrepareComponent {
                 }
             }
 
-            this.$multipleFoundTickers.set(multipleFoundTickers);
-            this.$selectedTickers.set(selectedTickers);
+            this.multipleFoundTickers.set(multipleFoundTickers);
+            this.selectedTickers.set(selectedTickers);
         }, {
             allowSignalWrites: true,
         });
     }
 
     protected onChangeTicker(ticker: Ticker, key: string): void {
-        const selectedTickers = this.$selectedTickers();
+        const selectedTickers = this.selectedTickers();
         selectedTickers[key] = ticker.id;
-        this.$selectedTickers.set(selectedTickers);
+        this.selectedTickers.set(selectedTickers);
     }
 
     protected async createImport(): Promise<void> {
-        this.$creatingImport.set(true);
+        this.creatingImport.set(true);
         this.fakeLoadingService.startLoading();
 
         const importStart: ImportStart = {
-            uuid: this.$importPrepares()[0].uuid,
+            uuid: this.importPrepares()[0].uuid,
             importMappings: [],
         };
 
-        for (const selectedTicker of objectKeyValues(this.$selectedTickers())) {
+        for (const selectedTicker of objectKeyValues(this.selectedTickers())) {
             const [brokerId, importTicker] = selectedTicker.key.split('-');
 
             const importMapping: ImportMapping = {
@@ -102,9 +96,9 @@ export class ImportPrepareComponent {
         await this.importDataService.createImportStart(importStart);
 
         this.fakeLoadingService.finishLoading();
-        this.$creatingImport.set(false);
+        this.creatingImport.set(false);
 
-        this.onImportFinish$.emit();
+        this.afterImportFinish.emit();
     }
 
     protected readonly objectValues = objectValues;

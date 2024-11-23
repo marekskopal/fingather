@@ -4,22 +4,22 @@
             <mat-icon>delete</mat-icon>
         </div>
         <div class="message">
-            <h6>{{ $title() }}</h6>
-            <p>{{ $message() }}</p>
+            <h6>{{ title() }}</h6>
+            <p>{{ message() }}</p>
         </div>
     </div>
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="decline()">
-        @if($buttonCancelText()) {
-            {{ $buttonCancelText() }}
+        @if(buttonCancelText()) {
+            {{ buttonCancelText() }}
         } @else {
             {{ 'app.common.cancel' | translate }}
         }
     </button>
     <button type="button" class="btn btn-danger" (click)="accept()">
-        @if($buttonOkText()) {
-            {{ $buttonOkText() }}
+        @if(buttonOkText()) {
+            {{ buttonOkText() }}
         } @else {
             {{ 'app.common.ok' | translate }}
         }

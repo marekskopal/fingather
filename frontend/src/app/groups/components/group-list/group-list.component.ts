@@ -27,7 +27,7 @@ export class GroupListComponent implements OnInit {
     private readonly portfolioService = inject(PortfolioService);
     private readonly changeDetectorRef = inject(ChangeDetectorRef);
 
-    public readonly $groups = signal<Group[] | null>(null);
+    public readonly groups = signal<Group[] | null>(null);
 
     public ngOnInit(): void {
         this.refreshGroups();
@@ -43,28 +43,24 @@ export class GroupListComponent implements OnInit {
         });
     }
 
-    protected get groups(): Group[] | null {
-        return this.$groups();
-    }
-
     private async refreshGroups(): Promise<void> {
-        this.$groups.set(null);
+        this.groups.set(null);
 
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
         const groups = await this.groupService.getGroups(portfolio.id);
-        this.$groups.set(groups);
+        this.groups.set(groups);
     }
 
     protected async deleteGroup(id: number): Promise<void> {
-        const group = this.$groups()?.find((x) => x.id === id);
+        const group = this.groups()?.find((x) => x.id === id);
         if (group === undefined) {
             return;
         }
 
         await this.groupService.deleteGroup(id);
 
-        this.$groups.update((groups) => (groups !== null
+        this.groups.update((groups) => (groups !== null
             ? groups.filter((x) => x.id !== id)
             : null));
     }

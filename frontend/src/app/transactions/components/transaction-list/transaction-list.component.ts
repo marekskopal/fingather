@@ -46,51 +46,39 @@ export class TransactionListComponent implements OnInit {
     private readonly portfolioService = inject(PortfolioService);
     private readonly changeDetectorRef = inject(ChangeDetectorRef);
 
-    public readonly $assetId = input<number | null>(null, {
-        alias: 'assetId',
-    });
+    public readonly assetId = input<number | null>(null);
 
-    public readonly $actionTypes = input<TransactionActionType[] | null>(null, {
-        alias: 'actionTypes',
-    });
+    public readonly actionTypes = input<TransactionActionType[] | null>(null);
 
-    public readonly $columns = input<TransactionGridColumnEnum[]>([
+    public readonly columns = input<TransactionGridColumnEnum[]>([
         TransactionGridColumnEnum.Date,
         TransactionGridColumnEnum.Created,
         TransactionGridColumnEnum.Type,
         TransactionGridColumnEnum.Asset,
         TransactionGridColumnEnum.Actions,
-    ], {
-        alias: 'columns',
-    });
+    ]);
 
-    public readonly $showSearch = input<boolean>(true, {
-        alias: 'showSearch',
-    });
+    public readonly showSearch = input<boolean>(true);
 
-    public readonly $showCard = input<boolean>(true, {
-        alias: 'showCard',
-    });
+    public readonly showCard = input<boolean>(true);
 
-    public readonly $showPagination = input<boolean>(true, {
-        alias: 'showPagination',
-    });
+    public readonly showPagination = input<boolean>(true);
 
     private page: number = 1;
     public pageSize: number = 50;
 
-    private readonly $transactionList = signal<TransactionList | null>(null);
+    protected readonly transactionList = signal<TransactionList | null>(null);
 
-    private readonly $transactionSearch = signal<TransactionSearch>({
+    private readonly transactionSearch = signal<TransactionSearch>({
         search: null,
         selectedType: null,
         created: null,
     });
 
-    protected readonly $tableGridColumns = computed<TableGridColumn[]>(() => {
+    protected readonly tableGridColumns = computed<TableGridColumn[]>(() => {
         const columns: TableGridColumn[] = [];
 
-        for (const column of this.$columns()) {
+        for (const column of this.columns()) {
             switch (column) {
                 case TransactionGridColumnEnum.Date:
                     columns.push({ min: '130px', max: '1.2fr' });
@@ -134,30 +122,26 @@ export class TransactionListComponent implements OnInit {
     }
 
     protected async refreshTransactions(): Promise<void> {
-        this.$transactionList.set(null);
+        this.transactionList.set(null);
 
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
-        const transactionSearch = this.$transactionSearch();
+        const transactionSearch = this.transactionSearch();
 
         const transactionList = await this.transactionService.getTransactions(
             portfolio.id,
-            this.$assetId(),
-            transactionSearch.selectedType !== null ? [transactionSearch.selectedType] : this.$actionTypes(),
+            this.assetId(),
+            transactionSearch.selectedType !== null ? [transactionSearch.selectedType] : this.actionTypes(),
             transactionSearch.search,
             transactionSearch.created,
-            this.$showPagination() ? this.pageSize : null,
-            this.$showPagination() ? (this.page - 1) * this.pageSize : null,
+            this.showPagination() ? this.pageSize : null,
+            this.showPagination() ? (this.page - 1) * this.pageSize : null,
         );
-        this.$transactionList.set(transactionList);
-    }
-
-    protected get transactionList(): TransactionList | null {
-        return this.$transactionList();
+        this.transactionList.set(transactionList);
     }
 
     protected async deleteTransaction(id: number): Promise<void> {
-        const transaction = this.transactionList?.transactions?.find((x) => x.id === id);
+        const transaction = this.transactionList()?.transactions?.find((x) => x.id === id);
         if (transaction === undefined) {
             return;
         }
@@ -173,7 +157,7 @@ export class TransactionListComponent implements OnInit {
     }
 
     protected changeTransactionSearch(transactionSearch: TransactionSearch): void {
-        this.$transactionSearch.set(transactionSearch);
+        this.transactionSearch.set(transactionSearch);
 
         this.refreshTransactions();
     }

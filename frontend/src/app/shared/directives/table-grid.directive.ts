@@ -10,14 +10,12 @@ export class TableGridDirective implements OnInit {
     private readonly el = inject(ElementRef);
     private readonly renderer = inject(Renderer2);
 
-    public $columns = input.required<TableGridColumn[]>({
-        alias: 'columns',
-    });
+    public columns = input.required<TableGridColumn[]>();
 
     public ngOnInit(): void {
         this.renderer.addClass(this.el.nativeElement, 'table-grid');
 
-        const gridTemplateColumns = this.$columns().map(
+        const gridTemplateColumns = this.columns().map(
             column => `minmax(${column.min}, ${column.max})`,
         );
 

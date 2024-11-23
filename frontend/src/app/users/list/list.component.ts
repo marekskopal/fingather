@@ -27,7 +27,7 @@ export class ListComponent implements OnInit {
     private readonly changeDetectorRef = inject(ChangeDetectorRef);
     private readonly router = inject(Router);
 
-    private readonly $users = signal<UserWithStatistic[]>([]);
+    protected readonly users = signal<UserWithStatistic[]>([]);
     protected currentUser: User;
 
     public async ngOnInit(): Promise<void> {
@@ -44,23 +44,19 @@ export class ListComponent implements OnInit {
         });
     }
 
-    protected get users(): UserWithStatistic[] {
-        return this.$users();
-    }
-
     private async refreshUsers(): Promise<void> {
         const users = await this.userService.getUsers();
-        this.$users.set(users);
+        this.users.set(users);
     }
 
     protected async deleteUser(id: number): Promise<void> {
-        const user = this.$users().find((x) => x.id === id);
+        const user = this.users().find((x) => x.id === id);
         if (user === undefined) {
             return;
         }
 
         await this.userService.deleteUser(id);
 
-        this.$users.update((users) => users.filter((x) => x.id !== id));
+        this.users.update((users) => users.filter((x) => x.id !== id));
     }
 }

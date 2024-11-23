@@ -1,4 +1,4 @@
-﻿@for(group of $openedGroupedAssets(); track group.id) {
+﻿@for(group of openedGroupedAssets(); track group.id) {
     <div class="card">
         @if (group.id !== null) {
             <div class="card-header">
@@ -9,7 +9,7 @@
             <table
                 class="table assets-table"
                 tableGrid
-                [columns]="$tableGridColumns()"
+                [columns]="tableGridColumns()"
                 scrollShadow
             >
                 <thead>
@@ -21,7 +21,7 @@
                                 tabindex="0"
                             >
                                 {{ 'app.assets.list.name' | translate }}
-                                @if($assetsOrder() === AssetsOrder.TickerName) {
+                                @if(assetsOrder() === AssetsOrder.TickerName) {
                                     <mat-icon>arrow_upward</mat-icon>
                                 }
                             </a>
@@ -33,7 +33,7 @@
                                 tabindex="0"
                             >
                                 {{ 'app.assets.list.value' | translate }}
-                                @if($assetsOrder() === AssetsOrder.Value) {
+                                @if(assetsOrder() === AssetsOrder.Value) {
                                     <mat-icon>arrow_downward</mat-icon>
                                 }
                             </a>
@@ -45,7 +45,7 @@
                                 tabindex="0"
                             >
                                 {{ 'app.assets.list.gain' | translate }}
-                                @if($assetsOrder() === AssetsOrder.Gain) {
+                                @if(assetsOrder() === AssetsOrder.Gain) {
                                     <mat-icon>arrow_downward</mat-icon>
                                 }
                             </a>
@@ -57,7 +57,7 @@
                                 tabindex="0"
                             >
                                 {{ 'app.assets.list.dividend' | translate }}
-                                @if($assetsOrder() === AssetsOrder.DividendYield) {
+                                @if(assetsOrder() === AssetsOrder.DividendYield) {
                                     <mat-icon>arrow_downward</mat-icon>
                                 }
                             </a>
@@ -69,7 +69,7 @@
                                 tabindex="0"
                             >
                                 {{ 'app.assets.list.fxImpact' | translate }}
-                                @if($assetsOrder() === AssetsOrder.FxImpact) {
+                                @if(assetsOrder() === AssetsOrder.FxImpact) {
                                     <mat-icon>arrow_downward</mat-icon>
                                 }
                             </a>
@@ -81,7 +81,7 @@
                                 tabindex="0"
                             >
                                 {{ 'app.assets.list.return' | translate }}
-                                @if($assetsOrder() === AssetsOrder.Return) {
+                                @if(assetsOrder() === AssetsOrder.Return) {
                                     <mat-icon>arrow_downward</mat-icon>
                                 }
                             </a>
@@ -114,15 +114,15 @@
                             </td>
                             <td class="text-end">
                                 <div>
-                                    <div>{{asset.value | number:'1.2-2' | money: $defaultCurrency().id | async}}</div>
+                                    <div>{{asset.value | number:'1.2-2' | money: defaultCurrency().id | async}}</div>
                                     <div class="small color-gray-lightest">{{asset.units | number:'1.0-8'}}</div>
                                     <div class="smaller color-gray">{{asset.price | number:'1.2-2' | money: asset.ticker.currencyId | async}}</div>
                                 </div>
                             </td>
                             <td class="text-end" [coloredValue]="asset.gain">
-                                <div class="small">{{asset.gainDefaultCurrency | number:'1.2-2' | money: $defaultCurrency().id | async}}</div>
+                                <div class="small">{{asset.gainDefaultCurrency | number:'1.2-2' | money: defaultCurrency().id | async}}</div>
                                 <div>
-                                    @if ($showPerAnnum()) {
+                                    @if (showPerAnnum()) {
                                         {{asset.gainPercentagePerAnnum}}%&nbsp;p.a.
                                     } @else {
                                         {{asset.gainPercentage}}%
@@ -130,9 +130,9 @@
                                 </div>
                             </td>
                             <td class="text-end" [coloredValue]="asset.dividendYieldDefaultCurrency">
-                                <div class="small">{{asset.dividendYieldDefaultCurrency | number:'1.2-2' | money: $defaultCurrency().id | async}}</div>
+                                <div class="small">{{asset.dividendYieldDefaultCurrency | number:'1.2-2' | money: defaultCurrency().id | async}}</div>
                                 <div>
-                                    @if ($showPerAnnum()) {
+                                    @if (showPerAnnum()) {
                                         {{asset.dividendYieldPercentagePerAnnum}}%&nbsp;p.a.
                                     } @else {
                                         {{asset.dividendYieldPercentage}}%
@@ -140,9 +140,9 @@
                                 </div>
                             </td>
                             <td class="text-end" [coloredValue]="asset.fxImpact">
-                                <div class="small">{{asset.fxImpact | number:'1.2-2' | money: $defaultCurrency().id | async}}</div>
+                                <div class="small">{{asset.fxImpact | number:'1.2-2' | money: defaultCurrency().id | async}}</div>
                                 <div>
-                                    @if ($showPerAnnum()) {
+                                    @if (showPerAnnum()) {
                                         {{asset.fxImpactPercentagePerAnnum}}%&nbsp;p.a.
                                     } @else {
                                         {{asset.fxImpactPercentage}}%
@@ -150,9 +150,9 @@
                                 </div>
                             </td>
                             <td class="text-end" [coloredValue]="asset.return">
-                                <div class="small"><strong>{{asset.return | number:'1.2-2' | money: $defaultCurrency().id | async}}</strong></div>
+                                <div class="small"><strong>{{asset.return | number:'1.2-2' | money: defaultCurrency().id | async}}</strong></div>
                                 <div>
-                                    @if ($showPerAnnum()) {
+                                    @if (showPerAnnum()) {
                                         <strong>{{asset.returnPercentagePerAnnum}}%&nbsp;p.a.</strong>
                                     } @else {
                                         <strong>{{asset.returnPercentage}}%</strong>
@@ -168,11 +168,11 @@
                     }
                     <tr>
                         <td><strong>{{ 'app.assets.list.total' | translate }} {{group.percentage | number:'1.2-2'}}%</strong></td>
-                        <td class="text-end">{{group.groupData.value | number:'1.2-2' | money: $defaultCurrency().id | async}}</td>
+                        <td class="text-end">{{group.groupData.value | number:'1.2-2' | money: defaultCurrency().id | async}}</td>
                         <td class="text-end" [coloredValue]="group.groupData.gain">
-                            <div class="small">{{group.groupData.gain | number:'1.2-2' | money: $defaultCurrency().id | async}}</div>
+                            <div class="small">{{group.groupData.gain | number:'1.2-2' | money: defaultCurrency().id | async}}</div>
                             <div>
-                                @if ($showPerAnnum()) {
+                                @if (showPerAnnum()) {
                                     {{group.groupData.gainPercentagePerAnnum}}%&nbsp;p.a.
                                 } @else {
                                     {{group.groupData.gainPercentage}}%
@@ -180,9 +180,9 @@
                             </div>
                         </td>
                         <td class="text-end" [coloredValue]="group.groupData.dividendYield">
-                            <div class="small">{{group.groupData.dividendYield | number:'1.2-2' | money: $defaultCurrency().id | async}}</div>
+                            <div class="small">{{group.groupData.dividendYield | number:'1.2-2' | money: defaultCurrency().id | async}}</div>
                             <div>
-                                @if ($showPerAnnum()) {
+                                @if (showPerAnnum()) {
                                     {{group.groupData.dividendYieldPercentagePerAnnum}}%&nbsp;p.a.
                                 } @else {
                                     {{group.groupData.dividendYieldPercentage}}%
@@ -190,9 +190,9 @@
                             </div>
                         </td>
                         <td class="text-end" [coloredValue]="group.groupData.fxImpact">
-                            <div class="small">{{group.groupData.fxImpact | number:'1.2-2' | money: $defaultCurrency().id | async}}</div>
+                            <div class="small">{{group.groupData.fxImpact | number:'1.2-2' | money: defaultCurrency().id | async}}</div>
                             <div>
-                                @if ($showPerAnnum()) {
+                                @if (showPerAnnum()) {
                                     {{group.groupData.fxImpactPercentagePerAnnum}}%&nbsp;p.a.
                                 } @else {
                                     {{group.groupData.fxImpactPercentage}}%
@@ -200,9 +200,9 @@
                             </div>
                         </td>
                         <td class="text-end" [coloredValue]="group.groupData.return">
-                            <div class="small"><strong>{{group.groupData.return | number:'1.2-2' | money: $defaultCurrency().id | async}}</strong></div>
+                            <div class="small"><strong>{{group.groupData.return | number:'1.2-2' | money: defaultCurrency().id | async}}</strong></div>
                             <div>
-                                @if ($showPerAnnum()) {
+                                @if (showPerAnnum()) {
                                     <strong>{{group.groupData.returnPercentagePerAnnum}}%&nbsp;p.a.</strong>
                                 } @else {
                                     <strong>{{group.groupData.returnPercentage}}%</strong>

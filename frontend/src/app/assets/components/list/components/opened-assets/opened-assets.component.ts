@@ -35,30 +35,20 @@ import { TranslatePipe} from "@ngx-translate/core";
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OpenedAssetsComponent {
-    public readonly $assets = input.required<AssetsWithProperties>({
-        alias: 'assets',
-    });
-    public readonly $assetsOrder = input.required<AssetsOrder>({
-        alias: 'assetsOrder',
-    });
-    public readonly $showPerAnnum = input.required<boolean>({
-        alias: 'showPerAnnum',
-    });
-    public readonly $defaultCurrency = input.required<Currency>({
-        alias: 'defaultCurrency',
-    });
-    public readonly onChangeAssetsOrder$ = output<AssetsOrder>({
-        alias: 'changeAssetsOrder',
-    });
+    public readonly assets = input.required<AssetsWithProperties>();
+    public readonly assetsOrder = input.required<AssetsOrder>();
+    public readonly showPerAnnum = input.required<boolean>();
+    public readonly defaultCurrency = input.required<Currency>();
+    public readonly afterChangeAssetsOrder = output<AssetsOrder>();
 
-    protected readonly $tableGridColumns = computed<TableGridColumn[]>(() => {
+    protected readonly tableGridColumns = computed<TableGridColumn[]>(() => {
         let maxDigitsValue = 0;
         let maxDigitsGain = 0;
         let maxDigitsDividend= 0;
         let maxDigitsFxImpact = 0;
         let maxDigitsReturn = 0;
 
-        for (const asset of this.$assets().openAssets) {
+        for (const asset of this.assets().openAssets) {
             maxDigitsValue = Math.max(maxDigitsValue, NumberUtils.numberOfDigits(asset.value));
             maxDigitsGain = Math.max(maxDigitsGain, NumberUtils.numberOfDigits(asset.gainDefaultCurrency));
             maxDigitsDividend = Math.max(maxDigitsDividend, NumberUtils.numberOfDigits(asset.dividendYieldDefaultCurrency));
@@ -78,7 +68,7 @@ export class OpenedAssetsComponent {
     });
 
     protected changeAssetsOrder(orderBy: AssetsOrder): void {
-        this.onChangeAssetsOrder$.emit(orderBy);
+        this.afterChangeAssetsOrder.emit(orderBy);
     }
 
     protected readonly AssetsOrder = AssetsOrder;

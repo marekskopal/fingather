@@ -40,7 +40,7 @@ export class AddEditGroupComponent extends BaseAddEditForm implements OnInit {
     protected assets: SelectItem<number, string>[] = [];
 
     public async ngOnInit(): Promise<void> {
-        this.$loading.set(true);
+        this.loading.set(true);
 
         this.initializeIdFromRoute();
 
@@ -65,22 +65,22 @@ export class AddEditGroupComponent extends BaseAddEditForm implements OnInit {
             return {
                 key: asset.id,
                 label: asset.ticker.name,
-                disabled: asset.groupId !== othersGroup.id && asset.groupId !== this.$id(),
+                disabled: asset.groupId !== othersGroup.id && asset.groupId !== this.id(),
                 disabledLabel: groupNames[asset.groupId] ?? 'Other',
             }
         });
 
-        const id = this.$id();
+        const id = this.id();
         if (id !== null) {
             const group = await this.groupService.getGroup(id);
             this.form.patchValue(group);
         }
 
-        this.$loading.set(false);
+        this.loading.set(false);
     }
 
     public async onSubmit(): Promise<void> {
-        this.$submitted.set(true);
+        this.submitted.set(true);
 
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
@@ -92,9 +92,9 @@ export class AddEditGroupComponent extends BaseAddEditForm implements OnInit {
             return;
         }
 
-        this.$saving.set(true);
+        this.saving.set(true);
         try {
-            if (this.$id() === null) {
+            if (this.id() === null) {
                 this.createGroup(portfolio.id);
             } else {
                 this.updateGroup();
@@ -104,7 +104,7 @@ export class AddEditGroupComponent extends BaseAddEditForm implements OnInit {
                 this.alertService.error(error.message);
             }
         } finally {
-            this.$saving.set(false);
+            this.saving.set(false);
         }
     }
 
@@ -113,11 +113,11 @@ export class AddEditGroupComponent extends BaseAddEditForm implements OnInit {
 
         this.alertService.success('Group added successfully', { keepAfterRouteChange: true });
         this.groupService.notify();
-        this.router.navigate([this.$routerBackLink()], { relativeTo: this.route });
+        this.router.navigate([this.routerBackLink()], { relativeTo: this.route });
     }
 
     private async updateGroup(): Promise<void> {
-        const id = this.$id();
+        const id = this.id();
         if (id === null) {
             return;
         }
@@ -126,6 +126,6 @@ export class AddEditGroupComponent extends BaseAddEditForm implements OnInit {
 
         this.alertService.success('Update successful', { keepAfterRouteChange: true });
         this.groupService.notify();
-        this.router.navigate([this.$routerBackLink()], { relativeTo: this.route });
+        this.router.navigate([this.routerBackLink()], { relativeTo: this.route });
     }
 }

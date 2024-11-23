@@ -7,8 +7,8 @@
                 </button>
                 <ng-template ngbNavContent>
                     <fingather-asset-ticker-chart
-                        [assetId]="asset.id"
-                        [assetTickerId]="asset.ticker.id"
+                        [assetId]="asset().id"
+                        [assetTickerId]="asset().ticker.id"
                         [height]="'450px'"
                     />
                 </ng-template>
@@ -19,7 +19,7 @@
                 </button>
                 <ng-template ngbNavContent>
                     <fingather-asset-value-chart
-                        [assetId]="asset.id"
+                        [assetId]="asset().id"
                         [height]="'450px'"
                     />
                 </ng-template>

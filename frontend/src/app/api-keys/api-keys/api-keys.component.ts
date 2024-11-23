@@ -28,7 +28,7 @@ export class ApiKeysComponent implements OnInit {
     private readonly portfolioService = inject(PortfolioService);
     private readonly changeDetectorRef = inject(ChangeDetectorRef);
 
-    public readonly $apiKeys = signal<ApiKey[] | null>(null);
+    public readonly apiKeys = signal<ApiKey[] | null>(null);
 
     public ngOnInit(): void {
         this.refreshApiKeys();
@@ -44,28 +44,24 @@ export class ApiKeysComponent implements OnInit {
         });
     }
 
-    protected get apiKeys(): ApiKey[] | null {
-        return this.$apiKeys();
-    }
-
     private async refreshApiKeys(): Promise<void> {
-        this.$apiKeys.set(null);
+        this.apiKeys.set(null);
 
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
         const groups = await this.apiKeyService.getApiKeys(portfolio.id);
-        this.$apiKeys.set(groups);
+        this.apiKeys.set(groups);
     }
 
     protected async deleteApiKey(id: number): Promise<void> {
-        const group = this.$apiKeys()?.find((x) => x.id === id);
+        const group = this.apiKeys()?.find((x) => x.id === id);
         if (group === undefined) {
             return;
         }
 
         await this.apiKeyService.deleteApiKey(id);
 
-        this.$apiKeys.update((apiKeys) => (apiKeys !== null
+        this.apiKeys.update((apiKeys) => (apiKeys !== null
             ? apiKeys.filter((x) => x.id !== id)
             : null));
     }

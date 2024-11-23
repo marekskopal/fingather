@@ -1,6 +1,6 @@
 ﻿<div class="header">
     <div>
-        @if (asset) {
+        @if (asset(); as asset) {
             <h1 class="h3">{{asset.ticker.ticker}}</h1>
         }
 
@@ -15,7 +15,7 @@
     </div>
 </div>
 
-@if (asset) {
+@if (asset(); as asset) {
     <div class="asset-detail">
         <div class="asset-detail-header">
             <fingather-ticker-logo

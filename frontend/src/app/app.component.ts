@@ -29,7 +29,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
 export class AppComponent {
     private readonly contentLayoutService = inject(ContentLayoutService);
 
-    protected readonly $contentCenter = this.contentLayoutService.$contentCenter;
+    protected readonly contentCenter = this.contentLayoutService.contentCenter;
 
     public constructor(
         private readonly translateService: TranslateService,

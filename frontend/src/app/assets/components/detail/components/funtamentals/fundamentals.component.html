@@ -2,7 +2,7 @@
     {{ 'app.assets.detail.fundamentals.header' | translate }}
 </h3>
 <div class="asset-detail-fundamentals" scrollShadow>
-    @if(tickerFundamental !== null) {
+    @if(tickerFundamental(); as tickerFundamental) {
         <div ngbNav #fundamentalsNav="ngbNav" [(activeId)]="activeTab" orientation="vertical">
             <ng-container [ngbNavItem]="FundamentalsTabEnum.ValuationsMetrics">
                 <button ngbNavLink>

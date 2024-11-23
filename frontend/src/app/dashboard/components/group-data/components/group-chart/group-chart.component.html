@@ -1,5 +1,5 @@
 ﻿<div class="group-chart">
-    @if (!this.$loading()) {
+    @if (!this.loading()) {
         <apx-chart
             [series]="chartOptions.series"
             [chart]="chartOptions.chart"
@@ -14,7 +14,7 @@
             [colors]="chartOptions.colors"
         />
 
-        <fingather-legend [legendItems]="$legendItems()" />
+        <fingather-legend [legendItems]="legendItems()" />
     } @else {
         <span class="spinner-border spinner-border-sm mr-1"></span>
     }

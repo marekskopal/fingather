@@ -18,32 +18,24 @@ import {TranslateModule} from "@ngx-translate/core";
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AssetSelectorComponent implements OnInit {
-    public readonly $assets = input.required<Asset[]>({
-        alias: 'assets',
-    });
-    public readonly $selectedAssetId = input<number | null>(null, {
-        alias: 'selectedAssetId',
-    });
-    public readonly $placeholder = input<string | null>(null, {
-        alias: 'placeholder',
-    });
-    public readonly onChangeAsset$ = output<Asset>({
-        alias: 'onChangeAsset',
-    });
+    public readonly assets = input.required<Asset[]>();
+    public readonly selectedAssetId = input<number | null>(null);
+    public readonly placeholder = input<string | null>(null);
+    public readonly afterChangeAsset = output<Asset>();
 
     public ngOnInit(): void {
-        this.$selectedAsset.set(this.getAssetById(this.$selectedAssetId()));
+        this.selectedAsset.set(this.getAssetById(this.selectedAssetId()));
     }
 
-    protected readonly $selectedAsset = signal<Asset | null>(null);
+    protected readonly selectedAsset = signal<Asset | null>(null);
 
     protected changeAsset(ticker: Asset): void {
-        this.$selectedAsset.set(ticker);
+        this.selectedAsset.set(ticker);
 
-        this.onChangeAsset$.emit(ticker);
+        this.afterChangeAsset.emit(ticker);
     }
 
     private getAssetById(id: number | null): Asset | null {
-        return this.$assets().find((asset) => asset.id === id) ?? null;
+        return this.assets().find((asset) => asset.id === id) ?? null;
     }
 }
