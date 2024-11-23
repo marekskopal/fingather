@@ -30,10 +30,8 @@ import { TranslatePipe} from "@ngx-translate/core";
     ],
 })
 export class ColorPickerComponent implements ControlValueAccessor {
-    public readonly $id = input.required<string>({
-        alias: 'id',
-    });
-    public readonly $items = input<SelectItem<Color, Color>[]>([
+    public readonly id = input.required<string>();
+    public readonly items = input<SelectItem<Color, Color>[]>([
         {key: ColorEnum.colorPicker1, label: ColorEnum.colorPicker1},
         {key: ColorEnum.colorPicker2, label: ColorEnum.colorPicker2},
         {key: ColorEnum.colorPicker3, label: ColorEnum.colorPicker3},
@@ -41,12 +39,8 @@ export class ColorPickerComponent implements ControlValueAccessor {
         {key: ColorEnum.colorPicker5, label: ColorEnum.colorPicker5},
         {key: ColorEnum.colorPicker6, label: ColorEnum.colorPicker6},
         {key: ColorEnum.colorPicker7, label: ColorEnum.colorPicker7},
-    ], {
-        alias: 'items',
-    });
-    public readonly $placeholder = input<string>('', {
-        alias: 'placeholder',
-    });
+    ]);
+    public readonly placeholder = input<string>('');
 
     protected value: Color | null = null;
     private touched: boolean = false;
@@ -83,7 +77,7 @@ export class ColorPickerComponent implements ControlValueAccessor {
     }
 
     private getValueFromItems(value: Color | null): SelectItem<Color, Color> | null {
-        return this.$items().find((item) => item.key === value) || null;
+        return this.items().find((item) => item.key === value) || null;
     }
 
     private markAsTouched(): void {

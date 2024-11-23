@@ -14,7 +14,7 @@
                 </tr>
             </thead>
             <tbody>
-                @if ($assets(); as assets) {
+                @if (assets(); as assets) {
                     @for (asset of assets.watchedAssets; track asset.id) {
                         <tr>
                             <td>

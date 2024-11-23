@@ -5,7 +5,7 @@
                 <mat-icon>csv</mat-icon>
             </div>
             <div class="import-file-name">
-                {{ $fileName() }}
+                {{ fileName() }}
             </div>
         </div>
         <a
@@ -19,32 +19,32 @@
     <div class="import-file-progress">
         <div class="import-file-progress-info">
             <div>
-                <span class="import-file-progress-size">{{ $fileSize() | fileSize }}</span>
+                <span class="import-file-progress-size">{{ fileSize() | fileSize }}</span>
                 <span> · </span>
                 <span class="import-file-progress-status">
-                    @if($status() === ImportFileStatus.Uploaded) {
+                    @if(status() === ImportFileStatus.Uploaded) {
                         <mat-icon>check_circle</mat-icon>
                         {{ 'app.transactions.import.import.uploaded' | translate }}
-                    } @else if($status() === ImportFileStatus.Uploading) {
+                    } @else if(status() === ImportFileStatus.Uploading) {
                         {{ 'app.transactions.import.import.uploading' | translate }}
-                    } @else if($status() === ImportFileStatus.Processing) {
+                    } @else if(status() === ImportFileStatus.Processing) {
                         {{ 'app.transactions.import.import.processing' | translate }}
-                    } @else if($status() === ImportFileStatus.NotSupported) {
+                    } @else if(status() === ImportFileStatus.NotSupported) {
                         <span class="red">{{ 'app.transactions.import.import.notSupported' | translate }}</span>
-                    } @else if($status() === ImportFileStatus.Error) {
+                    } @else if(status() === ImportFileStatus.Error) {
                         <span class="red">{{ 'app.transactions.import.import.error' | translate }}</span>
                     }
                 </span>
             </div>
             <div class="import-file-progress-percent">
-                {{ $processed() }}%
+                {{ processed() }}%
             </div>
         </div>
 
         <div class="import-file-progress-progressbar">
             <div
                 class="import-file-progress-progressbar-bar"
-                [style.width]="$processed() + '%'"
+                [style.width]="processed() + '%'"
             ></div>
         </div>
     </div>

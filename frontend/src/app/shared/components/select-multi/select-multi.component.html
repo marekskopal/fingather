@@ -1,5 +1,5 @@
 ﻿<div ngbDropdown>
-    <button type="button" [id]="$id()" ngbDropdownToggle>
+    <button type="button" [id]="id()" ngbDropdownToggle>
         @if(values.length > 0) {
             @for(value of values; track value.key) {
                 <span class="tag">
@@ -10,11 +10,11 @@
                 </span>
             }
         } @else {
-            <span>{{ $placeholder() }}</span>
+            <span>{{ placeholder() }}</span>
         }
     </button>
-    <div ngbDropdownMenu [attr.aria-labelledby]="$id()">
-        @for(item of $items(); track item.key) {
+    <div ngbDropdownMenu [attr.aria-labelledby]="id()">
+        @for(item of items(); track item.key) {
             @if(item.disabled) {
                 <div class="dropdown-item disabled">
                     <div class="form-check">
@@ -29,7 +29,7 @@
 
                             @if (item.disabledLabel) {
                                 <div class="smaller ellipsis">
-                                    @if($disabledItemMessage(); as disabledItemMessage) {
+                                    @if(disabledItemMessage(); as disabledItemMessage) {
                                         <div class="ellipsis">{{ disabledItemMessage | translate: { groupName: item.disabledLabel } }}</div>
                                     } @else {
                                         {{ item.disabledLabel }}

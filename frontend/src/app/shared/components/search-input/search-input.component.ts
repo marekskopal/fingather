@@ -12,17 +12,11 @@ import {MatIcon} from "@angular/material/icon";
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchInputComponent {
-    public readonly $id = input.required<string>({
-        alias: 'id',
-    });
-    public onKeyup$ = output<string | null>({
-        alias: 'onKeyup',
-    });
-    public readonly $showClearButton = input<boolean>(true, {
-        alias: 'showClearButton',
-    });
+    public readonly id = input.required<string>();
+    public afterKeyup = output<string | null>();
+    public readonly showClearButton = input<boolean>(true);
 
-    protected readonly $value = signal<string | null>(null);
+    protected readonly value = signal<string | null>(null);
 
     protected handleKeyup(event: KeyboardEvent): void {
         const inputElement = event.target as HTMLInputElement;
@@ -31,14 +25,14 @@ export class SearchInputComponent {
             value = null;
         }
 
-        this.$value.set(value);
+        this.value.set(value);
 
-        this.onKeyup$.emit(this.$value());
+        this.afterKeyup.emit(this.value());
     }
 
     protected clearSearch(): void {
-        this.$value.set(null);
+        this.value.set(null);
 
-        this.onKeyup$.emit(this.$value());
+        this.afterKeyup.emit(this.value());
     }
 }

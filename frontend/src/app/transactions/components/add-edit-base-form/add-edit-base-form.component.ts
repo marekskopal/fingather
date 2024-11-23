@@ -34,7 +34,7 @@ export abstract class AddEditBaseFormComponent extends BaseAddEditForm implement
     protected currencies: SelectItem<number, string>[] = [];
 
     public async ngOnInit(): Promise<void> {
-        this.$loading.set(true);
+        this.loading.set(true);
 
         this.initializeIdFromRoute();
 
@@ -82,7 +82,7 @@ export abstract class AddEditBaseFormComponent extends BaseAddEditForm implement
             feeCurrencyId: [defaultCurrency.id, Validators.required],
         });
 
-        const id = this.$id();
+        const id = this.id();
         if (id !== null) {
             const transaction = await this.transactionService.getTransaction(id);
 
@@ -94,11 +94,11 @@ export abstract class AddEditBaseFormComponent extends BaseAddEditForm implement
             this.form.patchValue(transaction);
         }
 
-        this.$loading.set(false);
+        this.loading.set(false);
     }
 
     public async onSubmit(): Promise<void> {
-        this.$submitted.set(true);
+        this.submitted.set(true);
 
         // reset alerts on submit
         this.alertService.clear();
@@ -109,9 +109,9 @@ export abstract class AddEditBaseFormComponent extends BaseAddEditForm implement
         }
 
         try {
-            this.$saving.set(true);
+            this.saving.set(true);
 
-            const id = this.$id();
+            const id = this.id();
             if (id === null) {
                 const portfolio = await this.portfolioService.getCurrentPortfolio();
                 this.createTransaction(portfolio.id);
@@ -123,7 +123,7 @@ export abstract class AddEditBaseFormComponent extends BaseAddEditForm implement
                 this.alertService.error(error.message);
             }
         } finally {
-            this.$saving.set(false);
+            this.saving.set(false);
         }
     }
 

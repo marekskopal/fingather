@@ -9,7 +9,7 @@
 
         <div class="card-body">
             <div class="value h3">
-                {{asset.value | number:'1.2-2' | money: defaultCurrency.id | async}}
+                {{asset().value | number:'1.2-2' | money: defaultCurrency().id | async}}
             </div>
         </div>
     </div>
@@ -23,7 +23,7 @@
 
         <div class="card-body">
             <div class="value h3">
-                {{asset.transactionValueDefaultCurrency | number:'1.2-2' | money: defaultCurrency.id | async}}
+                {{asset().transactionValueDefaultCurrency | number:'1.2-2' | money: defaultCurrency().id | async}}
             </div>
         </div>
     </div>
@@ -37,8 +37,8 @@
 
         <div class="card-body">
             <div class="value h3">
-                <fingather-value-icon [value]="asset.gainDefaultCurrency" />
-                {{asset.gainDefaultCurrency | number:'1.2-2' | money: defaultCurrency.id | async}}
+                <fingather-value-icon [value]="asset().gainDefaultCurrency" />
+                {{asset().gainDefaultCurrency | number:'1.2-2' | money: defaultCurrency().id | async}}
             </div>
         </div>
     </div>
@@ -52,7 +52,7 @@
 
         <div class="card-body">
             <div class="value h3">
-                {{asset.dividendYieldDefaultCurrency | number:'1.2-2' | money: defaultCurrency.id | async}}
+                {{asset().dividendYieldDefaultCurrency | number:'1.2-2' | money: defaultCurrency().id | async}}
             </div>
         </div>
     </div>
@@ -66,8 +66,8 @@
 
         <div class="card-body">
             <div class="value h3">
-                <fingather-value-icon [value]="asset.fxImpact" />
-                {{asset.fxImpact | number:'1.2-2' | money: defaultCurrency.id | async}}
+                <fingather-value-icon [value]="asset().fxImpact" />
+                {{asset().fxImpact | number:'1.2-2' | money: defaultCurrency().id | async}}
             </div>
         </div>
     </div>
@@ -81,8 +81,8 @@
 
         <div class="card-body">
             <div class="value h3">
-                <fingather-value-icon [value]="asset.return" />
-                {{asset.return | number:'1.2-2' | money: defaultCurrency.id | async}}
+                <fingather-value-icon [value]="asset().return" />
+                {{asset().return | number:'1.2-2' | money: defaultCurrency().id | async}}
             </div>
         </div>
     </div>

@@ -15,7 +15,7 @@
 
 <div class="card">
     <div class="card-body">
-        @if(groups !== null) {
+        @if(groups(); as groups) {
             <div class="table-responsive" scrollShadow>
                 <table class="table">
                     <thead>
@@ -42,7 +42,7 @@
                                         <mat-icon>edit</mat-icon>
                                     </a>
                                     <fingather-delete-button
-                                        (onConfirm)="deleteGroup(group.id)"
+                                        (confirm)="deleteGroup(group.id)"
                                         [title]="'Delete group ' + group.name"
                                         [message]="'Are you sure you want to delete group ' + group.name + '?'"
                                     />

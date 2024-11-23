@@ -36,7 +36,7 @@ export class AddEditPortfolioComponent extends BaseAddEditForm implements OnInit
     protected currencies: SelectItem<number, string>[] = [];
 
     public async ngOnInit(): Promise<void> {
-        this.$loading.set(true);
+        this.loading.set(true);
 
         this.initializeIdFromRoute();
 
@@ -54,17 +54,17 @@ export class AddEditPortfolioComponent extends BaseAddEditForm implements OnInit
             isDefault: [false, Validators.required],
         });
 
-        const id = this.$id();
+        const id = this.id();
         if (id !== null) {
             const portfolio = await this.portfolioService.getPortfolio(id);
             this.form.patchValue(portfolio);
         }
 
-        this.$loading.set(false);
+        this.loading.set(false);
     }
 
     public onSubmit(): void {
-        this.$submitted.set(true);
+        this.submitted.set(true);
 
         // reset alerts on submit
         this.alertService.clear();
@@ -74,9 +74,9 @@ export class AddEditPortfolioComponent extends BaseAddEditForm implements OnInit
             return;
         }
 
-        this.$saving.set(true);
+        this.saving.set(true);
         try {
-            if (this.$id() === null) {
+            if (this.id() === null) {
                 this.createPortfolio();
             } else {
                 this.updatePortfolio();
@@ -86,7 +86,7 @@ export class AddEditPortfolioComponent extends BaseAddEditForm implements OnInit
                 this.alertService.error(error.message);
             }
         } finally {
-            this.$saving.set(false);
+            this.saving.set(false);
         }
     }
 
@@ -103,7 +103,7 @@ export class AddEditPortfolioComponent extends BaseAddEditForm implements OnInit
     }
 
     private async updatePortfolio(): Promise<void> {
-        const id = this.$id();
+        const id = this.id();
         if (id === null) {
             return;
         }

@@ -18,32 +18,24 @@ import {TranslateModule} from "@ngx-translate/core";
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TickerSelectorComponent implements OnInit {
-    public readonly $tickers = input.required<Ticker[]>({
-        alias: 'tickers',
-    });
-    public readonly $selectedTickerId = input<number | null>(null, {
-        alias: 'selectedTickerId',
-    });
-    public readonly $placeholder = input<string | null>(null, {
-        alias: 'placeholder',
-    });
-    public readonly onChangeTicker$ = output<Ticker>({
-        alias: 'onChangeTicker',
-    });
+    public readonly tickers = input.required<Ticker[]>();
+    public readonly selectedTickerId = input<number | null>(null);
+    public readonly placeholder = input<string | null>(null);
+    public readonly afterChangeTicker = output<Ticker>();
+
+    protected readonly selectedTicker = signal<Ticker | null>(null);
 
     public ngOnInit(): void {
-        this.$selectedTicker.set(this.getTickerById(this.$selectedTickerId()));
+        this.selectedTicker.set(this.getTickerById(this.selectedTickerId()));
     }
 
-    protected readonly $selectedTicker = signal<Ticker | null>(null);
-
     protected changeTicker(ticker: Ticker): void {
-        this.$selectedTicker.set(ticker);
+        this.selectedTicker.set(ticker);
 
-        this.onChangeTicker$.emit(ticker);
+        this.afterChangeTicker.emit(ticker);
     }
 
     private getTickerById(id: number | null): Ticker | null {
-        return this.$tickers().find((ticker) => ticker.id === id) ?? null;
+        return this.tickers().find((ticker) => ticker.id === id) ?? null;
     }
 }

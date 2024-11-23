@@ -35,24 +35,24 @@
                 <fingather-import-file
                     [uuid]="uuid"
                     [droppedFile]="droppedFile"
-                    (onUploadFinish)="onFileUploaded($event)"
-                    (onDeleteFile)="onDeleteFile($event)"
+                    (afterUploadFinish)="onFileUploaded($event)"
+                    (afterDeleteFile)="onDeleteFile($event)"
                 />
             }
         </div>
     }
 
-    @if ($importPrepares().length === 0) {
-        @if ($showCancel()) {
+    @if (importPrepares().length === 0) {
+        @if (showCancel()) {
             <a routerLink="/transactions" class="btn btn-secondary">{{ 'app.common.cancel' | translate }}</a>
         }
     }
 </form>
 
-@if ($importPrepares().length > 0) {
+@if (importPrepares().length > 0) {
     <fingather-import-prepare
-        [importPrepares]="$importPrepares()"
-        [showCancel]="$showCancel()"
-        (onImportFinish)="onImportFinish()"
+        [importPrepares]="importPrepares()"
+        [showCancel]="showCancel()"
+        (afterImportFinish)="onImportFinish()"
     />
 }

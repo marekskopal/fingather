@@ -28,7 +28,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @for(yearCalculatedData of yearCalculatedDatas; track yearCalculatedData.year) {
+                    @for(yearCalculatedData of yearCalculatedDatas() ?? []; track yearCalculatedData.year) {
                         <tr>
                             <td class="color-gray">
                                 {{yearCalculatedData.year}}
@@ -204,7 +204,7 @@
                             </td>
                         </tr>
                     }
-                    @if(yearCalculatedDatas === null) {
+                    @if(yearCalculatedDatas() === null) {
                         <tr>
                             <td colspan="8" class="text-center">
                                 <span class="spinner-border spinner-border-lg align-center"></span>

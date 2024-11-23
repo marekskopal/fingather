@@ -7,10 +7,10 @@
             <h3 class="h6">{{ 'app.shared.portfolioTotal.portfolioValue' | translate }}</h3>
             <fingather-help [text]="'app.shared.portfolioTotal.help.portfolioValue' | translate" />
         </div>
-        @if (portfolioData) {
+        @if (portfolioData(); as portfolioData) {
             <div class="card-body">
                 <fingather-portfolio-value-chart
-                    [portfolio]="$portfolio()"
+                    [portfolio]="portfolio()"
                     [range]="PortfolioDataRangeEnum.All"
                     [showLabels]="false"
                     [sparkline]="true"
@@ -33,7 +33,7 @@
             <h3 class="h6">{{ 'app.shared.portfolioTotal.gain' | translate }}</h3>
             <fingather-help [text]="'app.shared.portfolioTotal.help.gain' | translate" />
         </div>
-        @if (portfolioData) {
+        @if (portfolioData(); as portfolioData) {
             <div class="card-body">
                 <div class="value h3">
                     <fingather-value-icon [value]="portfolioData.gain" />
@@ -61,7 +61,7 @@
             <h3 class="h6">{{ 'app.shared.portfolioTotal.gainRealized' | translate }}</h3>
             <fingather-help [text]="'app.shared.portfolioTotal.help.gainRealized' | translate" />
         </div>
-        @if (portfolioData) {
+        @if (portfolioData(); as portfolioData) {
             <div class="card-body">
                 <div class="value h3">
                     <fingather-value-icon [value]="portfolioData.realizedGain" />
@@ -83,7 +83,7 @@
             <h3 class="h6">{{ 'app.shared.portfolioTotal.investedValue' | translate }}</h3>
             <fingather-help [text]="'app.shared.portfolioTotal.help.investedValue' | translate" />
         </div>
-        @if (portfolioData) {
+        @if (portfolioData(); as portfolioData) {
             <div class="card-body">
                 <div class="value h3">
                     {{portfolioData.transactionValue | number:'1.2-2' | money: defaultCurrency.id | async}}
@@ -104,7 +104,7 @@
             <h3 class="h6">{{ 'app.shared.portfolioTotal.fxImpact' | translate }}</h3>
             <fingather-help [text]="'app.shared.portfolioTotal.help.fxImpact' | translate" />
         </div>
-        @if (portfolioData) {
+        @if (portfolioData(); as portfolioData) {
             <div class="card-body">
                 <div class="value h3">
                     <fingather-value-icon [value]="portfolioData.fxImpact" />
@@ -131,7 +131,7 @@
             </span>
             <h3 class="h6">{{ 'app.shared.portfolioTotal.dividend' | translate }}</h3>
         </div>
-        @if (portfolioData) {
+        @if (portfolioData(); as portfolioData) {
             <div class="card-body">
                 <div class="value h3">
                     {{portfolioData.dividendYield | number:'1.2-2' | money: defaultCurrency.id | async}}
@@ -157,7 +157,7 @@
             </span>
             <h3 class="h6">{{ 'app.shared.portfolioTotal.taxFee' | translate }}</h3>
         </div>
-        @if (portfolioData) {
+        @if (portfolioData(); as portfolioData) {
             <div class="card-body">
                 <table class="tax-fee w-100">
                     <tbody>

@@ -44,7 +44,7 @@ export class AddAssetComponent extends BaseForm implements OnInit {
     }
 
     public async onSubmit(): Promise<void> {
-        this.$submitted.set(true);
+        this.submitted.set(true);
 
         this.alertService.clear();
 
@@ -53,7 +53,7 @@ export class AddAssetComponent extends BaseForm implements OnInit {
         }
 
         const portfolio = await this.portfolioService.getCurrentPortfolio();
-        this.$saving.set(true);
+        this.saving.set(true);
         try {
             this.createAsset(portfolio.id);
         } catch (error: unknown) {
@@ -61,7 +61,7 @@ export class AddAssetComponent extends BaseForm implements OnInit {
                 this.alertService.error(error.message);
             }
         } finally {
-            this.$saving.set(false);
+            this.saving.set(false);
         }
     }
 

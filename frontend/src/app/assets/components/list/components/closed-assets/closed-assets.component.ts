@@ -32,12 +32,8 @@ import { TranslatePipe} from "@ngx-translate/core";
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ClosedAssetsComponent {
-    public readonly $assets = input.required<AssetsWithProperties | null>({
-        alias: 'assets',
-    });
-    public readonly $defaultCurrency = input.required<Currency>({
-        alias: 'defaultCurrency',
-    });
+    public readonly assets = input.required<AssetsWithProperties | null>();
+    public readonly defaultCurrency = input.required<Currency>();
 
     protected readonly tableGridColumns: TableGridColumn[] = [
         { min: '250px', max: '3fr' },

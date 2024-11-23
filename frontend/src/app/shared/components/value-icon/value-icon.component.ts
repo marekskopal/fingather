@@ -14,7 +14,5 @@ import {ColoredValueDirective} from "@app/shared/directives/colored-value.direct
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ValueIconComponent {
-    public readonly $value = input.required<number | null>({
-        alias: 'value',
-    });
+    public readonly value = input.required<number | null>();
 }

@@ -38,17 +38,15 @@ export class GroupChartComponent implements OnInit {
     private readonly portfolioService = inject(PortfolioService);
     private readonly nonce = inject(CSP_NONCE);
 
-    public readonly $groupsWithGroupData = input.required<AbstractGroupWithGroupDataEntity[]>({
-        alias: 'groupsWithGroupData',
-    });
+    public readonly groupsWithGroupData = input.required<AbstractGroupWithGroupDataEntity[]>();
 
     protected chartOptions: ChartOptions;
-    protected readonly $loading = signal<boolean>(false);
-    protected readonly $legendItems = computed<LegendItem[]>(() => {
-        let $i = 0;
-        return this.$groupsWithGroupData().map((groupWithGroupData) => {
+    protected readonly loading = signal<boolean>(false);
+    protected readonly legendItems = computed<LegendItem[]>(() => {
+        let i = 0;
+        return this.groupsWithGroupData().map((groupWithGroupData) => {
             return {
-                color: groupWithGroupData.color ?? ChartUtils.getColor($i++),
+                color: groupWithGroupData.color ?? ChartUtils.getColor(i++),
                 name: groupWithGroupData.name,
                 value: groupWithGroupData.percentage,
             };
@@ -68,9 +66,9 @@ export class GroupChartComponent implements OnInit {
     }
 
     public async refreshChart(): Promise<void> {
-        this.$loading.set(true);
+        this.loading.set(true);
 
-        const chartMap = this.mapChart(this.$groupsWithGroupData());
+        const chartMap = this.mapChart(this.groupsWithGroupData());
         this.chartOptions.series = chartMap.series;
         this.chartOptions.labels = chartMap.labels;
 
@@ -78,7 +76,7 @@ export class GroupChartComponent implements OnInit {
             this.chartOptions.colors[i] = chartMap.colors[i];
         }
 
-        this.$loading.set(false);
+        this.loading.set(false);
     }
 
     private initializeChartOptions(): void {

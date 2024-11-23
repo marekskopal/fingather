@@ -13,17 +13,11 @@ import { Ticker } from '@app/models';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TickerLogoComponent {
-    public $ticker = input.required<Ticker>({
-        alias: 'ticker',
-    });
-    public $width = input.required<number>({
-        alias: 'width',
-    });
-    public $height = input.required<number>({
-        alias: 'height',
-    });
+    public ticker = input.required<Ticker>();
+    public width = input.required<number>();
+    public height = input.required<number>();
 
     public get logoSrc(): string {
-        return `/images/logos/${this.$ticker().logo}`;
+        return `/images/logos/${this.ticker().logo}`;
     }
 }

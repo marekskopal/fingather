@@ -17,22 +17,16 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
     ],
 })
 export class DateInputComponent implements ControlValueAccessor {
-    public readonly $id = input.required<string>({
-        alias: 'id',
-    });
-    public readonly $placeholder = input<string>('', {
-        alias: 'placeholder',
-    });
-    public readonly $datetime = input<boolean>(false, {
-        alias: 'datetime',
-    });
+    public readonly id = input.required<string>();
+    public readonly placeholder = input<string>('');
+    public readonly datetime = input<boolean>(false);
 
     protected value: string | null = null;
     private touched: boolean = false;
     protected disabled: boolean = false;
 
-    protected readonly $inputType = computed<string>(() => {
-        return this.$datetime() ? 'datetime-local' : 'date';
+    protected readonly inputType = computed<string>(() => {
+        return this.datetime() ? 'datetime-local' : 'date';
     });
 
     //eslint-disable-next-line unused-imports/no-unused-vars
@@ -81,7 +75,7 @@ export class DateInputComponent implements ControlValueAccessor {
 
     protected onInputFocus(event: Event): void {
         const element = event.target as HTMLInputElement;
-        element.type = this.$inputType();
+        element.type = this.inputType();
         this.showPicker(element);
     }
 

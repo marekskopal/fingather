@@ -6,19 +6,21 @@
         <mat-icon>wallet</mat-icon>
     </a>
 
-    @if(portfolios !== null && portfolios.length > 1) {
-        <div ngbDropdown>
-            <button type="button" id="type" ngbDropdownToggle>
-                <span>{{ currentPortfolio?.name }}</span>
-            </button>
-            <div ngbDropdownMenu aria-labelledby="type">
-                @for(portfolio of portfolios; track portfolio.id) {
-                    <button type="button" ngbDropdownItem (click)="changeCurrentPortfolio(portfolio.id)">
-                        {{ portfolio.name }}
-                    </button>
-                }
+    @if(portfolios(); as portfolios) {
+        @if (portfolios.length > 1) {
+            <div ngbDropdown>
+                <button type="button" id="type" ngbDropdownToggle>
+                    <span>{{ currentPortfolio()?.name }}</span>
+                </button>
+                <div ngbDropdownMenu aria-labelledby="type">
+                    @for(portfolio of portfolios; track portfolio.id) {
+                        <button type="button" ngbDropdownItem (click)="changeCurrentPortfolio(portfolio.id)">
+                            {{ portfolio.name }}
+                        </button>
+                    }
+                </div>
             </div>
-        </div>
+        }
     }
 
 </div>

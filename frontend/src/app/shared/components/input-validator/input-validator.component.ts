@@ -15,14 +15,8 @@ import { TranslatePipe} from "@ngx-translate/core";
     host: { 'class': 'invalid-feedback' },
 })
 export class InputValidatorComponent {
-    public readonly $control = input.required<AbstractControl>({
-        alias: 'control',
-    })
-    public readonly $isSubmitted = input.required<boolean>({
-        alias: 'isSubmitted',
-    })
-    public readonly $errorMessages = input.required<{[key: string]: string}>({
-        alias: 'errorMessages',
-    })
+    public readonly control = input.required<AbstractControl>();
+    public readonly isSubmitted = input.required<boolean>();
+    public readonly errorMessages = input.required<{[key: string]: string}>();
     protected readonly objectKeyValues = objectKeyValues;
 }

@@ -17,7 +17,7 @@ export class LayoutComponent {
 
     public constructor() {
         effect(() => {
-            if (this.authenticationService.$isLoggedIn()) {
+            if (this.authenticationService.isLoggedIn()) {
                 this.router.navigate(['/']);
             }
         });

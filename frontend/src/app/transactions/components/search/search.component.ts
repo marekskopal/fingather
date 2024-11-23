@@ -25,9 +25,7 @@ import { TranslatePipe} from "@ngx-translate/core";
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchComponent {
-    public readonly onSearch$ = output<TransactionSearch>({
-        alias: 'onSearch',
-    });
+    public readonly afterSearch = output<TransactionSearch>();
 
     protected readonly transactionActionTypes = [
         TransactionActionType.Buy,
@@ -65,7 +63,7 @@ export class SearchComponent {
     }
 
     private handleOnSearch(): void {
-        this.onSearch$.emit({
+        this.afterSearch.emit({
             search: this.search,
             selectedType: this.selectedType,
             created: this.created,

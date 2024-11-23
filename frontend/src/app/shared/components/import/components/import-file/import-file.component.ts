@@ -37,66 +37,58 @@ export class ImportFileComponent implements OnInit {
         .create({ providers: [FakeLoadingService], parent: this.injector })
         .get(FakeLoadingService);
 
-    public readonly $uuid = input.required<string>({
-        'alias': 'uuid',
-    });
-    public readonly $droppedFile = input.required<NgxFileDropEntry>({
-        'alias': 'droppedFile',
-    });
-    public readonly onUploadFinish$ =  output<ImportPrepare>({
-        'alias': 'onUploadFinish',
-    });
-    public readonly onDeleteFile$ =  output<DeletedImportFile>({
-        'alias': 'onDeleteFile',
-    });
+    public readonly uuid = input.required<string>();
+    public readonly droppedFile = input.required<NgxFileDropEntry>();
+    public readonly afterUploadFinish =  output<ImportPrepare>();
+    public readonly afterDeleteFile =  output<DeletedImportFile>();
 
-    protected readonly $fileName = computed<string>(() => this.$droppedFile().fileEntry.name);
-    protected readonly $fileSize = signal<number>(0);
-    protected readonly $status = signal<ImportFileStatus>(ImportFileStatus.New);
-    protected readonly $processed = this.fakeLoadingService.$processed;
+    protected readonly fileName = computed<string>(() => this.droppedFile().fileEntry.name);
+    protected readonly fileSize = signal<number>(0);
+    protected readonly status = signal<ImportFileStatus>(ImportFileStatus.New);
+    protected readonly processed = this.fakeLoadingService.processed;
 
-    private readonly $importFileId = signal<number | null>(null);
+    private readonly importFileId = signal<number | null>(null);
 
     private readonly fileReader = new FileReader();
 
     public ngOnInit(): void {
         this.fileReader.onload = (): void => {
             this.createImportPrepare({
-                fileName: this.$droppedFile().fileEntry.name,
+                fileName: this.droppedFile().fileEntry.name,
                 contents: this.fileReader.result as string,
             });
         };
 
         this.fileReader.onloadstart = (event: ProgressEvent): void => {
-            this.$fileSize.set(event.total as number);
-            this.$status.set(ImportFileStatus.Uploading);
+            this.fileSize.set(event.total as number);
+            this.status.set(ImportFileStatus.Uploading);
         }
 
         this.fileReader.onloadend = (): void => {
-            this.$status.set(ImportFileStatus.Processing);
+            this.status.set(ImportFileStatus.Processing);
         }
 
         this.fileReader.onprogress = (): void => {
             this.fakeLoadingService.startLoading();
         }
 
-        const fileEntry = this.$droppedFile().fileEntry as FileSystemFileEntry;
+        const fileEntry = this.droppedFile().fileEntry as FileSystemFileEntry;
         fileEntry.file((file: File) => {
             this.fileReader.readAsDataURL(file);
         });
     }
 
     protected async deleteFile(): Promise<void> {
-        const importFileId = this.$importFileId();
+        const importFileId = this.importFileId();
         if (importFileId === null) {
             return;
         }
 
         await this.importService.deleteImportFile(importFileId);
 
-        this.onDeleteFile$.emit({
+        this.afterDeleteFile.emit({
             importFileId: importFileId,
-            droppedFile: this.$droppedFile(),
+            droppedFile: this.droppedFile(),
         });
     }
 
@@ -106,22 +98,22 @@ export class ImportFileComponent implements OnInit {
         try {
             const importPrepare = await this.importService.createImportPrepare(
                 {
-                    uuid: this.$uuid(),
+                    uuid: this.uuid(),
                     importDataFile: importDataFile,
                 },
                 portfolio.id,
             );
 
-            this.$importFileId.set(importPrepare.importFileId);
+            this.importFileId.set(importPrepare.importFileId);
 
             this.finishLoading();
 
-            this.onUploadFinish$.emit(importPrepare);
+            this.afterUploadFinish.emit(importPrepare);
         } catch (error) {
             if (error === 'Imported file is not supported.') {
-                this.$status.set(ImportFileStatus.NotSupported);
+                this.status.set(ImportFileStatus.NotSupported);
             } else {
-                this.$status.set(ImportFileStatus.Error);
+                this.status.set(ImportFileStatus.Error);
             }
 
             this.fakeLoadingService.finishLoading();
@@ -130,7 +122,7 @@ export class ImportFileComponent implements OnInit {
 
     private finishLoading(): void {
         this.fakeLoadingService.finishLoading();
-        this.$status.set(ImportFileStatus.Uploaded);
+        this.status.set(ImportFileStatus.Uploaded);
     }
 
     protected readonly ImportFileStatus = ImportFileStatus;

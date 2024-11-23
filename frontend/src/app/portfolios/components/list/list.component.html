@@ -14,7 +14,7 @@
 </div>
 
 <div class="portfolio-list">
-    @for (portfolio of portfolios; track portfolio.id) {
+    @for (portfolio of portfolios() ?? []; track portfolio.id) {
         <div class="card dark portfolio">
             <div class="card-body">
                 <div class="portfolio-header">
@@ -31,7 +31,7 @@
                         </a>
                         <fingather-delete-button
                             [showText]="true"
-                            (onConfirm)="deletePortfolio(portfolio.id)"
+                            (confirm)="deletePortfolio(portfolio.id)"
                             [title]="'Delete portfolio ' + portfolio.name"
                             [message]="'Are you sure you want to delete portfolio ' + portfolio.name + '?'"
                         />

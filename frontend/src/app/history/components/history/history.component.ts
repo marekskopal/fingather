@@ -36,8 +36,8 @@ export class HistoryComponent implements OnInit {
     protected activeRange: RangeEnum = RangeEnum.YTD;
     protected customRangeFrom: string | null = null;
     protected customRangeTo: string | null = null;
-    private readonly $assets = signal<Asset[]>([]);
-    protected readonly $benchmarkAssetId = signal<number | null>(null);
+    protected readonly assets = signal<Asset[]>([]);
+    protected readonly benchmarkAssetId = signal<number | null>(null);
 
     protected ranges: {range: RangeEnum, text: string, number: number | null}[] = [
         {range: RangeEnum.SevenDays, text: 'app.history.history.d', number: 7},
@@ -49,13 +49,13 @@ export class HistoryComponent implements OnInit {
         {range: RangeEnum.All, text: 'app.history.history.all', number: null},
         {range: RangeEnum.Custom, text: 'app.history.history.custom', number: null},
     ];
-    protected $legendItems = computed<LegendItem[]>(() => {
+    protected legendItems = computed<LegendItem[]>(() => {
         const legendItems: LegendItem[] = [
             {translation: 'app.history.history.value', color: ColorEnum.colorChart2},
             {translation: 'app.history.history.investedValue', color: ColorEnum.colorChart5},
         ];
-        if (this.$benchmarkAssetId() !== null) {
-            const benchmarkAsset = this.assets.find(asset => asset.id === this.$benchmarkAssetId());
+        if (this.benchmarkAssetId() !== null) {
+            const benchmarkAsset = this.assets().find(asset => asset.id === this.benchmarkAssetId());
 
             legendItems.push({
                 translation: 'app.history.history.benchmark',
@@ -74,17 +74,13 @@ export class HistoryComponent implements OnInit {
         });
     }
 
-    protected get assets(): Asset[] {
-        return this.$assets();
-    }
-
     private async refreshAssets(): Promise<void> {
-        this.$assets.set([]);
+        this.assets.set([]);
 
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
         const assets = await this.assetService.getAssets(portfolio.id);
-        this.$assets.set(assets);
+        this.assets.set(assets);
     }
 
     protected changeActiveRange(activeRange: RangeEnum): void {
@@ -106,7 +102,7 @@ export class HistoryComponent implements OnInit {
     }
 
     protected changeBenchmarkAsset(asset: Asset): void {
-        this.$benchmarkAssetId.set(asset.id);
+        this.benchmarkAssetId.set(asset.id);
     }
 
     protected readonly RangeEnum = RangeEnum;

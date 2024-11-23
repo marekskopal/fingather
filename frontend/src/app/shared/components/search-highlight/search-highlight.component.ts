@@ -9,20 +9,16 @@ import {
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchHighlightComponent {
-    public readonly $value = input.required<string>({
-        alias: 'value',
-    });
-    public readonly $search = input.required<string | null>({
-        alias: 'search',
-    });
+    public readonly value = input.required<string>();
+    public readonly search = input.required<string | null>();
 
-    public readonly $highlight = computed(() => {
-        if (!this.$search()) {
-            return this.$value();
+    public readonly highlight = computed(() => {
+        if (!this.search()) {
+            return this.value();
         }
 
-        const search = this.$search()?.toLowerCase() ?? '';
-        const value = this.$value();
+        const search = this.search()?.toLowerCase() ?? '';
+        const value = this.value();
 
         const parts = value.split(new RegExp(`(${search})`, 'gi'));
 

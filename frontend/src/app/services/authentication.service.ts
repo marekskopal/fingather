@@ -16,9 +16,9 @@ export class AuthenticationService {
     private readonly portfolioService = inject(PortfolioService);
     private readonly currentUserService = inject(CurrentUserService);
 
-    public $authentication = signal<Authentication | null>(null);
-    public $isLoggedIn = computed<boolean>(
-        () => this.$authentication() !== null,
+    public authentication = signal<Authentication | null>(null);
+    public isLoggedIn = computed<boolean>(
+        () => this.authentication() !== null,
     );
 
     public constructor() {
@@ -26,7 +26,7 @@ export class AuthenticationService {
             const localStorageAuthentication = localStorage.getItem('authentication');
             const authentication = localStorageAuthentication !== null ? JSON.parse(localStorageAuthentication) : null;
 
-            this.$authentication.set(authentication);
+            this.authentication.set(authentication);
         }, {
             allowSignalWrites: true,
         });
@@ -46,7 +46,7 @@ export class AuthenticationService {
     public logout(): void {
         // remove authentication from local storage and set current authentication to null
         localStorage.removeItem('authentication');
-        this.$authentication.set(null);
+        this.authentication.set(null);
         this.portfolioService.cleanCurrentPortfolio();
         this.currentUserService.cleanCurrentUser();
         this.router.navigate(['/authentication/login']);
@@ -75,21 +75,21 @@ export class AuthenticationService {
             this.http.post<Authentication>(
                 `${environment.apiUrl}/authentication/refresh-token`,
                 {
-                    refreshToken: this.$authentication()?.refreshToken,
+                    refreshToken: this.authentication()?.refreshToken,
                 },
                 { withCredentials: true },
             ),
         );
 
         localStorage.setItem('authentication', JSON.stringify(authentication));
-        this.$authentication.set(authentication);
+        this.authentication.set(authentication);
 
         return authentication;
     }
 
     private setAuthentication(authentication: Authentication): Authentication {
         localStorage.setItem('authentication', JSON.stringify(authentication));
-        this.$authentication.set(authentication);
+        this.authentication.set(authentication);
         this.portfolioService.cleanCurrentPortfolio();
         this.currentUserService.cleanCurrentUser();
 

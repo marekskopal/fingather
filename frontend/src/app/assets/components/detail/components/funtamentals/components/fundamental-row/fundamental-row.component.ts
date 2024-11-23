@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy, Component, input, InputSignal,
+    ChangeDetectionStrategy, Component, input,
 } from '@angular/core';
 import { TickerFundamental } from '@app/models/ticker-fundamental';
 import {TranslateModule} from "@ngx-translate/core";
@@ -13,8 +13,8 @@ import {TranslateModule} from "@ngx-translate/core";
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FundamentalRowComponent {
-    public tickerFundamental: InputSignal<TickerFundamental> = input.required<TickerFundamental>();
-    public fundamentalName: InputSignal<string> = input.required<string>();
+    public tickerFundamental = input.required<TickerFundamental>();
+    public fundamentalName = input.required<string>();
 
     protected get isShown(): boolean {
         return this.value !== null;

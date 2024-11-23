@@ -48,7 +48,7 @@ export class AssetValueChartComponent implements OnInit {
     public height: InputSignal<string> = input<string>('auto');
 
     public chartOptions: ChartOptions;
-    protected $loading = signal<boolean>(true);
+    protected loading = signal<boolean>(true);
 
     public ngOnInit(): void {
         this.initializeChartOptions();
@@ -57,7 +57,7 @@ export class AssetValueChartComponent implements OnInit {
     }
 
     private async refreshChart(): Promise<void> {
-        this.$loading.set(true);
+        this.loading.set(true);
 
         const assetDatas = await this.assetDataService.getAssetDataRange(this.assetId(), RangeEnum.All);
 
@@ -67,7 +67,7 @@ export class AssetValueChartComponent implements OnInit {
         this.chartOptions.series[0].data = mappedAssetData.gainSeries;
         this.chartOptions.series[1].data = mappedAssetData.transactionValueSeries;
 
-        this.$loading.set(false);
+        this.loading.set(false);
     }
 
     private initializeChartOptions(): void {

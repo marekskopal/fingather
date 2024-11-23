@@ -50,18 +50,18 @@
 
                     <fingather-asset-selector
                         [placeholder]="'app.history.history.choose' | translate"
-                        [assets]="assets"
-                        (onChangeAsset)="changeBenchmarkAsset($event)"
+                        [assets]="assets()"
+                        (afterChangeAsset)="changeBenchmarkAsset($event)"
                     />
                 </div>
 
-                <fingather-legend [legendItems]="$legendItems()" />
+                <fingather-legend [legendItems]="legendItems()" />
             </div>
 
             <fingather-portfolio-value-chart
                 [height]="'500px'"
                 [range]="activeRange"
-                [benchmarkAssetId]="$benchmarkAssetId()"
+                [benchmarkAssetId]="benchmarkAssetId()"
                 [customRangeFrom]="customRangeFrom"
                 [customRangeTo]="customRangeTo"
             />

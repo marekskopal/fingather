@@ -1,12 +1,12 @@
 ﻿<div class="header">
     <div>
-        @if ($id() === null) {
+        @if (id() === null) {
             <h1 class="h3">{{ 'app.shared.transactionDialog.headerAdd' | translate }}</h1>
         } @else {
             <h1 class="h3">{{ 'app.shared.transactionDialog.headerEdit' | translate }}</h1>
         }
 
-        <a [routerLink]="$routerBackLink()" class="btn-link" tabindex="0">
+        <a [routerLink]="routerBackLink()" class="btn-link" tabindex="0">
             <mat-icon>chevron_left</mat-icon>
             {{ 'app.transactions.list.title' | translate }}
         </a>
@@ -20,7 +20,7 @@
 <div class="content-center">
     <div class="card form">
         <div class="card-body">
-            @if (!$loading()) {
+            @if (!loading()) {
                 <form [formGroup]="form" (ngSubmit)="onSubmit()">
                     @if (assetId !== null) {
                         <input type="hidden" formControlName="assetId">
@@ -32,11 +32,11 @@
                                     id="assetId"
                                     formControlName="assetId"
                                     [items]="assets ?? []"
-                                    [class.is-invalid]="$submitted() && f['assetId'].errors"
+                                    [class.is-invalid]="submitted() && f['assetId'].errors"
                                 />
                                 <fingather-input-validator
                                     [control]="f['assetId']"
-                                    [isSubmitted]="$submitted()"
+                                    [isSubmitted]="submitted()"
                                     [errorMessages]="{
                                         required: 'app.shared.transactionDialog.assetRequired',
                                     }"
@@ -52,11 +52,11 @@
                                     id="brokerId"
                                     formControlName="brokerId"
                                     [items]="brokers"
-                                    [class.is-invalid]="$submitted() && f['brokerId'].errors"
+                                    [class.is-invalid]="submitted() && f['brokerId'].errors"
                                 />
                                 <fingather-input-validator
                                     [control]="f['brokerId']"
-                                    [isSubmitted]="$submitted()"
+                                    [isSubmitted]="submitted()"
                                     [errorMessages]="{
                                         required: 'app.shared.transactionDialog.brokerRequired',
                                     }"
@@ -71,11 +71,11 @@
                                 id="actionType"
                                 formControlName="actionType"
                                 [items]="actionTypes"
-                                [class.is-invalid]="$submitted() && f['actionType'].errors"
+                                [class.is-invalid]="submitted() && f['actionType'].errors"
                             />
                             <fingather-input-validator
                                 [control]="f['actionType']"
-                                [isSubmitted]="$submitted()"
+                                [isSubmitted]="submitted()"
                                 [errorMessages]="{
                                     required: 'app.shared.transactionDialog.actionTypeRequired',
                                 }"
@@ -89,11 +89,11 @@
                                 id="actionCreated"
                                 formControlName="actionCreated"
                                 [datetime]="true"
-                                [class.is-invalid]="$submitted() && f['actionCreated'].errors"
+                                [class.is-invalid]="submitted() && f['actionCreated'].errors"
                             />
                             <fingather-input-validator
                                 [control]="f['actionCreated']"
-                                [isSubmitted]="$submitted()"
+                                [isSubmitted]="submitted()"
                                 [errorMessages]="{
                                     required: 'app.shared.transactionDialog.actionCreatedRequired',
                                 }"
@@ -103,10 +103,10 @@
                     <div class="form-row">
                         <div class="form-group col">
                             <label for="units">{{ 'app.shared.transactionDialog.units' | translate }}</label>
-                            <input type="number" step="0.01" id="units" formControlName="units" class="form-control" [class.is-invalid]="$submitted() && f['units'].errors" [defaultValue]="0" />
+                            <input type="number" step="0.01" id="units" formControlName="units" class="form-control" [class.is-invalid]="submitted() && f['units'].errors" [defaultValue]="0" />
                             <fingather-input-validator
                                 [control]="f['units']"
-                                [isSubmitted]="$submitted()"
+                                [isSubmitted]="submitted()"
                                 [errorMessages]="{
                                     required: 'app.shared.transactionDialog.unitsRequired',
                                 }"
@@ -117,25 +117,25 @@
                         <div class="form-group col">
                             <label for="price">{{ 'app.shared.transactionDialog.unitPrice' | translate }}</label>
                             <div class="input-group">
-                                <input type="number" step="0.01" min="0" id="price" formControlName="price" class="form-control" [class.is-invalid]="$submitted() && f['price'].errors" [defaultValue]="0.00" />
+                                <input type="number" step="0.01" min="0" id="price" formControlName="price" class="form-control" [class.is-invalid]="submitted() && f['price'].errors" [defaultValue]="0.00" />
                                 <fingather-select
                                     id="currencyId"
                                     formControlName="currencyId"
                                     [items]="currencies"
-                                    [class.is-invalid]="$submitted() && f['currencyId'].errors"
+                                    [class.is-invalid]="submitted() && f['currencyId'].errors"
                                     class="money-select"
                                 />
                             </div>
                             <fingather-input-validator
                                 [control]="f['price']"
-                                [isSubmitted]="$submitted()"
+                                [isSubmitted]="submitted()"
                                 [errorMessages]="{
                                     required: 'app.shared.transactionDialog.unitPriceRequired',
                                 }"
                             />
                             <fingather-input-validator
                                 [control]="f['currencyId']"
-                                [isSubmitted]="$submitted()"
+                                [isSubmitted]="submitted()"
                                 [errorMessages]="{
                                     required: 'app.shared.transactionDialog.currencyRequired',
                                 }"
@@ -146,25 +146,25 @@
                         <div class="form-group col">
                             <label for="tax">{{ 'app.shared.transactionDialog.tax' | translate }}</label>
                             <div class="input-group">
-                                <input type="number" step="0.01" min="0" id="tax" formControlName="tax" class="form-control" [class.is-invalid]="$submitted() && f['tax'].errors" [defaultValue]="0.00" />
+                                <input type="number" step="0.01" min="0" id="tax" formControlName="tax" class="form-control" [class.is-invalid]="submitted() && f['tax'].errors" [defaultValue]="0.00" />
                                 <fingather-select
                                     id="taxCurrencyId"
                                     formControlName="taxCurrencyId"
                                     [items]="currencies"
-                                    [class.is-invalid]="$submitted() && f['taxCurrencyId'].errors"
+                                    [class.is-invalid]="submitted() && f['taxCurrencyId'].errors"
                                     class="money-select"
                                 />
                             </div>
                             <fingather-input-validator
                                 [control]="f['tax']"
-                                [isSubmitted]="$submitted()"
+                                [isSubmitted]="submitted()"
                                 [errorMessages]="{
                                     required: 'app.shared.transactionDialog.taxRequired',
                                 }"
                             />
                             <fingather-input-validator
                                 [control]="f['taxCurrencyId']"
-                                [isSubmitted]="$submitted()"
+                                [isSubmitted]="submitted()"
                                 [errorMessages]="{
                                     required: 'app.shared.transactionDialog.currencyRequired',
                                 }"
@@ -175,25 +175,25 @@
                         <div class="form-group col">
                             <label for="fee">{{ 'app.shared.transactionDialog.fee' | translate }}</label>
                             <div class="input-group">
-                                <input type="number" step="0.01" min="0" id="fee" formControlName="fee" class="form-control" [class.is-invalid]="$submitted() && f['fee'].errors" [defaultValue]="0.00" />
+                                <input type="number" step="0.01" min="0" id="fee" formControlName="fee" class="form-control" [class.is-invalid]="submitted() && f['fee'].errors" [defaultValue]="0.00" />
                                 <fingather-select
                                     id="feeCurrencyId"
                                     formControlName="feeCurrencyId"
                                     [items]="currencies"
-                                    [class.is-invalid]="$submitted() && f['taxCurrencyId'].errors"
+                                    [class.is-invalid]="submitted() && f['taxCurrencyId'].errors"
                                     class="money-select"
                                 />
                             </div>
                             <fingather-input-validator
                                 [control]="f['fee']"
-                                [isSubmitted]="$submitted()"
+                                [isSubmitted]="submitted()"
                                 [errorMessages]="{
                                     required: 'app.shared.transactionDialog.feeRequired',
                                 }"
                             />
                             <fingather-input-validator
                                 [control]="f['feeCurrencyId']"
-                                [isSubmitted]="$submitted()"
+                                [isSubmitted]="submitted()"
                                 [errorMessages]="{
                                     required: 'app.shared.transactionDialog.currencyRequired',
                                 }"
@@ -204,7 +204,7 @@
                         <a routerLink=".." class="btn btn-secondary" tabindex="0">{{ 'app.common.cancel' | translate }}</a>
 
                         <fingather-save-button
-                            [saving]="$saving()"
+                            [saving]="saving()"
                         />
                     </div>
                 </form>

@@ -19,38 +19,24 @@ import { TranslatePipe} from "@ngx-translate/core";
     ],
 })
 export class PaginationComponent {
-    public readonly $totalItems = input.required<number>({
-        alias: 'totalItems',
-    });
-    public readonly $defaultPageSize = input<number>(50, {
-        alias: 'defaultPageSize',
-    });
-    public readonly onSelectPage$ = output<number>({
-        alias: 'onSelectPage',
-    });
-    public readonly $maxPages = input<number>(10, {
-        alias: 'maxPages',
-    });
-    public readonly $delimiter = input<string>('...', {
-        alias: 'delimiter',
-    });
-    public readonly $pageSizeOptions = input<number[]>([25, 50, 100, 200], {
-        alias: 'pageSizeOptions',
-    });
-    public readonly onChangePageSize$ = output<number>({
-        alias: 'onChangePageSize',
-    });
+    public readonly totalItems = input.required<number>();
+    public readonly defaultPageSize = input<number>(50);
+    public readonly afterSelectPage = output<number>();
+    public readonly maxPages = input<number>(10);
+    public readonly delimiter = input<string>('...');
+    public readonly pageSizeOptions = input<number[]>([25, 50, 100, 200]);
+    public readonly afterChangePageSize = output<number>();
 
-    protected readonly $pageSize = signal<number>(this.$defaultPageSize());
-    protected readonly $currentPage = signal<number>(1);
-    protected readonly $pagesCount = computed<number>(() => Math.ceil(this.$totalItems() / this.$pageSize()));
+    protected readonly pageSize = signal<number>(this.defaultPageSize());
+    protected readonly currentPage = signal<number>(1);
+    protected readonly pagesCount = computed<number>(() => Math.ceil(this.totalItems() / this.pageSize()));
 
-    protected readonly $pages = computed<(number|string)[]>(() => {
+    protected readonly pages = computed<(number|string)[]>(() => {
         return this.getPaginationPages(
-            this.$totalItems(),
-            this.$pageSize(),
-            this.$maxPages(),
-            this.$currentPage(),
+            this.totalItems(),
+            this.pageSize(),
+            this.maxPages(),
+            this.currentPage(),
         );
     });
 
@@ -59,17 +45,17 @@ export class PaginationComponent {
             return;
         }
 
-        this.$currentPage.set(page);
-        this.onSelectPage$.emit(this.$currentPage());
+        this.currentPage.set(page);
+        this.afterSelectPage.emit(this.currentPage());
     }
 
     protected isDelimiterPage(page: number | string): boolean {
-        return page === this.$delimiter();
+        return page === this.delimiter();
     }
 
     protected async changePageSize(pageSize: number): Promise<void> {
-        this.$pageSize.set(pageSize);
-        this.onChangePageSize$.emit(pageSize);
+        this.pageSize.set(pageSize);
+        this.afterChangePageSize.emit(pageSize);
     }
 
     private getPaginationPages(

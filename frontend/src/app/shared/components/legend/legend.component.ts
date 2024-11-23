@@ -15,7 +15,5 @@ import { TranslatePipe} from "@ngx-translate/core";
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LegendComponent {
-    public readonly $legendItems = input.required<LegendItem[]>({
-        alias: 'legendItems',
-    });
+    public readonly legendItems = input.required<LegendItem[]>();
 }

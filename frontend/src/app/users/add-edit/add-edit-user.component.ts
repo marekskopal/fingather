@@ -42,7 +42,7 @@ export class AddEditUserComponent extends BaseAddEditForm implements OnInit {
     ];
 
     public async ngOnInit(): Promise<void> {
-        this.$loading.set(true);
+        this.loading.set(true);
 
         const currentUser = await this.currentUserService.getCurrentUser();
         if (currentUser.role !== UserRoleEnum.Admin) {
@@ -54,7 +54,7 @@ export class AddEditUserComponent extends BaseAddEditForm implements OnInit {
         const emailValidators = [Validators.email];
         const passwordValidators = [Validators.minLength(6)];
 
-        const id = this.$id();
+        const id = this.id();
         if (id === null) {
             emailValidators.push(Validators.required);
             passwordValidators.push(Validators.required);
@@ -81,11 +81,11 @@ export class AddEditUserComponent extends BaseAddEditForm implements OnInit {
             this.form.patchValue(user);
         }
 
-        this.$loading.set(false);
+        this.loading.set(false);
     }
 
     public onSubmit(): void {
-        this.$submitted.set(true);
+        this.submitted.set(true);
 
         // reset alerts on submit
         this.alertService.clear();
@@ -95,9 +95,9 @@ export class AddEditUserComponent extends BaseAddEditForm implements OnInit {
             return;
         }
 
-        this.$saving.set(true);
+        this.saving.set(true);
         try {
-            if (this.$id() === null) {
+            if (this.id() === null) {
                 this.createUser();
             } else {
                 this.updateUser();
@@ -107,7 +107,7 @@ export class AddEditUserComponent extends BaseAddEditForm implements OnInit {
                 this.alertService.error(error.message);
             }
         } finally {
-            this.$saving.set(false);
+            this.saving.set(false);
         }
     }
 
@@ -120,7 +120,7 @@ export class AddEditUserComponent extends BaseAddEditForm implements OnInit {
     }
 
     private async updateUser(): Promise<void> {
-        const id = this.$id();
+        const id = this.id();
         if (id === null) {
             return;
         }

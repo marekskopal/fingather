@@ -25,7 +25,7 @@
                     />
                     <fingather-input-validator
                         [control]="f['ticker']"
-                        [isSubmitted]="$submitted()"
+                        [isSubmitted]="submitted()"
                         [errorMessages]="{
                             required: 'app.assets.addAsset.required',
                         }"
@@ -36,7 +36,7 @@
                     <a routerLink=".." class="btn btn-secondary" tabindex="0">{{ 'app.common.cancel' | translate }}</a>
 
                     <fingather-save-button
-                        [saving]="$saving()"
+                        [saving]="saving()"
                     />
                 </div>
             </form>

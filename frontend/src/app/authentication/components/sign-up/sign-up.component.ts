@@ -33,7 +33,7 @@ export class SignUpComponent extends BaseForm implements OnInit {
     protected currencies: SelectItem<number, string>[] = [];
 
     public async ngOnInit(): Promise<void> {
-        this.$loading.set(true);
+        this.loading.set(true);
 
         const currencies = await this.currencyService.getCurrencies();
         this.currencies = currencies.map((currency) => {
@@ -55,11 +55,11 @@ export class SignUpComponent extends BaseForm implements OnInit {
             defaultCurrencyId: [this.currencies[0].key, Validators.required],
         });
 
-        this.$loading.set(false);
+        this.loading.set(false);
     }
 
     public async onSubmit(): Promise<void> {
-        this.$submitted.set(true);
+        this.submitted.set(true);
 
         // reset alerts on submit
         this.alertService.clear();
@@ -69,7 +69,7 @@ export class SignUpComponent extends BaseForm implements OnInit {
             return;
         }
 
-        this.$saving.set(true);
+        this.saving.set(true);
         try {
             await this.authenticationService.signUp(this.form.value);
 
@@ -82,7 +82,7 @@ export class SignUpComponent extends BaseForm implements OnInit {
                 this.alertService.error(error.message);
             }
         } finally {
-            this.$saving.set(false);
+            this.saving.set(false);
         }
     }
 }

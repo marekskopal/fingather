@@ -9,15 +9,9 @@ import {SelectItem} from "@app/shared/types/select-item";
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export abstract class BaseSelectComponent<K extends keyof any, V> implements ControlValueAccessor {
-    public readonly $id = input.required<string>({
-        alias: 'id',
-    });
-    public readonly $items = input.required<SelectItem<K, V>[]>({
-        alias: 'items',
-    });
-    public readonly $placeholder = input<string>('', {
-        alias: 'placeholder',
-    });
+    public readonly id = input.required<string>();
+    public readonly items = input.required<SelectItem<K, V>[]>();
+    public readonly placeholder = input<string>('');
 
     protected value: SelectItem<K, V> | null = null;
     private touched: boolean = false;
@@ -53,7 +47,7 @@ export abstract class BaseSelectComponent<K extends keyof any, V> implements Con
     }
 
     private getValueFromItems(value: K | null): SelectItem<K, V> | null {
-        return this.$items().find((item) => item.key === value) || null;
+        return this.items().find((item) => item.key === value) || null;
     }
 
     private markAsTouched(): void {

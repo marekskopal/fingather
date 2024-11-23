@@ -4,9 +4,9 @@ import { AlertService } from '@app/services';
 
 export abstract class BaseForm {
     protected form: UntypedFormGroup;
-    protected readonly $loading = signal<boolean>(false);
-    protected readonly $saving = signal<boolean>(false);
-    protected readonly $submitted = signal<boolean>(false);
+    protected readonly loading = signal<boolean>(false);
+    protected readonly saving = signal<boolean>(false);
+    protected readonly submitted = signal<boolean>(false);
 
     protected readonly formBuilder = inject(UntypedFormBuilder);
     protected readonly alertService = inject(AlertService);

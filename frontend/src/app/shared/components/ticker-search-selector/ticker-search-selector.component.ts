@@ -38,16 +38,12 @@ export class TickerSearchSelectorComponent implements ControlValueAccessor, OnIn
     private readonly tickerService = inject(TickerService);
     private readonly elementRef = inject(ElementRef);
 
-    public readonly $id = input.required<string>({
-        alias: 'id',
-    });
-    public readonly $placeholder = input<string>('', {
-        alias: 'placeholder',
-    });
+    public readonly id = input.required<string>();
+    public readonly placeholder = input<string>('');
 
-    protected readonly $tickers = signal<Ticker[]>([])
+    protected readonly tickers = signal<Ticker[]>([])
 
-    protected readonly $search = signal<string | null>(null);
+    protected readonly search = signal<string | null>(null);
 
     protected value: Ticker | null = null;
     private touched: boolean = false;
@@ -87,11 +83,11 @@ export class TickerSearchSelectorComponent implements ControlValueAccessor, OnIn
     }
 
     protected async onSearchKeyUp(search: string | null): Promise<void> {
-        this.$search.set(search);
+        this.search.set(search);
         const tickers = search === null || search === '' ?
             await this.tickerService.getTickersMostUsed(20) :
             await this.tickerService.getTickers(search, 20);
-        this.$tickers.set(tickers);
+        this.tickers.set(tickers);
     }
 
     protected onOpenChange(open: boolean): void {

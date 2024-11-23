@@ -10,18 +10,10 @@ import {SelectItem} from "@app/shared/types/select-item";
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export abstract class BaseSelectMultiComponent<K extends keyof any, V> implements ControlValueAccessor {
-    public readonly $id = input.required<string>({
-        alias: 'id',
-    });
-    public readonly $items = input.required<SelectItem<K, V>[]>({
-        alias: 'items',
-    });
-    public readonly $placeholder = input<string>('', {
-        alias: 'placeholder',
-    });
-    public readonly $disabledItemMessage = input<string | null>(null, {
-        alias: 'disabledItemMessage',
-    });
+    public readonly id = input.required<string>();
+    public readonly items = input.required<SelectItem<K, V>[]>();
+    public readonly placeholder = input<string>('');
+    public readonly disabledItemMessage = input<string | null>(null);
 
     protected values: SelectItem<K, V>[] = [];
     private touched: boolean = false;
@@ -63,7 +55,7 @@ export abstract class BaseSelectMultiComponent<K extends keyof any, V> implement
     }
 
     private getValuesFromItems(values: K[]): SelectItem<K, V>[] {
-        return this.$items().filter((item) => values.includes(item.key));
+        return this.items().filter((item) => values.includes(item.key));
     }
 
     protected hasKeyInValues(key: K): boolean {
@@ -71,7 +63,7 @@ export abstract class BaseSelectMultiComponent<K extends keyof any, V> implement
     }
 
     private addValueIntoValues(key: K): void {
-        const value = this.$items().find((item) => item.key === key);
+        const value = this.items().find((item) => item.key === key);
         if (value === undefined) {
             return;
         }

@@ -13,12 +13,10 @@ import {TranslateModule} from "@ngx-translate/core";
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TagComponent {
-    public readonly $type = input.required<TransactionActionType>({
-        alias: 'type',
-    });
+    public readonly type = input.required<TransactionActionType>();
 
-    protected readonly $class = computed<string>(() => {
-        switch (this.$type()) {
+    protected readonly class = computed<string>(() => {
+        switch (this.type()) {
             case TransactionActionType.Buy:
                 return 'tag-buy';
             case TransactionActionType.Sell:
@@ -36,8 +34,8 @@ export class TagComponent {
         }
     });
 
-    protected readonly $text = computed<string>(() => {
-        switch (this.$type()) {
+    protected readonly text = computed<string>(() => {
+        switch (this.type()) {
             case TransactionActionType.Buy:
                 return 'buy';
             case TransactionActionType.Sell:

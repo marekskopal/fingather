@@ -36,11 +36,9 @@ export class PortfolioTotalComponent implements OnInit {
     private readonly currencyService = inject(CurrencyService);
     private readonly portfolioService = inject(PortfolioService);
 
-    public readonly $portfolio = input<Portfolio | null>(null, {
-        alias: 'portfolio',
-    })
+    public readonly portfolio = input<Portfolio | null>(null);
 
-    private readonly $portfolioData = signal<PortfolioData | null>(null);
+    protected readonly portfolioData = signal<PortfolioData | null>(null);
     protected defaultCurrency: Currency;
 
     public async ngOnInit(): Promise<void> {
@@ -53,17 +51,13 @@ export class PortfolioTotalComponent implements OnInit {
         });
     }
 
-    protected get portfolioData(): PortfolioData | null {
-        return this.$portfolioData();
-    }
-
     public async refreshPortfolioData(): Promise<void> {
-        this.$portfolioData.set(null);
+        this.portfolioData.set(null);
 
-        const portfolio = this.$portfolio() ?? await this.portfolioService.getCurrentPortfolio();
+        const portfolio = this.portfolio() ?? await this.portfolioService.getCurrentPortfolio();
 
         const portfolioData = await this.portfolioDataService.getPortfolioData(portfolio.id);
-        this.$portfolioData.set(portfolioData);
+        this.portfolioData.set(portfolioData);
     }
 
     protected readonly PortfolioDataRangeEnum = RangeEnum;

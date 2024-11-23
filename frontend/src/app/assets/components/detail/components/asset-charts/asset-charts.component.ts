@@ -27,14 +27,8 @@ import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLinkButton, NgbNavOutlet} from 
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AssetChartsComponent {
-    public readonly $asset = input.required<AssetWithProperties>({
-        alias: 'asset',
-    });
+    public readonly asset = input.required<AssetWithProperties>();
 
     protected activeTab: AssetChartsTabEnum = AssetChartsTabEnum.AssetValueChart;
     protected readonly AssetChartsTabEnum = AssetChartsTabEnum;
-
-    protected get asset(): AssetWithProperties {
-        return this.$asset();
-    }
 }

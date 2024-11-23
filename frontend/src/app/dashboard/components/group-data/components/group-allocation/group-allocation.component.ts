@@ -30,11 +30,9 @@ export class GroupAllocationComponent implements OnInit {
     private readonly currencyService = inject(CurrencyService);
     private readonly portfolioService = inject(PortfolioService);
 
-    public readonly $groupsAllocationService = input.required<GroupAllocationService>({
-        alias: 'groupsAllocationService',
-    });
+    public readonly groupsAllocationService = input.required<GroupAllocationService>();
 
-    protected readonly $groupsWithGroupData = signal<AbstractGroupWithGroupDataEntity[] | null>(null);
+    protected readonly groupsWithGroupData = signal<AbstractGroupWithGroupDataEntity[] | null>(null);
     protected defaultCurrency: Currency;
 
     public async ngOnInit(): Promise<void> {
@@ -48,11 +46,11 @@ export class GroupAllocationComponent implements OnInit {
     }
 
     public async refreshGroupWithGroupData(): Promise<void> {
-        this.$groupsWithGroupData.set(null);
+        this.groupsWithGroupData.set(null);
 
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
-        const groupsWithGroupData = await this.$groupsAllocationService().getGroupAllocations(portfolio.id);
-        this.$groupsWithGroupData.set(groupsWithGroupData);
+        const groupsWithGroupData = await this.groupsAllocationService().getGroupAllocations(portfolio.id);
+        this.groupsWithGroupData.set(groupsWithGroupData);
     }
 }

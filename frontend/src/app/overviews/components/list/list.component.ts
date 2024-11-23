@@ -30,7 +30,7 @@ export class ListComponent implements OnInit {
     private readonly portfolioService = inject(PortfolioService);
     private readonly changeDetectorRef = inject(ChangeDetectorRef);
 
-    private readonly $yearCalculatedDatas = signal<YearCalculatedData[] | null>(null);
+    protected readonly yearCalculatedDatas = signal<YearCalculatedData[] | null>(null);
     protected defaultCurrency: Currency;
 
     protected readonly ModeEnum = ModeEnum;
@@ -47,17 +47,13 @@ export class ListComponent implements OnInit {
         });
     }
 
-    protected get yearCalculatedDatas(): YearCalculatedData[] | null {
-        return this.$yearCalculatedDatas();
-    }
-
     private async refreshYearCalculatedData(): Promise<void> {
-        this.$yearCalculatedDatas.set(null);
+        this.yearCalculatedDatas.set(null);
 
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
         const yearCalculatedDatas = await this.overviewService.getYearCalculatedData(portfolio.id);
-        this.$yearCalculatedDatas.set(yearCalculatedDatas);
+        this.yearCalculatedDatas.set(yearCalculatedDatas);
     }
 
     protected changeMode(): void {

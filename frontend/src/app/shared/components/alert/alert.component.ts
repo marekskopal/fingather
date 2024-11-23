@@ -1,6 +1,6 @@
 import {
     ChangeDetectionStrategy,
-    Component, inject, input, InputSignal, OnDestroy, OnInit,
+    Component, inject, input, OnDestroy, OnInit,
 } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { Alert, AlertType } from '@app/models';
@@ -17,8 +17,8 @@ export class AlertComponent implements OnInit, OnDestroy {
     private router = inject(Router);
     private alertService = inject(AlertService);
 
-    public id: InputSignal<string> = input('default-alert');
-    public fade: InputSignal<boolean> = input(true);
+    public id = input<string>('default-alert');
+    public fade = input<boolean>(true);
 
     public alerts: Alert[] = [];
     public alertSubscription: Subscription;
