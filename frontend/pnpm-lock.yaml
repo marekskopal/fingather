@@ -39,8 +39,8 @@ importers:
         specifier: ^19.0.0
         version: 19.0.0(@angular/common@19.0.0(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.10))(@angular/platform-browser@19.0.0(@angular/animations@19.0.0(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.10)))(@angular/common@19.0.0(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.10)))(rxjs@7.8.1)
       '@marekskopal/ng-scroll-shadow':
-        specifier: ^1.0.3
-        version: 1.0.3(@angular/common@19.0.0(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.10))
+        specifier: ^2.0.0
+        version: 2.0.0(@angular/common@19.0.0(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.10))
       '@ng-bootstrap/ng-bootstrap':
         specifier: ^17.0.1
         version: 17.0.1(@angular/common@19.0.0(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.10))(@angular/forms@19.0.0(@angular/common@19.0.0(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.10))(@angular/platform-browser@19.0.0(@angular/animations@19.0.0(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.10)))(@angular/common@19.0.0(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.10)))(rxjs@7.8.1))(@popperjs/core@2.11.8)(rxjs@7.8.1)
@@ -1465,11 +1465,11 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@marekskopal/ng-scroll-shadow@1.0.3':
-    resolution: {integrity: sha512-Z4u1O86sV82QOK2CbyYcFgzDEm0Eyyr/L8mqUkvQUrKbNYjfig9r+i++iEMIKOD5rRyfidx6988koMdkZDRI2g==}
+  '@marekskopal/ng-scroll-shadow@2.0.0':
+    resolution: {integrity: sha512-89p5noHoBcvmgTtDGRJYPfeAOly3v6iP0iVNyESxNzXoRnuc13WfPp9B63FNsp/FZhs4AQ2T65S+kmBwqLIaow==}
     peerDependencies:
-      '@angular/common': ^18.2.0
-      '@angular/core': ^18.2.0
+      '@angular/common': ^19.0.0
+      '@angular/core': ^19.0.0
 
   '@msgpackr-extract/msgpackr-extract-darwin-arm64@3.0.3':
     resolution: {integrity: sha512-QZHtlVgbAdy2zAqNA9Gu1UpIuI8Xvsd1v8ic6B2pZmeFnFcMWiPLfWXh7TVw4eGEZ/C9TH281KwhVoeQUKbyjw==}
@@ -6629,7 +6629,7 @@ snapshots:
   '@lmdb/lmdb-win32-x64@3.1.5':
     optional: true
 
-  '@marekskopal/ng-scroll-shadow@1.0.3(@angular/common@19.0.0(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.10))':
+  '@marekskopal/ng-scroll-shadow@2.0.0(@angular/common@19.0.0(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.10))':
     dependencies:
       '@angular/common': 19.0.0(@angular/core@19.0.0(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1)
       '@angular/core': 19.0.0(rxjs@7.8.1)(zone.js@0.14.10)

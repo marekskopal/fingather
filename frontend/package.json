@@ -24,7 +24,7 @@
     "@angular/platform-browser": "^19.0.0",
     "@angular/platform-browser-dynamic": "^19.0.0",
     "@angular/router": "^19.0.0",
-    "@marekskopal/ng-scroll-shadow": "^1.0.3",
+    "@marekskopal/ng-scroll-shadow": "^2.0.0",
     "@ng-bootstrap/ng-bootstrap": "^17.0.1",
     "@ngx-translate/core": "^16.0.3",
     "@ngx-translate/http-loader": "^16.0.0",
