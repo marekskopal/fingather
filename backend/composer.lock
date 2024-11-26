@@ -1492,6 +1492,67 @@
             "time": "2024-10-14T11:59:49+00:00"
         },
         {
+            "name": "laravel/serializable-closure",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/serializable-closure.git",
+                "reference": "0d8d3d8086984996df86596a86dea60398093a81"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/serializable-closure/zipball/0d8d3d8086984996df86596a86dea60398093a81",
+                "reference": "0d8d3d8086984996df86596a86dea60398093a81",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "illuminate/support": "^10.0|^11.0",
+                "nesbot/carbon": "^2.67|^3.0",
+                "pestphp/pest": "^2.36",
+                "phpstan/phpstan": "^2.0",
+                "symfony/var-dumper": "^6.2.0|^7.0.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laravel\\SerializableClosure\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylor@laravel.com"
+                },
+                {
+                    "name": "Nuno Maduro",
+                    "email": "nuno@laravel.com"
+                }
+            ],
+            "description": "Laravel Serializable Closure provides an easy and secure way to serialize closures in PHP.",
+            "keywords": [
+                "closure",
+                "laravel",
+                "serializable"
+            ],
+            "support": {
+                "issues": "https://github.com/laravel/serializable-closure/issues",
+                "source": "https://github.com/laravel/serializable-closure"
+            },
+            "time": "2024-11-19T01:38:44+00:00"
+        },
+        {
             "name": "league/container",
             "version": "4.2.4",
             "source": {
@@ -1662,21 +1723,21 @@
         },
         {
             "name": "league/route",
-            "version": "6.1.1",
+            "version": "6.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/route.git",
-                "reference": "fe973177260c19cb696654f1b0f868a8388ee035"
+                "reference": "38775ed32d49ff1ce98d88adaa06a8d66b923436"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/route/zipball/fe973177260c19cb696654f1b0f868a8388ee035",
-                "reference": "fe973177260c19cb696654f1b0f868a8388ee035",
+                "url": "https://api.github.com/repos/thephpleague/route/zipball/38775ed32d49ff1ce98d88adaa06a8d66b923436",
+                "reference": "38775ed32d49ff1ce98d88adaa06a8d66b923436",
                 "shasum": ""
             },
             "require": {
+                "laravel/serializable-closure": "^2.0.0",
                 "nikic/fast-route": "^1.3",
-                "opis/closure": "^3.6.3",
                 "php": "^8.1",
                 "psr/container": "^2.0",
                 "psr/http-factory": "^1.0",
@@ -1740,7 +1801,7 @@
             ],
             "support": {
                 "issues": "https://github.com/thephpleague/route/issues",
-                "source": "https://github.com/thephpleague/route/tree/6.1.1"
+                "source": "https://github.com/thephpleague/route/tree/6.2.0"
             },
             "funding": [
                 {
@@ -1748,7 +1809,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-11-20T12:31:36+00:00"
+            "time": "2024-11-25T08:10:15+00:00"
         },
         {
             "name": "maennchen/zipstream-php",
@@ -2958,71 +3019,6 @@
                 }
             ],
             "time": "2024-09-09T07:06:30+00:00"
-        },
-        {
-            "name": "opis/closure",
-            "version": "3.6.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/opis/closure.git",
-                "reference": "3d81e4309d2a927abbe66df935f4bb60082805ad"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/opis/closure/zipball/3d81e4309d2a927abbe66df935f4bb60082805ad",
-                "reference": "3d81e4309d2a927abbe66df935f4bb60082805ad",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.4 || ^7.0 || ^8.0"
-            },
-            "require-dev": {
-                "jeremeamia/superclosure": "^2.0",
-                "phpunit/phpunit": "^4.0 || ^5.0 || ^6.0 || ^7.0 || ^8.0 || ^9.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.6.x-dev"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "functions.php"
-                ],
-                "psr-4": {
-                    "Opis\\Closure\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Marius Sarca",
-                    "email": "marius.sarca@gmail.com"
-                },
-                {
-                    "name": "Sorin Sarca",
-                    "email": "sarca_sorin@hotmail.com"
-                }
-            ],
-            "description": "A library that can be used to serialize closures (anonymous functions) and arbitrary objects.",
-            "homepage": "https://opis.io/closure",
-            "keywords": [
-                "anonymous functions",
-                "closure",
-                "function",
-                "serializable",
-                "serialization",
-                "serialize"
-            ],
-            "support": {
-                "issues": "https://github.com/opis/closure/issues",
-                "source": "https://github.com/opis/closure/tree/3.6.3"
-            },
-            "time": "2022-01-27T09:35:39+00:00"
         },
         {
             "name": "php-decimal/php-decimal",
@@ -4264,22 +4260,22 @@
         },
         {
             "name": "spiral/core",
-            "version": "3.14.6",
+            "version": "3.14.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spiral/core.git",
-                "reference": "feee88acc53ac323313bc5af4202fed065144e71"
+                "reference": "4b3581a8878feb75489de7d1bb262d11c53f1d1b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/core/zipball/feee88acc53ac323313bc5af4202fed065144e71",
-                "reference": "feee88acc53ac323313bc5af4202fed065144e71",
+                "url": "https://api.github.com/repos/spiral/core/zipball/4b3581a8878feb75489de7d1bb262d11c53f1d1b",
+                "reference": "4b3581a8878feb75489de7d1bb262d11c53f1d1b",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.1",
                 "psr/container": "^1.1|^2.0",
-                "spiral/security": "^3.14.6"
+                "spiral/security": "^3.14.7"
             },
             "provide": {
                 "psr/container-implementation": "^1.1|^2.0"
@@ -4334,11 +4330,11 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-10-22T21:48:36+00:00"
+            "time": "2024-11-25T20:19:44+00:00"
         },
         {
             "name": "spiral/files",
-            "version": "3.14.6",
+            "version": "3.14.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spiral/files.git",
@@ -4494,23 +4490,23 @@
         },
         {
             "name": "spiral/hmvc",
-            "version": "3.14.6",
+            "version": "3.14.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spiral/hmvc.git",
-                "reference": "168b432680661834b3f0aa10653b0b04dc2e9628"
+                "reference": "6979712ee2dfd1493e16f23b6c3b3c92a78bcf9b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/hmvc/zipball/168b432680661834b3f0aa10653b0b04dc2e9628",
-                "reference": "168b432680661834b3f0aa10653b0b04dc2e9628",
+                "url": "https://api.github.com/repos/spiral/hmvc/zipball/6979712ee2dfd1493e16f23b6c3b3c92a78bcf9b",
+                "reference": "6979712ee2dfd1493e16f23b6c3b3c92a78bcf9b",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.1",
                 "psr/event-dispatcher": "^1.0",
-                "spiral/core": "^3.14.6",
-                "spiral/interceptors": "^3.14.6"
+                "spiral/core": "^3.14.7",
+                "spiral/interceptors": "^3.14.7"
             },
             "require-dev": {
                 "phpunit/phpunit": "^10.1",
@@ -4564,26 +4560,26 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-10-22T21:48:51+00:00"
+            "time": "2024-11-25T20:19:45+00:00"
         },
         {
             "name": "spiral/interceptors",
-            "version": "3.14.6",
+            "version": "3.14.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spiral/interceptors.git",
-                "reference": "a262479abbe12dc7e4a8e6e2aeac5460f1a7a590"
+                "reference": "3e65a56f0e0a3ab142da1ce0ac12a0bdfbd21611"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/interceptors/zipball/a262479abbe12dc7e4a8e6e2aeac5460f1a7a590",
-                "reference": "a262479abbe12dc7e4a8e6e2aeac5460f1a7a590",
+                "url": "https://api.github.com/repos/spiral/interceptors/zipball/3e65a56f0e0a3ab142da1ce0ac12a0bdfbd21611",
+                "reference": "3e65a56f0e0a3ab142da1ce0ac12a0bdfbd21611",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.1",
                 "psr/event-dispatcher": "^1.0",
-                "spiral/core": "^3.14.6"
+                "spiral/core": "^3.14.7"
             },
             "require-dev": {
                 "phpunit/phpunit": "^10.1",
@@ -4642,26 +4638,26 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-10-22T21:48:52+00:00"
+            "time": "2024-11-25T20:19:45+00:00"
         },
         {
             "name": "spiral/logger",
-            "version": "3.14.6",
+            "version": "3.14.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spiral/logger.git",
-                "reference": "e39592fa4ee5f5eaaa5b5a75d85ed30d424cbef5"
+                "reference": "0d9a909647508f763cdafa7d5690305ffda77697"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/logger/zipball/e39592fa4ee5f5eaaa5b5a75d85ed30d424cbef5",
-                "reference": "e39592fa4ee5f5eaaa5b5a75d85ed30d424cbef5",
+                "url": "https://api.github.com/repos/spiral/logger/zipball/0d9a909647508f763cdafa7d5690305ffda77697",
+                "reference": "0d9a909647508f763cdafa7d5690305ffda77697",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.1",
                 "psr/log": "1 - 3",
-                "spiral/core": "^3.14.6"
+                "spiral/core": "^3.14.7"
             },
             "require-dev": {
                 "mockery/mockery": "^1.5",
@@ -4713,11 +4709,11 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-10-22T21:48:56+00:00"
+            "time": "2024-11-25T20:19:44+00:00"
         },
         {
             "name": "spiral/pagination",
-            "version": "3.14.6",
+            "version": "3.14.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spiral/pagination.git",
@@ -4786,23 +4782,23 @@
         },
         {
             "name": "spiral/reactor",
-            "version": "3.14.6",
+            "version": "3.14.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spiral/reactor.git",
-                "reference": "74cf742044da4a0b4f6fb2916589bd5506bb15fd"
+                "reference": "6ad9a36ee8dd6e4f176e4012520770138baa7e35"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/reactor/zipball/74cf742044da4a0b4f6fb2916589bd5506bb15fd",
-                "reference": "74cf742044da4a0b4f6fb2916589bd5506bb15fd",
+                "url": "https://api.github.com/repos/spiral/reactor/zipball/6ad9a36ee8dd6e4f176e4012520770138baa7e35",
+                "reference": "6ad9a36ee8dd6e4f176e4012520770138baa7e35",
                 "shasum": ""
             },
             "require": {
                 "doctrine/inflector": "^1.4|^2.0",
                 "nette/php-generator": "^4.1.2",
                 "php": ">=8.1",
-                "spiral/files": "^3.14.6"
+                "spiral/files": "^3.14.7"
             },
             "require-dev": {
                 "mockery/mockery": "^1.5",
@@ -4855,7 +4851,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-10-22T21:52:39+00:00"
+            "time": "2024-11-25T20:20:01+00:00"
         },
         {
             "name": "spiral/roadrunner",
@@ -5164,27 +5160,27 @@
         },
         {
             "name": "spiral/security",
-            "version": "3.14.6",
+            "version": "3.14.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spiral/security.git",
-                "reference": "757bd652271876ed1d3ab2191aa4a98cab026ceb"
+                "reference": "7e663f8a0392f3a205a5ed052f7b611f3061fb22"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/security/zipball/757bd652271876ed1d3ab2191aa4a98cab026ceb",
-                "reference": "757bd652271876ed1d3ab2191aa4a98cab026ceb",
+                "url": "https://api.github.com/repos/spiral/security/zipball/7e663f8a0392f3a205a5ed052f7b611f3061fb22",
+                "reference": "7e663f8a0392f3a205a5ed052f7b611f3061fb22",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.1",
-                "spiral/core": "^3.14.6",
-                "spiral/hmvc": "^3.14.6"
+                "spiral/core": "^3.14.7",
+                "spiral/hmvc": "^3.14.7"
             },
             "require-dev": {
                 "mockery/mockery": "^1.5",
                 "phpunit/phpunit": "^10.1",
-                "spiral/console": "^3.14.6",
+                "spiral/console": "^3.14.7",
                 "vimeo/psalm": "^5.9"
             },
             "type": "library",
@@ -5232,35 +5228,35 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-10-22T21:53:28+00:00"
+            "time": "2024-11-25T20:20:17+00:00"
         },
         {
             "name": "spiral/tokenizer",
-            "version": "3.14.6",
+            "version": "3.14.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spiral/tokenizer.git",
-                "reference": "fd895a156fbc77202e548429de6db80d86810e9b"
+                "reference": "9552756ba70cabbe3478bd66eb22e6bc55c3a3c3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/tokenizer/zipball/fd895a156fbc77202e548429de6db80d86810e9b",
-                "reference": "fd895a156fbc77202e548429de6db80d86810e9b",
+                "url": "https://api.github.com/repos/spiral/tokenizer/zipball/9552756ba70cabbe3478bd66eb22e6bc55c3a3c3",
+                "reference": "9552756ba70cabbe3478bd66eb22e6bc55c3a3c3",
                 "shasum": ""
             },
             "require": {
                 "ext-tokenizer": "*",
                 "php": ">=8.1",
-                "spiral/core": "^3.14.6",
-                "spiral/logger": "^3.14.6",
+                "spiral/core": "^3.14.7",
+                "spiral/logger": "^3.14.7",
                 "symfony/finder": "^5.3.7 || ^6.0 || ^7.0"
             },
             "require-dev": {
                 "mockery/mockery": "^1.6",
                 "phpunit/phpunit": "^10.1",
                 "spiral/attributes": "^2.8|^3.0",
-                "spiral/boot": "^3.14.6",
-                "spiral/files": "^3.14.6",
+                "spiral/boot": "^3.14.7",
+                "spiral/files": "^3.14.7",
                 "vimeo/psalm": "^5.9"
             },
             "type": "library",
@@ -5308,7 +5304,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-10-22T21:54:31+00:00"
+            "time": "2024-11-25T20:20:26+00:00"
         },
         {
             "name": "symfony/console",
