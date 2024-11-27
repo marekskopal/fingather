@@ -59,6 +59,8 @@ use FinGather\Service\Dbal\QueryProvider;
 use FinGather\Service\Logger\Logger;
 use FinGather\Service\Request\RequestService;
 use FinGather\Service\Request\RequestServiceInterface;
+use FinGather\Service\Task\TaskService;
+use FinGather\Service\Task\TaskServiceInterface;
 use Http\Discovery\Psr17FactoryDiscovery;
 use League\Container\Container;
 use League\Container\ReflectionContainer;
@@ -128,6 +130,7 @@ final class ApplicationFactory
 		self::initializeOrmContainer($container, $dbContext);
 
 		$container->add(RequestServiceInterface::class, fn () => new RequestService());
+		$container->add(TaskServiceInterface::class, fn () => new TaskService());
 
 		return $container;
 	}

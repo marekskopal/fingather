@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace FinGather\Controller;
 
+use FinGather\Dto\ApiKeyCreateDto;
 use FinGather\Dto\ApiKeyDto;
+use FinGather\Dto\ApiKeyUpdateDto;
 use FinGather\Model\Entity\ApiKey;
-use FinGather\Model\Entity\Enum\ApiKeyTypeEnum;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Response\OkResponse;
 use FinGather\Route\Routes;
@@ -84,14 +85,13 @@ final class ApiKeyController
 			return new NotFoundResponse('Portfolio with id "' . $portfolioId . '" was not found.');
 		}
 
-		/** @var array{type: value-of<ApiKeyTypeEnum>, apiKey: string} $requestBody */
-		$requestBody = json_decode($request->getBody()->getContents(), associative: true);
+		$apiKeyCreateDto = $this->requestService->getRequestBodyDto($request, ApiKeyCreateDto::class);
 
 		return new JsonResponse(ApiKeyDto::fromEntity($this->apiKeyProvider->createApiKey(
 			user: $user,
 			portfolio: $portfolio,
-			type: ApiKeyTypeEnum::from($requestBody['type']),
-			apiKey: $requestBody['apiKey'],
+			type: $apiKeyCreateDto->type,
+			apiKey: $apiKeyCreateDto->apiKey,
 		)));
 	}
 
@@ -110,12 +110,11 @@ final class ApiKeyController
 			return new NotFoundResponse('API key with id "' . $apiKeyId . '" was not found.');
 		}
 
-		/** @var array{apiKey: string} $requestBody */
-		$requestBody = json_decode($request->getBody()->getContents(), associative: true);
+		$apiKeyUpdateDto = $this->requestService->getRequestBodyDto($request, ApiKeyUpdateDto::class);
 
 		return new JsonResponse(ApiKeyDto::fromEntity($this->apiKeyProvider->updateApiKey(
 			apiKeyEntity: $apiKey,
-			apiKey: $requestBody['apiKey'],
+			apiKey: $apiKeyUpdateDto->apiKey,
 		)));
 	}
 

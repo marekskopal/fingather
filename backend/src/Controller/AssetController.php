@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Controller;
 
 use DateTimeImmutable;
+use FinGather\Dto\AssetCreateDto;
 use FinGather\Dto\AssetDto;
 use FinGather\Dto\AssetWithPropertiesDto;
 use FinGather\Dto\Enum\AssetOrderEnum;
@@ -142,12 +143,11 @@ final class AssetController
 			return new NotFoundResponse('Portfolio with id "' . $portfolioId . '" was not found.');
 		}
 
-		/** @var array{tickerId: int} $requestBody */
-		$requestBody = json_decode($request->getBody()->getContents(), associative: true);
+		$assetCreateDto = $this->requestService->getRequestBodyDto($request, AssetCreateDto::class);
 
-		$ticker = $this->tickerProvider->getTicker($requestBody['tickerId']);
+		$ticker = $this->tickerProvider->getTicker($assetCreateDto->tickerId);
 		if ($ticker === null) {
-			return new NotFoundResponse('Ticker with id "' . $requestBody['tickerId'] . '" was not found.');
+			return new NotFoundResponse('Ticker with id "' . $assetCreateDto->tickerId . '" was not found.');
 		}
 
 		$dateTime = new DateTimeImmutable();

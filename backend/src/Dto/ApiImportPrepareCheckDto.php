@@ -6,20 +6,20 @@ namespace FinGather\Dto;
 
 use FinGather\Model\Entity\ApiKey;
 
-final readonly class ApiImportPrepareCheckDto
+/**
+ * @implements ArrayFactoryInterface<array{
+ *     userId: int,
+ *     portfolioId: int,
+ *     apiKeyId: int,
+ * }>
+ */
+final readonly class ApiImportPrepareCheckDto implements ArrayFactoryInterface
 {
 	public function __construct(public int $userId, public int $portfolioId, public int $apiKeyId,)
 	{
 	}
 
-	/**
-	 * @param array{
-	 *     userId: int,
-	 *     portfolioId: int,
-	 *     apiKeyId: int,
-	 * } $data
-	 */
-	public static function fromArray(array $data): self
+	public static function fromArray(array $data): static
 	{
 		return new self(userId: $data['userId'], portfolioId: $data['portfolioId'], apiKeyId: $data['apiKeyId']);
 	}

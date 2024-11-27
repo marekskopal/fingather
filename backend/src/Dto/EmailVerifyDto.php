@@ -7,7 +7,19 @@ namespace FinGather\Dto;
 use FinGather\Model\Entity\EmailVerify;
 use FinGather\Model\Entity\Enum\UserRoleEnum;
 
-final readonly class EmailVerifyDto
+/**
+ * @implements ArrayFactoryInterface<array{
+ *     user: array{
+ *         id: int,
+ *         email: string,
+ *         name: string,
+ *         defaultCurrencyId: int,
+ *         role: value-of<UserRoleEnum>,
+ *     },
+ *     token: string,
+ * }>
+ */
+final readonly class EmailVerifyDto implements ArrayFactoryInterface
 {
 	public function __construct(public UserDto $user, public string $token)
 	{
@@ -21,19 +33,7 @@ final readonly class EmailVerifyDto
 		);
 	}
 
-	/**
-	 * @param array{
-	 *     user: array{
-	 *         id: int,
-	 *         email: string,
-	 *         name: string,
-	 *         defaultCurrencyId: int,
-	 *         role: value-of<UserRoleEnum>,
-	 *     },
-	 *     token: string,
-	 * } $data
-	 */
-	public static function fromArray(array $data): self
+	public static function fromArray(array $data): static
 	{
 		return new self(
 			user: UserDto::fromArray($data['user']),

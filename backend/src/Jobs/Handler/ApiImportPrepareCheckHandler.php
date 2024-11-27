@@ -6,26 +6,18 @@ namespace FinGather\Jobs\Handler;
 
 use FinGather\Dto\ApiImportPrepareCheckDto;
 use FinGather\Service\Import\ApiImport\ApiImportService;
+use FinGather\Service\Task\TaskServiceInterface;
 use Spiral\RoadRunner\Jobs\Task\ReceivedTaskInterface;
 
 final class ApiImportPrepareCheckHandler implements JobHandler
 {
-	public function __construct(private readonly ApiImportService $apiImportService)
+	public function __construct(private readonly ApiImportService $apiImportService, private readonly TaskServiceInterface $taskService)
 	{
 	}
 
 	public function handle(ReceivedTaskInterface $task): void
 	{
-		/**
-		 * @var array{
-		 *     userId: int,
-		 *     portfolioId: int,
-		 *     apiKeyId: int,
-		 * } $payload
-		 */
-		$payload = json_decode($task->getPayload(), associative: true);
-
-		$apiImportPrepareCheck = ApiImportPrepareCheckDto::fromArray($payload);
+		$apiImportPrepareCheck = $this->taskService->getPayloadDto($task, ApiImportPrepareCheckDto::class);
 
 		$this->apiImportService->prepareImport($apiImportPrepareCheck);
 	}

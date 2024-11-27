@@ -7,24 +7,24 @@ namespace FinGather\Dto;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
-final readonly class ImportStartDto
+/**
+ * @implements ArrayFactoryInterface<array{
+ *     uuid: string,
+ *     importMappings: list<array{
+ *         importTicker: string,
+ *         tickerId: int,
+ *         brokerId: int,
+ *     }>
+ * }>
+ */
+final readonly class ImportStartDto implements ArrayFactoryInterface
 {
 	/** @param list<ImportMappingDto> $importMappings */
 	public function __construct(public UuidInterface $uuid, public array $importMappings)
 	{
 	}
 
-	/**
-	 * @param array{
-	 *     uuid: string,
-	 *     importMappings: list<array{
-	 *         importTicker: string,
-	 *         tickerId: int,
-	 *         brokerId: int,
-	 *     }>
-	 * } $data
-	 */
-	private static function fromArray(array $data): self
+	public static function fromArray(array $data): static
 	{
 		return new self(
 			uuid: Uuid::fromString($data['uuid']),
@@ -33,21 +33,5 @@ final readonly class ImportStartDto
 				$data['importMappings'],
 			),
 		);
-	}
-
-	public static function fromJson(string $json): self
-	{
-		/**
-		 * @var array{
-		 *     uuid: string,
-		 *     importMappings: list<array{
-		 *         importTicker: string,
-		 *         tickerId: int,
-		 *         brokerId: int,
-		 *     }>
-		 * } $data
-		 */
-		$data = json_decode($json, associative: true);
-		return self::fromArray($data);
 	}
 }

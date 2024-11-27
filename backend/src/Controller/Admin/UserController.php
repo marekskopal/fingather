@@ -6,8 +6,8 @@ namespace FinGather\Controller\Admin;
 
 use FinGather\Dto\UserCreateDto;
 use FinGather\Dto\UserDto;
+use FinGather\Dto\UserUpdateDto;
 use FinGather\Dto\UserWithStatisticDto;
-use FinGather\Model\Entity\Enum\UserRoleEnum;
 use FinGather\Model\Entity\User;
 use FinGather\Response\ConflictResponse;
 use FinGather\Response\NotFoundResponse;
@@ -79,10 +79,7 @@ final class UserController extends AdminController
 	{
 		$this->checkAdminRole($request);
 
-		/** @var array{email: string, name: string, password: string, defaultCurrencyId: int, role: value-of<UserRoleEnum>} $requestBody */
-		$requestBody = json_decode($request->getBody()->getContents(), associative: true);
-
-		$userCreateDto = UserCreateDto::fromArray($requestBody);
+		$userCreateDto = $this->requestService->getRequestBodyDto($request, UserCreateDto::class);
 
 		$existsUser = $this->userProvider->getUserByEmail($userCreateDto->email);
 		if ($existsUser !== null) {
@@ -118,14 +115,13 @@ final class UserController extends AdminController
 			return new NotFoundResponse('User with id "' . $userId . '" was not found.');
 		}
 
-		/** @var array{name: string, password: string, defaultCurrencyId: int, role: value-of<UserRoleEnum>} $requestBody */
-		$requestBody = json_decode($request->getBody()->getContents(), associative: true);
+		$userUpdateDto = $this->requestService->getRequestBodyDto($request, UserUpdateDto::class);
 
 		return new JsonResponse(UserDto::fromEntity($this->userProvider->updateUser(
 			user: $user,
-			password: $requestBody['password'],
-			name: $requestBody['name'],
-			role: UserRoleEnum::from($requestBody['role']),
+			password: $userUpdateDto->password,
+			name: $userUpdateDto->name,
+			role: $userUpdateDto->role,
 		)));
 	}
 
