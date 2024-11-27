@@ -39,7 +39,7 @@ final class ImportController
 	#[RoutePost(Routes::ImportPrepare->value)]
 	public function actionImportPrepare(ServerRequestInterface $request, int $portfolioId): ResponseInterface
 	{
-		$importData = ImportPrepareDataDto::fromJson($request->getBody()->getContents());
+		$importData = $this->requestService->getRequestBodyDto($request, ImportPrepareDataDto::class);
 
 		$user = $this->requestService->getUser($request);
 
@@ -64,7 +64,7 @@ final class ImportController
 	#[RoutePost(Routes::ImportStart->value)]
 	public function actionImportStart(ServerRequestInterface $request): ResponseInterface
 	{
-		$importStart = ImportStartDto::fromJson($request->getBody()->getContents());
+		$importStart = $this->requestService->getRequestBodyDto($request, ImportStartDto::class);
 
 		$user = $this->requestService->getUser($request);
 

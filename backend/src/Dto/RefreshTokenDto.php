@@ -6,18 +6,18 @@ namespace FinGather\Dto;
 
 use SensitiveParameter;
 
-final readonly class RefreshTokenDto
+/**
+ * @implements ArrayFactoryInterface<array{
+ *      refreshToken: string,
+ * }>
+ */
+final readonly class RefreshTokenDto implements ArrayFactoryInterface
 {
 	public function __construct(#[SensitiveParameter] public string $refreshToken,)
 	{
 	}
 
-	/**
-	 * @param array{
-	 *     refreshToken: string,
-	 * } $data
-	 */
-	public static function fromArray(array $data): self
+	public static function fromArray(array $data): static
 	{
 		return new self(refreshToken: $data['refreshToken']);
 	}

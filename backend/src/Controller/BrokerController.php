@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace FinGather\Controller;
 
+use FinGather\Dto\BrokerCreateDto;
 use FinGather\Dto\BrokerDto;
 use FinGather\Model\Entity\Broker;
-use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Response\OkResponse;
 use FinGather\Route\Routes;
@@ -84,14 +84,13 @@ final class BrokerController
 			return new NotFoundResponse('Portfolio with id "' . $portfolioId . '" was not found.');
 		}
 
-		/** @var array{name: string, importType: value-of<BrokerImportTypeEnum>} $requestBody */
-		$requestBody = json_decode($request->getBody()->getContents(), associative: true);
+		$brokerCreateDto = $this->requestService->getRequestBodyDto($request, BrokerCreateDto::class);
 
 		return new JsonResponse(BrokerDto::fromEntity($this->brokerProvider->createBroker(
 			user: $user,
 			portfolio: $portfolio,
-			name: $requestBody['name'],
-			importType: BrokerImportTypeEnum::from($requestBody['importType']),
+			name: $brokerCreateDto->name,
+			importType: $brokerCreateDto->importType,
 		)));
 	}
 
@@ -110,13 +109,12 @@ final class BrokerController
 			return new NotFoundResponse('Broker with id "' . $brokerId . '" was not found.');
 		}
 
-		/** @var array{name: string, importType: value-of<BrokerImportTypeEnum>} $requestBody */
-		$requestBody = json_decode($request->getBody()->getContents(), associative: true);
+		$brokerUpdateDto = $this->requestService->getRequestBodyDto($request, BrokerCreateDto::class);
 
 		return new JsonResponse(BrokerDto::fromEntity($this->brokerProvider->updateBroker(
 			broker: $broker,
-			name: $requestBody['name'],
-			importType: BrokerImportTypeEnum::from($requestBody['importType']),
+			name: $brokerUpdateDto->name,
+			importType: $brokerUpdateDto->importType,
 		)));
 	}
 

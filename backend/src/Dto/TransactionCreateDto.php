@@ -8,7 +8,24 @@ use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 
-final readonly class TransactionCreateDto
+/**
+ * @implements ArrayFactoryInterface<array{
+ *     assetId: int,
+ *     brokerId: int|null,
+ *     actionType: value-of<TransactionActionTypeEnum>,
+ *     actionCreated: string,
+ *     units: string,
+ *     price: string,
+ *     currencyId: int,
+ *     tax: string,
+ *     taxCurrencyId: int,
+ *     fee: string,
+ *     feeCurrencyId: int,
+ *     notes?: string|null,
+ *     importIdentifier?: string|null
+ * }>
+ */
+final readonly class TransactionCreateDto implements ArrayFactoryInterface
 {
 	public function __construct(
 		public int $assetId,
@@ -27,23 +44,7 @@ final readonly class TransactionCreateDto
 	) {
 	}
 
-	/** @param array{
-	 *     assetId: int,
-	 *     brokerId: int|null,
-	 *     actionType: value-of<TransactionActionTypeEnum>,
-	 *     actionCreated: string,
-	 *     units: string,
-	 *     price: string,
-	 *     currencyId: int,
-	 *     tax: string,
-	 *     taxCurrencyId: int,
-	 *     fee: string,
-	 *     feeCurrencyId: int,
-	 *     notes?: string|null,
-	 *     importIdentifier?: string|null
-	 * } $data
-	 */
-	private static function fromArray(array $data): self
+	public static function fromArray(array $data): static
 	{
 		return new self(
 			assetId: $data['assetId'],
@@ -60,27 +61,5 @@ final readonly class TransactionCreateDto
 			notes: $data['notes'] ?? null,
 			importIdentifier: $data['importIdentifier'] ?? null,
 		);
-	}
-
-	public static function fromJson(string $json): self
-	{
-		/** @var array{
-		 *     assetId: int,
-		 *     brokerId: int|null,
-		 *     actionType: value-of<TransactionActionTypeEnum>,
-		 *     actionCreated: string,
-		 *     units: string,
-		 *     price: string,
-		 *     currencyId: int,
-		 *     tax: string,
-		 *     taxCurrencyId: int,
-		 *     fee: string,
-		 *     feeCurrencyId: int,
-		 *     notes?: string|null,
-		 *     importIdentifier?: string|null
-		 * } $data
-		 */
-		$data = json_decode($json, associative: true);
-		return self::fromArray($data);
 	}
 }

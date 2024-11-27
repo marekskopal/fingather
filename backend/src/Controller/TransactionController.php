@@ -137,7 +137,7 @@ final class TransactionController
 	#[RoutePost(Routes::Transactions->value)]
 	public function actionCreateTransaction(ServerRequestInterface $request, int $portfolioId): ResponseInterface
 	{
-		$transactionDto = TransactionCreateDto::fromJson($request->getBody()->getContents());
+		$transactionDto = $this->requestService->getRequestBodyDto($request, TransactionCreateDto::class);
 
 		$user = $this->requestService->getUser($request);
 
@@ -217,7 +217,7 @@ final class TransactionController
 			return new NotFoundResponse('Transaction with id "' . $transactionId . '" was not found.');
 		}
 
-		$transactionDto = TransactionCreateDto::fromJson($request->getBody()->getContents());
+		$transactionDto = $this->requestService->getRequestBodyDto($request, TransactionCreateDto::class);
 
 		$user = $this->requestService->getUser($request);
 

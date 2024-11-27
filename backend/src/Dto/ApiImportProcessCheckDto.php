@@ -6,18 +6,18 @@ namespace FinGather\Dto;
 
 use FinGather\Model\Entity\ApiImport;
 
-final readonly class ApiImportProcessCheckDto
+/**
+ * @implements ArrayFactoryInterface<array{
+ *     apiImportId: int,
+ * }>
+ */
+final readonly class ApiImportProcessCheckDto implements ArrayFactoryInterface
 {
-	public function __construct(public int $apiImportId,)
+	public function __construct(public int $apiImportId)
 	{
 	}
 
-	/**
-	 * @param array{
-	 *     apiImportId: int,
-	 * } $data
-	 */
-	public static function fromArray(array $data): self
+	public static function fromArray(array $data): static
 	{
 		return new self(apiImportId: $data['apiImportId']);
 	}

@@ -4,18 +4,20 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Warmup\Dto;
 
-final readonly class UserWarmupDto
+use FinGather\Dto\ArrayFactoryInterface;
+
+/**
+ * @implements ArrayFactoryInterface<array{
+ *     userId: int,
+ * }>
+ */
+final readonly class UserWarmupDto implements ArrayFactoryInterface
 {
 	public function __construct(public int $userId)
 	{
 	}
 
-	/**
-	 * @param array{
-	 *     userId: int
-	 * } $data
-	 */
-	public static function fromArray(array $data): self
+	public static function fromArray(array $data): static
 	{
 		return new self(userId: $data['userId']);
 	}

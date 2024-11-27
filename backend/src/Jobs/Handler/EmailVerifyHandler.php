@@ -6,7 +6,7 @@ namespace FinGather\Jobs\Handler;
 
 use FinGather\Dto\EmailVerifyDto;
 use FinGather\Email\VerifyEmail;
-use FinGather\Model\Entity\Enum\UserRoleEnum;
+use FinGather\Service\Task\TaskServiceInterface;
 use Psr\Log\LoggerInterface;
 use Spiral\RoadRunner\Jobs\Task\ReceivedTaskInterface;
 use Symfony\Component\Mailer\Mailer;
@@ -15,27 +15,13 @@ use Symfony\Component\Mime\Email;
 
 final class EmailVerifyHandler implements JobHandler
 {
-	public function __construct(private readonly LoggerInterface $logger)
+	public function __construct(private readonly LoggerInterface $logger, private readonly TaskServiceInterface $taskService)
 	{
 	}
 
 	public function handle(ReceivedTaskInterface $task): void
 	{
-		/**
-		 * @var array{
-		 *     user: array{
-		 *         id: int,
-		 *         email: string,
-		 *         name: string,
-		 *         defaultCurrencyId: int,
-		 *         role: value-of<UserRoleEnum>,
-		 *     },
-		 *     token: string,
-		 * } $payload
-		 */
-		$payload = json_decode($task->getPayload(), associative: true);
-
-		$emailVerify = EmailVerifyDto::fromArray($payload);
+		$emailVerify = $this->taskService->getPayloadDto($task, EmailVerifyDto::class);
 
 		$host = (string) getenv('SMTP_HOST');
 		$port = (string) getenv('SMTP_PORT');

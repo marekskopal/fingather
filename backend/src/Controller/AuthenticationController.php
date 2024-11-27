@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Controller;
 
 use FinGather\Dto\CredentialsDto;
+use FinGather\Dto\EmailExistsDto;
 use FinGather\Dto\RefreshTokenDto;
 use FinGather\Dto\SignUpDto;
 use FinGather\Model\Entity\Enum\UserRoleEnum;
@@ -39,10 +40,7 @@ final class AuthenticationController
 	#[RoutePost(Routes::AuthenticationLogin->value)]
 	public function actionPostLogin(ServerRequestInterface $request): ResponseInterface
 	{
-		/** @var array{email: string, password:string} $requestBody*/
-		$requestBody = json_decode($request->getBody()->getContents(), associative: true);
-
-		$credentials = new CredentialsDto($requestBody['email'], $requestBody['password']);
+		$credentials = $this->requestService->getRequestBodyDto($request, CredentialsDto::class);
 
 		try {
 			return new JsonResponse($this->authenticationService->authenticate($credentials));
@@ -54,14 +52,7 @@ final class AuthenticationController
 	#[RoutePost(Routes::AuthenticationRefreshToken->value)]
 	public function actionPostRefreshToken(ServerRequestInterface $request): ResponseInterface
 	{
-		/**
-		 * @var array{
-		 *     refreshToken: string,
-		 * } $requestBody
-		 */
-		$requestBody = json_decode($request->getBody()->getContents(), associative: true);
-
-		$refreshToken = RefreshTokenDto::fromArray($requestBody);
+		$refreshToken = $this->requestService->getRequestBodyDto($request, RefreshTokenDto::class);
 
 		try {
 			JWT::decode(
@@ -82,17 +73,7 @@ final class AuthenticationController
 	#[RoutePost(Routes::AuthenticationSignUp->value)]
 	public function actionPostSignUp(ServerRequestInterface $request): ResponseInterface
 	{
-		/**
-		 * @var array{
-		 *     email: string,
-		 *     name: string,
-		 *     password: string,
-		 *     defaultCurrencyId: int,
-		 * } $requestBody
-		 */
-		$requestBody = json_decode($request->getBody()->getContents(), associative: true);
-
-		$signUp = SignUpDto::fromArray($requestBody);
+		$signUp = $this->requestService->getRequestBodyDto($request, SignUpDto::class);
 
 		$existsUser = $this->userProvider->getUserByEmail($signUp->email);
 		if ($existsUser !== null) {
@@ -122,14 +103,9 @@ final class AuthenticationController
 	#[RoutePost(Routes::AuthenticationEmailExists->value)]
 	public function actionPostEmailExists(ServerRequestInterface $request): ResponseInterface
 	{
-		/**
-		 * @var array{
-		 *     email: string,
-		 * } $requestBody
-		 */
-		$requestBody = json_decode($request->getBody()->getContents(), associative: true);
+		$emailExistsDto = $this->requestService->getRequestBodyDto($request, EmailExistsDto::class);
 
-		$existsUser = $this->userProvider->getUserByEmail($requestBody['email']);
+		$existsUser = $this->userProvider->getUserByEmail($emailExistsDto->email);
 
 		return new BoolResponse($existsUser !== null);
 	}

@@ -6,7 +6,15 @@ namespace FinGather\Dto;
 
 use SensitiveParameter;
 
-final readonly class SignUpDto
+/**
+ * @implements ArrayFactoryInterface<array{
+ *     email: string,
+ *     name: string,
+ *     password: string,
+ *     defaultCurrencyId: int,
+ * }>
+ */
+final readonly class SignUpDto implements ArrayFactoryInterface
 {
 	public function __construct(
 		#[SensitiveParameter] public string $email,
@@ -16,15 +24,7 @@ final readonly class SignUpDto
 	) {
 	}
 
-	/**
-	 * @param array{
-	 *     email: string,
-	 *     name: string,
-	 *     password: string,
-	 *     defaultCurrencyId: int,
-	 * } $data
-	 */
-	public static function fromArray(array $data): self
+	public static function fromArray(array $data): static
 	{
 		return new self(
 			email: $data['email'],
