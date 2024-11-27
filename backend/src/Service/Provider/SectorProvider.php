@@ -24,11 +24,11 @@ class SectorProvider
 		foreach ($assets as $asset) {
 			$sector = $asset->getTicker()->getSector();
 
-			if (array_key_exists($sector->getId(), $sectors)) {
+			if (array_key_exists($sector->id, $sectors)) {
 				continue;
 			}
 
-			$sectors[$sector->getId()] = $sector;
+			$sectors[$sector->id] = $sector;
 		}
 
 		return $sectors;

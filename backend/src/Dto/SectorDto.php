@@ -15,7 +15,7 @@ final readonly class SectorDto
 	public static function fromEntity(Sector $tickerSector): self
 	{
 		return new self(
-			id: $tickerSector->getId(),
+			id: $tickerSector->id,
 			name: $tickerSector->getName(),
 		);
 	}

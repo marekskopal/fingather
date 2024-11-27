@@ -11,10 +11,5 @@ abstract class AEntity
 	#[Column(type: 'primary')]
 
 	// @phpstan-ignore-next-line
-	protected int $id;
-
-	public function getId(): int
-	{
-		return $this->id;
-	}
+	public int $id;
 }

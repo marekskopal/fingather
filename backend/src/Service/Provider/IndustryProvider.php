@@ -24,11 +24,11 @@ class IndustryProvider
 		foreach ($assets as $asset) {
 			$industry = $asset->getTicker()->getIndustry();
 
-			if (array_key_exists($industry->getId(), $industries)) {
+			if (array_key_exists($industry->id, $industries)) {
 				continue;
 			}
 
-			$industries[$industry->getId()] = $industry;
+			$industries[$industry->id] = $industry;
 		}
 
 		return $industries;

@@ -15,7 +15,7 @@ final readonly class CountryDto
 	public static function fromEntity(Country $country): self
 	{
 		return new self(
-			id: $country->getId(),
+			id: $country->id,
 			isoCode: $country->getIsoCode(),
 			isoCode3: $country->getIsoCode3(),
 			name: $country->getName(),

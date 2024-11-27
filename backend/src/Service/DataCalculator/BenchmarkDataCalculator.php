@@ -83,7 +83,7 @@ final class BenchmarkDataCalculator
 		Currency $benchmarkTickerCurrency,
 		Currency $defaultCurrency,
 	): Decimal {
-		$key = $transaction->getId() . '-' . $benchmarkAssetTicker->getId() . '-' . $defaultCurrency->getId();
+		$key = $transaction->id . '-' . $benchmarkAssetTicker->id . '-' . $defaultCurrency->id;
 		if (isset($this->transactionBenchmarkUnits[$key])) {
 			return $this->transactionBenchmarkUnits[$key];
 		}

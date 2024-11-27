@@ -37,8 +37,8 @@ final readonly class TransactionDto
 	public static function fromEntity(Transaction $transaction): self
 	{
 		return new self(
-			id: $transaction->getId(),
-			assetId: $transaction->getAsset()->getId(),
+			id: $transaction->id,
+			assetId: $transaction->getAsset()->id,
 			brokerId: $transaction->getBrokerId(),
 			actionType: $transaction->getActionType(),
 			actionCreated: DateTimeUtils::formatZulu($transaction->getActionCreated()),
@@ -47,11 +47,11 @@ final readonly class TransactionDto
 			modified: DateTimeUtils::formatZulu($transaction->getModified()),
 			units: $transaction->getUnits(),
 			price: $transaction->getPrice(),
-			currencyId: $transaction->getCurrency()->getId(),
+			currencyId: $transaction->getCurrency()->id,
 			tax:$transaction->getTax(),
-			taxCurrencyId: $transaction->getTaxCurrency()->getId(),
+			taxCurrencyId: $transaction->getTaxCurrency()->id,
 			fee: $transaction->getFee(),
-			feeCurrencyId: $transaction->getFeeCurrency()->getId(),
+			feeCurrencyId: $transaction->getFeeCurrency()->id,
 			notes: $transaction->getNotes(),
 			importIdentifier: $transaction->getImportIdentifier(),
 			ticker: TickerDto::fromEntity($transaction->getAsset()->getTicker()),

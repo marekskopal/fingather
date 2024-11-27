@@ -22,7 +22,7 @@ final readonly class UserDto
 	public static function fromEntity(User $entity): self
 	{
 		return new self(
-			id: $entity->getId(),
+			id: $entity->id,
 			email: $entity->getEmail(),
 			name: $entity->getName(),
 			role: $entity->getRole(),

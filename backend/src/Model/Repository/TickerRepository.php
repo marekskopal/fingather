@@ -105,11 +105,11 @@ final class TickerRepository extends ARepository
 			$tickers,
 			fn (Ticker $a, Ticker $b): int =>
 				array_search(
-					$a->getId(),
+					$a->id,
 					$mostUsedTickerIds,
 					true,
 				) <=> array_search(
-					$b->getId(),
+					$b->id,
 					$mostUsedTickerIds,
 					true,
 				),

@@ -186,7 +186,7 @@ final class AssetDataCalculator
 
 			$dividendYield = $dividendYield->add($dividendTransactionValue);
 
-			if ($transaction->getCurrency()->getId() === $defaultCurrency->getId()) {
+			if ($transaction->getCurrency()->id === $defaultCurrency->id) {
 				$dividendYieldDefaultCurrency = $dividendYieldDefaultCurrency->add($transaction->getPrice());
 			} else {
 				$dividendYieldTickerCurrency = $dividendYieldTickerCurrency->add($dividendTransactionValue);

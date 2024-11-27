@@ -44,9 +44,9 @@ final class AuthenticationService
 		$refreshTokenExpiration = time() + self::RefreshTokenExpiration;
 
 		return new AuthenticationDto(
-			accessToken: $this->createToken($user->getId(), $accessTokenExpiration),
-			refreshToken: $this->createToken($user->getId(), $refreshTokenExpiration),
-			userId: $user->getId(),
+			accessToken: $this->createToken($user->id, $accessTokenExpiration),
+			refreshToken: $this->createToken($user->id, $refreshTokenExpiration),
+			userId: $user->id,
 		);
 	}
 

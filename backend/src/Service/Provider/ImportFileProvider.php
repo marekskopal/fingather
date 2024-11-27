@@ -23,7 +23,7 @@ class ImportFileProvider
 			return null;
 		}
 
-		if ($importFile->getImport()->getUser()->getId() !== $user->getId()) {
+		if ($importFile->getImport()->getUser()->id !== $user->id) {
 			return null;
 		}
 
@@ -33,7 +33,7 @@ class ImportFileProvider
 	/** @return list<ImportFile> */
 	public function getImportFiles(Import $import): array
 	{
-		return $this->importFileRepository->findImportFiles($import->getId());
+		return $this->importFileRepository->findImportFiles($import->id);
 	}
 
 	public function createImportFile(Import $import, string $fileName, string $contents): ImportFile

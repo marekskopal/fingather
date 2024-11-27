@@ -153,7 +153,7 @@ final class AssetController
 		$dateTime = new DateTimeImmutable();
 		$lastTickerDataClose = $this->tickerDataProvider->getLastTickerDataClose($ticker, $dateTime);
 		if ($lastTickerDataClose === null) {
-			return new NotFoundResponse('Ticker Data for ticker with id "' . $ticker->getId() . '" was not found.');
+			return new NotFoundResponse('Ticker Data for ticker with id "' . $ticker->id . '" was not found.');
 		}
 
 		return new JsonResponse(AssetDto::fromEntity($this->assetProvider->createAsset(

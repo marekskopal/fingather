@@ -22,17 +22,17 @@ class GroupProvider
 	/** @return list<Group> */
 	public function getGroups(User $user, Portfolio $portfolio): array
 	{
-		return $this->groupRepository->findGroups($user->getId(), $portfolio->getId());
+		return $this->groupRepository->findGroups($user->id, $portfolio->id);
 	}
 
 	public function getGroup(User $user, int $groupId): ?Group
 	{
-		return $this->groupRepository->findGroup($user->getId(), $groupId);
+		return $this->groupRepository->findGroup($user->id, $groupId);
 	}
 
 	public function getOthersGroup(User $user, Portfolio $portfolio): Group
 	{
-		return $this->groupRepository->findOthersGroup($user->getId(), $portfolio->getId());
+		return $this->groupRepository->findOthersGroup($user->id, $portfolio->id);
 	}
 
 	/** @param list<int> $assetIds */
@@ -42,7 +42,7 @@ class GroupProvider
 		$this->groupRepository->persist($group);
 
 		foreach ($assetIds as $assetId) {
-			$asset = $this->assetRepository->findAsset($assetId, $user->getId());
+			$asset = $this->assetRepository->findAsset($assetId, $user->id);
 			if ($asset === null) {
 				continue;
 			}
@@ -88,7 +88,7 @@ class GroupProvider
 		}
 
 		foreach ($assetIds as $assetId) {
-			$asset = $this->assetRepository->findAsset($assetId, $user->getId());
+			$asset = $this->assetRepository->findAsset($assetId, $user->id);
 			if ($asset === null) {
 				continue;
 			}

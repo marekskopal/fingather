@@ -37,13 +37,13 @@ class AssetProvider
 	): array
 	{
 		return $this->assetRepository->findAssets(
-			$user->getId(),
-			$portfolio->getId(),
+			$user->id,
+			$portfolio->id,
 			$dateTime,
-			$group?->getId(),
-			$country?->getId(),
-			$sector?->getId(),
-			$industry?->getId(),
+			$group?->id,
+			$country?->id,
+			$sector?->id,
+			$industry?->id,
 		);
 	}
 
@@ -58,19 +58,19 @@ class AssetProvider
 	): int
 	{
 		return $this->assetRepository->countAssets(
-			$user->getId(),
-			$portfolio?->getId(),
+			$user->id,
+			$portfolio?->id,
 			$dateTime,
-			$group?->getId(),
-			$country?->getId(),
-			$sector?->getId(),
-			$industry?->getId(),
+			$group?->id,
+			$country?->id,
+			$sector?->id,
+			$industry?->id,
 		);
 	}
 
 	public function getAsset(User $user, int $assetId): ?Asset
 	{
-		return $this->assetRepository->findAsset($assetId, $user->getId());
+		return $this->assetRepository->findAsset($assetId, $user->id);
 	}
 
 	public function createAsset(User $user, Portfolio $portfolio, Ticker $ticker, Group $othersGroup): Asset
@@ -87,9 +87,9 @@ class AssetProvider
 	public function getOrCreateAsset(User $user, Portfolio $portfolio, Ticker $ticker, Group $othersGroup): Asset
 	{
 		$asset = $this->assetRepository->findAssetByTickerId(
-			tickerId: $ticker->getId(),
-			userId: $user->getId(),
-			portfolioId: $portfolio->getId(),
+			tickerId: $ticker->id,
+			userId: $user->id,
+			portfolioId: $portfolio->id,
 		);
 		if ($asset !== null) {
 			return $asset;

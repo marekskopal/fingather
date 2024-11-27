@@ -24,11 +24,11 @@ class CountryProvider
 		foreach ($assets as $asset) {
 			$country = $asset->getTicker()->getCountry();
 
-			if (array_key_exists($country->getId(), $countries)) {
+			if (array_key_exists($country->id, $countries)) {
 				continue;
 			}
 
-			$countries[$country->getId()] = $country;
+			$countries[$country->id] = $country;
 		}
 
 		return $countries;

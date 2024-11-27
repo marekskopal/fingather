@@ -27,8 +27,8 @@ class DataProvider
 	public function deleteData(?User $user = null, ?Portfolio $portfolio = null, ?DateTimeImmutable $date = null,): void
 	{
 		$this->logger->info('Deleting data'
-			. ($user !== null ? ' for user ' . $user->getId() : '')
-			. ($portfolio !== null ? ' for portfolio ' . $portfolio->getId() : '')
+			. ($user !== null ? ' for user ' . $user->id : '')
+			. ($portfolio !== null ? ' for portfolio ' . $portfolio->id : '')
 			. ($date !== null ? ' for date ' . $date->format('Y-m-d') : ''));
 
 		$this->assetDataProvider->deleteAssetData($user, $portfolio, $date);
