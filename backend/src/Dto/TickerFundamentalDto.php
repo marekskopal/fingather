@@ -72,8 +72,8 @@ final readonly class TickerFundamentalDto
 	public static function fromEntity(TickerFundamental $tickerFundamental): self
 	{
 		return new self(
-			id: $tickerFundamental->getId(),
-			tickerId: $tickerFundamental->getTicker()->getId(),
+			id: $tickerFundamental->id,
+			tickerId: $tickerFundamental->getTicker()->id,
 			marketCapitalization: $tickerFundamental->getMarketCapitalization(),
 			enterpriseValue: $tickerFundamental->getEnterpriseValue(),
 			trailingPe: $tickerFundamental->getTrailingPe(),

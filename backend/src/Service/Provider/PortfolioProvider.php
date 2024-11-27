@@ -22,7 +22,7 @@ class PortfolioProvider
 	/** @return list<Portfolio> */
 	public function getPortfolios(User $user): array
 	{
-		return $this->portfolioRepository->findPortfolios($user->getId());
+		return $this->portfolioRepository->findPortfolios($user->id);
 	}
 
 	/** @return list<Portfolio> */
@@ -30,18 +30,18 @@ class PortfolioProvider
 	{
 		return array_values(array_filter(
 			$this->getPortfolios($user),
-			fn (Portfolio $otherPortfolio) => $otherPortfolio->getId() !== $portfolio->getId(),
+			fn (Portfolio $otherPortfolio) => $otherPortfolio->id !== $portfolio->id,
 		));
 	}
 
 	public function getPortfolio(User $user, int $portfolioId): ?Portfolio
 	{
-		return $this->portfolioRepository->findPortfolio($user->getId(), $portfolioId);
+		return $this->portfolioRepository->findPortfolio($user->id, $portfolioId);
 	}
 
 	public function getDefaultPortfolio(User $user): Portfolio
 	{
-		return $this->portfolioRepository->findDefaultPortfolio($user->getId());
+		return $this->portfolioRepository->findDefaultPortfolio($user->id);
 	}
 
 	public function createPortfolio(User $user, Currency $currency, string $name, bool $isDefault): Portfolio
@@ -81,7 +81,7 @@ class PortfolioProvider
 		}
 
 		$recalculateTransactions = false;
-		if ($currency->getId() !== $portfolio->getCurrency()->getId()) {
+		if ($currency->id !== $portfolio->getCurrency()->id) {
 			$recalculateTransactions = true;
 		}
 

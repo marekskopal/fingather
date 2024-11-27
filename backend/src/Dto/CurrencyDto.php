@@ -15,7 +15,7 @@ final readonly class CurrencyDto
 	public static function fromEntity(Currency $entity): self
 	{
 		return new self(
-			id: $entity->getId(),
+			id: $entity->id,
 			code: $entity->getCode(),
 			name: $entity->getName(),
 			symbol: $entity->getSymbol(),

@@ -17,11 +17,11 @@ readonly class GroupDto
 	public static function fromEntity(Group $entity): self
 	{
 		return new self(
-			id: $entity->getId(),
-			userId: $entity->getUser()->getId(),
+			id: $entity->id,
+			userId: $entity->getUser()->id,
 			name: $entity->getName(),
 			color: $entity->getColor(),
-			assetIds: array_map(fn (Asset $asset): int => $asset->getId(), $entity->getAssets()),
+			assetIds: array_map(fn (Asset $asset): int => $asset->id, $entity->getAssets()),
 		);
 	}
 }

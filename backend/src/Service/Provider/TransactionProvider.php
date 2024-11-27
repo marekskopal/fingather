@@ -47,9 +47,9 @@ class TransactionProvider
 		],
 	): array {
 		return $this->transactionRepository->findTransactions(
-			$user->getId(),
-			$portfolio?->getId(),
-			$asset?->getId(),
+			$user->id,
+			$portfolio?->id,
+			$asset?->id,
 			$actionCreatedAfter,
 			$actionCreatedBefore,
 			$actionTypes,
@@ -73,9 +73,9 @@ class TransactionProvider
 		?string $search = null,
 	): int {
 		return $this->transactionRepository->countTransactions(
-			$user->getId(),
-			$portfolio?->getId(),
-			$asset?->getId(),
+			$user->id,
+			$portfolio?->id,
+			$asset?->id,
 			$actionCreatedAfter,
 			$actionCreatedBefore,
 			$actionTypes,
@@ -86,12 +86,12 @@ class TransactionProvider
 
 	public function getTransaction(User $user, int $transactionId): ?Transaction
 	{
-		return $this->transactionRepository->findTransaction($transactionId, $user->getId());
+		return $this->transactionRepository->findTransaction($transactionId, $user->id);
 	}
 
 	public function getFirstTransaction(User $user, Portfolio $portfolio, ?Asset $asset = null): ?Transaction
 	{
-		return $this->transactionRepository->findFirstTransaction($user->getId(), $portfolio->getId(), $asset?->getId());
+		return $this->transactionRepository->findFirstTransaction($user->id, $portfolio->id, $asset?->id);
 	}
 
 	public function createTransaction(
@@ -125,7 +125,7 @@ class TransactionProvider
 			user: $user,
 			portfolio: $portfolio,
 			asset: $asset,
-			brokerId: $broker?->getId(),
+			brokerId: $broker?->id,
 			actionType: $actionType,
 			actionCreated: $actionCreated,
 			createType: $createType,
@@ -179,7 +179,7 @@ class TransactionProvider
 		$fee ??= new Decimal(0);
 
 		$transaction->setAsset($asset);
-		$transaction->setBrokerId($broker?->getId());
+		$transaction->setBrokerId($broker?->id);
 		$transaction->setActionType($actionType);
 		$transaction->setActionCreated($actionCreated);
 		$transaction->setModified($modified);
@@ -231,7 +231,7 @@ class TransactionProvider
 
 	private function getPriceInCurrency(Decimal $price, Currency $currencyFrom, Currency $currencyTo, DateTimeImmutable $created): Decimal
 	{
-		if ($currencyFrom->getId() === $currencyTo->getId()) {
+		if ($currencyFrom->id === $currencyTo->id) {
 			return $price;
 		}
 

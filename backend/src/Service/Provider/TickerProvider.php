@@ -17,7 +17,7 @@ class TickerProvider
 	/** @return list<Ticker> */
 	public function getTickers(?Market $market = null, ?string $search = null, ?int $limit = null, ?int $offset = null,): array
 	{
-		return $this->tickerRepository->findTickers(marketId: $market?->getId(), search: $search, limit: $limit, offset: $offset);
+		return $this->tickerRepository->findTickers(marketId: $market?->id, search: $search, limit: $limit, offset: $offset);
 	}
 
 	public function getTicker(int $tickerId): ?Ticker

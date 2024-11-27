@@ -16,7 +16,7 @@ final readonly class ApiKeyDto
 	public static function fromEntity(ApiKey $entity): self
 	{
 		return new self(
-			id: $entity->getId(),
+			id: $entity->id,
 			type: $entity->getType(),
 			apiKey: $entity->getApiKey(),
 		);

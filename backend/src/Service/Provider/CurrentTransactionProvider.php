@@ -35,7 +35,7 @@ class CurrentTransactionProvider
 	): array {
 		$loadedTransactions = $this->loadTransactions(user: $user, portfolio: $portfolio);
 
-		$transactions = $asset !== null ? $loadedTransactions[$asset->getId()] ?? [] : array_merge(...array_values($loadedTransactions));
+		$transactions = $asset !== null ? $loadedTransactions[$asset->id] ?? [] : array_merge(...array_values($loadedTransactions));
 
 		if ($actionCreatedBefore !== null) {
 			$transactions = array_values(array_filter(
@@ -81,7 +81,7 @@ class CurrentTransactionProvider
 		$this->clear();
 
 		foreach ($transactions as $transaction) {
-			$assetId = $transaction->getAsset()->getId();
+			$assetId = $transaction->getAsset()->id;
 			if (!isset($this->transactions[$assetId])) {
 				$this->transactions[$assetId] = [];
 			}

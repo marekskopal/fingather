@@ -20,7 +20,7 @@ class TickerFundamentalProvider
 
 	public function getTickerFundamental(Ticker $ticker): ?TickerFundamental
 	{
-		return $this->tickerFundamentalRepository->findTickerFundamental($ticker->getId());
+		return $this->tickerFundamentalRepository->findTickerFundamental($ticker->id);
 	}
 
 	public function createTickerFundamental(Ticker $ticker): void

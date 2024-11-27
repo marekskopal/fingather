@@ -50,10 +50,10 @@ final readonly class AssetWithPropertiesDto
 	public static function fromEntity(Asset $asset, AssetDataDto $assetData, float $percentage): self
 	{
 		return new self(
-			id: $asset->getId(),
-			tickerId: $asset->getTicker()->getId(),
+			id: $asset->id,
+			tickerId: $asset->getTicker()->id,
 			ticker: TickerDto::fromEntity($asset->getTicker()),
-			groupId: $asset->getGroup()->getId(),
+			groupId: $asset->getGroup()->id,
 			isClosed: $assetData->isClosed(),
 			price: $assetData->price,
 			units: $assetData->units,

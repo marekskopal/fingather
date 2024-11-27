@@ -22,7 +22,7 @@ final readonly class UserWithStatisticDto
 	public static function fromEntity(User $entity, int $assetCount, int $transactionCount): self
 	{
 		return new self(
-			id: $entity->getId(),
+			id: $entity->id,
 			email: $entity->getEmail(),
 			name: $entity->getName(),
 			role: $entity->getRole(),
