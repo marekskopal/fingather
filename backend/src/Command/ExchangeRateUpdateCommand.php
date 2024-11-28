@@ -37,7 +37,7 @@ final class ExchangeRateUpdateCommand extends AbstractCommand
 		$firstDate = new DateTimeImmutable('today');
 
 		foreach ($currencyProvider->getCurrencies() as $currency) {
-			if ($currency->getCode() === 'USD') {
+			if ($currency->code === 'USD') {
 				continue;
 			}
 

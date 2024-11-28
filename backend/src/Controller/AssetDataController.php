@@ -46,7 +46,7 @@ final class AssetDataController
 			return new NotFoundResponse('Asset with id "' . $assetId . '" was not found.');
 		}
 
-		$portfolio = $asset->getPortfolio();
+		$portfolio = $asset->portfolio;
 
 		if (!isset($queryParams['range'])) {
 			return new NotFoundResponse('Range is required.');

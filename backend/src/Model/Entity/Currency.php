@@ -14,47 +14,17 @@ class Currency extends AEntity
 {
 	public function __construct(
 		#[Column(type: 'string(3)',)]
-		private string $code,
+		public readonly string $code,
 		#[Column(type: 'string(50)')]
-		private string $name,
+		public readonly string $name,
 		#[Column(type: 'string(5)')]
-		private string $symbol,
+		public readonly string $symbol,
 		#[RefersTo(target: self::class, nullable: true, innerKey:'multiply_currency_id')]
-		private ?Currency $multiplyCurrency,
+		public readonly ?Currency $multiplyCurrency,
 		#[Column(type: 'integer', default: 1)]
-		private int $multiplier,
+		public readonly int $multiplier,
 		#[Column(type: 'boolean', default: true)]
-		private bool $isSelectable,
+		public readonly bool $isSelectable,
 	) {
-	}
-
-	public function getCode(): string
-	{
-		return $this->code;
-	}
-
-	public function getName(): string
-	{
-		return $this->name;
-	}
-
-	public function getSymbol(): string
-	{
-		return $this->symbol;
-	}
-
-	public function getMultiplyCurrency(): ?Currency
-	{
-		return $this->multiplyCurrency;
-	}
-
-	public function getMultiplier(): int
-	{
-		return $this->multiplier;
-	}
-
-	public function getIsSelectable(): bool
-	{
-		return $this->isSelectable;
 	}
 }

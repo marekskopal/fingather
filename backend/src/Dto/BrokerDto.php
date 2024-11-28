@@ -17,9 +17,9 @@ final readonly class BrokerDto
 	{
 		return new self(
 			id: $entity->id,
-			userId: $entity->getUser()->id,
-			name: $entity->getName(),
-			importType: $entity->getImportType(),
+			userId: $entity->user->id,
+			name: $entity->name,
+			importType: $entity->importType,
 		);
 	}
 }

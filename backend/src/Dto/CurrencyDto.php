@@ -16,10 +16,10 @@ final readonly class CurrencyDto
 	{
 		return new self(
 			id: $entity->id,
-			code: $entity->getCode(),
-			name: $entity->getName(),
-			symbol: $entity->getSymbol(),
-			isSelectable: $entity->getIsSelectable(),
+			code: $entity->code,
+			name: $entity->name,
+			symbol: $entity->symbol,
+			isSelectable: $entity->isSelectable,
 		);
 	}
 }

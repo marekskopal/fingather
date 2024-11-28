@@ -3,7 +3,7 @@ includes:
 
 parameters:
     level: max
-    phpVersion: 80300
+    phpVersion: 80400
     parallel:
         processTimeout: 300.0
     typeAliases:
@@ -28,6 +28,8 @@ parameters:
         uselessPrivatePropertyDefaultValue:
             enabled: false
         forbidUnusedMatchResult:
+            enabled: false
+        enforceReadonlyPublicProperty:
             enabled: false
 
 services:

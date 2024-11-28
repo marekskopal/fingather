@@ -23,11 +23,11 @@ final readonly class UserDto
 	{
 		return new self(
 			id: $entity->id,
-			email: $entity->getEmail(),
-			name: $entity->getName(),
-			role: $entity->getRole(),
-			isEmailVerified: $entity->isEmailVerified(),
-			isOnboardingCompleted: $entity->isOnboardingCompleted(),
+			email: $entity->email,
+			name: $entity->name,
+			role: $entity->role,
+			isEmailVerified: $entity->isEmailVerified,
+			isOnboardingCompleted: $entity->isOnboardingCompleted,
 		);
 	}
 

@@ -40,7 +40,7 @@ class ApiKeyProvider
 
 	public function updateApiKey(ApiKey $apiKeyEntity, string $apiKey): ApiKey
 	{
-		$apiKeyEntity->setApiKey($apiKey);
+		$apiKeyEntity->apiKey = $apiKey;
 		$this->apiKeyRepository->persist($apiKeyEntity);
 
 		return $apiKeyEntity;

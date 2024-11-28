@@ -42,8 +42,8 @@ class BrokerProvider
 
 	public function updateBroker(Broker $broker, string $name, BrokerImportTypeEnum $importType): Broker
 	{
-		$broker->setName($name);
-		$broker->setImportType($importType);
+		$broker->name = $name;
+		$broker->importType = $importType;
 		$this->brokerRepository->persist($broker);
 
 		return $broker;

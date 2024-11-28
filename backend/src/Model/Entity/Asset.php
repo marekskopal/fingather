@@ -13,33 +13,13 @@ class Asset extends AEntity
 {
 	public function __construct(
 		#[RefersTo(target: User::class)]
-		private User $user,
+		public readonly User $user,
 		#[RefersTo(target: Portfolio::class)]
-		private Portfolio $portfolio,
+		public readonly Portfolio $portfolio,
 		#[RefersTo(target: Ticker::class)]
-		private Ticker $ticker,
+		public readonly Ticker $ticker,
 		#[RefersTo(target: Group::class)]
-		private Group $group,
+		public Group $group,
 	) {
-	}
-
-	public function getPortfolio(): Portfolio
-	{
-		return $this->portfolio;
-	}
-
-	public function getTicker(): Ticker
-	{
-		return $this->ticker;
-	}
-
-	public function getGroup(): Group
-	{
-		return $this->group;
-	}
-
-	public function setGroup(Group $group): void
-	{
-		$this->group = $group;
 	}
 }

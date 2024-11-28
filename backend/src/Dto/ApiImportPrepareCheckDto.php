@@ -27,8 +27,8 @@ final readonly class ApiImportPrepareCheckDto implements ArrayFactoryInterface
 	public static function fromApiKeyEntity(ApiKey $apiKey): self
 	{
 		return new self(
-			userId: $apiKey->getUser()->id,
-			portfolioId: $apiKey->getPortfolio()->id,
+			userId: $apiKey->user->id,
+			portfolioId: $apiKey->portfolio->id,
 			apiKeyId: $apiKey->id,
 		);
 	}

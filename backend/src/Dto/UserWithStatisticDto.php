@@ -23,9 +23,9 @@ final readonly class UserWithStatisticDto
 	{
 		return new self(
 			id: $entity->id,
-			email: $entity->getEmail(),
-			name: $entity->getName(),
-			role: $entity->getRole(),
+			email: $entity->email,
+			name: $entity->name,
+			role: $entity->role,
 			assetCount: $assetCount,
 			transactionCount: $transactionCount,
 		);

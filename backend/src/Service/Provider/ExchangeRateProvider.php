@@ -34,7 +34,7 @@ class ExchangeRateProvider
 	{
 		$date = DateTimeUtils::setStartOfDateTime($date);
 
-		$key = $date->getTimestamp() . '_' . $currencyFrom->getCode() . '_' . $currencyTo->getCode();
+		$key = $date->getTimestamp() . '_' . $currencyFrom->code . '_' . $currencyTo->code;
 
 		$exchangeRate = $this->cache->load($key);
 		if ($exchangeRate instanceof Decimal) {
@@ -61,7 +61,7 @@ class ExchangeRateProvider
 			$date = $date->sub(DateInterval::createFromDateString('1 day'));
 		}
 
-		if ($currencyFrom->getCode() === 'USD') {
+		if ($currencyFrom->code === 'USD') {
 			$exchangeRate = $this->getExchangeRateUsd($date, $currencyTo);
 			$this->cache->save($key, $exchangeRate);
 
@@ -80,12 +80,12 @@ class ExchangeRateProvider
 
 	public function updateExchangeRates(Currency $currencyTo): ?DateTimeImmutable
 	{
-		$code = $currencyTo->getCode();
+		$code = $currencyTo->code;
 		$multiplier = 1;
-		$multiplyCurrency = $currencyTo->getMultiplyCurrency();
+		$multiplyCurrency = $currencyTo->multiplyCurrency;
 		if ($multiplyCurrency !== null) {
-			$code = $multiplyCurrency->getCode();
-			$multiplier = $currencyTo->getMultiplier();
+			$code = $multiplyCurrency->code;
+			$multiplier = $currencyTo->multiplier;
 		}
 
 		$lastExchangeRate = $this->exchangeRateRepository->findLastExchangeRate($currencyTo->id);
@@ -111,7 +111,7 @@ class ExchangeRateProvider
 
 	private function getExchangeRateUsd(DateTimeImmutable $date, Currency $currencyTo): Decimal
 	{
-		if ($currencyTo->getCode() === 'USD') {
+		if ($currencyTo->code === 'USD') {
 			return new Decimal(1);
 		}
 
