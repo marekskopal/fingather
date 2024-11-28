@@ -12,7 +12,6 @@ final class DividendDataAssetDto
 		public readonly int $id,
 		public readonly string $tickerTicker,
 		public readonly string $tickerName,
-		//@phpstan-ignore-next-line
 		public Decimal $dividendYield,
 	) {
 	}

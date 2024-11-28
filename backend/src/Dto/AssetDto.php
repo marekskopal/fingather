@@ -22,9 +22,9 @@ final readonly class AssetDto
 	{
 		return new self(
 			id: $asset->id,
-			tickerId: $asset->getTicker()->id,
-			ticker: TickerDto::fromEntity($asset->getTicker()),
-			groupId: $asset->getGroup()->id,
+			tickerId: $asset->ticker->id,
+			ticker: TickerDto::fromEntity($asset->ticker),
+			groupId: $asset->group->id,
 			price: $price,
 		);
 	}

@@ -43,7 +43,7 @@ class GroupWithGroupDataProvider
 				CalculatorUtils::toPercentage($assetData->value, $portfolioData->value),
 			);
 
-			$group = $asset->getGroup();
+			$group = $asset->group;
 
 			$groupAssets[$group->id][] = $assetDto;
 

@@ -22,7 +22,7 @@ class SectorProvider
 
 		$assets = $this->assetProvider->getAssets(user: $user, portfolio: $portfolio, dateTime: $dateTime);
 		foreach ($assets as $asset) {
-			$sector = $asset->getTicker()->getSector();
+			$sector = $asset->ticker->getSector();
 
 			if (array_key_exists($sector->id, $sectors)) {
 				continue;

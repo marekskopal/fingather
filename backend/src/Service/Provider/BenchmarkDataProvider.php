@@ -87,10 +87,10 @@ class BenchmarkDataProvider
 			return $benchmarkData;
 		}
 
-		$benchmarkTickerCurrency = $benchmarkAsset->getTicker()->getCurrency();
+		$benchmarkTickerCurrency = $benchmarkAsset->ticker->getCurrency();
 
 		$benchmarkAssetTickerDataClose = $this->tickerDataProvider->getLastTickerDataClose(
-			$benchmarkAsset->getTicker(),
+			$benchmarkAsset->ticker,
 			$benchmarkFromDateTime,
 		);
 		if ($benchmarkAssetTickerDataClose !== null) {

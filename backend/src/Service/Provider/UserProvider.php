@@ -72,11 +72,11 @@ class UserProvider
 	{
 		if ($password !== '') {
 			$hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-			$user->setPassword($hashedPassword);
+			$user->password = $hashedPassword;
 		}
 
-		$user->setName($name);
-		$user->setRole($role);
+		$user->name = $name;
+		$user->role = $role;
 		$this->userRepository->persist($user);
 
 		return $user;
@@ -84,7 +84,7 @@ class UserProvider
 
 	public function emailVerifyUser(User $user): User
 	{
-		$user->setIsEmailVerified(true);
+		$user->isEmailVerified = true;
 
 		$this->userRepository->persist($user);
 
@@ -93,7 +93,7 @@ class UserProvider
 
 	public function onboardingCompleteUser(User $user): User
 	{
-		$user->setIsOnboardingCompleted(true);
+		$user->isOnboardingCompleted = true;
 
 		$this->userRepository->persist($user);
 

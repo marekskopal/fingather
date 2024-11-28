@@ -17,8 +17,8 @@ final readonly class ApiKeyDto
 	{
 		return new self(
 			id: $entity->id,
-			type: $entity->getType(),
-			apiKey: $entity->getApiKey(),
+			type: $entity->type,
+			apiKey: $entity->apiKey,
 		);
 	}
 }

@@ -47,7 +47,7 @@ class GroupProvider
 				continue;
 			}
 
-			$asset->setGroup($group);
+			$asset->group = $group;
 			$this->assetRepository->persist($asset);
 		}
 
@@ -83,7 +83,7 @@ class GroupProvider
 		$othersGroup = $this->getOthersGroup($user, $portfolio);
 
 		foreach ($group->getAssets() as $asset) {
-			$asset->setGroup($othersGroup);
+			$asset->group = $othersGroup;
 			$this->assetRepository->persist($asset);
 		}
 
@@ -93,7 +93,7 @@ class GroupProvider
 				continue;
 			}
 
-			$asset->setGroup($group);
+			$asset->group = $group;
 			$this->assetRepository->persist($asset);
 		}
 
@@ -109,7 +109,7 @@ class GroupProvider
 		$othersGroup = $this->getOthersGroup($user, $portfolio);
 
 		foreach ($group->getAssets() as $asset) {
-			$asset->setGroup($othersGroup);
+			$asset->group = $othersGroup;
 			$this->assetRepository->persist($asset);
 		}
 

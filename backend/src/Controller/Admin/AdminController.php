@@ -19,7 +19,7 @@ abstract class AdminController
 	{
 		$user = $this->requestService->getUser($request);
 
-		if ($user->getRole() === UserRoleEnum::Admin) {
+		if ($user->role === UserRoleEnum::Admin) {
 			return;
 		}
 

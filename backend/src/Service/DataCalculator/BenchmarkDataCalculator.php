@@ -35,7 +35,7 @@ final class BenchmarkDataCalculator
 		DateTimeImmutable $benchmarkFromDateTime,
 		Decimal $benchmarkFromDateUnits,
 	): BenchmarkDataDto {
-		$benchmarkTickerCurrency = $benchmarkAsset->getTicker()->getCurrency();
+		$benchmarkTickerCurrency = $benchmarkAsset->ticker->getCurrency();
 		$defaultCurrency = $portfolio->getCurrency();
 
 		$benchmarkUnitsSum = new Decimal(0);
@@ -51,13 +51,13 @@ final class BenchmarkDataCalculator
 
 			$benchmarkUnitsSum = $benchmarkUnitsSum->add($this->calculateTransactionBenchmarkUnits(
 				$transaction,
-				$benchmarkAsset->getTicker(),
+				$benchmarkAsset->ticker,
 				$benchmarkTickerCurrency,
 				$defaultCurrency,
 			));
 		}
 
-		$benchmarkAssetTickerDataClose = $this->tickerDataProvider->getLastTickerDataClose($benchmarkAsset->getTicker(), $dateTime);
+		$benchmarkAssetTickerDataClose = $this->tickerDataProvider->getLastTickerDataClose($benchmarkAsset->ticker, $dateTime);
 		if ($benchmarkAssetTickerDataClose !== null) {
 			$benchmarkExchangeRateDefaultCurrency = $this->exchangeRateProvider->getExchangeRate(
 				$dateTime,

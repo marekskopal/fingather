@@ -57,8 +57,8 @@ final class DividendDataCalculator
 
 			$dividendDataAsset = $dividendData[$dateRangeKey][$asset->id] ?? new DividendDataAssetDto(
 				id: $asset->id,
-				tickerTicker: $asset->getTicker()->getTicker(),
-				tickerName: $asset->getTicker()->getName(),
+				tickerTicker: $asset->ticker->getTicker(),
+				tickerName: $asset->ticker->getName(),
 				dividendYield: new Decimal(0),
 			);
 

@@ -17,56 +17,21 @@ class ApiImport extends AEntity
 {
 	public function __construct(
 		#[RefersTo(target: User::class)]
-		private User $user,
+		public readonly User $user,
 		#[RefersTo(target: Portfolio::class)]
-		private Portfolio $portfolio,
+		public readonly Portfolio $portfolio,
 		#[RefersTo(target: ApiKey::class, innerKey:'api_key_id')]
-		private ApiKey $apiKey,
+		public readonly ApiKey $apiKey,
 		#[ColumnEnum(enum: ApiImportStatusEnum::class)]
-		private ApiImportStatusEnum $status,
+		public ApiImportStatusEnum $status,
 		#[Column(type: 'timestamp')]
-		protected DateTimeImmutable $dateFrom,
+		public readonly DateTimeImmutable $dateFrom,
 		#[Column(type: 'timestamp')]
-		protected DateTimeImmutable $dateTo,
+		public readonly DateTimeImmutable $dateTo,
 		#[Column(type: 'int', nullable: true)]
-		private ?int $reportId,
+		public readonly ?int $reportId,
 		#[Column(type: 'string', nullable: true)]
-		private ?string $error,
+		public ?string $error,
 	) {
-	}
-
-	public function getUser(): User
-	{
-		return $this->user;
-	}
-
-	public function getPortfolio(): Portfolio
-	{
-		return $this->portfolio;
-	}
-
-	public function getApiKey(): ApiKey
-	{
-		return $this->apiKey;
-	}
-
-	public function setStatus(ApiImportStatusEnum $status): void
-	{
-		$this->status = $status;
-	}
-
-	public function getDateTo(): DateTimeImmutable
-	{
-		return $this->dateTo;
-	}
-
-	public function getReportId(): ?int
-	{
-		return $this->reportId;
-	}
-
-	public function setError(?string $error): void
-	{
-		$this->error = $error;
 	}
 }

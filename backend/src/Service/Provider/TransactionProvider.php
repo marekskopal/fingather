@@ -114,7 +114,7 @@ class TransactionProvider
 	): Transaction {
 		$created = new DateTimeImmutable();
 
-		$tickerCurrency = $asset->getTicker()->getCurrency();
+		$tickerCurrency = $asset->ticker->getCurrency();
 		$defaultCurrency = $portfolio->getCurrency();
 
 		$price ??= new Decimal(0);
@@ -171,7 +171,7 @@ class TransactionProvider
 	): Transaction {
 		$modified = new DateTimeImmutable();
 
-		$tickerCurrency = $asset->getTicker()->getCurrency();
+		$tickerCurrency = $asset->ticker->getCurrency();
 		$defaultCurrency = $transaction->getPortfolio()->getCurrency();
 
 		$price ??= new Decimal(0);
