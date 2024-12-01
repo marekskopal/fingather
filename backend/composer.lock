@@ -4993,16 +4993,16 @@
         },
         {
             "name": "spiral/roadrunner-jobs",
-            "version": "v4.6.1",
+            "version": "v4.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/roadrunner-php/jobs.git",
-                "reference": "a1777e6ff7a460579467e40f700c25f509d90331"
+                "reference": "52ae1fb934604cd81b69a91cdf764f9c2b9b5fa7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/roadrunner-php/jobs/zipball/a1777e6ff7a460579467e40f700c25f509d90331",
-                "reference": "a1777e6ff7a460579467e40f700c25f509d90331",
+                "url": "https://api.github.com/repos/roadrunner-php/jobs/zipball/52ae1fb934604cd81b69a91cdf764f9c2b9b5fa7",
+                "reference": "52ae1fb934604cd81b69a91cdf764f9c2b9b5fa7",
                 "shasum": ""
             },
             "require": {
@@ -5063,7 +5063,7 @@
                 "docs": "https://docs.roadrunner.dev",
                 "forum": "https://forum.roadrunner.dev/",
                 "issues": "https://github.com/roadrunner-server/roadrunner/issues",
-                "source": "https://github.com/roadrunner-php/jobs/tree/v4.6.1"
+                "source": "https://github.com/roadrunner-php/jobs/tree/v4.6.2"
             },
             "funding": [
                 {
@@ -5071,7 +5071,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-11-21T10:46:31+00:00"
+            "time": "2024-11-30T15:38:28+00:00"
         },
         {
             "name": "spiral/roadrunner-worker",
