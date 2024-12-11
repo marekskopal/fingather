@@ -4,24 +4,19 @@ declare(strict_types=1);
 
 namespace FinGather\Model\Entity;
 
-use Cycle\Annotated\Annotation\Column;
-use Cycle\Annotated\Annotation\Entity;
-use Cycle\Annotated\Annotation\Relation\RefersTo;
-use Cycle\ORM\Parser\Typecast;
 use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Model\Repository\TickerDataRepository;
-use MarekSkopal\Cycle\Decimal\ColumnDecimal;
-use MarekSkopal\Cycle\Decimal\DecimalTypecast;
+use MarekSkopal\ORM\Attribute\Column;
+use MarekSkopal\ORM\Attribute\Entity;
+use MarekSkopal\ORM\Attribute\ManyToOne;
+use MarekSkopal\ORM\Decimal\Attribute\ColumnDecimal;
 
-#[Entity(repository: TickerDataRepository::class, typecast: [
-	Typecast::class,
-	DecimalTypecast::class,
-])]
+#[Entity(repositoryClass: TickerDataRepository::class)]
 class TickerData extends AEntity
 {
 	public function __construct(
-		#[RefersTo(target: Ticker::class)]
+		#[ManyToOne(entityClass: Ticker::class)]
 		private Ticker $ticker,
 		#[Column(type: 'timestamp')]
 		private DateTimeImmutable $date,

@@ -51,8 +51,8 @@ final class HttpDispatcher implements Dispatcher
 				$response = $application->handler->handle($request);
 				$psr7Worker->respond($response);
 
-				//fix SQL cache for each request
-				$application->dbContext->getOrm()->getHeap()->clean();
+				//clear SQL cache for each request
+				$application->dbContext->getOrm()->getEntityCache()->clear();
 
 				$currentTransactionProvider->clear();
 

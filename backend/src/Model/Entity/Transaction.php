@@ -4,35 +4,30 @@ declare(strict_types=1);
 
 namespace FinGather\Model\Entity;
 
-use Cycle\Annotated\Annotation\Column;
-use Cycle\Annotated\Annotation\Entity;
-use Cycle\Annotated\Annotation\ForeignKey;
-use Cycle\Annotated\Annotation\Relation\RefersTo;
-use Cycle\ORM\Parser\Typecast;
 use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Enum\TransactionCreateTypeEnum;
 use FinGather\Model\Repository\TransactionRepository;
-use MarekSkopal\Cycle\Decimal\ColumnDecimal;
-use MarekSkopal\Cycle\Decimal\DecimalTypecast;
-use MarekSkopal\Cycle\Enum\ColumnEnum;
+use MarekSkopal\ORM\Attribute\Column;
+use MarekSkopal\ORM\Attribute\ColumnEnum;
+use MarekSkopal\ORM\Attribute\Entity;
+use MarekSkopal\ORM\Attribute\ForeignKey;
+use MarekSkopal\ORM\Attribute\ManyToOne;
+use MarekSkopal\ORM\Decimal\Attribute\ColumnDecimal;
 
-#[Entity(repository: TransactionRepository::class, typecast: [
-	Typecast::class,
-	DecimalTypecast::class,
-])]
+#[Entity(repositoryClass: TransactionRepository::class)]
 class Transaction extends AEntity
 {
 	public function __construct(
-		#[RefersTo(target: User::class)]
+		#[ManyToOne(entityClass: User::class)]
 		private User $user,
-		#[RefersTo(target: Portfolio::class)]
+		#[ManyToOne(entityClass: Portfolio::class)]
 		private Portfolio $portfolio,
-		#[RefersTo(target: Asset::class)]
+		#[ManyToOne(entityClass: Asset::class)]
 		private Asset $asset,
 		#[Column(type: 'integer', nullable: true)]
-		#[ForeignKey(target: Broker::class)]
+		#[ForeignKey(entityClass: Broker::class)]
 		private ?int $brokerId,
 		#[ColumnEnum(enum: TransactionActionTypeEnum::class)]
 		private TransactionActionTypeEnum $actionType,
@@ -51,7 +46,7 @@ class Transaction extends AEntity
 		private Decimal $units,
 		#[ColumnDecimal(precision: 9, scale: 2)]
 		private Decimal $price,
-		#[RefersTo(target: Currency::class)]
+		#[ManyToOne(entityClass: Currency::class)]
 		private Currency $currency,
 		#[ColumnDecimal(precision: 9, scale: 2)]
 		private Decimal $priceTickerCurrency,
@@ -59,7 +54,7 @@ class Transaction extends AEntity
 		private Decimal $priceDefaultCurrency,
 		#[ColumnDecimal(precision: 9, scale: 2)]
 		private Decimal $tax,
-		#[RefersTo(target: Currency::class, innerKey:'tax_currency_id')]
+		#[ManyToOne(entityClass: Currency::class)]
 		private Currency $taxCurrency,
 		#[ColumnDecimal(precision: 9, scale: 2)]
 		private Decimal $taxTickerCurrency,
@@ -67,7 +62,7 @@ class Transaction extends AEntity
 		private Decimal $taxDefaultCurrency,
 		#[ColumnDecimal(precision: 9, scale: 2)]
 		private Decimal $fee,
-		#[RefersTo(target: Currency::class, innerKey:'fee_currency_id')]
+		#[ManyToOne(entityClass: Currency::class)]
 		private Currency $feeCurrency,
 		#[ColumnDecimal(precision: 9, scale: 2)]
 		private Decimal $feeTickerCurrency,

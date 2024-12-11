@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace FinGather\Model\Repository;
 
 use FinGather\Model\Entity\Portfolio;
+use Iterator;
+use MarekSkopal\ORM\Repository\AbstractRepository;
 
-/** @extends ARepository<Portfolio> */
-final class PortfolioRepository extends ARepository
+/** @extends AbstractRepository<Portfolio> */
+final class PortfolioRepository extends AbstractRepository
 {
-	/** @return list<Portfolio> */
-	public function findPortfolios(int $userId): array
+	/** @return Iterator<Portfolio> */
+	public function findPortfolios(int $userId): Iterator
 	{
 		return $this->findAll([
 			'user_id' => $userId,

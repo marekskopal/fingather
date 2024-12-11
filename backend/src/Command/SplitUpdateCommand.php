@@ -29,7 +29,7 @@ final class SplitUpdateCommand extends AbstractCommand
 		$tickerProvider = $application->container->get(TickerProvider::class);
 		assert($tickerProvider instanceof TickerProvider);
 
-		$activeTickers = $tickerProvider->getActiveTickers();
+		$activeTickers = iterator_to_array($tickerProvider->getActiveTickers(), false);
 		foreach ($activeTickers as $ticker) {
 			$splitUpdater->updateSplits($ticker);
 		}

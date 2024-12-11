@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace FinGather\Model\Entity;
 
-use Cycle\Annotated\Annotation\Column;
-use Cycle\Annotated\Annotation\Entity;
 use FinGather\Model\Repository\SectorRepository;
+use MarekSkopal\ORM\Attribute\Column;
+use MarekSkopal\ORM\Attribute\Entity;
 
-#[Entity(repository: SectorRepository::class)]
+#[Entity(repositoryClass: SectorRepository::class)]
 class Sector extends AEntity
 {
 	public function __construct(#[Column(type: 'string')] private string $name, #[Column(type: 'boolean')] private bool $isOthers,)

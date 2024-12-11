@@ -25,7 +25,7 @@ class AssetProvider
 	{
 	}
 
-	/** @return list<Asset> */
+	/** @return \Iterator<Asset> */
 	public function getAssets(
 		User $user,
 		Portfolio $portfolio,
@@ -34,7 +34,7 @@ class AssetProvider
 		?Country $country = null,
 		?Sector $sector = null,
 		?Industry $industry = null,
-	): array
+	): \Iterator
 	{
 		return $this->assetRepository->findAssets(
 			$user->getId(),

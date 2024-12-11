@@ -6,9 +6,10 @@ namespace FinGather\Model\Repository;
 
 use DateTimeImmutable;
 use FinGather\Model\Entity\ExchangeRate;
+use MarekSkopal\ORM\Repository\AbstractRepository;
 
-/** @extends ARepository<ExchangeRate> */
-final class ExchangeRateRepository extends ARepository
+/** @extends AbstractRepository<ExchangeRate> */
+final class ExchangeRateRepository extends AbstractRepository
 {
 	public function findExchangeRate(DateTimeImmutable $date, int $currencyId): ?ExchangeRate
 	{
@@ -21,7 +22,7 @@ final class ExchangeRateRepository extends ARepository
 	public function findLastExchangeRate(int $currencyId): ?ExchangeRate
 	{
 		$select = $this->select()
-			->where('currency_id', $currencyId);
+			->where(['currency_id' => $currencyId]);
 
 		$select->orderBy('date', 'DESC');
 
@@ -31,8 +32,8 @@ final class ExchangeRateRepository extends ARepository
 	public function findNearestExchangeRate(DateTimeImmutable $date, int $currencyId): ?ExchangeRate
 	{
 		$select = $this->select()
-			->where('date', '<=', $date)
-			->where('currency_id', $currencyId);
+			->where(['date', '<=', $date])
+			->where(['currency_id' => $currencyId]);
 
 		$select->orderBy('date');
 

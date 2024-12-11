@@ -4,24 +4,19 @@ declare(strict_types=1);
 
 namespace FinGather\Model\Entity;
 
-use Cycle\Annotated\Annotation\Column;
-use Cycle\Annotated\Annotation\Entity;
-use Cycle\Annotated\Annotation\Relation\RefersTo;
-use Cycle\ORM\Parser\Typecast;
 use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Model\Repository\ExchangeRateRepository;
-use MarekSkopal\Cycle\Decimal\ColumnDecimal;
-use MarekSkopal\Cycle\Decimal\DecimalTypecast;
+use MarekSkopal\ORM\Attribute\Column;
+use MarekSkopal\ORM\Attribute\Entity;
+use MarekSkopal\ORM\Attribute\ManyToOne;
+use MarekSkopal\ORM\Decimal\Attribute\ColumnDecimal;
 
-#[Entity(repository: ExchangeRateRepository::class, typecast: [
-	Typecast::class,
-	DecimalTypecast::class,
-])]
+#[Entity(repositoryClass: ExchangeRateRepository::class)]
 class ExchangeRate extends AEntity
 {
 	public function __construct(
-		#[RefersTo(target: Currency::class)]
+		#[ManyToOne(entityClass: Currency::class)]
 		private Currency $currency,
 		#[Column(type: 'timestamp')]
 		private DateTimeImmutable $date,

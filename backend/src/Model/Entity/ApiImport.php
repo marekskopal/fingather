@@ -4,23 +4,23 @@ declare(strict_types=1);
 
 namespace FinGather\Model\Entity;
 
-use Cycle\Annotated\Annotation\Column;
-use Cycle\Annotated\Annotation\Entity;
-use Cycle\Annotated\Annotation\Relation\RefersTo;
 use DateTimeImmutable;
 use FinGather\Model\Entity\Enum\ApiImportStatusEnum;
 use FinGather\Model\Repository\ApiImportRepository;
-use MarekSkopal\Cycle\Enum\ColumnEnum;
+use MarekSkopal\ORM\Attribute\Column;
+use MarekSkopal\ORM\Attribute\ColumnEnum;
+use MarekSkopal\ORM\Attribute\Entity;
+use MarekSkopal\ORM\Attribute\ManyToOne;
 
-#[Entity(repository: ApiImportRepository::class)]
+#[Entity(repositoryClass: ApiImportRepository::class)]
 class ApiImport extends AEntity
 {
 	public function __construct(
-		#[RefersTo(target: User::class)]
+		#[ManyToOne(entityClass: User::class)]
 		private User $user,
-		#[RefersTo(target: Portfolio::class)]
+		#[ManyToOne(entityClass: Portfolio::class)]
 		private Portfolio $portfolio,
-		#[RefersTo(target: ApiKey::class, innerKey:'api_key_id')]
+		#[ManyToOne(entityClass: ApiKey::class)]
 		private ApiKey $apiKey,
 		#[ColumnEnum(enum: ApiImportStatusEnum::class)]
 		private ApiImportStatusEnum $status,

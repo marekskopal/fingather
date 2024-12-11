@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace FinGather\Model\Entity;
 
-use Cycle\Annotated\Annotation\Column;
-use Cycle\Annotated\Annotation\Entity;
-use Cycle\Annotated\Annotation\Relation\RefersTo;
 use DateTimeImmutable;
 use FinGather\Model\Repository\ImportFileRepository;
+use MarekSkopal\ORM\Attribute\Column;
+use MarekSkopal\ORM\Attribute\Entity;
+use MarekSkopal\ORM\Attribute\ManyToOne;
 
-#[Entity(repository: ImportFileRepository::class)]
+#[Entity(repositoryClass: ImportFileRepository::class)]
 class ImportFile extends AEntity
 {
 	public function __construct(
-		#[RefersTo(target: Import::class)]
+		#[ManyToOne(entityClass: Import::class)]
 		private Import $import,
 		#[Column(type: 'timestamp')]
 		private DateTimeImmutable $created,

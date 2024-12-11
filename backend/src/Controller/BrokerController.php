@@ -46,7 +46,7 @@ final class BrokerController
 
 		$brokers = array_map(
 			fn (Broker $broker): BrokerDto => BrokerDto::fromEntity($broker),
-			$this->brokerProvider->getBrokers($user, $portfolio),
+			iterator_to_array($this->brokerProvider->getBrokers($user, $portfolio), false),
 		);
 
 		return new JsonResponse($brokers);

@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace FinGather\Model\Entity;
 
-use Cycle\Annotated\Annotation\Entity;
-use Cycle\Annotated\Annotation\Relation\RefersTo;
 use FinGather\Model\Repository\AssetRepository;
+use MarekSkopal\ORM\Attribute\Entity;
+use MarekSkopal\ORM\Attribute\ManyToOne;
 
-#[Entity(repository: AssetRepository::class)]
+#[Entity(repositoryClass: AssetRepository::class)]
 class Asset extends AEntity
 {
 	public function __construct(
-		#[RefersTo(target: User::class)]
+		#[ManyToOne(entityClass: User::class)]
 		private User $user,
-		#[RefersTo(target: Portfolio::class)]
+		#[ManyToOne(entityClass: Portfolio::class)]
 		private Portfolio $portfolio,
-		#[RefersTo(target: Ticker::class)]
+		#[ManyToOne(entityClass: Ticker::class)]
 		private Ticker $ticker,
-		#[RefersTo(target: Group::class)]
+		#[ManyToOne(entityClass: Group::class)]
 		private Group $group,
 	) {
 	}

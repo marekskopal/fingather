@@ -258,11 +258,11 @@ final class ImportPrepareService
 			$multipleFoundTickers[$tickerKey] = new PrepareImportTicker(
 				brokerId: $brokerId,
 				ticker: $ticker,
-				tickers: $this->tickerProvider->getTickersByTicker(
+				tickers: iterator_to_array($this->tickerProvider->getTickersByTicker(
 					ticker: $ticker,
 					isin: $isin,
 					marketIds: $importMapper->getAllowedMarketIds(),
-				),
+				), false),
 			);
 		} else {
 			$tickerByTicker = $this->tickerProvider->getTickerByTicker(
@@ -330,10 +330,10 @@ final class ImportPrepareService
 			$multipleFoundTickers[$tickerKey] = new PrepareImportTicker(
 				brokerId: $brokerId,
 				ticker: $isin,
-				tickers: $this->tickerProvider->getTickersByIsin(
+				tickers: iterator_to_array($this->tickerProvider->getTickersByIsin(
 					isin: $isin,
 					marketIds: $importMapper->getAllowedMarketIds(),
-				),
+				),false),
 			);
 		} else {
 			$tickerByTicker = $this->tickerProvider->getTickerByIsin(

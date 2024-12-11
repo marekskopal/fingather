@@ -4,23 +4,23 @@ declare(strict_types=1);
 
 namespace FinGather\Model\Entity;
 
-use Cycle\Annotated\Annotation\Column;
-use Cycle\Annotated\Annotation\Entity;
-use Cycle\Annotated\Annotation\Relation\HasMany;
-use Cycle\Annotated\Annotation\Relation\RefersTo;
 use FinGather\Model\Repository\GroupRepository;
+use MarekSkopal\ORM\Attribute\Column;
+use MarekSkopal\ORM\Attribute\Entity;
+use MarekSkopal\ORM\Attribute\ManyToOne;
+use MarekSkopal\ORM\Attribute\OneToMany;
 
-#[Entity(repository: GroupRepository::class)]
+#[Entity(repositoryClass: GroupRepository::class)]
 class Group extends AEntity
 {
 	public const string OthersName = 'Others';
 	public const string OthersColor = '#2c3d3f';
 
-	/** @param list<Asset> $assets */
+	/** @param \Iterator<Asset> $assets */
 	public function __construct(
-		#[RefersTo(target: User::class)]
+		#[ManyToOne(entityClass: User::class)]
 		private User $user,
-		#[RefersTo(target: Portfolio::class)]
+		#[ManyToOne(entityClass: Portfolio::class)]
 		private Portfolio $portfolio,
 		#[Column(type: 'string')]
 		private string $name,
@@ -28,8 +28,8 @@ class Group extends AEntity
 		private string $color,
 		#[Column(type: 'boolean')]
 		private bool $isOthers,
-		#[HasMany(target: Asset::class)]
-		private array $assets,
+		#[OneToMany(entityClass: Asset::class)]
+		private \Iterator $assets,
 	) {
 	}
 
@@ -63,8 +63,8 @@ class Group extends AEntity
 		$this->color = $color;
 	}
 
-	/** @return list<Asset> */
-	public function getAssets(): array
+	/** @return \Iterator<Asset> */
+	public function getAssets(): \Iterator
 	{
 		return $this->assets;
 	}

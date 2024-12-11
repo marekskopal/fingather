@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace FinGather\Model\Entity;
 
-use Cycle\Annotated\Annotation\Column;
-use Cycle\Annotated\Annotation\Entity;
-use Cycle\Annotated\Annotation\Relation\RefersTo;
 use DateTimeImmutable;
 use FinGather\Model\Repository\TickerFundamentalRepository;
+use MarekSkopal\ORM\Attribute\Column;
+use MarekSkopal\ORM\Attribute\Entity;
+use MarekSkopal\ORM\Attribute\ManyToOne;
 
-#[Entity(repository: TickerFundamentalRepository::class)]
+#[Entity(repositoryClass: TickerFundamentalRepository::class)]
 class TickerFundamental extends AEntity
 {
 	public function __construct(
-		#[RefersTo(target: Ticker::class)]
+		#[ManyToOne(entityClass: Ticker::class)]
 		private Ticker $ticker,
 		#[Column(type: 'bigInteger', nullable: true)]
 		private ?int $marketCapitalization,

@@ -4,24 +4,24 @@ declare(strict_types=1);
 
 namespace FinGather\Model\Entity;
 
-use Cycle\Annotated\Annotation\Column;
-use Cycle\Annotated\Annotation\Entity;
-use Cycle\Annotated\Annotation\Relation\RefersTo;
 use FinGather\Model\Repository\ImportMappingRepository;
+use MarekSkopal\ORM\Attribute\Column;
+use MarekSkopal\ORM\Attribute\Entity;
+use MarekSkopal\ORM\Attribute\ManyToOne;
 
-#[Entity(repository: ImportMappingRepository::class)]
+#[Entity(repositoryClass: ImportMappingRepository::class)]
 class ImportMapping extends AEntity
 {
 	public function __construct(
-		#[RefersTo(target: User::class)]
+		#[ManyToOne(entityClass: User::class)]
 		private User $user,
-		#[RefersTo(target: Portfolio::class)]
+		#[ManyToOne(entityClass: Portfolio::class)]
 		private Portfolio $portfolio,
-		#[RefersTo(target: Broker::class)]
+		#[ManyToOne(entityClass: Broker::class)]
 		private Broker $broker,
 		#[Column(type: 'string')]
 		private string $importTicker,
-		#[RefersTo(target: Ticker::class)]
+		#[ManyToOne(entityClass: Ticker::class)]
 		private Ticker $ticker,
 	) {
 	}

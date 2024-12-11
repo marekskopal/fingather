@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace FinGather\Model\Repository;
 
 use FinGather\Model\Entity\TickerFundamental;
+use MarekSkopal\ORM\Repository\AbstractRepository;
 
-/** @extends ARepository<TickerFundamental> */
-final class TickerFundamentalRepository extends ARepository
+/** @extends AbstractRepository<TickerFundamental> */
+final class TickerFundamentalRepository extends AbstractRepository
 {
 	public function findTickerFundamental(int $tickerId): ?TickerFundamental
 	{

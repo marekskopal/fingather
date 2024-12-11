@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace FinGather\Model\Entity;
 
-use Cycle\Annotated\Annotation\Column;
-use Cycle\Annotated\Annotation\Entity;
-use Cycle\Annotated\Annotation\Relation\RefersTo;
 use FinGather\Model\Entity\Enum\MarketTypeEnum;
 use FinGather\Model\Repository\MarketRepository;
-use MarekSkopal\Cycle\Enum\ColumnEnum;
+use MarekSkopal\ORM\Attribute\Column;
+use MarekSkopal\ORM\Attribute\ColumnEnum;
+use MarekSkopal\ORM\Attribute\Entity;
+use MarekSkopal\ORM\Attribute\ManyToOne;
 
-#[Entity(repository: MarketRepository::class)]
+#[Entity(repositoryClass: MarketRepository::class)]
 class Market extends AEntity
 {
 	public function __construct(
@@ -31,7 +31,7 @@ class Market extends AEntity
 		private string $city,
 		#[Column(type: 'string')]
 		private string $timezone,
-		#[RefersTo(target: Currency::class)]
+		#[ManyToOne(entityClass: Currency::class)]
 		private Currency $currency,
 	) {
 	}
