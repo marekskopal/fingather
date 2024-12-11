@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace FinGather\Model\Entity;
 
-use Cycle\Annotated\Annotation\Column;
-use Cycle\Annotated\Annotation\Entity;
-use Cycle\Annotated\Annotation\Relation\RefersTo;
 use FinGather\Model\Repository\CurrencyRepository;
+use MarekSkopal\ORM\Attribute\Column;
+use MarekSkopal\ORM\Attribute\Entity;
+use MarekSkopal\ORM\Attribute\ManyToOne;
 
-#[Entity(repository: CurrencyRepository::class)]
+#[Entity(repositoryClass: CurrencyRepository::class)]
 class Currency extends AEntity
 {
 	public function __construct(
@@ -19,7 +19,7 @@ class Currency extends AEntity
 		private string $name,
 		#[Column(type: 'string(5)')]
 		private string $symbol,
-		#[RefersTo(target: self::class, nullable: true, innerKey:'multiply_currency_id')]
+		#[ManyToOne(entityClass: self::class, nullable: true,)]
 		private ?Currency $multiplyCurrency,
 		#[Column(type: 'integer', default: 1)]
 		private int $multiplier,

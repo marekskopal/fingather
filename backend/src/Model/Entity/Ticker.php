@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace FinGather\Model\Entity;
 
-use Cycle\Annotated\Annotation\Column;
-use Cycle\Annotated\Annotation\Entity;
-use Cycle\Annotated\Annotation\Relation\RefersTo;
 use FinGather\Model\Entity\Enum\TickerTypeEnum;
 use FinGather\Model\Repository\TickerRepository;
-use MarekSkopal\Cycle\Enum\ColumnEnum;
+use MarekSkopal\ORM\Attribute\Column;
+use MarekSkopal\ORM\Attribute\ColumnEnum;
+use MarekSkopal\ORM\Attribute\Entity;
+use MarekSkopal\ORM\Attribute\ManyToOne;
 
-#[Entity(repository: TickerRepository::class)]
+#[Entity(repositoryClass: TickerRepository::class)]
 class Ticker extends AEntity
 {
 	public function __construct(
@@ -19,9 +19,9 @@ class Ticker extends AEntity
 		private string $ticker,
 		#[Column(type: 'string')]
 		private string $name,
-		#[RefersTo(target: Market::class)]
+		#[ManyToOne(entityClass: Market::class)]
 		private Market $market,
-		#[RefersTo(target: Currency::class)]
+		#[ManyToOne(entityClass: Currency::class)]
 		private Currency $currency,
 		#[ColumnEnum(enum: TickerTypeEnum::class, default: TickerTypeEnum::Stock->value)]
 		private TickerTypeEnum $type,
@@ -29,15 +29,15 @@ class Ticker extends AEntity
 		private ?string $isin,
 		#[Column(type: 'string', nullable: true)]
 		private ?string $logo,
-		#[RefersTo(target: Sector::class)]
+		#[ManyToOne(entityClass: Sector::class)]
 		private Sector $sector,
-		#[RefersTo(target: Industry::class)]
+		#[ManyToOne(entityClass: Industry::class)]
 		private Industry $industry,
 		#[Column(type: 'string', nullable: true)]
 		private ?string $website,
 		#[Column(type: 'text', nullable: true)]
 		private ?string $description,
-		#[RefersTo(target: Country::class)]
+		#[ManyToOne(entityClass: Country::class)]
 		private Country $country,
 	) {
 	}

@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace FinGather\Model\Entity;
 
-use Cycle\Annotated\Annotation\Column;
+use MarekSkopal\ORM\Attribute\Column;
 
 abstract class AEntity
 {
-	#[Column(type: 'primary')]
+	#[Column(type: 'int', primary: true)]
 
 	// @phpstan-ignore-next-line
-	protected int $id;
+	public int $id;
 
 	public function getId(): int
 	{

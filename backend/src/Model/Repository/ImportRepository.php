@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace FinGather\Model\Repository;
 
 use FinGather\Model\Entity\Import;
+use MarekSkopal\ORM\Repository\AbstractRepository;
 use Ramsey\Uuid\UuidInterface;
 
-/** @extends ARepository<Import> */
-final class ImportRepository extends ARepository
+/** @extends AbstractRepository<Import> */
+final class ImportRepository extends AbstractRepository
 {
 	public function findImportByUuid(UuidInterface $uuid, int $userId): ?Import
 	{

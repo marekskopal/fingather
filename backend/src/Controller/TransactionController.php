@@ -110,7 +110,7 @@ final class TransactionController
 
 		$transactionDtos = array_map(
 			fn (Transaction $transaction): TransactionDto => TransactionDto::fromEntity($transaction),
-			$transactions,
+			iterator_to_array($transactions, false),
 		);
 
 		return new JsonResponse(new TransactionListDto($transactionDtos, $count));

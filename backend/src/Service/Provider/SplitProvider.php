@@ -35,7 +35,7 @@ class SplitProvider
 
 		$splits = array_map(
 			fn(Split $split): SplitDto => SplitDto::fromEntity($split),
-			$this->splitRepository->findSplits($ticker->getId()),
+			iterator_to_array($this->splitRepository->findSplits($ticker->getId()), false),
 		);
 		$this->cache->save($key, $splits);
 

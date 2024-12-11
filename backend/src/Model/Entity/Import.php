@@ -4,26 +4,24 @@ declare(strict_types=1);
 
 namespace FinGather\Model\Entity;
 
-use Cycle\Annotated\Annotation\Column;
-use Cycle\Annotated\Annotation\Entity;
-use Cycle\Annotated\Annotation\Relation\RefersTo;
-use Cycle\ORM\Entity\Behavior\Uuid\Uuid4;
 use DateTimeImmutable;
 use FinGather\Model\Repository\ImportRepository;
+use MarekSkopal\ORM\Attribute\Column;
+use MarekSkopal\ORM\Attribute\Entity;
+use MarekSkopal\ORM\Attribute\ManyToOne;
 use Ramsey\Uuid\UuidInterface;
 
-#[Entity(repository: ImportRepository::class)]
-#[Uuid4(nullable: false)]
+#[Entity(repositoryClass: ImportRepository::class)]
 class Import extends AEntity
 {
 	public function __construct(
-		#[RefersTo(target: User::class)]
+		#[ManyToOne(entityClass: User::class)]
 		private User $user,
-		#[RefersTo(target: Portfolio::class)]
+		#[ManyToOne(entityClass: Portfolio::class)]
 		private Portfolio $portfolio,
 		#[Column(type: 'timestamp')]
 		private DateTimeImmutable $created,
-		#[Column(type: 'uuid', field: 'uuid')]
+		#[Column(type: 'uuid')]
 		private UuidInterface $uuid,
 	) {
 	}

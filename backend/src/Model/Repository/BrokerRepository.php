@@ -6,12 +6,13 @@ namespace FinGather\Model\Repository;
 
 use FinGather\Model\Entity\Broker;
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
+use MarekSkopal\ORM\Repository\AbstractRepository;
 
-/** @extends ARepository<Broker> */
-final class BrokerRepository extends ARepository
+/** @extends AbstractRepository<Broker> */
+final class BrokerRepository extends AbstractRepository
 {
-	/** @return list<Broker> */
-	public function findBrokers(int $userId, int $portfolioId): array
+	/** @return \Iterator<Broker> */
+	public function findBrokers(int $userId, int $portfolioId): \Iterator
 	{
 		return $this->findAll([
 			'user_id' => $userId,

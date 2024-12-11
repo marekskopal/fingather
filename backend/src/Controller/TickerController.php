@@ -32,7 +32,7 @@ final class TickerController
 
 		$tickers = array_map(
 			fn (Ticker $ticker): TickerDto => TickerDto::fromEntity($ticker),
-			$this->tickerProvider->getTickers(search: $search, limit: $limit, offset: $offset),
+			iterator_to_array($this->tickerProvider->getTickers(search: $search, limit: $limit, offset: $offset), false),
 		);
 
 		return new JsonResponse($tickers);

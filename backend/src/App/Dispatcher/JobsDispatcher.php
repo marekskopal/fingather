@@ -38,9 +38,6 @@ final class JobsDispatcher implements Dispatcher
 		$currentTransactionProvider = $application->container->get(CurrentTransactionProvider::class);
 		assert($currentTransactionProvider instanceof CurrentTransactionProvider);
 
-		$bulkInsertProvider = $application->container->get(BulkQueryProvider::class);
-		assert($bulkInsertProvider instanceof BulkQueryProvider);
-
 		while ($task = $consumer->waitTask()) {
 			try {
 				$handlerClass = match ($task->getQueue()) {
@@ -55,12 +52,10 @@ final class JobsDispatcher implements Dispatcher
 				$handler = $application->container->get($handlerClass);
 				$handler->handle($task);
 
-				$bulkInsertProvider->runAll();
-
 				$task->ack();
 
-				//fix SQL cache for each task
-				$application->dbContext->getOrm()->getHeap()->clean();
+				//clean SQL cache for each task
+				$application->dbContext->getOrm()->getEntityCache()->clear();
 
 				$currentTransactionProvider->clear();
 

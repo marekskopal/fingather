@@ -21,7 +21,7 @@ readonly class GroupDto
 			userId: $entity->getUser()->getId(),
 			name: $entity->getName(),
 			color: $entity->getColor(),
-			assetIds: array_map(fn (Asset $asset): int => $asset->getId(), $entity->getAssets()),
+			assetIds: array_map(fn (Asset $asset): int => $asset->getId(), iterator_to_array($entity->getAssets(), false)),
 		);
 	}
 }

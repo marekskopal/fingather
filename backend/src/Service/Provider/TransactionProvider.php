@@ -29,7 +29,7 @@ class TransactionProvider
 	/**
 	 * @param list<TransactionActionTypeEnum>|null $actionTypes
 	 * @param array<value-of<TransactionOrderByEnum>,OrderDirectionEnum> $orderBy
-	 * @return list<Transaction>
+	 * @return \Iterator<Transaction>
 	 */
 	public function getTransactions(
 		User $user,
@@ -45,7 +45,7 @@ class TransactionProvider
 		array $orderBy = [
 			TransactionOrderByEnum::ActionCreated->value => OrderDirectionEnum::DESC,
 		],
-	): array {
+	): \Iterator {
 		return $this->transactionRepository->findTransactions(
 			$user->getId(),
 			$portfolio?->getId(),

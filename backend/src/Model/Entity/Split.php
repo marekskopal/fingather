@@ -4,25 +4,20 @@ declare(strict_types=1);
 
 namespace FinGather\Model\Entity;
 
-use Cycle\Annotated\Annotation\Column;
-use Cycle\Annotated\Annotation\Entity;
-use Cycle\Annotated\Annotation\ForeignKey;
-use Cycle\ORM\Parser\Typecast;
 use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Model\Repository\SplitRepository;
-use MarekSkopal\Cycle\Decimal\ColumnDecimal;
-use MarekSkopal\Cycle\Decimal\DecimalTypecast;
+use MarekSkopal\ORM\Attribute\Column;
+use MarekSkopal\ORM\Attribute\Entity;
+use MarekSkopal\ORM\Attribute\ForeignKey;
+use MarekSkopal\ORM\Decimal\Attribute\ColumnDecimal;
 
-#[Entity(repository: SplitRepository::class, typecast: [
-	Typecast::class,
-	DecimalTypecast::class,
-])]
+#[Entity(repositoryClass: SplitRepository::class)]
 class Split extends AEntity
 {
 	public function __construct(
 		#[Column(type: 'integer')]
-		#[ForeignKey(target: Ticker::class)]
+		#[ForeignKey(entityClass: Ticker::class)]
 		private int $tickerId,
 		#[Column(type: 'timestamp')]
 		private DateTimeImmutable $date,

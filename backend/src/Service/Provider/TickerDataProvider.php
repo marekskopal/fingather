@@ -38,8 +38,8 @@ class TickerDataProvider
 		$this->cache = $cacheFactory->create(namespace: self::class);
 	}
 
-	/** @return list<TickerData> */
-	public function getTickerDatas(Ticker $ticker, DateTimeImmutable $fromDate, DateTimeImmutable $toDate): array
+	/** @return \Iterator<TickerData> */
+	public function getTickerDatas(Ticker $ticker, DateTimeImmutable $fromDate, DateTimeImmutable $toDate): \Iterator
 	{
 		return $this->tickerDataRepository->findTickerDatas($ticker->getId(), $fromDate, $toDate);
 	}
@@ -71,7 +71,7 @@ class TickerDataProvider
 					volume: $tickerData->getVolume(),
 				);
 			},
-			$this->getTickerDatas($ticker, $fromDate, $toDate),
+			iterator_to_array($this->getTickerDatas($ticker, $fromDate, $toDate), false),
 		);
 	}
 

@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace FinGather\Model\Entity;
 
-use Cycle\Annotated\Annotation\Column;
-use Cycle\Annotated\Annotation\Entity;
 use FinGather\Model\Entity\Enum\UserRoleEnum;
 use FinGather\Model\Repository\UserRepository;
-use MarekSkopal\Cycle\Enum\ColumnEnum;
+use MarekSkopal\ORM\Attribute\Column;
+use MarekSkopal\ORM\Attribute\ColumnEnum;
+use MarekSkopal\ORM\Attribute\Entity;
 
-#[Entity(repository: UserRepository::class)]
+#[Entity(repositoryClass: UserRepository::class)]
 class User extends AEntity
 {
 	public function __construct(

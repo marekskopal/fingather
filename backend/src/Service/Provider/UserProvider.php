@@ -8,6 +8,7 @@ use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\Enum\UserRoleEnum;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\UserRepository;
+use Iterator;
 use SensitiveParameter;
 use const PASSWORD_BCRYPT;
 
@@ -21,8 +22,8 @@ class UserProvider
 	) {
 	}
 
-	/** @return list<User> */
-	public function getUsers(): array
+	/** @return Iterator<User> */
+	public function getUsers(): Iterator
 	{
 		return $this->userRepository->findUsers();
 	}

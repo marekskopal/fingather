@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace FinGather\Model\Entity;
 
-use Cycle\Annotated\Annotation\Column;
-use Cycle\Annotated\Annotation\Entity;
-use Cycle\Annotated\Annotation\Relation\RefersTo;
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Model\Repository\BrokerRepository;
-use MarekSkopal\Cycle\Enum\ColumnEnum;
+use MarekSkopal\ORM\Attribute\Column;
+use MarekSkopal\ORM\Attribute\ColumnEnum;
+use MarekSkopal\ORM\Attribute\Entity;
+use MarekSkopal\ORM\Attribute\ManyToOne;
 
-#[Entity(repository: BrokerRepository::class)]
+#[Entity(repositoryClass: BrokerRepository::class)]
 class Broker extends AEntity
 {
 	public function __construct(
-		#[RefersTo(target: User::class)]
+		#[ManyToOne(entityClass: User::class)]
 		private User $user,
-		#[RefersTo(target: Portfolio::class)]
+		#[ManyToOne(entityClass: Portfolio::class)]
 		private Portfolio $portfolio,
 		#[Column(type: 'string')]
 		private string $name,

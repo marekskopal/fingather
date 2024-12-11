@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace FinGather\Model\Entity;
 
-use Cycle\Annotated\Annotation\Column;
-use Cycle\Annotated\Annotation\Entity;
-use Cycle\Annotated\Annotation\Relation\RefersTo;
 use FinGather\Model\Repository\EmailVerifyRepository;
+use MarekSkopal\ORM\Attribute\Column;
+use MarekSkopal\ORM\Attribute\Entity;
+use MarekSkopal\ORM\Attribute\ManyToOne;
 
-#[Entity(repository: EmailVerifyRepository::class)]
+#[Entity(repositoryClass: EmailVerifyRepository::class)]
 class EmailVerify extends AEntity
 {
-	public function __construct(#[RefersTo(target: User::class)] private User $user, #[Column(type: 'uuid')] private string $token,)
+	public function __construct(#[ManyToOne(entityClass: User::class)] private User $user, #[Column(type: 'uuid')] private string $token,)
 	{
 	}
 

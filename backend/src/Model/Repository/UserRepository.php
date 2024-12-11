@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace FinGather\Model\Repository;
 
 use FinGather\Model\Entity\User;
+use Iterator;
+use MarekSkopal\ORM\Repository\AbstractRepository;
 
-/** @extends ARepository<User> */
-final class UserRepository extends ARepository
+/** @extends AbstractRepository<User> */
+final class UserRepository extends AbstractRepository
 {
-	/** @return list<User> */
-	public function findUsers(): array
+	/** @return Iterator<User> */
+	public function findUsers(): Iterator
 	{
 		return $this->findAll();
 	}
