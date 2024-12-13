@@ -10,7 +10,6 @@ use FinGather\Jobs\Handler\ApiImportProcessCheckHandler;
 use FinGather\Jobs\Handler\EmailVerifyHandler;
 use FinGather\Jobs\Handler\JobHandler;
 use FinGather\Jobs\Handler\UserWarmupHandler;
-use FinGather\Service\Provider\BulkQueryProvider;
 use FinGather\Service\Provider\CurrentTransactionProvider;
 use FinGather\Service\Queue\Enum\QueueEnum;
 use Psr\Log\LoggerInterface;

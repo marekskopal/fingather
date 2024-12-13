@@ -9,6 +9,7 @@ use FinGather\Model\Entity\Import;
 use FinGather\Model\Entity\ImportFile;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\ImportFileRepository;
+use Iterator;
 
 class ImportFileProvider
 {
@@ -23,15 +24,15 @@ class ImportFileProvider
 			return null;
 		}
 
-		if ($importFile->getImport()->getUser()->id !== $user->id) {
+		if ($importFile->import->user->id !== $user->id) {
 			return null;
 		}
 
 		return $importFile;
 	}
 
-	/** @return \Iterator<ImportFile> */
-	public function getImportFiles(Import $import): \Iterator
+	/** @return Iterator<ImportFile> */
+	public function getImportFiles(Import $import): Iterator
 	{
 		return $this->importFileRepository->findImportFiles($import->id);
 	}

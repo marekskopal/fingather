@@ -18,21 +18,11 @@ class Split extends AEntity
 	public function __construct(
 		#[Column(type: 'integer')]
 		#[ForeignKey(entityClass: Ticker::class)]
-		private int $tickerId,
+		public readonly int $tickerId,
 		#[Column(type: 'timestamp')]
-		private DateTimeImmutable $date,
+		public readonly DateTimeImmutable $date,
 		#[ColumnDecimal(precision: 8, scale: 4)]
-		private Decimal $factor,
+		public readonly Decimal $factor,
 	) {
-	}
-
-	public function getDate(): DateTimeImmutable
-	{
-		return $this->date;
-	}
-
-	public function getFactor(): Decimal
-	{
-		return $this->factor;
 	}
 }

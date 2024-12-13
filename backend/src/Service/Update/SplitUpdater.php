@@ -21,8 +21,8 @@ final class SplitUpdater
 	{
 		try {
 			$splits = $this->twelveData->getFundamentals()->splits(
-				symbol: $ticker->getTicker(),
-				micCode: $ticker->getMarket()->getMic(),
+				symbol: $ticker->ticker,
+				micCode: $ticker->market->mic,
 				range: RangeEnum::Full,
 			);
 		} catch (NotFoundException) {

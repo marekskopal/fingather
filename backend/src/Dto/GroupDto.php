@@ -18,10 +18,10 @@ readonly class GroupDto
 	{
 		return new self(
 			id: $entity->id,
-			userId: $entity->getUser()->id,
-			name: $entity->getName(),
-			color: $entity->getColor(),
-			assetIds: array_map(fn (Asset $asset): int => $asset->id, iterator_to_array($entity->getAssets(), false)),
+			userId: $entity->user->id,
+			name: $entity->name,
+			color: $entity->color,
+			assetIds: array_map(fn (Asset $asset): int => $asset->id, iterator_to_array($entity->assets, false)),
 		);
 	}
 }

@@ -16,6 +16,7 @@ use FinGather\Model\Repository\TickerDataRepository;
 use FinGather\Service\Cache\CacheFactory;
 use FinGather\Service\Provider\Dto\TickerDataAdjustedDto;
 use FinGather\Utils\DateTimeUtils;
+use Iterator;
 use MarekSkopal\TwelveData\Dto\CoreData\TimeSeries;
 use MarekSkopal\TwelveData\Enum\AdjustEnum;
 use MarekSkopal\TwelveData\Exception\BadRequestException;
@@ -38,8 +39,8 @@ class TickerDataProvider
 		$this->cache = $cacheFactory->create(namespace: self::class);
 	}
 
-	/** @return \Iterator<TickerData> */
-	public function getTickerDatas(Ticker $ticker, DateTimeImmutable $fromDate, DateTimeImmutable $toDate): \Iterator
+	/** @return Iterator<TickerData> */
+	public function getTickerDatas(Ticker $ticker, DateTimeImmutable $fromDate, DateTimeImmutable $toDate): Iterator
 	{
 		return $this->tickerDataRepository->findTickerDatas($ticker->id, $fromDate, $toDate);
 	}
@@ -53,7 +54,7 @@ class TickerDataProvider
 			function (TickerData $tickerData) use ($splits): TickerDataAdjustedDto {
 				$splitFactor = new Decimal(1);
 				foreach ($splits as $split) {
-					if ($split->date <= $tickerData->getDate()) {
+					if ($split->date <= $tickerData->date) {
 						continue;
 					}
 
@@ -62,13 +63,13 @@ class TickerDataProvider
 
 				return new TickerDataAdjustedDto(
 					id: $tickerData->id,
-					ticker: $tickerData->getTicker(),
-					date: $tickerData->getDate(),
-					open: $tickerData->getOpen()->div($splitFactor),
-					close: $tickerData->getClose()->div($splitFactor),
-					high: $tickerData->getHigh()->div($splitFactor),
-					low: $tickerData->getLow()->div($splitFactor),
-					volume: $tickerData->getVolume(),
+					ticker: $tickerData->ticker,
+					date: $tickerData->date,
+					open: $tickerData->open->div($splitFactor),
+					close: $tickerData->close->div($splitFactor),
+					high: $tickerData->high->div($splitFactor),
+					low: $tickerData->low->div($splitFactor),
+					volume: $tickerData->volume,
 				);
 			},
 			iterator_to_array($this->getTickerDatas($ticker, $fromDate, $toDate), false),
@@ -94,14 +95,14 @@ class TickerDataProvider
 
 		$lastTickerData = $this->tickerDataRepository->findLastTickerData($ticker->id, $beforeDate);
 		if ($lastTickerData !== null) {
-			$this->cache->save($key, $lastTickerData->getClose());
+			$this->cache->save($key, $lastTickerData->close);
 
-			return $lastTickerData->getClose();
+			return $lastTickerData->close;
 		}
 
 		$this->updateTickerData($ticker, true);
 
-		return $this->tickerDataRepository->findLastTickerData($ticker->id, $beforeDate)?->getClose();
+		return $this->tickerDataRepository->findLastTickerData($ticker->id, $beforeDate)?->close;
 	}
 
 	public function updateTickerData(Ticker $ticker, bool $fullHistory = false): ?DateTimeImmutable
@@ -123,16 +124,16 @@ class TickerDataProvider
 
 		$firstDate = new DateTimeImmutable(DateTimeUtils::FirstDate . ' 00:00:00');
 
-		if ($lastTickerData !== null && ($actualDate->getTimestamp() - $lastTickerData->getDate()->getTimestamp() < 86400)) {
+		if ($lastTickerData !== null && ($actualDate->getTimestamp() - $lastTickerData->date->getTimestamp() < 86400)) {
 			return null;
 		}
 
 		$fromDate = $firstDate;
 		if ($lastTickerData !== null) {
-			$fromDate = $lastTickerData->getDate();
+			$fromDate = $lastTickerData->date;
 		}
 
-		$marketType = $ticker->getMarket()->getType();
+		$marketType = $ticker->market->type;
 		$updatedTickerDataCount = match ($marketType) {
 			MarketTypeEnum::Stock => $this->createTickerDataFromStock($ticker, $fromDate),
 			MarketTypeEnum::Crypto => $this->createTickerDataFromCrypto($ticker, $fromDate),
@@ -149,8 +150,8 @@ class TickerDataProvider
 	{
 		try {
 			$timeSeries = $this->twelveData->getCoreData()->timeSeries(
-				symbol: $ticker->getTicker(),
-				micCode: $ticker->getMarket()->getMic(),
+				symbol: $ticker->ticker,
+				micCode: $ticker->market->mic,
 				startDate: $fromDate,
 				endDate: $toDate,
 				adjust: [AdjustEnum::None],
@@ -174,7 +175,7 @@ class TickerDataProvider
 	{
 		try {
 			$timeSeries = $this->twelveData->getCoreData()->timeSeries(
-				symbol: $ticker->getTicker() . '/USD',
+				symbol: $ticker->ticker . '/USD',
 				startDate: $fromDate,
 				endDate: $toDate,
 			);

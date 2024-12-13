@@ -23,14 +23,14 @@ final readonly class MarketDto
 	public static function fromEntity(Market $market): self
 	{
 		return new self(
-			name: $market->getName(),
-			acronym: $market->getAcronym(),
-			mic: $market->getMic(),
-			exchangeCode: $market->getExchangeCode(),
-			country: $market->getCountry(),
-			city: $market->getCity(),
-			timezone: $market->getTimezone(),
-			currencyId: $market->getCurrency()->id,
+			name: $market->name,
+			acronym: $market->acronym,
+			mic: $market->mic,
+			exchangeCode: $market->exchangeCode,
+			country: $market->country,
+			city: $market->city,
+			timezone: $market->timezone,
+			currencyId: $market->currency->id,
 		);
 	}
 }

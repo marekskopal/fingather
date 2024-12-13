@@ -14,25 +14,15 @@ class ImportMapping extends AEntity
 {
 	public function __construct(
 		#[ManyToOne(entityClass: User::class)]
-		private User $user,
+		public readonly User $user,
 		#[ManyToOne(entityClass: Portfolio::class)]
-		private Portfolio $portfolio,
+		public readonly Portfolio $portfolio,
 		#[ManyToOne(entityClass: Broker::class)]
-		private Broker $broker,
+		public readonly Broker $broker,
 		#[Column(type: 'string')]
-		private string $importTicker,
+		public readonly string $importTicker,
 		#[ManyToOne(entityClass: Ticker::class)]
-		private Ticker $ticker,
+		public readonly Ticker $ticker,
 	) {
-	}
-
-	public function getImportTicker(): string
-	{
-		return $this->importTicker;
-	}
-
-	public function getTicker(): Ticker
-	{
-		return $this->ticker;
 	}
 }

@@ -12,17 +12,10 @@ use MarekSkopal\ORM\Attribute\ManyToOne;
 #[Entity(repositoryClass: EmailVerifyRepository::class)]
 class EmailVerify extends AEntity
 {
-	public function __construct(#[ManyToOne(entityClass: User::class)] private User $user, #[Column(type: 'uuid')] private string $token,)
+	public function __construct(
+		#[ManyToOne(entityClass: User::class)] public readonly User $user,
+		#[Column(type: 'uuid')] public readonly string $token,
+	)
 	{
-	}
-
-	public function getUser(): User
-	{
-		return $this->user;
-	}
-
-	public function getToken(): string
-	{
-		return $this->token;
 	}
 }

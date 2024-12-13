@@ -28,8 +28,8 @@ final readonly class EmailVerifyDto implements ArrayFactoryInterface
 	public static function fromEntity(EmailVerify $emailVerify): self
 	{
 		return new self(
-			user: UserDto::fromEntity($emailVerify->getUser()),
-			token: $emailVerify->getToken(),
+			user: UserDto::fromEntity($emailVerify->user),
+			token: $emailVerify->token,
 		);
 	}
 

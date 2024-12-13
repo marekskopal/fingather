@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace FinGather\App;
 
 use FinGather\Middleware\AuthorizationMiddleware;
-use FinGather\Middleware\BulkInsertMiddleware;
 use FinGather\Model\Entity\ApiImport;
 use FinGather\Model\Entity\ApiKey;
 use FinGather\Model\Entity\Asset;

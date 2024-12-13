@@ -62,8 +62,8 @@ class GroupWithGroupDataProvider
 			$groupsWithGroupData[] = new GroupWithGroupDataDto(
 				id: $groupId,
 				userId: $user->id,
-				name: $group->getName(),
-				color: $group->getColor(),
+				name: $group->name,
+				color: $group->color,
 				assetIds: array_map(fn (AssetWithPropertiesDto $asset): int => $asset->id, $groupAssets[$groupId]),
 				assets: $groupAssets[$groupId],
 				percentage: CalculatorUtils::toPercentage($groupData->value, $portfolioData->value),

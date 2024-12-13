@@ -9,6 +9,7 @@ use FinGather\Model\Entity\Enum\ApiKeyTypeEnum;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\ApiKeyRepository;
+use Iterator;
 
 class ApiKeyProvider
 {
@@ -16,13 +17,10 @@ class ApiKeyProvider
 	{
 	}
 
-	/** @return \Iterator<ApiKey> */
-	public function getApiKeys(?User $user = null, ?Portfolio $portfolio = null): \Iterator
+	/** @return Iterator<ApiKey> */
+	public function getApiKeys(?User $user = null, ?Portfolio $portfolio = null): Iterator
 	{
-		return $this->apiKeyRepository->findApiKeys(
-			userId: $user?->id,
-			portfolioId: $portfolio?->id,
-		);
+		return $this->apiKeyRepository->findApiKeys(userId: $user?->id, portfolioId: $portfolio?->id);
 	}
 
 	public function getApiKey(int $apiKeyId, ?User $user = null): ?ApiKey

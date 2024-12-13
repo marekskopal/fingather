@@ -89,7 +89,7 @@ class ExchangeRateProvider
 		}
 
 		$lastExchangeRate = $this->exchangeRateRepository->findLastExchangeRate($currencyTo->id);
-		$startDate = $lastExchangeRate?->getDate() ?? new DateTimeImmutable('2020-01-01');
+		$startDate = $lastExchangeRate?->date ?? new DateTimeImmutable('2020-01-01');
 
 		try {
 			$timeSeries = $this->twelveData->getCoreData()->timeSeries(symbol: 'USD/' . $code, startDate: $startDate);
@@ -117,18 +117,18 @@ class ExchangeRateProvider
 
 		$exchangeRate = $this->exchangeRateRepository->findExchangeRate($date, $currencyTo->id);
 		if ($exchangeRate !== null) {
-			return $exchangeRate->getRate();
+			return $exchangeRate->rate;
 		}
 
 		$lastExchangeRate = $this->exchangeRateRepository->findLastExchangeRate($currencyTo->id);
 		assert($lastExchangeRate instanceof ExchangeRate);
-		if ($date < $lastExchangeRate->getDate()) {
+		if ($date < $lastExchangeRate->date) {
 			$exchangeRate = $this->exchangeRateRepository->findNearestExchangeRate($date, $currencyTo->id);
 			if ($exchangeRate !== null) {
-				return $exchangeRate->getRate();
+				return $exchangeRate->rate;
 			}
 		}
 
-		return $lastExchangeRate->getRate();
+		return $lastExchangeRate->rate;
 	}
 }

@@ -50,7 +50,7 @@ final class TickerIsinUpdater
 						continue;
 					}
 
-					$ticker->setIsin($batchIsins[$j]);
+					$ticker->isin = $batchIsins[$j];
 					$this->tickerRepository->persist($ticker);
 				}
 

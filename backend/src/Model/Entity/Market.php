@@ -16,68 +16,23 @@ class Market extends AEntity
 {
 	public function __construct(
 		#[ColumnEnum(enum: MarketTypeEnum::class)]
-		private MarketTypeEnum $type,
+		public readonly MarketTypeEnum $type,
 		#[Column(type: 'string')]
-		private string $name,
+		public readonly string $name,
 		#[Column(type: 'string(20)')]
-		private string $acronym,
+		public readonly string $acronym,
 		#[Column(type: 'string(5)')]
-		private string $mic,
+		public readonly string $mic,
 		#[Column(type: 'string(2)')]
-		private string $exchangeCode,
+		public readonly string $exchangeCode,
 		#[Column(type: 'string(2)')]
-		private string $country,
+		public readonly string $country,
 		#[Column(type: 'string')]
-		private string $city,
+		public readonly string $city,
 		#[Column(type: 'string')]
-		private string $timezone,
+		public readonly string $timezone,
 		#[ManyToOne(entityClass: Currency::class)]
-		private Currency $currency,
+		public readonly Currency $currency,
 	) {
-	}
-
-	public function getType(): MarketTypeEnum
-	{
-		return $this->type;
-	}
-
-	public function getName(): string
-	{
-		return $this->name;
-	}
-
-	public function getAcronym(): string
-	{
-		return $this->acronym;
-	}
-
-	public function getMic(): string
-	{
-		return $this->mic;
-	}
-
-	public function getExchangeCode(): string
-	{
-		return $this->exchangeCode;
-	}
-
-	public function getCountry(): string
-	{
-		return $this->country;
-	}
-
-	public function getCity(): string
-	{
-		return $this->city;
-	}
-
-	public function getTimezone(): string
-	{
-		return $this->timezone;
-	}
-
-	public function getCurrency(): Currency
-	{
-		return $this->currency;
 	}
 }

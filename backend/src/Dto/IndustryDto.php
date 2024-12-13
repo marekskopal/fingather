@@ -14,9 +14,6 @@ final readonly class IndustryDto
 
 	public static function fromEntity(Industry $tickerIndustry): self
 	{
-		return new self(
-			id: $tickerIndustry->id,
-			name: $tickerIndustry->getName(),
-		);
+		return new self(id: $tickerIndustry->id, name: $tickerIndustry->name);
 	}
 }

@@ -17,9 +17,9 @@ final readonly class DbContext
 
 	private ORM $orm;
 
-	public function __construct(string $host, string $database, string $user, string $password)
+	public function __construct(string $host, string $name, string $user, string $password)
 	{
-		$database = new MySqlDatabase($host, $user, $password, $database);
+		$database = new MySqlDatabase($host, $user, $password, $name);
 
 		$cache = CacheFactory::createPsrCache(namespace: self::CacheNamespace);
 		$schema = $cache->get(self::CacheKey);

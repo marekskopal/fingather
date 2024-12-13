@@ -28,12 +28,8 @@ class ImportMappingProvider
 	{
 		$importMappings = [];
 
-		foreach ($this->importMappingRepository->findImportMappings(
-			$user->id,
-			$portfolio->id,
-			$broker->id,
-		) as $importMapping) {
-			$importMappings[$broker->id . '-' . $importMapping->getImportTicker()] = $importMapping;
+		foreach ($this->importMappingRepository->findImportMappings($user->id, $portfolio->id, $broker->id) as $importMapping) {
+			$importMappings[$broker->id . '-' . $importMapping->importTicker] = $importMapping;
 		}
 
 		return $importMappings;
@@ -77,8 +73,8 @@ class ImportMappingProvider
 			}
 
 			$this->createImportMapping(
-				user: $import->getUser(),
-				portfolio: $import->getPortfolio(),
+				user: $import->user,
+				portfolio: $import->portfolio,
 				broker: $broker,
 				importTicker: $importStartImportMapping->importTicker,
 				ticker: $ticker,

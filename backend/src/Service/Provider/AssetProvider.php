@@ -15,6 +15,7 @@ use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\AssetRepository;
 use FinGather\Service\Update\TickerRelationsUpdater;
+use Iterator;
 
 class AssetProvider
 {
@@ -25,7 +26,7 @@ class AssetProvider
 	{
 	}
 
-	/** @return \Iterator<Asset> */
+	/** @return Iterator<Asset> */
 	public function getAssets(
 		User $user,
 		Portfolio $portfolio,
@@ -34,7 +35,7 @@ class AssetProvider
 		?Country $country = null,
 		?Sector $sector = null,
 		?Industry $industry = null,
-	): \Iterator
+	): Iterator
 	{
 		return $this->assetRepository->findAssets(
 			$user->id,
@@ -86,11 +87,7 @@ class AssetProvider
 
 	public function getOrCreateAsset(User $user, Portfolio $portfolio, Ticker $ticker, Group $othersGroup): Asset
 	{
-		$asset = $this->assetRepository->findAssetByTickerId(
-			tickerId: $ticker->id,
-			userId: $user->id,
-			portfolioId: $portfolio->id,
-		);
+		$asset = $this->assetRepository->findAssetByTickerId(tickerId: $ticker->id, userId: $user->id, portfolioId: $portfolio->id);
 		if ($asset !== null) {
 			return $asset;
 		}

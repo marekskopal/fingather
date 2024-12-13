@@ -63,7 +63,7 @@ final class AssetDataController
 
 		$datePeriod = DateTimeUtils::getDatePeriod(
 			range: $range,
-			firstDate: $firstTransaction->getActionCreated(),
+			firstDate: $firstTransaction->actionCreated,
 			shiftStartDate: $range === RangeEnum::All,
 		);
 		foreach ($datePeriod as $dateTime) {
