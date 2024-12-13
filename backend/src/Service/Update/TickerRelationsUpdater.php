@@ -28,8 +28,6 @@ final class TickerRelationsUpdater
 
 	private function isTickerUsed(Ticker $ticker): bool
 	{
-		return $this->assetRepository->findAssetByTickerId(
-			tickerId: $ticker->id,
-		) !== null;
+		return $this->assetRepository->findAssetByTickerId(tickerId: $ticker->id) !== null;
 	}
 }

@@ -17,54 +17,19 @@ class TickerData extends AEntity
 {
 	public function __construct(
 		#[ManyToOne(entityClass: Ticker::class)]
-		private Ticker $ticker,
+		public readonly Ticker $ticker,
 		#[Column(type: 'timestamp')]
-		private DateTimeImmutable $date,
+		public readonly DateTimeImmutable $date,
 		#[ColumnDecimal(precision: 20, scale: 10)]
-		private Decimal $open,
+		public readonly Decimal $open,
 		#[ColumnDecimal(precision: 20, scale: 10)]
-		private Decimal $close,
+		public readonly Decimal $close,
 		#[ColumnDecimal(precision: 20, scale: 10)]
-		private Decimal $high,
+		public readonly Decimal $high,
 		#[ColumnDecimal(precision: 20, scale: 10)]
-		private Decimal $low,
+		public readonly Decimal $low,
 		#[ColumnDecimal(precision: 22, scale: 10)]
-		private Decimal $volume,
+		public readonly Decimal $volume,
 	) {
-	}
-
-	public function getTicker(): Ticker
-	{
-		return $this->ticker;
-	}
-
-	public function getDate(): DateTimeImmutable
-	{
-		return $this->date;
-	}
-
-	public function getOpen(): Decimal
-	{
-		return $this->open;
-	}
-
-	public function getClose(): Decimal
-	{
-		return $this->close;
-	}
-
-	public function getHigh(): Decimal
-	{
-		return $this->high;
-	}
-
-	public function getLow(): Decimal
-	{
-		return $this->low;
-	}
-
-	public function getVolume(): Decimal
-	{
-		return $this->volume;
 	}
 }

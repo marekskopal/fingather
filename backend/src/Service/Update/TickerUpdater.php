@@ -86,7 +86,7 @@ final class TickerUpdater
 	/** @param list<string> $tickerTickers */
 	private function updateStockTickers(Market $market, array $tickerTickers): void
 	{
-		$stockList = $this->twelveData->getReferenceData()->stockList(micCode: $market->getMic());
+		$stockList = $this->twelveData->getReferenceData()->stockList(micCode: $market->mic);
 		foreach ($stockList->data as $stock) {
 			if (in_array($stock->symbol, $tickerTickers, true)) {
 				continue;
@@ -123,7 +123,7 @@ final class TickerUpdater
 	/** @param list<string> $tickerTickers */
 	private function updateEtfTickers(Market $market, array $tickerTickers): void
 	{
-		$etfList = $this->twelveData->getReferenceData()->etfList(micCode: $market->getMic());
+		$etfList = $this->twelveData->getReferenceData()->etfList(micCode: $market->mic);
 		foreach ($etfList->data as $etf) {
 			if (in_array($etf->symbol, $tickerTickers, true)) {
 				continue;
@@ -159,9 +159,9 @@ final class TickerUpdater
 
 	public function updateTicker(Ticker $ticker): void
 	{
-		if ($ticker->getMarket()->getType() === MarketTypeEnum::Crypto) {
-			if ($ticker->getType() !== TickerTypeEnum::Crypto) {
-				$ticker->setType(TickerTypeEnum::Crypto);
+		if ($ticker->market->type === MarketTypeEnum::Crypto) {
+			if ($ticker->type !== TickerTypeEnum::Crypto) {
+				$ticker->type = TickerTypeEnum::Crypto;
 				$this->tickerRepository->persist($ticker);
 			}
 
@@ -169,24 +169,21 @@ final class TickerUpdater
 		}
 
 		try {
-			$profile = $this->twelveData->getFundamentals()->profile(
-				symbol: $ticker->getTicker(),
-				micCode: $ticker->getMarket()->getMic(),
-			);
+			$profile = $this->twelveData->getFundamentals()->profile(symbol: $ticker->ticker, micCode: $ticker->market->mic);
 		} catch (NotFoundException) {
 			return;
 		}
 
-		if ($profile->type === 'ETF' && $ticker->getType() !== TickerTypeEnum::Etf) {
-			$ticker->setType(TickerTypeEnum::Etf);
+		if ($profile->type === 'ETF' && $ticker->type !== TickerTypeEnum::Etf) {
+			$ticker->type = TickerTypeEnum::Etf;
 		}
 
 		$this->updateSector($profile, $ticker);
 		$this->updateIndustry($profile, $ticker);
 		$this->updateCountry($profile, $ticker);
 
-		$ticker->setWebsite($profile->website);
-		$ticker->setDescription($profile->description);
+		$ticker->website = $profile->website;
+		$ticker->description = $profile->description;
 
 		$this->tickerRepository->persist($ticker);
 	}
@@ -195,7 +192,7 @@ final class TickerUpdater
 	{
 		if ($profile->sector === '') {
 			$othersSector = $this->sectorRepository->findOthersSector();
-			$ticker->setSector($othersSector);
+			$ticker->sector = $othersSector;
 			return;
 		}
 
@@ -206,14 +203,14 @@ final class TickerUpdater
 			$sector = new Sector(name: $sectorName, isOthers: false);
 			$this->sectorRepository->persist($sector);
 		}
-		$ticker->setSector($sector);
+		$ticker->sector = $sector;
 	}
 
 	private function updateIndustry(Profile $profile, Ticker $ticker): void
 	{
 		if ($profile->industry === '') {
 			$othersIndustry = $this->industryRepository->findOthersIndustry();
-			$ticker->setIndustry($othersIndustry);
+			$ticker->industry = $othersIndustry;
 			return;
 		}
 
@@ -224,24 +221,24 @@ final class TickerUpdater
 			$industry = new Industry(name: $industryName, isOthers: false);
 			$this->industryRepository->persist($industry);
 		}
-		$ticker->setIndustry($industry);
+		$ticker->industry = $industry;
 	}
 
 	private function updateCountry(Profile $profile, Ticker $ticker): void
 	{
 		if ($profile->country === '') {
 			$othersCountry = $this->countryRepository->findOthersCountry();
-			$ticker->setCountry($othersCountry);
+			$ticker->country = $othersCountry;
 			return;
 		}
 
 		$country = $this->countryRepository->findCountryByName($profile->country);
 		if ($country === null) {
 			$othersCountry = $this->countryRepository->findOthersCountry();
-			$ticker->setCountry($othersCountry);
+			$ticker->country = $othersCountry;
 			return;
 		}
 
-		$ticker->setCountry($country);
+		$ticker->country = $country;
 	}
 }

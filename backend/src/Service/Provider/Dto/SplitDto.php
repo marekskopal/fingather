@@ -16,9 +16,6 @@ final readonly class SplitDto
 
 	public static function fromEntity(Split $split): self
 	{
-		return new self(
-			date: $split->getDate(),
-			factor: $split->getFactor(),
-		);
+		return new self(date: $split->date, factor: $split->factor);
 	}
 }

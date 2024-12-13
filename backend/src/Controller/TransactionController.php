@@ -266,7 +266,7 @@ final class TransactionController
 			importIdentifier: $transactionDto->importIdentifier,
 		);
 
-		$this->dataProvider->deleteUserData($user, $transaction->getPortfolio(), $transactionDto->actionCreated);
+		$this->dataProvider->deleteUserData($user, $transaction->portfolio, $transactionDto->actionCreated);
 
 		return new JsonResponse(TransactionDto::fromEntity($transaction));
 	}
@@ -288,11 +288,7 @@ final class TransactionController
 
 		$this->transactionProvider->deleteTransaction($transaction);
 
-		$this->dataProvider->deleteUserData(
-			$transaction->getUser(),
-			$transaction->getPortfolio(),
-			$transaction->getActionCreated(),
-		);
+		$this->dataProvider->deleteUserData($transaction->user, $transaction->portfolio, $transaction->actionCreated);
 
 		return new OkResponse();
 	}

@@ -24,8 +24,6 @@ final readonly class ApiImportProcessCheckDto implements ArrayFactoryInterface
 
 	public static function fromEntity(ApiImport $apiImport): self
 	{
-		return new self(
-			apiImportId: $apiImport->id,
-		);
+		return new self(apiImportId: $apiImport->id);
 	}
 }

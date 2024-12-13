@@ -96,7 +96,7 @@ final class PortfolioDataController
 			portfolio: $portfolio,
 			actionTypes: [TransactionActionTypeEnum::Buy, TransactionActionTypeEnum::Sell],
 		);
-		usort($transactions, fn(Transaction $a, Transaction $b): int => $a->getActionCreated() <=> $b->getActionCreated());
+		usort($transactions, fn(Transaction $a, Transaction $b): int => $a->actionCreated <=> $b->actionCreated);
 
 		if (count($transactions) === 0) {
 			return new JsonResponse([]);
@@ -112,7 +112,7 @@ final class PortfolioDataController
 			range: $range,
 			customRangeFrom: $customRangeFrom,
 			customRangeTo: $customRangeTo,
-			firstDate: $firstTransaction->getActionCreated(),
+			firstDate: $firstTransaction->actionCreated,
 			shiftStartDate: $range === RangeEnum::All,
 		);
 		foreach ($datePeriod as $dateTime) {

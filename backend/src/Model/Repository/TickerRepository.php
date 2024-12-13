@@ -6,6 +6,7 @@ namespace FinGather\Model\Repository;
 
 use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Ticker;
+use Iterator;
 use MarekSkopal\ORM\Query\Enum\DirectionEnum;
 use MarekSkopal\ORM\Query\Select;
 use MarekSkopal\ORM\Query\Where\WhereBuilder;
@@ -14,8 +15,8 @@ use MarekSkopal\ORM\Repository\AbstractRepository;
 /** @extends AbstractRepository<Ticker> */
 final class TickerRepository extends AbstractRepository
 {
-	/** @return \Iterator<Ticker> */
-	public function findTickers(?int $marketId = null, ?string $search = null, ?int $limit = null, ?int $offset = null,): \Iterator
+	/** @return Iterator<Ticker> */
+	public function findTickers(?int $marketId = null, ?string $search = null, ?int $limit = null, ?int $offset = null,): Iterator
 	{
 		return $this->getTickersSelect($marketId, $search, $limit, $offset)->fetchAll();
 	}
@@ -24,7 +25,7 @@ final class TickerRepository extends AbstractRepository
 	public function findTickersTicker(?int $marketId = null, ?string $search = null, ?int $limit = null, ?int $offset = null): array
 	{
 		/**
-		 * @var \Iterator<array{
+		 * @var Iterator<array{
 		 *     ticker: string,
 		 * }> $tickers
 		 */
@@ -70,8 +71,8 @@ final class TickerRepository extends AbstractRepository
 		]);
 	}
 
-	/** @return \Iterator<Ticker> */
-	public function findActiveTickers(): \Iterator
+	/** @return Iterator<Ticker> */
+	public function findActiveTickers(): Iterator
 	{
 		$activeTickersSelect = $this->queryProvider
 			->select(Asset::class)
@@ -121,9 +122,9 @@ final class TickerRepository extends AbstractRepository
 
 	/**
 	 * @param list<int>|null $marketIds
-	 * @return \Iterator<Ticker>
+	 * @return Iterator<Ticker>
 	 */
-	public function findTickersByTicker(string $ticker, ?array $marketIds = null, ?string $isin = null): \Iterator
+	public function findTickersByTicker(string $ticker, ?array $marketIds = null, ?string $isin = null): Iterator
 	{
 		return $this->getTickerByTickerSelect($ticker, $marketIds, $isin)
 			->fetchAll();
@@ -165,9 +166,9 @@ final class TickerRepository extends AbstractRepository
 
 	/**
 	 * @param list<int>|null $marketIds
-	 * @return \Iterator<Ticker>
+	 * @return Iterator<Ticker>
 	 */
-	public function findTickersByIsin(string $isin, ?array $marketIds = null): \Iterator
+	public function findTickersByIsin(string $isin, ?array $marketIds = null): Iterator
 	{
 		return $this->getTickerByIsinSelect($isin, $marketIds)
 			->fetchAll();

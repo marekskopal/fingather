@@ -47,7 +47,7 @@ final class ApiKeyController
 
 		$apiKeys = array_map(
 			fn (ApiKey $apiKey): ApiKeyDto => ApiKeyDto::fromEntity($apiKey),
-			iterator_to_array($this->apiKeyProvider->getApiKeys($user, $portfolio), false)
+			iterator_to_array($this->apiKeyProvider->getApiKeys($user, $portfolio), false),
 		);
 
 		return new JsonResponse($apiKeys);

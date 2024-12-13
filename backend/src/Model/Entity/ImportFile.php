@@ -15,28 +15,13 @@ class ImportFile extends AEntity
 {
 	public function __construct(
 		#[ManyToOne(entityClass: Import::class)]
-		private Import $import,
+		public readonly Import $import,
 		#[Column(type: 'timestamp')]
-		private DateTimeImmutable $created,
+		public readonly DateTimeImmutable $created,
 		#[Column(type: 'string')]
-		private string $fileName,
+		public readonly string $fileName,
 		#[Column(type: 'longBinary')]
-		private string $contents,
+		public readonly string $contents,
 	) {
-	}
-
-	public function getImport(): Import
-	{
-		return $this->import;
-	}
-
-	public function getFileName(): string
-	{
-		return $this->fileName;
-	}
-
-	public function getContents(): string
-	{
-		return $this->contents;
 	}
 }

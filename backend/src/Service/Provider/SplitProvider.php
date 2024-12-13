@@ -25,7 +25,7 @@ class SplitProvider
 	/** @return list<SplitDto> */
 	public function getSplits(Ticker $ticker): array
 	{
-		$key = (string)$ticker->id;
+		$key = (string) $ticker->id;
 
 		/** @var list<SplitDto>|null $splits */
 		$splits = $this->cache->load($key);
@@ -57,6 +57,6 @@ class SplitProvider
 
 	public function cleanCache(Ticker $ticker): void
 	{
-		$this->cache->remove((string)$ticker->id);
+		$this->cache->remove((string) $ticker->id);
 	}
 }

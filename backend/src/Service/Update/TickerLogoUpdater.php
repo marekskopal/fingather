@@ -22,26 +22,23 @@ final class TickerLogoUpdater
 
 	public function updateTickerLogo(Ticker $ticker): void
 	{
-		$currentLogo = $ticker->getLogo();
+		$currentLogo = $ticker->logo;
 		if ($currentLogo !== null && !str_starts_with($currentLogo, self::LOGOS_API_DIR)) {
 			return;
 		}
 
 		// If the logo is in the filesystem, we use them
-		if (file_exists(self::LOGOS_PATH . $ticker->getTicker() . '.svg')) {
-			$ticker->setLogo($ticker->getTicker() . '.svg');
+		if (file_exists(self::LOGOS_PATH . $ticker->ticker . '.svg')) {
+			$ticker->logo = $ticker->ticker . '.svg';
 			$this->tickerRepository->persist($ticker);
 			return;
 		}
 
 		// If the logo is not in the filesystem, we download it from API
 		try {
-			$logo = $ticker->getMarket()->getType() === MarketTypeEnum::Crypto ? $this->twelveData->getFundamentals()->logo(
-				symbol: $ticker->getTicker() . '/USD',
-			) : $this->twelveData->getFundamentals()->logo(
-				symbol: $ticker->getTicker(),
-				micCode: $ticker->getMarket()->getMic(),
-			);
+			$logo = $ticker->market->type === MarketTypeEnum::Crypto ? $this->twelveData->getFundamentals()->logo(
+				symbol: $ticker->ticker . '/USD',
+			) : $this->twelveData->getFundamentals()->logo(symbol: $ticker->ticker, micCode: $ticker->market->mic);
 		} catch (NotFoundException) {
 			return;
 		}
@@ -60,10 +57,10 @@ final class TickerLogoUpdater
 			mkdir(self::LOGOS_PATH . self::LOGOS_API_DIR, recursive: true);
 		}
 
-		$filename = strtolower($ticker->getMarket()->getMic() . '-' . $ticker->getTicker()) . '.png';
+		$filename = strtolower($ticker->market->mic . '-' . $ticker->ticker) . '.png';
 		file_put_contents(self::LOGOS_PATH . self::LOGOS_API_DIR . $filename, $fileContents);
 
-		$ticker->setLogo(self::LOGOS_API_DIR . $filename);
+		$ticker->logo = self::LOGOS_API_DIR . $filename;
 		$this->tickerRepository->persist($ticker);
 	}
 

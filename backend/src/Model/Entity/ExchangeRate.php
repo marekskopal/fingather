@@ -17,21 +17,11 @@ class ExchangeRate extends AEntity
 {
 	public function __construct(
 		#[ManyToOne(entityClass: Currency::class)]
-		private Currency $currency,
+		public readonly Currency $currency,
 		#[Column(type: 'timestamp')]
-		private DateTimeImmutable $date,
+		public readonly DateTimeImmutable $date,
 		#[ColumnDecimal(precision: 9, scale: 4)]
-		private Decimal $rate,
+		public readonly Decimal $rate,
 	) {
-	}
-
-	public function getDate(): DateTimeImmutable
-	{
-		return $this->date;
-	}
-
-	public function getRate(): Decimal
-	{
-		return $this->rate;
 	}
 }

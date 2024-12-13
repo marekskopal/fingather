@@ -11,12 +11,10 @@ use MarekSkopal\ORM\Attribute\Entity;
 #[Entity(repositoryClass: IndustryRepository::class)]
 class Industry extends AEntity
 {
-	public function __construct(#[Column(type: 'string')] private string $name, #[Column(type: 'boolean')] private bool $isOthers,)
+	public function __construct(
+		#[Column(type: 'string')] public readonly string $name,
+		#[Column(type: 'boolean')] public readonly bool $isOthers,
+	)
 	{
-	}
-
-	public function getName(): string
-	{
-		return $this->name;
 	}
 }

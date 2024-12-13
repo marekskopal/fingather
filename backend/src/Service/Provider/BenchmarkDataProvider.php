@@ -87,17 +87,14 @@ class BenchmarkDataProvider
 			return $benchmarkData;
 		}
 
-		$benchmarkTickerCurrency = $benchmarkAsset->ticker->getCurrency();
+		$benchmarkTickerCurrency = $benchmarkAsset->ticker->currency;
 
-		$benchmarkAssetTickerDataClose = $this->tickerDataProvider->getLastTickerDataClose(
-			$benchmarkAsset->ticker,
-			$benchmarkFromDateTime,
-		);
+		$benchmarkAssetTickerDataClose = $this->tickerDataProvider->getLastTickerDataClose($benchmarkAsset->ticker, $benchmarkFromDateTime);
 		if ($benchmarkAssetTickerDataClose !== null) {
 			$benchmarkExchangeRateDefaultCurrency = $this->exchangeRateProvider->getExchangeRate(
 				$benchmarkFromDateTime,
 				$benchmarkTickerCurrency,
-				$portfolio->getCurrency(),
+				$portfolio->currency,
 			);
 
 			$benchmarkUnitPriceDefaultCurrency = $benchmarkAssetTickerDataClose->mul($benchmarkExchangeRateDefaultCurrency);

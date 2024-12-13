@@ -40,14 +40,14 @@ class CurrentTransactionProvider
 		if ($actionCreatedBefore !== null) {
 			$transactions = array_values(array_filter(
 				$transactions,
-				fn(Transaction $transaction) => $transaction->getActionCreated() <= $actionCreatedBefore,
+				fn(Transaction $transaction) => $transaction->actionCreated <= $actionCreatedBefore,
 			));
 		}
 
 		if ($actionTypes !== null) {
 			$transactions = array_values(array_filter(
 				$transactions,
-				fn(Transaction $transaction) => in_array($transaction->getActionType(), $actionTypes, true),
+				fn(Transaction $transaction) => in_array($transaction->actionType, $actionTypes, true),
 			));
 		}
 
@@ -81,7 +81,7 @@ class CurrentTransactionProvider
 		$this->clear();
 
 		foreach ($transactions as $transaction) {
-			$assetId = $transaction->getAsset()->id;
+			$assetId = $transaction->asset->id;
 			if (!isset($this->transactions[$assetId])) {
 				$this->transactions[$assetId] = [];
 			}

@@ -31,19 +31,19 @@ final readonly class TickerDto
 	{
 		return new self(
 			id: $ticker->id,
-			ticker: $ticker->getTicker(),
-			name: $ticker->getName(),
-			marketId: $ticker->getMarket()->id,
-			currencyId: $ticker->getCurrency()->id,
-			type: $ticker->getType(),
-			isin: $ticker->getIsin(),
-			logo: $ticker->getLogo(),
-			sector: SectorDto::fromEntity($ticker->getSector()),
-			industry: IndustryDto::fromEntity($ticker->getIndustry()),
-			website: $ticker->getWebsite(),
-			description: $ticker->getDescription(),
-			country: CountryDto::fromEntity($ticker->getCountry()),
-			market: MarketDto::fromEntity($ticker->getMarket()),
+			ticker: $ticker->ticker,
+			name: $ticker->name,
+			marketId: $ticker->market->id,
+			currencyId: $ticker->currency->id,
+			type: $ticker->type,
+			isin: $ticker->isin,
+			logo: $ticker->logo,
+			sector: SectorDto::fromEntity($ticker->sector),
+			industry: IndustryDto::fromEntity($ticker->industry),
+			website: $ticker->website,
+			description: $ticker->description,
+			country: CountryDto::fromEntity($ticker->country),
+			market: MarketDto::fromEntity($ticker->market),
 		);
 	}
 }

@@ -53,10 +53,7 @@ class PortfolioDataProvider
 			$assetDatas[] = $assetData;
 		}
 
-		$fistTransactionActionCreated = $this->transactionProvider->getFirstTransaction(
-			$user,
-			$portfolio,
-		)?->getActionCreated() ?? $dateTime;
+		$fistTransactionActionCreated = $this->transactionProvider->getFirstTransaction($user, $portfolio)?->actionCreated ?? $dateTime;
 
 		$calculatedData = $this->dataCalculator->calculate($assetDatas, $dateTime, $fistTransactionActionCreated);
 

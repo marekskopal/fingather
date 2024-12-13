@@ -29,7 +29,7 @@ final readonly class ImportPrepareDto
 	{
 		return new self(
 			importId: $prepareImport->import->id,
-			uuid: $prepareImport->import->getUuid(),
+			uuid: $prepareImport->import->uuid,
 			importFileId: $prepareImport->importFile->id,
 			notFoundTickers: array_map(
 				fn (PrepareImportTicker $item): ImportPrepareTickerDto => ImportPrepareTickerDto::fromImportPrepareTicker($item),

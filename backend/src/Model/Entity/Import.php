@@ -16,28 +16,13 @@ class Import extends AEntity
 {
 	public function __construct(
 		#[ManyToOne(entityClass: User::class)]
-		private User $user,
+		public readonly User $user,
 		#[ManyToOne(entityClass: Portfolio::class)]
-		private Portfolio $portfolio,
+		public readonly Portfolio $portfolio,
 		#[Column(type: 'timestamp')]
-		private DateTimeImmutable $created,
+		public readonly DateTimeImmutable $created,
 		#[Column(type: 'uuid')]
-		private UuidInterface $uuid,
+		public readonly UuidInterface $uuid,
 	) {
-	}
-
-	public function getUser(): User
-	{
-		return $this->user;
-	}
-
-	public function getPortfolio(): Portfolio
-	{
-		return $this->portfolio;
-	}
-
-	public function getUuid(): UuidInterface
-	{
-		return $this->uuid;
 	}
 }

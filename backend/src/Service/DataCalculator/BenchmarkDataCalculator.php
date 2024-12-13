@@ -35,17 +35,17 @@ final class BenchmarkDataCalculator
 		DateTimeImmutable $benchmarkFromDateTime,
 		Decimal $benchmarkFromDateUnits,
 	): BenchmarkDataDto {
-		$benchmarkTickerCurrency = $benchmarkAsset->ticker->getCurrency();
-		$defaultCurrency = $portfolio->getCurrency();
+		$benchmarkTickerCurrency = $benchmarkAsset->ticker->currency;
+		$defaultCurrency = $portfolio->currency;
 
 		$benchmarkUnitsSum = new Decimal(0);
 
 		foreach ($transactions as $transaction) {
-			if ($transaction->getActionCreated() < $benchmarkFromDateTime) {
+			if ($transaction->actionCreated < $benchmarkFromDateTime) {
 				continue;
 			}
 
-			if ($transaction->getActionCreated() > $dateTime) {
+			if ($transaction->actionCreated > $dateTime) {
 				break;
 			}
 
@@ -88,7 +88,7 @@ final class BenchmarkDataCalculator
 			return $this->transactionBenchmarkUnits[$key];
 		}
 
-		$transactionActionCreated = $transaction->getActionCreated();
+		$transactionActionCreated = $transaction->actionCreated;
 
 		$benchmarkTransactionAssetTickerDataClose = $this->tickerDataProvider->getLastTickerDataClose(
 			$benchmarkAssetTicker,
@@ -98,9 +98,9 @@ final class BenchmarkDataCalculator
 			return new Decimal(0);
 		}
 
-		$transactionUnits = $transaction->getUnits();
+		$transactionUnits = $transaction->units;
 
-		$transactionPriceUnitDefaultCurrency = $transaction->getPriceDefaultCurrency();
+		$transactionPriceUnitDefaultCurrency = $transaction->priceDefaultCurrency;
 
 		$benchmarkTransactionExchangeRateDefaultCurrency = $this->exchangeRateProvider->getExchangeRate(
 			$transactionActionCreated,
