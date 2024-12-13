@@ -39,7 +39,7 @@ final class TickerUpdater
 	{
 		$markets = $this->marketRepository->findMarkets(type: MarketTypeEnum::Stock);
 		foreach ($markets as $market) {
-			$tickerTickers = $this->tickerRepository->findTickersTicker(marketId: $market->getId());
+			$tickerTickers = $this->tickerRepository->findTickersTicker(marketId: $market->id);
 
 			$this->updateStockTickers($market, $tickerTickers);
 
@@ -51,7 +51,7 @@ final class TickerUpdater
 		$currencyUsd = $this->currencyRepository->findCurrencyByCode('USD');
 		assert($currencyUsd instanceof Currency);
 
-		$tickerTickers = $this->tickerRepository->findTickersTicker(marketId: $market->getId());
+		$tickerTickers = $this->tickerRepository->findTickersTicker(marketId: $market->id);
 
 		$cryptocurrenciesList = $this->twelveData->getReferenceData()->cryptocurrenciesList(exchange: 'Binance');
 		foreach ($cryptocurrenciesList->data as $cryptocurrency) {

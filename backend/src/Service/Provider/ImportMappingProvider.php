@@ -29,11 +29,11 @@ class ImportMappingProvider
 		$importMappings = [];
 
 		foreach ($this->importMappingRepository->findImportMappings(
-			$user->getId(),
-			$portfolio->getId(),
-			$broker->getId(),
+			$user->id,
+			$portfolio->id,
+			$broker->id,
 		) as $importMapping) {
-			$importMappings[$broker->getId() . '-' . $importMapping->getImportTicker()] = $importMapping;
+			$importMappings[$broker->id . '-' . $importMapping->getImportTicker()] = $importMapping;
 		}
 
 		return $importMappings;
@@ -60,7 +60,7 @@ class ImportMappingProvider
 
 	public function createImportMappingFromImportStart(User $user, ImportStartDto $importStart): void
 	{
-		$import = $this->importRepository->findImportByUuid($importStart->uuid, $user->getId());
+		$import = $this->importRepository->findImportByUuid($importStart->uuid, $user->id);
 		if ($import === null) {
 			return;
 		}

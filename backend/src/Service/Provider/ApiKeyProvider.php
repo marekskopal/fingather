@@ -20,14 +20,14 @@ class ApiKeyProvider
 	public function getApiKeys(?User $user = null, ?Portfolio $portfolio = null): \Iterator
 	{
 		return $this->apiKeyRepository->findApiKeys(
-			userId: $user?->getId(),
-			portfolioId: $portfolio?->getId(),
+			userId: $user?->id,
+			portfolioId: $portfolio?->id,
 		);
 	}
 
 	public function getApiKey(int $apiKeyId, ?User $user = null): ?ApiKey
 	{
-		return $this->apiKeyRepository->findApiKey($apiKeyId, $user?->getId());
+		return $this->apiKeyRepository->findApiKey($apiKeyId, $user?->id);
 	}
 
 	public function createApiKey(User $user, Portfolio $portfolio, ApiKeyTypeEnum $type, string $apiKey): ApiKey
@@ -40,7 +40,7 @@ class ApiKeyProvider
 
 	public function updateApiKey(ApiKey $apiKeyEntity, string $apiKey): ApiKey
 	{
-		$apiKeyEntity->setApiKey($apiKey);
+		$apiKeyEntity->apiKey = $apiKey;
 		$this->apiKeyRepository->persist($apiKeyEntity);
 
 		return $apiKeyEntity;

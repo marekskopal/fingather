@@ -43,15 +43,15 @@ class GroupWithGroupDataProvider
 				CalculatorUtils::toPercentage($assetData->value, $portfolioData->value),
 			);
 
-			$group = $asset->getGroup();
+			$group = $asset->group;
 
-			$groupAssets[$group->getId()][] = $assetDto;
+			$groupAssets[$group->id][] = $assetDto;
 
-			if (array_key_exists($group->getId(), $groups)) {
+			if (array_key_exists($group->id, $groups)) {
 				continue;
 			}
 
-			$groups[$group->getId()] = $group;
+			$groups[$group->id] = $group;
 		}
 
 		$groupsWithGroupData = [];
@@ -61,7 +61,7 @@ class GroupWithGroupDataProvider
 
 			$groupsWithGroupData[] = new GroupWithGroupDataDto(
 				id: $groupId,
-				userId: $user->getId(),
+				userId: $user->id,
 				name: $group->getName(),
 				color: $group->getColor(),
 				assetIds: array_map(fn (AssetWithPropertiesDto $asset): int => $asset->id, $groupAssets[$groupId]),

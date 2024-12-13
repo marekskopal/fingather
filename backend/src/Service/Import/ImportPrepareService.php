@@ -61,7 +61,7 @@ final class ImportPrepareService
 				importType: $importMapper->getImportType(),
 			);
 		}
-		$brokerId = $broker->getId();
+		$brokerId = $broker->id;
 
 		$importMappings = $this->importMappingProvider->getImportMappings($user, $portfolio, $broker);
 

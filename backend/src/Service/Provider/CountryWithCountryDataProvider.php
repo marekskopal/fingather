@@ -37,8 +37,8 @@ class CountryWithCountryDataProvider
 
 			$countriesWithCountryData[] = new CountryWithCountryDataDto(
 				id: $countryId,
-				userId: $user->getId(),
-				name: $country->getName(),
+				userId: $user->id,
+				name: $country->name,
 				percentage: CalculatorUtils::toPercentage($countryData->value, $portfolioData->value),
 				groupData: GroupDataDto::fromCalculatedDataDto($countryData),
 			);

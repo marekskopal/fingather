@@ -55,16 +55,16 @@ final class DividendDataCalculator
 
 			$asset = $transaction->getAsset();
 
-			$dividendDataAsset = $dividendData[$dateRangeKey][$asset->getId()] ?? new DividendDataAssetDto(
-				id: $asset->getId(),
-				tickerTicker: $asset->getTicker()->getTicker(),
-				tickerName: $asset->getTicker()->getName(),
+			$dividendDataAsset = $dividendData[$dateRangeKey][$asset->id] ?? new DividendDataAssetDto(
+				id: $asset->id,
+				tickerTicker: $asset->ticker->getTicker(),
+				tickerName: $asset->ticker->getName(),
 				dividendYield: new Decimal(0),
 			);
 
 			$dividendDataAsset->dividendYield = $dividendDataAsset->dividendYield->add($dividendYield);
 
-			$dividendData[$dateRangeKey][$asset->getId()] = $dividendDataAsset;
+			$dividendData[$dateRangeKey][$asset->id] = $dividendDataAsset;
 		}
 
 		ksort($dividendData);

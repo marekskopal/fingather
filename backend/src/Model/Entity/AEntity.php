@@ -12,9 +12,4 @@ abstract class AEntity
 
 	// @phpstan-ignore-next-line
 	public int $id;
-
-	public function getId(): int
-	{
-		return $this->id;
-	}
 }

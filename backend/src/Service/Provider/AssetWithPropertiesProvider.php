@@ -39,7 +39,7 @@ class AssetWithPropertiesProvider
 		foreach ($assets as $asset) {
 			$assetData = $this->assetDataProvider->getAssetData($user, $portfolio, $asset, $dateTime);
 			if ($assetData === null) {
-				$lastTickerDataClose = $this->tickerDataProvider->getLastTickerDataClose($asset->getTicker(), $dateTime);
+				$lastTickerDataClose = $this->tickerDataProvider->getLastTickerDataClose($asset->ticker, $dateTime);
 				assert($lastTickerDataClose !== null);
 				$watchedAssets[] = AssetDto::fromEntity($asset, $lastTickerDataClose);
 

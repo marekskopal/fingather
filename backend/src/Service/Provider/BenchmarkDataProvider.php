@@ -44,7 +44,7 @@ class BenchmarkDataProvider
 		$dateTime = DateTimeUtils::setStartOfDateTime($dateTime);
 		$benchmarkFromDateTime = DateTimeUtils::setStartOfDateTime($benchmarkFromDateTime);
 
-		$key = $portfolio->getId() . '-' . $benchmarkAsset->getId() . '-' . $dateTime->getTimestamp() . '-' . $benchmarkFromDateTime->getTimestamp();
+		$key = $portfolio->id . '-' . $benchmarkAsset->id . '-' . $dateTime->getTimestamp() . '-' . $benchmarkFromDateTime->getTimestamp();
 
 		/** @var BenchmarkDataDto|null $benchmarkData */
 		$benchmarkData = $this->cache->load($key);
@@ -79,7 +79,7 @@ class BenchmarkDataProvider
 	): BenchmarkDataDto {
 		$benchmarkFromDateTime = DateTimeUtils::setStartOfDateTime($benchmarkFromDateTime);
 
-		$key = $portfolio->getId() . '-' . $benchmarkAsset->getId() . '-' . $benchmarkFromDateTime->getTimestamp() . '-' . $benchmarkFromDateTime->getTimestamp();
+		$key = $portfolio->id . '-' . $benchmarkAsset->id . '-' . $benchmarkFromDateTime->getTimestamp() . '-' . $benchmarkFromDateTime->getTimestamp();
 
 		/** @var BenchmarkDataDto|null $benchmarkData */
 		$benchmarkData = $this->cache->load($key);
@@ -87,10 +87,10 @@ class BenchmarkDataProvider
 			return $benchmarkData;
 		}
 
-		$benchmarkTickerCurrency = $benchmarkAsset->getTicker()->getCurrency();
+		$benchmarkTickerCurrency = $benchmarkAsset->ticker->getCurrency();
 
 		$benchmarkAssetTickerDataClose = $this->tickerDataProvider->getLastTickerDataClose(
-			$benchmarkAsset->getTicker(),
+			$benchmarkAsset->ticker,
 			$benchmarkFromDateTime,
 		);
 		if ($benchmarkAssetTickerDataClose !== null) {

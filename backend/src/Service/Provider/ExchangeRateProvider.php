@@ -34,14 +34,14 @@ class ExchangeRateProvider
 	{
 		$date = DateTimeUtils::setStartOfDateTime($date);
 
-		$key = $date->getTimestamp() . '_' . $currencyFrom->getCode() . '_' . $currencyTo->getCode();
+		$key = $date->getTimestamp() . '_' . $currencyFrom->code . '_' . $currencyTo->code;
 
 		$exchangeRate = $this->cache->load($key);
 		if ($exchangeRate instanceof Decimal) {
 			return $exchangeRate;
 		}
 
-		if ($currencyFrom->getId() === $currencyTo->getId()) {
+		if ($currencyFrom->id === $currencyTo->id) {
 			$exchangeRate = new Decimal(1);
 			$this->cache->save($key, $exchangeRate);
 
@@ -61,7 +61,7 @@ class ExchangeRateProvider
 			$date = $date->sub(DateInterval::createFromDateString('1 day'));
 		}
 
-		if ($currencyFrom->getCode() === 'USD') {
+		if ($currencyFrom->code === 'USD') {
 			$exchangeRate = $this->getExchangeRateUsd($date, $currencyTo);
 			$this->cache->save($key, $exchangeRate);
 
@@ -80,15 +80,15 @@ class ExchangeRateProvider
 
 	public function updateExchangeRates(Currency $currencyTo): ?DateTimeImmutable
 	{
-		$code = $currencyTo->getCode();
+		$code = $currencyTo->code;
 		$multiplier = 1;
-		$multiplyCurrency = $currencyTo->getMultiplyCurrency();
+		$multiplyCurrency = $currencyTo->multiplyCurrency;
 		if ($multiplyCurrency !== null) {
-			$code = $multiplyCurrency->getCode();
-			$multiplier = $currencyTo->getMultiplier();
+			$code = $multiplyCurrency->code;
+			$multiplier = $currencyTo->multiplier;
 		}
 
-		$lastExchangeRate = $this->exchangeRateRepository->findLastExchangeRate($currencyTo->getId());
+		$lastExchangeRate = $this->exchangeRateRepository->findLastExchangeRate($currencyTo->id);
 		$startDate = $lastExchangeRate?->getDate() ?? new DateTimeImmutable('2020-01-01');
 
 		try {
@@ -111,19 +111,19 @@ class ExchangeRateProvider
 
 	private function getExchangeRateUsd(DateTimeImmutable $date, Currency $currencyTo): Decimal
 	{
-		if ($currencyTo->getCode() === 'USD') {
+		if ($currencyTo->code === 'USD') {
 			return new Decimal(1);
 		}
 
-		$exchangeRate = $this->exchangeRateRepository->findExchangeRate($date, $currencyTo->getId());
+		$exchangeRate = $this->exchangeRateRepository->findExchangeRate($date, $currencyTo->id);
 		if ($exchangeRate !== null) {
 			return $exchangeRate->getRate();
 		}
 
-		$lastExchangeRate = $this->exchangeRateRepository->findLastExchangeRate($currencyTo->getId());
+		$lastExchangeRate = $this->exchangeRateRepository->findLastExchangeRate($currencyTo->id);
 		assert($lastExchangeRate instanceof ExchangeRate);
 		if ($date < $lastExchangeRate->getDate()) {
-			$exchangeRate = $this->exchangeRateRepository->findNearestExchangeRate($date, $currencyTo->getId());
+			$exchangeRate = $this->exchangeRateRepository->findNearestExchangeRate($date, $currencyTo->id);
 			if ($exchangeRate !== null) {
 				return $exchangeRate->getRate();
 			}

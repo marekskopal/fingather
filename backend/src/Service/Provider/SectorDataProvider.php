@@ -28,7 +28,7 @@ class SectorDataProvider
 	{
 		$dateTime = DateTimeUtils::setEndOfDateTime($dateTime);
 
-		$key = $sector->getId() . '-' . $portfolio->getId() . '-' . $dateTime->getTimestamp();
+		$key = $sector->id . '-' . $portfolio->id . '-' . $dateTime->getTimestamp();
 
 		/** @var CalculatedDataDto|null $sectorData */
 		$sectorData = $this->cache->load($key);

@@ -28,7 +28,7 @@ class GroupDataProvider
 	{
 		$dateTime = DateTimeUtils::setEndOfDateTime($dateTime);
 
-		$key = $group->getId() . '-' . $portfolio->getId() . '-' . $dateTime->getTimestamp();
+		$key = $group->id . '-' . $portfolio->id . '-' . $dateTime->getTimestamp();
 
 		/** @var CalculatedDataDto|null $groupData */
 		$groupData = $this->cache->load($key);

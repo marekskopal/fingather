@@ -16,38 +16,13 @@ class Broker extends AEntity
 {
 	public function __construct(
 		#[ManyToOne(entityClass: User::class)]
-		private User $user,
+		public readonly User $user,
 		#[ManyToOne(entityClass: Portfolio::class)]
-		private Portfolio $portfolio,
+		public readonly Portfolio $portfolio,
 		#[Column(type: 'string')]
-		private string $name,
+		public string $name,
 		#[ColumnEnum(enum: BrokerImportTypeEnum::class)]
-		private BrokerImportTypeEnum $importType,
+		public BrokerImportTypeEnum $importType,
 	) {
-	}
-
-	public function getUser(): User
-	{
-		return $this->user;
-	}
-
-	public function getName(): string
-	{
-		return $this->name;
-	}
-
-	public function setName(string $name): void
-	{
-		$this->name = $name;
-	}
-
-	public function getImportType(): BrokerImportTypeEnum
-	{
-		return $this->importType;
-	}
-
-	public function setImportType(BrokerImportTypeEnum $importType): void
-	{
-		$this->importType = $importType;
 	}
 }

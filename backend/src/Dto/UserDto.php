@@ -22,12 +22,12 @@ final readonly class UserDto
 	public static function fromEntity(User $entity): self
 	{
 		return new self(
-			id: $entity->getId(),
-			email: $entity->getEmail(),
-			name: $entity->getName(),
-			role: $entity->getRole(),
-			isEmailVerified: $entity->isEmailVerified(),
-			isOnboardingCompleted: $entity->isOnboardingCompleted(),
+			id: $entity->id,
+			email: $entity->email,
+			name: $entity->name,
+			role: $entity->role,
+			isEmailVerified: $entity->isEmailVerified,
+			isOnboardingCompleted: $entity->isOnboardingCompleted,
 		);
 	}
 

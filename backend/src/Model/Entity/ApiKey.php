@@ -16,38 +16,13 @@ class ApiKey extends AEntity
 {
 	public function __construct(
 		#[ManyToOne(entityClass: User::class)]
-		private User $user,
+		public readonly User $user,
 		#[ManyToOne(entityClass: Portfolio::class)]
-		private Portfolio $portfolio,
+		public readonly Portfolio $portfolio,
 		#[ColumnEnum(enum: ApiKeyTypeEnum::class)]
-		private ApiKeyTypeEnum $type,
+		public readonly ApiKeyTypeEnum $type,
 		#[Column(type: 'string')]
-		private string $apiKey,
+		public string $apiKey,
 	) {
-	}
-
-	public function getUser(): User
-	{
-		return $this->user;
-	}
-
-	public function getPortfolio(): Portfolio
-	{
-		return $this->portfolio;
-	}
-
-	public function getType(): ApiKeyTypeEnum
-	{
-		return $this->type;
-	}
-
-	public function getApiKey(): string
-	{
-		return $this->apiKey;
-	}
-
-	public function setApiKey(string $apiKey): void
-	{
-		$this->apiKey = $apiKey;
 	}
 }

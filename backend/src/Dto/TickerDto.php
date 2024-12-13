@@ -30,11 +30,11 @@ final readonly class TickerDto
 	public static function fromEntity(Ticker $ticker): self
 	{
 		return new self(
-			id: $ticker->getId(),
+			id: $ticker->id,
 			ticker: $ticker->getTicker(),
 			name: $ticker->getName(),
-			marketId: $ticker->getMarket()->getId(),
-			currencyId: $ticker->getCurrency()->getId(),
+			marketId: $ticker->getMarket()->id,
+			currencyId: $ticker->getCurrency()->id,
 			type: $ticker->getType(),
 			isin: $ticker->getIsin(),
 			logo: $ticker->getLogo(),
