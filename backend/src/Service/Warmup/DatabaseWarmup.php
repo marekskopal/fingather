@@ -33,7 +33,7 @@ final class DatabaseWarmup
 
 		foreach ($users as $user) {
 			$this->queuePublisher->publishMessage(
-				new UserWarmupDto($user->getId()),
+				new UserWarmupDto($user->id),
 				QueueEnum::UserWarmup,
 				delay: 1,
 			);

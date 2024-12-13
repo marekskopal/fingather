@@ -20,10 +20,10 @@ enum CacheTagEnum: string
 	{
 		$tags = [];
 		if ($user !== null) {
-			$tags[] = self::User->value . '-' . $user->getId();
+			$tags[] = self::User->value . '-' . $user->id;
 		}
 		if ($portfolio !== null) {
-			$tags[] = self::Portfolio->value . '-' . $portfolio->getId();
+			$tags[] = self::Portfolio->value . '-' . $portfolio->id;
 		}
 		if ($date !== null) {
 			$tags[] = self::Date->value . '-' . $date->getTimestamp();

@@ -30,7 +30,7 @@ final readonly class MarketDto
 			country: $market->getCountry(),
 			city: $market->getCity(),
 			timezone: $market->getTimezone(),
-			currencyId: $market->getCurrency()->getId(),
+			currencyId: $market->getCurrency()->id,
 		);
 	}
 }

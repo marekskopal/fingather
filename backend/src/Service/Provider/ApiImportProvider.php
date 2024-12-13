@@ -22,8 +22,8 @@ class ApiImportProvider
 	public function getApiImports(?User $user = null, ?Portfolio $portfolio = null, ?ApiImportStatusEnum $apiImportStatus = null): \Iterator
 	{
 		return $this->apiImportRepository->findApiImports(
-			userId: $user?->getId(),
-			portfolioId: $portfolio?->getId(),
+			userId: $user?->id,
+			portfolioId: $portfolio?->id,
 			apiImportStatus: $apiImportStatus,
 		);
 	}
@@ -35,7 +35,7 @@ class ApiImportProvider
 
 	public function getLastApiImport(ApiKey $apiKey): ?ApiImport
 	{
-		return $this->apiImportRepository->findLastApiImport($apiKey->getId());
+		return $this->apiImportRepository->findLastApiImport($apiKey->id);
 	}
 
 	public function createApiImport(
@@ -64,8 +64,8 @@ class ApiImportProvider
 
 	public function updateApiImport(ApiImport $apiImport, ApiImportStatusEnum $status, ?string $error = null): ApiImport
 	{
-		$apiImport->setStatus($status);
-		$apiImport->setError($error);
+		$apiImport->status = $status;
+		$apiImport->error = $error;
 
 		$this->apiImportRepository->persist($apiImport);
 

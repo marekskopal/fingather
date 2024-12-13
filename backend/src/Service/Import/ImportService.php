@@ -119,7 +119,7 @@ final class ImportService
 			if (
 				isset($transactionRecord->importIdentifier)
 				&& $this->transactionRepository->findTransactionByIdentifier(
-					$broker->getId(),
+					$broker->id,
 					$transactionRecord->importIdentifier,
 				) !== null
 			) {
@@ -232,14 +232,14 @@ final class ImportService
 	private function getTickerKey(TransactionRecord $transactionRecord, Broker $broker): ?string
 	{
 		if ($transactionRecord->ticker === null && $transactionRecord->isin !== null) {
-			return $broker->getId() . '-' . $transactionRecord->isin;
+			return $broker->id . '-' . $transactionRecord->isin;
 		}
 
 		if ($transactionRecord->ticker === null) {
 			return null;
 		}
 
-		return $broker->getId() . '-' . $transactionRecord->ticker;
+		return $broker->id . '-' . $transactionRecord->ticker;
 	}
 
 	private function getCurrencyFromCode(?string $code, Currency $defaultCurrency): Currency

@@ -12,7 +12,6 @@ class TransactionBuyDto
 	public function __construct(
 		public readonly ?int $brokerId,
 		public readonly DateTimeImmutable $actionCreated,
-		//@phpstan-ignore-next-line
 		public Decimal $units,
 		public readonly Decimal $priceTickerCurrency,
 		public readonly Decimal $priceDefaultCurrency,

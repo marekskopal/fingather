@@ -15,72 +15,17 @@ class User extends AEntity
 {
 	public function __construct(
 		#[Column(type: 'string')]
-		private string $email,
+		public readonly string $email,
 		#[Column(type: 'string')]
-		private string $password,
+		public string $password,
 		#[Column(type: 'string')]
-		private string $name,
+		public string $name,
 		#[ColumnEnum(enum: UserRoleEnum::class)]
-		private UserRoleEnum $role,
+		public UserRoleEnum $role,
 		#[Column(type: 'boolean', default: false)]
-		private bool $isEmailVerified,
+		public bool $isEmailVerified,
 		#[Column(type: 'boolean', default: false)]
-		private bool $isOnboardingCompleted,
+		public bool $isOnboardingCompleted,
 	) {
-	}
-
-	public function getEmail(): string
-	{
-		return $this->email;
-	}
-
-	public function getPassword(): string
-	{
-		return $this->password;
-	}
-
-	public function setPassword(string $password): void
-	{
-		$this->password = $password;
-	}
-
-	public function getName(): string
-	{
-		return $this->name;
-	}
-
-	public function setName(string $name): void
-	{
-		$this->name = $name;
-	}
-
-	public function getRole(): UserRoleEnum
-	{
-		return $this->role;
-	}
-
-	public function setRole(UserRoleEnum $role): void
-	{
-		$this->role = $role;
-	}
-
-	public function isEmailVerified(): bool
-	{
-		return $this->isEmailVerified;
-	}
-
-	public function setIsEmailVerified(bool $isEmailVerified): void
-	{
-		$this->isEmailVerified = $isEmailVerified;
-	}
-
-	public function isOnboardingCompleted(): bool
-	{
-		return $this->isOnboardingCompleted;
-	}
-
-	public function setIsOnboardingCompleted(bool $isOnboardingCompleted): void
-	{
-		$this->isOnboardingCompleted = $isOnboardingCompleted;
 	}
 }

@@ -19,7 +19,7 @@ class ImportProvider
 
 	public function getImportByUuid(User $user, UuidInterface $uuid): ?Import
 	{
-		return $this->importRepository->findImportByUuid($uuid, $user->getId());
+		return $this->importRepository->findImportByUuid($uuid, $user->id);
 	}
 
 	public function createImport(User $user, Portfolio $portfolio, UuidInterface $uuid): Import

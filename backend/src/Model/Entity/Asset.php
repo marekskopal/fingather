@@ -13,33 +13,13 @@ class Asset extends AEntity
 {
 	public function __construct(
 		#[ManyToOne(entityClass: User::class)]
-		private User $user,
+		public readonly User $user,
 		#[ManyToOne(entityClass: Portfolio::class)]
-		private Portfolio $portfolio,
+		public readonly Portfolio $portfolio,
 		#[ManyToOne(entityClass: Ticker::class)]
-		private Ticker $ticker,
+		public readonly Ticker $ticker,
 		#[ManyToOne(entityClass: Group::class)]
-		private Group $group,
+		public Group $group,
 	) {
-	}
-
-	public function getPortfolio(): Portfolio
-	{
-		return $this->portfolio;
-	}
-
-	public function getTicker(): Ticker
-	{
-		return $this->ticker;
-	}
-
-	public function getGroup(): Group
-	{
-		return $this->group;
-	}
-
-	public function setGroup(Group $group): void
-	{
-		$this->group = $group;
 	}
 }

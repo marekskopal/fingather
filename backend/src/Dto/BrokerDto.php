@@ -16,10 +16,10 @@ final readonly class BrokerDto
 	public static function fromEntity(Broker $entity): self
 	{
 		return new self(
-			id: $entity->getId(),
-			userId: $entity->getUser()->getId(),
-			name: $entity->getName(),
-			importType: $entity->getImportType(),
+			id: $entity->id,
+			userId: $entity->user->id,
+			name: $entity->name,
+			importType: $entity->importType,
 		);
 	}
 }

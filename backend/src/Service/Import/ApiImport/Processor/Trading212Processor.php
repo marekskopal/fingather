@@ -32,12 +32,12 @@ class Trading212Processor implements ProcessorInterface
 
 	public function prepare(ApiKey $apiKey): void
 	{
-		$trading212 = new Trading212(new Config($apiKey->getApiKey()));
+		$trading212 = new Trading212(new Config($apiKey->apiKey));
 
 		$lastApiImport = $this->apiImportProvider->getLastApiImport($apiKey);
 
 		if ($lastApiImport !== null) {
-			$dateFrom = $lastApiImport->getDateTo()->sub(new DateInterval('P1D'));
+			$dateFrom = $lastApiImport->dateTo->sub(new DateInterval('P1D'));
 		} else {
 			$transactions = iterator_to_array($trading212->getHistoricalItems()->orders(
 				limit: 50,
@@ -72,8 +72,8 @@ class Trading212Processor implements ProcessorInterface
 		$report = $trading212->getHistoricalItems()->exportCsv($exportCsv);
 
 		$apiImport = $this->apiImportProvider->createApiImport(
-			user: $apiKey->getUser(),
-			portfolio: $apiKey->getPortfolio(),
+			user: $apiKey->user,
+			portfolio: $apiKey->portfolio,
 			apiKey: $apiKey,
 			dateFrom: $dateFrom,
 			dateTo: $dateTo,
@@ -91,10 +91,10 @@ class Trading212Processor implements ProcessorInterface
 	{
 		$this->apiImportProvider->updateApiImport($apiImport, ApiImportStatusEnum::InProgress);
 
-		$trading212 = new Trading212(new Config($apiImport->getApiKey()->getApiKey()));
+		$trading212 = new Trading212(new Config($apiImport->apiKey->apiKey));
 
 		$exports = $trading212->getHistoricalItems()->exports();
-		$export = array_values(array_filter($exports, fn(Export $item): bool => $item->reportId === $apiImport->getReportId()))[0] ?? null;
+		$export = array_values(array_filter($exports, fn(Export $item): bool => $item->reportId === $apiImport->reportId))[0] ?? null;
 		if ($export === null) {
 			$this->apiImportProvider->updateApiImport(apiImport: $apiImport, status: ApiImportStatusEnum::Error, error: 'Export not found');
 			return;
@@ -117,7 +117,7 @@ class Trading212Processor implements ProcessorInterface
 			return;
 		}
 
-		$import = $this->importProvider->createImport($apiImport->getUser(), $apiImport->getPortfolio(), Uuid::uuid4());
+		$import = $this->importProvider->createImport($apiImport->user, $apiImport->portfolio, Uuid::uuid4());
 		$this->importFileProvider->createImportFile($import, 'trading212.csv', $csvFile);
 
 		$this->importService->importDataFiles($import);

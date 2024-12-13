@@ -13,28 +13,13 @@ class Country extends AEntity
 {
 	public function __construct(
 		#[Column(type: 'string(2)')]
-		private string $isoCode,
+		public readonly string $isoCode,
 		#[Column(type: 'string(3)')]
-		private string $isoCode3,
+		public readonly string $isoCode3,
 		#[Column(type: 'string(50)')]
-		private string $name,
+		public readonly string $name,
 		#[Column(type: 'boolean')]
-		private bool $isOthers,
+		public readonly bool $isOthers,
 	) {
-	}
-
-	public function getIsoCode(): string
-	{
-		return $this->isoCode;
-	}
-
-	public function getIsoCode3(): string
-	{
-		return $this->isoCode3;
-	}
-
-	public function getName(): string
-	{
-		return $this->name;
 	}
 }

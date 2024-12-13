@@ -41,7 +41,7 @@ class TickerDataProvider
 	/** @return \Iterator<TickerData> */
 	public function getTickerDatas(Ticker $ticker, DateTimeImmutable $fromDate, DateTimeImmutable $toDate): \Iterator
 	{
-		return $this->tickerDataRepository->findTickerDatas($ticker->getId(), $fromDate, $toDate);
+		return $this->tickerDataRepository->findTickerDatas($ticker->id, $fromDate, $toDate);
 	}
 
 	/** @return list<TickerDataAdjustedDto> */
@@ -61,7 +61,7 @@ class TickerDataProvider
 				}
 
 				return new TickerDataAdjustedDto(
-					id: $tickerData->getId(),
+					id: $tickerData->id,
 					ticker: $tickerData->getTicker(),
 					date: $tickerData->getDate(),
 					open: $tickerData->getOpen()->div($splitFactor),
@@ -85,14 +85,14 @@ class TickerDataProvider
 			$beforeDate = $beforeDate->sub(DateInterval::createFromDateString('1 day'));
 		}
 
-		$key = $ticker->getId() . '-' . $beforeDate->getTimestamp();
+		$key = $ticker->id . '-' . $beforeDate->getTimestamp();
 		/** @var Decimal|null $lastTickerDataClose */
 		$lastTickerDataClose = $this->cache->load($key);
 		if ($lastTickerDataClose !== null) {
 			return $lastTickerDataClose;
 		}
 
-		$lastTickerData = $this->tickerDataRepository->findLastTickerData($ticker->getId(), $beforeDate);
+		$lastTickerData = $this->tickerDataRepository->findLastTickerData($ticker->id, $beforeDate);
 		if ($lastTickerData !== null) {
 			$this->cache->save($key, $lastTickerData->getClose());
 
@@ -101,12 +101,12 @@ class TickerDataProvider
 
 		$this->updateTickerData($ticker, true);
 
-		return $this->tickerDataRepository->findLastTickerData($ticker->getId(), $beforeDate)?->getClose();
+		return $this->tickerDataRepository->findLastTickerData($ticker->id, $beforeDate)?->getClose();
 	}
 
 	public function updateTickerData(Ticker $ticker, bool $fullHistory = false): ?DateTimeImmutable
 	{
-		$lastTickerData = $this->tickerDataRepository->findLastTickerData($ticker->getId());
+		$lastTickerData = $this->tickerDataRepository->findLastTickerData($ticker->id);
 		if ($lastTickerData !== null && $fullHistory) {
 			return null;
 		}
@@ -211,7 +211,7 @@ class TickerDataProvider
 				//ignore duplicate tickers
 			}
 
-			$key = $ticker->getId() . '-' . $timeSeriesValue->datetime->getTimestamp();
+			$key = $ticker->id . '-' . $timeSeriesValue->datetime->getTimestamp();
 			$this->cache->remove($key);
 		}
 	}

@@ -33,7 +33,7 @@ class PortfolioDataProvider
 	{
 		$dateTime = DateTimeUtils::setEndOfDateTime($dateTime);
 
-		$key = $portfolio->getId() . '-' . $dateTime->getTimestamp();
+		$key = $portfolio->id . '-' . $dateTime->getTimestamp();
 
 		/** @var CalculatedDataDto|null $portfolioData */
 		$portfolioData = $this->cache->load($key);

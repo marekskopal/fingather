@@ -31,7 +31,7 @@ final class AuthenticationService
 			throw new AuthenticationException('User with email ' . $credential->email . ' was not found.');
 		}
 
-		if (!password_verify($credential->password, $user->getPassword())) {
+		if (!password_verify($credential->password, $user->password)) {
 			throw new AuthenticationException('Password is incorrect.');
 		}
 
@@ -44,9 +44,9 @@ final class AuthenticationService
 		$refreshTokenExpiration = time() + self::RefreshTokenExpiration;
 
 		return new AuthenticationDto(
-			accessToken: $this->createToken($user->getId(), $accessTokenExpiration),
-			refreshToken: $this->createToken($user->getId(), $refreshTokenExpiration),
-			userId: $user->getId(),
+			accessToken: $this->createToken($user->id, $accessTokenExpiration),
+			refreshToken: $this->createToken($user->id, $refreshTokenExpiration),
+			userId: $user->id,
 		);
 	}
 

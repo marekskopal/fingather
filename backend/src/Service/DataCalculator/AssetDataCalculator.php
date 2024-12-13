@@ -45,7 +45,7 @@ final class AssetDataCalculator
 			return null;
 		}
 
-		$splits = $this->splitProvider->getSplits($asset->getTicker());
+		$splits = $this->splitProvider->getSplits($asset->ticker);
 
 		$units = new Decimal(0);
 		$dividendYield = new Decimal(0);
@@ -59,7 +59,7 @@ final class AssetDataCalculator
 		$realizedGainDefaultCurrency = new Decimal(0);
 
 		$defaultCurrency = $portfolio->getCurrency();
-		$tickerCurrency = $asset->getTicker()->getCurrency();
+		$tickerCurrency = $asset->ticker->getCurrency();
 
 		$exchangeRate = $this->exchangeRateProvider->getExchangeRate(
 			$dateTime,
@@ -98,7 +98,7 @@ final class AssetDataCalculator
 
 		$transactionValue = $this->countTransactionValue($buys);
 
-		$lastTickerDataClose = $this->tickerDataProvider->getLastTickerDataClose($asset->getTicker(), $dateTime);
+		$lastTickerDataClose = $this->tickerDataProvider->getLastTickerDataClose($asset->ticker, $dateTime);
 		$price = $lastTickerDataClose ?? new Decimal(0);
 
 		$value = $units->mul($price);
@@ -186,7 +186,7 @@ final class AssetDataCalculator
 
 			$dividendYield = $dividendYield->add($dividendTransactionValue);
 
-			if ($transaction->getCurrency()->getId() === $defaultCurrency->getId()) {
+			if ($transaction->getCurrency()->id === $defaultCurrency->id) {
 				$dividendYieldDefaultCurrency = $dividendYieldDefaultCurrency->add($transaction->getPrice());
 			} else {
 				$dividendYieldTickerCurrency = $dividendYieldTickerCurrency->add($dividendTransactionValue);

@@ -15,11 +15,11 @@ final readonly class CurrencyDto
 	public static function fromEntity(Currency $entity): self
 	{
 		return new self(
-			id: $entity->getId(),
-			code: $entity->getCode(),
-			name: $entity->getName(),
-			symbol: $entity->getSymbol(),
-			isSelectable: $entity->getIsSelectable(),
+			id: $entity->id,
+			code: $entity->code,
+			name: $entity->name,
+			symbol: $entity->symbol,
+			isSelectable: $entity->isSelectable,
 		);
 	}
 }
