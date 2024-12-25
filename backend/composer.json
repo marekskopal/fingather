@@ -24,6 +24,7 @@
         "marekskopal/openfigi": "^0.2",
         "marekskopal/orm": "dev-main",
         "marekskopal/orm-decimal": "dev-main",
+        "marekskopal/orm-migrations": "dev-main",
         "marekskopal/router": "^1.1",
         "marekskopal/trading212": "^1.0",
         "marekskopal/twelvedata": "^0.4.0",

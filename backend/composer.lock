@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "90fc30357b61a171dbf4cfba95af2751",
+    "content-hash": "8e2d34a20f666520eecc84c049b4dfe8",
     "packages": [
         {
             "name": "brick/math",
@@ -1421,6 +1421,64 @@
                 "source": "https://github.com/marekskopal/orm-decimal/tree/main"
             },
             "time": "2024-12-09T20:37:02+00:00"
+        },
+        {
+            "name": "marekskopal/orm-migrations",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/marekskopal/orm-migrations.git",
+                "reference": "6246bb506afa9a378e472543535376c46996d14b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/marekskopal/orm-migrations/zipball/6246bb506afa9a378e472543535376c46996d14b",
+                "reference": "6246bb506afa9a378e472543535376c46996d14b",
+                "shasum": ""
+            },
+            "require": {
+                "marekskopal/orm": "dev-main",
+                "nette/php-generator": "^4.1",
+                "php": ">=8.4"
+            },
+            "require-dev": {
+                "phpstan/extension-installer": "^1.4",
+                "phpstan/phpstan": "^2.0",
+                "phpstan/phpstan-phpunit": "^2.0",
+                "phpstan/phpstan-strict-rules": "^2.0",
+                "phpunit/phpunit": "^11.4",
+                "slevomat/coding-standard": "^8.15"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MarekSkopal\\ORM\\Migrations\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marek Skopal",
+                    "homepage": "https://www.marekskopal.cz"
+                }
+            ],
+            "description": "Migrations for MarekSkopal ORM.",
+            "keywords": [
+                "migrations",
+                "mysql",
+                "orm",
+                "sql",
+                "sqlite"
+            ],
+            "support": {
+                "issues": "https://github.com/marekskopal/orm-migrations/issues",
+                "source": "https://github.com/marekskopal/orm-migrations/tree/main"
+            },
+            "time": "2024-12-25T09:40:09+00:00"
         },
         {
             "name": "marekskopal/router",
@@ -8218,7 +8276,8 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "marekskopal/orm": 20,
-        "marekskopal/orm-decimal": 20
+        "marekskopal/orm-decimal": 20,
+        "marekskopal/orm-migrations": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

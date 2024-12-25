@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace FinGather\Command;
 
-use Cycle\Schema\Generator\Migrations\GenerateMigrations;
 use FinGather\App\ApplicationFactory;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,9 +22,10 @@ final class MigrationGenerateCommand extends Command
 
 		$migrator = $application->dbContext->getMigrator();
 
-		$generator = new GenerateMigrations($migrator->getRepository(), $migrator->getConfig());
-		$generator->run($application->dbContext->getRegistry());
+		$migrator->generate(
+			$application->dbContext->getSchema(),
+		);
 
-		return 0;
+		return self::SUCCESS;
 	}
 }
