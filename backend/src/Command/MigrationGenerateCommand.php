@@ -24,6 +24,7 @@ final class MigrationGenerateCommand extends Command
 
 		$migrator->generate(
 			$application->dbContext->getSchema(),
+			name: 'NewMigration',
 		);
 
 		return self::SUCCESS;

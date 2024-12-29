@@ -8,6 +8,7 @@ use FinGather\Model\Repository\ImportMappingRepository;
 use MarekSkopal\ORM\Attribute\Column;
 use MarekSkopal\ORM\Attribute\Entity;
 use MarekSkopal\ORM\Attribute\ManyToOne;
+use MarekSkopal\ORM\Enum\Type;
 
 #[Entity(repositoryClass: ImportMappingRepository::class)]
 class ImportMapping extends AEntity
@@ -19,7 +20,7 @@ class ImportMapping extends AEntity
 		public readonly Portfolio $portfolio,
 		#[ManyToOne(entityClass: Broker::class)]
 		public readonly Broker $broker,
-		#[Column(type: 'string')]
+		#[Column(type: Type::String)]
 		public readonly string $importTicker,
 		#[ManyToOne(entityClass: Ticker::class)]
 		public readonly Ticker $ticker,

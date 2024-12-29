@@ -10,6 +10,7 @@ use MarekSkopal\ORM\Attribute\Column;
 use MarekSkopal\ORM\Attribute\ColumnEnum;
 use MarekSkopal\ORM\Attribute\Entity;
 use MarekSkopal\ORM\Attribute\ManyToOne;
+use MarekSkopal\ORM\Enum\Type;
 
 #[Entity(repositoryClass: BrokerRepository::class)]
 class Broker extends AEntity
@@ -19,7 +20,7 @@ class Broker extends AEntity
 		public readonly User $user,
 		#[ManyToOne(entityClass: Portfolio::class)]
 		public readonly Portfolio $portfolio,
-		#[Column(type: 'string')]
+		#[Column(type: Type::String)]
 		public string $name,
 		#[ColumnEnum(enum: BrokerImportTypeEnum::class)]
 		public BrokerImportTypeEnum $importType,

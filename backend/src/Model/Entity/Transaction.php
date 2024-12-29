@@ -15,6 +15,7 @@ use MarekSkopal\ORM\Attribute\Entity;
 use MarekSkopal\ORM\Attribute\ForeignKey;
 use MarekSkopal\ORM\Attribute\ManyToOne;
 use MarekSkopal\ORM\Decimal\Attribute\ColumnDecimal;
+use MarekSkopal\ORM\Enum\Type;
 
 #[Entity(repositoryClass: TransactionRepository::class)]
 class Transaction extends AEntity
@@ -26,21 +27,21 @@ class Transaction extends AEntity
 		public readonly Portfolio $portfolio,
 		#[ManyToOne(entityClass: Asset::class)]
 		public Asset $asset,
-		#[Column(type: 'integer', nullable: true)]
+		#[Column(type: Type::Int, nullable: true)]
 		#[ForeignKey(entityClass: Broker::class)]
 		public ?int $brokerId,
 		#[ColumnEnum(enum: TransactionActionTypeEnum::class)]
 		public TransactionActionTypeEnum $actionType,
-		#[Column(type: 'timestamp')]
+		#[Column(type: Type::Timestamp)]
 		public DateTimeImmutable $actionCreated,
 		#[ColumnEnum(
 			enum: TransactionCreateTypeEnum::class,
 			default: TransactionCreateTypeEnum::Manual->value,
 		)]
 		public TransactionCreateTypeEnum $createType,
-		#[Column(type: 'timestamp')]
+		#[Column(type: Type::Timestamp)]
 		public DateTimeImmutable $created,
-		#[Column(type: 'timestamp')]
+		#[Column(type: Type::Timestamp)]
 		public DateTimeImmutable $modified,
 		#[ColumnDecimal(precision: 18, scale: 8)]
 		public Decimal $units,
@@ -68,9 +69,9 @@ class Transaction extends AEntity
 		public Decimal $feeTickerCurrency,
 		#[ColumnDecimal(precision: 9, scale: 2)]
 		public Decimal $feeDefaultCurrency,
-		#[Column(type: 'tinyText', nullable: true)]
+		#[Column(type: Type::TinyText, nullable: true)]
 		public ?string $notes,
-		#[Column(type: 'string', nullable: true)]
+		#[Column(type: Type::String, nullable: true)]
 		public ?string $importIdentifier,
 	) {
 	}

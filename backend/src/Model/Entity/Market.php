@@ -10,26 +10,27 @@ use MarekSkopal\ORM\Attribute\Column;
 use MarekSkopal\ORM\Attribute\ColumnEnum;
 use MarekSkopal\ORM\Attribute\Entity;
 use MarekSkopal\ORM\Attribute\ManyToOne;
+use MarekSkopal\ORM\Enum\Type;
 
 #[Entity(repositoryClass: MarketRepository::class)]
 class Market extends AEntity
 {
 	public function __construct(
-		#[ColumnEnum(enum: MarketTypeEnum::class)]
+		#[ColumnEnum(enum: MarketTypeEnum::class, default: MarketTypeEnum::Stock)]
 		public readonly MarketTypeEnum $type,
-		#[Column(type: 'string')]
+		#[Column(type: Type::String)]
 		public readonly string $name,
-		#[Column(type: 'string(20)')]
+		#[Column(type: Type::String, size: 20)]
 		public readonly string $acronym,
-		#[Column(type: 'string(5)')]
+		#[Column(type: Type::String, size: 5)]
 		public readonly string $mic,
-		#[Column(type: 'string(2)')]
+		#[Column(type: Type::String, size: 2)]
 		public readonly string $exchangeCode,
-		#[Column(type: 'string(2)')]
+		#[Column(type: Type::String, size: 2)]
 		public readonly string $country,
-		#[Column(type: 'string')]
+		#[Column(type: Type::String)]
 		public readonly string $city,
-		#[Column(type: 'string')]
+		#[Column(type: Type::String)]
 		public readonly string $timezone,
 		#[ManyToOne(entityClass: Currency::class)]
 		public readonly Currency $currency,

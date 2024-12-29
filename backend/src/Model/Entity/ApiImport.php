@@ -11,6 +11,7 @@ use MarekSkopal\ORM\Attribute\Column;
 use MarekSkopal\ORM\Attribute\ColumnEnum;
 use MarekSkopal\ORM\Attribute\Entity;
 use MarekSkopal\ORM\Attribute\ManyToOne;
+use MarekSkopal\ORM\Enum\Type;
 
 #[Entity(repositoryClass: ApiImportRepository::class)]
 class ApiImport extends AEntity
@@ -24,13 +25,13 @@ class ApiImport extends AEntity
 		public readonly ApiKey $apiKey,
 		#[ColumnEnum(enum: ApiImportStatusEnum::class)]
 		public ApiImportStatusEnum $status,
-		#[Column(type: 'timestamp')]
+		#[Column(type: Type::Timestamp)]
 		public readonly DateTimeImmutable $dateFrom,
-		#[Column(type: 'timestamp')]
+		#[Column(type: Type::Timestamp)]
 		public readonly DateTimeImmutable $dateTo,
-		#[Column(type: 'int', nullable: true)]
+		#[Column(type: Type::Int, nullable: true)]
 		public readonly ?int $reportId,
-		#[Column(type: 'string', nullable: true)]
+		#[Column(type: Type::String, nullable: true)]
 		public ?string $error,
 	) {
 	}

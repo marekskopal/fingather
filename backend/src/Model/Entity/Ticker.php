@@ -15,7 +15,7 @@ use MarekSkopal\ORM\Attribute\ManyToOne;
 class Ticker extends AEntity
 {
 	public function __construct(
-		#[Column(type: 'string(20)')]
+		#[Column(type: 'string', size: 20)]
 		public readonly string $ticker,
 		#[Column(type: 'string')]
 		public readonly string $name,

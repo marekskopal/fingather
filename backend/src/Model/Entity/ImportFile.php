@@ -9,6 +9,7 @@ use FinGather\Model\Repository\ImportFileRepository;
 use MarekSkopal\ORM\Attribute\Column;
 use MarekSkopal\ORM\Attribute\Entity;
 use MarekSkopal\ORM\Attribute\ManyToOne;
+use MarekSkopal\ORM\Enum\Type;
 
 #[Entity(repositoryClass: ImportFileRepository::class)]
 class ImportFile extends AEntity
@@ -16,11 +17,11 @@ class ImportFile extends AEntity
 	public function __construct(
 		#[ManyToOne(entityClass: Import::class)]
 		public readonly Import $import,
-		#[Column(type: 'timestamp')]
+		#[Column(type: Type::Timestamp)]
 		public readonly DateTimeImmutable $created,
-		#[Column(type: 'string')]
+		#[Column(type: Type::String)]
 		public readonly string $fileName,
-		#[Column(type: 'longBinary')]
+		#[Column(type: Type::LongBlob)]
 		public readonly string $contents,
 	) {
 	}

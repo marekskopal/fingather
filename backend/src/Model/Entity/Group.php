@@ -10,6 +10,7 @@ use MarekSkopal\ORM\Attribute\Column;
 use MarekSkopal\ORM\Attribute\Entity;
 use MarekSkopal\ORM\Attribute\ManyToOne;
 use MarekSkopal\ORM\Attribute\OneToMany;
+use MarekSkopal\ORM\Enum\Type;
 
 #[Entity(repositoryClass: GroupRepository::class)]
 class Group extends AEntity
@@ -23,11 +24,11 @@ class Group extends AEntity
 		public readonly User $user,
 		#[ManyToOne(entityClass: Portfolio::class)]
 		public readonly Portfolio $portfolio,
-		#[Column(type: 'string')]
+		#[Column(type: Type::String)]
 		public string $name,
-		#[Column(type: 'string(7)')]
+		#[Column(type: Type::String, size: 7)]
 		public string $color,
-		#[Column(type: 'boolean')]
+		#[Column(type: Type::Boolean, default: false)]
 		public bool $isOthers,
 		#[OneToMany(entityClass: Asset::class)]
 		public readonly Iterator $assets,
