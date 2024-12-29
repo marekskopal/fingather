@@ -8,22 +8,23 @@ use FinGather\Model\Repository\CurrencyRepository;
 use MarekSkopal\ORM\Attribute\Column;
 use MarekSkopal\ORM\Attribute\Entity;
 use MarekSkopal\ORM\Attribute\ManyToOne;
+use MarekSkopal\ORM\Enum\Type;
 
 #[Entity(repositoryClass: CurrencyRepository::class)]
 class Currency extends AEntity
 {
 	public function __construct(
-		#[Column(type: 'string(3)',)]
+		#[Column(type: Type::String, size: 3)]
 		public readonly string $code,
-		#[Column(type: 'string(50)')]
+		#[Column(type: Type::String, size: 50)]
 		public readonly string $name,
-		#[Column(type: 'string(5)')]
+		#[Column(type: Type::String, size: 5)]
 		public readonly string $symbol,
 		#[ManyToOne(entityClass: self::class, nullable: true,)]
 		public readonly ?Currency $multiplyCurrency,
-		#[Column(type: 'integer', default: 1)]
+		#[Column(type: Type::Int, default: 1)]
 		public readonly int $multiplier,
-		#[Column(type: 'boolean', default: true)]
+		#[Column(type: Type::Boolean, default: true)]
 		public readonly bool $isSelectable,
 	) {
 	}

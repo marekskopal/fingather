@@ -10,6 +10,7 @@ use MarekSkopal\ORM\Attribute\Column;
 use MarekSkopal\ORM\Attribute\ColumnEnum;
 use MarekSkopal\ORM\Attribute\Entity;
 use MarekSkopal\ORM\Attribute\ManyToOne;
+use MarekSkopal\ORM\Enum\Type;
 
 #[Entity(repositoryClass: ApiKeyRepository::class)]
 class ApiKey extends AEntity
@@ -21,7 +22,7 @@ class ApiKey extends AEntity
 		public readonly Portfolio $portfolio,
 		#[ColumnEnum(enum: ApiKeyTypeEnum::class)]
 		public readonly ApiKeyTypeEnum $type,
-		#[Column(type: 'string')]
+		#[Column(type: Type::String)]
 		public string $apiKey,
 	) {
 	}
