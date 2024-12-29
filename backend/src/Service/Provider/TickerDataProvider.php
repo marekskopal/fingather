@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Provider;
 
-use Cycle\Database\Exception\StatementException\ConstrainException;
 use DateInterval;
 use DateTime;
 use DateTimeImmutable;
@@ -17,6 +16,7 @@ use FinGather\Service\Cache\CacheFactory;
 use FinGather\Service\Provider\Dto\TickerDataAdjustedDto;
 use FinGather\Utils\DateTimeUtils;
 use Iterator;
+use MarekSkopal\ORM\Exception\ConstrainException;
 use MarekSkopal\TwelveData\Dto\CoreData\TimeSeries;
 use MarekSkopal\TwelveData\Enum\AdjustEnum;
 use MarekSkopal\TwelveData\Exception\BadRequestException;
