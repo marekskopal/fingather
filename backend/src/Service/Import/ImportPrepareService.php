@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Import;
 
-use Cycle\Database\Exception\StatementException\ConstrainException;
 use FinGather\Dto\ImportDataFileDto;
 use FinGather\Dto\ImportPrepareDataDto;
 use FinGather\Model\Entity\Import;
@@ -24,6 +23,7 @@ use FinGather\Service\Provider\ImportMappingProvider;
 use FinGather\Service\Provider\ImportProvider;
 use FinGather\Service\Provider\TickerProvider;
 use FinGather\Service\Update\TickerIsinUpdater;
+use MarekSkopal\ORM\Exception\ConstrainException;
 use Psr\Log\LoggerInterface;
 
 final class ImportPrepareService
