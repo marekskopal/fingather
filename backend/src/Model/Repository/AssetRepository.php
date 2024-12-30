@@ -108,7 +108,7 @@ final class AssetRepository extends AbstractRepository
 	public function findAssetByTickerId(int $tickerId, ?int $userId = null, ?int $portfolioId = null): ?Asset
 	{
 		$assetsSelect = $this->select()
-			->where(['ticker_id', $tickerId]);
+			->where(['ticker_id' => $tickerId]);
 
 		if ($userId !== null) {
 			$assetsSelect->where(['user_id' => $userId]);
