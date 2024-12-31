@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8e2d34a20f666520eecc84c049b4dfe8",
+    "content-hash": "717788b874295e587b31c21f2f264044",
     "packages": [
         {
             "name": "brick/math",
@@ -225,16 +225,16 @@
         },
         {
             "name": "egulias/email-validator",
-            "version": "4.0.2",
+            "version": "4.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/egulias/EmailValidator.git",
-                "reference": "ebaaf5be6c0286928352e054f2d5125608e5405e"
+                "reference": "b115554301161fa21467629f1e1391c1936de517"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/ebaaf5be6c0286928352e054f2d5125608e5405e",
-                "reference": "ebaaf5be6c0286928352e054f2d5125608e5405e",
+                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/b115554301161fa21467629f1e1391c1936de517",
+                "reference": "b115554301161fa21467629f1e1391c1936de517",
                 "shasum": ""
             },
             "require": {
@@ -280,7 +280,7 @@
             ],
             "support": {
                 "issues": "https://github.com/egulias/EmailValidator/issues",
-                "source": "https://github.com/egulias/EmailValidator/tree/4.0.2"
+                "source": "https://github.com/egulias/EmailValidator/tree/4.0.3"
             },
             "funding": [
                 {
@@ -288,7 +288,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-10-06T06:47:41+00:00"
+            "time": "2024-12-27T00:36:43+00:00"
         },
         {
             "name": "firebase/php-jwt",
@@ -1317,16 +1317,16 @@
         },
         {
             "name": "marekskopal/orm",
-            "version": "dev-main",
+            "version": "v0.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/marekskopal/orm.git",
-                "reference": "bfd938d6cfbf4c155359f46aad9eefe46bcb8360"
+                "reference": "70f06e204071c392bdad32212fc2556de54851c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/marekskopal/orm/zipball/bfd938d6cfbf4c155359f46aad9eefe46bcb8360",
-                "reference": "bfd938d6cfbf4c155359f46aad9eefe46bcb8360",
+                "url": "https://api.github.com/repos/marekskopal/orm/zipball/70f06e204071c392bdad32212fc2556de54851c4",
+                "reference": "70f06e204071c392bdad32212fc2556de54851c4",
                 "shasum": ""
             },
             "require": {
@@ -1342,7 +1342,6 @@
                 "phpunit/phpunit": "^11.4",
                 "slevomat/coding-standard": "^8.15"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -1370,27 +1369,27 @@
             ],
             "support": {
                 "issues": "https://github.com/marekskopal/orm/issues",
-                "source": "https://github.com/marekskopal/orm/tree/main"
+                "source": "https://github.com/marekskopal/orm/tree/v0.9.0"
             },
-            "time": "2024-12-30T14:58:03+00:00"
+            "time": "2024-12-31T11:06:49+00:00"
         },
         {
             "name": "marekskopal/orm-decimal",
-            "version": "dev-main",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/marekskopal/orm-decimal.git",
-                "reference": "c16ae065a676b9383a1da0e7049f8a3264db91fe"
+                "reference": "4e82467448aace28cebfce46ba11bb2a08d5efab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/marekskopal/orm-decimal/zipball/c16ae065a676b9383a1da0e7049f8a3264db91fe",
-                "reference": "c16ae065a676b9383a1da0e7049f8a3264db91fe",
+                "url": "https://api.github.com/repos/marekskopal/orm-decimal/zipball/4e82467448aace28cebfce46ba11bb2a08d5efab",
+                "reference": "4e82467448aace28cebfce46ba11bb2a08d5efab",
                 "shasum": ""
             },
             "require": {
                 "ext-decimal": "*",
-                "marekskopal/orm": "dev-main",
+                "marekskopal/orm": "^0.9.0",
                 "php": ">=8.4",
                 "php-decimal/php-decimal": "^1.1.0"
             },
@@ -1401,7 +1400,6 @@
                 "phpunit/phpunit": "^11.4",
                 "slevomat/coding-standard": "^8.15"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -1426,26 +1424,26 @@
             ],
             "support": {
                 "issues": "https://github.com/marekskopal/orm-decimal/issues",
-                "source": "https://github.com/marekskopal/orm-decimal/tree/main"
+                "source": "https://github.com/marekskopal/orm-decimal/tree/v1.0.0"
             },
-            "time": "2024-12-27T11:45:05+00:00"
+            "time": "2024-12-31T11:09:41+00:00"
         },
         {
             "name": "marekskopal/orm-migrations",
-            "version": "dev-main",
+            "version": "v0.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/marekskopal/orm-migrations.git",
-                "reference": "8a2a722a7e69e549d3f48783e8e648016120e090"
+                "reference": "06d8ed3f65dd7c669d4122865523c961fd50dcb1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/marekskopal/orm-migrations/zipball/8a2a722a7e69e549d3f48783e8e648016120e090",
-                "reference": "8a2a722a7e69e549d3f48783e8e648016120e090",
+                "url": "https://api.github.com/repos/marekskopal/orm-migrations/zipball/06d8ed3f65dd7c669d4122865523c961fd50dcb1",
+                "reference": "06d8ed3f65dd7c669d4122865523c961fd50dcb1",
                 "shasum": ""
             },
             "require": {
-                "marekskopal/orm": "dev-main",
+                "marekskopal/orm": "^0.9",
                 "nette/php-generator": "^4.1",
                 "php": ">=8.4",
                 "psr/log": "^3.0"
@@ -1458,7 +1456,6 @@
                 "phpunit/phpunit": "^11.4",
                 "slevomat/coding-standard": "^8.15"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -1485,9 +1482,9 @@
             ],
             "support": {
                 "issues": "https://github.com/marekskopal/orm-migrations/issues",
-                "source": "https://github.com/marekskopal/orm-migrations/tree/main"
+                "source": "https://github.com/marekskopal/orm-migrations/tree/v0.9.0"
             },
-            "time": "2024-12-29T20:09:03+00:00"
+            "time": "2024-12-31T12:04:59+00:00"
         },
         {
             "name": "marekskopal/router",
@@ -2569,16 +2566,16 @@
         },
         {
             "name": "phpoffice/phpspreadsheet",
-            "version": "3.6.0",
+            "version": "3.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPOffice/PhpSpreadsheet.git",
-                "reference": "bce5db99872f9613121c3ad033c43318a3789396"
+                "reference": "2fc12fdc58d39297c7b8c72d65b37a1a25d65ab5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/bce5db99872f9613121c3ad033c43318a3789396",
-                "reference": "bce5db99872f9613121c3ad033c43318a3789396",
+                "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/2fc12fdc58d39297c7b8c72d65b37a1a25d65ab5",
+                "reference": "2fc12fdc58d39297c7b8c72d65b37a1a25d65ab5",
                 "shasum": ""
             },
             "require": {
@@ -2667,9 +2664,9 @@
             ],
             "support": {
                 "issues": "https://github.com/PHPOffice/PhpSpreadsheet/issues",
-                "source": "https://github.com/PHPOffice/PhpSpreadsheet/tree/3.6.0"
+                "source": "https://github.com/PHPOffice/PhpSpreadsheet/tree/3.7.0"
             },
-            "time": "2024-12-08T15:04:12+00:00"
+            "time": "2024-12-27T05:34:47+00:00"
         },
         {
             "name": "predis/predis",
@@ -4450,12 +4447,12 @@
             },
             "type": "library",
             "extra": {
+                "thanks": {
+                    "url": "https://github.com/symfony/contracts",
+                    "name": "symfony/contracts"
+                },
                 "branch-alias": {
                     "dev-main": "3.5-dev"
-                },
-                "thanks": {
-                    "name": "symfony/contracts",
-                    "url": "https://github.com/symfony/contracts"
                 }
             },
             "autoload": {
@@ -4598,12 +4595,12 @@
             },
             "type": "library",
             "extra": {
+                "thanks": {
+                    "url": "https://github.com/symfony/contracts",
+                    "name": "symfony/contracts"
+                },
                 "branch-alias": {
                     "dev-main": "3.5-dev"
-                },
-                "thanks": {
-                    "name": "symfony/contracts",
-                    "url": "https://github.com/symfony/contracts"
                 }
             },
             "autoload": {
@@ -5383,12 +5380,12 @@
             },
             "type": "library",
             "extra": {
+                "thanks": {
+                    "url": "https://github.com/symfony/contracts",
+                    "name": "symfony/contracts"
+                },
                 "branch-alias": {
                     "dev-main": "3.5-dev"
-                },
-                "thanks": {
-                    "name": "symfony/contracts",
-                    "url": "https://github.com/symfony/contracts"
                 }
             },
             "autoload": {
@@ -5746,16 +5743,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v5.3.1",
+            "version": "v5.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "8eea230464783aa9671db8eea6f8c6ac5285794b"
+                "reference": "447a020a1f875a434d62f2a401f53b82a396e494"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/8eea230464783aa9671db8eea6f8c6ac5285794b",
-                "reference": "8eea230464783aa9671db8eea6f8c6ac5285794b",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/447a020a1f875a434d62f2a401f53b82a396e494",
+                "reference": "447a020a1f875a434d62f2a401f53b82a396e494",
                 "shasum": ""
             },
             "require": {
@@ -5798,9 +5795,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nikic/PHP-Parser/issues",
-                "source": "https://github.com/nikic/PHP-Parser/tree/v5.3.1"
+                "source": "https://github.com/nikic/PHP-Parser/tree/v5.4.0"
             },
-            "time": "2024-10-08T18:51:32+00:00"
+            "time": "2024-12-30T11:07:19+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -6017,16 +6014,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "2.0.4",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "50d276fc3bf1430ec315f2f109bbde2769821524"
+                "reference": "2392d360fdf54ea253aa6c68cad1d4ba2e54e927"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/50d276fc3bf1430ec315f2f109bbde2769821524",
-                "reference": "50d276fc3bf1430ec315f2f109bbde2769821524",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/2392d360fdf54ea253aa6c68cad1d4ba2e54e927",
+                "reference": "2392d360fdf54ea253aa6c68cad1d4ba2e54e927",
                 "shasum": ""
             },
             "require": {
@@ -6071,7 +6068,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-12-17T17:14:01+00:00"
+            "time": "2024-12-31T07:30:03+00:00"
         },
         {
             "name": "phpstan/phpstan-deprecation-rules",
@@ -7568,16 +7565,16 @@
         },
         {
             "name": "shipmonk/composer-dependency-analyser",
-            "version": "1.8.1",
+            "version": "1.8.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/shipmonk-rnd/composer-dependency-analyser.git",
-                "reference": "0acd9d94be4d9397055ff012d0abf2ae88072e99"
+                "reference": "f374f5366028fd7ece8aeaffa76895d73dc0a05a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/shipmonk-rnd/composer-dependency-analyser/zipball/0acd9d94be4d9397055ff012d0abf2ae88072e99",
-                "reference": "0acd9d94be4d9397055ff012d0abf2ae88072e99",
+                "url": "https://api.github.com/repos/shipmonk-rnd/composer-dependency-analyser/zipball/f374f5366028fd7ece8aeaffa76895d73dc0a05a",
+                "reference": "f374f5366028fd7ece8aeaffa76895d73dc0a05a",
                 "shasum": ""
             },
             "require": {
@@ -7628,9 +7625,9 @@
             ],
             "support": {
                 "issues": "https://github.com/shipmonk-rnd/composer-dependency-analyser/issues",
-                "source": "https://github.com/shipmonk-rnd/composer-dependency-analyser/tree/1.8.1"
+                "source": "https://github.com/shipmonk-rnd/composer-dependency-analyser/tree/1.8.2"
             },
-            "time": "2024-11-18T12:58:21+00:00"
+            "time": "2024-12-30T12:31:04+00:00"
         },
         {
             "name": "shipmonk/phpstan-rules",
@@ -8283,11 +8280,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "marekskopal/orm": 20,
-        "marekskopal/orm-decimal": 20,
-        "marekskopal/orm-migrations": 20
-    },
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
