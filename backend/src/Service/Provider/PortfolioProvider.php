@@ -8,6 +8,7 @@ use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\PortfolioRepository;
+use Iterator;
 
 class PortfolioProvider
 {
@@ -15,40 +16,39 @@ class PortfolioProvider
 		private readonly PortfolioRepository $portfolioRepository,
 		private readonly GroupProvider $groupProvider,
 		private readonly DataProvider $dataProvider,
-	)
-	{
+	) {
 	}
 
-	/** @return list<Portfolio> */
-	public function getPortfolios(User $user): array
+	/** @return Iterator<Portfolio> */
+	public function getPortfolios(User $user): Iterator
 	{
-		return $this->portfolioRepository->findPortfolios($user->getId());
+		return $this->portfolioRepository->findPortfolios($user->id);
 	}
 
 	/** @return list<Portfolio> */
 	public function getOtherPortfolios(User $user, Portfolio $portfolio): array
 	{
 		return array_values(array_filter(
-			$this->getPortfolios($user),
-			fn (Portfolio $otherPortfolio) => $otherPortfolio->getId() !== $portfolio->getId(),
+			iterator_to_array($this->getPortfolios($user), false),
+			fn (Portfolio $otherPortfolio) => $otherPortfolio->id !== $portfolio->id,
 		));
 	}
 
 	public function getPortfolio(User $user, int $portfolioId): ?Portfolio
 	{
-		return $this->portfolioRepository->findPortfolio($user->getId(), $portfolioId);
+		return $this->portfolioRepository->findPortfolio($user->id, $portfolioId);
 	}
 
 	public function getDefaultPortfolio(User $user): Portfolio
 	{
-		return $this->portfolioRepository->findDefaultPortfolio($user->getId());
+		return $this->portfolioRepository->findDefaultPortfolio($user->id);
 	}
 
 	public function createPortfolio(User $user, Currency $currency, string $name, bool $isDefault): Portfolio
 	{
 		if ($isDefault) {
 			foreach ($this->getPortfolios($user) as $portfolio) {
-				$portfolio->setIsDefault(false);
+				$portfolio->isDefault = false;
 				$this->portfolioRepository->persist($portfolio);
 			}
 		}
@@ -68,30 +68,30 @@ class PortfolioProvider
 
 	public function updatePortfolio(Portfolio $portfolio, Currency $currency, string $name, bool $isDefault): Portfolio
 	{
-		$otherPortfolios = $this->getOtherPortfolios(user: $portfolio->getUser(), portfolio: $portfolio);
+		$otherPortfolios = $this->getOtherPortfolios(user: $portfolio->user, portfolio: $portfolio);
 		if (!$isDefault && count($otherPortfolios) === 0) {
 			$isDefault = true;
 		}
 
-		if ($isDefault && $portfolio->getIsDefault() !== $isDefault) {
+		if ($isDefault && $portfolio->isDefault !== $isDefault) {
 			foreach ($otherPortfolios as $otherPortfolio) {
-				$otherPortfolio->setIsDefault(false);
+				$otherPortfolio->isDefault = false;
 				$this->portfolioRepository->persist($otherPortfolio);
 			}
 		}
 
 		$recalculateTransactions = false;
-		if ($currency->getId() !== $portfolio->getCurrency()->getId()) {
+		if ($currency->id !== $portfolio->currency->id) {
 			$recalculateTransactions = true;
 		}
 
-		$portfolio->setCurrency($currency);
-		$portfolio->setName($name);
-		$portfolio->setIsDefault($isDefault);
+		$portfolio->currency = $currency;
+		$portfolio->name = $name;
+		$portfolio->isDefault = $isDefault;
 		$this->portfolioRepository->persist($portfolio);
 
 		if ($recalculateTransactions) {
-			$this->dataProvider->deleteUserData(user: $portfolio->getUser(), portfolio: $portfolio, recalculateTransactions: true);
+			$this->dataProvider->deleteUserData(user: $portfolio->user, portfolio: $portfolio, recalculateTransactions: true);
 		}
 
 		return $portfolio;

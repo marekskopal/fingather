@@ -4,50 +4,26 @@ declare(strict_types=1);
 
 namespace FinGather\Model\Entity;
 
-use Cycle\Annotated\Annotation\Column;
-use Cycle\Annotated\Annotation\Entity;
-use Cycle\Annotated\Annotation\Relation\RefersTo;
 use FinGather\Model\Entity\Enum\ApiKeyTypeEnum;
 use FinGather\Model\Repository\ApiKeyRepository;
-use MarekSkopal\Cycle\Enum\ColumnEnum;
+use MarekSkopal\ORM\Attribute\Column;
+use MarekSkopal\ORM\Attribute\ColumnEnum;
+use MarekSkopal\ORM\Attribute\Entity;
+use MarekSkopal\ORM\Attribute\ManyToOne;
+use MarekSkopal\ORM\Enum\Type;
 
-#[Entity(repository: ApiKeyRepository::class)]
+#[Entity(repositoryClass: ApiKeyRepository::class)]
 class ApiKey extends AEntity
 {
 	public function __construct(
-		#[RefersTo(target: User::class)]
-		private User $user,
-		#[RefersTo(target: Portfolio::class)]
-		private Portfolio $portfolio,
+		#[ManyToOne(entityClass: User::class)]
+		public readonly User $user,
+		#[ManyToOne(entityClass: Portfolio::class)]
+		public readonly Portfolio $portfolio,
 		#[ColumnEnum(enum: ApiKeyTypeEnum::class)]
-		private ApiKeyTypeEnum $type,
-		#[Column(type: 'string')]
-		private string $apiKey,
+		public readonly ApiKeyTypeEnum $type,
+		#[Column(type: Type::String)]
+		public string $apiKey,
 	) {
-	}
-
-	public function getUser(): User
-	{
-		return $this->user;
-	}
-
-	public function getPortfolio(): Portfolio
-	{
-		return $this->portfolio;
-	}
-
-	public function getType(): ApiKeyTypeEnum
-	{
-		return $this->type;
-	}
-
-	public function getApiKey(): string
-	{
-		return $this->apiKey;
-	}
-
-	public function setApiKey(string $apiKey): void
-	{
-		$this->apiKey = $apiKey;
 	}
 }

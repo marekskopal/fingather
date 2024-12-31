@@ -4,39 +4,25 @@ declare(strict_types=1);
 
 namespace FinGather\Model\Entity;
 
-use Cycle\Annotated\Annotation\Column;
-use Cycle\Annotated\Annotation\Entity;
-use Cycle\Annotated\Annotation\Relation\RefersTo;
 use DateTimeImmutable;
 use FinGather\Model\Repository\ImportFileRepository;
+use MarekSkopal\ORM\Attribute\Column;
+use MarekSkopal\ORM\Attribute\Entity;
+use MarekSkopal\ORM\Attribute\ManyToOne;
+use MarekSkopal\ORM\Enum\Type;
 
-#[Entity(repository: ImportFileRepository::class)]
+#[Entity(repositoryClass: ImportFileRepository::class)]
 class ImportFile extends AEntity
 {
 	public function __construct(
-		#[RefersTo(target: Import::class)]
-		private Import $import,
-		#[Column(type: 'timestamp')]
-		private DateTimeImmutable $created,
-		#[Column(type: 'string')]
-		private string $fileName,
-		#[Column(type: 'longBinary')]
-		private string $contents,
+		#[ManyToOne(entityClass: Import::class)]
+		public readonly Import $import,
+		#[Column(type: Type::Timestamp)]
+		public readonly DateTimeImmutable $created,
+		#[Column(type: Type::String)]
+		public readonly string $fileName,
+		#[Column(type: Type::LongBlob)]
+		public readonly string $contents,
 	) {
-	}
-
-	public function getImport(): Import
-	{
-		return $this->import;
-	}
-
-	public function getFileName(): string
-	{
-		return $this->fileName;
-	}
-
-	public function getContents(): string
-	{
-		return $this->contents;
 	}
 }

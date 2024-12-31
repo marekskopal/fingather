@@ -52,7 +52,7 @@ final class BenchmarkPortfolioValueCommand extends AbstractBenchmarkCommand
 		$dataProvider->deleteData(user: $user);
 		$portfolio = $portfolioProvider->getDefaultPortfolio($user);
 
-		$serverRequest = new ServerRequest('GET', '/api/portfolio-data-range/' . $portfolio->getId());
+		$serverRequest = new ServerRequest('GET', '/api/portfolio-data-range/' . $portfolio->id);
 		$serverRequest = $serverRequest->withQueryParams(['range' => RangeEnum::All->value]);
 		$serverRequest = $authenticationService->addAuthenticationHeader($serverRequest, $user);
 

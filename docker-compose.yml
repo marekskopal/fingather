@@ -75,7 +75,7 @@ services:
         volumes:
             - fingather_logos:/app/public/images/logos
             - ./log:/app/log
-            #- ./backend/migrations:/app/migrations
+            - ./backend/migrations:/app/migrations
             #- ./backend/src:/app/src
 
     db:

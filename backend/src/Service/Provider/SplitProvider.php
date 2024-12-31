@@ -25,7 +25,7 @@ class SplitProvider
 	/** @return list<SplitDto> */
 	public function getSplits(Ticker $ticker): array
 	{
-		$key = (string) $ticker->getId();
+		$key = (string) $ticker->id;
 
 		/** @var list<SplitDto>|null $splits */
 		$splits = $this->cache->load($key);
@@ -35,7 +35,7 @@ class SplitProvider
 
 		$splits = array_map(
 			fn(Split $split): SplitDto => SplitDto::fromEntity($split),
-			$this->splitRepository->findSplits($ticker->getId()),
+			iterator_to_array($this->splitRepository->findSplits($ticker->id), false),
 		);
 		$this->cache->save($key, $splits);
 
@@ -44,12 +44,12 @@ class SplitProvider
 
 	public function getSplit(Ticker $ticker, ?DateTimeImmutable $date = null): ?Split
 	{
-		return $this->splitRepository->findSplit($ticker->getId(), $date);
+		return $this->splitRepository->findSplit($ticker->id, $date);
 	}
 
 	public function createSplit(Ticker $ticker, DateTimeImmutable $date, Decimal $factor): Split
 	{
-		$split = new Split(tickerId: $ticker->getId(), date: $date, factor: $factor);
+		$split = new Split(tickerId: $ticker->id, date: $date, factor: $factor);
 		$this->splitRepository->persist($split);
 
 		return $split;
@@ -57,6 +57,6 @@ class SplitProvider
 
 	public function cleanCache(Ticker $ticker): void
 	{
-		$this->cache->remove((string) $ticker->getId());
+		$this->cache->remove((string) $ticker->id);
 	}
 }

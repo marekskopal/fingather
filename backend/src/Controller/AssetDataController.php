@@ -46,7 +46,7 @@ final class AssetDataController
 			return new NotFoundResponse('Asset with id "' . $assetId . '" was not found.');
 		}
 
-		$portfolio = $asset->getPortfolio();
+		$portfolio = $asset->portfolio;
 
 		if (!isset($queryParams['range'])) {
 			return new NotFoundResponse('Range is required.');
@@ -63,7 +63,7 @@ final class AssetDataController
 
 		$datePeriod = DateTimeUtils::getDatePeriod(
 			range: $range,
-			firstDate: $firstTransaction->getActionCreated(),
+			firstDate: $firstTransaction->actionCreated,
 			shiftStartDate: $range === RangeEnum::All,
 		);
 		foreach ($datePeriod as $dateTime) {

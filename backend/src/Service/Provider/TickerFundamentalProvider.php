@@ -20,16 +20,13 @@ class TickerFundamentalProvider
 
 	public function getTickerFundamental(Ticker $ticker): ?TickerFundamental
 	{
-		return $this->tickerFundamentalRepository->findTickerFundamental($ticker->getId());
+		return $this->tickerFundamentalRepository->findTickerFundamental($ticker->id);
 	}
 
 	public function createTickerFundamental(Ticker $ticker): void
 	{
 		try {
-			$statistics = $this->twelveData->getFundamentals()->statistics(
-				symbol: $ticker->getTicker(),
-				micCode: $ticker->getMarket()->getMic(),
-			);
+			$statistics = $this->twelveData->getFundamentals()->statistics(symbol: $ticker->ticker, micCode: $ticker->market->mic);
 		} catch (NotFoundException) {
 			return;
 		}
@@ -97,71 +94,68 @@ class TickerFundamentalProvider
 
 	public function updateTickerFundamental(TickerFundamental $tickerFundamental): TickerFundamental
 	{
-		$ticker = $tickerFundamental->getTicker();
+		$ticker = $tickerFundamental->ticker;
 
 		try {
-			$statistics = $this->twelveData->getFundamentals()->statistics(
-				symbol: $ticker->getTicker(),
-				micCode: $ticker->getMarket()->getMic(),
-			);
+			$statistics = $this->twelveData->getFundamentals()->statistics(symbol: $ticker->ticker, micCode: $ticker->market->mic);
 		} catch (NotFoundException) {
 			return $tickerFundamental;
 		}
 
-		$tickerFundamental->setMarketCapitalization($statistics->statistics->valuationsMetrics->marketCapitalization);
-		$tickerFundamental->setEnterpriseValue($statistics->statistics->valuationsMetrics->enterpriseValue);
-		$tickerFundamental->setTrailingPe($statistics->statistics->valuationsMetrics->trailingPe);
-		$tickerFundamental->setForwardPe($statistics->statistics->valuationsMetrics->forwardPe);
-		$tickerFundamental->setPegRatio($statistics->statistics->valuationsMetrics->pegRatio);
-		$tickerFundamental->setPriceToSalesTtm($statistics->statistics->valuationsMetrics->priceToSalesTtm);
-		$tickerFundamental->setPriceToBookMrq($statistics->statistics->valuationsMetrics->priceToBookMrq);
-		$tickerFundamental->setEnterpriseToRevenue($statistics->statistics->valuationsMetrics->enterpriseToRevenue);
-		$tickerFundamental->setEnterpriseToEbitda($statistics->statistics->valuationsMetrics->enterpriseToEbitda);
-		$tickerFundamental->setFiscalYearEnds($statistics->statistics->financials->fiscalYearEnds);
-		$tickerFundamental->setMostRecentQuarter($statistics->statistics->financials->mostRecentQuarter);
-		$tickerFundamental->setProfitMargin($statistics->statistics->financials->profitMargin);
-		$tickerFundamental->setOperatingMargin($statistics->statistics->financials->operatingMargin);
-		$tickerFundamental->setReturnOnAssetsTtm($statistics->statistics->financials->returnOnAssetsTtm);
-		$tickerFundamental->setReturnOnEquityTtm($statistics->statistics->financials->returnOnEquityTtm);
-		$tickerFundamental->setRevenueTtm($statistics->statistics->financials->incomeStatement->revenueTtm);
-		$tickerFundamental->setRevenuePerShareTtm($statistics->statistics->financials->incomeStatement->revenuePerShareTtm);
-		$tickerFundamental->setQuarterlyRevenueGrowth($statistics->statistics->financials->incomeStatement->quarterlyRevenueGrowth);
-		$tickerFundamental->setGrossProfitTtm($statistics->statistics->financials->incomeStatement->grossProfitTtm);
-		$tickerFundamental->setEbitda($statistics->statistics->financials->incomeStatement->ebitda);
-		$tickerFundamental->setNetIncomeToCommonTtm($statistics->statistics->financials->incomeStatement->netIncomeToCommonTtm);
-		$tickerFundamental->setDilutedEpsTtm($statistics->statistics->financials->incomeStatement->dilutedEpsTtm);
-		$tickerFundamental->setQuarterlyEarningsGrowthYoy($statistics->statistics->financials->incomeStatement->quarterlyEarningsGrowthYoy);
-		$tickerFundamental->setTotalCashMrq($statistics->statistics->financials->balanceSheet->totalCashMrq);
-		$tickerFundamental->setTotalCashPerShareMrq($statistics->statistics->financials->balanceSheet->totalCashPerShareMrq);
-		$tickerFundamental->setTotalDebtMrq($statistics->statistics->financials->balanceSheet->totalDebtMrq);
-		$tickerFundamental->setTotalDebtToEquityMrq($statistics->statistics->financials->balanceSheet->totalDebtToEquityMrq);
-		$tickerFundamental->setCurrentRatioMrq($statistics->statistics->financials->balanceSheet->currentRatioMrq);
-		$tickerFundamental->setBookValuePerShareMrq($statistics->statistics->financials->balanceSheet->bookValuePerShareMrq);
-		$tickerFundamental->setOperatingCashFlowTtm($statistics->statistics->financials->cashFlow->operatingCashFlowTtm);
-		$tickerFundamental->setLeveredFreeCashFlowTtm($statistics->statistics->financials->cashFlow->leveredFreeCashFlowTtm);
-		$tickerFundamental->setSharesOutstanding($statistics->statistics->stockStatistics->sharesOutstanding);
-		$tickerFundamental->setFloatShares($statistics->statistics->stockStatistics->floatShares);
-		$tickerFundamental->setAvg10Volume($statistics->statistics->stockStatistics->avg10Volume);
-		$tickerFundamental->setAvg90Volume($statistics->statistics->stockStatistics->avg90Volume);
-		$tickerFundamental->setSharesShort($statistics->statistics->stockStatistics->sharesShort);
-		$tickerFundamental->setShortRatio($statistics->statistics->stockStatistics->shortRatio);
-		$tickerFundamental->setShortPercentOfSharesOutstanding($statistics->statistics->stockStatistics->shortPercentOfSharesOutstanding);
-		$tickerFundamental->setPercentHeldByInsiders($statistics->statistics->stockStatistics->percentHeldByInsiders);
-		$tickerFundamental->setPercentHeldByInstitutions($statistics->statistics->stockStatistics->percentHeldByInstitutions);
-		$tickerFundamental->setFiftyTwoWeekLow($statistics->statistics->stockPriceSummary->fiftyTwoWeekLow);
-		$tickerFundamental->setFiftyTwoWeekHigh($statistics->statistics->stockPriceSummary->fiftyTwoWeekHigh);
-		$tickerFundamental->setFiftyTwoWeekChange($statistics->statistics->stockPriceSummary->fiftyTwoWeekChange);
-		$tickerFundamental->setBeta($statistics->statistics->stockPriceSummary->beta);
-		$tickerFundamental->setDay50Ma($statistics->statistics->stockPriceSummary->day50Ma);
-		$tickerFundamental->setDay200Ma($statistics->statistics->stockPriceSummary->day200Ma);
-		$tickerFundamental->setForwardAnnualDividendRate($statistics->statistics->dividendsAndSplits->forwardAnnualDividendRate);
-		$tickerFundamental->setForwardAnnualDividendYield($statistics->statistics->dividendsAndSplits->forwardAnnualDividendYield);
-		$tickerFundamental->setTrailingAnnualDividendRate($statistics->statistics->dividendsAndSplits->trailingAnnualDividendRate);
-		$tickerFundamental->setTrailingAnnualDividendYield($statistics->statistics->dividendsAndSplits->trailingAnnualDividendYield);
-		$tickerFundamental->setFiveYearAverageDividendYield($statistics->statistics->dividendsAndSplits->fiveYearAverageDividendYield);
-		$tickerFundamental->setPayoutRatio($statistics->statistics->dividendsAndSplits->payoutRatio);
-		$tickerFundamental->setDividendDate($statistics->statistics->dividendsAndSplits->dividendDate);
-		$tickerFundamental->setExDividendDate($statistics->statistics->dividendsAndSplits->exDividendDate);
+		$tickerFundamental->marketCapitalization = $statistics->statistics->valuationsMetrics->marketCapitalization;
+		$tickerFundamental->enterpriseValue = $statistics->statistics->valuationsMetrics->enterpriseValue;
+		$tickerFundamental->trailingPe = $statistics->statistics->valuationsMetrics->trailingPe;
+		$tickerFundamental->forwardPe = $statistics->statistics->valuationsMetrics->forwardPe;
+		$tickerFundamental->pegRatio = $statistics->statistics->valuationsMetrics->pegRatio;
+		$tickerFundamental->priceToSalesTtm = $statistics->statistics->valuationsMetrics->priceToSalesTtm;
+		$tickerFundamental->priceToBookMrq = $statistics->statistics->valuationsMetrics->priceToBookMrq;
+		$tickerFundamental->enterpriseToRevenue = $statistics->statistics->valuationsMetrics->enterpriseToRevenue;
+		$tickerFundamental->enterpriseToEbitda = $statistics->statistics->valuationsMetrics->enterpriseToEbitda;
+		$tickerFundamental->fiscalYearEnds = $statistics->statistics->financials->fiscalYearEnds;
+		$tickerFundamental->mostRecentQuarter = $statistics->statistics->financials->mostRecentQuarter;
+		$tickerFundamental->profitMargin = $statistics->statistics->financials->profitMargin;
+		$tickerFundamental->operatingMargin = $statistics->statistics->financials->operatingMargin;
+		$tickerFundamental->returnOnAssetsTtm = $statistics->statistics->financials->returnOnAssetsTtm;
+		$tickerFundamental->returnOnEquityTtm = $statistics->statistics->financials->returnOnEquityTtm;
+		$tickerFundamental->revenueTtm = $statistics->statistics->financials->incomeStatement->revenueTtm;
+		$tickerFundamental->revenuePerShareTtm = $statistics->statistics->financials->incomeStatement->revenuePerShareTtm;
+		$tickerFundamental->quarterlyRevenueGrowth = $statistics->statistics->financials->incomeStatement->quarterlyRevenueGrowth;
+		$tickerFundamental->grossProfitTtm = $statistics->statistics->financials->incomeStatement->grossProfitTtm;
+		$tickerFundamental->ebitda = $statistics->statistics->financials->incomeStatement->ebitda;
+		$tickerFundamental->netIncomeToCommonTtm = $statistics->statistics->financials->incomeStatement->netIncomeToCommonTtm;
+		$tickerFundamental->dilutedEpsTtm = $statistics->statistics->financials->incomeStatement->dilutedEpsTtm;
+		$tickerFundamental->quarterlyEarningsGrowthYoy = $statistics->statistics->financials->incomeStatement->quarterlyEarningsGrowthYoy;
+		$tickerFundamental->totalCashMrq = $statistics->statistics->financials->balanceSheet->totalCashMrq;
+		$tickerFundamental->totalCashPerShareMrq = $statistics->statistics->financials->balanceSheet->totalCashPerShareMrq;
+		$tickerFundamental->totalDebtMrq = $statistics->statistics->financials->balanceSheet->totalDebtMrq;
+		$tickerFundamental->totalDebtToEquityMrq = $statistics->statistics->financials->balanceSheet->totalDebtToEquityMrq;
+		$tickerFundamental->currentRatioMrq = $statistics->statistics->financials->balanceSheet->currentRatioMrq;
+		$tickerFundamental->bookValuePerShareMrq = $statistics->statistics->financials->balanceSheet->bookValuePerShareMrq;
+		$tickerFundamental->operatingCashFlowTtm = $statistics->statistics->financials->cashFlow->operatingCashFlowTtm;
+		$tickerFundamental->leveredFreeCashFlowTtm = $statistics->statistics->financials->cashFlow->leveredFreeCashFlowTtm;
+		$tickerFundamental->sharesOutstanding = $statistics->statistics->stockStatistics->sharesOutstanding;
+		$tickerFundamental->floatShares = $statistics->statistics->stockStatistics->floatShares;
+		$tickerFundamental->avg10Volume = $statistics->statistics->stockStatistics->avg10Volume;
+		$tickerFundamental->avg90Volume = $statistics->statistics->stockStatistics->avg90Volume;
+		$tickerFundamental->sharesShort = $statistics->statistics->stockStatistics->sharesShort;
+		$tickerFundamental->shortRatio = $statistics->statistics->stockStatistics->shortRatio;
+		$tickerFundamental->shortPercentOfSharesOutstanding = $statistics->statistics->stockStatistics->shortPercentOfSharesOutstanding;
+		$tickerFundamental->percentHeldByInsiders = $statistics->statistics->stockStatistics->percentHeldByInsiders;
+		$tickerFundamental->percentHeldByInstitutions = $statistics->statistics->stockStatistics->percentHeldByInstitutions;
+		$tickerFundamental->fiftyTwoWeekLow = $statistics->statistics->stockPriceSummary->fiftyTwoWeekLow;
+		$tickerFundamental->fiftyTwoWeekHigh = $statistics->statistics->stockPriceSummary->fiftyTwoWeekHigh;
+		$tickerFundamental->fiftyTwoWeekChange = $statistics->statistics->stockPriceSummary->fiftyTwoWeekChange;
+		$tickerFundamental->beta = $statistics->statistics->stockPriceSummary->beta;
+		$tickerFundamental->day50Ma = $statistics->statistics->stockPriceSummary->day50Ma;
+		$tickerFundamental->day200Ma = $statistics->statistics->stockPriceSummary->day200Ma;
+		$tickerFundamental->forwardAnnualDividendRate = $statistics->statistics->dividendsAndSplits->forwardAnnualDividendRate;
+		$tickerFundamental->forwardAnnualDividendYield = $statistics->statistics->dividendsAndSplits->forwardAnnualDividendYield;
+		$tickerFundamental->trailingAnnualDividendRate = $statistics->statistics->dividendsAndSplits->trailingAnnualDividendRate;
+		$tickerFundamental->trailingAnnualDividendYield = $statistics->statistics->dividendsAndSplits->trailingAnnualDividendYield;
+		$tickerFundamental->fiveYearAverageDividendYield = $statistics->statistics->dividendsAndSplits->fiveYearAverageDividendYield;
+		$tickerFundamental->payoutRatio = $statistics->statistics->dividendsAndSplits->payoutRatio;
+		$tickerFundamental->dividendDate = $statistics->statistics->dividendsAndSplits->dividendDate;
+		$tickerFundamental->exDividendDate = $statistics->statistics->dividendsAndSplits->exDividendDate;
 
 		$this->tickerFundamentalRepository->persist($tickerFundamental);
 

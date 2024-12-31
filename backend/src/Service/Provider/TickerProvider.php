@@ -7,6 +7,7 @@ namespace FinGather\Service\Provider;
 use FinGather\Model\Entity\Market;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Repository\TickerRepository;
+use Iterator;
 
 class TickerProvider
 {
@@ -14,10 +15,10 @@ class TickerProvider
 	{
 	}
 
-	/** @return list<Ticker> */
-	public function getTickers(?Market $market = null, ?string $search = null, ?int $limit = null, ?int $offset = null,): array
+	/** @return Iterator<Ticker> */
+	public function getTickers(?Market $market = null, ?string $search = null, ?int $limit = null, ?int $offset = null,): Iterator
 	{
-		return $this->tickerRepository->findTickers(marketId: $market?->getId(), search: $search, limit: $limit, offset: $offset);
+		return $this->tickerRepository->findTickers(marketId: $market?->id, search: $search, limit: $limit, offset: $offset);
 	}
 
 	public function getTicker(int $tickerId): ?Ticker
@@ -25,8 +26,8 @@ class TickerProvider
 		return $this->tickerRepository->findTicker($tickerId);
 	}
 
-	/** @return list<Ticker> */
-	public function getActiveTickers(): array
+	/** @return Iterator<Ticker> */
+	public function getActiveTickers(): Iterator
 	{
 		return $this->tickerRepository->findActiveTickers();
 	}
@@ -39,9 +40,9 @@ class TickerProvider
 
 	/**
 	 * @param list<int>|null $marketIds
-	 * @return list<Ticker>
+	 * @return Iterator<Ticker>
 	 */
-	public function getTickersByTicker(string $ticker, ?array $marketIds = null, ?string $isin = null): array
+	public function getTickersByTicker(string $ticker, ?array $marketIds = null, ?string $isin = null): Iterator
 	{
 		return $this->tickerRepository->findTickersByTicker($ticker, $marketIds, $isin);
 	}
@@ -60,9 +61,9 @@ class TickerProvider
 
 	/**
 	 * @param list<int>|null $marketIds
-	 * @return list<Ticker>
+	 * @return Iterator<Ticker>
 	 */
-	public function getTickersByIsin(string $isin, ?array $marketIds = null): array
+	public function getTickersByIsin(string $isin, ?array $marketIds = null): Iterator
 	{
 		return $this->tickerRepository->findTickersByIsin($isin, $marketIds);
 	}

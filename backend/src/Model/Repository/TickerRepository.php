@@ -4,16 +4,19 @@ declare(strict_types=1);
 
 namespace FinGather\Model\Repository;
 
-use Cycle\Database\Query\SelectQuery;
-use Cycle\ORM\Select;
-use Cycle\ORM\Select\QueryBuilder;
+use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Ticker;
+use Iterator;
+use MarekSkopal\ORM\Query\Enum\DirectionEnum;
+use MarekSkopal\ORM\Query\Select;
+use MarekSkopal\ORM\Query\Where\WhereBuilder;
+use MarekSkopal\ORM\Repository\AbstractRepository;
 
-/** @extends ARepository<Ticker> */
-final class TickerRepository extends ARepository
+/** @extends AbstractRepository<Ticker> */
+final class TickerRepository extends AbstractRepository
 {
-	/** @return list<Ticker> */
-	public function findTickers(?int $marketId = null, ?string $search = null, ?int $limit = null, ?int $offset = null,): iterable
+	/** @return Iterator<Ticker> */
+	public function findTickers(?int $marketId = null, ?string $search = null, ?int $limit = null, ?int $offset = null,): Iterator
 	{
 		return $this->getTickersSelect($marketId, $search, $limit, $offset)->fetchAll();
 	}
@@ -22,12 +25,12 @@ final class TickerRepository extends ARepository
 	public function findTickersTicker(?int $marketId = null, ?string $search = null, ?int $limit = null, ?int $offset = null): array
 	{
 		/**
-		 * @var list<array{
+		 * @var Iterator<array{
 		 *     ticker: string,
 		 * }> $tickers
 		 */
-		$tickers = $this->getTickersSelect($marketId, $search, $limit, $offset)->buildQuery()->columns(['ticker'])->fetchAll();
-		return array_map(fn(array $ticker): string => $ticker['ticker'], $tickers);
+		$tickers = $this->getTickersSelect($marketId, $search, $limit, $offset)->columns(['ticker'])->fetchAssocAll();
+		return array_map(fn(array $ticker): string => $ticker['ticker'], iterator_to_array($tickers, false));
 	}
 
 	/** @return Select<Ticker> */
@@ -36,14 +39,14 @@ final class TickerRepository extends ARepository
 		$tickersSelect = $this->select();
 
 		if ($marketId !== null) {
-			$tickersSelect->where('market_id', $marketId);
+			$tickersSelect->where(['market_id' => $marketId]);
 		}
 
 		if ($search !== null) {
 			$tickersSelect->where(
-				fn (QueryBuilder $select) =>
-					$select->where('name', 'like', $search . '%')
-					->orWhere('ticker', 'like', $search . '%'),
+				fn (WhereBuilder $builder): WhereBuilder =>
+					$builder->where(['name', 'like', $search . '%'])
+					->orWhere(['ticker', 'like', $search . '%']),
 			);
 		}
 
@@ -68,48 +71,47 @@ final class TickerRepository extends ARepository
 		]);
 	}
 
-	/** @return list<Ticker> */
-	public function findActiveTickers(): iterable
+	/** @return Iterator<Ticker> */
+	public function findActiveTickers(): Iterator
 	{
-		$activeTickersSelect = $this->orm->getSource(Ticker::class)
-			->getDatabase()
-			->select('ticker_id')
-			->from('assets')
-			->groupBy('ticker_id');
+		$activeTickersSelect = $this->queryProvider
+			->select(Asset::class)
+			->columns(['ticker_id'])
+			->groupBy(['ticker_id']);
 
 		return $this->select()
-			->where('id', 'in', $activeTickersSelect)
+			->where(['id', 'in', $activeTickersSelect])
 			->fetchAll();
 	}
 
 	/** @return list<Ticker> */
-	public function findTickersMostUsed(?int $limit = null, ?int $offset = null): iterable
+	public function findTickersMostUsed(?int $limit = null, ?int $offset = null): array
 	{
-		$mostUsedTickersSelect = $this->orm->getSource(Ticker::class)
-			->getDatabase()
-			->select('ticker_id')
-			->from('assets')
-			->groupBy('ticker_id')
-			->orderBy('count(*)', SelectQuery::SORT_DESC)
+		$mostUsedTickersSelect = $this->queryProvider
+			->select(Asset::class)
+			->columns(['ticker_id'])
+			->groupBy(['ticker_id'])
+			->orderBy('count(*)', DirectionEnum::Desc)
 			->limit($limit)
 			->offset($offset)
-			->fetchAll();
+			->fetchAssocAll();
 
-		$mostUsedTickerIds = array_column($mostUsedTickersSelect, 'ticker_id');
+		/** @var list<int> $mostUsedTickerIds */
+		$mostUsedTickerIds = array_column(iterator_to_array($mostUsedTickersSelect, false), 'ticker_id');
 
-		$tickers = $this->select()
-			->where('id', 'in', $mostUsedTickerIds)
-			->fetchAll();
+		$tickers = iterator_to_array($this->select()
+			->where(['id', 'in', $mostUsedTickerIds])
+			->fetchAll(), false);
 
 		usort(
 			$tickers,
 			fn (Ticker $a, Ticker $b): int =>
 				array_search(
-					$a->getId(),
+					$a->id,
 					$mostUsedTickerIds,
 					true,
 				) <=> array_search(
-					$b->getId(),
+					$b->id,
 					$mostUsedTickerIds,
 					true,
 				),
@@ -120,9 +122,9 @@ final class TickerRepository extends ARepository
 
 	/**
 	 * @param list<int>|null $marketIds
-	 * @return list<Ticker>
+	 * @return Iterator<Ticker>
 	 */
-	public function findTickersByTicker(string $ticker, ?array $marketIds = null, ?string $isin = null): iterable
+	public function findTickersByTicker(string $ticker, ?array $marketIds = null, ?string $isin = null): Iterator
 	{
 		return $this->getTickerByTickerSelect($ticker, $marketIds, $isin)
 			->fetchAll();
@@ -149,14 +151,14 @@ final class TickerRepository extends ARepository
 	private function getTickerByTickerSelect(string $ticker, ?array $marketIds = null, ?string $isin = null): Select
 	{
 		$tickerSelect = $this->select()
-			->where('ticker', $ticker);
+			->where(['ticker' => $ticker]);
 
 		if ($marketIds !== null) {
-			$tickerSelect->where('market_id', 'in', $marketIds);
+			$tickerSelect->where(['market_id', 'in', $marketIds]);
 		}
 
 		if ($isin !== null) {
-			$tickerSelect->where('isin', $isin);
+			$tickerSelect->where(['isin' => $isin]);
 		}
 
 		return $tickerSelect;
@@ -164,9 +166,9 @@ final class TickerRepository extends ARepository
 
 	/**
 	 * @param list<int>|null $marketIds
-	 * @return list<Ticker>
+	 * @return Iterator<Ticker>
 	 */
-	public function findTickersByIsin(string $isin, ?array $marketIds = null): iterable
+	public function findTickersByIsin(string $isin, ?array $marketIds = null): Iterator
 	{
 		return $this->getTickerByIsinSelect($isin, $marketIds)
 			->fetchAll();
@@ -193,10 +195,10 @@ final class TickerRepository extends ARepository
 	private function getTickerByIsinSelect(string $isin, ?array $marketIds = null): Select
 	{
 		$tickerSelect = $this->select()
-			->where('isin', $isin);
+			->where(['isin' => $isin]);
 
 		if ($marketIds !== null) {
-			$tickerSelect->where('market_id', 'in', $marketIds);
+			$tickerSelect->where(['market_id', 'in', $marketIds]);
 		}
 
 		return $tickerSelect;

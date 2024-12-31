@@ -28,7 +28,7 @@ class IndustryDataProvider
 	{
 		$dateTime = DateTimeUtils::setEndOfDateTime($dateTime);
 
-		$key = $industry->getId() . '-' . $portfolio->getId() . '-' . $dateTime->getTimestamp();
+		$key = $industry->id . '-' . $portfolio->id . '-' . $dateTime->getTimestamp();
 
 		/** @var CalculatedDataDto|null $industryData */
 		$industryData = $this->cache->load($key);

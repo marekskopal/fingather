@@ -46,7 +46,7 @@ final class GroupController
 
 		$groups = array_map(
 			fn (Group $group): GroupDto => GroupDto::fromEntity($group),
-			$this->groupProvider->getGroups($user, $portfolio),
+			iterator_to_array($this->groupProvider->getGroups($user, $portfolio), false),
 		);
 
 		return new JsonResponse($groups);

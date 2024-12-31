@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace FinGather\Model\Repository;
 
 use FinGather\Model\Entity\Sector;
+use MarekSkopal\ORM\Repository\AbstractRepository;
 
-/** @extends ARepository<Sector> */
-final class SectorRepository extends ARepository
+/** @extends AbstractRepository<Sector> */
+final class SectorRepository extends AbstractRepository
 {
 	public function findSectorByName(string $name): ?Sector
 	{

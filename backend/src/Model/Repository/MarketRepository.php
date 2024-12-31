@@ -6,15 +6,17 @@ namespace FinGather\Model\Repository;
 
 use FinGather\Model\Entity\Enum\MarketTypeEnum;
 use FinGather\Model\Entity\Market;
+use Iterator;
+use MarekSkopal\ORM\Repository\AbstractRepository;
 
-/** @extends ARepository<Market> */
-final class MarketRepository extends ARepository
+/** @extends AbstractRepository<Market> */
+final class MarketRepository extends AbstractRepository
 {
 	/** @var array<string,Market|null> */
 	private array $marketsByExchangeCode = [];
 
-	/** @return list<Market> */
-	public function findMarkets(?MarketTypeEnum $type = null): array
+	/** @return Iterator<Market> */
+	public function findMarkets(?MarketTypeEnum $type = null): Iterator
 	{
 		if ($type === null) {
 			return $this->findAll();

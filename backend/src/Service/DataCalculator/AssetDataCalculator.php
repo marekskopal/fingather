@@ -45,7 +45,7 @@ final class AssetDataCalculator
 			return null;
 		}
 
-		$splits = $this->splitProvider->getSplits($asset->getTicker());
+		$splits = $this->splitProvider->getSplits($asset->ticker);
 
 		$units = new Decimal(0);
 		$dividendYield = new Decimal(0);
@@ -58,17 +58,13 @@ final class AssetDataCalculator
 		$realizedGain = new Decimal(0);
 		$realizedGainDefaultCurrency = new Decimal(0);
 
-		$defaultCurrency = $portfolio->getCurrency();
-		$tickerCurrency = $asset->getTicker()->getCurrency();
+		$defaultCurrency = $portfolio->currency;
+		$tickerCurrency = $asset->ticker->currency;
 
-		$exchangeRate = $this->exchangeRateProvider->getExchangeRate(
-			$dateTime,
-			$tickerCurrency,
-			$portfolio->getCurrency(),
-		);
+		$exchangeRate = $this->exchangeRateProvider->getExchangeRate($dateTime, $tickerCurrency, $portfolio->currency);
 
 		$firstTransaction = $transactions[array_key_first($transactions)];
-		$fromFirstTransactionDays = (int) $dateTime->diff($firstTransaction->getActionCreated())->days;
+		$fromFirstTransactionDays = (int) $dateTime->diff($firstTransaction->actionCreated)->days;
 
 		$buys = [];
 
@@ -98,7 +94,7 @@ final class AssetDataCalculator
 
 		$transactionValue = $this->countTransactionValue($buys);
 
-		$lastTickerDataClose = $this->tickerDataProvider->getLastTickerDataClose($asset->getTicker(), $dateTime);
+		$lastTickerDataClose = $this->tickerDataProvider->getLastTickerDataClose($asset->ticker, $dateTime);
 		$price = $lastTickerDataClose ?? new Decimal(0);
 
 		$value = $units->mul($price);
@@ -143,7 +139,7 @@ final class AssetDataCalculator
 			taxDefaultCurrency: $taxDefaultCurrency,
 			fee: $fee,
 			feeDefaultCurrency: $feeDefaultCurrency,
-			firstTransactionActionCreated: $firstTransaction->getActionCreated(),
+			firstTransactionActionCreated: $firstTransaction->actionCreated,
 		);
 	}
 
@@ -168,26 +164,26 @@ final class AssetDataCalculator
 		Decimal &$fee,
 		Decimal &$feeDefaultCurrency,
 	): void {
-		$tax = $tax->add($transaction->getTaxTickerCurrency());
-		$taxDefaultCurrency = $taxDefaultCurrency->add($transaction->getTaxDefaultCurrency());
-		$fee = $fee->add($transaction->getFeeTickerCurrency());
-		$feeDefaultCurrency = $feeDefaultCurrency->add($transaction->getFeeDefaultCurrency());
+		$tax = $tax->add($transaction->taxTickerCurrency);
+		$taxDefaultCurrency = $taxDefaultCurrency->add($transaction->taxDefaultCurrency);
+		$fee = $fee->add($transaction->feeTickerCurrency);
+		$feeDefaultCurrency = $feeDefaultCurrency->add($transaction->feeDefaultCurrency);
 
 		if (
-			$transaction->getActionType() === TransactionActionTypeEnum::Tax
-			|| $transaction->getActionType() === TransactionActionTypeEnum::Fee
-			|| $transaction->getActionType() === TransactionActionTypeEnum::DividendTax
+			$transaction->actionType === TransactionActionTypeEnum::Tax
+			|| $transaction->actionType === TransactionActionTypeEnum::Fee
+			|| $transaction->actionType === TransactionActionTypeEnum::DividendTax
 		) {
 			return;
 		}
 
-		if ($transaction->getActionType() === TransactionActionTypeEnum::Dividend) {
-			$dividendTransactionValue = $transaction->getPriceTickerCurrency();
+		if ($transaction->actionType === TransactionActionTypeEnum::Dividend) {
+			$dividendTransactionValue = $transaction->priceTickerCurrency;
 
 			$dividendYield = $dividendYield->add($dividendTransactionValue);
 
-			if ($transaction->getCurrency()->getId() === $defaultCurrency->getId()) {
-				$dividendYieldDefaultCurrency = $dividendYieldDefaultCurrency->add($transaction->getPrice());
+			if ($transaction->currency->id === $defaultCurrency->id) {
+				$dividendYieldDefaultCurrency = $dividendYieldDefaultCurrency->add($transaction->price);
 			} else {
 				$dividendYieldTickerCurrency = $dividendYieldTickerCurrency->add($dividendTransactionValue);
 			}
@@ -195,26 +191,26 @@ final class AssetDataCalculator
 			return;
 		}
 
-		$splitFactor = $this->countSplitFactor($transaction->getActionCreated(), $dateTime, $splits);
+		$splitFactor = $this->countSplitFactor($transaction->actionCreated, $dateTime, $splits);
 
-		$transactionUnits = $transaction->getUnits();
+		$transactionUnits = $transaction->units;
 		$transactionUnitsWithSplit = $transactionUnits->mul($splitFactor);
 
 		$units = $units->add($transactionUnitsWithSplit);
 
-		if ($transaction->getActionType() === TransactionActionTypeEnum::Buy) {
+		if ($transaction->actionType === TransactionActionTypeEnum::Buy) {
 			$buys[] = new TransactionBuyDto(
-				brokerId: $transaction->getBrokerId(),
-				actionCreated: $transaction->getActionCreated(),
+				brokerId: $transaction->brokerId,
+				actionCreated: $transaction->actionCreated,
 				units: $transactionUnits,
-				priceTickerCurrency: $transaction->getPriceTickerCurrency(),
-				priceDefaultCurrency: $transaction->getPriceDefaultCurrency(),
-				priceWithSplitTickerCurrency: $transaction->getPriceTickerCurrency()->div($splitFactor),
-				priceWithSplitDefaultCurrency: $transaction->getPriceDefaultCurrency()->div($splitFactor),
+				priceTickerCurrency: $transaction->priceTickerCurrency,
+				priceDefaultCurrency: $transaction->priceDefaultCurrency,
+				priceWithSplitTickerCurrency: $transaction->priceTickerCurrency->div($splitFactor),
+				priceWithSplitDefaultCurrency: $transaction->priceDefaultCurrency->div($splitFactor),
 			);
 		}
 
-		if ($transaction->getActionType() !== TransactionActionTypeEnum::Sell) {
+		if ($transaction->actionType !== TransactionActionTypeEnum::Sell) {
 			return;
 		}
 
@@ -289,15 +285,15 @@ final class AssetDataCalculator
 
 		$sumBuyUnits = new Decimal(0, 18);
 
-		$buysForBroker = array_filter($buys, fn(TransactionBuyDto $buy) => $buy->brokerId === $transaction->getBrokerId());
+		$buysForBroker = array_filter($buys, fn(TransactionBuyDto $buy) => $buy->brokerId === $transaction->brokerId);
 
 		foreach ($buysForBroker as $buyKey => $buy) {
-			$buySplitFactor = $this->countSplitFactor($buy->actionCreated, $transaction->getActionCreated(), $splits);
+			$buySplitFactor = $this->countSplitFactor($buy->actionCreated, $transaction->actionCreated, $splits);
 
 			$buyUnitsWithSplits = $buy->units->mul($buySplitFactor);
 
-			$sellValue = $buyUnitsWithSplits->mul($transaction->getPriceTickerCurrency());
-			$sellValueDefaultCurrency = $buyUnitsWithSplits->mul($transaction->getPriceDefaultCurrency());
+			$sellValue = $buyUnitsWithSplits->mul($transaction->priceTickerCurrency);
+			$sellValueDefaultCurrency = $buyUnitsWithSplits->mul($transaction->priceDefaultCurrency);
 
 			$buyValue = $buy->units->mul($buy->priceTickerCurrency);
 			$buyValueDefaultCurrency = $buy->units->mul($buy->priceDefaultCurrency);

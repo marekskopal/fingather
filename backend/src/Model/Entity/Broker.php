@@ -4,50 +4,26 @@ declare(strict_types=1);
 
 namespace FinGather\Model\Entity;
 
-use Cycle\Annotated\Annotation\Column;
-use Cycle\Annotated\Annotation\Entity;
-use Cycle\Annotated\Annotation\Relation\RefersTo;
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Model\Repository\BrokerRepository;
-use MarekSkopal\Cycle\Enum\ColumnEnum;
+use MarekSkopal\ORM\Attribute\Column;
+use MarekSkopal\ORM\Attribute\ColumnEnum;
+use MarekSkopal\ORM\Attribute\Entity;
+use MarekSkopal\ORM\Attribute\ManyToOne;
+use MarekSkopal\ORM\Enum\Type;
 
-#[Entity(repository: BrokerRepository::class)]
+#[Entity(repositoryClass: BrokerRepository::class)]
 class Broker extends AEntity
 {
 	public function __construct(
-		#[RefersTo(target: User::class)]
-		private User $user,
-		#[RefersTo(target: Portfolio::class)]
-		private Portfolio $portfolio,
-		#[Column(type: 'string')]
-		private string $name,
+		#[ManyToOne(entityClass: User::class)]
+		public readonly User $user,
+		#[ManyToOne(entityClass: Portfolio::class)]
+		public readonly Portfolio $portfolio,
+		#[Column(type: Type::String)]
+		public string $name,
 		#[ColumnEnum(enum: BrokerImportTypeEnum::class)]
-		private BrokerImportTypeEnum $importType,
+		public BrokerImportTypeEnum $importType,
 	) {
-	}
-
-	public function getUser(): User
-	{
-		return $this->user;
-	}
-
-	public function getName(): string
-	{
-		return $this->name;
-	}
-
-	public function setName(string $name): void
-	{
-		$this->name = $name;
-	}
-
-	public function getImportType(): BrokerImportTypeEnum
-	{
-		return $this->importType;
-	}
-
-	public function setImportType(BrokerImportTypeEnum $importType): void
-	{
-		$this->importType = $importType;
 	}
 }

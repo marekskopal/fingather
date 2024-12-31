@@ -6,17 +6,19 @@ namespace FinGather\Model\Repository;
 
 use DateTimeImmutable;
 use FinGather\Model\Entity\TickerData;
+use Iterator;
+use MarekSkopal\ORM\Repository\AbstractRepository;
 
-/** @extends ARepository<TickerData> */
-final class TickerDataRepository extends ARepository
+/** @extends AbstractRepository<TickerData> */
+final class TickerDataRepository extends AbstractRepository
 {
-	/** @return list<TickerData> */
-	public function findTickerDatas(int $tickerId, DateTimeImmutable $fromDate, DateTimeImmutable $toDate): iterable
+	/** @return Iterator<TickerData> */
+	public function findTickerDatas(int $tickerId, DateTimeImmutable $fromDate, DateTimeImmutable $toDate): Iterator
 	{
 		return $this->select()
-			->where('ticker_id', $tickerId)
-			->where('date', '>=', $fromDate)
-			->where('date', '<=', $toDate)
+			->where(['ticker_id' => $tickerId])
+			->where(['date', '>=', $fromDate])
+			->where(['date', '<=', $toDate])
 			->orderBy('date', 'DESC')
 			->fetchAll();
 	}
@@ -24,10 +26,10 @@ final class TickerDataRepository extends ARepository
 	public function findLastTickerData(int $tickerId, ?DateTimeImmutable $beforeDate = null): ?TickerData
 	{
 		$select = $this->select()
-			->where('ticker_id', $tickerId);
+			->where(['ticker_id' => $tickerId]);
 
 		if ($beforeDate !== null) {
-			$select->where('date', '<=', $beforeDate);
+			$select->where(['date', '<=', $beforeDate]);
 		}
 
 		$select->orderBy('date', 'DESC');

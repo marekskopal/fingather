@@ -9,6 +9,7 @@ use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\BrokerRepository;
+use Iterator;
 
 class BrokerProvider
 {
@@ -16,20 +17,20 @@ class BrokerProvider
 	{
 	}
 
-	/** @return list<Broker> */
-	public function getBrokers(User $user, Portfolio $portfolio): array
+	/** @return Iterator<Broker> */
+	public function getBrokers(User $user, Portfolio $portfolio): Iterator
 	{
-		return $this->brokerRepository->findBrokers($user->getId(), $portfolio->getId());
+		return $this->brokerRepository->findBrokers($user->id, $portfolio->id);
 	}
 
 	public function getBroker(User $user, int $brokerId): ?Broker
 	{
-		return $this->brokerRepository->findBroker($brokerId, $user->getId());
+		return $this->brokerRepository->findBroker($brokerId, $user->id);
 	}
 
 	public function getBrokerByImportType(User $user, Portfolio $portfolio, BrokerImportTypeEnum $importType): ?Broker
 	{
-		return $this->brokerRepository->findBrokerByImportType($user->getId(), $portfolio->getId(), $importType);
+		return $this->brokerRepository->findBrokerByImportType($user->id, $portfolio->id, $importType);
 	}
 
 	public function createBroker(User $user, Portfolio $portfolio, string $name, BrokerImportTypeEnum $importType): Broker
@@ -42,8 +43,8 @@ class BrokerProvider
 
 	public function updateBroker(Broker $broker, string $name, BrokerImportTypeEnum $importType): Broker
 	{
-		$broker->setName($name);
-		$broker->setImportType($importType);
+		$broker->name = $name;
+		$broker->importType = $importType;
 		$this->brokerRepository->persist($broker);
 
 		return $broker;

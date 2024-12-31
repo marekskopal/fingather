@@ -44,13 +44,13 @@ final class TickerIsinUpdater
 
 					$ticker = $this->tickerRepository->findTickerByTicker(
 						str_replace('/', '.', $mappingResult->ticker),
-						[$market->getId()],
+						[$market->id],
 					);
 					if ($ticker === null) {
 						continue;
 					}
 
-					$ticker->setIsin($batchIsins[$j]);
+					$ticker->isin = $batchIsins[$j];
 					$this->tickerRepository->persist($ticker);
 				}
 

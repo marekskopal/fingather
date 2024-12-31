@@ -31,7 +31,7 @@ final class DividendDataCalculator
 
 		$period = DateTimeUtils::getDatePeriod(
 			range: $range,
-			firstDate: $firstTransaction->getActionCreated(),
+			firstDate: $firstTransaction->actionCreated,
 			shiftStartDate: $range === RangeEnum::All,
 		);
 
@@ -49,22 +49,22 @@ final class DividendDataCalculator
 		$dividendData = [];
 
 		foreach ($transactions as $transaction) {
-			$dividendYield = $transaction->getPriceDefaultCurrency();
+			$dividendYield = $transaction->priceDefaultCurrency;
 
-			$dateRangeKey = $this->getDateRangeKey($transaction->getActionCreated(), $range);
+			$dateRangeKey = $this->getDateRangeKey($transaction->actionCreated, $range);
 
-			$asset = $transaction->getAsset();
+			$asset = $transaction->asset;
 
-			$dividendDataAsset = $dividendData[$dateRangeKey][$asset->getId()] ?? new DividendDataAssetDto(
-				id: $asset->getId(),
-				tickerTicker: $asset->getTicker()->getTicker(),
-				tickerName: $asset->getTicker()->getName(),
+			$dividendDataAsset = $dividendData[$dateRangeKey][$asset->id] ?? new DividendDataAssetDto(
+				id: $asset->id,
+				tickerTicker: $asset->ticker->ticker,
+				tickerName: $asset->ticker->name,
 				dividendYield: new Decimal(0),
 			);
 
 			$dividendDataAsset->dividendYield = $dividendDataAsset->dividendYield->add($dividendYield);
 
-			$dividendData[$dateRangeKey][$asset->getId()] = $dividendDataAsset;
+			$dividendData[$dateRangeKey][$asset->id] = $dividendDataAsset;
 		}
 
 		ksort($dividendData);

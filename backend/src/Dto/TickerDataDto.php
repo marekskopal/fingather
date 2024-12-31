@@ -26,7 +26,7 @@ final readonly class TickerDataDto
 	{
 		return new self(
 			id: $tickerData->id,
-			tickerId: $tickerData->ticker->getId(),
+			tickerId: $tickerData->ticker->id,
 			date: DateTimeUtils::formatZulu($tickerData->date),
 			open: $tickerData->open,
 			close: $tickerData->close,

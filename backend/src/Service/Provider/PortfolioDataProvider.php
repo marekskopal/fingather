@@ -33,7 +33,7 @@ class PortfolioDataProvider
 	{
 		$dateTime = DateTimeUtils::setEndOfDateTime($dateTime);
 
-		$key = $portfolio->getId() . '-' . $dateTime->getTimestamp();
+		$key = $portfolio->id . '-' . $dateTime->getTimestamp();
 
 		/** @var CalculatedDataDto|null $portfolioData */
 		$portfolioData = $this->cache->load($key);
@@ -53,10 +53,7 @@ class PortfolioDataProvider
 			$assetDatas[] = $assetData;
 		}
 
-		$fistTransactionActionCreated = $this->transactionProvider->getFirstTransaction(
-			$user,
-			$portfolio,
-		)?->getActionCreated() ?? $dateTime;
+		$fistTransactionActionCreated = $this->transactionProvider->getFirstTransaction($user, $portfolio)?->actionCreated ?? $dateTime;
 
 		$calculatedData = $this->dataCalculator->calculate($assetDatas, $dateTime, $fistTransactionActionCreated);
 

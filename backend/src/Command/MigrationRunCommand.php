@@ -22,9 +22,8 @@ final class MigrationRunCommand extends Command
 
 		$migrator = $application->dbContext->getMigrator();
 
-		while ($migrator->run() !== null) { //phpcs:ignore
-		}
+		$migrator->migrate();
 
-		return 0;
+		return self::SUCCESS;
 	}
 }

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace FinGather\PhpStan;
 
-use Cycle\Annotated\Annotation\Column;
-use Cycle\Annotated\Annotation\Relation\RefersTo;
-use MarekSkopal\Cycle\Decimal\ColumnDecimal;
-use MarekSkopal\Cycle\Enum\ColumnEnum;
+use MarekSkopal\ORM\Attribute\Column;
+use MarekSkopal\ORM\Attribute\ColumnEnum;
+use MarekSkopal\ORM\Attribute\ManyToOne;
+use MarekSkopal\ORM\Decimal\Attribute\ColumnDecimal;
 use PHPStan\Reflection\Php\PhpPropertyReflection;
 use PHPStan\Reflection\PropertyReflection;
 use PHPStan\Rules\Properties\ReadWritePropertiesExtension;
@@ -25,7 +25,7 @@ class CycleReadWritePropertiesExtension implements ReadWritePropertiesExtension
 		foreach ($attributes as $attribute) {
 			if (in_array($attribute->getName(), [
 				Column::class,
-				RefersTo::class,
+				ManyToOne::class,
 				ColumnDecimal::class,
 				ColumnEnum::class,
 			], true)) {

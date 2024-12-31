@@ -37,8 +37,8 @@ class SectorWithSectorDataProvider
 
 			$sectorsWithCountryData[] = new SectorWithSectorDataDto(
 				id: $sectorId,
-				userId: $user->getId(),
-				name: $sector->getName(),
+				userId: $user->id,
+				name: $sector->name,
 				percentage: CalculatorUtils::toPercentage($sectorData->value, $portfolioData->value),
 				groupData: GroupDataDto::fromCalculatedDataDto($sectorData),
 			);

@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace FinGather\Model\Repository;
 
 use FinGather\Model\Entity\Group;
+use Iterator;
+use MarekSkopal\ORM\Repository\AbstractRepository;
 
-/** @extends ARepository<Group> */
-final class GroupRepository extends ARepository
+/** @extends AbstractRepository<Group> */
+final class GroupRepository extends AbstractRepository
 {
-	/** @return list<Group> */
-	public function findGroups(int $userId, int $portfolioId): array
+	/** @return Iterator<Group> */
+	public function findGroups(int $userId, int $portfolioId): Iterator
 	{
 		return $this->findAll([
 			'user_id' => $userId,

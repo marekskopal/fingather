@@ -6,25 +6,27 @@ namespace FinGather\Model\Repository;
 
 use FinGather\Model\Entity\ApiImport;
 use FinGather\Model\Entity\Enum\ApiImportStatusEnum;
+use Iterator;
+use MarekSkopal\ORM\Repository\AbstractRepository;
 
-/** @extends ARepository<ApiImport> */
-final class ApiImportRepository extends ARepository
+/** @extends AbstractRepository<ApiImport> */
+final class ApiImportRepository extends AbstractRepository
 {
-	/** @return list<ApiImport> */
-	public function findApiImports(?int $userId = null, ?int $portfolioId = null, ?ApiImportStatusEnum $apiImportStatus = null): array
+	/** @return Iterator<ApiImport> */
+	public function findApiImports(?int $userId = null, ?int $portfolioId = null, ?ApiImportStatusEnum $apiImportStatus = null): Iterator
 	{
 		$apiImportsSelect = $this->select();
 
 		if ($userId !== null) {
-			$apiImportsSelect->where('user_id', $userId);
+			$apiImportsSelect->where(['user_id' => $userId]);
 		}
 
 		if ($portfolioId !== null) {
-			$apiImportsSelect->where('portfolio_id', $portfolioId);
+			$apiImportsSelect->where(['portfolio_id' => $portfolioId]);
 		}
 
 		if ($apiImportStatus !== null) {
-			$apiImportsSelect->where('status', $apiImportStatus);
+			$apiImportsSelect->where(['status' => $apiImportStatus]);
 		}
 
 		return $apiImportsSelect->fetchAll();
@@ -32,13 +34,13 @@ final class ApiImportRepository extends ARepository
 
 	public function findApiImport(int $apiImportId): ?ApiImport
 	{
-		return $this->select()->where('id', $apiImportId)->fetchOne();
+		return $this->select()->where(['id' => $apiImportId])->fetchOne();
 	}
 
 	public function findLastApiImport(int $apiKey): ?ApiImport
 	{
 		return $this->select()
-			->where('api_key_id', $apiKey)
+			->where(['api_key_id' => $apiKey])
 			->orderBy('date_to', 'DESC')
 			->fetchOne();
 	}
