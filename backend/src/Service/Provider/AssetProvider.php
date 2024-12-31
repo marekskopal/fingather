@@ -15,6 +15,7 @@ use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\AssetRepository;
 use FinGather\Service\Update\TickerRelationsUpdater;
+use Iterator;
 
 class AssetProvider
 {
@@ -25,7 +26,7 @@ class AssetProvider
 	{
 	}
 
-	/** @return list<Asset> */
+	/** @return Iterator<Asset> */
 	public function getAssets(
 		User $user,
 		Portfolio $portfolio,
@@ -34,16 +35,16 @@ class AssetProvider
 		?Country $country = null,
 		?Sector $sector = null,
 		?Industry $industry = null,
-	): array
+	): Iterator
 	{
 		return $this->assetRepository->findAssets(
-			$user->getId(),
-			$portfolio->getId(),
+			$user->id,
+			$portfolio->id,
 			$dateTime,
-			$group?->getId(),
-			$country?->getId(),
-			$sector?->getId(),
-			$industry?->getId(),
+			$group?->id,
+			$country?->id,
+			$sector?->id,
+			$industry?->id,
 		);
 	}
 
@@ -58,19 +59,19 @@ class AssetProvider
 	): int
 	{
 		return $this->assetRepository->countAssets(
-			$user->getId(),
-			$portfolio?->getId(),
+			$user->id,
+			$portfolio?->id,
 			$dateTime,
-			$group?->getId(),
-			$country?->getId(),
-			$sector?->getId(),
-			$industry?->getId(),
+			$group?->id,
+			$country?->id,
+			$sector?->id,
+			$industry?->id,
 		);
 	}
 
 	public function getAsset(User $user, int $assetId): ?Asset
 	{
-		return $this->assetRepository->findAsset($assetId, $user->getId());
+		return $this->assetRepository->findAsset($assetId, $user->id);
 	}
 
 	public function createAsset(User $user, Portfolio $portfolio, Ticker $ticker, Group $othersGroup): Asset
@@ -86,11 +87,7 @@ class AssetProvider
 
 	public function getOrCreateAsset(User $user, Portfolio $portfolio, Ticker $ticker, Group $othersGroup): Asset
 	{
-		$asset = $this->assetRepository->findAssetByTickerId(
-			tickerId: $ticker->getId(),
-			userId: $user->getId(),
-			portfolioId: $portfolio->getId(),
-		);
+		$asset = $this->assetRepository->findAssetByTickerId(tickerId: $ticker->id, userId: $user->id, portfolioId: $portfolio->id);
 		if ($asset !== null) {
 			return $asset;
 		}

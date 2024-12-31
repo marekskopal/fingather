@@ -4,21 +4,23 @@ declare(strict_types=1);
 
 namespace FinGather\Model\Repository;
 
-use Cycle\ORM\Select;
-use Cycle\ORM\Select\QueryBuilder;
 use DateTimeImmutable;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Transaction;
 use FinGather\Model\Repository\Enum\OrderDirectionEnum;
 use FinGather\Model\Repository\Enum\TransactionOrderByEnum;
+use Iterator;
+use MarekSkopal\ORM\Query\Select;
+use MarekSkopal\ORM\Query\Where\WhereBuilder;
+use MarekSkopal\ORM\Repository\AbstractRepository;
 
-/** @extends ARepository<Transaction> */
-final class TransactionRepository extends ARepository
+/** @extends AbstractRepository<Transaction> */
+final class TransactionRepository extends AbstractRepository
 {
 	/**
 	 * @param list<TransactionActionTypeEnum>|null $actionTypes
 	 * @param array<value-of<TransactionOrderByEnum>,OrderDirectionEnum> $orderBy
-	 * @return list<Transaction>
+	 * @return Iterator<Transaction>
 	 */
 	public function findTransactions(
 		int $userId,
@@ -34,7 +36,7 @@ final class TransactionRepository extends ARepository
 		array $orderBy = [
 			TransactionOrderByEnum::ActionCreated->value => OrderDirectionEnum::DESC,
 		],
-	): iterable {
+	): Iterator {
 		return $this->getTransactionsSelect(
 			$userId,
 			$portfolioId,
@@ -94,38 +96,38 @@ final class TransactionRepository extends ARepository
 		],
 	): Select {
 		$transactions = $this->select()
-			->where('user_id', $userId);
+			->where(['user_id' => $userId]);
 
 		if ($portfolioId !== null) {
-			$transactions->where('portfolio_id', $portfolioId);
+			$transactions->where(['portfolio_id' => $portfolioId]);
 		}
 
 		if ($assetId !== null) {
-			$transactions->where('asset_id', $assetId);
+			$transactions->where(['asset_id' => $assetId]);
 		}
 
 		if ($actionCreatedAfter !== null) {
-			$transactions->where('action_created', '>=', $actionCreatedAfter);
+			$transactions->where(['action_created', '>=', $actionCreatedAfter]);
 		}
 
 		if ($actionCreatedBefore !== null) {
-			$transactions->where('action_created', '<=', $actionCreatedBefore);
+			$transactions->where(['action_created', '<=', $actionCreatedBefore]);
 		}
 
 		if ($actionTypes !== null) {
-			$transactions->where('action_type', 'in', array_map(fn (TransactionActionTypeEnum $item) => $item->value, $actionTypes));
+			$transactions->where(['action_type', 'in', array_map(fn (TransactionActionTypeEnum $item) => $item->value, $actionTypes)]);
 		}
 
 		if ($created !== null) {
-			$transactions->where('created', '>=', $created->setTime(0, 0));
-			$transactions->where('created', '<=', $created->setTime(23, 59, 59));
+			$transactions->where(['created', '>=', $created->setTime(0, 0)]);
+			$transactions->where(['created', '<=', $created->setTime(23, 59, 59)]);
 		}
 
 		if ($search !== null) {
 			$transactions->where(
-				fn (QueryBuilder $select) =>
-					$select->where('asset.ticker.name', 'like', '%' . $search . '%')
-					->orWhere('asset.ticker.ticker', 'like', '%' . $search . '%'),
+				fn (WhereBuilder $builder): WhereBuilder =>
+				$builder->where(['asset.ticker.name', 'like', '%' . $search . '%'])
+					->orWhere(['asset.ticker.ticker', 'like', '%' . $search . '%']),
 			);
 		}
 
@@ -163,11 +165,11 @@ final class TransactionRepository extends ARepository
 	public function findFirstTransaction(int $userId, int $portfolioId, ?int $assetId = null): ?Transaction
 	{
 		$firstTransactionSelect = $this->select()
-			->where('user_id', $userId)
-			->where('portfolio_id', $portfolioId);
+			->where(['user_id' => $userId])
+			->where(['portfolio_id' => $portfolioId]);
 
 		if ($assetId !== null) {
-			$firstTransactionSelect->where('asset_id', $assetId);
+			$firstTransactionSelect->where(['asset_id' => $assetId]);
 		}
 
 		$firstTransactionSelect->orderBy('action_created');

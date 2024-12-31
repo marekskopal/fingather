@@ -4,15 +4,18 @@ declare(strict_types=1);
 
 namespace FinGather\Model\Repository;
 
-use Cycle\ORM\Select;
 use DateTimeImmutable;
 use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
+use FinGather\Model\Entity\Transaction;
+use Iterator;
+use MarekSkopal\ORM\Query\Select;
+use MarekSkopal\ORM\Repository\AbstractRepository;
 
-/** @extends ARepository<Asset> */
-final class AssetRepository extends ARepository
+/** @extends AbstractRepository<Asset> */
+final class AssetRepository extends AbstractRepository
 {
-	/** @return list<Asset> */
+	/** @return Iterator<Asset> */
 	public function findAssets(
 		int $userId,
 		?int $portfolioId = null,
@@ -21,7 +24,7 @@ final class AssetRepository extends ARepository
 		?int $countryId = null,
 		?int $sectorId = null,
 		?int $industryId = null,
-	): array
+	): Iterator
 	{
 		return $this->getAssetsSelect($userId, $portfolioId, $dateTime, $groupId, $countryId, $sectorId, $industryId)->fetchAll();
 	}
@@ -51,39 +54,42 @@ final class AssetRepository extends ARepository
 	): Select
 	{
 		$assetsSelect = $this->select()
-			->where('user_id', $userId);
+			->where(['user_id' => $userId]);
 
 		if ($portfolioId !== null) {
-			$assetsSelect->where('portfolio_id', $portfolioId);
+			$assetsSelect->where(['portfolio_id' => $portfolioId]);
 		}
 
 		if ($dateTime !== null) {
-			$transactionAssetSelect = $this->getQueryProvider()
-				->select('asset_id')
-				->from('transactions')
-				->where('user_id', $userId)
-				->where('portfolio_id', $portfolioId)
-				->where('action_created', '<=', $dateTime)
-				->where('action_type', 'in', [TransactionActionTypeEnum::Buy->value, TransactionActionTypeEnum::Sell->value])
-				->groupBy('asset_id');
+			$transactionAssetSelect = $this->queryProvider
+				->select(Transaction::class)
+				->columns(['asset_id'])
+				->where(['user_id' => $userId]);
+			if ($portfolioId !== null) {
+				$transactionAssetSelect->where(['portfolio_id' => $portfolioId]);
+			}
+			$transactionAssetSelect
+				->where(['action_created', '<=', $dateTime])
+				->where(['action_type', 'in', [TransactionActionTypeEnum::Buy->value, TransactionActionTypeEnum::Sell->value]])
+				->groupBy(['asset_id']);
 
-			$assetsSelect->where('id', 'in', $transactionAssetSelect);
+			$assetsSelect->where(['id', 'in', $transactionAssetSelect]);
 		}
 
 		if ($groupId !== null) {
-			$assetsSelect->where('group_id', $groupId);
+			$assetsSelect->where(['group_id' => $groupId]);
 		}
 
 		if ($countryId !== null) {
-			$assetsSelect->where('ticker.country_id', $countryId);
+			$assetsSelect->where(['ticker.country_id' => $countryId]);
 		}
 
 		if ($sectorId !== null) {
-			$assetsSelect->where('ticker.sector_id', $sectorId);
+			$assetsSelect->where(['ticker.sector_id' => $sectorId]);
 		}
 
 		if ($industryId !== null) {
-			$assetsSelect->where('ticker.industry_id', $industryId);
+			$assetsSelect->where(['ticker.industry_id' => $industryId]);
 		}
 
 		$assetsSelect->orderBy('ticker.name');
@@ -102,14 +108,14 @@ final class AssetRepository extends ARepository
 	public function findAssetByTickerId(int $tickerId, ?int $userId = null, ?int $portfolioId = null): ?Asset
 	{
 		$assetsSelect = $this->select()
-			->where('ticker_id', $tickerId);
+			->where(['ticker_id' => $tickerId]);
 
 		if ($userId !== null) {
-			$assetsSelect->where('user_id', $userId);
+			$assetsSelect->where(['user_id' => $userId]);
 		}
 
 		if ($portfolioId !== null) {
-			$assetsSelect->where('portfolio_id', $portfolioId);
+			$assetsSelect->where(['portfolio_id' => $portfolioId]);
 		}
 
 		return $assetsSelect->fetchOne();

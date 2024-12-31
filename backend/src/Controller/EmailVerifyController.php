@@ -35,7 +35,7 @@ final class EmailVerifyController
 			return new NotFoundResponse('Email Verify with token "' . $emailVerifyCreateDto->token . '" was not found.');
 		}
 
-		$this->userProvider->emailVerifyUser($emailVerify->getUser());
+		$this->userProvider->emailVerifyUser($emailVerify->user);
 
 		return new OkResponse();
 	}

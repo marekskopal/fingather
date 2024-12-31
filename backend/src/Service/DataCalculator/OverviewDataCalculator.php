@@ -29,7 +29,7 @@ final class OverviewDataCalculator
 			return [];
 		}
 
-		$fromDate = $firstTransaction->getActionCreated();
+		$fromDate = $firstTransaction->actionCreated;
 		$toDate = new DateTimeImmutable('today');
 
 		$fromDateYear = (int) $fromDate->format('Y');
@@ -53,7 +53,7 @@ final class OverviewDataCalculator
 			);
 			$yearFromDate = $yearToDate;
 
-			$fromFirstTransactionDays = (int) $yearToDate->diff($firstTransaction->getActionCreated())->days;
+			$fromFirstTransactionDays = (int) $yearToDate->diff($firstTransaction->actionCreated)->days;
 
 			if ($i === $fromDateYear) {
 				$yearCalculatedData[$i] = new YearCalculatedDataDto(

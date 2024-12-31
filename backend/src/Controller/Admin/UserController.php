@@ -43,7 +43,7 @@ final class UserController extends AdminController
 	{
 		$this->checkAdminRole($request);
 
-		$brokers = array_map(
+		$users = array_map(
 			function (User $user): UserWithStatisticDto {
 				return UserWithStatisticDto::fromEntity(
 					entity: $user,
@@ -51,10 +51,10 @@ final class UserController extends AdminController
 					transactionCount: $this->transactionProvider->countTransactions($user),
 				);
 			},
-			$this->userProvider->getUsers(),
+			iterator_to_array($this->userProvider->getUsers(), false),
 		);
 
-		return new JsonResponse($brokers);
+		return new JsonResponse($users);
 	}
 
 	#[RouteGet(Routes::AdminUser->value)]

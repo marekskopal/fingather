@@ -22,13 +22,13 @@ class CountryProvider
 
 		$assets = $this->assetProvider->getAssets(user: $user, portfolio: $portfolio, dateTime: $dateTime);
 		foreach ($assets as $asset) {
-			$country = $asset->getTicker()->getCountry();
+			$country = $asset->ticker->country;
 
-			if (array_key_exists($country->getId(), $countries)) {
+			if (array_key_exists($country->id, $countries)) {
 				continue;
 			}
 
-			$countries[$country->getId()] = $country;
+			$countries[$country->id] = $country;
 		}
 
 		return $countries;

@@ -28,9 +28,9 @@ final readonly class ImportPrepareDto
 	public static function fromImportPrepare(PrepareImport $prepareImport): self
 	{
 		return new self(
-			importId: $prepareImport->import->getId(),
-			uuid: $prepareImport->import->getUuid(),
-			importFileId: $prepareImport->importFile->getId(),
+			importId: $prepareImport->import->id,
+			uuid: $prepareImport->import->uuid,
+			importFileId: $prepareImport->importFile->id,
 			notFoundTickers: array_map(
 				fn (PrepareImportTicker $item): ImportPrepareTickerDto => ImportPrepareTickerDto::fromImportPrepareTicker($item),
 				array_values($prepareImport->notFoundTickers),

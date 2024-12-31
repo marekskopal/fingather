@@ -35,29 +35,29 @@ final class BenchmarkDataCalculator
 		DateTimeImmutable $benchmarkFromDateTime,
 		Decimal $benchmarkFromDateUnits,
 	): BenchmarkDataDto {
-		$benchmarkTickerCurrency = $benchmarkAsset->getTicker()->getCurrency();
-		$defaultCurrency = $portfolio->getCurrency();
+		$benchmarkTickerCurrency = $benchmarkAsset->ticker->currency;
+		$defaultCurrency = $portfolio->currency;
 
 		$benchmarkUnitsSum = new Decimal(0);
 
 		foreach ($transactions as $transaction) {
-			if ($transaction->getActionCreated() < $benchmarkFromDateTime) {
+			if ($transaction->actionCreated < $benchmarkFromDateTime) {
 				continue;
 			}
 
-			if ($transaction->getActionCreated() > $dateTime) {
+			if ($transaction->actionCreated > $dateTime) {
 				break;
 			}
 
 			$benchmarkUnitsSum = $benchmarkUnitsSum->add($this->calculateTransactionBenchmarkUnits(
 				$transaction,
-				$benchmarkAsset->getTicker(),
+				$benchmarkAsset->ticker,
 				$benchmarkTickerCurrency,
 				$defaultCurrency,
 			));
 		}
 
-		$benchmarkAssetTickerDataClose = $this->tickerDataProvider->getLastTickerDataClose($benchmarkAsset->getTicker(), $dateTime);
+		$benchmarkAssetTickerDataClose = $this->tickerDataProvider->getLastTickerDataClose($benchmarkAsset->ticker, $dateTime);
 		if ($benchmarkAssetTickerDataClose !== null) {
 			$benchmarkExchangeRateDefaultCurrency = $this->exchangeRateProvider->getExchangeRate(
 				$dateTime,
@@ -83,12 +83,12 @@ final class BenchmarkDataCalculator
 		Currency $benchmarkTickerCurrency,
 		Currency $defaultCurrency,
 	): Decimal {
-		$key = $transaction->getId() . '-' . $benchmarkAssetTicker->getId() . '-' . $defaultCurrency->getId();
+		$key = $transaction->id . '-' . $benchmarkAssetTicker->id . '-' . $defaultCurrency->id;
 		if (isset($this->transactionBenchmarkUnits[$key])) {
 			return $this->transactionBenchmarkUnits[$key];
 		}
 
-		$transactionActionCreated = $transaction->getActionCreated();
+		$transactionActionCreated = $transaction->actionCreated;
 
 		$benchmarkTransactionAssetTickerDataClose = $this->tickerDataProvider->getLastTickerDataClose(
 			$benchmarkAssetTicker,
@@ -98,9 +98,9 @@ final class BenchmarkDataCalculator
 			return new Decimal(0);
 		}
 
-		$transactionUnits = $transaction->getUnits();
+		$transactionUnits = $transaction->units;
 
-		$transactionPriceUnitDefaultCurrency = $transaction->getPriceDefaultCurrency();
+		$transactionPriceUnitDefaultCurrency = $transaction->priceDefaultCurrency;
 
 		$benchmarkTransactionExchangeRateDefaultCurrency = $this->exchangeRateProvider->getExchangeRate(
 			$transactionActionCreated,

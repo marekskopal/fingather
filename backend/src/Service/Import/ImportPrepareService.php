@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Import;
 
-use Cycle\Database\Exception\StatementException\ConstrainException;
 use FinGather\Dto\ImportDataFileDto;
 use FinGather\Dto\ImportPrepareDataDto;
 use FinGather\Model\Entity\Import;
@@ -24,6 +23,7 @@ use FinGather\Service\Provider\ImportMappingProvider;
 use FinGather\Service\Provider\ImportProvider;
 use FinGather\Service\Provider\TickerProvider;
 use FinGather\Service\Update\TickerIsinUpdater;
+use MarekSkopal\ORM\Exception\ConstrainException;
 use Psr\Log\LoggerInterface;
 
 final class ImportPrepareService
@@ -61,7 +61,7 @@ final class ImportPrepareService
 				importType: $importMapper->getImportType(),
 			);
 		}
-		$brokerId = $broker->getId();
+		$brokerId = $broker->id;
 
 		$importMappings = $this->importMappingProvider->getImportMappings($user, $portfolio, $broker);
 
@@ -230,7 +230,7 @@ final class ImportPrepareService
 			$okFoundTickers[$tickerKey] = new PrepareImportTicker(
 				brokerId: $brokerId,
 				ticker: $ticker,
-				tickers: [$importMappings[$tickerKey]->getTicker()],
+				tickers: [$importMappings[$tickerKey]->ticker],
 			);
 			return;
 		}
@@ -258,11 +258,11 @@ final class ImportPrepareService
 			$multipleFoundTickers[$tickerKey] = new PrepareImportTicker(
 				brokerId: $brokerId,
 				ticker: $ticker,
-				tickers: $this->tickerProvider->getTickersByTicker(
+				tickers: iterator_to_array($this->tickerProvider->getTickersByTicker(
 					ticker: $ticker,
 					isin: $isin,
 					marketIds: $importMapper->getAllowedMarketIds(),
-				),
+				), false),
 			);
 		} else {
 			$tickerByTicker = $this->tickerProvider->getTickerByTicker(
@@ -311,7 +311,7 @@ final class ImportPrepareService
 			$okFoundTickers[$tickerKey] = new PrepareImportTicker(
 				brokerId: $brokerId,
 				ticker: $isin,
-				tickers: [$importMappings[$tickerKey]->getTicker()],
+				tickers: [$importMappings[$tickerKey]->ticker],
 			);
 			return;
 		}
@@ -330,10 +330,10 @@ final class ImportPrepareService
 			$multipleFoundTickers[$tickerKey] = new PrepareImportTicker(
 				brokerId: $brokerId,
 				ticker: $isin,
-				tickers: $this->tickerProvider->getTickersByIsin(
+				tickers: iterator_to_array($this->tickerProvider->getTickersByIsin(
 					isin: $isin,
 					marketIds: $importMapper->getAllowedMarketIds(),
-				),
+				), false),
 			);
 		} else {
 			$tickerByTicker = $this->tickerProvider->getTickerByIsin(

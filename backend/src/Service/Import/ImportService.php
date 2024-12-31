@@ -56,10 +56,10 @@ final class ImportService
 
 	public function importDataFiles(Import $import): void
 	{
-		$user = $import->getUser();
-		$portfolio = $import->getPortfolio();
+		$user = $import->user;
+		$portfolio = $import->portfolio;
 		$othersGroup = $this->groupProvider->getOthersGroup($user, $portfolio);
-		$defaultCurrency = $portfolio->getCurrency();
+		$defaultCurrency = $portfolio->currency;
 
 		$firstDate = null;
 
@@ -100,8 +100,8 @@ final class ImportService
 	): ?DateTimeImmutable {
 		try {
 			$importMapper = $this->importMapperFactory->createImportMapper(
-				fileName: $importFile->getFileName(),
-				contents: $importFile->getContents(),
+				fileName: $importFile->fileName,
+				contents: $importFile->contents,
 			);
 		} catch (\RuntimeException) {
 			$this->logger->log('import', 'Import mapper not found');
@@ -112,16 +112,13 @@ final class ImportService
 		assert($broker instanceof Broker);
 		$importMappings = $this->importMappingProvider->getImportMappings($user, $portfolio, $broker);
 
-		foreach ($importMapper->getRecords($importFile->getContents()) as $record) {
+		foreach ($importMapper->getRecords($importFile->contents) as $record) {
 			/** @var array<string, string> $record */
 			$transactionRecord = $this->transactionRecordFactory->createFromCsvRecord($importMapper, $record);
 
 			if (
 				isset($transactionRecord->importIdentifier)
-				&& $this->transactionRepository->findTransactionByIdentifier(
-					$broker->getId(),
-					$transactionRecord->importIdentifier,
-				) !== null
+				&& $this->transactionRepository->findTransactionByIdentifier($broker->id, $transactionRecord->importIdentifier) !== null
 			) {
 				$this->logger->log('import', 'Skipped transaction: ' . implode(',', $record));
 				continue;
@@ -175,8 +172,8 @@ final class ImportService
 				importIdentifier: $transactionRecord->importIdentifier,
 			);
 
-			if ($firstDate === null || $transaction->getActionCreated()->getTimestamp() < $firstDate->getTimestamp()) {
-				$firstDate = $transaction->getActionCreated();
+			if ($firstDate === null || $transaction->actionCreated->getTimestamp() < $firstDate->getTimestamp()) {
+				$firstDate = $transaction->actionCreated;
 			}
 		}
 
@@ -197,7 +194,7 @@ final class ImportService
 		}
 
 		if (array_key_exists($tickerKey, $importMappings)) {
-			return $importMappings[$tickerKey]->getTicker();
+			return $importMappings[$tickerKey]->ticker;
 		}
 
 		if ($transactionRecord->ticker === null && $transactionRecord->isin !== null) {
@@ -232,14 +229,14 @@ final class ImportService
 	private function getTickerKey(TransactionRecord $transactionRecord, Broker $broker): ?string
 	{
 		if ($transactionRecord->ticker === null && $transactionRecord->isin !== null) {
-			return $broker->getId() . '-' . $transactionRecord->isin;
+			return $broker->id . '-' . $transactionRecord->isin;
 		}
 
 		if ($transactionRecord->ticker === null) {
 			return null;
 		}
 
-		return $broker->getId() . '-' . $transactionRecord->ticker;
+		return $broker->id . '-' . $transactionRecord->ticker;
 	}
 
 	private function getCurrencyFromCode(?string $code, Currency $defaultCurrency): Currency

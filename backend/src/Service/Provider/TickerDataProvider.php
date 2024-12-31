@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Provider;
 
-use Cycle\Database\Exception\StatementException\ConstrainException;
 use DateInterval;
 use DateTime;
 use DateTimeImmutable;
@@ -16,6 +15,8 @@ use FinGather\Model\Repository\TickerDataRepository;
 use FinGather\Service\Cache\CacheFactory;
 use FinGather\Service\Provider\Dto\TickerDataAdjustedDto;
 use FinGather\Utils\DateTimeUtils;
+use Iterator;
+use MarekSkopal\ORM\Exception\ConstrainException;
 use MarekSkopal\TwelveData\Dto\CoreData\TimeSeries;
 use MarekSkopal\TwelveData\Enum\AdjustEnum;
 use MarekSkopal\TwelveData\Exception\BadRequestException;
@@ -38,10 +39,10 @@ class TickerDataProvider
 		$this->cache = $cacheFactory->create(namespace: self::class);
 	}
 
-	/** @return list<TickerData> */
-	public function getTickerDatas(Ticker $ticker, DateTimeImmutable $fromDate, DateTimeImmutable $toDate): array
+	/** @return Iterator<TickerData> */
+	public function getTickerDatas(Ticker $ticker, DateTimeImmutable $fromDate, DateTimeImmutable $toDate): Iterator
 	{
-		return $this->tickerDataRepository->findTickerDatas($ticker->getId(), $fromDate, $toDate);
+		return $this->tickerDataRepository->findTickerDatas($ticker->id, $fromDate, $toDate);
 	}
 
 	/** @return list<TickerDataAdjustedDto> */
@@ -53,7 +54,7 @@ class TickerDataProvider
 			function (TickerData $tickerData) use ($splits): TickerDataAdjustedDto {
 				$splitFactor = new Decimal(1);
 				foreach ($splits as $split) {
-					if ($split->date <= $tickerData->getDate()) {
+					if ($split->date <= $tickerData->date) {
 						continue;
 					}
 
@@ -61,17 +62,17 @@ class TickerDataProvider
 				}
 
 				return new TickerDataAdjustedDto(
-					id: $tickerData->getId(),
-					ticker: $tickerData->getTicker(),
-					date: $tickerData->getDate(),
-					open: $tickerData->getOpen()->div($splitFactor),
-					close: $tickerData->getClose()->div($splitFactor),
-					high: $tickerData->getHigh()->div($splitFactor),
-					low: $tickerData->getLow()->div($splitFactor),
-					volume: $tickerData->getVolume(),
+					id: $tickerData->id,
+					ticker: $tickerData->ticker,
+					date: $tickerData->date,
+					open: $tickerData->open->div($splitFactor),
+					close: $tickerData->close->div($splitFactor),
+					high: $tickerData->high->div($splitFactor),
+					low: $tickerData->low->div($splitFactor),
+					volume: $tickerData->volume,
 				);
 			},
-			$this->getTickerDatas($ticker, $fromDate, $toDate),
+			iterator_to_array($this->getTickerDatas($ticker, $fromDate, $toDate), false),
 		);
 	}
 
@@ -85,28 +86,28 @@ class TickerDataProvider
 			$beforeDate = $beforeDate->sub(DateInterval::createFromDateString('1 day'));
 		}
 
-		$key = $ticker->getId() . '-' . $beforeDate->getTimestamp();
+		$key = $ticker->id . '-' . $beforeDate->getTimestamp();
 		/** @var Decimal|null $lastTickerDataClose */
 		$lastTickerDataClose = $this->cache->load($key);
 		if ($lastTickerDataClose !== null) {
 			return $lastTickerDataClose;
 		}
 
-		$lastTickerData = $this->tickerDataRepository->findLastTickerData($ticker->getId(), $beforeDate);
+		$lastTickerData = $this->tickerDataRepository->findLastTickerData($ticker->id, $beforeDate);
 		if ($lastTickerData !== null) {
-			$this->cache->save($key, $lastTickerData->getClose());
+			$this->cache->save($key, $lastTickerData->close);
 
-			return $lastTickerData->getClose();
+			return $lastTickerData->close;
 		}
 
 		$this->updateTickerData($ticker, true);
 
-		return $this->tickerDataRepository->findLastTickerData($ticker->getId(), $beforeDate)?->getClose();
+		return $this->tickerDataRepository->findLastTickerData($ticker->id, $beforeDate)?->close;
 	}
 
 	public function updateTickerData(Ticker $ticker, bool $fullHistory = false): ?DateTimeImmutable
 	{
-		$lastTickerData = $this->tickerDataRepository->findLastTickerData($ticker->getId());
+		$lastTickerData = $this->tickerDataRepository->findLastTickerData($ticker->id);
 		if ($lastTickerData !== null && $fullHistory) {
 			return null;
 		}
@@ -123,16 +124,16 @@ class TickerDataProvider
 
 		$firstDate = new DateTimeImmutable(DateTimeUtils::FirstDate . ' 00:00:00');
 
-		if ($lastTickerData !== null && ($actualDate->getTimestamp() - $lastTickerData->getDate()->getTimestamp() < 86400)) {
+		if ($lastTickerData !== null && ($actualDate->getTimestamp() - $lastTickerData->date->getTimestamp() < 86400)) {
 			return null;
 		}
 
 		$fromDate = $firstDate;
 		if ($lastTickerData !== null) {
-			$fromDate = $lastTickerData->getDate();
+			$fromDate = $lastTickerData->date;
 		}
 
-		$marketType = $ticker->getMarket()->getType();
+		$marketType = $ticker->market->type;
 		$updatedTickerDataCount = match ($marketType) {
 			MarketTypeEnum::Stock => $this->createTickerDataFromStock($ticker, $fromDate),
 			MarketTypeEnum::Crypto => $this->createTickerDataFromCrypto($ticker, $fromDate),
@@ -149,8 +150,8 @@ class TickerDataProvider
 	{
 		try {
 			$timeSeries = $this->twelveData->getCoreData()->timeSeries(
-				symbol: $ticker->getTicker(),
-				micCode: $ticker->getMarket()->getMic(),
+				symbol: $ticker->ticker,
+				micCode: $ticker->market->mic,
 				startDate: $fromDate,
 				endDate: $toDate,
 				adjust: [AdjustEnum::None],
@@ -174,7 +175,7 @@ class TickerDataProvider
 	{
 		try {
 			$timeSeries = $this->twelveData->getCoreData()->timeSeries(
-				symbol: $ticker->getTicker() . '/USD',
+				symbol: $ticker->ticker . '/USD',
 				startDate: $fromDate,
 				endDate: $toDate,
 			);
@@ -211,7 +212,7 @@ class TickerDataProvider
 				//ignore duplicate tickers
 			}
 
-			$key = $ticker->getId() . '-' . $timeSeriesValue->datetime->getTimestamp();
+			$key = $ticker->id . '-' . $timeSeriesValue->datetime->getTimestamp();
 			$this->cache->remove($key);
 		}
 	}

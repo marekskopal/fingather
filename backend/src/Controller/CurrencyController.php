@@ -24,7 +24,7 @@ final class CurrencyController
 	{
 		$brokers = array_map(
 			fn (Currency $currency): CurrencyDto => CurrencyDto::fromEntity($currency),
-			$this->currencyProvider->getCurrencies(),
+			iterator_to_array($this->currencyProvider->getCurrencies(), false),
 		);
 
 		return new JsonResponse($brokers);

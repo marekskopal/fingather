@@ -28,7 +28,7 @@ class CountryDataProvider
 	{
 		$dateTime = DateTimeUtils::setEndOfDateTime($dateTime);
 
-		$key = $country->getId() . '-' . $portfolio->getId() . '-' . $dateTime->getTimestamp();
+		$key = $country->id . '-' . $portfolio->id . '-' . $dateTime->getTimestamp();
 
 		/** @var CalculatedDataDto|null $countryData */
 		$countryData = $this->cache->load($key);

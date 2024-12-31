@@ -17,6 +17,7 @@ use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\Enum\OrderDirectionEnum;
 use FinGather\Model\Repository\Enum\TransactionOrderByEnum;
 use FinGather\Model\Repository\TransactionRepository;
+use Iterator;
 
 class TransactionProvider
 {
@@ -29,7 +30,7 @@ class TransactionProvider
 	/**
 	 * @param list<TransactionActionTypeEnum>|null $actionTypes
 	 * @param array<value-of<TransactionOrderByEnum>,OrderDirectionEnum> $orderBy
-	 * @return list<Transaction>
+	 * @return Iterator<Transaction>
 	 */
 	public function getTransactions(
 		User $user,
@@ -45,11 +46,11 @@ class TransactionProvider
 		array $orderBy = [
 			TransactionOrderByEnum::ActionCreated->value => OrderDirectionEnum::DESC,
 		],
-	): array {
+	): Iterator {
 		return $this->transactionRepository->findTransactions(
-			$user->getId(),
-			$portfolio?->getId(),
-			$asset?->getId(),
+			$user->id,
+			$portfolio?->id,
+			$asset?->id,
 			$actionCreatedAfter,
 			$actionCreatedBefore,
 			$actionTypes,
@@ -73,9 +74,9 @@ class TransactionProvider
 		?string $search = null,
 	): int {
 		return $this->transactionRepository->countTransactions(
-			$user->getId(),
-			$portfolio?->getId(),
-			$asset?->getId(),
+			$user->id,
+			$portfolio?->id,
+			$asset?->id,
 			$actionCreatedAfter,
 			$actionCreatedBefore,
 			$actionTypes,
@@ -86,12 +87,12 @@ class TransactionProvider
 
 	public function getTransaction(User $user, int $transactionId): ?Transaction
 	{
-		return $this->transactionRepository->findTransaction($transactionId, $user->getId());
+		return $this->transactionRepository->findTransaction($transactionId, $user->id);
 	}
 
 	public function getFirstTransaction(User $user, Portfolio $portfolio, ?Asset $asset = null): ?Transaction
 	{
-		return $this->transactionRepository->findFirstTransaction($user->getId(), $portfolio->getId(), $asset?->getId());
+		return $this->transactionRepository->findFirstTransaction($user->id, $portfolio->id, $asset?->id);
 	}
 
 	public function createTransaction(
@@ -114,8 +115,8 @@ class TransactionProvider
 	): Transaction {
 		$created = new DateTimeImmutable();
 
-		$tickerCurrency = $asset->getTicker()->getCurrency();
-		$defaultCurrency = $portfolio->getCurrency();
+		$tickerCurrency = $asset->ticker->currency;
+		$defaultCurrency = $portfolio->currency;
 
 		$price ??= new Decimal(0);
 		$tax ??= new Decimal(0);
@@ -125,7 +126,7 @@ class TransactionProvider
 			user: $user,
 			portfolio: $portfolio,
 			asset: $asset,
-			brokerId: $broker?->getId(),
+			brokerId: $broker?->id,
 			actionType: $actionType,
 			actionCreated: $actionCreated,
 			createType: $createType,
@@ -171,33 +172,33 @@ class TransactionProvider
 	): Transaction {
 		$modified = new DateTimeImmutable();
 
-		$tickerCurrency = $asset->getTicker()->getCurrency();
-		$defaultCurrency = $transaction->getPortfolio()->getCurrency();
+		$tickerCurrency = $asset->ticker->currency;
+		$defaultCurrency = $transaction->portfolio->currency;
 
 		$price ??= new Decimal(0);
 		$tax ??= new Decimal(0);
 		$fee ??= new Decimal(0);
 
-		$transaction->setAsset($asset);
-		$transaction->setBrokerId($broker?->getId());
-		$transaction->setActionType($actionType);
-		$transaction->setActionCreated($actionCreated);
-		$transaction->setModified($modified);
-		$transaction->setUnits($units);
-		$transaction->setPrice($price);
-		$transaction->setPriceTickerCurrency($this->getPriceInCurrency($price, $currency, $tickerCurrency, $actionCreated));
-		$transaction->setPriceDefaultCurrency($this->getPriceInCurrency($price, $currency, $defaultCurrency, $actionCreated));
-		$transaction->setCurrency($currency);
-		$transaction->setTax($tax);
-		$transaction->setTaxTickerCurrency($this->getPriceInCurrency($tax, $taxCurrency, $tickerCurrency, $actionCreated));
-		$transaction->setTaxDefaultCurrency($this->getPriceInCurrency($tax, $taxCurrency, $defaultCurrency, $actionCreated));
-		$transaction->setTaxCurrency($taxCurrency);
-		$transaction->setFee($fee);
-		$transaction->setFeeTickerCurrency($this->getPriceInCurrency($fee, $feeCurrency, $tickerCurrency, $actionCreated));
-		$transaction->setFeeDefaultCurrency($this->getPriceInCurrency($fee, $feeCurrency, $defaultCurrency, $actionCreated));
-		$transaction->setFeeCurrency($feeCurrency);
-		$transaction->setNotes($notes);
-		$transaction->setImportIdentifier($importIdentifier);
+		$transaction->asset = $asset;
+		$transaction->brokerId = $broker?->id;
+		$transaction->actionType = $actionType;
+		$transaction->actionCreated = $actionCreated;
+		$transaction->modified = $modified;
+		$transaction->units = $units;
+		$transaction->price = $price;
+		$transaction->priceTickerCurrency = $this->getPriceInCurrency($price, $currency, $tickerCurrency, $actionCreated);
+		$transaction->priceDefaultCurrency = $this->getPriceInCurrency($price, $currency, $defaultCurrency, $actionCreated);
+		$transaction->currency = $currency;
+		$transaction->tax = $tax;
+		$transaction->taxTickerCurrency = $this->getPriceInCurrency($tax, $taxCurrency, $tickerCurrency, $actionCreated);
+		$transaction->taxDefaultCurrency = $this->getPriceInCurrency($tax, $taxCurrency, $defaultCurrency, $actionCreated);
+		$transaction->taxCurrency = $taxCurrency;
+		$transaction->fee = $fee;
+		$transaction->feeTickerCurrency = $this->getPriceInCurrency($fee, $feeCurrency, $tickerCurrency, $actionCreated);
+		$transaction->feeDefaultCurrency = $this->getPriceInCurrency($fee, $feeCurrency, $defaultCurrency, $actionCreated);
+		$transaction->feeCurrency = $feeCurrency;
+		$transaction->notes = $notes;
+		$transaction->importIdentifier = $importIdentifier;
 
 		$this->transactionRepository->persist($transaction);
 
@@ -206,18 +207,15 @@ class TransactionProvider
 
 	public function updateTransactionDefaultCurrency(Transaction $transaction): Transaction
 	{
-		$defaultCurrency = $transaction->getPortfolio()->getCurrency();
-		$actionCreated = $transaction->getActionCreated();
+		$defaultCurrency = $transaction->portfolio->currency;
+		$actionCreated = $transaction->actionCreated;
 
-		$transaction->setPriceDefaultCurrency(
-			$this->getPriceInCurrency($transaction->getPrice(), $transaction->getCurrency(), $defaultCurrency, $actionCreated),
-		);
-		$transaction->setTaxDefaultCurrency(
-			$this->getPriceInCurrency($transaction->getTax(), $transaction->getCurrency(), $defaultCurrency, $actionCreated),
-		);
-		$transaction->setFeeDefaultCurrency(
-			$this->getPriceInCurrency($transaction->getFee(), $transaction->getFeeCurrency(), $defaultCurrency, $actionCreated),
-		);
+		$transaction->priceDefaultCurrency =
+			$this->getPriceInCurrency($transaction->price, $transaction->currency, $defaultCurrency, $actionCreated);
+		$transaction->taxDefaultCurrency =
+			$this->getPriceInCurrency($transaction->tax, $transaction->taxCurrency, $defaultCurrency, $actionCreated);
+		$transaction->feeDefaultCurrency =
+			$this->getPriceInCurrency($transaction->fee, $transaction->feeCurrency, $defaultCurrency, $actionCreated);
 
 		$this->transactionRepository->persist($transaction);
 
@@ -231,7 +229,7 @@ class TransactionProvider
 
 	private function getPriceInCurrency(Decimal $price, Currency $currencyFrom, Currency $currencyTo, DateTimeImmutable $created): Decimal
 	{
-		if ($currencyFrom->getId() === $currencyTo->getId()) {
+		if ($currencyFrom->id === $currencyTo->id) {
 			return $price;
 		}
 

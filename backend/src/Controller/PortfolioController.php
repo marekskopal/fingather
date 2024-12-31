@@ -39,7 +39,7 @@ final class PortfolioController
 
 		$portfolios = array_map(
 			fn (Portfolio $portfolio): PortfolioDto => PortfolioDto::fromEntity($portfolio),
-			$this->portfolioProvider->getPortfolios($user),
+			iterator_to_array($this->portfolioProvider->getPortfolios($user), false),
 		);
 
 		return new JsonResponse($portfolios);
@@ -109,7 +109,7 @@ final class PortfolioController
 		$portfolioUpdateDto = $this->requestService->getRequestBodyDto($request, PortfolioUpdateDto::class);
 
 		if ($portfolioUpdateDto->currencyId === null) {
-			$currency = $portfolio->getCurrency();
+			$currency = $portfolio->currency;
 		} else {
 			$currency = $this->currencyProvider->getCurrency($portfolioUpdateDto->currencyId);
 			if ($currency === null) {
@@ -120,7 +120,7 @@ final class PortfolioController
 		return new JsonResponse(PortfolioDto::fromEntity($this->portfolioProvider->updatePortfolio(
 			portfolio: $portfolio,
 			currency: $currency,
-			name: $portfolioUpdateDto->name ?? $portfolio->getName(),
+			name: $portfolioUpdateDto->name ?? $portfolio->name,
 			isDefault: $portfolioUpdateDto->isDefault ?? true,
 		)));
 	}

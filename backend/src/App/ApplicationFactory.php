@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\App;
 
-use Cycle\ORM\ORM;
 use FinGather\Middleware\AuthorizationMiddleware;
-use FinGather\Middleware\BulkInsertMiddleware;
 use FinGather\Model\Entity\ApiImport;
 use FinGather\Model\Entity\ApiKey;
 use FinGather\Model\Entity\Asset;
@@ -44,7 +42,6 @@ use FinGather\Model\Repository\ImportRepository;
 use FinGather\Model\Repository\IndustryRepository;
 use FinGather\Model\Repository\MarketRepository;
 use FinGather\Model\Repository\PortfolioRepository;
-use FinGather\Model\Repository\RepositoryInterface;
 use FinGather\Model\Repository\SectorRepository;
 use FinGather\Model\Repository\SplitRepository;
 use FinGather\Model\Repository\TickerDataRepository;
@@ -55,7 +52,6 @@ use FinGather\Model\Repository\UserRepository;
 use FinGather\Route\Strategy\JsonStrategy;
 use FinGather\Service\Cache\CacheFactory;
 use FinGather\Service\Dbal\DbContext;
-use FinGather\Service\Dbal\QueryProvider;
 use FinGather\Service\Logger\Logger;
 use FinGather\Service\Request\RequestService;
 use FinGather\Service\Request\RequestServiceInterface;
@@ -66,6 +62,8 @@ use League\Container\Container;
 use League\Container\ReflectionContainer;
 use MarekSkopal\BuggregatorClient\Middleware\XhprofMiddleware;
 use MarekSkopal\OpenFigi\OpenFigi;
+use MarekSkopal\ORM\ORM;
+use MarekSkopal\ORM\Repository\RepositoryInterface;
 use MarekSkopal\Router\Builder\RouterBuilder;
 use MarekSkopal\TwelveData\Config\Config;
 use MarekSkopal\TwelveData\TwelveData;
@@ -164,10 +162,6 @@ final class ApplicationFactory
 		self::addRepository($container, $orm, TickerRepository::class, Ticker::class);
 		self::addRepository($container, $orm, TransactionRepository::class, Transaction::class);
 		self::addRepository($container, $orm, UserRepository::class, User::class);
-
-		//Add bulk repositories
-		//$bulkInsertProvider = $container->get(BulkQueryProvider::class);
-		//assert($bulkInsertProvider instanceof BulkQueryProvider);
 	}
 
 	/**
@@ -178,8 +172,6 @@ final class ApplicationFactory
 	private static function addRepository(Container $container, ORM $orm, string $repositoryClass, string $entityClass): void
 	{
 		$repository = $orm->getRepository($entityClass);
-		// @phpstan-ignore-next-line
-		$repository->setQueryProvider(new QueryProvider($entityClass, $orm));
 		$container->add($repositoryClass, fn () => $repository);
 	}
 
@@ -206,10 +198,6 @@ final class ApplicationFactory
 		assert($authorizationMiddleware instanceof AuthorizationMiddleware);
 		$router->middleware($authorizationMiddleware);
 
-		$bulkInsertMiddleware = $container->get(BulkInsertMiddleware::class);
-		assert($bulkInsertMiddleware instanceof BulkInsertMiddleware);
-		$router->middleware($bulkInsertMiddleware);
-
 		return $router;
 	}
 
@@ -222,6 +210,6 @@ final class ApplicationFactory
 		/** @var non-empty-string $password */
 		$password = (string) getenv('MYSQL_PASSWORD');
 
-		return new DbContext(dsn: 'mysql:host=' . $host . ';dbname=' . $database, user: $user, password: $password);
+		return new DbContext($host, $database, $user, $password);
 	}
 }

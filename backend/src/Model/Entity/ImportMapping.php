@@ -4,35 +4,26 @@ declare(strict_types=1);
 
 namespace FinGather\Model\Entity;
 
-use Cycle\Annotated\Annotation\Column;
-use Cycle\Annotated\Annotation\Entity;
-use Cycle\Annotated\Annotation\Relation\RefersTo;
 use FinGather\Model\Repository\ImportMappingRepository;
+use MarekSkopal\ORM\Attribute\Column;
+use MarekSkopal\ORM\Attribute\Entity;
+use MarekSkopal\ORM\Attribute\ManyToOne;
+use MarekSkopal\ORM\Enum\Type;
 
-#[Entity(repository: ImportMappingRepository::class)]
+#[Entity(repositoryClass: ImportMappingRepository::class)]
 class ImportMapping extends AEntity
 {
 	public function __construct(
-		#[RefersTo(target: User::class)]
-		private User $user,
-		#[RefersTo(target: Portfolio::class)]
-		private Portfolio $portfolio,
-		#[RefersTo(target: Broker::class)]
-		private Broker $broker,
-		#[Column(type: 'string')]
-		private string $importTicker,
-		#[RefersTo(target: Ticker::class)]
-		private Ticker $ticker,
+		#[ManyToOne(entityClass: User::class)]
+		public readonly User $user,
+		#[ManyToOne(entityClass: Portfolio::class)]
+		public readonly Portfolio $portfolio,
+		#[ManyToOne(entityClass: Broker::class)]
+		public readonly Broker $broker,
+		#[Column(type: Type::String)]
+		public readonly string $importTicker,
+		#[ManyToOne(entityClass: Ticker::class)]
+		public readonly Ticker $ticker,
 	) {
-	}
-
-	public function getImportTicker(): string
-	{
-		return $this->importTicker;
-	}
-
-	public function getTicker(): Ticker
-	{
-		return $this->ticker;
 	}
 }

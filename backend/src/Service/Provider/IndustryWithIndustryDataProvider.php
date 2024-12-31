@@ -37,8 +37,8 @@ class IndustryWithIndustryDataProvider
 
 			$industriesWithIndustryData[] = new IndustryWithIndustryDataDto(
 				id: $industryId,
-				userId: $user->getId(),
-				name: $industry->getName(),
+				userId: $user->id,
+				name: $industry->name,
 				percentage: CalculatorUtils::toPercentage($industryData->value, $portfolioData->value),
 				groupData: GroupDataDto::fromCalculatedDataDto($industryData),
 			);

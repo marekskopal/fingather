@@ -14,11 +14,6 @@ final readonly class PortfolioDto
 
 	public static function fromEntity(Portfolio $entity): self
 	{
-		return new self(
-			id: $entity->getId(),
-			currencyId: $entity->getCurrency()->getId(),
-			name: $entity->getName(),
-			isDefault: $entity->getIsDefault(),
-		);
+		return new self(id: $entity->id, currencyId: $entity->currency->id, name: $entity->name, isDefault: $entity->isDefault);
 	}
 }

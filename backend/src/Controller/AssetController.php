@@ -59,7 +59,7 @@ final class AssetController
 		$assetDtos = [];
 
 		foreach ($assets as $asset) {
-			$lastTickerDataClose = $this->tickerDataProvider->getLastTickerDataClose($asset->getTicker(), $dateTime);
+			$lastTickerDataClose = $this->tickerDataProvider->getLastTickerDataClose($asset->ticker, $dateTime);
 			if ($lastTickerDataClose === null) {
 				continue;
 			}
@@ -116,9 +116,9 @@ final class AssetController
 
 		$dateTime = new DateTimeImmutable();
 
-		$assetData = $this->assetDataProvider->getAssetData($user, $asset->getPortfolio(), $asset, $dateTime);
+		$assetData = $this->assetDataProvider->getAssetData($user, $asset->portfolio, $asset, $dateTime);
 		if ($assetData === null) {
-			$lastTickerDataClose = $this->tickerDataProvider->getLastTickerDataClose($asset->getTicker(), $dateTime);
+			$lastTickerDataClose = $this->tickerDataProvider->getLastTickerDataClose($asset->ticker, $dateTime);
 			if ($lastTickerDataClose === null) {
 				return new NotFoundResponse('Asset with id "' . $assetId . '" was not found.');
 			}
@@ -153,7 +153,7 @@ final class AssetController
 		$dateTime = new DateTimeImmutable();
 		$lastTickerDataClose = $this->tickerDataProvider->getLastTickerDataClose($ticker, $dateTime);
 		if ($lastTickerDataClose === null) {
-			return new NotFoundResponse('Ticker Data for ticker with id "' . $ticker->getId() . '" was not found.');
+			return new NotFoundResponse('Ticker Data for ticker with id "' . $ticker->id . '" was not found.');
 		}
 
 		return new JsonResponse(AssetDto::fromEntity($this->assetProvider->createAsset(

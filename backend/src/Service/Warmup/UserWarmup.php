@@ -44,7 +44,7 @@ final class UserWarmup
 		}
 
 		$datePeriod = new DatePeriod(
-			start: $firstTransaction->getActionCreated(),
+			start: $firstTransaction->actionCreated,
 			interval: new DateInterval('P1D'),
 			end: $dateTime,
 		);

@@ -29,9 +29,9 @@ class ApiImportService
 			return;
 		}
 
-		$this->logger->info('Preparing API import - apiKeyId:' . $apiKey->getId());
+		$this->logger->info('Preparing API import - apiKeyId:' . $apiKey->id);
 
-		$processor = $this->processorFactory->create($apiKey->getType());
+		$processor = $this->processorFactory->create($apiKey->type);
 		$processor->prepare($apiKey);
 	}
 
@@ -43,9 +43,9 @@ class ApiImportService
 			return;
 		}
 
-		$this->logger->info('Processing API import - apiImportId:' . $apiImport->getId());
+		$this->logger->info('Processing API import - apiImportId:' . $apiImport->id);
 
-		$processor = $this->processorFactory->create($apiImport->getApiKey()->getType());
+		$processor = $this->processorFactory->create($apiImport->apiKey->type);
 		$processor->process($apiImport);
 	}
 }

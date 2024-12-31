@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace FinGather\Model\Repository;
 
 use FinGather\Model\Entity\Currency;
+use Iterator;
+use MarekSkopal\ORM\Repository\AbstractRepository;
 
-/** @extends ARepository<Currency> */
-final class CurrencyRepository extends ARepository
+/** @extends AbstractRepository<Currency> */
+final class CurrencyRepository extends AbstractRepository
 {
-	/** @return list<Currency> */
-	public function findCurrencies(): array
+	/** @return Iterator<Currency> */
+	public function findCurrencies(): Iterator
 	{
 		return $this->findAll();
 	}

@@ -10,7 +10,6 @@ use FinGather\Jobs\Handler\ApiImportProcessCheckHandler;
 use FinGather\Jobs\Handler\EmailVerifyHandler;
 use FinGather\Jobs\Handler\JobHandler;
 use FinGather\Jobs\Handler\UserWarmupHandler;
-use FinGather\Service\Provider\BulkQueryProvider;
 use FinGather\Service\Provider\CurrentTransactionProvider;
 use FinGather\Service\Queue\Enum\QueueEnum;
 use Psr\Log\LoggerInterface;
@@ -38,9 +37,6 @@ final class JobsDispatcher implements Dispatcher
 		$currentTransactionProvider = $application->container->get(CurrentTransactionProvider::class);
 		assert($currentTransactionProvider instanceof CurrentTransactionProvider);
 
-		$bulkInsertProvider = $application->container->get(BulkQueryProvider::class);
-		assert($bulkInsertProvider instanceof BulkQueryProvider);
-
 		while ($task = $consumer->waitTask()) {
 			try {
 				$handlerClass = match ($task->getQueue()) {
@@ -55,12 +51,10 @@ final class JobsDispatcher implements Dispatcher
 				$handler = $application->container->get($handlerClass);
 				$handler->handle($task);
 
-				$bulkInsertProvider->runAll();
-
 				$task->ack();
 
-				//fix SQL cache for each task
-				$application->dbContext->getOrm()->getHeap()->clean();
+				//clean SQL cache for each task
+				$application->dbContext->getOrm()->getEntityCache()->clear();
 
 				$currentTransactionProvider->clear();
 
