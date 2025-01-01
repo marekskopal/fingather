@@ -27,9 +27,12 @@ final class ApiImportPrepareCheckCommand extends AbstractCommand
 		$apiImportCheckProvider = $application->container->get(ApiImportPrepareCheckProvider::class);
 		assert($apiImportCheckProvider instanceof ApiImportPrepareCheckProvider);
 
-		foreach ($apiKeyProvider->getApiKeys() as $apiKey) {
+		$apiKeys = iterator_to_array($apiKeyProvider->getApiKeys(), false);
+		foreach ($apiKeys as $apiKey) {
 			$apiImportCheckProvider->createApiImportPrepareCheck($apiKey);
 		}
+
+		$this->writeln('Checked "' . count($apiKeys) . '" API keys.', $output);
 
 		return self::SUCCESS;
 	}
