@@ -47,6 +47,8 @@ final class JobsDispatcher implements Dispatcher
 					default => throw new \InvalidArgumentException('Unprocessable queue [' . $task->getQueue() . ']'),
 				};
 
+				$logger->info('Handling task', ['queue' => $task->getQueue()]);
+
 				/** @var JobHandler $handler */
 				$handler = $application->container->get($handlerClass);
 				$handler->handle($task);
