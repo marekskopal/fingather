@@ -16,18 +16,14 @@ final class WarmupAsyncCommand extends AbstractCommand
 		$this->setName('warmup:async');
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output): int
+	protected function process(InputInterface $input, OutputInterface $output): int
 	{
-		$this->writeln('Warmup async was started.', $output);
-
 		$application = ApplicationFactory::create();
 
 		$databaseWarmup = $application->container->get(DatabaseWarmup::class);
 		assert($databaseWarmup instanceof DatabaseWarmup);
 
 		$databaseWarmup->warmupAsync();
-
-		$this->writeln('Warmup async was ended.', $output);
 
 		return self::SUCCESS;
 	}

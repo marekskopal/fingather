@@ -22,10 +22,8 @@ final class BenchmarkPortfolioValueCommand extends AbstractBenchmarkCommand
 		$this->setName('benchmark:portfolioValue');
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output): int
+	protected function process(InputInterface $input, OutputInterface $output): int
 	{
-		$this->writeln('Benchmark was started.', $output);
-
 		$application = ApplicationFactory::create();
 
 		$userProvider = $application->container->get(UserProvider::class);
@@ -58,8 +56,8 @@ final class BenchmarkPortfolioValueCommand extends AbstractBenchmarkCommand
 
 		$benchmarkTime = $this->benchmark(fn() => $application->handler->handle($serverRequest));
 
-		$this->writeln('Benchmark was ended - ' . $benchmarkTime . 'ms', $output);
+		$this->writeln('Benchmark was finished - ' . $benchmarkTime . 'ms', $output);
 
-		return 0;
+		return self::SUCCESS;
 	}
 }

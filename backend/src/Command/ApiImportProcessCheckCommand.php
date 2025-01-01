@@ -18,10 +18,8 @@ final class ApiImportProcessCheckCommand extends AbstractCommand
 		$this->setName('apiImport:processCheck');
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output): int
+	protected function process(InputInterface $input, OutputInterface $output): int
 	{
-		$this->writeln('API import process check was started.', $output);
-
 		$application = ApplicationFactory::create();
 
 		$apiImportProvider = $application->container->get(ApiImportProvider::class);
@@ -34,8 +32,6 @@ final class ApiImportProcessCheckCommand extends AbstractCommand
 			$apiImportProcessCheckProvider->createApiImportProcessCheck($apiImport);
 		}
 
-		$this->writeln('API import process check was ended.', $output);
-
-		return 0;
+		return self::SUCCESS;
 	}
 }

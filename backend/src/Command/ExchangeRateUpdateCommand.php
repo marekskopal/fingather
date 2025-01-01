@@ -19,10 +19,8 @@ final class ExchangeRateUpdateCommand extends AbstractCommand
 		$this->setName('exchangeRate:update');
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output): int
+	protected function process(InputInterface $input, OutputInterface $output): int
 	{
-		$this->writeln('Exchange Rates update was started.', $output);
-
 		$application = ApplicationFactory::create();
 
 		$exchangeRateProvider = $application->container->get(ExchangeRateProvider::class);
@@ -50,8 +48,6 @@ final class ExchangeRateUpdateCommand extends AbstractCommand
 
 		$dataProvider->deleteData(date: $firstDate);
 
-		$this->writeln('Exchange Rates was updated.', $output);
-
-		return 0;
+		return self::SUCCESS;
 	}
 }

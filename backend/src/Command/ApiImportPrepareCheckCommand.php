@@ -17,10 +17,8 @@ final class ApiImportPrepareCheckCommand extends AbstractCommand
 		$this->setName('apiImport:prepareCheck');
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output): int
+	protected function process(InputInterface $input, OutputInterface $output): int
 	{
-		$this->writeln('API import prepare check was started.', $output);
-
 		$application = ApplicationFactory::create();
 
 		$apiKeyProvider = $application->container->get(ApiKeyProvider::class);
@@ -33,8 +31,6 @@ final class ApiImportPrepareCheckCommand extends AbstractCommand
 			$apiImportCheckProvider->createApiImportPrepareCheck($apiKey);
 		}
 
-		$this->writeln('API import prepare check was ended.', $output);
-
-		return 0;
+		return self::SUCCESS;
 	}
 }

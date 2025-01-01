@@ -17,10 +17,8 @@ final class TickerFundamentalUpdateCommand extends AbstractCommand
 		$this->setName('tickerFundamental:update');
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output): int
+	protected function process(InputInterface $input, OutputInterface $output): int
 	{
-		$this->writeln('Ticker Data update was started.', $output);
-
 		$application = ApplicationFactory::create();
 
 		$tickerFundamentalProvider = $application->container->get(TickerFundamentalProvider::class);
@@ -42,6 +40,6 @@ final class TickerFundamentalUpdateCommand extends AbstractCommand
 
 		$this->writeln('Updated "' . count($activeTickers) . '" Tickers.', $output);
 
-		return 0;
+		return self::SUCCESS;
 	}
 }

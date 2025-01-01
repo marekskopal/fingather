@@ -16,10 +16,8 @@ final class WarmupAllCommand extends AbstractBenchmarkCommand
 		$this->setName('warmup:all');
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output): int
+	protected function process(InputInterface $input, OutputInterface $output): int
 	{
-		$this->writeln('Warmup was started.', $output);
-
 		$application = ApplicationFactory::create();
 
 		$databaseWarmup = $application->container->get(DatabaseWarmup::class);
@@ -27,7 +25,7 @@ final class WarmupAllCommand extends AbstractBenchmarkCommand
 
 		$benchmarkTime = $this->benchmark(fn() => $databaseWarmup->warmup());
 
-		$this->writeln('Warmup was ended - ' . $benchmarkTime . 'ms', $output);
+		$this->writeln('Warmup was finished - ' . $benchmarkTime . 'ms', $output);
 
 		return self::SUCCESS;
 	}

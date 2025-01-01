@@ -17,10 +17,8 @@ final class SplitUpdateCommand extends AbstractCommand
 		$this->setName('split:update');
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output): int
+	protected function process(InputInterface $input, OutputInterface $output): int
 	{
-		$this->writeln('Split update was started.', $output);
-
 		$application = ApplicationFactory::create();
 
 		$splitUpdater = $application->container->get(SplitUpdater::class);
@@ -36,6 +34,6 @@ final class SplitUpdateCommand extends AbstractCommand
 
 		$this->writeln('Updated "' . count($activeTickers) . '" Tickers.', $output);
 
-		return 0;
+		return self::SUCCESS;
 	}
 }

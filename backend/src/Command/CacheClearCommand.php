@@ -23,7 +23,7 @@ final class CacheClearCommand extends AbstractCommand
 		$this->addOption(self::OptionStorage, 's', InputOption::VALUE_OPTIONAL, 'Storage type (memcached, redis)');
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output): int
+	protected function process(InputInterface $input, OutputInterface $output): int
 	{
 		$client = new Client('tcp://' . getenv('REDIS_HOST') . ':' . getenv('REDIS_PORT'), [
 			'parameters' => [
