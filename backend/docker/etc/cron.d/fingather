@@ -7,5 +7,4 @@ SHELL=/bin/sh
 00 3 * * *  /app/bin/console tickerFundamental:update >> /app/log/cron.log 2>&1
 00 4 * * *  /app/bin/console apiImport:prepareCheck >> /app/log/cron.log 2>&1
 */15 * * * *  /app/bin/console apiImport:processCheck >> /app/log/cron.log 2>&1
-*/15 * * * *  /app/bin/console apiImport:processCheck >> /app/log/cron.log 2>&1
 0 * * * *  /app/bin/console warmup:async >> /app/log/cron.log 2>&1
