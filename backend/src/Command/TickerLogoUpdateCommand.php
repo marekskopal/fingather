@@ -17,10 +17,8 @@ final class TickerLogoUpdateCommand extends AbstractCommand
 		$this->setName('tickerLogo:update');
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output): int
+	protected function process(InputInterface $input, OutputInterface $output): int
 	{
-		$this->writeln('Ticker Logo update was started.', $output);
-
 		$application = ApplicationFactory::create();
 
 		$tickerProvider = $application->container->get(TickerProvider::class);
@@ -36,6 +34,6 @@ final class TickerLogoUpdateCommand extends AbstractCommand
 
 		$this->writeln('Updated "' . count($activeTickers) . '" Tickers.', $output);
 
-		return 0;
+		return self::SUCCESS;
 	}
 }
