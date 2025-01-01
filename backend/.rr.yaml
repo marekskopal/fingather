@@ -21,7 +21,7 @@ http:
             ttl: 1200s
             idle_ttl: 300s
             max_worker_memory: 256
-        num_workers: ${BACKEND_ROADRUNNER_WORKERS:-5}
+        num_workers: ${BACKEND_ROADRUNNER_WORKERS:-10}
         debug: ${BACKEND_ROADRUNNER_DEBUG:-0}
         allocate_timeout: 10s
 
@@ -35,7 +35,7 @@ amqp:
 jobs:
     consume: [ "email-verify", "api-import-prepare-check", "api-import-process-check", "user-warmup" ]
     pool:
-        num_workers: 1
+        num_workers: ${BACKEND_ROADRUNNER_JOB_WORKERS:-5}
         supervisor:
             max_worker_memory: 256
     pipelines:
