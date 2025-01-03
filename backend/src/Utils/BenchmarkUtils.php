@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace FinGather\Command;
+namespace FinGather\Utils;
 
-abstract class AbstractBenchmarkCommand extends AbstractCommand
+final class BenchmarkUtils
 {
 	/** @param callable(): mixed $callback */
-	protected function benchmark(callable $callback): int
+	public static function benchmark(callable $callback): int
 	{
 		$timeStart = hrtime(true);
 

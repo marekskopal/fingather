@@ -6,10 +6,11 @@ namespace FinGather\Command;
 
 use FinGather\App\ApplicationFactory;
 use FinGather\Service\Warmup\DatabaseWarmup;
+use FinGather\Utils\BenchmarkUtils;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-final class WarmupAllCommand extends AbstractBenchmarkCommand
+final class WarmupAllCommand extends AbstractCommand
 {
 	protected function configure(): void
 	{
@@ -23,7 +24,7 @@ final class WarmupAllCommand extends AbstractBenchmarkCommand
 		$databaseWarmup = $application->container->get(DatabaseWarmup::class);
 		assert($databaseWarmup instanceof DatabaseWarmup);
 
-		$benchmarkTime = $this->benchmark(fn() => $databaseWarmup->warmup());
+		$benchmarkTime = BenchmarkUtils::benchmark(fn() => $databaseWarmup->warmup());
 
 		$this->writeln('Warmup was finished - ' . $benchmarkTime . 'ms', $output);
 

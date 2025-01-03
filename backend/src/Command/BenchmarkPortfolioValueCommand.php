@@ -11,11 +11,12 @@ use FinGather\Service\Provider\DataProvider;
 use FinGather\Service\Provider\PortfolioDataProvider;
 use FinGather\Service\Provider\PortfolioProvider;
 use FinGather\Service\Provider\UserProvider;
+use FinGather\Utils\BenchmarkUtils;
 use GuzzleHttp\Psr7\ServerRequest;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-final class BenchmarkPortfolioValueCommand extends AbstractBenchmarkCommand
+final class BenchmarkPortfolioValueCommand extends AbstractCommand
 {
 	protected function configure(): void
 	{
@@ -54,7 +55,7 @@ final class BenchmarkPortfolioValueCommand extends AbstractBenchmarkCommand
 		$serverRequest = $serverRequest->withQueryParams(['range' => RangeEnum::All->value]);
 		$serverRequest = $authenticationService->addAuthenticationHeader($serverRequest, $user);
 
-		$benchmarkTime = $this->benchmark(fn() => $application->handler->handle($serverRequest));
+		$benchmarkTime = BenchmarkUtils::benchmark(fn() => $application->handler->handle($serverRequest));
 
 		$this->writeln('Benchmark was finished - ' . $benchmarkTime . 'ms', $output);
 
