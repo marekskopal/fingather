@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace FinGather\Service\Warmup;
 
 use DateInterval;
-use DatePeriod;
 use DateTimeImmutable;
+use FinGather\Helper\DatePeriod;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Service\Provider\DataProvider;
