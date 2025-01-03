@@ -1,9 +1,13 @@
-upstream fe {
-    server frontend;
+upstream http_frontend {
+    server frontend:80;
+
+    keepalive 16;
 }
 
-upstream be {
-    server backend;
+upstream fastcgi_backend {
+    server backend:9000;
+
+    keepalive 8;
 }
 
 server {
@@ -38,10 +42,13 @@ server {
     gzip_vary         on;
     gzip_proxied      expired no-cache no-store private auth;
     gzip_types        text/plain text/css application/json application/javascript application/x-javascript text/xml application/xml application/xml+rss text/javascript;
-    gzip_comp_level   9;
+    gzip_comp_level   6;
 
     location / {
-        proxy_pass http://frontend;
+        proxy_pass http://http_frontend;
+
+        proxy_http_version 1.1;
+        proxy_set_header Connection "";
 
         add_header Referrer-Policy strict-origin-when-cross-origin;
         add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload";
@@ -55,7 +62,8 @@ server {
     }
 
     location /api {
-        fastcgi_pass backend:9000;
+        fastcgi_pass fastcgi_backend;
+        fastcgi_keep_conn on;
         include fastcgi_params;
     }
 
