@@ -12,6 +12,8 @@ parameters:
        - src
        - tests
 
+    cognitive_complexity:
+        function: 15
 
     checkImplicitMixed: true
     checkBenevolentUnionTypes: true
