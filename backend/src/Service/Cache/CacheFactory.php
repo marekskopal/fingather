@@ -8,7 +8,6 @@ use Contributte\Redis\Caching\RedisJournal;
 use Contributte\Redis\Caching\RedisStorage;
 use Contributte\Redis\Serializer\IgbinarySerializer;
 use Nette\Bridges\Psr\PsrCacheAdapter;
-use Nette\Caching\Cache;
 use Nette\Caching\Storages\MemcachedStorage;
 use Predis\ClientInterface;
 use Psr\SimpleCache\CacheInterface;
@@ -31,8 +30,8 @@ final class CacheFactory
 		}
 
 		$this->caches[$driver->value][$namespaceKey] = match ($driver) {
-			CacheStorageEnum::Memcached => self::createMemcachedCache($namespace),
-			CacheStorageEnum::Redis => self::createRedisCache($this->clientInterface, $namespace),
+			CacheStorageEnum::Memcached => self::createMemcachedCache($namespaceKey),
+			CacheStorageEnum::Redis => self::createRedisCache($this->clientInterface, $namespaceKey),
 		};
 
 		return $this->caches[$driver->value][$namespaceKey];
@@ -40,14 +39,16 @@ final class CacheFactory
 
 	public static function createPsrCache(CacheStorageEnum $driver = CacheStorageEnum::Memcached, ?string $namespace = null): CacheInterface
 	{
+		$namespaceKey = $namespace ?? '';
+
 		$cache = match ($driver) {
-			CacheStorageEnum::Memcached => self::createMemcachedCache($namespace),
+			CacheStorageEnum::Memcached => self::createMemcachedCache($namespaceKey),
 			CacheStorageEnum::Redis => throw new \RuntimeException('Not implemented yet'),
 		};
 		return new PsrCacheAdapter($cache->getStorage());
 	}
 
-	private static function createMemcachedCache(?string $namespace = null): Cache
+	private static function createMemcachedCache(string $namespace): Cache
 	{
 		$storage = new MemcachedStorage(
 			host: (string) getenv('MEMCACHED_HOST'),
@@ -56,7 +57,7 @@ final class CacheFactory
 		return new Cache($storage, $namespace);
 	}
 
-	private static function createRedisCache(ClientInterface $clientInterface, ?string $namespace = null): Cache
+	private static function createRedisCache(ClientInterface $clientInterface, string $namespace): Cache
 	{
 		$storage = new RedisStorage($clientInterface, new RedisJournal($clientInterface), new IgbinarySerializer());
 		return new Cache($storage, $namespace);

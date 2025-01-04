@@ -7,26 +7,29 @@ namespace FinGather\Service\Provider;
 use DateTimeImmutable;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
+use FinGather\Service\Cache\Cache;
 use FinGather\Service\Cache\CacheFactory;
 use FinGather\Service\Cache\CacheStorageEnum;
-use FinGather\Service\Cache\CacheTagEnum;
 use FinGather\Service\DataCalculator\DataCalculator;
 use FinGather\Service\DataCalculator\Dto\CalculatedDataDto;
 use FinGather\Utils\DateTimeUtils;
-use Nette\Caching\Cache;
+use Psr\Log\LoggerInterface;
 
 class PortfolioDataProvider
 {
 	private Cache $cache;
+
+	private const string CacheNamespace = 'portfolio-data';
 
 	public function __construct(
 		private readonly DataCalculator $dataCalculator,
 		private readonly AssetProvider $assetProvider,
 		private readonly AssetDataProvider $assetDataProvider,
 		private readonly TransactionProvider $transactionProvider,
+		private readonly LoggerInterface $logger,
 		CacheFactory $cacheFactory,
 	) {
-		$this->cache = $cacheFactory->create(driver: CacheStorageEnum::Redis, namespace: self::class);
+		$this->cache = $cacheFactory->create(driver: CacheStorageEnum::Redis, namespace: self::CacheNamespace);
 	}
 
 	public function getPortfolioData(User $user, Portfolio $portfolio, DateTimeImmutable $dateTime): CalculatedDataDto
@@ -40,6 +43,12 @@ class PortfolioDataProvider
 		if ($portfolioData !== null) {
 			return $portfolioData;
 		}
+
+		$this->logger->debug(
+			'Calculating portfolio data for user ' . $user->id . ' and portfolio ' . $portfolio->id . ' and date ' . $dateTime->format(
+				'Y-m-d',
+			),
+		);
 
 		$assetDatas = [];
 
@@ -57,11 +66,7 @@ class PortfolioDataProvider
 
 		$calculatedData = $this->dataCalculator->calculate($assetDatas, $dateTime, $fistTransactionActionCreated);
 
-		$this->cache->save(
-			key: $key,
-			data: $calculatedData,
-			dependencies: CacheTagEnum::getCacheTags($user, $portfolio, $dateTime),
-		);
+		$this->cache->save(key: $key, data: $calculatedData, user: $user, portfolio: $portfolio, date: $dateTime);
 
 		return $calculatedData;
 	}
@@ -70,8 +75,6 @@ class PortfolioDataProvider
 	{
 		$date = $date !== null ? DateTimeUtils::setEndOfDateTime($date) : null;
 
-		$this->cache->clean(
-			CacheTagEnum::getCacheTags($user, $portfolio, $date),
-		);
+		$this->cache->clean(user: $user, portfolio: $portfolio, date: $date);
 	}
 }

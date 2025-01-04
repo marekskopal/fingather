@@ -24,6 +24,10 @@ final class TracyLogger extends Logger
 
 	public function log(mixed $message, string $level = self::INFO): ?string
 	{
+		if ($level === self::DEBUG && getenv('BACKEND_LOG_LEVEL') !== 'debug') {
+			return null;
+		}
+
 		/** @see \Tracy\Bridges\Psr\TracyToPsrLoggerAdapter::log() */
 		if (is_array($message) && isset($message['exception']) && $message['exception'] instanceof \Throwable) {
 			$context = $message['context'] ?? [];

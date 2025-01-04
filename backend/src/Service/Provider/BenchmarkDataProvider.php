@@ -10,17 +10,18 @@ use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\Transaction;
 use FinGather\Model\Entity\User;
+use FinGather\Service\Cache\Cache;
 use FinGather\Service\Cache\CacheFactory;
 use FinGather\Service\Cache\CacheStorageEnum;
-use FinGather\Service\Cache\CacheTagEnum;
 use FinGather\Service\DataCalculator\BenchmarkDataCalculator;
 use FinGather\Service\DataCalculator\Dto\BenchmarkDataDto;
 use FinGather\Utils\DateTimeUtils;
-use Nette\Caching\Cache;
 
 class BenchmarkDataProvider
 {
 	private Cache $cache;
+
+	private const string CacheNamespace = 'portfolio-data';
 
 	public function __construct(
 		private readonly BenchmarkDataCalculator $benchmarkDataCalculator,
@@ -28,7 +29,7 @@ class BenchmarkDataProvider
 		private readonly TickerDataProvider $tickerDataProvider,
 		CacheFactory $cacheFactory,
 	) {
-		$this->cache = $cacheFactory->create(driver: CacheStorageEnum::Redis, namespace: self::class);
+		$this->cache = $cacheFactory->create(driver: CacheStorageEnum::Redis, namespace: self::CacheNamespace);
 	}
 
 	/** @param list<Transaction> $transactions */
@@ -61,11 +62,7 @@ class BenchmarkDataProvider
 			$benchmarkFromDateUnits,
 		);
 
-		$this->cache->save(
-			key: $key,
-			data: $benchmarkData,
-			dependencies: CacheTagEnum::getCacheTags($user, $portfolio),
-		);
+		$this->cache->save(key: $key, data: $benchmarkData, user: $user, portfolio: $portfolio);
 
 		return $benchmarkData;
 	}
@@ -106,19 +103,13 @@ class BenchmarkDataProvider
 
 		$benchmarkData = new BenchmarkDataDto(value: $portfolioDataValue, units: $benchmarkUnits);
 
-		$this->cache->save(
-			key: $key,
-			data: $benchmarkData,
-			dependencies: CacheTagEnum::getCacheTags($user, $portfolio),
-		);
+		$this->cache->save(key: $key, data: $benchmarkData, user: $user, portfolio: $portfolio);
 
 		return $benchmarkData;
 	}
 
 	public function deleteBenchmarkData(?User $user = null, ?Portfolio $portfolio = null): void
 	{
-		$this->cache->clean(
-			CacheTagEnum::getCacheTags($user, $portfolio),
-		);
+		$this->cache->clean($user, $portfolio);
 	}
 }
