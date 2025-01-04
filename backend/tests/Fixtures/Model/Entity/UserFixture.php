@@ -10,6 +10,7 @@ use FinGather\Model\Entity\User;
 final class UserFixture
 {
 	public static function getUser(
+		?int $id = null,
 		?string $email = null,
 		?string $password = null,
 		?string $name = null,
@@ -17,7 +18,7 @@ final class UserFixture
 		?bool $isEmailVerified = null,
 		?bool $isOnboardingCompleted = null,
 	): User {
-		return new User(
+		$user = new User(
 			email: $email ?? 'test@fingather.com',
 			password: $password ?? '$2y$10$1q2w3e4r5t6y7u8i9o0p1q2w3e4r5t6y7u8i9o0p1q2w3e4r5t6y7u8i9o0p',
 			name: $name ?? 'Test User',
@@ -25,5 +26,9 @@ final class UserFixture
 			isEmailVerified: $isEmailVerified ?? false,
 			isOnboardingCompleted: $isOnboardingCompleted ?? false,
 		);
+
+		$user->id = $id ?? 1;
+
+		return $user;
 	}
 }

@@ -12,6 +12,7 @@ use FinGather\Model\Entity\Enum\MarketTypeEnum;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\TickerData;
 use FinGather\Model\Repository\TickerDataRepository;
+use FinGather\Service\Cache\Cache;
 use FinGather\Service\Cache\CacheFactory;
 use FinGather\Service\Provider\Dto\TickerDataAdjustedDto;
 use FinGather\Utils\DateTimeUtils;
@@ -22,7 +23,6 @@ use MarekSkopal\TwelveData\Enum\AdjustEnum;
 use MarekSkopal\TwelveData\Exception\BadRequestException;
 use MarekSkopal\TwelveData\Exception\NotFoundException;
 use MarekSkopal\TwelveData\TwelveData;
-use Nette\Caching\Cache;
 
 class TickerDataProvider
 {

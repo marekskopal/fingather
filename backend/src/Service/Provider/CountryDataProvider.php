@@ -8,20 +8,21 @@ use DateTimeImmutable;
 use FinGather\Model\Entity\Country;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
+use FinGather\Service\Cache\Cache;
 use FinGather\Service\Cache\CacheFactory;
 use FinGather\Service\Cache\CacheStorageEnum;
-use FinGather\Service\Cache\CacheTagEnum;
 use FinGather\Service\DataCalculator\Dto\CalculatedDataDto;
 use FinGather\Utils\DateTimeUtils;
-use Nette\Caching\Cache;
 
 class CountryDataProvider
 {
 	private Cache $cache;
 
+	private const string CacheNamespace = 'country-data';
+
 	public function __construct(private readonly CalculatedGroupDataProvider $calculatedDataProvider, CacheFactory $cacheFactory)
 	{
-		$this->cache = $cacheFactory->create(driver: CacheStorageEnum::Redis, namespace: self::class);
+		$this->cache = $cacheFactory->create(driver: CacheStorageEnum::Redis, namespace: self::CacheNamespace);
 	}
 
 	public function getCountryData(Country $country, User $user, Portfolio $portfolio, DateTimeImmutable $dateTime): CalculatedDataDto
@@ -38,11 +39,7 @@ class CountryDataProvider
 
 		$calculatedData = $this->calculatedDataProvider->getCalculatedData($user, $portfolio, $dateTime, country: $country);
 
-		$this->cache->save(
-			key: $key,
-			data: $calculatedData,
-			dependencies: CacheTagEnum::getCacheTags($user, $portfolio, $dateTime),
-		);
+		$this->cache->save(key: $key, data: $calculatedData, user: $user, portfolio: $portfolio, date: $dateTime);
 
 		return $calculatedData;
 	}
@@ -51,8 +48,6 @@ class CountryDataProvider
 	{
 		$date = $date !== null ? DateTimeUtils::setEndOfDateTime($date) : null;
 
-		$this->cache->clean(
-			CacheTagEnum::getCacheTags($user, $portfolio, $date),
-		);
+		$this->cache->clean($user, $portfolio, $date);
 	}
 }

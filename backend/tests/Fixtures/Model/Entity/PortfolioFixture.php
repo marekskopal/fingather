@@ -11,17 +11,22 @@ use FinGather\Model\Entity\User;
 final class PortfolioFixture
 {
 	public static function getPortfolio(
+		?int $id = null,
 		?User $user = null,
 		?Currency $currency = null,
 		?string $name = null,
 		?bool $isDefault = null,
 	): Portfolio
 	{
-		return new Portfolio(
+		$portfolio = new Portfolio(
 			user: $user ?? UserFixture::getUser(),
 			currency: $currency ?? CurrencyFixture::getCurrency(),
 			name: $name ?? 'Test Portfolio',
 			isDefault: $isDefault ?? true,
 		);
+
+		$portfolio->id = $id ?? 1;
+
+		return $portfolio;
 	}
 }

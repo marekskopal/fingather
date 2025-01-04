@@ -46,6 +46,7 @@ services:
             BACKEND_CORS_ALLOWED_ORIGIN: ${BACKEND_CORS_ALLOWED_ORIGIN}
             BACKEND_CORS_ALLOWED_HEADERS: ${BACKEND_CORS_ALLOWED_HEADERS}
             BACKEND_CORS_ALLOWED_METHODS: ${BACKEND_CORS_ALLOWED_METHODS}
+            BACKEND_LOG_LEVEL: ${BACKEND_LOG_LEVEL}
             RABBITMQ_HOST: ${RABBITMQ_HOST}
             RABBITMQ_PORT: ${RABBITMQ_PORT}
             RABBITMQ_USER: ${RABBITMQ_USER}
@@ -76,7 +77,7 @@ services:
         volumes:
             - fingather_logos:/app/public/images/logos
             - ./log:/app/log
-            - ./backend/migrations:/app/migrations
+            #- ./backend/migrations:/app/migrations
             #- ./backend/src:/app/src
 
     db:

@@ -6,7 +6,6 @@ namespace FinGather\Command;
 
 use FinGather\Service\Cache\CacheFactory;
 use FinGather\Service\Cache\CacheStorageEnum;
-use Nette\Caching\Cache;
 use Predis\Client;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -46,7 +45,7 @@ final class CacheClearCommand extends AbstractCommand
 		foreach ($storages as $storage) {
 			$this->writeln(sprintf('Clearing cache for storage: %s', $storage->value), $output);
 			$cache = $cacheFactory->create($storage);
-			$cache->clean([Cache::All => true]);
+			$cache->cleanAll();
 		}
 
 		return self::SUCCESS;
