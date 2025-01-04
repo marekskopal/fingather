@@ -56,6 +56,6 @@ final class CacheTagTest extends TestCase
 	{
 		$cachedTags = CacheTag::getForSave($namespace, $user, $portfolio, $date);
 
-		self::assertSame(['tags' => $expected], $cachedTags);
+		self::assertSame($expected, $cachedTags);
 	}
 }

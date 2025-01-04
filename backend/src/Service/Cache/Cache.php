@@ -25,11 +25,15 @@ final readonly class Cache
 		?Portfolio $portfolio = null,
 		?DateTimeImmutable $date = null,
 	): mixed {
-		return $this->cache->save(
-			$key,
-			$data,
-			CacheTag::getForSave($this->namespace, $user, $portfolio, $date),
-		);
+		$dependencies = null;
+		$tags = CacheTag::getForSave($this->namespace, $user, $portfolio, $date);
+		if (count($tags) > 0) {
+			$dependencies = [
+				\Nette\Caching\Cache::Tags => $tags,
+			];
+		}
+
+		return $this->cache->save($key, $data, $dependencies);
 	}
 
 	public function load(string $key): mixed
@@ -44,9 +48,15 @@ final readonly class Cache
 
 	public function clean(?User $user = null, ?Portfolio $portfolio = null, ?DateTimeImmutable $date = null): void
 	{
-		$this->cache->clean(
-			CacheTag::getForClean($this->namespace, $user, $portfolio, $date),
-		);
+		$dependencies = null;
+		$tags = CacheTag::getForClean($this->namespace, $user, $portfolio, $date);
+		if (count($tags) > 0) {
+			$dependencies = [
+				\Nette\Caching\Cache::Tags => $tags,
+			];
+		}
+
+		$this->cache->clean($dependencies);
 	}
 
 	public function cleanAll(): void

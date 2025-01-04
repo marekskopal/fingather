@@ -7,11 +7,10 @@ namespace FinGather\Service\Cache;
 use DateTimeImmutable;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
-use Nette\Caching\Cache;
 
 final class CacheTag
 {
-	/** @return array{tags: list<string>} */
+	/** @return list<string> */
 	public static function getForSave(
 		string $namespace,
 		?User $user = null,
@@ -20,20 +19,16 @@ final class CacheTag
 	): array
 	{
 		if ($user === null && $portfolio === null && $date === null) {
-			return [
-				Cache::Tags => [],
-			];
+			return [];
 		}
 
-		return [
-			Cache::Tags => array_values(array_unique(array_merge(
-				self::getCacheTagsOr($namespace, $user, $portfolio, $date),
-				self::getCacheTagsAnd($namespace, $user, $portfolio, $date),
-			))),
-		];
+		return array_values(array_unique(array_merge(
+			self::getCacheTagsOr($namespace, $user, $portfolio, $date),
+			self::getCacheTagsAnd($namespace, $user, $portfolio, $date),
+		)));
 	}
 
-	/** @return array{tags: list<string>} */
+	/** @return list<string> */
 	public static function getForClean(
 		string $namespace,
 		?User $user = null,
@@ -42,14 +37,10 @@ final class CacheTag
 	): array
 	{
 		if ($user === null && $portfolio === null && $date === null) {
-			return [
-				Cache::Tags => [],
-			];
+			return [];
 		}
 
-		return [
-			Cache::Tags => self::getCacheTagsAnd($namespace, $user, $portfolio, $date),
-		];
+		return self::getCacheTagsAnd($namespace, $user, $portfolio, $date);
 	}
 
 	/** @return list<string> */
