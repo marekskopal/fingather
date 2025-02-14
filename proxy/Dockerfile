@@ -1,4 +1,4 @@
-FROM nginx:1.27.3-alpine
+FROM nginx:1.27.4-alpine
 
 RUN \
 	# https://tools.ietf.org/html/rfc7919
