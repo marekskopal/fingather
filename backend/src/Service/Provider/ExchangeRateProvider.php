@@ -89,7 +89,7 @@ class ExchangeRateProvider
 		}
 
 		$lastExchangeRate = $this->exchangeRateRepository->findLastExchangeRate($currencyTo->id);
-		$startDate = $lastExchangeRate?->date ?? new DateTimeImmutable('2020-01-01');
+		$startDate = $lastExchangeRate->date ?? new DateTimeImmutable('2020-01-01');
 
 		try {
 			$timeSeries = $this->twelveData->getCoreData()->timeSeries(symbol: 'USD/' . $code, startDate: $startDate);
