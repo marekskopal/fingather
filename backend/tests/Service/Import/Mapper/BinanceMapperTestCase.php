@@ -9,22 +9,15 @@ use FinGather\Service\Import\Mapper\BinanceMapper;
 use FinGather\Service\Import\Mapper\Dto\MappingDto;
 use FinGather\Service\Import\Mapper\Dto\MoneyValueDto;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\DataProviderExternal;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\UsesClass;
-use PHPUnit\Framework\TestCase;
 
 #[CoversClass(BinanceMapper::class)]
 #[UsesClass(MappingDto::class)]
 #[UsesClass(MoneyValueDto::class)]
-final class BinanceMapperTest extends TestCase
+final class BinanceMapperTestCase extends AbstractMapperTestCase
 {
-	//@phpstan-ignore-next-line
-	public function __construct(string $name)
-	{
-		parent::__construct($name);
-
-		ImportTestDataProvider::setCurrentTestFile('binance_export.csv');
-	}
+	protected static string $currentTestFile = 'binance_export.csv';
 
 	public function testGetImportType(): void
 	{
@@ -63,7 +56,7 @@ final class BinanceMapperTest extends TestCase
 		self::assertNotNull($mapping->importIdentifier);
 	}
 
-	#[DataProviderExternal(ImportTestDataProvider::class, 'additionProvider')]
+	#[DataProvider('mapperDataProvider')]
 	public function testCheck(string $fileName, bool $expected): void
 	{
 		$mapper = new BinanceMapper();

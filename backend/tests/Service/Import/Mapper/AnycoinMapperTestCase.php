@@ -5,34 +5,27 @@ declare(strict_types=1);
 namespace FinGather\Tests\Service\Import\Mapper;
 
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
+use FinGather\Service\Import\Mapper\AnycoinMapper;
 use FinGather\Service\Import\Mapper\Dto\MappingDto;
-use FinGather\Service\Import\Mapper\XtbMapper;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\DataProviderExternal;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\UsesClass;
-use PHPUnit\Framework\TestCase;
 
-#[CoversClass(XtbMapper::class)]
+#[CoversClass(AnycoinMapper::class)]
 #[UsesClass(MappingDto::class)]
-final class XtbMapperTest extends TestCase
+final class AnycoinMapperTestCase extends AbstractMapperTestCase
 {
-	//@phpstan-ignore-next-line
-	public function __construct(string $name)
-	{
-		parent::__construct($name);
-
-		ImportTestDataProvider::setCurrentTestFile('xtb_export.csv');
-	}
+	protected static string $currentTestFile = 'anycoin_export.csv';
 
 	public function testGetImportType(): void
 	{
-		$mapper = new XtbMapper();
-		self::assertSame(BrokerImportTypeEnum::Xtb, $mapper->getImportType());
+		$mapper = new AnycoinMapper();
+		self::assertSame(BrokerImportTypeEnum::Anycoin, $mapper->getImportType());
 	}
 
 	public function testGetMapping(): void
 	{
-		$mapper = new XtbMapper();
+		$mapper = new AnycoinMapper();
 
 		$mapping = $mapper->getMapping();
 
@@ -41,13 +34,14 @@ final class XtbMapperTest extends TestCase
 		self::assertNotNull($mapping->ticker);
 		self::assertNotNull($mapping->units);
 		self::assertNotNull($mapping->price);
+		self::assertNotNull($mapping->currency);
 		self::assertNotNull($mapping->importIdentifier);
 	}
 
-	#[DataProviderExternal(ImportTestDataProvider::class, 'additionProvider')]
+	#[DataProvider('mapperDataProvider')]
 	public function testCheck(string $fileName, bool $expected): void
 	{
-		$mapper = new XtbMapper();
+		$mapper = new AnycoinMapper();
 
 		$fileContent = file_get_contents(__DIR__ . '/../../../Fixtures/Import/File/' . $fileName);
 		if ($fileContent === false) {
@@ -59,7 +53,7 @@ final class XtbMapperTest extends TestCase
 
 	public function testGetCsvDelimiter(): void
 	{
-		$mapper = new XtbMapper();
-		self::assertSame(';', $mapper->getCsvDelimiter());
+		$mapper = new AnycoinMapper();
+		self::assertSame(',', $mapper->getCsvDelimiter());
 	}
 }

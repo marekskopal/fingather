@@ -6,33 +6,26 @@ namespace FinGather\Tests\Service\Import\Mapper;
 
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Service\Import\Mapper\Dto\MappingDto;
-use FinGather\Service\Import\Mapper\PortuMapper;
+use FinGather\Service\Import\Mapper\FioBankaMapper;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\DataProviderExternal;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\UsesClass;
-use PHPUnit\Framework\TestCase;
 
-#[CoversClass(PortuMapper::class)]
+#[CoversClass(FioBankaMapper::class)]
 #[UsesClass(MappingDto::class)]
-final class PortuMapperTest extends TestCase
+final class FioBankaMapperTestCase extends AbstractMapperTestCase
 {
-	//@phpstan-ignore-next-line
-	public function __construct(string $name)
-	{
-		parent::__construct($name);
-
-		ImportTestDataProvider::setCurrentTestFile('portu_export.csv');
-	}
+	protected static string $currentTestFile = 'fio_banka_export.csv';
 
 	public function testGetImportType(): void
 	{
-		$mapper = new PortuMapper();
-		self::assertSame(BrokerImportTypeEnum::Portu, $mapper->getImportType());
+		$mapper = new FioBankaMapper();
+		self::assertSame(BrokerImportTypeEnum::FioBanka, $mapper->getImportType());
 	}
 
 	public function testGetMapping(): void
 	{
-		$mapper = new PortuMapper();
+		$mapper = new FioBankaMapper();
 
 		$mapping = $mapper->getMapping();
 
@@ -42,12 +35,15 @@ final class PortuMapperTest extends TestCase
 		self::assertNotNull($mapping->units);
 		self::assertNotNull($mapping->price);
 		self::assertNotNull($mapping->currency);
+		self::assertNotNull($mapping->fee);
+		self::assertNotNull($mapping->feeCurrency);
+		self::assertNotNull($mapping->importIdentifier);
 	}
 
-	#[DataProviderExternal(ImportTestDataProvider::class, 'additionProvider')]
+	#[DataProvider('mapperDataProvider')]
 	public function testCheck(string $fileName, bool $expected): void
 	{
-		$mapper = new PortuMapper();
+		$mapper = new FioBankaMapper();
 
 		$fileContent = file_get_contents(__DIR__ . '/../../../Fixtures/Import/File/' . $fileName);
 		if ($fileContent === false) {
@@ -59,7 +55,7 @@ final class PortuMapperTest extends TestCase
 
 	public function testGetCsvDelimiter(): void
 	{
-		$mapper = new PortuMapper();
-		self::assertSame(',', $mapper->getCsvDelimiter());
+		$mapper = new FioBankaMapper();
+		self::assertSame(';', $mapper->getCsvDelimiter());
 	}
 }
