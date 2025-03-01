@@ -8,21 +8,14 @@ use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Service\Import\Mapper\Dto\MappingDto;
 use FinGather\Service\Import\Mapper\EtoroMapper;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\DataProviderExternal;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\UsesClass;
-use PHPUnit\Framework\TestCase;
 
 #[CoversClass(EtoroMapper::class)]
 #[UsesClass(MappingDto::class)]
-final class EtoroMapperTest extends TestCase
+final class EtoroMapperTestCase extends AbstractMapperTestCase
 {
-	//@phpstan-ignore-next-line
-	public function __construct(string $name)
-	{
-		parent::__construct($name);
-
-		ImportTestDataProvider::setCurrentTestFile('etoro_export.xlsx');
-	}
+	protected static string $currentTestFile = 'etoro_export.xlsx';
 
 	public function testGetImportType(): void
 	{
@@ -59,7 +52,7 @@ final class EtoroMapperTest extends TestCase
 		self::assertCount(3, $records);
 	}
 
-	#[DataProviderExternal(ImportTestDataProvider::class, 'additionProvider')]
+	#[DataProvider('mapperDataProvider')]
 	public function testCheck(string $fileName, bool $expected): void
 	{
 		$mapper = new EtoroMapper();

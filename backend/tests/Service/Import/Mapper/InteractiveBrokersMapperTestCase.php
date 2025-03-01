@@ -5,50 +5,48 @@ declare(strict_types=1);
 namespace FinGather\Tests\Service\Import\Mapper;
 
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
-use FinGather\Service\Import\Mapper\AnycoinMapper;
 use FinGather\Service\Import\Mapper\Dto\MappingDto;
+use FinGather\Service\Import\Mapper\InteractiveBrokersMapper;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\DataProviderExternal;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\UsesClass;
-use PHPUnit\Framework\TestCase;
 
-#[CoversClass(AnycoinMapper::class)]
+#[CoversClass(InteractiveBrokersMapper::class)]
 #[UsesClass(MappingDto::class)]
-final class AnycoinMapperTest extends TestCase
+final class InteractiveBrokersMapperTestCase extends AbstractMapperTestCase
 {
-	//@phpstan-ignore-next-line
-	public function __construct(string $name)
-	{
-		parent::__construct($name);
-
-		ImportTestDataProvider::setCurrentTestFile('anycoin_export.csv');
-	}
+	protected static string $currentTestFile = 'interactive_brokers_export.csv';
 
 	public function testGetImportType(): void
 	{
-		$mapper = new AnycoinMapper();
-		self::assertSame(BrokerImportTypeEnum::Anycoin, $mapper->getImportType());
+		$mapper = new InteractiveBrokersMapper();
+		self::assertSame(BrokerImportTypeEnum::InteractiveBrokers, $mapper->getImportType());
 	}
 
 	public function testGetMapping(): void
 	{
-		$mapper = new AnycoinMapper();
+		$mapper = new InteractiveBrokersMapper();
 
 		$mapping = $mapper->getMapping();
 
 		self::assertNotNull($mapping->actionType);
 		self::assertNotNull($mapping->created);
 		self::assertNotNull($mapping->ticker);
+		self::assertNotNull($mapping->isin);
+		self::assertNotNull($mapping->marketMic);
 		self::assertNotNull($mapping->units);
 		self::assertNotNull($mapping->price);
 		self::assertNotNull($mapping->currency);
+		self::assertNotNull($mapping->tax);
+		self::assertNotNull($mapping->fee);
+		self::assertNotNull($mapping->feeCurrency);
 		self::assertNotNull($mapping->importIdentifier);
 	}
 
-	#[DataProviderExternal(ImportTestDataProvider::class, 'additionProvider')]
+	#[DataProvider('mapperDataProvider')]
 	public function testCheck(string $fileName, bool $expected): void
 	{
-		$mapper = new AnycoinMapper();
+		$mapper = new InteractiveBrokersMapper();
 
 		$fileContent = file_get_contents(__DIR__ . '/../../../Fixtures/Import/File/' . $fileName);
 		if ($fileContent === false) {
@@ -60,7 +58,7 @@ final class AnycoinMapperTest extends TestCase
 
 	public function testGetCsvDelimiter(): void
 	{
-		$mapper = new AnycoinMapper();
+		$mapper = new InteractiveBrokersMapper();
 		self::assertSame(',', $mapper->getCsvDelimiter());
 	}
 }

@@ -8,21 +8,14 @@ use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Service\Import\Mapper\Dto\MappingDto;
 use FinGather\Service\Import\Mapper\Trading212Mapper;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\DataProviderExternal;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\UsesClass;
-use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Trading212Mapper::class)]
 #[UsesClass(MappingDto::class)]
-final class Trading212MapperTest extends TestCase
+final class Trading212MapperTestCase extends AbstractMapperTestCase
 {
-	//@phpstan-ignore-next-line
-	public function __construct(string $name)
-	{
-		parent::__construct($name);
-
-		ImportTestDataProvider::setCurrentTestFile('trading212_export.csv');
-	}
+	protected static string $currentTestFile = 'trading212_export.csv';
 
 	public function testGetImportType(): void
 	{
@@ -50,7 +43,7 @@ final class Trading212MapperTest extends TestCase
 		self::assertNotNull($mapping->importIdentifier);
 	}
 
-	#[DataProviderExternal(ImportTestDataProvider::class, 'additionProvider')]
+	#[DataProvider('mapperDataProvider')]
 	public function testCheck(string $fileName, bool $expected): void
 	{
 		$mapper = new Trading212Mapper();

@@ -8,21 +8,14 @@ use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Service\Import\Mapper\Dto\MappingDto;
 use FinGather\Service\Import\Mapper\RevolutMapper;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\DataProviderExternal;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\UsesClass;
-use PHPUnit\Framework\TestCase;
 
 #[CoversClass(RevolutMapper::class)]
 #[UsesClass(MappingDto::class)]
-final class RevolutMapperTest extends TestCase
+final class RevolutMapperTestCase extends AbstractMapperTestCase
 {
-	//@phpstan-ignore-next-line
-	public function __construct(string $name)
-	{
-		parent::__construct($name);
-
-		ImportTestDataProvider::setCurrentTestFile('revolut_export.csv');
-	}
+	protected static string $currentTestFile = 'revolut_export.csv';
 
 	public function testGetImportType(): void
 	{
@@ -45,7 +38,7 @@ final class RevolutMapperTest extends TestCase
 		self::assertNotNull($mappings->total);
 	}
 
-	#[DataProviderExternal(ImportTestDataProvider::class, 'additionProvider')]
+	#[DataProvider('mapperDataProvider')]
 	public function testCheck(string $fileName, bool $expected): void
 	{
 		$mapper = new RevolutMapper();

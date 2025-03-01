@@ -8,23 +8,16 @@ use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Service\Import\Mapper\DegiroMapper;
 use FinGather\Service\Import\Mapper\Dto\MappingDto;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\DataProviderExternal;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\Attributes\UsesClass;
-use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 
 #[CoversClass(DegiroMapper::class)]
 #[UsesClass(MappingDto::class)]
-final class DegiroMapperTest extends TestCase
+final class DegiroMapperTestCase extends AbstractMapperTestCase
 {
-	//@phpstan-ignore-next-line
-	public function __construct(string $name)
-	{
-		parent::__construct($name);
-
-		ImportTestDataProvider::setCurrentTestFile('degiro_export.csv');
-	}
+	protected static string $currentTestFile = 'degiro_export.csv';
 
 	public function testGetImportType(): void
 	{
@@ -51,7 +44,7 @@ final class DegiroMapperTest extends TestCase
 		self::assertNotNull($mapping->importIdentifier);
 	}
 
-	#[DataProviderExternal(ImportTestDataProvider::class, 'additionProvider')]
+	#[DataProvider('mapperDataProvider')]
 	public function testCheck(string $fileName, bool $expected): void
 	{
 		$mapper = new DegiroMapper();
