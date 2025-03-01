@@ -16,10 +16,10 @@ export class ConfirmDialogService {
             size: 'md',
             centered: true,
         });
-        modalRef.componentInstance.$title.set(title);
-        modalRef.componentInstance.$message.set(message);
-        modalRef.componentInstance.$buttonOkText.set(buttonOkText);
-        modalRef.componentInstance.$buttonCancelText.set(buttonCancelText);
+        modalRef.componentInstance.title.set(title);
+        modalRef.componentInstance.message.set(message);
+        modalRef.componentInstance.buttonOkText.set(buttonOkText);
+        modalRef.componentInstance.buttonCancelText.set(buttonCancelText);
 
         return modalRef.result;
     }
