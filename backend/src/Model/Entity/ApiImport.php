@@ -31,7 +31,7 @@ class ApiImport extends AEntity
 		public readonly DateTimeImmutable $dateTo,
 		#[Column(type: Type::Int, nullable: true)]
 		public readonly ?int $reportId,
-		#[Column(type: Type::String, nullable: true)]
+		#[Column(type: Type::Text, nullable: true)]
 		public ?string $error,
 	) {
 	}
