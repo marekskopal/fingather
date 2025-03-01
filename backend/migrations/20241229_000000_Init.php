@@ -311,7 +311,7 @@ final class NewMigration extends Migration
 			->addColumn('date_from', Type::Timestamp)
 			->addColumn('date_to', Type::Timestamp)
 			->addColumn('report_id', Type::Int, nullable: true)
-			->addColumn('error', Type::String, nullable: true)
+			->addColumn('error', Type::Text, nullable: true)
 			->addIndex(['user_id'], 'api_imports_user_id_index', false)
 			->addIndex(['portfolio_id'], 'api_imports_portfolio_id_index', false)
 			->addIndex(['api_key_id'], 'api_imports_api_key_id_index', false)
