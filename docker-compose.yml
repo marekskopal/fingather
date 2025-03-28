@@ -107,7 +107,7 @@ services:
             - rabbitmq_volume:/var/lib/rabbitmq
 
     memcached:
-        image: memcached:1.6.37-alpine
+        image: memcached:1.6.38-alpine
         restart: unless-stopped
         networks:
             - backend
@@ -124,7 +124,7 @@ services:
             - redis_volume:/data
 
     adminer:
-        image: adminer:5.0.4
+        image: adminer:5.1.0
         restart: unless-stopped
         networks:
             - frontend
