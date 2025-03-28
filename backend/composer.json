@@ -21,7 +21,7 @@
         "guzzlehttp/guzzle": "^7.8",
         "guzzlehttp/psr7": "^2.7",
         "laminas/laminas-diactoros": "^3.3",
-        "league/container": "^4.2",
+        "league/container": "^5.0",
         "league/csv": "^9.12",
         "league/route": "^6.1",
         "marekskopal/buggregator-client": "^0.1.0",
