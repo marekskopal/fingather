@@ -37,7 +37,7 @@ final class JobsDispatcher implements Dispatcher
 		$currentTransactionProvider = $application->container->get(CurrentTransactionProvider::class);
 		assert($currentTransactionProvider instanceof CurrentTransactionProvider);
 
-		while ($task = $consumer->waitTask()) {
+		while (($task = $consumer->waitTask()) !== null) {
 			try {
 				$handlerClass = match ($task->getQueue()) {
 					QueueEnum::EmailVerify->value => EmailVerifyHandler::class,

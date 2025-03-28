@@ -210,12 +210,24 @@ class TransactionProvider
 		$defaultCurrency = $transaction->portfolio->currency;
 		$actionCreated = $transaction->actionCreated;
 
-		$transaction->priceDefaultCurrency =
-			$this->getPriceInCurrency($transaction->price, $transaction->currency, $defaultCurrency, $actionCreated);
-		$transaction->taxDefaultCurrency =
-			$this->getPriceInCurrency($transaction->tax, $transaction->taxCurrency, $defaultCurrency, $actionCreated);
-		$transaction->feeDefaultCurrency =
-			$this->getPriceInCurrency($transaction->fee, $transaction->feeCurrency, $defaultCurrency, $actionCreated);
+		$transaction->priceDefaultCurrency = $this->getPriceInCurrency(
+			$transaction->price,
+			$transaction->currency,
+			$defaultCurrency,
+			$actionCreated,
+		);
+		$transaction->taxDefaultCurrency = $this->getPriceInCurrency(
+			$transaction->tax,
+			$transaction->taxCurrency,
+			$defaultCurrency,
+			$actionCreated,
+		);
+		$transaction->feeDefaultCurrency = $this->getPriceInCurrency(
+			$transaction->fee,
+			$transaction->feeCurrency,
+			$defaultCurrency,
+			$actionCreated,
+		);
 
 		$this->transactionRepository->persist($transaction);
 
