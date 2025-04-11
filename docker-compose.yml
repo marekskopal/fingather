@@ -96,7 +96,7 @@ services:
             - dev
 
     rabbitmq:
-        image: rabbitmq:4.0.7-alpine
+        image: rabbitmq:4.0.8-alpine
         restart: unless-stopped
         environment:
             RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
