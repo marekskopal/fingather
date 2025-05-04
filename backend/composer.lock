@@ -1402,16 +1402,16 @@
         },
         {
             "name": "marekskopal/orm",
-            "version": "v0.9.3",
+            "version": "v0.9.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/marekskopal/orm.git",
-                "reference": "d9e45b28437c4c5864a0932d87cde455d1342f31"
+                "reference": "6ecc239b3b1d81e5f3ab39b2cb81c41b457dbbdd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/marekskopal/orm/zipball/d9e45b28437c4c5864a0932d87cde455d1342f31",
-                "reference": "d9e45b28437c4c5864a0932d87cde455d1342f31",
+                "url": "https://api.github.com/repos/marekskopal/orm/zipball/6ecc239b3b1d81e5f3ab39b2cb81c41b457dbbdd",
+                "reference": "6ecc239b3b1d81e5f3ab39b2cb81c41b457dbbdd",
                 "shasum": ""
             },
             "require": {
@@ -1454,9 +1454,9 @@
             ],
             "support": {
                 "issues": "https://github.com/marekskopal/orm/issues",
-                "source": "https://github.com/marekskopal/orm/tree/v0.9.3"
+                "source": "https://github.com/marekskopal/orm/tree/v0.9.4"
             },
-            "time": "2025-05-04T20:32:19+00:00"
+            "time": "2025-05-04T22:45:30+00:00"
         },
         {
             "name": "marekskopal/orm-decimal",
