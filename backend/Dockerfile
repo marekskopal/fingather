@@ -1,5 +1,5 @@
 FROM spiralscout/roadrunner:2025.1.1 AS roadrunner
-FROM composer:2.8.8 AS composer
+FROM composer:2.8.9 AS composer
 FROM mlocati/php-extension-installer:2.7.34 AS php-extension-installer
 FROM php:8.4.7-cli-alpine AS php
 
