@@ -48,6 +48,7 @@
         "psr/simple-cache": "^3.0",
         "ramsey/uuid": "^4.7",
         "spiral/goridge": "^4.2",
+        "spiral/roadrunner": "^2025.1",
         "spiral/roadrunner-http": "^3.3",
         "spiral/roadrunner-jobs": "^4.3",
         "spiral/roadrunner-worker": "^3.5",
