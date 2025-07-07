@@ -1,7 +1,7 @@
-FROM spiralscout/roadrunner:2025.1.1 AS roadrunner
+FROM spiralscout/roadrunner:2025.1.2 AS roadrunner
 FROM composer:2.8.9 AS composer
-FROM mlocati/php-extension-installer:2.7.34 AS php-extension-installer
-FROM php:8.4.7-cli-alpine AS php
+FROM mlocati/php-extension-installer:2.8.4 AS php-extension-installer
+FROM php:8.4.10-cli-alpine AS php
 
 COPY --from=php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
 
