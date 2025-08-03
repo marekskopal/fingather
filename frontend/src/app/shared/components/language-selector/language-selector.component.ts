@@ -20,7 +20,7 @@ import {TranslateService} from "@ngx-translate/core";
 export class LanguageSelectorComponent {
     private readonly translateService = inject(TranslateService);
 
-    protected languages: string[] = this.translateService.getLangs();
+    protected languages: readonly string[] = this.translateService.getLangs();
     protected currentLanguage: string = this.translateService.currentLang;
 
     protected changeLanguage(lang: string): void {
