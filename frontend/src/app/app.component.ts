@@ -10,10 +10,6 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import { TranslateService} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 
-export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
-    return new TranslateHttpLoader(http, '/i18n/');
-}
-
 @Component({
     selector: 'fingather-app',
     templateUrl: 'app.component.html',
