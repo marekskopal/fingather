@@ -25,7 +25,7 @@ final class FioBankaMapper extends CsvMapper
 			price: fn (array $record): string => str_replace(',', '.', $record['Cena']),
 			currency: 'Měna',
 			fee: fn (array $record): string => str_replace(',', '.', $record['Poplatky v CZK']),
-			feeCurrency: fn (array $record): string => 'CZK',
+			feeCurrency: fn (): string => 'CZK',
 			importIdentifier: fn (array $record): string =>
 					$record['Datum obchodu'] . '|' . $record['Symbol'] . '|' . $record['Směr'],
 		);

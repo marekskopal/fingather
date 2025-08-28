@@ -17,6 +17,7 @@ final class TracyLogger extends Logger
 		return implode(' ', [
 			date('[Y-m-d H-i-s]'),
 			preg_replace('#\s*\r?\n\s*#', ' ', self::formatMessage($message)),
+			//@phpstan-ignore-next-line staticMethod.internal
 			' @  ' . Helpers::getSource(),
 			$exceptionFile !== null ? ' @@  ' . basename($exceptionFile) : null,
 		]) . ($message instanceof \Throwable ? PHP_EOL . strstr((string) $message, 'Stack trace:') : '');

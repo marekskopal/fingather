@@ -17,13 +17,13 @@ use MarekSkopal\TwelveData\Exception\BadRequestException;
 use MarekSkopal\TwelveData\Exception\NotFoundException;
 use MarekSkopal\TwelveData\TwelveData;
 
-class ExchangeRateProvider
+readonly class ExchangeRateProvider
 {
-	private readonly Cache $cache;
+	private Cache $cache;
 
 	public function __construct(
-		private readonly ExchangeRateRepository $exchangeRateRepository,
-		private readonly TwelveData $twelveData,
+		private ExchangeRateRepository $exchangeRateRepository,
+		private TwelveData $twelveData,
 		CacheFactory $cacheFactory,
 	)
 	{
@@ -92,7 +92,7 @@ class ExchangeRateProvider
 		$startDate = $lastExchangeRate->date ?? new DateTimeImmutable('2020-01-01');
 
 		try {
-			$timeSeries = $this->twelveData->getCoreData()->timeSeries(symbol: 'USD/' . $code, startDate: $startDate);
+			$timeSeries = $this->twelveData->coreData->timeSeries(symbol: 'USD/' . $code, startDate: $startDate);
 		} catch (NotFoundException | BadRequestException) {
 			return null;
 		}

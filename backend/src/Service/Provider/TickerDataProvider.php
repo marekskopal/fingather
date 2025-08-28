@@ -24,16 +24,16 @@ use MarekSkopal\TwelveData\Exception\BadRequestException;
 use MarekSkopal\TwelveData\Exception\NotFoundException;
 use MarekSkopal\TwelveData\TwelveData;
 
-class TickerDataProvider
+readonly class TickerDataProvider
 {
 	private const TwelveDataTimeSeriesMaxResults = 5000;
 
-	private readonly Cache $cache;
+	private Cache $cache;
 
 	public function __construct(
-		private readonly TickerDataRepository $tickerDataRepository,
-		private readonly SplitProvider $splitProvider,
-		private readonly TwelveData $twelveData,
+		private TickerDataRepository $tickerDataRepository,
+		private SplitProvider $splitProvider,
+		private TwelveData $twelveData,
 		CacheFactory $cacheFactory,
 	) {
 		$this->cache = $cacheFactory->create(namespace: self::class);
@@ -149,7 +149,7 @@ class TickerDataProvider
 	private function createTickerDataFromStock(Ticker $ticker, DateTimeImmutable $fromDate, ?DateTimeImmutable $toDate = null): int
 	{
 		try {
-			$timeSeries = $this->twelveData->getCoreData()->timeSeries(
+			$timeSeries = $this->twelveData->coreData->timeSeries(
 				symbol: $ticker->ticker,
 				micCode: $ticker->market->mic,
 				startDate: $fromDate,
@@ -174,11 +174,7 @@ class TickerDataProvider
 	private function createTickerDataFromCrypto(Ticker $ticker, DateTimeImmutable $fromDate, ?DateTimeImmutable $toDate = null): int
 	{
 		try {
-			$timeSeries = $this->twelveData->getCoreData()->timeSeries(
-				symbol: $ticker->ticker . '/USD',
-				startDate: $fromDate,
-				endDate: $toDate,
-			);
+			$timeSeries = $this->twelveData->coreData->timeSeries(symbol: $ticker->ticker . '/USD', startDate: $fromDate, endDate: $toDate);
 			$this->createTickerData($ticker, $timeSeries);
 		} catch (NotFoundException | BadRequestException) {
 			return 0;
