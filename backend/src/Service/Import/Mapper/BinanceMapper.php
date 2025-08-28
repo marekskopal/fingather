@@ -81,6 +81,7 @@ final class BinanceMapper extends CsvMapper
 		return array_map(
 			function (array $record): array {
 				if ($record['Remark'] !== '') {
+					//@phpstan-ignore-next-line return.type
 					return $record;
 				}
 

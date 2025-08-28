@@ -11,16 +11,16 @@ use MarekSkopal\TwelveData\Enum\RangeEnum;
 use MarekSkopal\TwelveData\Exception\NotFoundException;
 use MarekSkopal\TwelveData\TwelveData;
 
-final class SplitUpdater
+final readonly class SplitUpdater
 {
-	public function __construct(private readonly SplitProvider $splitProvider, private readonly TwelveData $twelveData)
+	public function __construct(private SplitProvider $splitProvider, private TwelveData $twelveData)
 	{
 	}
 
 	public function updateSplits(Ticker $ticker): void
 	{
 		try {
-			$splits = $this->twelveData->getFundamentals()->splits(
+			$splits = $this->twelveData->fundamentals->splits(
 				symbol: $ticker->ticker,
 				micCode: $ticker->market->mic,
 				range: RangeEnum::Full,

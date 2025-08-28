@@ -10,12 +10,10 @@ use FinGather\Model\Repository\TickerFundamentalRepository;
 use MarekSkopal\TwelveData\Exception\NotFoundException;
 use MarekSkopal\TwelveData\TwelveData;
 
-class TickerFundamentalProvider
+readonly class TickerFundamentalProvider
 {
-	public function __construct(
-		private readonly TickerFundamentalRepository $tickerFundamentalRepository,
-		private readonly TwelveData $twelveData,
-	) {
+	public function __construct(private TickerFundamentalRepository $tickerFundamentalRepository, private TwelveData $twelveData,)
+	{
 	}
 
 	public function getTickerFundamental(Ticker $ticker): ?TickerFundamental
@@ -26,7 +24,7 @@ class TickerFundamentalProvider
 	public function createTickerFundamental(Ticker $ticker): void
 	{
 		try {
-			$statistics = $this->twelveData->getFundamentals()->statistics(symbol: $ticker->ticker, micCode: $ticker->market->mic);
+			$statistics = $this->twelveData->fundamentals->statistics(symbol: $ticker->ticker, micCode: $ticker->market->mic);
 		} catch (NotFoundException) {
 			return;
 		}
@@ -97,7 +95,7 @@ class TickerFundamentalProvider
 		$ticker = $tickerFundamental->ticker;
 
 		try {
-			$statistics = $this->twelveData->getFundamentals()->statistics(symbol: $ticker->ticker, micCode: $ticker->market->mic);
+			$statistics = $this->twelveData->fundamentals->statistics(symbol: $ticker->ticker, micCode: $ticker->market->mic);
 		} catch (NotFoundException) {
 			return $tickerFundamental;
 		}

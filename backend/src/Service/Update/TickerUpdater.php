@@ -22,16 +22,16 @@ use MarekSkopal\TwelveData\Dto\Fundamentals\Profile;
 use MarekSkopal\TwelveData\Exception\NotFoundException;
 use MarekSkopal\TwelveData\TwelveData;
 
-final class TickerUpdater
+final readonly class TickerUpdater
 {
 	public function __construct(
-		private readonly TickerRepository $tickerRepository,
-		private readonly MarketRepository $marketRepository,
-		private readonly CurrencyRepository $currencyRepository,
-		private readonly IndustryRepository $industryRepository,
-		private readonly SectorRepository $sectorRepository,
-		private readonly CountryRepository $countryRepository,
-		private readonly TwelveData $twelveData,
+		private TickerRepository $tickerRepository,
+		private MarketRepository $marketRepository,
+		private CurrencyRepository $currencyRepository,
+		private IndustryRepository $industryRepository,
+		private SectorRepository $sectorRepository,
+		private CountryRepository $countryRepository,
+		private TwelveData $twelveData,
 	) {
 	}
 
@@ -53,7 +53,7 @@ final class TickerUpdater
 
 		$tickerTickers = $this->tickerRepository->findTickersTicker(marketId: $market->id);
 
-		$cryptocurrenciesList = $this->twelveData->getReferenceData()->cryptocurrenciesList(exchange: 'Binance');
+		$cryptocurrenciesList = $this->twelveData->referenceData->assetCatalogs->cryptocurrencyPairs(exchange: 'Binance');
 		foreach ($cryptocurrenciesList->data as $cryptocurrency) {
 			if (!str_ends_with($cryptocurrency->symbol, '/USD')) {
 				continue;
@@ -86,7 +86,7 @@ final class TickerUpdater
 	/** @param list<string> $tickerTickers */
 	private function updateStockTickers(Market $market, array $tickerTickers): void
 	{
-		$stockList = $this->twelveData->getReferenceData()->stockList(micCode: $market->mic);
+		$stockList = $this->twelveData->referenceData->assetCatalogs->stocks(micCode: $market->mic);
 		foreach ($stockList->data as $stock) {
 			if (in_array($stock->symbol, $tickerTickers, true)) {
 				continue;
@@ -123,7 +123,7 @@ final class TickerUpdater
 	/** @param list<string> $tickerTickers */
 	private function updateEtfTickers(Market $market, array $tickerTickers): void
 	{
-		$etfList = $this->twelveData->getReferenceData()->etfList(micCode: $market->mic);
+		$etfList = $this->twelveData->referenceData->assetCatalogs->etfs(micCode: $market->mic);
 		foreach ($etfList->data as $etf) {
 			if (in_array($etf->symbol, $tickerTickers, true)) {
 				continue;
@@ -169,7 +169,7 @@ final class TickerUpdater
 		}
 
 		try {
-			$profile = $this->twelveData->getFundamentals()->profile(symbol: $ticker->ticker, micCode: $ticker->market->mic);
+			$profile = $this->twelveData->fundamentals->profile(symbol: $ticker->ticker, micCode: $ticker->market->mic);
 		} catch (NotFoundException) {
 			return;
 		}
