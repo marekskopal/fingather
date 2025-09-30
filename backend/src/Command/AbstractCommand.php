@@ -43,7 +43,7 @@ abstract class AbstractCommand extends Command
 			'%s [%s] %s: %s',
 			$datetime->format('Y-m-d H:i:s'),
 			$this->id->toString(),
-			$this->getName(),
+			$this->getName() ?? 'unknown',
 			$message,
 		));
 	}
