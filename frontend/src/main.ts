@@ -1,4 +1,4 @@
-import {HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi} from "@angular/common/http";
 import {enableProdMode, provideZonelessChangeDetection} from '@angular/core';
 import {bootstrapApplication} from "@angular/platform-browser";
 import {provideRouter} from "@angular/router";
@@ -6,7 +6,7 @@ import {AppComponent} from "@app/app.component";
 import {appRoutes} from "@app/app-routes";
 import {JwtInterceptor} from "@app/core/interceptors/jwt.interceptor";
 import { environment } from '@environments/environment';
-import {provideTranslateService, TranslateLoader} from "@ngx-translate/core";
+import {provideTranslateService} from "@ngx-translate/core";
 import {provideTranslateHttpLoader} from '@ngx-translate/http-loader';
 
 if (environment.production) {
