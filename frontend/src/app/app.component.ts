@@ -1,5 +1,3 @@
-import {CommonModule} from "@angular/common";
-import { HttpClient} from "@angular/common/http";
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {MatIconRegistry} from "@angular/material/icon";
 import { RouterOutlet} from "@angular/router";
@@ -8,33 +6,31 @@ import {AlertComponent} from "@app/shared/components/alert/alert.component";
 import {NavigationComponent} from "@app/shared/components/navigation/navigation.component";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import { TranslateService} from "@ngx-translate/core";
-import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 
 @Component({
     selector: 'fingather-app',
     templateUrl: 'app.component.html',
     imports: [
-        CommonModule,
-        NgbModule,
-        NavigationComponent,
-        AlertComponent,
-        RouterOutlet,
-    ],
+    NgbModule,
+    NavigationComponent,
+    AlertComponent,
+    RouterOutlet,
+],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
+    private readonly translateService = inject(TranslateService);
+    private readonly matIconRegistry = inject(MatIconRegistry);
     private readonly contentLayoutService = inject(ContentLayoutService);
 
     protected readonly contentCenter = this.contentLayoutService.contentCenter;
 
     public constructor(
-        private readonly translateService: TranslateService,
-        private readonly matIconRegistry: MatIconRegistry,
     ) {
-        translateService.addLangs(['en', 'cs']);
-        translateService.use(localStorage.getItem('currentLanguage') ?? 'en');
-        translateService.setDefaultLang('en');
+        this.translateService.addLangs(['en', 'cs']);
+        this.translateService.use(localStorage.getItem('currentLanguage') ?? 'en');
+        this.translateService.setDefaultLang('en');
 
-        matIconRegistry.setDefaultFontSetClass('material-symbols-outlined');
+        this.matIconRegistry.setDefaultFontSetClass('material-symbols-outlined');
     }
 }
