@@ -96,7 +96,7 @@ services:
             - dev
 
     rabbitmq:
-        image: rabbitmq:4.1.4-alpine
+        image: rabbitmq:4.2.1-alpine
         restart: unless-stopped
         environment:
             RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
@@ -113,7 +113,7 @@ services:
             - backend
 
     redis:
-        image: redis:8.2.2-alpine
+        image: redis:8.4.0-alpine
         restart: unless-stopped
         environment:
             REDIS_PASSWORD: ${REDIS_PASSWORD}
