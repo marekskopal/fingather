@@ -6,7 +6,7 @@ namespace FinGather\Response;
 
 final class ConflictResponse extends ErrorResponse
 {
-	/** @param array<string> $headers */
+	/** @param array<non-empty-string, array<string>|string> $headers */
 	public function __construct(string $data, int $status = 409, array $headers = [], int $encodingOptions = self::DEFAULT_JSON_FLAGS)
 	{
 		parent::__construct($data, $status, $headers, $encodingOptions);

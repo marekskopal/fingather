@@ -8,7 +8,7 @@ use Laminas\Diactoros\Response\JsonResponse;
 
 final class OkResponse extends JsonResponse
 {
-	/** @param array<string> $headers */
+	/** @param array<non-empty-string, array<string>|string> $headers */
 	public function __construct(
 		string $data = 'Ok',
 		int $status = 200,
