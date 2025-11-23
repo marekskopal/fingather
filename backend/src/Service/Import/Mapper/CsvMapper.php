@@ -16,7 +16,7 @@ abstract class CsvMapper implements CsvMapperInterface
 		$content = $this->sanitizeContent($content);
 
 		try {
-			$csv = Reader::createFromString($content);
+			$csv = Reader::fromString($content);
 			$csv->setDelimiter($this->getCsvDelimiter());
 			$csv->setHeaderOffset(0);
 
