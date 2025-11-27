@@ -24,20 +24,20 @@ use Symfony\Component\Console\Application;
 
 $application = new Application();
 
-$application->add(new CacheClearCommand());
-$application->add(new ExchangeRateUpdateCommand());
-$application->add(new MigrationGenerateCommand());
-$application->add(new MigrationRunCommand());
-$application->add(new SplitUpdateCommand());
-$application->add(new TickerDataUpdateCommand());
-$application->add(new TickerFundamentalUpdateCommand());
-$application->add(new TickerLogoUpdateCommand());
-$application->add(new TickerUpdateCommand());
-$application->add(new ApiImportPrepareCheckCommand());
-$application->add(new ApiImportProcessCheckCommand());
-$application->add(new BenchmarkPortfolioValueCommand());
-$application->add(new WarmupAllCommand());
-$application->add(new WarmupAsyncCommand());
-$application->add(new WarmupUserCommand());
+$application->addCommand(new CacheClearCommand());
+$application->addCommand(new ExchangeRateUpdateCommand());
+$application->addCommand(new MigrationGenerateCommand());
+$application->addCommand(new MigrationRunCommand());
+$application->addCommand(new SplitUpdateCommand());
+$application->addCommand(new TickerDataUpdateCommand());
+$application->addCommand(new TickerFundamentalUpdateCommand());
+$application->addCommand(new TickerLogoUpdateCommand());
+$application->addCommand(new TickerUpdateCommand());
+$application->addCommand(new ApiImportPrepareCheckCommand());
+$application->addCommand(new ApiImportProcessCheckCommand());
+$application->addCommand(new BenchmarkPortfolioValueCommand());
+$application->addCommand(new WarmupAllCommand());
+$application->addCommand(new WarmupAsyncCommand());
+$application->addCommand(new WarmupUserCommand());
 
 $application->run();
