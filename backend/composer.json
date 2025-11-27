@@ -52,9 +52,9 @@
         "spiral/roadrunner-http": "^3.3",
         "spiral/roadrunner-jobs": "^4.3",
         "spiral/roadrunner-worker": "^3.5",
-        "symfony/console": "^7.0",
-        "symfony/mailer": "^7.0",
-        "symfony/mime": "^7.0",
+        "symfony/console": "^8.0",
+        "symfony/mailer": "^8.0",
+        "symfony/mime": "^8.0",
         "tracy/tracy": "^2.10"
     },
     "require-dev": {
