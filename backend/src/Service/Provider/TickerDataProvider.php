@@ -154,7 +154,7 @@ readonly class TickerDataProvider
 				micCode: $ticker->market->mic,
 				startDate: $fromDate,
 				endDate: $toDate,
-				adjust: [AdjustEnum::None],
+				adjust: AdjustEnum::None,
 			);
 		} catch (NotFoundException | BadRequestException) {
 			return 0;
