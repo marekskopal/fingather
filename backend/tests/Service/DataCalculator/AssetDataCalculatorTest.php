@@ -609,11 +609,11 @@ final class AssetDataCalculatorTest extends TestCase
 		Decimal $exchangeRate,
 	): AssetDataCalculator
 	{
-		$currentTransactionProvider = $this->createMock(CurrentTransactionProvider::class);
+		$currentTransactionProvider = self::createStub(CurrentTransactionProvider::class);
 		$currentTransactionProvider->method('getTransactions')
 			->willReturn($transactions);
 
-		$splitProvider = $this->createMock(SplitProvider::class);
+		$splitProvider = self::createStub(SplitProvider::class);
 		$splitProvider->method('getSplits')
 			->willReturn($splits);
 
@@ -621,7 +621,7 @@ final class AssetDataCalculatorTest extends TestCase
 		$tickerDataProvider->method('getLastTickerDataClose')
 			->willReturn($lastTickerDataClose);
 
-		$exchangeRateProvider = $this->createMock(ExchangeRateProvider::class);
+		$exchangeRateProvider = self::createStub(ExchangeRateProvider::class);
 		$exchangeRateProvider->method('getExchangeRate')
 			->willReturn($exchangeRate);
 

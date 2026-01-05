@@ -22,8 +22,8 @@ final class OnboardingControllerTest extends TestCase
 	protected function setUp(): void
 	{
 		$this->onboardingController = new OnboardingController(
-			$this->createMock(UserProvider::class),
-			$this->createMock(RequestServiceInterface::class),
+			$this::createStub(UserProvider::class),
+			$this::createStub(RequestServiceInterface::class),
 		);
 	}
 

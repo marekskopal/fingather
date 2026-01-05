@@ -75,7 +75,6 @@ final class DegiroMapperTestCase extends AbstractMapperTestCase
 		}
 
 		$method = $reflection->getMethod('sanitizeContent');
-		$method->setAccessible(true);
 
 		/** @var string $result */
 		$result = $method->invoke($mapper, $fileContent);
@@ -102,7 +101,6 @@ final class DegiroMapperTestCase extends AbstractMapperTestCase
 		$reflection = new ReflectionClass($mapper);
 
 		$method = $reflection->getMethod('parseFromDescription');
-		$method->setAccessible(true);
 
 		$result = $method->invoke($mapper, $description, $variableName);
 
