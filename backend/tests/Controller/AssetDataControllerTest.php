@@ -50,72 +50,72 @@ final class AssetDataControllerTest extends TestCase
 	protected function setUp(): void
 	{
 		$this->assetDataController = new AssetDataController(
-			$this->createMock(AssetProvider::class),
-			$this->createMock(AssetDataProvider::class),
-			$this->createMock(TransactionProvider::class),
-			$this->createMock(RequestServiceInterface::class),
+			$this::createStub(AssetProvider::class),
+			$this::createStub(AssetDataProvider::class),
+			$this::createStub(TransactionProvider::class),
+			$this::createStub(RequestServiceInterface::class),
 		);
 	}
 
 	public function testGetAssetDataRangeReturnsNotFoundWhenAssetIdIsLessThanOne(): void
 	{
-		$response = $this->assetDataController->actionGetAssetDataRange($this->createMock(ServerRequestInterface::class), 0);
+		$response = $this->assetDataController->actionGetAssetDataRange($this::createStub(ServerRequestInterface::class), 0);
 
 		self::assertInstanceOf(NotFoundResponse::class, $response);
 	}
 
 	public function testActionGetAssetDataRangeReturnsNotFoundWhenAssetNotFound(): void
 	{
-		$assetProvider = $this->createMock(AssetProvider::class);
+		$assetProvider = $this::createStub(AssetProvider::class);
 		$assetProvider->method('getAsset')->willReturn(null);
 
 		$assetDataController = new AssetDataController(
 			$assetProvider,
-			$this->createMock(AssetDataProvider::class),
-			$this->createMock(TransactionProvider::class),
-			$this->createMock(RequestServiceInterface::class),
+			$this::createStub(AssetDataProvider::class),
+			$this::createStub(TransactionProvider::class),
+			$this::createStub(RequestServiceInterface::class),
 		);
 
-		$response = $assetDataController->actionGetAssetDataRange($this->createMock(ServerRequestInterface::class), 1);
+		$response = $assetDataController->actionGetAssetDataRange($this::createStub(ServerRequestInterface::class), 1);
 
 		self::assertInstanceOf(NotFoundResponse::class, $response);
 	}
 
 	public function testActionGetAssetDataRangeReturnsNotFoundWhenRangeNotFound(): void
 	{
-		$assetProvider = $this->createMock(AssetProvider::class);
+		$assetProvider = $this::createStub(AssetProvider::class);
 		$assetProvider->method('getAsset')->willReturn(AssetFixture::getAsset());
 
-		$transactionProvider = $this->createMock(TransactionProvider::class);
+		$transactionProvider = $this::createStub(TransactionProvider::class);
 		$transactionProvider->method('getFirstTransaction')->willReturn(null);
 
 		$assetDataController = new AssetDataController(
 			$assetProvider,
-			$this->createMock(AssetDataProvider::class),
-			$this->createMock(TransactionProvider::class),
-			$this->createMock(RequestServiceInterface::class),
+			$this::createStub(AssetDataProvider::class),
+			$this::createStub(TransactionProvider::class),
+			$this::createStub(RequestServiceInterface::class),
 		);
 
-		$response = $assetDataController->actionGetAssetDataRange($this->createMock(ServerRequestInterface::class), 1);
+		$response = $assetDataController->actionGetAssetDataRange($this::createStub(ServerRequestInterface::class), 1);
 
 		self::assertInstanceOf(NotFoundResponse::class, $response);
 	}
 
 	public function testActionGetAssetDataRangeReturnsEmptyJsonWhenNoFirstTransaction(): void
 	{
-		$assetProvider = $this->createMock(AssetProvider::class);
+		$assetProvider = $this::createStub(AssetProvider::class);
 		$assetProvider->method('getAsset')->willReturn(AssetFixture::getAsset());
 
-		$transactionProvider = $this->createMock(TransactionProvider::class);
+		$transactionProvider = $this::createStub(TransactionProvider::class);
 		$transactionProvider->method('getFirstTransaction')->willReturn(null);
 
 		$request = new ServerRequest(method: 'GET', uri: '/api/asset-data-range/1', queryParams: ['range' => RangeEnum::OneYear->value]);
 
 		$assetDataController = new AssetDataController(
 			$assetProvider,
-			$this->createMock(AssetDataProvider::class),
+			$this::createStub(AssetDataProvider::class),
 			$transactionProvider,
-			$this->createMock(RequestServiceInterface::class),
+			$this::createStub(RequestServiceInterface::class),
 		);
 
 		$response = $assetDataController->actionGetAssetDataRange($request, 1);
