@@ -6,26 +6,26 @@ namespace FinGather\Tests\Service\Import\Mapper;
 
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Service\Import\Mapper\Dto\MappingDto;
-use FinGather\Service\Import\Mapper\FioBankaMapper;
+use FinGather\Service\Import\Mapper\PortuMapper;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\UsesClass;
 
-#[CoversClass(FioBankaMapper::class)]
+#[CoversClass(PortuMapper::class)]
 #[UsesClass(MappingDto::class)]
-final class FioBankaMapperTestCase extends AbstractMapperTestCase
+final class PortuMapperTest extends AbstractMapperTestCase
 {
-	protected static string $currentTestFile = 'fio_banka_export.csv';
+	protected static string $currentTestFile = 'portu_export.csv';
 
 	public function testGetImportType(): void
 	{
-		$mapper = new FioBankaMapper();
-		self::assertSame(BrokerImportTypeEnum::FioBanka, $mapper->getImportType());
+		$mapper = new PortuMapper();
+		self::assertSame(BrokerImportTypeEnum::Portu, $mapper->getImportType());
 	}
 
 	public function testGetMapping(): void
 	{
-		$mapper = new FioBankaMapper();
+		$mapper = new PortuMapper();
 
 		$mapping = $mapper->getMapping();
 
@@ -35,15 +35,12 @@ final class FioBankaMapperTestCase extends AbstractMapperTestCase
 		self::assertNotNull($mapping->units);
 		self::assertNotNull($mapping->price);
 		self::assertNotNull($mapping->currency);
-		self::assertNotNull($mapping->fee);
-		self::assertNotNull($mapping->feeCurrency);
-		self::assertNotNull($mapping->importIdentifier);
 	}
 
 	#[DataProvider('mapperDataProvider')]
 	public function testCheck(string $fileName, bool $expected): void
 	{
-		$mapper = new FioBankaMapper();
+		$mapper = new PortuMapper();
 
 		$fileContent = file_get_contents(__DIR__ . '/../../../Fixtures/Import/File/' . $fileName);
 		if ($fileContent === false) {
@@ -55,7 +52,7 @@ final class FioBankaMapperTestCase extends AbstractMapperTestCase
 
 	public function testGetCsvDelimiter(): void
 	{
-		$mapper = new FioBankaMapper();
-		self::assertSame(';', $mapper->getCsvDelimiter());
+		$mapper = new PortuMapper();
+		self::assertSame(',', $mapper->getCsvDelimiter());
 	}
 }

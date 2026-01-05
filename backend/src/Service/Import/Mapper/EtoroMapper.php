@@ -39,4 +39,24 @@ final class EtoroMapper extends XlsxMapper
 	{
 		return 2;
 	}
+
+	#[Override]
+	public function check(string $content, string $fileName): bool
+	{
+		if (!parent::check($content, $fileName)) {
+			return false;
+		}
+
+		$records = $this->getRecords($content);
+
+		return
+			// Check if there is at least one record (header is not counted)
+			isset($records[1]) &&
+			array_key_exists('A', $records[1]) &&
+			array_key_exists('B', $records[1]) &&
+			array_key_exists('C', $records[1]) &&
+			array_key_exists('D', $records[1]) &&
+			array_key_exists('E', $records[1]) &&
+			array_key_exists('I', $records[1]);
+	}
 }
