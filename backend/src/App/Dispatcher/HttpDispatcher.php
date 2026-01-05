@@ -79,6 +79,11 @@ final class HttpDispatcher implements Dispatcher
 				case NotAuthorizedException::class:
 					$logger->warning($e);
 					break;
+				case \InvalidArgumentException::class:
+					str_starts_with($e->getMessage(), 'Unable to parse URI:')
+						? $logger->info($e)
+						: $logger->error($e);
+
 				default:
 					$logger->error($e);
 			}
