@@ -6,42 +6,41 @@ namespace FinGather\Tests\Service\Import\Mapper;
 
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Service\Import\Mapper\Dto\MappingDto;
-use FinGather\Service\Import\Mapper\RevolutMapper;
+use FinGather\Service\Import\Mapper\XtbMapper;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\UsesClass;
 
-#[CoversClass(RevolutMapper::class)]
+#[CoversClass(XtbMapper::class)]
 #[UsesClass(MappingDto::class)]
-final class RevolutMapperTestCase extends AbstractMapperTestCase
+final class XtbMapperTest extends AbstractMapperTestCase
 {
-	protected static string $currentTestFile = 'revolut_export.csv';
+	protected static string $currentTestFile = 'xtb_export.csv';
 
 	public function testGetImportType(): void
 	{
-		$mapper = new RevolutMapper();
-		self::assertSame(BrokerImportTypeEnum::Revolut, $mapper->getImportType());
+		$mapper = new XtbMapper();
+		self::assertSame(BrokerImportTypeEnum::Xtb, $mapper->getImportType());
 	}
 
 	public function testGetMapping(): void
 	{
-		$mapper = new RevolutMapper();
+		$mapper = new XtbMapper();
 
-		$mappings = $mapper->getMapping();
+		$mapping = $mapper->getMapping();
 
-		self::assertNotNull($mappings->actionType);
-		self::assertNotNull($mappings->created);
-		self::assertNotNull($mappings->ticker);
-		self::assertNotNull($mappings->units);
-		self::assertNotNull($mappings->price);
-		self::assertNotNull($mappings->currency);
-		self::assertNotNull($mappings->total);
+		self::assertNotNull($mapping->actionType);
+		self::assertNotNull($mapping->created);
+		self::assertNotNull($mapping->ticker);
+		self::assertNotNull($mapping->units);
+		self::assertNotNull($mapping->price);
+		self::assertNotNull($mapping->importIdentifier);
 	}
 
 	#[DataProvider('mapperDataProvider')]
 	public function testCheck(string $fileName, bool $expected): void
 	{
-		$mapper = new RevolutMapper();
+		$mapper = new XtbMapper();
 
 		$fileContent = file_get_contents(__DIR__ . '/../../../Fixtures/Import/File/' . $fileName);
 		if ($fileContent === false) {
@@ -53,7 +52,7 @@ final class RevolutMapperTestCase extends AbstractMapperTestCase
 
 	public function testGetCsvDelimiter(): void
 	{
-		$mapper = new RevolutMapper();
-		self::assertSame(',', $mapper->getCsvDelimiter());
+		$mapper = new XtbMapper();
+		self::assertSame(';', $mapper->getCsvDelimiter());
 	}
 }

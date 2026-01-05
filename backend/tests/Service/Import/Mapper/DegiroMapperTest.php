@@ -15,7 +15,7 @@ use ReflectionClass;
 
 #[CoversClass(DegiroMapper::class)]
 #[UsesClass(MappingDto::class)]
-final class DegiroMapperTestCase extends AbstractMapperTestCase
+final class DegiroMapperTest extends AbstractMapperTestCase
 {
 	protected static string $currentTestFile = 'degiro_export.csv';
 

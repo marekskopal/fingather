@@ -5,27 +5,27 @@ declare(strict_types=1);
 namespace FinGather\Tests\Service\Import\Mapper;
 
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
-use FinGather\Service\Import\Mapper\AnycoinMapper;
 use FinGather\Service\Import\Mapper\Dto\MappingDto;
+use FinGather\Service\Import\Mapper\EtoroMapper;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\UsesClass;
 
-#[CoversClass(AnycoinMapper::class)]
+#[CoversClass(EtoroMapper::class)]
 #[UsesClass(MappingDto::class)]
-final class AnycoinMapperTestCase extends AbstractMapperTestCase
+final class EtoroMapperTest extends AbstractMapperTestCase
 {
-	protected static string $currentTestFile = 'anycoin_export.csv';
+	protected static string $currentTestFile = 'etoro_export.xlsx';
 
 	public function testGetImportType(): void
 	{
-		$mapper = new AnycoinMapper();
-		self::assertSame(BrokerImportTypeEnum::Anycoin, $mapper->getImportType());
+		$mapper = new EtoroMapper();
+		self::assertSame(BrokerImportTypeEnum::Etoro, $mapper->getImportType());
 	}
 
 	public function testGetMapping(): void
 	{
-		$mapper = new AnycoinMapper();
+		$mapper = new EtoroMapper();
 
 		$mapping = $mapper->getMapping();
 
@@ -38,10 +38,24 @@ final class AnycoinMapperTestCase extends AbstractMapperTestCase
 		self::assertNotNull($mapping->importIdentifier);
 	}
 
+	public function testGetRecords(): void
+	{
+		$mapper = new EtoroMapper();
+
+		$fileContent = file_get_contents(__DIR__ . '/../../../Fixtures/Import/File/etoro_export.xlsx');
+		if ($fileContent === false) {
+			self::fail('File not found');
+		}
+
+		$records = $mapper->getRecords($fileContent);
+
+		self::assertCount(3, $records);
+	}
+
 	#[DataProvider('mapperDataProvider')]
 	public function testCheck(string $fileName, bool $expected): void
 	{
-		$mapper = new AnycoinMapper();
+		$mapper = new EtoroMapper();
 
 		$fileContent = file_get_contents(__DIR__ . '/../../../Fixtures/Import/File/' . $fileName);
 		if ($fileContent === false) {
@@ -51,9 +65,9 @@ final class AnycoinMapperTestCase extends AbstractMapperTestCase
 		self::assertSame($expected, $mapper->check($fileContent, $fileName));
 	}
 
-	public function testGetCsvDelimiter(): void
+	public function testGetSheetIndex(): void
 	{
-		$mapper = new AnycoinMapper();
-		self::assertSame(',', $mapper->getCsvDelimiter());
+		$mapper = new EtoroMapper();
+		self::assertSame(2, $mapper->getSheetIndex());
 	}
 }
