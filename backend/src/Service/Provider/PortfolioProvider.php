@@ -99,6 +99,17 @@ class PortfolioProvider
 
 	public function deletePortfolio(Portfolio $portfolio): void
 	{
+		$otherPortfolios = $this->getOtherPortfolios(user: $portfolio->user, portfolio: $portfolio);
+		if (count($otherPortfolios) === 0) {
+			return;
+		}
+
+		if ($portfolio->isDefault) {
+			$otherPortfolio = array_first($otherPortfolios);
+			$otherPortfolio->isDefault = true;
+			$this->portfolioRepository->persist($otherPortfolio);
+		}
+
 		$this->portfolioRepository->delete($portfolio);
 	}
 }

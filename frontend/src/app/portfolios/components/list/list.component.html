@@ -29,12 +29,14 @@
                             <mat-icon>edit</mat-icon>
                             {{ 'app.common.edit' | translate }}
                         </a>
-                        <fingather-delete-button
-                            [showText]="true"
-                            (confirm)="deletePortfolio(portfolio.id)"
-                            [title]="'Delete portfolio ' + portfolio.name"
-                            [message]="'Are you sure you want to delete portfolio ' + portfolio.name + '?'"
-                        />
+                        @if (!portfolio.isDefault) {
+                            <fingather-delete-button
+                                [showText]="true"
+                                (confirm)="deletePortfolio(portfolio.id)"
+                                [title]="'Delete portfolio ' + portfolio.name"
+                                [message]="'Are you sure you want to delete portfolio ' + portfolio.name + '?'"
+                            />
+                        }
                     </div>
                 </div>
             </div>
