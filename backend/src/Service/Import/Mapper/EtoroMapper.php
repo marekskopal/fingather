@@ -26,10 +26,10 @@ final class EtoroMapper extends XlsxMapper
 					'Y-m-d H:i:s',
 				) : null;
 			},
-			ticker: fn (array $record): string => explode('/', $record['C'])[0],
+			ticker: fn (array $record): ?string => $record['C'] !== '' ? explode('/', $record['C'])[0] : null,
 			units: fn (array $record): ?string => $record['E'] !== '-' ? $record['E'] : null,
 			price: 'D',
-			currency: fn (array $record): ?string => explode('/', $record['C'])[1] ?? null,
+			currency: fn (array $record): ?string => $record['C'] !== '' ? (explode('/', $record['C'])[1] ?? null) : null,
 			importIdentifier: 'I',
 		);
 	}
