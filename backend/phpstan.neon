@@ -22,6 +22,9 @@ parameters:
     checkTooWideReturnTypesInProtectedAndPublicMethods: true
     reportAnyTypeWideningInVarTag: true
 
+    unused_public:
+        properties: false
+
     shipmonkRules:
         allowComparingOnlyComparableTypes:
             enabled: false
