@@ -34,7 +34,7 @@ abstract class XlsxMapper implements XlsxMapperInterface
 		}
 
 		/** @var array<array<string, string>> $sheetData */
-		$sheetData = $sheet->toArray(null, true, true, true);
+		$sheetData = $sheet->toArray('', true, true, true);
 		array_shift($sheetData);
 
 		unlink($tempFile);
