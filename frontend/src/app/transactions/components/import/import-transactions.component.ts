@@ -19,7 +19,7 @@ import { TranslatePipe} from "@ngx-translate/core";
 export class ImportTransactionsComponent {
     private readonly router = inject(Router);
 
-    protected async onImportFinish(): Promise<void> {
+    protected async afterImportFinish(): Promise<void> {
         this.router.navigate(['../']);
     }
 }
