@@ -15,7 +15,7 @@ use PHPUnit\Framework\Attributes\UsesClass;
 #[UsesClass(MappingDto::class)]
 final class XtbMapperTest extends AbstractMapperTestCase
 {
-	protected static string $currentTestFile = 'xtb_export.csv';
+	protected static string $currentTestFile = 'xtb_export.xlsx';
 
 	public function testGetImportType(): void
 	{
@@ -48,11 +48,5 @@ final class XtbMapperTest extends AbstractMapperTestCase
 		}
 
 		self::assertSame($expected, $mapper->check($fileContent, $fileName));
-	}
-
-	public function testGetCsvDelimiter(): void
-	{
-		$mapper = new XtbMapper();
-		self::assertSame(';', $mapper->getCsvDelimiter());
 	}
 }

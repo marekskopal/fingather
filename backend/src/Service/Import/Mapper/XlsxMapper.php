@@ -6,40 +6,23 @@ namespace FinGather\Service\Import\Mapper;
 
 use PhpOffice\PhpSpreadsheet\Exception;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use const PATHINFO_EXTENSION;
 
 abstract class XlsxMapper implements XlsxMapperInterface
 {
-	private const TEMP_FILE_PREFIX = 'FinGatherEtoro_';
+	private const TEMP_FILE_PREFIX = 'FinGatherXlsx_';
 
 	/** @return list<array<string, string>> */
 	public function getRecords(string $content): array
 	{
-		$reader = new Xlsx();
-		$reader->setReadDataOnly(true);
-
-		$tempFile = tempnam(sys_get_temp_dir(), self::TEMP_FILE_PREFIX);
-		if ($tempFile === false) {
-			return [];
-		}
-
-		file_put_contents($tempFile, $content);
-
-		$spreadsheet = $reader->load($tempFile);
+		$spreadsheet = $this->loadSpreadsheet($content);
 
 		try {
-			$sheet = $spreadsheet->getSheet($this->getSheetIndex());
+			return $this->getRecordsFromSheet($spreadsheet);
 		} catch (Exception) {
 			return [];
 		}
-
-		/** @var array<array<string, string>> $sheetData */
-		$sheetData = $sheet->toArray('', true, true, true);
-		array_shift($sheetData);
-
-		unlink($tempFile);
-
-		return array_values($sheetData);
 	}
 
 	/** @return list<int>|null */
@@ -49,7 +32,27 @@ abstract class XlsxMapper implements XlsxMapperInterface
 		return null;
 	}
 
-	abstract public function getSheetIndex(): int;
+	/** @return list<array<string, string>> */
+	abstract public function getRecordsFromSheet(Spreadsheet $spreadsheet): array;
+
+	protected function loadSpreadsheet(string $content): Spreadsheet
+	{
+		$reader = new Xlsx();
+		$reader->setReadDataOnly(true);
+
+		$tempFile = tempnam(sys_get_temp_dir(), self::TEMP_FILE_PREFIX);
+		if ($tempFile === false) {
+			throw new \InvalidArgumentException('Could not create temp file');
+		}
+
+		file_put_contents($tempFile, $content);
+
+		$spreadsheet = $reader->load($tempFile);
+
+		unlink($tempFile);
+
+		return $spreadsheet;
+	}
 
 	public function check(string $content, string $fileName): bool
 	{

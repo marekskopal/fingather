@@ -8,6 +8,7 @@ use DateTimeImmutable;
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Service\Import\Mapper\Dto\MappingDto;
 use Override;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 final class EtoroMapper extends XlsxMapper
 {
@@ -34,16 +35,31 @@ final class EtoroMapper extends XlsxMapper
 		);
 	}
 
+	/** @return list<array<string, string>> */
 	#[Override]
-	public function getSheetIndex(): int
+	public function getRecordsFromSheet(Spreadsheet $spreadsheet): array
 	{
-		return 2;
+		$sheet = $spreadsheet->getSheet(2);
+
+		/** @var array<int, array<string, string>> $sheetData */
+		$sheetData = $sheet->toArray('', true, true, true);
+		array_shift($sheetData);
+
+		return array_values($sheetData);
 	}
 
 	#[Override]
 	public function check(string $content, string $fileName): bool
 	{
 		if (!parent::check($content, $fileName)) {
+			return false;
+		}
+
+		$spreadsheet = $this->loadSpreadsheet($content);
+
+		try {
+			$spreadsheet->getSheet(4);
+		} catch (\Throwable $e) {
 			return false;
 		}
 
