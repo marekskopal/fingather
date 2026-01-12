@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Import\Mapper;
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+
 interface XlsxMapperInterface extends MapperInterface
 {
-	public function getSheetIndex(): int;
+	/** @return list<array<string, string>> */
+	public function getRecordsFromSheet(Spreadsheet $spreadsheet): array;
 }

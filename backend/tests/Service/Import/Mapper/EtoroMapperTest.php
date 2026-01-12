@@ -64,10 +64,4 @@ final class EtoroMapperTest extends AbstractMapperTestCase
 
 		self::assertSame($expected, $mapper->check($fileContent, $fileName));
 	}
-
-	public function testGetSheetIndex(): void
-	{
-		$mapper = new EtoroMapper();
-		self::assertSame(2, $mapper->getSheetIndex());
-	}
 }
