@@ -143,14 +143,15 @@ final class ImportService
 			$actionType = TransactionActionTypeEnum::fromString($transactionRecord->actionType ?? '');
 
 			$units = $transactionRecord->units ?? new Decimal(0);
-			if ($actionType === TransactionActionTypeEnum::Sell) {
-				$units = $units->negate();
-			}
 
 			$price = $transactionRecord->price;
 			if ($price === null && $transactionRecord->total !== null) {
 				// Avoid division by zero in dividends
 				$price = $units->isZero() ? $transactionRecord->total : $transactionRecord->total->div($units);
+			}
+
+			if ($actionType === TransactionActionTypeEnum::Sell) {
+				$units = $units->negate();
 			}
 
 			$transaction = $this->transactionProvider->createTransaction(
