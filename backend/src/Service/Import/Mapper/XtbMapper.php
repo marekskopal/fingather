@@ -17,6 +17,7 @@ final class XtbMapper extends XlsxMapper
 	private const string Type = 'Type';
 	private const string Volume = 'Volume';
 	private const string Price = 'Price';
+	private const string Total = 'Total';
 	private const string Created = 'Created';
 	private const string Currency = 'Currency';
 	private const string Tax = 'Tax';
@@ -36,6 +37,7 @@ final class XtbMapper extends XlsxMapper
 			ticker: fn (array $record): string => substr($record[self::Symbol], 0, (int) strrpos($record[self::Symbol], '.')),
 			units: self::Volume,
 			price: self::Price,
+			total: self::Total,
 			currency: self::Currency,
 			tax: self::Tax,
 			importIdentifier: self::Id,
@@ -78,7 +80,8 @@ final class XtbMapper extends XlsxMapper
 					self::Type => $operationDetails['action'],
 					self::Volume => $operationDetails['volume'],
 					self::Created => $row['D'],
-					self::Price => (string) $amount,
+					self::Price => '',
+					self::Total => (string) $amount,
 					self::Currency => $currency,
 					self::Tax => '',
 				];
@@ -97,6 +100,7 @@ final class XtbMapper extends XlsxMapper
 					self::Volume => $volume,
 					self::Created => $row['D'],
 					self::Price => (string) $amount,
+					self::Total => '',
 					self::Currency => $currency,
 					self::Tax => '',
 				];
