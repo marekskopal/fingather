@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Provider;
 
+use DateInterval;
+use DatePeriod;
 use DateTimeImmutable;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
@@ -43,11 +45,17 @@ class DataProvider
 	public function deleteUserData(
 		User $user,
 		?Portfolio $portfolio = null,
-		?DateTimeImmutable $date = null,
+		?DateTimeImmutable $firstDate = null,
 		bool $recalculateTransactions = false,
 	): void
 	{
-		$this->deleteData(user: $user, portfolio: $portfolio, date: $date);
+		$today = new DateTimeImmutable('today');
+		$interval = new DateInterval('P1D');
+		$period = new DatePeriod($firstDate ?? $today, $interval, $today->modify('+1 day'));
+
+		foreach ($period as $date) {
+			$this->deleteData(user: $user, portfolio: $portfolio, date: $date);
+		}
 
 		if (!$recalculateTransactions) {
 			return;
