@@ -18,9 +18,10 @@ final class XtbMapper extends XlsxMapper
 	private const string Volume = 'Volume';
 	private const string Price = 'Price';
 	private const string Created = 'Created';
+	private const string Currency = 'Currency';
+	private const string Tax = 'Tax';
 
-	private const int ClosedPositionSheet = 0;
-	private const int OpenPositionSheet = 1;
+	private const int CashOperationHistorySheet = 3;
 
 	public function getImportType(): BrokerImportTypeEnum
 	{
@@ -35,6 +36,8 @@ final class XtbMapper extends XlsxMapper
 			ticker: fn (array $record): string => substr($record[self::Symbol], 0, (int) strrpos($record[self::Symbol], '.')),
 			units: self::Volume,
 			price: self::Price,
+			currency: self::Currency,
+			tax: self::Tax,
 			importIdentifier: self::Id,
 		);
 		return $mappingDto;
@@ -44,51 +47,99 @@ final class XtbMapper extends XlsxMapper
 	#[Override]
 	public function getRecordsFromSheet(Spreadsheet $spreadsheet): array
 	{
-		$closedPositionSheet = $spreadsheet->getSheet(self::ClosedPositionSheet);
+		$cashOperationSheet = $spreadsheet->getSheet(self::CashOperationHistorySheet);
 
 		/** @var array<int, array<string, string>> $sheetData */
-		$sheetData = $closedPositionSheet->toArray('', true, true, true);
+		$sheetData = $cashOperationSheet->toArray('', true, true, true);
+
+		$currency = $sheetData[6]['F'] ?? '';
 
 		$records = [];
-
-		foreach ($sheetData as $index => $row) {
-			if ($index <= 12) {
-				continue;
-			}
-
-			$records[] = [
-				self::Id => $row['B'],
-				self::Symbol => $row['C'],
-				self::Type => $row['D'],
-				self::Volume => $row['E'],
-				self::Created => $row['D'] === 'Buy' ? $row['F'] : $row['H'],
-				self::Price => $row['D'] === 'Buy' ? $row['G'] : $row['I'],
-			];
-		}
-
-		$openPositionSheet = $spreadsheet->getSheet(self::OpenPositionSheet);
-
-		/** @var array<int, array<string, string>> $sheetData */
-		$sheetData = $openPositionSheet->toArray('', true, true, true);
-
-		$records = [];
+		$dividendRecordsByIndex = [];
 
 		foreach ($sheetData as $index => $row) {
 			if ($index <= 11) {
 				continue;
 			}
 
-			$records[] = [
-				self::Id => $row['B'],
-				self::Symbol => $row['C'],
-				self::Type => $row['D'],
-				self::Volume => $row['E'],
-				self::Created => $row['F'],
-				self::Price => $row['G'],
-			];
+			$comment = $row['E'];
+			$type = $row['C'];
+			$amount = abs((float) $row['G']);
+
+			if ($type === 'Stock purchase' || $type === 'Stock sale') {
+				$operationDetails = $this->parseOperationDetails($comment);
+				if ($operationDetails === null) {
+					continue;
+				}
+
+				$records[] = [
+					self::Id => $row['B'],
+					self::Symbol => $row['F'],
+					self::Type => $operationDetails['action'],
+					self::Volume => $operationDetails['volume'],
+					self::Created => $row['D'],
+					self::Price => (string) $amount,
+					self::Currency => $currency,
+					self::Tax => '',
+				];
+			} elseif ($type === 'DIVIDENT') {
+				$pricePerShare = $this->parseDividendPricePerShare($comment);
+				if ($pricePerShare === null) {
+					continue;
+				}
+
+				$volume = (string) ($amount / (float) $pricePerShare);
+
+				$record = [
+					self::Id => $row['B'],
+					self::Symbol => $row['F'],
+					self::Type => 'DIVIDEND',
+					self::Volume => $volume,
+					self::Created => $row['D'],
+					self::Price => (string) $amount,
+					self::Currency => $currency,
+					self::Tax => '',
+				];
+
+				$records[] = $record;
+				$dividendRecordsByIndex[$index] = count($records) - 1;
+			} elseif ($type === 'Withholding Tax') {
+				$taxAmount = abs((float) $row['G']);
+				$previousIndex = $index - 1;
+
+				if (isset($dividendRecordsByIndex[$previousIndex])) {
+					$recordIndex = $dividendRecordsByIndex[$previousIndex];
+					$records[$recordIndex][self::Tax] = (string) $taxAmount;
+				}
+			}
 		}
 
 		return $records;
+	}
+
+	/** @return array{action: string, volume: string}|null */
+	private function parseOperationDetails(string $comment): ?array
+	{
+		if (preg_match('/^(OPEN|CLOSE)\s+(BUY|SELL)\s+([\d.]+)\s+@\s+([\d.]+)$/', $comment, $matches) !== false) {
+			$action = $matches[1] === 'CLOSE' ? 'SELL' : 'BUY';
+			$volume = $matches[3];
+
+			return [
+				'action' => $action,
+				'volume' => $volume,
+			];
+		}
+
+		return null;
+	}
+
+	private function parseDividendPricePerShare(string $comment): ?string
+	{
+		if (preg_match('/(?:corr\s+)?[\w.]+\s+\w+\s+([\d.]+)\s*\/\s*SHR/', $comment, $matches) !== false) {
+			return $matches[1];
+		}
+
+		return null;
 	}
 
 	#[Override]
@@ -100,11 +151,8 @@ final class XtbMapper extends XlsxMapper
 
 		$spreadsheet = $this->loadSpreadsheet($content);
 
-		$closedPositionSheet = $spreadsheet->getSheet(self::ClosedPositionSheet);
-		$openPositionSheet = $spreadsheet->getSheet(self::OpenPositionSheet);
+		$cashOperationSheet = $spreadsheet->getSheet(self::CashOperationHistorySheet);
 
-		return
-			str_starts_with($closedPositionSheet->getTitle(), 'CLOSED POSITION')
-			&& str_starts_with($openPositionSheet->getTitle(), 'OPEN POSITION');
+		return str_starts_with($cashOperationSheet->getTitle(), 'CASH OPERATION HISTORY');
 	}
 }
