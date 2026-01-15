@@ -11,22 +11,57 @@ use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use Psr\Log\LoggerInterface;
 
-class DataProvider
+readonly class DataProvider
 {
 	public function __construct(
-		private readonly AssetDataProvider $assetDataProvider,
-		private readonly GroupDataProvider $groupDataProvider,
-		private readonly PortfolioDataProvider $portfolioDataProvider,
-		private readonly BenchmarkDataProvider $benchmarkDataProvider,
-		private readonly CountryDataProvider $countryDataProvider,
-		private readonly SectorDataProvider $sectorDataProvider,
-		private readonly IndustryDataProvider $industryDataProvider,
-		private readonly TransactionProvider $transactionProvider,
-		private readonly LoggerInterface $logger,
+		private AssetDataProvider $assetDataProvider,
+		private GroupDataProvider $groupDataProvider,
+		private PortfolioDataProvider $portfolioDataProvider,
+		private BenchmarkDataProvider $benchmarkDataProvider,
+		private CountryDataProvider $countryDataProvider,
+		private SectorDataProvider $sectorDataProvider,
+		private IndustryDataProvider $industryDataProvider,
+		private TransactionProvider $transactionProvider,
+		private LoggerInterface $logger,
 	) {
 	}
 
-	public function deleteData(?User $user = null, ?Portfolio $portfolio = null, ?DateTimeImmutable $date = null,): void
+	public function deleteData(?User $user = null, ?Portfolio $portfolio = null, ?DateTimeImmutable $firstDate = null,): void
+	{
+		if ($firstDate === null) {
+			$this->processDeleteData(user: $user, portfolio: $portfolio);
+
+			return;
+		}
+
+		$today = new DateTimeImmutable('today');
+		$interval = new DateInterval('P1D');
+		$period = new DatePeriod($firstDate, $interval, $today->modify('+1 day'));
+
+		foreach ($period as $date) {
+			$this->processDeleteData(user: $user, portfolio: $portfolio, date: $date);
+		}
+	}
+
+	public function deleteUserData(
+		User $user,
+		?Portfolio $portfolio = null,
+		?DateTimeImmutable $firstDate = null,
+		bool $recalculateTransactions = false,
+	): void
+	{
+		$this->deleteData(user: $user, portfolio: $portfolio, firstDate: $firstDate);
+
+		if (!$recalculateTransactions) {
+			return;
+		}
+
+		foreach ($this->transactionProvider->getTransactions($user, $portfolio) as $transaction) {
+			$this->transactionProvider->updateTransactionDefaultCurrency($transaction);
+		}
+	}
+
+	private function processDeleteData(?User $user = null, ?Portfolio $portfolio = null, ?DateTimeImmutable $date = null): void
 	{
 		$this->logger->info('Deleting data'
 			. ($user !== null ? ' for user ' . $user->id : '')
@@ -40,29 +75,5 @@ class DataProvider
 		$this->countryDataProvider->deleteUserCountryData($user, $portfolio, $date);
 		$this->sectorDataProvider->deleteUserSectorData($user, $portfolio, $date);
 		$this->industryDataProvider->deleteUserIndustryData($user, $portfolio, $date);
-	}
-
-	public function deleteUserData(
-		User $user,
-		?Portfolio $portfolio = null,
-		?DateTimeImmutable $firstDate = null,
-		bool $recalculateTransactions = false,
-	): void
-	{
-		$today = new DateTimeImmutable('today');
-		$interval = new DateInterval('P1D');
-		$period = new DatePeriod($firstDate ?? $today, $interval, $today->modify('+1 day'));
-
-		foreach ($period as $date) {
-			$this->deleteData(user: $user, portfolio: $portfolio, date: $date);
-		}
-
-		if (!$recalculateTransactions) {
-			return;
-		}
-
-		foreach ($this->transactionProvider->getTransactions($user, $portfolio) as $transaction) {
-			$this->transactionProvider->updateTransactionDefaultCurrency($transaction);
-		}
 	}
 }

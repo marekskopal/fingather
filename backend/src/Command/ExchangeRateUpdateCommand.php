@@ -46,7 +46,7 @@ final class ExchangeRateUpdateCommand extends AbstractCommand
 			}
 		}
 
-		$dataProvider->deleteData(date: $firstDate);
+		$dataProvider->deleteData(firstDate: $firstDate);
 
 		return self::SUCCESS;
 	}

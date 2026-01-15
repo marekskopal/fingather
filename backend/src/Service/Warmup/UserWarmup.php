@@ -36,7 +36,7 @@ final class UserWarmup
 	{
 		$dateTime = new DateTimeImmutable('today');
 
-		$this->dataProvider->deleteData(user: $user, portfolio: $portfolio, date: $dateTime);
+		$this->dataProvider->deleteData(user: $user, portfolio: $portfolio, firstDate: $dateTime);
 
 		$firstTransaction = $this->transactionProvider->getFirstTransaction(user: $user, portfolio: $portfolio);
 		if ($firstTransaction === null) {
