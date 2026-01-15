@@ -43,7 +43,7 @@ final class TickerDataUpdateCommand extends AbstractCommand
 			}
 		}
 
-		$dataProvider->deleteData(date: $firstDate);
+		$dataProvider->deleteData(firstDate: $firstDate);
 
 		$this->writeln('Updated "' . count($activeTickers) . '" Tickers.', $output);
 
