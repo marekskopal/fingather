@@ -59,7 +59,7 @@ class CurrentTransactionProvider
 	{
 		$portfolioKey = $user->id . '-' . ($portfolio->id ?? 0);
 
-		if (count($this->transactions[$portfolioKey]) > 0) {
+		if (count($this->transactions[$portfolioKey] ?? []) > 0) {
 			return $this->transactions[$portfolioKey];
 		}
 
