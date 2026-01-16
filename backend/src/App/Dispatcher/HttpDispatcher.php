@@ -83,6 +83,7 @@ final class HttpDispatcher implements Dispatcher
 					str_starts_with($e->getMessage(), 'Unable to parse URI:')
 						? $logger->info($e)
 						: $logger->error($e);
+					break;
 
 				default:
 					$logger->error($e);
