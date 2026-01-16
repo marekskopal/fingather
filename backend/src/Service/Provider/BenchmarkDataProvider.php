@@ -17,16 +17,16 @@ use FinGather\Service\DataCalculator\BenchmarkDataCalculator;
 use FinGather\Service\DataCalculator\Dto\BenchmarkDataDto;
 use FinGather\Utils\DateTimeUtils;
 
-class BenchmarkDataProvider
+readonly class BenchmarkDataProvider
 {
 	private Cache $cache;
 
-	private const string CacheNamespace = 'portfolio-data';
+	private const string CacheNamespace = 'benchmark-data';
 
 	public function __construct(
-		private readonly BenchmarkDataCalculator $benchmarkDataCalculator,
-		private readonly ExchangeRateProvider $exchangeRateProvider,
-		private readonly TickerDataProvider $tickerDataProvider,
+		private BenchmarkDataCalculator $benchmarkDataCalculator,
+		private ExchangeRateProvider $exchangeRateProvider,
+		private TickerDataProvider $tickerDataProvider,
 		CacheFactory $cacheFactory,
 	) {
 		$this->cache = $cacheFactory->create(driver: CacheStorageEnum::Redis, namespace: self::CacheNamespace);
