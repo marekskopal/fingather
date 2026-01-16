@@ -15,7 +15,7 @@ use FinGather\Model\Repository\Enum\TransactionOrderByEnum;
 
 class CurrentTransactionProvider
 {
-	/** @var array<int, list<Transaction>> */
+	/** @var array<string, array<int, list<Transaction>>> */
 	private array $transactions = [];
 
 	public function __construct(private readonly TransactionProvider $transactionProvider)
@@ -57,8 +57,10 @@ class CurrentTransactionProvider
 	/** @return array<int, list<Transaction>> */
 	public function loadTransactions(User $user, ?Portfolio $portfolio = null): array
 	{
-		if (count($this->transactions) > 0) {
-			return $this->transactions;
+		$portfolioKey = $user->id . '-' . ($portfolio->id ?? 0);
+
+		if (count($this->transactions[$portfolioKey]) > 0) {
+			return $this->transactions[$portfolioKey];
 		}
 
 		$transactions = $this->transactionProvider->getTransactions(
@@ -82,14 +84,14 @@ class CurrentTransactionProvider
 
 		foreach ($transactions as $transaction) {
 			$assetId = $transaction->asset->id;
-			if (!isset($this->transactions[$assetId])) {
-				$this->transactions[$assetId] = [];
+			if (!isset($this->transactions[$portfolioKey][$assetId])) {
+				$this->transactions[$portfolioKey][$assetId] = [];
 			}
 
-			$this->transactions[$assetId][] = $transaction;
+			$this->transactions[$portfolioKey][$assetId][] = $transaction;
 		}
 
-		return $this->transactions;
+		return $this->transactions[$portfolioKey];
 	}
 
 	public function clear(): void
