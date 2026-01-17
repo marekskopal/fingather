@@ -80,7 +80,7 @@ class CurrentTransactionProvider
 			],
 		);
 
-		$this->clear();
+		$this->clear($portfolioKey);
 
 		foreach ($transactions as $transaction) {
 			$assetId = $transaction->asset->id;
@@ -94,8 +94,13 @@ class CurrentTransactionProvider
 		return $this->transactions[$portfolioKey];
 	}
 
-	public function clear(): void
+	public function clear(?string $portfolioKey = null): void
 	{
-		$this->transactions = [];
+		if ($portfolioKey === null) {
+			$this->transactions = [];
+			return;
+		}
+
+		$this->transactions[$portfolioKey] = [];
 	}
 }
