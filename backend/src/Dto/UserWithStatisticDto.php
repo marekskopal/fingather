@@ -6,6 +6,7 @@ namespace FinGather\Dto;
 
 use FinGather\Model\Entity\Enum\UserRoleEnum;
 use FinGather\Model\Entity\User;
+use FinGather\Utils\DateTimeUtils;
 
 final readonly class UserWithStatisticDto
 {
@@ -16,6 +17,8 @@ final readonly class UserWithStatisticDto
 		public UserRoleEnum $role,
 		public int $assetCount,
 		public int $transactionCount,
+		public ?string $lastLoggedIn,
+		public ?string $lastRefreshTokenGenerated,
 	) {
 	}
 
@@ -28,6 +31,10 @@ final readonly class UserWithStatisticDto
 			role: $entity->role,
 			assetCount: $assetCount,
 			transactionCount: $transactionCount,
+			lastLoggedIn: $entity->lastLoggedIn !== null ? DateTimeUtils::formatZulu($entity->lastLoggedIn) : null,
+			lastRefreshTokenGenerated: $entity->lastRefreshTokenGenerated !== null ? DateTimeUtils::formatZulu(
+				$entity->lastRefreshTokenGenerated,
+			) : null,
 		);
 	}
 }

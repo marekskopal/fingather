@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Model\Entity;
 
+use DateTimeImmutable;
 use FinGather\Model\Entity\Enum\UserRoleEnum;
 use FinGather\Model\Repository\UserRepository;
 use MarekSkopal\ORM\Attribute\Column;
@@ -27,6 +28,10 @@ class User extends AEntity
 		public bool $isEmailVerified,
 		#[Column(type: Type::Boolean, default: false)]
 		public bool $isOnboardingCompleted,
+		#[Column(type: Type::Timestamp, nullable: true, default: null)]
+		public ?DateTimeImmutable $lastLoggedIn = null,
+		#[Column(type: Type::Timestamp, nullable: true, default: null)]
+		public ?DateTimeImmutable $lastRefreshTokenGenerated = null,
 	) {
 	}
 }

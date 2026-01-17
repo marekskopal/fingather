@@ -35,6 +35,8 @@ final class AuthenticationService
 			throw new AuthenticationException('Password is incorrect.');
 		}
 
+		$this->userProvider->updateLastLoggedIn($user);
+
 		return $this->createAuthentication($user);
 	}
 
@@ -42,6 +44,8 @@ final class AuthenticationService
 	{
 		$accessTokenExpiration = time() + self::AccessTokenExpiration;
 		$refreshTokenExpiration = time() + self::RefreshTokenExpiration;
+
+		$this->userProvider->updateLastRefreshTokenGenerated($user);
 
 		return new AuthenticationDto(
 			accessToken: $this->createToken($user->id, $accessTokenExpiration),

@@ -9,4 +9,6 @@ export interface User extends AbstractEntity {
     role: UserRoleEnum;
     isEmailVerified: boolean;
     isOnboardingCompleted: boolean;
+    lastLoggedIn: string | null;
+    lastRefreshTokenGenerated: string | null;
 }

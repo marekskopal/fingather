@@ -304,7 +304,10 @@
         "email": "Email",
         "name": "Name",
         "assets": "Assets",
-        "transactions": "Transactions"
+        "transactions": "Transactions",
+        "lastLoggedIn": "Last Logged In",
+        "lastRefreshTokenGenerated": "Last Token Refresh",
+        "never": "never"
       }
     },
     "dividends": {

@@ -9,4 +9,6 @@ export interface UserWithStatistic extends AbstractEntity {
     role: UserRoleEnum;
     assetCount: number;
     transactionCount: number;
+    lastLoggedIn: string | null;
+    lastRefreshTokenGenerated: string | null;
 }

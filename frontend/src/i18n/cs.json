@@ -304,7 +304,10 @@
         "email": "Email",
         "name": "Jméno",
         "assets": "Aktiv",
-        "transactions": "Transakcí"
+        "transactions": "Transakcí",
+        "lastLoggedIn": "Naposledy přihlášen",
+        "lastRefreshTokenGenerated": "Naposledy obnovený token",
+        "never": "nikdy"
       }
     },
     "dividends": {
