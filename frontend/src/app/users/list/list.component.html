@@ -20,11 +20,13 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th class="w-20">{{ 'app.users.list.email' | translate }}</th>
-                            <th class="w-20">{{ 'app.users.list.name' | translate }}</th>
-                            <th class="w-20">{{ 'app.users.list.assets' | translate }}</th>
-                            <th class="w-20">{{ 'app.users.list.transactions' | translate }}</th>
-                            <th class="w-20"></th>
+                            <th>{{ 'app.users.list.email' | translate }}</th>
+                            <th>{{ 'app.users.list.name' | translate }}</th>
+                            <th>{{ 'app.users.list.assets' | translate }}</th>
+                            <th>{{ 'app.users.list.transactions' | translate }}</th>
+                            <th>{{ 'app.users.list.lastLoggedIn' | translate }}</th>
+                            <th>{{ 'app.users.list.lastRefreshTokenGenerated' | translate }}</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -34,6 +36,22 @@
                                 <td>{{user.name}}</td>
                                 <td>{{user.assetCount}}</td>
                                 <td>{{user.transactionCount}}</td>
+                                <td>
+                                    @if (user.lastLoggedIn) {
+                                        <div class="text-nowrap">{{user.lastLoggedIn | date: 'y-MM-dd'}}</div>
+                                        <div class="small">{{user.lastLoggedIn | date: 'HH:mm'}}</div>
+                                    } @else {
+                                        {{ 'app.users.list.never' | translate }}
+                                    }
+                                </td>
+                                <td>
+                                    @if (user.lastRefreshTokenGenerated) {
+                                        <div class="text-nowrap">{{user.lastRefreshTokenGenerated | date: 'y-MM-dd'}}</div>
+                                        <div class="small">{{user.lastRefreshTokenGenerated | date: 'HH:mm'}}</div>
+                                    } @else {
+                                        {{ 'app.users.list.never' | translate }}
+                                    }
+                                </td>
                                 <td class="actions">
                                     <a routerLink="edit-user/{{user.id}}" class="btn btn-secondary" tabindex="0">
                                         <mat-icon>edit</mat-icon>

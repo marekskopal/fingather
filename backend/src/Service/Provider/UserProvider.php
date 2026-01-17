@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Provider;
 
+use DateTimeImmutable;
 use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\Enum\UserRoleEnum;
 use FinGather\Model\Entity\User;
@@ -104,5 +105,17 @@ class UserProvider
 	public function deleteUser(User $user): void
 	{
 		$this->userRepository->delete($user);
+	}
+
+	public function updateLastLoggedIn(User $user): void
+	{
+		$user->lastLoggedIn = new DateTimeImmutable();
+		$this->userRepository->persist($user);
+	}
+
+	public function updateLastRefreshTokenGenerated(User $user): void
+	{
+		$user->lastRefreshTokenGenerated = new DateTimeImmutable();
+		$this->userRepository->persist($user);
 	}
 }

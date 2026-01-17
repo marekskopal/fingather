@@ -23,6 +23,8 @@ final class MigrationRunCommand extends AbstractCommand
 
 		$migrator->migrate();
 
+		$application->dbContext->clearCache();
+
 		return self::SUCCESS;
 	}
 }

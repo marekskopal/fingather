@@ -1,3 +1,4 @@
+import {DatePipe} from "@angular/common";
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal} from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
 import {Router, RouterLink} from "@angular/router";
@@ -18,6 +19,7 @@ import { TranslatePipe} from "@ngx-translate/core";
         MatIcon,
         DeleteButtonComponent,
         ScrollShadowDirective,
+        DatePipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

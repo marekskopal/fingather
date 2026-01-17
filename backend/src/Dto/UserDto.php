@@ -6,6 +6,7 @@ namespace FinGather\Dto;
 
 use FinGather\Model\Entity\Enum\UserRoleEnum;
 use FinGather\Model\Entity\User;
+use FinGather\Utils\DateTimeUtils;
 
 final readonly class UserDto
 {
@@ -16,6 +17,8 @@ final readonly class UserDto
 		public UserRoleEnum $role,
 		public bool $isEmailVerified,
 		public bool $isOnboardingCompleted,
+		public ?string $lastLoggedIn,
+		public ?string $lastRefreshTokenGenerated,
 	) {
 	}
 
@@ -28,6 +31,10 @@ final readonly class UserDto
 			role: $entity->role,
 			isEmailVerified: $entity->isEmailVerified,
 			isOnboardingCompleted: $entity->isOnboardingCompleted,
+			lastLoggedIn: $entity->lastLoggedIn !== null ? DateTimeUtils::formatZulu($entity->lastLoggedIn) : null,
+			lastRefreshTokenGenerated: $entity->lastRefreshTokenGenerated !== null ? DateTimeUtils::formatZulu(
+				$entity->lastRefreshTokenGenerated,
+			) : null,
 		);
 	}
 
@@ -48,6 +55,8 @@ final readonly class UserDto
 			role: UserRoleEnum::from($data['role']),
 			isEmailVerified: false,
 			isOnboardingCompleted: false,
+			lastLoggedIn: null,
+			lastRefreshTokenGenerated: null,
 		);
 	}
 }

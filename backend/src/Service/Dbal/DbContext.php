@@ -57,4 +57,10 @@ final readonly class DbContext
 	{
 		return $this->schema;
 	}
+
+	public function clearCache(): void
+	{
+		$cache = CacheFactory::createPsrCache(namespace: self::CacheNamespace);
+		$cache->clear();
+	}
 }
