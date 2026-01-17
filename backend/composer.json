@@ -28,7 +28,7 @@
         "marekskopal/openfigi": "^0.2",
         "marekskopal/orm": "^0.9",
         "marekskopal/orm-decimal": "^1.0",
-        "marekskopal/orm-migrations": "^0.9",
+        "marekskopal/orm-migrations": "^0.9.1",
         "marekskopal/router": "^1.1",
         "marekskopal/trading212": "^1.0",
         "marekskopal/twelvedata": "^0.9.0",
