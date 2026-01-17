@@ -45,29 +45,29 @@ class Transaction extends AEntity
 		public DateTimeImmutable $modified,
 		#[ColumnDecimal(precision: 18, scale: 8)]
 		public Decimal $units,
-		#[ColumnDecimal(precision: 9, scale: 2)]
+		#[ColumnDecimal(precision: 11, scale: 2)]
 		public Decimal $price,
 		#[ManyToOne(entityClass: Currency::class)]
 		public Currency $currency,
-		#[ColumnDecimal(precision: 9, scale: 2)]
+		#[ColumnDecimal(precision: 11, scale: 2)]
 		public Decimal $priceTickerCurrency,
-		#[ColumnDecimal(precision: 9, scale: 2)]
+		#[ColumnDecimal(precision: 11, scale: 2)]
 		public Decimal $priceDefaultCurrency,
-		#[ColumnDecimal(precision: 9, scale: 2)]
+		#[ColumnDecimal(precision: 11, scale: 2)]
 		public Decimal $tax,
 		#[ManyToOne(entityClass: Currency::class)]
 		public Currency $taxCurrency,
-		#[ColumnDecimal(precision: 9, scale: 2)]
+		#[ColumnDecimal(precision: 11, scale: 2)]
 		public Decimal $taxTickerCurrency,
-		#[ColumnDecimal(precision: 9, scale: 2)]
+		#[ColumnDecimal(precision: 11, scale: 2)]
 		public Decimal $taxDefaultCurrency,
-		#[ColumnDecimal(precision: 9, scale: 2)]
+		#[ColumnDecimal(precision: 11, scale: 2)]
 		public Decimal $fee,
 		#[ManyToOne(entityClass: Currency::class)]
 		public Currency $feeCurrency,
-		#[ColumnDecimal(precision: 9, scale: 2)]
+		#[ColumnDecimal(precision: 11, scale: 2)]
 		public Decimal $feeTickerCurrency,
-		#[ColumnDecimal(precision: 9, scale: 2)]
+		#[ColumnDecimal(precision: 11, scale: 2)]
 		public Decimal $feeDefaultCurrency,
 		#[Column(type: Type::TinyText, nullable: true)]
 		public ?string $notes,

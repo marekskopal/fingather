@@ -7,7 +7,7 @@ namespace Migrations;
 use MarekSkopal\ORM\Enum\Type;
 use MarekSkopal\ORM\Migrations\Migration\Migration;
 
-final class NewMigration extends Migration
+final class InitMigration extends Migration
 {
 	public function up(): void
 	{

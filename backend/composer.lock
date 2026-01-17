@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1ab66f629c9a27a71a7f7d2fe70f8758",
+    "content-hash": "97876e7d2c95f78d6a8b224f6fbd3c48",
     "packages": [
         {
             "name": "brick/math",
@@ -1514,16 +1514,16 @@
         },
         {
             "name": "marekskopal/orm-migrations",
-            "version": "v0.9.0",
+            "version": "v0.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/marekskopal/orm-migrations.git",
-                "reference": "06d8ed3f65dd7c669d4122865523c961fd50dcb1"
+                "reference": "346d64b817edd66e3736b500d3b05e4350d62844"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/marekskopal/orm-migrations/zipball/06d8ed3f65dd7c669d4122865523c961fd50dcb1",
-                "reference": "06d8ed3f65dd7c669d4122865523c961fd50dcb1",
+                "url": "https://api.github.com/repos/marekskopal/orm-migrations/zipball/346d64b817edd66e3736b500d3b05e4350d62844",
+                "reference": "346d64b817edd66e3736b500d3b05e4350d62844",
                 "shasum": ""
             },
             "require": {
@@ -1566,9 +1566,9 @@
             ],
             "support": {
                 "issues": "https://github.com/marekskopal/orm-migrations/issues",
-                "source": "https://github.com/marekskopal/orm-migrations/tree/v0.9.0"
+                "source": "https://github.com/marekskopal/orm-migrations/tree/v0.9.1"
             },
-            "time": "2024-12-31T12:04:59+00:00"
+            "time": "2026-01-17T16:31:14+00:00"
         },
         {
             "name": "marekskopal/router",
@@ -6184,16 +6184,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "12.5.5",
+            "version": "12.5.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "ba2d126905713bcf802c7f1e0d7507092ce9bf9a"
+                "reference": "ab8e4374264bc65523d1458d14bf80261577e01f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/ba2d126905713bcf802c7f1e0d7507092ce9bf9a",
-                "reference": "ba2d126905713bcf802c7f1e0d7507092ce9bf9a",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/ab8e4374264bc65523d1458d14bf80261577e01f",
+                "reference": "ab8e4374264bc65523d1458d14bf80261577e01f",
                 "shasum": ""
             },
             "require": {
@@ -6261,7 +6261,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/12.5.5"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/12.5.6"
             },
             "funding": [
                 {
@@ -6285,7 +6285,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-01-15T12:03:46+00:00"
+            "time": "2026-01-16T16:28:10+00:00"
         },
         {
             "name": "sebastian/cli-parser",
