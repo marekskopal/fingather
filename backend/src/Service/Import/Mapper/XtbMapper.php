@@ -124,26 +124,26 @@ final class XtbMapper extends XlsxMapper
 	/** @return array{action: string, volume: string}|null */
 	private function parseOperationDetails(string $comment): ?array
 	{
-		if (preg_match('/^(OPEN|CLOSE)\s+(BUY|SELL)\s+([\d.]+)\s+@\s+([\d.]+)$/', $comment, $matches) !== false) {
-			$action = $matches[1] === 'CLOSE' ? 'SELL' : 'BUY';
-			$volume = $matches[3];
-
-			return [
-				'action' => $action,
-				'volume' => $volume,
-			];
+		if (preg_match('/^(OPEN|CLOSE)\s+(BUY|SELL)\s+([\d.]+)\s+@\s+([\d.]+)$/', $comment, $matches) !== 1) {
+			return null;
 		}
 
-		return null;
+		$action = $matches[1] === 'CLOSE' ? 'SELL' : 'BUY';
+		$volume = $matches[3];
+
+		return [
+			'action' => $action,
+			'volume' => $volume,
+		];
 	}
 
 	private function parseDividendPricePerShare(string $comment): ?string
 	{
-		if (preg_match('/(?:corr\s+)?[\w.]+\s+\w+\s+([\d.]+)\s*\/\s*SHR/', $comment, $matches) !== false) {
-			return $matches[1];
+		if (preg_match('/(?:corr\s+)?[\w.]+\s+\w+\s+([\d.]+)\s*\/\s*SHR/', $comment, $matches) !== 1) {
+			return null;
 		}
 
-		return null;
+		return $matches[1];
 	}
 
 	#[Override]

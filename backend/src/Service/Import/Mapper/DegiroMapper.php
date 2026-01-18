@@ -97,10 +97,10 @@ final class DegiroMapper extends CsvMapper
 	private function parseFromDescription(string $description, string $variableName): ?string
 	{
 		$matches = [];
-		if (preg_match(self::DescriptionRegex, $description, $matches) === 0) {
+		if (preg_match(self::DescriptionRegex, $description, $matches) !== 1) {
 			return null;
 		}
-		//@phpstan-ignore-next-line
+
 		return str_replace(',', '.', $matches[$variableName]);
 	}
 }
