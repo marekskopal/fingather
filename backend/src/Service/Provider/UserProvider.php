@@ -39,6 +39,11 @@ class UserProvider
 		return $this->userRepository->findUserByEmail($email);
 	}
 
+	public function getUserByGoogleId(string $googleId): ?User
+	{
+		return $this->userRepository->findUserByGoogleId($googleId);
+	}
+
 	public function createUser(
 		#[SensitiveParameter] string $email,
 		#[SensitiveParameter] string $password,
@@ -66,6 +71,38 @@ class UserProvider
 		if (!$isEmailVerified) {
 			$this->emailVerifyProvider->createEmailVerify($user);
 		}
+
+		return $user;
+	}
+
+	public function createUserFromGoogle(
+		#[SensitiveParameter] string $email,
+		string $name,
+		string $googleId,
+		Currency $defaultCurrency,
+	): User {
+		$user = new User(
+			email: $email,
+			password: null,
+			name: $name,
+			role: UserRoleEnum::User,
+			isEmailVerified: true,
+			isOnboardingCompleted: false,
+			googleId: $googleId,
+		);
+		$this->userRepository->persist($user);
+
+		$defaultPortfolio = $this->portfolioProvider->createDefaultPortfolio($user, $defaultCurrency);
+
+		$this->groupProvider->createOthersGroup($user, $defaultPortfolio);
+
+		return $user;
+	}
+
+	public function linkGoogleAccount(User $user, string $googleId): User
+	{
+		$user->googleId = $googleId;
+		$this->userRepository->persist($user);
 
 		return $user;
 	}

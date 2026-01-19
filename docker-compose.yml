@@ -66,6 +66,7 @@ services:
             ALPHAVANTAGE_API_KEY: ${ALPHAVANTAGE_API_KEY}
             TWELVEDATA_API_KEY: ${TWELVEDATA_API_KEY}
             EMAIL_FROM: ${EMAIL_FROM}
+            GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
         depends_on:
             - proxy
             - rabbitmq

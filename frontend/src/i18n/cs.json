@@ -152,7 +152,16 @@
         "password": "Heslo",
         "passwordRequired": "Heslo je povinné",
         "login": "Přihlásit",
-        "signUp": "Registrace"
+        "signUp": "Registrace",
+        "or": "nebo",
+        "signInWithGoogle": "Přihlásit pomocí Google"
+      },
+      "googleSignUp": {
+        "header": "Dokončení registrace",
+        "description": "Vyberte prosím výchozí měnu pro dokončení nastavení účtu.",
+        "defaultCurrency": "Výchozí měna",
+        "defaultCurrencyRequired": "Výchozí měna je povinná",
+        "continue": "Pokračovat"
       },
       "signUp": {
         "header": "Registrace",

@@ -24,6 +24,8 @@ enum Routes: string
 	case AuthenticationRefreshToken = '/api/authentication/refresh-token';
 	case AuthenticationSignUp = '/api/authentication/sign-up';
 	case AuthenticationEmailExists = '/api/authentication/email-exists';
+	case AuthenticationGoogleClientId = '/api/authentication/google-client-id';
+	case AuthenticationGoogleLogin = '/api/authentication/google-login';
 
 	case Brokers = '/api/brokers/{portfolioId:number}';
 	case Broker = '/api/broker/{brokerId:number}';

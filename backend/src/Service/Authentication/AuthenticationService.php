@@ -31,7 +31,7 @@ final class AuthenticationService
 			throw new AuthenticationException('User with email ' . $credential->email . ' was not found.');
 		}
 
-		if (!password_verify($credential->password, $user->password)) {
+		if ($user->password === null || !password_verify($credential->password, $user->password)) {
 			throw new AuthenticationException('Password is incorrect.');
 		}
 

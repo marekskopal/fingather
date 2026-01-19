@@ -1,0 +1,40 @@
+<div class="card">
+    <h4 class="card-header">{{ 'app.authentication.googleSignUp.header' | translate }}</h4>
+    <div class="card-body">
+        @if(!loading()) {
+            <p class="mb-3">{{ 'app.authentication.googleSignUp.description' | translate }}</p>
+
+            @if (googleState) {
+                <p class="text-muted mb-3">{{ googleState.email }}</p>
+            }
+
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div class="form-row mb-3">
+                    <div class="form-group col">
+                        <label for="defaultCurrencyId" class="form-label">{{ 'app.authentication.googleSignUp.defaultCurrency' | translate }}</label>
+                        <fingather-select
+                            id="defaultCurrencyId"
+                            formControlName="defaultCurrencyId"
+                            [items]="currencies"
+                        />
+                        <fingather-input-validator
+                            [control]="f['defaultCurrencyId']"
+                            [isSubmitted]="submitted()"
+                            [errorMessages]="{
+                                required: 'app.authentication.googleSignUp.defaultCurrencyRequired',
+                            }"
+                        />
+                    </div>
+                </div>
+                <div class="form-group buttons">
+                    <a routerLink="../login" class="btn btn-link">{{ 'app.common.cancel' | translate }}</a>
+
+                    <fingather-save-button
+                        [saving]="saving()"
+                        [text]="'app.authentication.googleSignUp.continue' | translate"
+                    />
+                </div>
+            </form>
+        }
+    </div>
+</div>

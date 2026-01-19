@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { SignUp } from '@app/models';
 import { Authentication } from '@app/models/authentication';
 import { BoolResponse } from '@app/models/bool-response';
+import {GoogleClientId} from "@app/models/google-client-id";
+import { GoogleLoginResponse, isGoogleLoginRequiresCurrency } from '@app/models/google-login-response';
 import { CurrentUserService } from '@app/services/current-user.service';
 import { PortfolioService } from '@app/services/portfolio.service';
 import { environment } from '@environments/environment';
@@ -68,6 +70,29 @@ export class AuthenticationService {
         );
 
         return response.value;
+    }
+
+    public async googleClientId(): Promise<string> {
+        const response = await firstValueFrom<GoogleClientId>(
+            this.http.get<GoogleClientId>(`${environment.apiUrl}/authentication/google-client-id`),
+        );
+
+        return response.googleClientId;
+    }
+
+    public async googleLogin(idToken: string, defaultCurrencyId?: number): Promise<GoogleLoginResponse> {
+        const response = await firstValueFrom<GoogleLoginResponse>(
+            this.http.post<GoogleLoginResponse>(`${environment.apiUrl}/authentication/google-login`, {
+                idToken,
+                defaultCurrencyId,
+            }),
+        );
+
+        if (!isGoogleLoginRequiresCurrency(response)) {
+            this.setAuthentication(response);
+        }
+
+        return response;
     }
 
     public async refreshToken(): Promise<Authentication> {
