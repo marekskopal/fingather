@@ -152,7 +152,16 @@
         "password": "Password",
         "passwordRequired": "Password is required",
         "login": "Login",
-        "signUp": "Sign Up"
+        "signUp": "Sign Up",
+        "or": "or",
+        "signInWithGoogle": "Sign In with Google"
+      },
+      "googleSignUp": {
+        "header": "Complete Sign Up",
+        "description": "Please select your default currency to complete your account setup.",
+        "defaultCurrency": "Default Currency",
+        "defaultCurrencyRequired": "Default Currency is required",
+        "continue": "Continue"
       },
       "signUp": {
         "header": "Sign Up",

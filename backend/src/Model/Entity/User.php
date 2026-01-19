@@ -18,8 +18,8 @@ class User extends AEntity
 	public function __construct(
 		#[Column(type: Type::String)]
 		public readonly string $email,
-		#[Column(type: Type::String)]
-		public string $password,
+		#[Column(type: Type::String, nullable: true)]
+		public ?string $password,
 		#[Column(type: Type::String)]
 		public string $name,
 		#[ColumnEnum(enum: UserRoleEnum::class, default: UserRoleEnum::User)]
@@ -32,6 +32,8 @@ class User extends AEntity
 		public ?DateTimeImmutable $lastLoggedIn = null,
 		#[Column(type: Type::Timestamp, nullable: true, default: null)]
 		public ?DateTimeImmutable $lastRefreshTokenGenerated = null,
+		#[Column(type: Type::String, nullable: true, default: null)]
+		public ?string $googleId = null,
 	) {
 	}
 }

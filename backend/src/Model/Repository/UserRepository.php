@@ -30,4 +30,11 @@ final class UserRepository extends AbstractRepository
 			'email' => $email,
 		]);
 	}
+
+	public function findUserByGoogleId(string $googleId): ?User
+	{
+		return $this->findOne([
+			'google_id' => $googleId,
+		]);
+	}
 }
