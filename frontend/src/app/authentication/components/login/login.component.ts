@@ -93,10 +93,8 @@ export class LoginComponent extends BaseForm implements OnInit, AfterViewInit {
 
                 if (isGoogleLoginRequiresCurrency(result)) {
                     this.router.navigate(['/authentication/google-sign-up'], {
-                        state: {
+                        queryParams: {
                             idToken: response.credential,
-                            email: result.email,
-                            name: result.name,
                         },
                     });
                     return;

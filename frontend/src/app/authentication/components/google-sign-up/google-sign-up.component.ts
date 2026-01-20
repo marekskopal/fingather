@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
-import {Router, RouterLink} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {CurrencyService, CurrentUserService} from '@app/services';
 import { AuthenticationService } from '@app/services/authentication.service';
 import { BaseForm } from '@app/shared/components/form/base-form';
@@ -33,13 +33,13 @@ export class GoogleSignUpComponent extends BaseForm implements OnInit {
     private readonly authenticationService = inject(AuthenticationService);
     private readonly currencyService = inject(CurrencyService);
     private readonly currentUserService = inject(CurrentUserService);
+    private readonly activatedRoute = inject(ActivatedRoute);
 
     protected currencies: SelectItem<number, string>[] = [];
     protected googleState: GoogleSignUpState | null = null;
 
     public async ngOnInit(): Promise<void> {
-        const navigation = this.router.getCurrentNavigation();
-        this.googleState = navigation?.extras?.state as GoogleSignUpState | null;
+        this.googleState = this.activatedRoute.snapshot.queryParams as GoogleSignUpState | null;
 
         if (!this.googleState?.idToken) {
             this.router.navigate(['/authentication/login']);
