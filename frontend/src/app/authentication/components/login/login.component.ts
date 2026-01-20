@@ -59,8 +59,6 @@ export class LoginComponent extends BaseForm implements OnInit, AfterViewInit {
     private initializeGoogleSignIn(googleClientId: string): void {
         const checkGoogle = (): void => {
             if (window.google?.accounts?.id) {
-                console.log(googleClientId);
-
                 window.google.accounts.id.initialize({
                     client_id: googleClientId,
                     callback: (response) => this.handleGoogleCallback(response),
