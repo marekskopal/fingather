@@ -29,11 +29,11 @@ class User extends AEntity
 		#[Column(type: Type::Boolean, default: false)]
 		public bool $isOnboardingCompleted,
 		#[Column(type: Type::Timestamp, nullable: true, default: null)]
-		public ?DateTimeImmutable $lastLoggedIn = null,
+		public ?DateTimeImmutable $lastLoggedIn,
 		#[Column(type: Type::Timestamp, nullable: true, default: null)]
-		public ?DateTimeImmutable $lastRefreshTokenGenerated = null,
+		public ?DateTimeImmutable $lastRefreshTokenGenerated,
 		#[Column(type: Type::String, nullable: true, default: null)]
-		public ?string $googleId = null,
+		public ?string $googleId,
 	) {
 	}
 }
