@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Tests\Fixtures\Model\Entity;
 
+use DateTimeImmutable;
 use FinGather\Model\Entity\Enum\UserRoleEnum;
 use FinGather\Model\Entity\User;
 
@@ -17,6 +18,9 @@ final class UserFixture
 		?UserRoleEnum $role = null,
 		?bool $isEmailVerified = null,
 		?bool $isOnboardingCompleted = null,
+		?DateTimeImmutable $lastLoggedIn = null,
+		?DateTimeImmutable $lastRefreshTokenGenerated = null,
+		?string $googleId = null,
 	): User {
 		$user = new User(
 			email: $email ?? 'test@fingather.com',
@@ -25,6 +29,9 @@ final class UserFixture
 			role: $role ?? UserRoleEnum::Admin,
 			isEmailVerified: $isEmailVerified ?? false,
 			isOnboardingCompleted: $isOnboardingCompleted ?? false,
+			lastLoggedIn: $lastLoggedIn,
+			lastRefreshTokenGenerated: $lastRefreshTokenGenerated,
+			googleId: $googleId,
 		);
 
 		$user->id = $id ?? 1;

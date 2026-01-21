@@ -61,6 +61,9 @@ class UserProvider
 			role: $role,
 			isEmailVerified: $isEmailVerified,
 			isOnboardingCompleted: false,
+			lastLoggedIn: null,
+			lastRefreshTokenGenerated: null,
+			googleId: null,
 		);
 		$this->userRepository->persist($user);
 
@@ -88,6 +91,8 @@ class UserProvider
 			role: UserRoleEnum::User,
 			isEmailVerified: true,
 			isOnboardingCompleted: false,
+			lastLoggedIn: null,
+			lastRefreshTokenGenerated: null,
 			googleId: $googleId,
 		);
 		$this->userRepository->persist($user);
