@@ -34,6 +34,8 @@ class User extends AEntity
 		public ?DateTimeImmutable $lastRefreshTokenGenerated,
 		#[Column(type: Type::String, nullable: true, default: null)]
 		public ?string $googleId,
+		#[Column(type: Type::Boolean, default: true)]
+		public bool $isEmailNotificationsEnabled,
 	) {
 	}
 }

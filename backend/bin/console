@@ -9,6 +9,7 @@ use FinGather\Command\ApiImportPrepareCheckCommand;
 use FinGather\Command\ApiImportProcessCheckCommand;
 use FinGather\Command\BenchmarkPortfolioValueCommand;
 use FinGather\Command\CacheClearCommand;
+use FinGather\Command\EmailPortfolioSummaryCommand;
 use FinGather\Command\ExchangeRateUpdateCommand;
 use FinGather\Command\MigrationGenerateCommand;
 use FinGather\Command\MigrationRunCommand;
@@ -39,5 +40,6 @@ $application->addCommand(new BenchmarkPortfolioValueCommand());
 $application->addCommand(new WarmupAllCommand());
 $application->addCommand(new WarmupAsyncCommand());
 $application->addCommand(new WarmupUserCommand());
+$application->addCommand(new EmailPortfolioSummaryCommand());
 
 $application->run();

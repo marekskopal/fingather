@@ -64,6 +64,7 @@ class UserProvider
 			lastLoggedIn: null,
 			lastRefreshTokenGenerated: null,
 			googleId: null,
+			isEmailNotificationsEnabled: true,
 		);
 		$this->userRepository->persist($user);
 
@@ -94,6 +95,7 @@ class UserProvider
 			lastLoggedIn: null,
 			lastRefreshTokenGenerated: null,
 			googleId: $googleId,
+			isEmailNotificationsEnabled: true,
 		);
 		$this->userRepository->persist($user);
 
@@ -139,6 +141,14 @@ class UserProvider
 	{
 		$user->isOnboardingCompleted = true;
 
+		$this->userRepository->persist($user);
+
+		return $user;
+	}
+
+	public function updateEmailNotifications(User $user, bool $isEmailNotificationsEnabled): User
+	{
+		$user->isEmailNotificationsEnabled = $isEmailNotificationsEnabled;
 		$this->userRepository->persist($user);
 
 		return $user;

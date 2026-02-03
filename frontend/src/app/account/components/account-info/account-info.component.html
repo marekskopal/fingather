@@ -22,6 +22,21 @@
                                     <td class="color-gray">{{ 'app.account.accountInfo.email' | translate }}</td>
                                     <td>{{ user.email }}</td>
                                 </tr>
+                                <tr>
+                                    <td class="color-gray">{{ 'app.account.accountInfo.emailNotifications' | translate }}</td>
+                                    <td>
+                                        <div class="form-check form-switch">
+                                            <input
+                                                (change)="onEmailNotificationsChange()"
+                                                class="form-check-input"
+                                                type="checkbox"
+                                                role="switch"
+                                                id="emailNotifications"
+                                                [checked]="user.isEmailNotificationsEnabled"
+                                            >
+                                        </div>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
 

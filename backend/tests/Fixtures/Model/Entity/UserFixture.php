@@ -21,6 +21,7 @@ final class UserFixture
 		?DateTimeImmutable $lastLoggedIn = null,
 		?DateTimeImmutable $lastRefreshTokenGenerated = null,
 		?string $googleId = null,
+		?bool $isEmailNotificationsEnabled = null,
 	): User {
 		$user = new User(
 			email: $email ?? 'test@fingather.com',
@@ -32,6 +33,7 @@ final class UserFixture
 			lastLoggedIn: $lastLoggedIn,
 			lastRefreshTokenGenerated: $lastRefreshTokenGenerated,
 			googleId: $googleId,
+			isEmailNotificationsEnabled: $isEmailNotificationsEnabled ?? false,
 		);
 
 		$user->id = $id ?? 1;
