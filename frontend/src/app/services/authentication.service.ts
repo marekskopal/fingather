@@ -29,8 +29,6 @@ export class AuthenticationService {
             const authentication = localStorageAuthentication !== null ? JSON.parse(localStorageAuthentication) : null;
 
             this.authentication.set(authentication);
-        }, {
-            allowSignalWrites: true,
         });
     }
 
