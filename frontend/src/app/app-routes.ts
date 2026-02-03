@@ -58,6 +58,11 @@ export const appRoutes: Routes = [
         canActivate: [AuthGuard],
     },
     {
+        path: 'account',
+        loadChildren: () => import('./account/account-routes'),
+        canActivate: [AuthGuard],
+    },
+    {
         path: 'email-verify',
         loadChildren: () => import('./email-verify/email-verify-routes'),
     },
