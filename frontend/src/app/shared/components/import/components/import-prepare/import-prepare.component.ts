@@ -59,8 +59,6 @@ export class ImportPrepareComponent {
 
             this.multipleFoundTickers.set(multipleFoundTickers);
             this.selectedTickers.set(selectedTickers);
-        }, {
-            allowSignalWrites: true,
         });
     }
 
