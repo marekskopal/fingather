@@ -11,4 +11,5 @@ export interface User extends AbstractEntity {
     isOnboardingCompleted: boolean;
     lastLoggedIn: string | null;
     lastRefreshTokenGenerated: string | null;
+    isEmailNotificationsEnabled: boolean;
 }

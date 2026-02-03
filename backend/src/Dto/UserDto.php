@@ -19,6 +19,7 @@ final readonly class UserDto
 		public bool $isOnboardingCompleted,
 		public ?string $lastLoggedIn,
 		public ?string $lastRefreshTokenGenerated,
+		public bool $isEmailNotificationsEnabled,
 	) {
 	}
 
@@ -35,6 +36,7 @@ final readonly class UserDto
 			lastRefreshTokenGenerated: $entity->lastRefreshTokenGenerated !== null ? DateTimeUtils::formatZulu(
 				$entity->lastRefreshTokenGenerated,
 			) : null,
+			isEmailNotificationsEnabled: $entity->isEmailNotificationsEnabled,
 		);
 	}
 
@@ -57,6 +59,7 @@ final readonly class UserDto
 			isOnboardingCompleted: false,
 			lastLoggedIn: null,
 			lastRefreshTokenGenerated: null,
+			isEmailNotificationsEnabled: true,
 		);
 	}
 }

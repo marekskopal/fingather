@@ -30,6 +30,18 @@ export class AccountInfoComponent implements OnInit {
         await this.refreshCurrentUser();
     }
 
+    protected async onEmailNotificationsChange(): Promise<void> {
+        const user = this.$user();
+        if (user === null) {
+            return;
+        }
+
+        const updatedUser = await this.currentUserService.updateCurrentUser({
+            isEmailNotificationsEnabled: !user.isEmailNotificationsEnabled,
+        });
+        this.$user.set(updatedUser);
+    }
+
     private async refreshCurrentUser(): Promise<void> {
         const currentUser = await this.currentUserService.getCurrentUser();
         this.$user.set(currentUser);
