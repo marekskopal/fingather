@@ -12,6 +12,7 @@
       "portfolios": "Portfólia",
       "users": "Uživatelé",
       "apiKeys": "API klíče",
+      "account": "Účet",
       "logout": "Odhlásit"
     },
     "dashboard": {
@@ -365,6 +366,13 @@
         "typeRequired": "Typ je povinný",
         "apiKey": "API klíč",
         "apiKeyRequired": "API klíč je povinný"
+      }
+    },
+    "account": {
+      "accountInfo": {
+        "title": "Účet",
+        "name": "Jméno",
+        "email": "Email"
       }
     },
     "shared": {

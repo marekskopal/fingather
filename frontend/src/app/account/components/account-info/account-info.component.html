@@ -1,0 +1,32 @@
+﻿<div class="header">
+    <h1 class="h3">{{ 'app.account.accountInfo.title' | translate }}</h1>
+
+    <div class="header-controls d-none d-lg-block">
+        <fingather-portfolio-selector />
+    </div>
+</div>
+
+<div class="content-center">
+    @if($user(); as user) {
+        <div class="account">
+            <div class="card">
+                <div class="card-body">
+
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td class="color-gray">{{ 'app.account.accountInfo.name' | translate }}</td>
+                                    <td>{{ user.name }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="color-gray">{{ 'app.account.accountInfo.email' | translate }}</td>
+                                    <td>{{ user.email }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                </div>
+            </div>
+        </div>
+    }
+</div>
