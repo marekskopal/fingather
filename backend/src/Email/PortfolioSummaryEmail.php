@@ -15,6 +15,8 @@ final class PortfolioSummaryEmail
 		$colorGreen = 'color: #a4e04f';
 		$colorRed = 'color: #e04f4f';
 		$fontStyle = 'font-family: Geist, Helvetica, Arial, sans-serif; font-size: 16px; line-height: 1.5;';
+		$fontStyleTable = 'font-family: Geist, Helvetica, Arial, sans-serif; font-size: 18px; line-height: 1.5;';
+		$fontStyleTableLarge = 'font-family: Geist, Helvetica, Arial, sans-serif; font-size: 22px; line-height: 1.5;';
 		$fontStyleGray = $fontStyle . $colorGray;
 		$fontStyleWhite = $fontStyle . $colorWhite;
 
@@ -46,8 +48,10 @@ final class PortfolioSummaryEmail
 
 		$date = $portfolioData->date->format('F Y');
 
-		$tdLabelStyle = "style=\"{$fontStyleGray} padding: 8px 16px 8px 0;\"";
-		$tdValueStyle = "style=\"{$fontStyleWhite} padding: 8px 0; text-align: right;\"";
+		$tdLabelStyle = "style=\"{$fontStyleTable}{$colorGray} padding: 8px 16px 8px 0;\"";
+		$tdValueStyle = "style=\"{$fontStyleTable}{$colorWhite} padding: 8px 0; text-align: right;\"";
+		$tdLabelStyleLarge = "style=\"{$fontStyleTableLarge}{$colorGray} padding: 12px 16px 12px 0;\"";
+		$tdValueStyleLarge = "style=\"{$fontStyleTableLarge}{$colorWhite} padding: 12px 0; text-align: right;\"";
 
 		return <<<HTML
 <html>
@@ -63,8 +67,8 @@ final class PortfolioSummaryEmail
 
 			<table style="width: 100%; border-collapse: collapse; margin-top: 16px;">
 				<tr style="border-bottom: 1px solid #333;">
-					<td {$tdLabelStyle}>Portfolio Value</td>
-					<td {$tdValueStyle}><b>{$value}</b></td>
+					<td {$tdLabelStyleLarge}>Portfolio Value</td>
+					<td {$tdValueStyleLarge}><b>{$value}</b></td>
 				</tr>
 				<tr style="border-bottom: 1px solid #333;">
 					<td {$tdLabelStyle}>Invested Value</td>
@@ -72,7 +76,7 @@ final class PortfolioSummaryEmail
 				</tr>
 				<tr style="border-bottom: 1px solid #333;">
 					<td {$tdLabelStyle}>Gain/Loss</td>
-					<td style="{$fontStyle}{$gainColor} padding: 8px 0; text-align: right;">{$gain}</td>
+					<td style="{$fontStyleTable}{$gainColor} padding: 8px 0; text-align: right;">{$gain}</td>
 				</tr>
 				<tr style="border-bottom: 1px solid #333;">
 					<td {$tdLabelStyle}>Dividend Yield</td>
@@ -80,7 +84,7 @@ final class PortfolioSummaryEmail
 				</tr>
 				<tr>
 					<td {$tdLabelStyle}>Total Return</td>
-					<td style="{$fontStyle}{$returnColor} padding: 8px 0; text-align: right;"><b>{$totalReturn}</b></td>
+					<td style="{$fontStyleTable}{$returnColor} padding: 8px 0; text-align: right;"><b>{$totalReturn}</b></td>
 				</tr>
 			</table>
 
