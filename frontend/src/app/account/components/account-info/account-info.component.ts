@@ -1,10 +1,6 @@
-import {DatePipe} from "@angular/common";
 import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
-import {MatIcon} from "@angular/material/icon";
-import {RouterLink} from "@angular/router";
 import {User} from "@app/models";
 import {CurrentUserService} from "@app/services";
-import {DeleteButtonComponent} from "@app/shared/components/delete-button/delete-button.component";
 import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selector/portfolio-selector.component";
 import {TranslateModule} from "@ngx-translate/core";
 
@@ -14,10 +10,6 @@ import {TranslateModule} from "@ngx-translate/core";
     imports: [
         PortfolioSelectorComponent,
         TranslateModule,
-        DatePipe,
-        MatIcon,
-        RouterLink,
-        DeleteButtonComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
