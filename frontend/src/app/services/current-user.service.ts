@@ -22,7 +22,12 @@ export class CurrentUserService {
         return this.currentUser;
     }
 
-    public async updateCurrentUser(data: { isEmailNotificationsEnabled: boolean }): Promise<User> {
+    public async updateCurrentUser(data: {
+        name: string;
+        email: string;
+        password: string;
+        isEmailNotificationsEnabled: boolean
+    }): Promise<User> {
         this.currentUser = await lastValueFrom<User>(
             this.http.put<User>(`${environment.apiUrl}/current-user`, data),
         );

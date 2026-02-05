@@ -372,8 +372,16 @@
       "accountInfo": {
         "title": "Účet",
         "name": "Jméno",
+        "nameRequired": "Jméno je povinné",
         "email": "Email",
-        "emailNotifications": "Emailové notifikace"
+        "emailRequired": "Email je povinný",
+        "emailIsEmail": "Email musí být ve tvaru 'jannovak@seznam.cz'",
+        "emailExists": "Email již existuje",
+        "password": "Heslo",
+        "passwordLeaveBlank": "(Nechte prázdné pro stejné heslo)",
+        "passwordLength": "Heslo musí být nejméně 6 znaků dlouhé",
+        "emailNotifications": "Emailové notifikace",
+        "updateSuccess": "Účet byl úspěšně aktualizován"
       }
     },
     "shared": {

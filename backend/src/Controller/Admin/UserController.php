@@ -119,6 +119,7 @@ final class UserController extends AdminController
 
 		return new JsonResponse(UserDto::fromEntity($this->userProvider->updateUser(
 			user: $user,
+			email: $user->email,
 			password: $userUpdateDto->password,
 			name: $userUpdateDto->name,
 			role: $userUpdateDto->role,

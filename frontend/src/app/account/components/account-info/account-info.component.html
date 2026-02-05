@@ -7,10 +7,83 @@
 </div>
 
 <div class="content-center">
-    @if($user(); as user) {
-        <div class="account">
-            <div class="card">
+    @if(user(); as user) {
+        @if (editing()) {
+            <div class="card form">
                 <div class="card-body">
+                    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                        <div class="form-row">
+                            <div class="form-group col">
+                                <label for="name">{{ 'app.account.accountInfo.name' | translate }}</label>
+                                <input id="name" type="text" formControlName="name" class="form-control" [class.is-invalid]="submitted() && f['name'].errors" />
+                                <fingather-input-validator
+                                    [control]="f['name']"
+                                    [isSubmitted]="submitted()"
+                                    [errorMessages]="{
+                                        required: 'app.account.accountInfo.nameRequired',
+                                    }"
+                                />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col">
+                                <label for="email">{{ 'app.account.accountInfo.email' | translate }}</label>
+                                <input id="email" type="text" formControlName="email" class="form-control" [class.is-invalid]="submitted() && f['email'].errors" />
+                                <fingather-input-validator
+                                    [control]="f['email']"
+                                    [isSubmitted]="submitted()"
+                                    [errorMessages]="{
+                                        required: 'app.account.accountInfo.emailRequired',
+                                        email: 'app.account.accountInfo.emailIsEmail',
+                                        uniqueEmail: 'app.account.accountInfo.emailExists',
+                                    }"
+                                />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col">
+                                <label for="password">
+                                    {{ 'app.account.accountInfo.password' | translate }}
+                                    <em>{{ 'app.account.accountInfo.passwordLeaveBlank' | translate }}</em>
+                                </label>
+                                <input id="password" type="password" formControlName="password" class="form-control" [class.is-invalid]="submitted() && f['password'].errors" />
+                                <fingather-input-validator
+                                    [control]="f['password']"
+                                    [isSubmitted]="submitted()"
+                                    [errorMessages]="{
+                                        minlength: 'app.account.accountInfo.passwordLength',
+                                    }"
+                                />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col">
+                                <label for="emailNotifications">{{ 'app.account.accountInfo.emailNotifications' | translate }}</label>
+                                <div class="form-check form-switch">
+                                    <input
+                                        formControlName="isEmailNotificationsEnabled"
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        role="switch"
+                                        id="emailNotifications"
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group buttons">
+                            <button type="button" class="btn btn-secondary" (click)="onCancelEdit()">{{ 'app.common.cancel' | translate }}</button>
+
+                            <fingather-save-button
+                                [saving]="saving()"
+                            />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        } @else {
+            <div class="account">
+                <div class="card">
+                    <div class="card-body">
 
                         <table class="table">
                             <tbody>
@@ -27,11 +100,9 @@
                                     <td>
                                         <div class="form-check form-switch">
                                             <input
-                                                (change)="onEmailNotificationsChange()"
                                                 class="form-check-input"
                                                 type="checkbox"
                                                 role="switch"
-                                                id="emailNotifications"
                                                 [checked]="user.isEmailNotificationsEnabled"
                                             >
                                         </div>
@@ -40,8 +111,12 @@
                             </tbody>
                         </table>
 
+                        <div class="form-group buttons mt-4">
+                            <button type="button" class="btn btn-primary" (click)="onEdit()">{{ 'app.common.edit' | translate }}</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+        }
     }
 </div>
