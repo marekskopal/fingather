@@ -17,7 +17,7 @@ class User extends AEntity
 {
 	public function __construct(
 		#[Column(type: Type::String)]
-		public readonly string $email,
+		public string $email,
 		#[Column(type: Type::String, nullable: true)]
 		public ?string $password,
 		#[Column(type: Type::String)]

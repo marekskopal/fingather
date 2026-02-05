@@ -372,8 +372,16 @@
       "accountInfo": {
         "title": "Account",
         "name": "Name",
+        "nameRequired": "Name is required",
         "email": "Email",
-        "emailNotifications": "Email notifications"
+        "emailRequired": "Email is required",
+        "emailIsEmail": "Email must be in form 'jondow@example.com'",
+        "emailExists": "Email already exists",
+        "password": "Password",
+        "passwordLeaveBlank": "(Leave blank to keep the same password)",
+        "passwordLength": "Password must be at least 6 characters",
+        "emailNotifications": "Email notifications",
+        "updateSuccess": "Account updated successfully"
       }
     },
     "shared": {

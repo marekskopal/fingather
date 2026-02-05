@@ -6,6 +6,7 @@ namespace FinGather\Controller;
 
 use FinGather\Dto\CurrentUserUpdateDto;
 use FinGather\Dto\UserDto;
+use FinGather\Response\ConflictResponse;
 use FinGather\Route\Routes;
 use FinGather\Service\Provider\UserProvider;
 use FinGather\Service\Request\RequestService;
@@ -32,6 +33,21 @@ final class CurrentUserController
 	{
 		$user = $this->requestService->getUser($request);
 		$currentUserUpdateDto = $this->requestService->getRequestBodyDto($request, CurrentUserUpdateDto::class);
+
+		if ($currentUserUpdateDto->email !== $user->email) {
+			$existsUser = $this->userProvider->getUserByEmail($currentUserUpdateDto->email);
+			if ($existsUser !== null) {
+				return new ConflictResponse('User with email "' . $currentUserUpdateDto->email . '" already exists.');
+			}
+		}
+
+		$user = $this->userProvider->updateUser(
+			user: $user,
+			email: $currentUserUpdateDto->email,
+			password: $currentUserUpdateDto->password,
+			name: $currentUserUpdateDto->name,
+			role: $user->role,
+		);
 
 		$user = $this->userProvider->updateEmailNotifications($user, $currentUserUpdateDto->isEmailNotificationsEnabled);
 

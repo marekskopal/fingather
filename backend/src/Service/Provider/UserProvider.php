@@ -114,8 +114,14 @@ class UserProvider
 		return $user;
 	}
 
-	public function updateUser(User $user, #[SensitiveParameter] string $password, string $name, UserRoleEnum $role,): User
+	public function updateUser(User $user, string $email, #[SensitiveParameter] string $password, string $name, UserRoleEnum $role): User
 	{
+		if ($email !== $user->email) {
+			$user->email = $email;
+			$user->isEmailVerified = false;
+			$this->emailVerifyProvider->createEmailVerify($user);
+		}
+
 		if ($password !== '') {
 			$hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 			$user->password = $hashedPassword;
@@ -123,6 +129,7 @@ class UserProvider
 
 		$user->name = $name;
 		$user->role = $role;
+
 		$this->userRepository->persist($user);
 
 		return $user;
