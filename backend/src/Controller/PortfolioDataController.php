@@ -17,6 +17,7 @@ use FinGather\Service\Provider\BenchmarkDataProvider;
 use FinGather\Service\Provider\CurrentTransactionProvider;
 use FinGather\Service\Provider\PortfolioDataProvider;
 use FinGather\Service\Provider\PortfolioProvider;
+use FinGather\Service\Provider\TickerProvider;
 use FinGather\Service\Request\RequestService;
 use FinGather\Utils\DateTimeUtils;
 use Laminas\Diactoros\Response\JsonResponse;
@@ -32,6 +33,7 @@ final class PortfolioDataController
 		private readonly BenchmarkDataProvider $benchmarkDataProvider,
 		private readonly AssetProvider $assetProvider,
 		private readonly PortfolioProvider $portfolioProvider,
+		private readonly TickerProvider $tickerProvider,
 		private readonly RequestService $requestService,
 	) {
 	}
@@ -64,6 +66,7 @@ final class PortfolioDataController
 		 * @var array{
 		 *     range: value-of<RangeEnum>,
 		 *     benchmarkAssetId?: string,
+		 *     benchmarkTickerId?: string,
 		 *     customRangeFrom?: string|null,
 		 *     customRangeTo?: string|null,
 		 * } $queryParams
@@ -84,7 +87,13 @@ final class PortfolioDataController
 		$range = RangeEnum::from($queryParams['range']);
 
 		$benchmarkAssetId = ($queryParams['benchmarkAssetId'] ?? null) !== null ? (int) $queryParams['benchmarkAssetId'] : null;
-		$benchmarkAsset = $benchmarkAssetId !== null ? $this->assetProvider->getAsset($user, $benchmarkAssetId) : null;
+		$benchmarkTickerId = ($queryParams['benchmarkTickerId'] ?? null) !== null ? (int) $queryParams['benchmarkTickerId'] : null;
+
+		$benchmarkTicker = $benchmarkTickerId !== null ? $this->tickerProvider->getTicker($benchmarkTickerId) : null;
+		if ($benchmarkTicker === null && $benchmarkAssetId !== null) {
+			$benchmarkAsset = $this->assetProvider->getAsset($user, $benchmarkAssetId);
+			$benchmarkTicker = $benchmarkAsset?->ticker;
+		}
 
 		$customRangeFrom = ($queryParams['customRangeFrom'] ?? null) !== null
 			? new DateTimeImmutable($queryParams['customRangeFrom'])
@@ -119,7 +128,7 @@ final class PortfolioDataController
 			/** @var DateTimeImmutable $dateTime */
 			$portfolioData = $this->portfolioDataProvider->getPortfolioData($user, $portfolio, $dateTime);
 
-			if ($benchmarkAsset === null) {
+			if ($benchmarkTicker === null) {
 				$portfolioDatas[] = PortfolioDataWithBenchmarkDataDto::fromCalculatedDataDto($portfolioData);
 				continue;
 			}
@@ -128,18 +137,19 @@ final class PortfolioDataController
 				$benchmarkDataFromDate = $this->benchmarkDataProvider->getBenchmarkDataFromDate(
 					user: $user,
 					portfolio: $portfolio,
-					benchmarkAsset: $benchmarkAsset,
+					benchmarkTicker: $benchmarkTicker,
 					benchmarkFromDateTime: $datePeriod->getStartDate(),
 					portfolioDataValue: $portfolioData->value,
 				);
 
 				$portfolioDatas[] = PortfolioDataWithBenchmarkDataDto::fromCalculatedDataDto($portfolioData, $benchmarkDataFromDate);
+				continue;
 			}
 
 			$benchmarkData = $this->benchmarkDataProvider->getBenchmarkData(
 				user: $user,
 				portfolio: $portfolio,
-				benchmarkAsset: $benchmarkAsset,
+				benchmarkTicker: $benchmarkTicker,
 				transactions: $transactions,
 				dateTime: $dateTime,
 				benchmarkFromDateTime: $datePeriod->getStartDate(),

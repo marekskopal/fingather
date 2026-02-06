@@ -1,0 +1,18 @@
+<div class="asset-selector" ngbDropdown>
+    <button type="button" id="benchmarkAssetSelector" ngbDropdownToggle>
+        @if (selectedBenchmarkAsset(); as selectedBenchmarkAsset) {
+            <span>{{ selectedBenchmarkAsset.ticker.ticker }}</span><span class="tag">{{selectedBenchmarkAsset.ticker.market.mic}}</span>
+        }  @else if(placeholder()) {
+            <span>{{ placeholder() }}</span>
+        } @else {
+            <span>{{ 'app.common.choose' | translate }}</span>
+        }
+    </button>
+    <div ngbDropdownMenu aria-labelledby="benchmarkAssetSelector">
+        @for(benchmarkAsset of benchmarkAssets(); track benchmarkAsset.id) {
+            <button ngbDropdownItem (click)="changeBenchmarkAsset(benchmarkAsset)">
+                <span>{{ benchmarkAsset.ticker.ticker }}</span><span class="tag">{{benchmarkAsset.ticker.market.mic}}</span>
+            </button>
+        }
+    </div>
+</div>

@@ -11,6 +11,9 @@ enum Routes: string
 	case AdminUsers = '/api/admin/user';
 	case AdminUser = '/api/admin/user/{userId:number}';
 
+	case AdminBenchmarkAssets = '/api/admin/benchmark-assets';
+	case AdminBenchmarkAsset = '/api/admin/benchmark-asset/{benchmarkAssetId:number}';
+
 	case ApiKeys = '/api/api-keys/{portfolioId:number}';
 	case ApiKey = '/api/api-key/{apiKeyId:number}';
 
@@ -26,6 +29,8 @@ enum Routes: string
 	case AuthenticationEmailExists = '/api/authentication/email-exists';
 	case AuthenticationGoogleClientId = '/api/authentication/google-client-id';
 	case AuthenticationGoogleLogin = '/api/authentication/google-login';
+
+	case BenchmarkAssets = '/api/benchmark-assets';
 
 	case Brokers = '/api/brokers/{portfolioId:number}';
 	case Broker = '/api/broker/{brokerId:number}';

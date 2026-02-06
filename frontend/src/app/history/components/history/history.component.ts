@@ -1,10 +1,13 @@
 import {
     ChangeDetectionStrategy, Component, computed, inject, OnInit, signal,
 } from '@angular/core';
-import { Asset } from '@app/models';
+import { Asset, BenchmarkAsset } from '@app/models';
 import { RangeEnum } from '@app/models/enums/range-enum';
-import { AssetService, PortfolioService } from '@app/services';
+import { AssetService, BenchmarkAssetService, PortfolioService } from '@app/services';
 import {AssetSelectorComponent} from "@app/shared/components/asset-selector/asset-selector.component";
+import {
+    BenchmarkAssetSelectorComponent,
+} from "@app/shared/components/benchmark-asset-selector/benchmark-asset-selector.component";
 import {DateInputComponent} from "@app/shared/components/date-input/date-input.component";
 import {LegendComponent} from "@app/shared/components/legend/legend.component";
 import {LegendItem} from "@app/shared/components/legend/types/legend-item";
@@ -22,6 +25,7 @@ import { TranslatePipe} from "@ngx-translate/core";
         TranslatePipe,
         PortfolioSelectorComponent,
         AssetSelectorComponent,
+        BenchmarkAssetSelectorComponent,
         LegendComponent,
         PortfolioValueChartComponent,
         ScrollShadowDirective,
@@ -31,13 +35,16 @@ import { TranslatePipe} from "@ngx-translate/core";
 })
 export class HistoryComponent implements OnInit {
     private readonly assetService = inject(AssetService);
+    private readonly benchmarkAssetService = inject(BenchmarkAssetService);
     private readonly portfolioService = inject(PortfolioService);
 
     protected activeRange: RangeEnum = RangeEnum.YTD;
     protected customRangeFrom: string | null = null;
     protected customRangeTo: string | null = null;
     protected readonly assets = signal<Asset[]>([]);
+    protected readonly fixedBenchmarkAssets = signal<BenchmarkAsset[]>([]);
     protected readonly benchmarkAssetId = signal<number | null>(null);
+    protected readonly benchmarkTickerId = signal<number | null>(null);
 
     protected ranges: {range: RangeEnum, text: string, number: number | null}[] = [
         {range: RangeEnum.SevenDays, text: 'app.history.history.d', number: 7},
@@ -54,24 +61,41 @@ export class HistoryComponent implements OnInit {
             {translation: 'app.history.history.value', color: ColorEnum.colorChart2},
             {translation: 'app.history.history.investedValue', color: ColorEnum.colorChart5},
         ];
-        if (this.benchmarkAssetId() !== null) {
-            const benchmarkAsset = this.assets().find(asset => asset.id === this.benchmarkAssetId());
 
+        const benchmarkAssetId = this.benchmarkAssetId();
+        const benchmarkTickerId = this.benchmarkTickerId();
+
+        if (benchmarkAssetId !== null) {
+            const benchmarkAsset = this.assets().find(asset => asset.id === benchmarkAssetId);
             legendItems.push({
                 translation: 'app.history.history.benchmark',
                 subName: benchmarkAsset?.ticker.ticker,
                 color: ColorEnum.colorChart1,
             });
+        } else if (benchmarkTickerId !== null) {
+            const fixedBenchmark = this.fixedBenchmarkAssets().find(ba => ba.ticker.id === benchmarkTickerId);
+            legendItems.push({
+                translation: 'app.history.history.benchmark',
+                subName: fixedBenchmark?.ticker.ticker,
+                color: ColorEnum.colorChart1,
+            });
         }
+
         return legendItems;
     })
 
     public async ngOnInit(): Promise<void> {
         this.refreshAssets();
+        this.loadFixedBenchmarkAssets();
 
         this.portfolioService.subscribe(() => {
             this.refreshAssets();
         });
+    }
+
+    private async loadFixedBenchmarkAssets(): Promise<void> {
+        const benchmarkAssets = await this.benchmarkAssetService.getBenchmarkAssets();
+        this.fixedBenchmarkAssets.set(benchmarkAssets);
     }
 
     private async refreshAssets(): Promise<void> {
@@ -102,7 +126,13 @@ export class HistoryComponent implements OnInit {
     }
 
     protected changeBenchmarkAsset(asset: Asset): void {
+        this.benchmarkTickerId.set(null);
         this.benchmarkAssetId.set(asset.id);
+    }
+
+    protected selectFixedBenchmark(benchmarkAsset: BenchmarkAsset): void {
+        this.benchmarkAssetId.set(null);
+        this.benchmarkTickerId.set(benchmarkAsset.ticker.id);
     }
 
     protected readonly RangeEnum = RangeEnum;

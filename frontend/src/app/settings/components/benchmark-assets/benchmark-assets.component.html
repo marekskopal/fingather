@@ -1,0 +1,59 @@
+<div class="header">
+    <h1 class="h3">{{ 'app.settings.benchmarkAssets.title' | translate }}</h1>
+
+    <div class="header-controls d-none d-lg-block">
+        <fingather-portfolio-selector />
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="add-benchmark-asset">
+            <fingather-ticker-search-selector
+                id="ticker"
+                [(ngModel)]="selectedTickerId"
+                [placeholder]="'app.settings.benchmarkAssets.selectAsset' | translate"
+            />
+            <button
+                type="button"
+                class="btn btn-primary"
+                [disabled]="selectedTickerId === null"
+                (click)="addBenchmarkAsset()"
+            >
+                <mat-icon>add</mat-icon>
+                <span>{{ 'app.settings.benchmarkAssets.add' | translate }}</span>
+            </button>
+        </div>
+
+        @if(benchmarkAssets().length > 0) {
+            <div class="table-responsive" scrollShadow>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>{{ 'app.settings.benchmarkAssets.ticker' | translate }}</th>
+                            <th>{{ 'app.settings.benchmarkAssets.name' | translate }}</th>
+                            <th>{{ 'app.settings.benchmarkAssets.market' | translate }}</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(benchmarkAsset of benchmarkAssets(); track benchmarkAsset.id) {
+                            <tr>
+                                <td>{{ benchmarkAsset.ticker.ticker }}</td>
+                                <td>{{ benchmarkAsset.ticker.name }}</td>
+                                <td><span class="tag">{{ benchmarkAsset.ticker.market.mic }}</span></td>
+                                <td class="actions">
+                                    <fingather-delete-button
+                                        (confirm)="deleteBenchmarkAsset(benchmarkAsset.id)"
+                                        [title]="'app.settings.benchmarkAssets.deleteTitle' | translate"
+                                        [message]="'app.settings.benchmarkAssets.deleteMessage' | translate"
+                                    />
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>

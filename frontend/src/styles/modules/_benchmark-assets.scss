@@ -1,0 +1,10 @@
+.add-benchmark-asset {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-lg;
+
+    @include media-breakpoint-up(md) {
+        flex-direction: row;
+        align-items: center;
+    }
+}

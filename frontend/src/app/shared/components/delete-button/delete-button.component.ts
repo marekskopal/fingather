@@ -26,6 +26,8 @@ export class DeleteButtonComponent {
     public readonly title = input.required<string>();
     public readonly message = input.required<string>();
     public readonly showText = input<boolean>(false);
+    public readonly text = input<string | null>(null);
+    public readonly showAsLink = input<boolean>(false);
 
     protected readonly isDeleting = signal<boolean>(false);
 

@@ -48,9 +48,19 @@
                     <!-- eslint-disable-next-line -->
                     <label>{{ 'app.history.history.benchmarkAsset' | translate }}</label>
 
+                    @if (fixedBenchmarkAssets().length > 0) {
+                        <fingather-benchmark-asset-selector
+                            [placeholder]="'app.history.history.chooseBenchmark' | translate"
+                            [benchmarkAssets]="fixedBenchmarkAssets()"
+                            [selectedTickerId]="benchmarkTickerId()"
+                            (afterChangeBenchmarkAsset)="selectFixedBenchmark($event)"
+                        />
+                    }
+
                     <fingather-asset-selector
                         [placeholder]="'app.history.history.choose' | translate"
                         [assets]="assets()"
+                        [selectedAssetId]="benchmarkAssetId()"
                         (afterChangeAsset)="changeBenchmarkAsset($event)"
                     />
                 </div>
@@ -62,6 +72,7 @@
                 [height]="'500px'"
                 [range]="activeRange"
                 [benchmarkAssetId]="benchmarkAssetId()"
+                [benchmarkTickerId]="benchmarkTickerId()"
                 [customRangeFrom]="customRangeFrom"
                 [customRangeTo]="customRangeTo"
             />

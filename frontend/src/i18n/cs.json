@@ -12,6 +12,7 @@
       "portfolios": "Portfólia",
       "users": "Uživatelé",
       "apiKeys": "API klíče",
+      "settings": "Nastavení",
       "account": "Účet",
       "logout": "Odhlásit"
     },
@@ -220,7 +221,8 @@
         "choose": "Vybrat aktivum",
         "value": "Hodnota",
         "investedValue": "Investovaná částka",
-        "benchmark": "Srovnání"
+        "benchmark": "Srovnání",
+        "chooseBenchmark": "Vybrat srovnání"
       }
     },
     "overviews": {
@@ -382,6 +384,18 @@
         "passwordLength": "Heslo musí být nejméně 6 znaků dlouhé",
         "emailNotifications": "Emailové notifikace",
         "updateSuccess": "Účet byl úspěšně aktualizován"
+      }
+    },
+    "settings": {
+      "benchmarkAssets": {
+        "title": "Srovnávací aktiva",
+        "add": "Přidat srovnávací aktivum",
+        "ticker": "Značka",
+        "name": "Název",
+        "market": "Market",
+        "selectAsset": "Vyberte aktivum",
+        "deleteTitle": "Smazat srovnávací aktivum",
+        "deleteMessage": "Opravdu chcete smazat toto srovnávací aktivum?"
       }
     },
     "shared": {
