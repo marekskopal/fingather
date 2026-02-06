@@ -12,6 +12,7 @@
       "portfolios": "Portfolios",
       "users": "Users",
       "apiKeys": "API keys",
+      "settings": "Settings",
       "account": "Account",
       "logout": "Logout"
     },
@@ -220,7 +221,8 @@
         "choose": "Choose Asset",
         "value": "Value",
         "investedValue": "Invested Value",
-        "benchmark": "Benchmark"
+        "benchmark": "Benchmark",
+        "chooseBenchmark": "Choose Benchmark"
       }
     },
     "overviews": {
@@ -382,6 +384,18 @@
         "passwordLength": "Password must be at least 6 characters",
         "emailNotifications": "Email notifications",
         "updateSuccess": "Account updated successfully"
+      }
+    },
+    "settings": {
+      "benchmarkAssets": {
+        "title": "Benchmark Assets",
+        "add": "Add Benchmark Asset",
+        "ticker": "Ticker",
+        "name": "Name",
+        "market": "Market",
+        "selectAsset": "Select Asset",
+        "deleteTitle": "Delete Benchmark Asset",
+        "deleteMessage": "Are you sure you want to delete this benchmark asset?"
       }
     },
     "shared": {

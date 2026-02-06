@@ -1,11 +1,23 @@
-﻿<button (click)="delete()" class="btn btn-secondary" [disabled]="isDeleting()">
+<button
+    (click)="delete()"
+    class="btn"
+    [class.btn-secondary]="!showAsLink()"
+    [class.btn-link]="showAsLink()"
+    [disabled]="isDeleting()"
+>
     @if(showText()) {
-        {{ 'app.common.delete' | translate }}
+        @if(text() !== null) {
+            <span>{{ text() }}</span>
+        } @else {
+            <span>{{ 'app.common.delete' | translate }}</span>
+        }
     }
 
-    @if (isDeleting()) {
-        <mat-spinner [diameter]="24" />
-    } @else {
-        <mat-icon>delete</mat-icon>
+    @if(!showAsLink()) {
+        @if (isDeleting()) {
+            <mat-spinner [diameter]="24" />
+        } @else {
+            <mat-icon>delete</mat-icon>
+        }
     }
 </button>

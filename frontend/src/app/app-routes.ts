@@ -48,6 +48,11 @@ export const appRoutes: Routes = [
         canActivate: [AuthGuard],
     },
     {
+        path: 'settings',
+        loadChildren: () => import('./settings/settings-routes'),
+        canActivate: [AuthGuard],
+    },
+    {
         path: 'onboarding',
         loadChildren: () => import('./onboarding/onboarding-routes'),
         canActivate: [AuthGuard],

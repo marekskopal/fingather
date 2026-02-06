@@ -6,6 +6,7 @@ export * from './asset';
 export * from './asset-data';
 export * from './asset-with-properties';
 export * from './assets-with-properties';
+export * from './benchmark-asset';
 export * from './benchmark-data';
 export * from './broker';
 export * from './country-with-country-data';

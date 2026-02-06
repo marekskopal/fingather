@@ -94,6 +94,12 @@
                         <span>{{ 'app.navbar.users' | translate }}</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" (click)="collapseNavigation()" routerLink="/settings" routerLinkActive="active">
+                        <mat-icon>settings</mat-icon>
+                        <span>{{ 'app.navbar.settings' | translate }}</span>
+                    </a>
+                </li>
             }
         </ul>
         <ul class="nav">

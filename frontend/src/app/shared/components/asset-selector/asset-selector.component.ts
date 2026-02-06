@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy, Component, input, OnInit, output, signal,
+    ChangeDetectionStrategy, Component, effect, input, output, signal,
 } from '@angular/core';
 import {Asset} from "@app/models";
 import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from "@ng-bootstrap/ng-bootstrap";
@@ -17,17 +17,19 @@ import {TranslateModule} from "@ngx-translate/core";
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AssetSelectorComponent implements OnInit {
+export class AssetSelectorComponent {
     public readonly assets = input.required<Asset[]>();
     public readonly selectedAssetId = input<number | null>(null);
     public readonly placeholder = input<string | null>(null);
     public readonly afterChangeAsset = output<Asset>();
 
-    public ngOnInit(): void {
-        this.selectedAsset.set(this.getAssetById(this.selectedAssetId()));
-    }
-
     protected readonly selectedAsset = signal<Asset | null>(null);
+
+    public constructor() {
+        effect(() => {
+            this.selectedAsset.set(this.getAssetById(this.selectedAssetId()));
+        });
+    }
 
     protected changeAsset(ticker: Asset): void {
         this.selectedAsset.set(ticker);

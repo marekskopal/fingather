@@ -6,7 +6,6 @@ namespace FinGather\Service\DataCalculator;
 
 use DateTimeImmutable;
 use Decimal\Decimal;
-use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\Ticker;
@@ -30,12 +29,12 @@ final class BenchmarkDataCalculator
 	public function calculate(
 		Portfolio $portfolio,
 		array $transactions,
-		Asset $benchmarkAsset,
+		Ticker $benchmarkTicker,
 		DateTimeImmutable $dateTime,
 		DateTimeImmutable $benchmarkFromDateTime,
 		Decimal $benchmarkFromDateUnits,
 	): BenchmarkDataDto {
-		$benchmarkTickerCurrency = $benchmarkAsset->ticker->currency;
+		$benchmarkTickerCurrency = $benchmarkTicker->currency;
 		$defaultCurrency = $portfolio->currency;
 
 		$benchmarkUnitsSum = new Decimal(0);
@@ -51,14 +50,14 @@ final class BenchmarkDataCalculator
 
 			$benchmarkUnitsSum = $benchmarkUnitsSum->add($this->calculateTransactionBenchmarkUnits(
 				$transaction,
-				$benchmarkAsset->ticker,
+				$benchmarkTicker,
 				$benchmarkTickerCurrency,
 				$defaultCurrency,
 			));
 		}
 
-		$benchmarkAssetTickerDataClose = $this->tickerDataProvider->getLastTickerDataClose($benchmarkAsset->ticker, $dateTime);
-		if ($benchmarkAssetTickerDataClose !== null) {
+		$benchmarkTickerDataClose = $this->tickerDataProvider->getLastTickerDataClose($benchmarkTicker, $dateTime);
+		if ($benchmarkTickerDataClose !== null) {
 			$benchmarkExchangeRateDefaultCurrency = $this->exchangeRateProvider->getExchangeRate(
 				$dateTime,
 				$benchmarkTickerCurrency,
@@ -68,7 +67,7 @@ final class BenchmarkDataCalculator
 			$benchmarkUnitsSum = $benchmarkUnitsSum->add($benchmarkFromDateUnits);
 
 			$value = $benchmarkUnitsSum->mul(
-				$benchmarkAssetTickerDataClose->mul($benchmarkExchangeRateDefaultCurrency),
+				$benchmarkTickerDataClose->mul($benchmarkExchangeRateDefaultCurrency),
 			);
 		} else {
 			$value = new Decimal(0);

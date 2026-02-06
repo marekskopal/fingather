@@ -18,6 +18,7 @@ export class PortfolioDataService {
         portfolioId: number,
         range: RangeEnum,
         benchmarkAssetId: number | null = null,
+        benchmarkTickerId: number | null = null,
         customRangeFrom: string | null = null,
         customRangeTo: string | null = null,
     ): Promise<PortfolioDataWithBenchmarkData[]> {
@@ -26,6 +27,10 @@ export class PortfolioDataService {
 
         if (benchmarkAssetId !== null) {
             params = params.set('benchmarkAssetId', benchmarkAssetId);
+        }
+
+        if (benchmarkTickerId !== null) {
+            params = params.set('benchmarkTickerId', benchmarkTickerId);
         }
 
         if (customRangeFrom !== null) {

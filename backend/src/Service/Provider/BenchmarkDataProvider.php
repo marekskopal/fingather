@@ -6,8 +6,8 @@ namespace FinGather\Service\Provider;
 
 use DateTimeImmutable;
 use Decimal\Decimal;
-use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Portfolio;
+use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\Transaction;
 use FinGather\Model\Entity\User;
 use FinGather\Service\Cache\Cache;
@@ -36,7 +36,7 @@ readonly class BenchmarkDataProvider
 	public function getBenchmarkData(
 		User $user,
 		Portfolio $portfolio,
-		Asset $benchmarkAsset,
+		Ticker $benchmarkTicker,
 		array $transactions,
 		DateTimeImmutable $dateTime,
 		DateTimeImmutable $benchmarkFromDateTime,
@@ -45,7 +45,7 @@ readonly class BenchmarkDataProvider
 		$dateTime = DateTimeUtils::setStartOfDateTime($dateTime);
 		$benchmarkFromDateTime = DateTimeUtils::setStartOfDateTime($benchmarkFromDateTime);
 
-		$key = $portfolio->id . '-' . $benchmarkAsset->id . '-' . $dateTime->getTimestamp() . '-' . $benchmarkFromDateTime->getTimestamp();
+		$key = $portfolio->id . '-' . $benchmarkTicker->id . '-' . $dateTime->getTimestamp() . '-' . $benchmarkFromDateTime->getTimestamp();
 
 		/** @var BenchmarkDataDto|null $benchmarkData */
 		$benchmarkData = $this->cache->load($key);
@@ -56,7 +56,7 @@ readonly class BenchmarkDataProvider
 		$benchmarkData = $this->benchmarkDataCalculator->calculate(
 			$portfolio,
 			$transactions,
-			$benchmarkAsset,
+			$benchmarkTicker,
 			$dateTime,
 			$benchmarkFromDateTime,
 			$benchmarkFromDateUnits,
@@ -70,13 +70,13 @@ readonly class BenchmarkDataProvider
 	public function getBenchmarkDataFromDate(
 		User $user,
 		Portfolio $portfolio,
-		Asset $benchmarkAsset,
+		Ticker $benchmarkTicker,
 		DateTimeImmutable $benchmarkFromDateTime,
 		Decimal $portfolioDataValue,
 	): BenchmarkDataDto {
 		$benchmarkFromDateTime = DateTimeUtils::setStartOfDateTime($benchmarkFromDateTime);
 
-		$key = $portfolio->id . '-' . $benchmarkAsset->id . '-' . $benchmarkFromDateTime->getTimestamp() . '-' . $benchmarkFromDateTime->getTimestamp();
+		$key = $portfolio->id . '-' . $benchmarkTicker->id . '-' . $benchmarkFromDateTime->getTimestamp() . '-' . $benchmarkFromDateTime->getTimestamp();
 
 		/** @var BenchmarkDataDto|null $benchmarkData */
 		$benchmarkData = $this->cache->load($key);
@@ -84,17 +84,17 @@ readonly class BenchmarkDataProvider
 			return $benchmarkData;
 		}
 
-		$benchmarkTickerCurrency = $benchmarkAsset->ticker->currency;
+		$benchmarkTickerCurrency = $benchmarkTicker->currency;
 
-		$benchmarkAssetTickerDataClose = $this->tickerDataProvider->getLastTickerDataClose($benchmarkAsset->ticker, $benchmarkFromDateTime);
-		if ($benchmarkAssetTickerDataClose !== null) {
+		$benchmarkTickerDataClose = $this->tickerDataProvider->getLastTickerDataClose($benchmarkTicker, $benchmarkFromDateTime);
+		if ($benchmarkTickerDataClose !== null) {
 			$benchmarkExchangeRateDefaultCurrency = $this->exchangeRateProvider->getExchangeRate(
 				$benchmarkFromDateTime,
 				$benchmarkTickerCurrency,
 				$portfolio->currency,
 			);
 
-			$benchmarkUnitPriceDefaultCurrency = $benchmarkAssetTickerDataClose->mul($benchmarkExchangeRateDefaultCurrency);
+			$benchmarkUnitPriceDefaultCurrency = $benchmarkTickerDataClose->mul($benchmarkExchangeRateDefaultCurrency);
 
 			$benchmarkUnits = $portfolioDataValue->div($benchmarkUnitPriceDefaultCurrency);
 		} else {

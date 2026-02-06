@@ -43,6 +43,7 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
     public readonly customRangeTo = input<string | null>(null);
     public readonly portfolio = input<Portfolio | null>(null);
     public readonly benchmarkAssetId = input<number | null>(null);
+    public readonly benchmarkTickerId = input<number | null>(null);
     public readonly height = input<string>('auto');
     public readonly showLabels = input<boolean>(true);
     public readonly sparkline = input<boolean>(false);
@@ -72,6 +73,7 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
             portfolio.id,
             this.range(),
             this.benchmarkAssetId(),
+            this.benchmarkTickerId(),
             this.customRangeFrom(),
             this.customRangeTo(),
         );
@@ -135,7 +137,7 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
             colors: ChartUtils.colors(3),
         };
 
-        if (this.benchmarkAssetId() !== null) {
+        if (this.benchmarkAssetId() !== null || this.benchmarkTickerId() !== null) {
             this.chartOptions.series[2] = {
                 name: 'Benchmark',
                 data: [],
@@ -144,7 +146,7 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
     }
 
     private initializeBenchmarkChartOptions(): void {
-        if (this.benchmarkAssetId() === null) {
+        if (this.benchmarkAssetId() === null && this.benchmarkTickerId() === null) {
             return;
         }
 
@@ -168,7 +170,7 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
             investedValueSeries: portfolioDatas.map(
                 (portfolioData) => parseFloat(portfolioData.transactionValue),
             ),
-            benchmarkSeries: this.benchmarkAssetId() !== null
+            benchmarkSeries: (this.benchmarkAssetId() !== null || this.benchmarkTickerId() !== null)
                 ? portfolioDatas.map((portfolioData) => parseFloat(portfolioData.benchmarkData?.value ?? '0.0'))
                 : [],
             categories: portfolioDatas.map((portfolioData) => portfolioData.date),
