@@ -17,7 +17,7 @@ bootstrapApplication(AppComponent, {
     providers: [
         provideRouter(appRoutes),
         provideTranslateService({
-            loader: provideTranslateHttpLoader({prefix:"/i18n/", suffix:".json"}),
+            loader: provideTranslateHttpLoader({prefix: "/i18n/", suffix: `.json?v=${environment.i18nVersion}`}),
         }),
         {
             provide: HTTP_INTERCEPTORS,
