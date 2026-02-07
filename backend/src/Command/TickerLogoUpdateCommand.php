@@ -7,6 +7,7 @@ namespace FinGather\Command;
 use FinGather\App\ApplicationFactory;
 use FinGather\Service\Provider\TickerProvider;
 use FinGather\Service\Update\TickerLogoUpdater;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -27,9 +28,17 @@ final class TickerLogoUpdateCommand extends AbstractCommand
 		$tickerLogoUpdater = $application->container->get(TickerLogoUpdater::class);
 		assert($tickerLogoUpdater instanceof TickerLogoUpdater);
 
+		$logger = $application->container->get(LoggerInterface::class);
+		assert($logger instanceof LoggerInterface);
+
 		$activeTickers = iterator_to_array($tickerProvider->getActiveTickers(), false);
 		foreach ($activeTickers as $ticker) {
-			$tickerLogoUpdater->updateTickerLogo($ticker);
+			try {
+				$tickerLogoUpdater->updateTickerLogo($ticker);
+			} catch (\Throwable $exception) {
+				$logger->error('Error update ticker logo ' . $ticker->id . ': ' . $exception->getMessage());
+				$this->writeln('Error update ticker logo for ticker ' . $ticker->id . ': ' . $exception->getMessage(), $output);
+			}
 		}
 
 		$this->writeln('Updated "' . count($activeTickers) . '" Tickers.', $output);
