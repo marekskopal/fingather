@@ -1,0 +1,19 @@
+<div class="strategy-chart">
+    <h5 class="text-center">{{title()}}</h5>
+
+    @if (chartOptions(); as opts) {
+        <apx-chart
+            [series]="opts.series"
+            [chart]="opts.chart"
+            [labels]="opts.labels"
+            [theme]="opts.theme"
+            [fill]="opts.fill"
+            [yaxis]="opts.yaxis"
+            [stroke]="opts.stroke"
+            [states]="opts.states"
+            [legend]="opts.legend"
+            [plotOptions]="opts.plotOptions"
+            [colors]="opts.colors"
+        />
+    }
+</div>

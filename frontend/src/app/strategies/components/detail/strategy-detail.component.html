@@ -1,0 +1,52 @@
+@if (!loading() && strategyWithComparison(); as comparison) {
+    <h2 class="h4 mb-3">{{ comparison.name }}</h2>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="strategy-charts">
+                <div class="strategy-charts-charts">
+                    <fingather-strategy-chart
+                        [items]="targetChartItems()"
+                        [title]="'app.strategies.detail.targetAllocation' | translate"
+                    />
+                    <fingather-strategy-chart
+                        [items]="actualChartItems()"
+                        [title]="'app.strategies.detail.actualAllocation' | translate"
+                    />
+                </div>
+
+                <fingather-legend [legendItems]="legendItems()" />
+            </div>
+
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>{{ 'app.strategies.detail.name' | translate }}</th>
+                            <th class="text-end">{{ 'app.strategies.detail.target' | translate }}</th>
+                            <th class="text-end">{{ 'app.strategies.detail.actual' | translate }}</th>
+                            <th class="text-end">{{ 'app.strategies.detail.difference' | translate }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (item of comparison.comparisonItems; track $index) {
+                            <tr>
+                                <td>{{ item.name }}</td>
+                                <td class="text-end">{{ item.targetPercentage | number: '1.2-2' }}%</td>
+                                <td class="text-end">{{ item.actualPercentage | number: '1.2-2' }}%</td>
+                                <td class="text-end" [ngClass]="{
+                                    'text-success': item.differencePercentage > 0,
+                                    'text-danger': item.differencePercentage < 0
+                                }">
+                                    {{ item.differencePercentage > 0 ? '+' : '' }}{{ item.differencePercentage | number: '1.2-2' }}%
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+} @else {
+    <span class="spinner-border spinner-border-sm mr-1"></span>
+}

@@ -70,6 +70,12 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" (click)="collapseNavigation()" routerLink="/strategies" routerLinkActive="active">
+                    <mat-icon>track_changes</mat-icon>
+                    <span>{{ 'app.navbar.strategies' | translate }}</span>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" (click)="collapseNavigation()" routerLink="/portfolios" routerLinkActive="active">
                     <mat-icon>wallet</mat-icon>
                     <span>{{ 'app.navbar.portfolios' | translate }}</span>

@@ -8,6 +8,7 @@
       "overviews": "Overviews",
       "history": "History",
       "groups": "Groups",
+      "strategies": "Strategies",
       "brokers": "Brokers",
       "portfolios": "Portfolios",
       "users": "Users",
@@ -203,6 +204,42 @@
         "title": "Groups",
         "addGroup": "Add Group",
         "name": "Name"
+      }
+    },
+    "strategies": {
+      "addEdit": {
+        "headerAdd": "Add Strategy",
+        "headerEdit": "Edit Strategy",
+        "name": "Name",
+        "nameRequired": "Name is required",
+        "isDefault": "Default",
+        "items": "Items",
+        "addItem": "Add Item",
+        "type": "Type",
+        "typeAsset": "Asset",
+        "typeGroup": "Group",
+        "typeOthers": "Others",
+        "asset": "Asset",
+        "group": "Group",
+        "percentage": "Percentage",
+        "totalPercentage": "Total percentage",
+        "totalMustNotExceed100": "Total percentage must not exceed 100%"
+      },
+      "list": {
+        "title": "Strategies",
+        "addStrategy": "Add Strategy",
+        "name": "Name",
+        "default": "Default",
+        "detail": "Detail"
+      },
+      "detail": {
+        "title": "Strategy Detail",
+        "targetAllocation": "Target Allocation",
+        "actualAllocation": "Actual Allocation",
+        "name": "Name",
+        "target": "Target",
+        "actual": "Actual",
+        "difference": "Difference"
       }
     },
     "history": {

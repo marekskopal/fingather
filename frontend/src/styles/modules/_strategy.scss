@@ -1,0 +1,50 @@
+.strategy-edit-items {
+    display: flex;
+    flex-direction: column;
+    row-gap: $spacing-xs;
+
+    .strategy-edit-item {
+        display: flex;
+
+        .select-type {
+            max-width: 115px;
+        }
+
+        .percentage {
+            max-width: 105px;
+        }
+
+        .btn {
+            height: 40px;
+            padding: 0 14px;
+        }
+    }
+}
+
+.strategies {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-lg;
+
+    @include media-breakpoint-up(xl) {
+        flex-direction: row;
+    }
+
+    .strategies-detail {
+        flex: 1;
+    }
+
+    .strategies-list {
+        flex: 1;
+    }
+}
+
+.strategy-charts {
+    margin-bottom: $spacing-lg;
+
+    .strategy-charts-charts {
+        display: flex;
+        column-gap: $spacing-lg;
+        margin-bottom: $spacing-lg;
+    }
+}
