@@ -1,0 +1,42 @@
+<div class="card">
+    <div class="card-body">
+        @if(strategies(); as strategies) {
+            <div class="table-responsive" scrollShadow>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="w-60">{{ 'app.strategies.list.name' | translate }}</th>
+                            <th class="w-20">{{ 'app.strategies.list.default' | translate }}</th>
+                            <th class="w-20"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(strategy of strategies; track strategy.id) {
+                            <tr>
+                                <td>{{strategy.name}}</td>
+                                <td>
+                                    @if(strategy.isDefault) {
+                                        <span class="badge bg-primary">{{ 'app.strategies.list.default' | translate }}</span>
+                                    }
+                                </td>
+                                <td class="actions">
+                                    <button (click)="afterSelect.emit(strategy.id)" class="btn btn-secondary" tabindex="0">
+                                        <mat-icon>visibility</mat-icon>
+                                    </button>
+                                    <a routerLink="edit-strategy/{{strategy.id}}" class="btn btn-secondary" tabindex="0">
+                                        <mat-icon>edit</mat-icon>
+                                    </a>
+                                    <fingather-delete-button
+                                        (confirm)="afterDelete.emit(strategy.id)"
+                                        [title]="'Delete strategy ' + strategy.name"
+                                        [message]="'Are you sure you want to delete strategy ' + strategy.name + '?'"
+                                    />
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>

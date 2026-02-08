@@ -1,0 +1,30 @@
+<div class="header">
+    <h1 class="h3">{{ 'app.strategies.list.title' | translate }}</h1>
+
+    <div class="header-controls">
+        <a routerLink="add-strategy" class="btn btn-primary" tabindex="0">
+            <mat-icon>add</mat-icon>
+            <span> {{ 'app.strategies.list.addStrategy' | translate }}</span>
+        </a>
+
+        <div class="d-none d-lg-block">
+            <fingather-portfolio-selector />
+        </div>
+    </div>
+</div>
+
+<div class="strategies">
+    <div class="strategies-detail">
+        @if (selectedStrategyId(); as strategyId) {
+            <fingather-strategy-detail [strategyId]="strategyId" />
+        }
+    </div>
+    <div class="strategies-list">
+        <fingather-strategy-list
+            [strategies]="strategies()"
+            [selectedStrategyId]="selectedStrategyId()"
+            (afterSelect)="selectStrategy($event)"
+            (afterDelete)="deleteStrategy($event)"
+        />
+    </div>
+</div>

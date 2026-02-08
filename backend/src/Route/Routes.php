@@ -70,6 +70,11 @@ enum Routes: string
 
 	case SectorsWithSectorData = '/api/sectors-with-sector-data/{portfolioId:number}';
 
+	case Strategies = '/api/strategies/{portfolioId:number}';
+	case Strategy = '/api/strategy/{strategyId:number}';
+	case StrategyDefault = '/api/strategy/default/{portfolioId:number}';
+	case StrategyWithComparison = '/api/strategy-with-comparison/{strategyId:number}';
+
 	case Tickers = '/api/tickers';
 	case TickersMostUsed = '/api/tickers/most-used';
 

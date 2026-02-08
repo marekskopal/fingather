@@ -38,6 +38,11 @@ export const appRoutes: Routes = [
         canActivate: [AuthGuard],
     },
     {
+        path: 'strategies',
+        loadChildren: () => import('./strategies/strategies-routes'),
+        canActivate: [AuthGuard],
+    },
+    {
         path: 'portfolios',
         loadChildren: () => import('./portfolios/portfolios-routes'),
         canActivate: [AuthGuard],

@@ -8,6 +8,7 @@
       "overviews": "Přehledy",
       "history": "Historie",
       "groups": "Skupiny",
+      "strategies": "Strategie",
       "brokers": "Brokeři",
       "portfolios": "Portfólia",
       "users": "Uživatelé",
@@ -203,6 +204,42 @@
         "title": "Skupiny",
         "addGroup": "Přidat skupinu",
         "name": "Jméno"
+      }
+    },
+    "strategies": {
+      "addEdit": {
+        "headerAdd": "Přidat strategii",
+        "headerEdit": "Upravit strategii",
+        "name": "Název",
+        "nameRequired": "Název je povinný",
+        "isDefault": "Výchozí",
+        "items": "Položky",
+        "addItem": "Přidat položku",
+        "type": "Typ",
+        "typeAsset": "Aktivum",
+        "typeGroup": "Skupina",
+        "typeOthers": "Ostatní",
+        "asset": "Aktivum",
+        "group": "Skupina",
+        "percentage": "Procento",
+        "totalPercentage": "Celkové procento",
+        "totalMustNotExceed100": "Celkové procento nesmí překročit 100%"
+      },
+      "list": {
+        "title": "Strategie",
+        "addStrategy": "Přidat strategii",
+        "name": "Název",
+        "default": "Výchozí",
+        "detail": "Detail"
+      },
+      "detail": {
+        "title": "Detail strategie",
+        "targetAllocation": "Cílová alokace",
+        "actualAllocation": "Aktuální alokace",
+        "name": "Název",
+        "target": "Cíl",
+        "actual": "Aktuální",
+        "difference": "Rozdíl"
       }
     },
     "history": {
