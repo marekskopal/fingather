@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ac4eb2c434eda028962410db8e5a3f3b",
+    "content-hash": "3a44bcf121a776e4a0cd52f774e377bc",
     "packages": [
         {
             "name": "brick/math",
-            "version": "0.14.5",
+            "version": "0.14.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/brick/math.git",
-                "reference": "618a8077b3c326045e10d5788ed713b341fcfe40"
+                "reference": "07ff363b16ef8aca9692bba3be9e73fe63f34e50"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/brick/math/zipball/618a8077b3c326045e10d5788ed713b341fcfe40",
-                "reference": "618a8077b3c326045e10d5788ed713b341fcfe40",
+                "url": "https://api.github.com/repos/brick/math/zipball/07ff363b16ef8aca9692bba3be9e73fe63f34e50",
+                "reference": "07ff363b16ef8aca9692bba3be9e73fe63f34e50",
                 "shasum": ""
             },
             "require": {
@@ -56,7 +56,7 @@
             ],
             "support": {
                 "issues": "https://github.com/brick/math/issues",
-                "source": "https://github.com/brick/math/tree/0.14.5"
+                "source": "https://github.com/brick/math/tree/0.14.7"
             },
             "funding": [
                 {
@@ -64,7 +64,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-02-03T18:06:51+00:00"
+            "time": "2026-02-07T10:57:35+00:00"
         },
         {
             "name": "composer/pcre",
@@ -889,27 +889,27 @@
         },
         {
             "name": "laravel/serializable-closure",
-            "version": "v2.0.8",
+            "version": "v2.0.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/serializable-closure.git",
-                "reference": "7581a4407012f5f53365e11bafc520fd7f36bc9b"
+                "reference": "8f631589ab07b7b52fead814965f5a800459cb3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/serializable-closure/zipball/7581a4407012f5f53365e11bafc520fd7f36bc9b",
-                "reference": "7581a4407012f5f53365e11bafc520fd7f36bc9b",
+                "url": "https://api.github.com/repos/laravel/serializable-closure/zipball/8f631589ab07b7b52fead814965f5a800459cb3e",
+                "reference": "8f631589ab07b7b52fead814965f5a800459cb3e",
                 "shasum": ""
             },
             "require": {
                 "php": "^8.1"
             },
             "require-dev": {
-                "illuminate/support": "^10.0|^11.0|^12.0",
+                "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
                 "nesbot/carbon": "^2.67|^3.0",
                 "pestphp/pest": "^2.36|^3.0|^4.0",
                 "phpstan/phpstan": "^2.0",
-                "symfony/var-dumper": "^6.2.0|^7.0.0"
+                "symfony/var-dumper": "^6.2.0|^7.0.0|^8.0.0"
             },
             "type": "library",
             "extra": {
@@ -946,7 +946,7 @@
                 "issues": "https://github.com/laravel/serializable-closure/issues",
                 "source": "https://github.com/laravel/serializable-closure"
             },
-            "time": "2026-01-08T16:22:46+00:00"
+            "time": "2026-02-03T06:55:34+00:00"
         },
         {
             "name": "league/container",
@@ -1514,16 +1514,16 @@
         },
         {
             "name": "marekskopal/orm-migrations",
-            "version": "v0.9.1",
+            "version": "v0.9.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/marekskopal/orm-migrations.git",
-                "reference": "346d64b817edd66e3736b500d3b05e4350d62844"
+                "reference": "457ecb541c65a890cc0bc70c0d5351c7b4d3aacf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/marekskopal/orm-migrations/zipball/346d64b817edd66e3736b500d3b05e4350d62844",
-                "reference": "346d64b817edd66e3736b500d3b05e4350d62844",
+                "url": "https://api.github.com/repos/marekskopal/orm-migrations/zipball/457ecb541c65a890cc0bc70c0d5351c7b4d3aacf",
+                "reference": "457ecb541c65a890cc0bc70c0d5351c7b4d3aacf",
                 "shasum": ""
             },
             "require": {
@@ -1566,9 +1566,9 @@
             ],
             "support": {
                 "issues": "https://github.com/marekskopal/orm-migrations/issues",
-                "source": "https://github.com/marekskopal/orm-migrations/tree/v0.9.1"
+                "source": "https://github.com/marekskopal/orm-migrations/tree/v0.9.2"
             },
-            "time": "2026-01-17T16:31:14+00:00"
+            "time": "2026-02-08T21:45:14+00:00"
         },
         {
             "name": "marekskopal/router",
@@ -2150,16 +2150,16 @@
         },
         {
             "name": "nette/robot-loader",
-            "version": "v4.1.0",
+            "version": "v4.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/robot-loader.git",
-                "reference": "805fb81376c24755d50bdb8bc69ca4db3def71d1"
+                "reference": "fb255f5da2676d58863bef1716baf52993c7ffec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/robot-loader/zipball/805fb81376c24755d50bdb8bc69ca4db3def71d1",
-                "reference": "805fb81376c24755d50bdb8bc69ca4db3def71d1",
+                "url": "https://api.github.com/repos/nette/robot-loader/zipball/fb255f5da2676d58863bef1716baf52993c7ffec",
+                "reference": "fb255f5da2676d58863bef1716baf52993c7ffec",
                 "shasum": ""
             },
             "require": {
@@ -2168,8 +2168,8 @@
                 "php": "8.1 - 8.5"
             },
             "require-dev": {
-                "nette/tester": "^2.4",
-                "phpstan/phpstan-nette": "^2.0@stable",
+                "nette/tester": "^2.6",
+                "phpstan/phpstan": "^2.0@stable",
                 "tracy/tracy": "^2.9"
             },
             "type": "library",
@@ -2213,22 +2213,22 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/robot-loader/issues",
-                "source": "https://github.com/nette/robot-loader/tree/v4.1.0"
+                "source": "https://github.com/nette/robot-loader/tree/v4.1.1"
             },
-            "time": "2025-08-06T18:34:21+00:00"
+            "time": "2026-02-08T03:51:26+00:00"
         },
         {
             "name": "nette/schema",
-            "version": "v1.3.3",
+            "version": "v1.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/schema.git",
-                "reference": "2befc2f42d7c715fd9d95efc31b1081e5d765004"
+                "reference": "086497a2f34b82fede9b5a41cc8e131d087cd8f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/schema/zipball/2befc2f42d7c715fd9d95efc31b1081e5d765004",
-                "reference": "2befc2f42d7c715fd9d95efc31b1081e5d765004",
+                "url": "https://api.github.com/repos/nette/schema/zipball/086497a2f34b82fede9b5a41cc8e131d087cd8f7",
+                "reference": "086497a2f34b82fede9b5a41cc8e131d087cd8f7",
                 "shasum": ""
             },
             "require": {
@@ -2236,8 +2236,8 @@
                 "php": "8.1 - 8.5"
             },
             "require-dev": {
-                "nette/tester": "^2.5.2",
-                "phpstan/phpstan-nette": "^2.0@stable",
+                "nette/tester": "^2.6",
+                "phpstan/phpstan": "^2.0@stable",
                 "tracy/tracy": "^2.8"
             },
             "type": "library",
@@ -2278,9 +2278,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/schema/issues",
-                "source": "https://github.com/nette/schema/tree/v1.3.3"
+                "source": "https://github.com/nette/schema/tree/v1.3.4"
             },
-            "time": "2025-10-30T22:57:59+00:00"
+            "time": "2026-02-08T02:54:00+00:00"
         },
         {
             "name": "nette/utils",
@@ -5143,16 +5143,16 @@
         },
         {
             "name": "tracy/tracy",
-            "version": "v2.11.0",
+            "version": "v2.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/tracy.git",
-                "reference": "eec57bcf2ff11d79f519a19da9d7ae1e2c63c42e"
+                "reference": "c4a03c921af532b74c63edd8bf3f68a99dec7e77"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/tracy/zipball/eec57bcf2ff11d79f519a19da9d7ae1e2c63c42e",
-                "reference": "eec57bcf2ff11d79f519a19da9d7ae1e2c63c42e",
+                "url": "https://api.github.com/repos/nette/tracy/zipball/c4a03c921af532b74c63edd8bf3f68a99dec7e77",
+                "reference": "c4a03c921af532b74c63edd8bf3f68a99dec7e77",
                 "shasum": ""
             },
             "require": {
@@ -5168,9 +5168,9 @@
                 "nette/di": "^3.0",
                 "nette/http": "^3.0",
                 "nette/mail": "^3.0 || ^4.0",
-                "nette/tester": "^2.2",
+                "nette/tester": "^2.6",
                 "nette/utils": "^3.0 || ^4.0",
-                "phpstan/phpstan-nette": "^2.0@stable",
+                "phpstan/phpstan": "^2.0@stable",
                 "psr/log": "^1.0 || ^2.0 || ^3.0"
             },
             "type": "library",
@@ -5215,9 +5215,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/tracy/issues",
-                "source": "https://github.com/nette/tracy/tree/v2.11.0"
+                "source": "https://github.com/nette/tracy/tree/v2.11.1"
             },
-            "time": "2025-10-31T00:12:50+00:00"
+            "time": "2026-02-08T02:51:45+00:00"
         }
     ],
     "packages-dev": [
@@ -6233,16 +6233,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "13.0.0",
+            "version": "13.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "e045b31f855d4511a2091aa707a2bb0bb5456632"
+                "reference": "35b8abcac712ba24814d7fe8908dfb5702efb39f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/e045b31f855d4511a2091aa707a2bb0bb5456632",
-                "reference": "e045b31f855d4511a2091aa707a2bb0bb5456632",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/35b8abcac712ba24814d7fe8908dfb5702efb39f",
+                "reference": "35b8abcac712ba24814d7fe8908dfb5702efb39f",
                 "shasum": ""
             },
             "require": {
@@ -6256,7 +6256,7 @@
                 "phar-io/manifest": "^2.0.4",
                 "phar-io/version": "^3.2.1",
                 "php": ">=8.4.1",
-                "phpunit/php-code-coverage": "^13.0.0",
+                "phpunit/php-code-coverage": "^13.0.1",
                 "phpunit/php-file-iterator": "^7.0.0",
                 "phpunit/php-invoker": "^7.0.0",
                 "phpunit/php-text-template": "^6.0.0",
@@ -6311,7 +6311,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/13.0.0"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/13.0.1"
             },
             "funding": [
                 {
@@ -6335,7 +6335,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-02-06T04:57:13+00:00"
+            "time": "2026-02-08T07:08:25+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -7614,16 +7614,16 @@
         },
         {
             "name": "spatie/ray",
-            "version": "1.45.0",
+            "version": "1.46.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/ray.git",
-                "reference": "68920c418d10fe103722d366faa575533d26434f"
+                "reference": "a227afd1899581d81af1fd5ebec03d34157ed2d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/ray/zipball/68920c418d10fe103722d366faa575533d26434f",
-                "reference": "68920c418d10fe103722d366faa575533d26434f",
+                "url": "https://api.github.com/repos/spatie/ray/zipball/a227afd1899581d81af1fd5ebec03d34157ed2d2",
+                "reference": "a227afd1899581d81af1fd5ebec03d34157ed2d2",
                 "shasum": ""
             },
             "require": {
@@ -7683,7 +7683,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/ray/issues",
-                "source": "https://github.com/spatie/ray/tree/1.45.0"
+                "source": "https://github.com/spatie/ray/tree/1.46.0"
             },
             "funding": [
                 {
@@ -7695,7 +7695,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2026-01-26T18:45:30+00:00"
+            "time": "2026-02-06T07:38:10+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",

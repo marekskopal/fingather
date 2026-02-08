@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Command;
 
 use FinGather\App\ApplicationFactory;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -19,9 +20,18 @@ final class MigrationRunCommand extends AbstractCommand
 	{
 		$application = ApplicationFactory::create();
 
-		$migrator = $application->dbContext->getMigrator();
+		$logger = $application->container->get(LoggerInterface::class);
+		assert($logger instanceof LoggerInterface);
 
-		$migrator->migrate();
+		try {
+			$migrator = $application->dbContext->getMigrator();
+			$migrator->migrate();
+		} catch (\Throwable $e) {
+			$output->writeln($e->getMessage());
+			$logger->error($e);
+
+			return self::FAILURE;
+		}
 
 		$application->dbContext->clearCache();
 
