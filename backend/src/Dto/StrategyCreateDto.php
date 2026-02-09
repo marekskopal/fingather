@@ -19,11 +19,8 @@ namespace FinGather\Dto;
 final readonly class StrategyCreateDto implements ArrayFactoryInterface
 {
 	/** @param list<StrategyItemCreateDto> $items */
-	public function __construct(
-		public string $name,
-		public bool $isDefault,
-		public array $items,
-	) {
+	public function __construct(public string $name, public bool $isDefault, public array $items,)
+	{
 	}
 
 	public static function fromArray(array $data): static
