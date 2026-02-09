@@ -103,13 +103,17 @@ class StrategyProvider
 		$this->strategyItemRepository->deleteStrategyItems($strategy->id);
 		$this->strategyRepository->delete($strategy);
 
-		if ($wasDefault) {
-			$strategies = iterator_to_array($this->getStrategies($user, $portfolio), false);
-			if (count($strategies) > 0) {
-				$strategies[0]->isDefault = true;
-				$this->strategyRepository->persist($strategies[0]);
-			}
+		if (!$wasDefault) {
+			return;
 		}
+
+		$strategies = iterator_to_array($this->getStrategies($user, $portfolio), false);
+		if (count($strategies) <= 0) {
+			return;
+		}
+
+		$strategies[0]->isDefault = true;
+		$this->strategyRepository->persist($strategies[0]);
 	}
 
 	/** @param list<StrategyItemCreateDto> $items */

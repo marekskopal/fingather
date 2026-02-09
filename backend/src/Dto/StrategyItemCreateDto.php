@@ -14,12 +14,8 @@ namespace FinGather\Dto;
  */
 final readonly class StrategyItemCreateDto implements ArrayFactoryInterface
 {
-	public function __construct(
-		public ?int $assetId,
-		public ?int $groupId,
-		public bool $isOthers,
-		public float $percentage,
-	) {
+	public function __construct(public ?int $assetId, public ?int $groupId, public bool $isOthers, public float $percentage,)
+	{
 	}
 
 	public static function fromArray(array $data): static
