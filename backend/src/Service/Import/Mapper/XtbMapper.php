@@ -7,6 +7,7 @@ namespace FinGather\Service\Import\Mapper;
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Service\Import\Mapper\Dto\MappingDto;
 use Override;
+use PhpOffice\PhpSpreadsheet\Exception;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
@@ -155,7 +156,11 @@ final class XtbMapper extends XlsxMapper
 
 		$spreadsheet = $this->loadSpreadsheet($content);
 
-		$cashOperationSheet = $spreadsheet->getSheet(self::CashOperationHistorySheet);
+		try {
+			$cashOperationSheet = $spreadsheet->getSheet(self::CashOperationHistorySheet);
+		} catch (Exception) {
+			return false;
+		}
 
 		return str_starts_with($cashOperationSheet->getTitle(), 'CASH OPERATION HISTORY');
 	}

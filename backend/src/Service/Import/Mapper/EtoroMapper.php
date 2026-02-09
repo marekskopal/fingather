@@ -8,6 +8,7 @@ use DateTimeImmutable;
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Service\Import\Mapper\Dto\MappingDto;
 use Override;
+use PhpOffice\PhpSpreadsheet\Exception;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 final class EtoroMapper extends XlsxMapper
@@ -59,7 +60,7 @@ final class EtoroMapper extends XlsxMapper
 
 		try {
 			$spreadsheet->getSheet(4);
-		} catch (\Throwable $e) {
+		} catch (Exception) {
 			return false;
 		}
 

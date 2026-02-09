@@ -17,4 +17,5 @@ enum BrokerImportTypeEnum: string
 	case Coinbase = 'Coinbase';
 	case Binance = 'Binance';
 	case FioBanka = 'FioBanka';
+	case Patria = 'Patria';
 }
