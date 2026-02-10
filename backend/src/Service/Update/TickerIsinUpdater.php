@@ -12,12 +12,12 @@ use MarekSkopal\OpenFigi\Dto\MappingJob;
 use MarekSkopal\OpenFigi\Enum\IdTypeEnum;
 use MarekSkopal\OpenFigi\OpenFigi;
 
-final class TickerIsinUpdater
+final readonly class TickerIsinUpdater
 {
 	public function __construct(
-		private readonly TickerRepository $tickerRepository,
-		private readonly MarketRepository $marketRepository,
-		private readonly OpenFigi $openFigi,
+		private TickerRepository $tickerRepository,
+		private MarketRepository $marketRepository,
+		private OpenFigi $openFigi,
 	) {
 	}
 
@@ -37,6 +37,10 @@ final class TickerIsinUpdater
 				}
 
 				foreach ($mappingResults as $mappingResult) {
+					if ($mappingResult->exchCode === null) {
+						continue;
+					}
+
 					$market = $this->marketRepository->findMarketByExchangeCode($mappingResult->exchCode);
 					if ($market === null) {
 						continue;
