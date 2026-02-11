@@ -38,6 +38,8 @@ final readonly class MappingDto
 		/** @var string|Closure(array<string> $record): (string|null)|null */
 		public string|Closure|null $notes = null,
 		/** @var string|Closure(array<string> $record): (string|null)|null */
+		public string|Closure|null $isAdjusted = null,
+		/** @var string|Closure(array<string> $record): (string|null)|null */
 		public string|Closure|null $importIdentifier = null,
 	) {
 	}

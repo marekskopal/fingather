@@ -24,6 +24,8 @@ class ApiKey extends AEntity
 		public readonly ApiKeyTypeEnum $type,
 		#[Column(type: Type::String)]
 		public string $apiKey,
+		#[Column(type: Type::Text, nullable: true)]
+		public ?string $userKey = null,
 	) {
 	}
 }

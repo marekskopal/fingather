@@ -30,27 +30,29 @@ use FinGather\Service\Provider\GroupProvider;
 use FinGather\Service\Provider\ImportFileProvider;
 use FinGather\Service\Provider\ImportMappingProvider;
 use FinGather\Service\Provider\ImportProvider;
+use FinGather\Service\Provider\SplitProvider;
 use FinGather\Service\Provider\TickerProvider;
 use FinGather\Service\Provider\TransactionProvider;
 use Psr\Log\LoggerInterface;
 
-final class ImportService
+final readonly class ImportService
 {
 	public function __construct(
-		private readonly TransactionRepository $transactionRepository,
-		private readonly TransactionProvider $transactionProvider,
-		private readonly TickerProvider $tickerProvider,
-		private readonly AssetProvider $assetProvider,
-		private readonly CurrencyRepository $currencyRepository,
-		private readonly GroupProvider $groupProvider,
-		private readonly DataProvider $dataProvider,
-		private readonly ImportProvider $importProvider,
-		private readonly ImportFileProvider $importFileProvider,
-		private readonly ImportMappingProvider $importMappingProvider,
-		private readonly BrokerProvider $brokerProvider,
-		private readonly ImportMapperFactory $importMapperFactory,
-		private readonly TransactionRecordFactory $transactionRecordFactory,
-		private readonly LoggerInterface $logger,
+		private TransactionRepository $transactionRepository,
+		private TransactionProvider $transactionProvider,
+		private TickerProvider $tickerProvider,
+		private AssetProvider $assetProvider,
+		private CurrencyRepository $currencyRepository,
+		private GroupProvider $groupProvider,
+		private DataProvider $dataProvider,
+		private ImportProvider $importProvider,
+		private ImportFileProvider $importFileProvider,
+		private ImportMappingProvider $importMappingProvider,
+		private BrokerProvider $brokerProvider,
+		private ImportMapperFactory $importMapperFactory,
+		private TransactionRecordFactory $transactionRecordFactory,
+		private SplitProvider $splitProvider,
+		private LoggerInterface $logger,
 	) {
 	}
 
@@ -150,6 +152,12 @@ final class ImportService
 				$price = $units->isZero() ? $transactionRecord->total : $transactionRecord->total->div($units);
 			}
 
+			$created = $transactionRecord->created ?? new DateTimeImmutable();
+
+			if ($transactionRecord->isAdjusted === true) {
+				$this->adjustTransaction($units, $price, $ticker, $created);
+			}
+
 			if ($actionType === TransactionActionTypeEnum::Sell) {
 				$units = $units->negate();
 			}
@@ -160,7 +168,7 @@ final class ImportService
 				asset: $asset,
 				broker: $broker,
 				actionType: $actionType,
-				actionCreated: $transactionRecord->created ?? new DateTimeImmutable(),
+				actionCreated: $created,
 				createType: TransactionCreateTypeEnum::Import,
 				units: $units,
 				price: $price,
@@ -256,5 +264,18 @@ final class ImportService
 			return $defaultCurrency;
 		}
 		return $this->currencyRepository->findCurrencyByCode($code);
+	}
+
+	private function adjustTransaction(Decimal &$units, ?Decimal &$price, Ticker $ticker, DateTimeImmutable $created): void
+	{
+		$splits = $this->splitProvider->getSplits($ticker);
+		foreach ($splits as $split) {
+			if ($split->date <= $created) {
+				continue;
+			}
+
+			$units = $units->div($split->factor);
+			$price = $price?->mul($split->factor);
+		}
 	}
 }

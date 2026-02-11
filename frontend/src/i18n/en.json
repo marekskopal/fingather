@@ -404,7 +404,8 @@
         "type": "Type",
         "typeRequired": "Type is required",
         "apiKey": "API Key",
-        "apiKeyRequired": "API Key is required"
+        "apiKeyRequired": "API Key is required",
+        "userKey": "User Key"
       }
     },
     "account": {

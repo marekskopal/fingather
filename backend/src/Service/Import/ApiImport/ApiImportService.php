@@ -6,18 +6,21 @@ namespace FinGather\Service\Import\ApiImport;
 
 use FinGather\Dto\ApiImportPrepareCheckDto;
 use FinGather\Dto\ApiImportProcessCheckDto;
+use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Service\Import\ApiImport\Factory\ProcessorFactory;
 use FinGather\Service\Provider\ApiImportProvider;
 use FinGather\Service\Provider\ApiKeyProvider;
+use FinGather\Service\Provider\BrokerProvider;
 use Psr\Log\LoggerInterface;
 
-class ApiImportService
+readonly class ApiImportService
 {
 	public function __construct(
-		private readonly ProcessorFactory $processorFactory,
-		private readonly ApiKeyProvider $apiKeyProvider,
-		private readonly ApiImportProvider $apiImportProvider,
-		private readonly LoggerInterface $logger,
+		private ProcessorFactory $processorFactory,
+		private ApiKeyProvider $apiKeyProvider,
+		private ApiImportProvider $apiImportProvider,
+		private BrokerProvider $brokerProvider,
+		private LoggerInterface $logger,
 	) {
 	}
 
@@ -30,6 +33,17 @@ class ApiImportService
 		}
 
 		$this->logger->info('Preparing API import - apiKeyId:' . $apiKey->id);
+
+		$importType = BrokerImportTypeEnum::fromApiKeyTypeEnum($apiKey->type);
+		$broker = $this->brokerProvider->getBrokerByImportType($apiKey->user, $apiKey->portfolio, $importType);
+		if ($broker === null) {
+			$this->brokerProvider->createBroker(
+				user: $apiKey->user,
+				portfolio: $apiKey->portfolio,
+				name: $importType->value,
+				importType: $importType,
+			);
+		}
 
 		$processor = $this->processorFactory->create($apiKey->type);
 		$processor->prepare($apiKey);

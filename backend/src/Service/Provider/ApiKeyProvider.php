@@ -28,17 +28,18 @@ class ApiKeyProvider
 		return $this->apiKeyRepository->findApiKey($apiKeyId, $user?->id);
 	}
 
-	public function createApiKey(User $user, Portfolio $portfolio, ApiKeyTypeEnum $type, string $apiKey): ApiKey
+	public function createApiKey(User $user, Portfolio $portfolio, ApiKeyTypeEnum $type, string $apiKey, ?string $userKey = null): ApiKey
 	{
-		$createdApiKey = new ApiKey(user: $user, portfolio: $portfolio, type: $type, apiKey: $apiKey);
+		$createdApiKey = new ApiKey(user: $user, portfolio: $portfolio, type: $type, apiKey: $apiKey, userKey: $userKey);
 		$this->apiKeyRepository->persist($createdApiKey);
 
 		return $createdApiKey;
 	}
 
-	public function updateApiKey(ApiKey $apiKeyEntity, string $apiKey): ApiKey
+	public function updateApiKey(ApiKey $apiKeyEntity, string $apiKey, ?string $userKey = null): ApiKey
 	{
 		$apiKeyEntity->apiKey = $apiKey;
+		$apiKeyEntity->userKey = $userKey;
 		$this->apiKeyRepository->persist($apiKeyEntity);
 
 		return $apiKeyEntity;

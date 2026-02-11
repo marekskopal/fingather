@@ -7,4 +7,5 @@ namespace FinGather\Model\Entity\Enum;
 enum ApiKeyTypeEnum: string
 {
 	case Trading212 = 'Trading212';
+	case Etoro = 'Etoro';
 }

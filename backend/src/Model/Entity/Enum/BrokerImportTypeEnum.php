@@ -18,4 +18,13 @@ enum BrokerImportTypeEnum: string
 	case Binance = 'Binance';
 	case FioBanka = 'FioBanka';
 	case Patria = 'Patria';
+	case EtoroApi = 'EtoroApi';
+
+	public static function fromApiKeyTypeEnum(ApiKeyTypeEnum $apiKeyTypeEnum): self
+	{
+		return match ($apiKeyTypeEnum) {
+			ApiKeyTypeEnum::Trading212 => self::Trading212,
+			ApiKeyTypeEnum::Etoro => self::EtoroApi,
+		};
+	}
 }

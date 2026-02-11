@@ -48,6 +48,12 @@
                             }"
                         />
                     </div>
+                    @if (f['type'].value === ApiKeyTypeEnum.Etoro) {
+                        <div class="mb-3">
+                            <label for="userKey" class="form-label">{{ 'app.apiKeys.addEdit.userKey' | translate }}</label>
+                            <input id="userKey" type="text" formControlName="userKey" class="form-control" />
+                        </div>
+                    }
                     <div class="form-group buttons">
                         <a [routerLink]="routerBackLink()" class="btn btn-secondary" tabindex="0">{{ 'app.common.cancel' | translate }}</a>
 

@@ -24,6 +24,7 @@ final readonly class TransactionRecord
 		public ?Decimal $fee = null,
 		public ?string $feeCurrency = null,
 		public ?string $notes = null,
+		public ?bool $isAdjusted = null,
 		public ?string $importIdentifier = null,
 	) {
 	}
