@@ -9,12 +9,13 @@ use FinGather\Model\Entity\Enum\ApiKeyTypeEnum;
 /**
  * @implements ArrayFactoryInterface<array{
  *     type: value-of<ApiKeyTypeEnum>,
- *     apiKey: string
+ *     apiKey: string,
+ *     userKey: string|null,
  * }>
  */
 final readonly class ApiKeyCreateDto implements ArrayFactoryInterface
 {
-	public function __construct(public ApiKeyTypeEnum $type, public string $apiKey)
+	public function __construct(public ApiKeyTypeEnum $type, public string $apiKey, public ?string $userKey = null)
 	{
 	}
 
@@ -23,6 +24,7 @@ final readonly class ApiKeyCreateDto implements ArrayFactoryInterface
 		return new self(
 			type: ApiKeyTypeEnum::from($data['type']),
 			apiKey: $data['apiKey'],
+			userKey: $data['userKey'] ?? null,
 		);
 	}
 }

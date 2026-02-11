@@ -31,6 +31,7 @@ final class TransactionRecordFactory
 			fee: $this->mapCsvRecordColumnToDecimal($mapping->fee, $csvRecord),
 			feeCurrency: $this->mapCsvRecordColumn($mapping->feeCurrency, $csvRecord),
 			notes: $this->mapCsvRecordColumn($mapping->notes, $csvRecord),
+			isAdjusted: $this->mapCsvRecordColumnToBool($mapping->isAdjusted, $csvRecord),
 			importIdentifier: $this->mapCsvRecordColumn($mapping->importIdentifier, $csvRecord),
 		);
 	}
@@ -90,6 +91,16 @@ final class TransactionRecordFactory
 	{
 		$mappedCsvRecordColumn = $this->mapCsvRecordColumn($mapping, $csvRecord);
 		return isset($mappedCsvRecordColumn) ? strtolower($mappedCsvRecordColumn) : null;
+	}
+
+	/**
+	 * @param string|callable(array<string> $record): (string|null)|null $mapping
+	 * @param array<string, string> $csvRecord
+	 */
+	private function mapCsvRecordColumnToBool(string|callable|null $mapping, array $csvRecord): ?bool
+	{
+		$mappedCsvRecordColumn = $this->mapCsvRecordColumn($mapping, $csvRecord);
+		return isset($mappedCsvRecordColumn) ? boolval($mappedCsvRecordColumn) : null;
 	}
 
 	private function sanitizeEmptyItem(?string $item): ?string

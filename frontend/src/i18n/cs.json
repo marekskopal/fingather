@@ -404,7 +404,8 @@
         "type": "Typ",
         "typeRequired": "Typ je povinný",
         "apiKey": "API klíč",
-        "apiKeyRequired": "API klíč je povinný"
+        "apiKeyRequired": "API klíč je povinný",
+        "userKey": "Uživatelský klíč"
       }
     },
     "account": {

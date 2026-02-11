@@ -92,6 +92,7 @@ final class ApiKeyController
 			portfolio: $portfolio,
 			type: $apiKeyCreateDto->type,
 			apiKey: $apiKeyCreateDto->apiKey,
+			userKey: $apiKeyCreateDto->userKey,
 		)));
 	}
 
@@ -115,6 +116,7 @@ final class ApiKeyController
 		return new JsonResponse(ApiKeyDto::fromEntity($this->apiKeyProvider->updateApiKey(
 			apiKeyEntity: $apiKey,
 			apiKey: $apiKeyUpdateDto->apiKey,
+			userKey: $apiKeyUpdateDto->userKey,
 		)));
 	}
 

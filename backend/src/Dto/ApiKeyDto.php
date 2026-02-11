@@ -9,12 +9,12 @@ use FinGather\Model\Entity\Enum\ApiKeyTypeEnum;
 
 final readonly class ApiKeyDto
 {
-	public function __construct(public int $id, public ApiKeyTypeEnum $type, public string $apiKey)
+	public function __construct(public int $id, public ApiKeyTypeEnum $type, public string $apiKey, public ?string $userKey = null)
 	{
 	}
 
 	public static function fromEntity(ApiKey $entity): self
 	{
-		return new self(id: $entity->id, type: $entity->type, apiKey: $entity->apiKey);
+		return new self(id: $entity->id, type: $entity->type, apiKey: $entity->apiKey, userKey: $entity->userKey);
 	}
 }

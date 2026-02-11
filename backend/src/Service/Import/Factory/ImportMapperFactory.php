@@ -9,6 +9,7 @@ use FinGather\Service\Import\Mapper\AnycoinMapper;
 use FinGather\Service\Import\Mapper\BinanceMapper;
 use FinGather\Service\Import\Mapper\CoinbaseMapper;
 use FinGather\Service\Import\Mapper\DegiroMapper;
+use FinGather\Service\Import\Mapper\EtoroApiMapper;
 use FinGather\Service\Import\Mapper\EtoroMapper;
 use FinGather\Service\Import\Mapper\FioBankaMapper;
 use FinGather\Service\Import\Mapper\InteractiveBrokersMapper;
@@ -34,6 +35,7 @@ final class ImportMapperFactory
 		BrokerImportTypeEnum::Binance->value => BinanceMapper::class,
 		BrokerImportTypeEnum::FioBanka->value => FioBankaMapper::class,
 		BrokerImportTypeEnum::Patria->value => PatriaMapper::class,
+		BrokerImportTypeEnum::EtoroApi->value => EtoroApiMapper::class,
 	];
 
 	public function createImportMapper(string $fileName, string $contents): MapperInterface

@@ -7,14 +7,18 @@ namespace FinGather\Command;
 use FinGather\App\ApplicationFactory;
 use FinGather\Service\Provider\ApiImportPrepareCheckProvider;
 use FinGather\Service\Provider\ApiKeyProvider;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 final class ApiImportPrepareCheckCommand extends AbstractCommand
 {
+	private const string ApiKeyId = 'apiKeyId';
+
 	protected function configure(): void
 	{
 		$this->setName('apiImport:prepareCheck');
+		$this->addArgument(self::ApiKeyId, InputArgument::OPTIONAL, 'API Key ID');
 	}
 
 	protected function process(InputInterface $input, OutputInterface $output): int
@@ -27,7 +31,20 @@ final class ApiImportPrepareCheckCommand extends AbstractCommand
 		$apiImportCheckProvider = $application->container->get(ApiImportPrepareCheckProvider::class);
 		assert($apiImportCheckProvider instanceof ApiImportPrepareCheckProvider);
 
-		$apiKeys = iterator_to_array($apiKeyProvider->getApiKeys(), false);
+		$apiKeyId = $input->getArgument(self::ApiKeyId);
+		if (is_numeric($apiKeyId)) {
+			$apiKeyEntity = $apiKeyProvider->getApiKey((int) $apiKeyId);
+			if ($apiKeyEntity === null) {
+				$this->writeln('API key ' . $apiKeyId . ' not found.', $output);
+
+				return self::FAILURE;
+			}
+
+			$apiKeys = [$apiKeyEntity];
+		} else {
+			$apiKeys = iterator_to_array($apiKeyProvider->getApiKeys(), false);
+		}
+
 		foreach ($apiKeys as $apiKey) {
 			$apiImportCheckProvider->createApiImportPrepareCheck($apiKey);
 		}

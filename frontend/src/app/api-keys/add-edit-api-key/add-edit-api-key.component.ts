@@ -34,8 +34,11 @@ export class AddEditApiKeyComponent extends BaseAddEditForm implements OnInit {
     private readonly portfolioService = inject(PortfolioService);
     private readonly router = inject(Router);
 
+    protected readonly ApiKeyTypeEnum = ApiKeyTypeEnum;
+
     protected types: SelectItem<ApiKeyTypeEnum, ApiKeyTypeEnum>[] = [
         {key: ApiKeyTypeEnum.Trading212, label: ApiKeyTypeEnum.Trading212},
+        {key: ApiKeyTypeEnum.Etoro, label: ApiKeyTypeEnum.Etoro},
     ];
 
     public async ngOnInit(): Promise<void> {
@@ -46,6 +49,7 @@ export class AddEditApiKeyComponent extends BaseAddEditForm implements OnInit {
         this.form = this.formBuilder.group({
             type: [ApiKeyTypeEnum.Trading212, Validators.required],
             apiKey: ['', Validators.required],
+            userKey: [''],
         });
 
         const id = this.id();
