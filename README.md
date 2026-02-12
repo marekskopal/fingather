@@ -31,6 +31,21 @@ This repository contains the source code for the FinGather community edition.
 ### Effortless Integration
 Seamlessly connect with many broker, crypto, and investment platforms. Import your assets via CSV/Excel uploads or connect directly through supported APIs for real-time data access.
 
+| Platform | CSV | Excel | API |
+|---|:---:|:---:|:---:|
+| Trading212 | ✅ | | ✅ |
+| XTB | | ✅ | |
+| Degiro | ✅ | | |
+| eToro | | ✅ | ✅ |
+| Portu | ✅ | | |
+| Interactive Brokers | ✅ | | |
+| Anycoin | ✅ | | |
+| Binance | ✅ | | |
+| Coinbase | ✅ | | |
+| Revolut | ✅ | | |
+| Fio Banka | ✅ | | |
+| Patria Finance | | ✅ | |
+
 ### Advanced Analytics
 Gain in-depth insights into:
 - Portfolio performance and returns
