@@ -1,0 +1,547 @@
+{
+  "app" : {
+    "navbar": {
+      "dashboard": "Dashboard",
+      "assets": "Actifs",
+      "transactions": "Transactions",
+      "dividends": "Dividendes",
+      "overviews": "Aperçus",
+      "history": "Historique",
+      "groups": "Groupes",
+      "strategies": "Stratégies",
+      "brokers": "Brokers",
+      "portfolios": "Portefeuilles",
+      "users": "Utilisateurs",
+      "apiKeys": "Clés API",
+      "settings": "Paramètres",
+      "account": "Compte",
+      "logout": "Déconnexion"
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "groupsAllocation": {
+        "groupsAllocation": "Répartition par groupes",
+        "countriesAllocation": "Pays",
+        "sectorsAllocation": "Secteurs",
+        "industriesAllocation": "Industries",
+        "group": "Groupe",
+        "allocation": "Répartition",
+        "value": "Valeur",
+        "gain": "Plus/Moins-value",
+        "dividend": "Dividende",
+        "fxImpact": "Impact FX",
+        "return": "Rendement"
+      }
+    },
+    "assets": {
+      "addAsset": {
+        "header": "Ajouter un actif",
+        "selectAsset": "Sélectionner un actif",
+        "searching": "Recherche en cours...",
+        "searchFailed": "Désolé, les tickers n'ont pas pu être chargés.",
+        "required": "L'actif est requis"
+      },
+      "dividends": {
+        "title": "Dividendes",
+        "addDividend": "Ajouter un dividende",
+        "date": "Date"
+      },
+      "list": {
+        "title": "Actifs",
+        "addAsset": "Ajouter un actif",
+        "openPositions": "Positions ouvertes",
+        "closedPositions": "Positions clôturées",
+        "watchList": "Liste de suivi",
+        "withGroups": "Avec groupes",
+        "showPerAnnum": "Pourcentage p.a.",
+        "name": "Nom",
+        "price": "Prix",
+        "units": "Unités",
+        "value": "Valeur",
+        "gain": "Plus/Moins-value",
+        "gainRealized": "Plus/Moins-value réalisée",
+        "dividend": "Dividende",
+        "fxImpact": "Impact FX",
+        "return": "Rendement",
+        "total": "Total",
+        "detail": "Détail"
+      },
+      "transactions": {
+        "title": "Transactions",
+        "addTransaction": "Ajouter une transaction",
+        "date": "Date",
+        "action": "Action"
+      },
+      "detail": {
+        "value": "Valeur",
+        "investedValue": "Valeur investie",
+        "gain": "Plus/Moins-value",
+        "dividend": "Dividende",
+        "fxImpact": "Impact FX",
+        "return": "Rendement",
+        "about": "À propos",
+        "fundamentals": {
+          "header": "Fondamentaux",
+          "valuationsMetrics": "Indicateurs de valorisation",
+          "financials": "Données financières",
+          "incomeStatement": "Compte de résultat",
+          "balanceSheet": "Bilan",
+          "cashFlow": "Flux de trésorerie",
+          "statistics": "Statistiques",
+          "priceSummary": "Résumé des prix",
+          "dividendsAndSplits": "Dividendes et divisions",
+          "marketCapitalization": "Capitalisation boursière",
+          "enterpriseValue": "Valeur d'entreprise",
+          "trailingPe": "P/E glissant",
+          "forwardPe": "P/E prévisionnel",
+          "pegRatio": "Ratio PEG",
+          "priceToSalesTtm": "Prix/Ventes (ttm)",
+          "priceToBookMrq": "Prix/Valeur comptable (mrq)",
+          "enterpriseToRevenue": "Valeur d'entreprise/Chiffre d'affaires",
+          "enterpriseToEbitda": "Valeur d'entreprise/EBITDA",
+          "fiscalYearEnds": "Fin de l'exercice fiscal",
+          "mostRecentQuarter": "Dernier trimestre",
+          "profitMargin": "Marge bénéficiaire",
+          "operatingMargin": "Marge opérationnelle",
+          "returnOnAssetsTtm": "Rendement des actifs (ttm)",
+          "returnOnEquityTtm": "Rendement des capitaux propres (ttm)",
+          "revenueTtm": "Chiffre d'affaires (ttm)",
+          "revenuePerShareTtm": "Chiffre d'affaires par action (ttm)",
+          "quarterlyRevenueGrowth": "Croissance trimestrielle du chiffre d'affaires",
+          "grossProfitTtm": "Bénéfice brut (ttm)",
+          "ebitda": "EBITDA",
+          "netIncomeToCommonTtm": "Résultat net attribuable aux actionnaires (ttm)",
+          "dilutedEpsTtm": "EPS dilué (ttm)",
+          "quarterlyEarningsGrowthYoy": "Croissance trimestrielle des bénéfices (yoy)",
+          "totalCashMrq": "Trésorerie totale (mrq)",
+          "totalCashPerShareMrq": "Trésorerie totale par action (mrq)",
+          "totalDebtMrq": "Dette totale (mrq)",
+          "totalDebtToEquityMrq": "Dette totale/Capitaux propres (mrq)",
+          "currentRatioMrq": "Ratio de liquidité générale (mrq)",
+          "bookValuePerShareMrq": "Valeur comptable par action (mrq)",
+          "operatingCashFlowTtm": "Flux de trésorerie opérationnel (ttm)",
+          "leveredFreeCashFlowTtm": "Flux de trésorerie disponible avec effet de levier (ttm)",
+          "sharesOutstanding": "Actions en circulation",
+          "floatShares": "Actions flottantes",
+          "avg10Volume": "Volume moyen 10 jours",
+          "avg90Volume": "Volume moyen 90 jours",
+          "sharesShort": "Ventes à découvert",
+          "shortRatio": "Ratio de ventes à découvert",
+          "shortPercentOfSharesOutstanding": "Pourcentage de ventes à découvert",
+          "percentHeldByInsiders": "Pourcentage détenu par les initiés",
+          "percentHeldByInstitutions": "Pourcentage détenu par les institutions",
+          "fiftyTwoWeekLow": "Plus bas sur 52 semaines",
+          "fiftyTwoWeekHigh": "Plus haut sur 52 semaines",
+          "fiftyTwoWeekChange": "Variation sur 52 semaines",
+          "beta": "Bêta",
+          "day50Ma": "MA 50 jours",
+          "day200Ma": "MA 200 jours",
+          "forwardAnnualDividendRate": "Taux de dividende annuel prévisionnel",
+          "forwardAnnualDividendYield": "Rendement du dividende annuel prévisionnel",
+          "trailingAnnualDividendRate": "Taux de dividende annuel glissant",
+          "trailingAnnualDividendYield": "Rendement du dividende annuel glissant",
+          "fiveYearAverageDividendYield": "Rendement moyen du dividende sur 5 ans",
+          "payoutRatio": "Ratio de distribution",
+          "dividendDate": "Date du dividende",
+          "exDividendDate": "Date ex-dividende"
+        }
+      }
+    },
+    "authentication": {
+      "login": {
+        "header": "Connexion",
+        "email": "Email",
+        "emailRequired": "L'email est requis",
+        "password": "Mot de passe",
+        "passwordRequired": "Le mot de passe est requis",
+        "login": "Connexion",
+        "signUp": "Inscription",
+        "or": "ou",
+        "signInWithGoogle": "Se connecter avec Google"
+      },
+      "googleSignUp": {
+        "header": "Finaliser l'inscription",
+        "description": "Veuillez sélectionner votre devise par défaut pour terminer la configuration de votre compte.",
+        "defaultCurrency": "Devise par défaut",
+        "defaultCurrencyRequired": "La devise par défaut est requise",
+        "continue": "Continuer"
+      },
+      "signUp": {
+        "header": "Inscription",
+        "name": "Nom",
+        "nameRequired": "Le nom est requis",
+        "email": "Email",
+        "emailRequired": "L'email est requis",
+        "emailIsEmail": "L'email doit être au format 'jondow@example.com'",
+        "emailExists": "Cet email existe déjà",
+        "password": "Mot de passe",
+        "passwordRequired": "Le mot de passe est requis",
+        "passwordLength": "Le mot de passe doit contenir au moins 6 caractères",
+        "defaultCurrency": "Devise par défaut",
+        "defaultCurrencyRequired": "La devise par défaut est requise",
+        "signUp": "Inscription"
+      }
+    },
+    "emailVerify": {
+      "verify": {
+        "emailVerified": "L'email a été vérifié.",
+        "login": "Connexion"
+      }
+    },
+    "groups": {
+      "addEdit": {
+        "headerAdd": "Ajouter un groupe",
+        "headerEdit": "Modifier le groupe",
+        "name": "Nom",
+        "nameRequired": "Le nom est requis",
+        "color": "Couleur",
+        "colorRequired": "La couleur est requise",
+        "assets": "Actifs",
+        "assetsRequired": "Les actifs sont requis",
+        "assetDisabled": "L'actif est assigné au groupe \u201c{{groupName}}\u201d"
+      },
+      "list": {
+        "title": "Groupes",
+        "addGroup": "Ajouter un groupe",
+        "name": "Nom"
+      }
+    },
+    "strategies": {
+      "addEdit": {
+        "headerAdd": "Ajouter une stratégie",
+        "headerEdit": "Modifier la stratégie",
+        "name": "Nom",
+        "nameRequired": "Le nom est requis",
+        "isDefault": "Par défaut",
+        "items": "Éléments",
+        "addItem": "Ajouter un élément",
+        "type": "Type",
+        "typeAsset": "Actif",
+        "typeGroup": "Groupe",
+        "typeOthers": "Autres",
+        "asset": "Actif",
+        "group": "Groupe",
+        "percentage": "Pourcentage",
+        "totalPercentage": "Pourcentage total",
+        "totalMustNotExceed100": "Le pourcentage total ne doit pas dépasser 100 %"
+      },
+      "list": {
+        "title": "Stratégies",
+        "addStrategy": "Ajouter une stratégie",
+        "name": "Nom",
+        "default": "Par défaut",
+        "detail": "Détail"
+      },
+      "detail": {
+        "title": "Détail de la stratégie",
+        "targetAllocation": "Répartition cible",
+        "actualAllocation": "Répartition réelle",
+        "name": "Nom",
+        "target": "Cible",
+        "actual": "Réel",
+        "difference": "Écart"
+      }
+    },
+    "history": {
+      "history": {
+        "title": "Historique",
+        "d": "j",
+        "m": "m",
+        "y": "a",
+        "ytd": "YTD",
+        "all": "tout",
+        "custom": "Personnalisé",
+        "from": "Du",
+        "to": "Au",
+        "portfolioValue": "Valeur du portefeuille",
+        "benchmarkAsset": "Actif de référence",
+        "choose": "Choisir un actif",
+        "value": "Valeur",
+        "investedValue": "Valeur investie",
+        "benchmark": "Référence",
+        "chooseBenchmark": "Choisir une référence"
+      }
+    },
+    "overviews": {
+      "list": {
+        "title": "Aperçus",
+        "interannually": "Interannuel",
+        "year": "Année",
+        "value": "Valeur",
+        "investedValue": "Valeur investie",
+        "unrealizedGain": "Plus/Moins-value latente",
+        "realizedGain": "Plus/Moins-value réalisée",
+        "dividend": "Dividende",
+        "fxImpact": "Impact Forex",
+        "return": "Rendement"
+      }
+    },
+    "portfolios": {
+      "addEdit": {
+        "headerAdd": "Ajouter un portefeuille",
+        "headerEdit": "Modifier le portefeuille",
+        "name": "Nom",
+        "nameRequired": "Le nom est requis",
+        "currency": "Devise",
+        "currencyRequired": "La devise est requise",
+        "default": "Par défaut"
+      },
+      "list": {
+        "title": "Portefeuilles",
+        "addPortfolio": "Ajouter un portefeuille",
+        "name": "Nom"
+      }
+    },
+    "transactions": {
+      "list": {
+        "title": "Transactions",
+        "addTransaction": "Ajouter une transaction",
+        "addDividend": "Ajouter un dividende",
+        "import": "Importer",
+        "date": "Date",
+        "created": "Créé",
+        "type": "Type",
+        "asset": "Actif"
+      },
+      "import": {
+        "import": {
+          "title": "Importer un fichier CSV",
+          "broker": "Broker",
+          "brokerRequired": "Le broker est requis",
+          "fileDropText": "Déposez vos fichiers CSV ici ou cliquez pour les téléverser",
+          "fileDropButton": "Choisir des fichiers",
+          "import": "Importer",
+          "importFiles": "Importer les fichiers",
+          "uploading": "Téléversement en cours...",
+          "processing": "Traitement en cours...",
+          "uploaded": "Téléversé",
+          "notSupported": "Le fichier n'est pas pris en charge",
+          "error": "Erreur lors de l'importation du fichier",
+          "selectTicker": "Veuillez sélectionner le bon actif pour ces tickers",
+          "allTickersSelectedAutomatically": "Tous les tickers ont été sélectionnés automatiquement",
+          "pleaseWait": "Cela peut prendre quelques secondes. Veuillez patienter..."
+        }
+      },
+      "search": {
+        "search": "Rechercher",
+        "filterBy": "Filtrer par",
+        "type": "Type",
+        "all": "Tous",
+        "createdDate": "Date de création"
+      }
+    },
+    "users": {
+      "addEdit": {
+        "headerAdd": "Ajouter un utilisateur",
+        "headerEdit": "Modifier l'utilisateur",
+        "name": "Nom",
+        "nameRequired": "Le nom est requis",
+        "email": "Email",
+        "emailRequired": "L'email est requis",
+        "password": "Mot de passe",
+        "passwordLeaveBlank": "(Laissez vide pour conserver le même mot de passe)",
+        "passwordRequired": "Le mot de passe est requis",
+        "passwordLength": "Le mot de passe doit contenir au moins 6 caractères",
+        "defaultCurrency": "Devise par défaut",
+        "defaultCurrencyRequired": "La devise par défaut est requise",
+        "role": "Rôle",
+        "roleRequired": "Le rôle est requis",
+        "plan": "Abonnement",
+        "planRequired": "L'abonnement est requis"
+      },
+      "list": {
+        "title": "Utilisateurs",
+        "addUser": "Ajouter un utilisateur",
+        "email": "Email",
+        "name": "Nom",
+        "plan": "Abonnement",
+        "planExpires": "Expiration",
+        "assets": "Actifs",
+        "transactions": "Transactions",
+        "lastLoggedIn": "Dernière connexion",
+        "lastRefreshTokenGenerated": "Dernier rafraîchissement de jeton",
+        "never": "jamais"
+      }
+    },
+    "dividends": {
+      "dividends-history": {
+        "title": "Historique des dividendes"
+      }
+    },
+    "onboarding": {
+      "onboarding": {
+        "title": "Bienvenue sur FinGather",
+        "subtitle": "Commençons<br>par importer vos actifs.",
+        "skip": "Passer"
+      },
+      "stepOne": {
+        "name": "Tout d'abord, nommez votre portefeuille",
+        "nameRequired": "Le nom du portefeuille est requis",
+        "namePlaceholder": "Nom du portefeuille",
+        "saveAndContinue": "Enregistrer et continuer pour définir la devise du portefeuille",
+        "setCurrency": "Définir la devise"
+      },
+      "stepTwo": {
+        "currency": "Choisissez la devise de votre portefeuille",
+        "currencyRequired": "La devise est requise",
+        "saveAndContinue": "Enregistrer et continuer pour importer vos actifs",
+        "importAssets": "Importer les actifs"
+      },
+      "steps": {
+        "name": "Nom",
+        "currency": "Devise",
+        "import": "Importer"
+      }
+    },
+    "apiKeys": {
+      "apiKeys": {
+        "title": "Clés API",
+        "apiKey": "Clé API",
+        "type": "Type",
+        "addApiKey": "Ajouter une clé API",
+        "deleteTitle": "Supprimer la clé API",
+        "deleteMessage": "Êtes-vous sûr de vouloir supprimer cette clé API ?"
+      },
+      "addEdit": {
+        "headerAdd": "Ajouter une clé API",
+        "headerEdit": "Modifier la clé API",
+        "type": "Type",
+        "typeRequired": "Le type est requis",
+        "apiKey": "Clé API",
+        "apiKeyRequired": "La clé API est requise",
+        "userKey": "Clé utilisateur"
+      }
+    },
+    "account": {
+      "accountInfo": {
+        "title": "Compte",
+        "name": "Nom",
+        "nameRequired": "Le nom est requis",
+        "email": "Email",
+        "emailRequired": "L'email est requis",
+        "emailIsEmail": "L'email doit être au format 'jondow@example.com'",
+        "emailExists": "Cet email existe déjà",
+        "password": "Mot de passe",
+        "passwordLeaveBlank": "(Laissez vide pour conserver le même mot de passe)",
+        "passwordLength": "Le mot de passe doit contenir au moins 6 caractères",
+        "emailNotifications": "Notifications par email",
+        "updateSuccess": "Compte mis à jour avec succès",
+        "plan": "Abonnement",
+        "planExpires": "Expiration",
+        "upgradeTo": "Passer à",
+        "cancelPlan": "Annuler l'abonnement",
+        "cancelPlanMessage": "Êtes-vous sûr de vouloir annuler votre abonnement ?"
+      },
+      "planUpgrade": {
+        "title": "Améliorer l'abonnement",
+        "pay": "Payer"
+      }
+    },
+    "settings": {
+      "benchmarkAssets": {
+        "title": "Actifs de référence",
+        "add": "Ajouter un actif de référence",
+        "ticker": "Ticker",
+        "name": "Nom",
+        "market": "Marché",
+        "selectAsset": "Sélectionner un actif",
+        "deleteTitle": "Supprimer l'actif de référence",
+        "deleteMessage": "Êtes-vous sûr de vouloir supprimer cet actif de référence ?"
+      }
+    },
+    "shared": {
+      "portfolioTotal": {
+        "portfolioValue": "Valeur du portefeuille",
+        "gain": "Plus/Moins-value latente",
+        "gainRealized": "Plus/Moins-value réalisée",
+        "dividend": "Rendement des dividendes",
+        "investedValue": "Valeur investie",
+        "fxImpact": "Impact Forex",
+        "taxFee": "Impôt/Frais",
+        "tax": "Impôt",
+        "fee": "Frais",
+        "total": "Total",
+        "help": {
+          "portfolioValue": "Valeur totale de tous les actifs du portefeuille, hors plus-values réalisées, dividendes, impact forex, impôts et frais.",
+          "gain": "Différence entre la valeur investie et la valeur actuelle du portefeuille",
+          "gainRealized": "Plus-value réalisée lors de la vente d'actifs.",
+          "investedValue": "Valeur totale investie dans le portefeuille, hors impôts et frais.",
+          "fxImpact": "L'impact des taux de change sur la valeur du portefeuille."
+        }
+      },
+      "dividendDialog": {
+        "headerAdd": "Ajouter un dividende",
+        "headerEdit": "Modifier le dividende",
+        "asset": "Actif",
+        "assetRequired": "L'actif est requis",
+        "broker": "Broker",
+        "brokerRequired": "Le broker est requis",
+        "paidDate": "Date de versement",
+        "paidDateRequired": "La date de versement est requise",
+        "price": "Prix",
+        "priceRequired": "Le prix est requis",
+        "tax": "Impôt",
+        "taxRequired": "L'impôt est requis",
+        "fee": "Frais",
+        "feeRequired": "Les frais sont requis",
+        "currency": "Devise",
+        "currencyRequired": "La devise est requise"
+      },
+      "transactionDialog": {
+        "headerAdd": "Ajouter une transaction",
+        "headerEdit": "Modifier la transaction",
+        "asset": "Actif",
+        "assetRequired": "L'actif est requis",
+        "broker": "Broker",
+        "brokerRequired": "Le broker est requis",
+        "brokerUndefined": "Non défini",
+        "actionType": "Type d'action",
+        "actionTypeRequired": "Le type d'action est requis",
+        "actionCreated": "Créé",
+        "actionCreatedRequired": "La date de création est requise",
+        "units": "Unités",
+        "unitsRequired": "Les unités sont requises",
+        "unitPrice": "Prix unitaire",
+        "unitPriceRequired": "Le prix unitaire est requis",
+        "tax": "Impôt",
+        "taxRequired": "L'impôt est requis",
+        "fee": "Frais",
+        "feeRequired": "Les frais sont requis",
+        "currency": "Devise",
+        "currencyRequired": "La devise est requise"
+      },
+      "tag": {
+        "undefined": "Non défini",
+        "buy": "Achat",
+        "sell": "Vente",
+        "dividend": "Dividende",
+        "tax": "Impôt",
+        "fee": "Frais",
+        "dividendTax": "Impôt sur dividende"
+      },
+      "pagination": {
+        "pagination": "Pagination",
+        "previous": "Précédent",
+        "next": "Suivant",
+        "recordsPerPage": "Enregistrements par page",
+        "total": "Total",
+        "records": "enregistrements"
+      },
+      "colorPicker": {
+        "recommendedColors": "Couleurs recommandées",
+        "custom": "Personnalisé"
+      },
+      "tickerSearchSelector": {
+        "search": "Rechercher un actif"
+      }
+    },
+    "common": {
+      "cancel": "Annuler",
+      "save": "Enregistrer",
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "choose": "Choisir",
+      "ok": "OK"
+    }
+  }
+}

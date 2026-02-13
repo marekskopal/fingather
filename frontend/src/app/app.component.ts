@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {MatIconRegistry} from "@angular/material/icon";
-import { RouterOutlet} from "@angular/router";
+import {RouterOutlet} from "@angular/router";
 import {ContentLayoutService} from "@app/services/content-layout.service";
 import {AlertComponent} from "@app/shared/components/alert/alert.component";
 import {NavigationComponent} from "@app/shared/components/navigation/navigation.component";
@@ -27,9 +27,16 @@ export class AppComponent {
 
     public constructor(
     ) {
-        this.translateService.addLangs(['en', 'cs']);
-        this.translateService.use(localStorage.getItem('currentLanguage') ?? 'en');
-        this.translateService.setDefaultLang('en');
+        this.translateService.addLangs(['en', 'cs', 'de', 'es', 'fr']);
+        this.translateService.setFallbackLang('en');
+
+        const langParam = new URLSearchParams(window.location.search).get('lang');
+        if (langParam && this.translateService.getLangs().includes(langParam)) {
+            localStorage.setItem('currentLanguage', langParam);
+            this.translateService.use(langParam);
+        } else {
+            this.translateService.use(localStorage.getItem('currentLanguage') ?? 'en');
+        }
 
         this.matIconRegistry.setDefaultFontSetClass('material-symbols-outlined');
     }

@@ -1,0 +1,547 @@
+{
+  "app" : {
+    "navbar": {
+      "dashboard": "Dashboard",
+      "assets": "Vermögenswerte",
+      "transactions": "Transaktionen",
+      "dividends": "Dividenden",
+      "overviews": "Übersichten",
+      "history": "Verlauf",
+      "groups": "Gruppen",
+      "strategies": "Strategien",
+      "brokers": "Broker",
+      "portfolios": "Portfolios",
+      "users": "Benutzer",
+      "apiKeys": "API-Schlüssel",
+      "settings": "Einstellungen",
+      "account": "Konto",
+      "logout": "Abmelden"
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "groupsAllocation": {
+        "groupsAllocation": "Gruppenverteilung",
+        "countriesAllocation": "Länder",
+        "sectorsAllocation": "Sektoren",
+        "industriesAllocation": "Branchen",
+        "group": "Gruppe",
+        "allocation": "Verteilung",
+        "value": "Wert",
+        "gain": "Gewinn/Verlust",
+        "dividend": "Dividende",
+        "fxImpact": "FX-Einfluss",
+        "return": "Rendite"
+      }
+    },
+    "assets": {
+      "addAsset": {
+        "header": "Vermögenswert hinzufügen",
+        "selectAsset": "Vermögenswert auswählen",
+        "searching": "Suche läuft...",
+        "searchFailed": "Ticker konnten leider nicht geladen werden.",
+        "required": "Vermögenswert ist erforderlich"
+      },
+      "dividends": {
+        "title": "Dividenden",
+        "addDividend": "Dividende hinzufügen",
+        "date": "Datum"
+      },
+      "list": {
+        "title": "Vermögenswerte",
+        "addAsset": "Vermögenswert hinzufügen",
+        "openPositions": "Offene Positionen",
+        "closedPositions": "Geschlossene Positionen",
+        "watchList": "Beobachtungsliste",
+        "withGroups": "Mit Gruppen",
+        "showPerAnnum": "Prozentsatz p.a.",
+        "name": "Name",
+        "price": "Kurs",
+        "units": "Anteile",
+        "value": "Wert",
+        "gain": "Gewinn/Verlust",
+        "gainRealized": "Realisierter Gewinn/Verlust",
+        "dividend": "Dividende",
+        "fxImpact": "FX-Einfluss",
+        "return": "Rendite",
+        "total": "Gesamt",
+        "detail": "Details"
+      },
+      "transactions": {
+        "title": "Transaktionen",
+        "addTransaction": "Transaktion hinzufügen",
+        "date": "Datum",
+        "action": "Aktion"
+      },
+      "detail": {
+        "value": "Wert",
+        "investedValue": "Investierter Wert",
+        "gain": "Gewinn/Verlust",
+        "dividend": "Dividende",
+        "fxImpact": "FX-Einfluss",
+        "return": "Rendite",
+        "about": "Über",
+        "fundamentals": {
+          "header": "Fundamentaldaten",
+          "valuationsMetrics": "Bewertungskennzahlen",
+          "financials": "Finanzdaten",
+          "incomeStatement": "Gewinn- und Verlustrechnung",
+          "balanceSheet": "Bilanz",
+          "cashFlow": "Cashflow",
+          "statistics": "Statistiken",
+          "priceSummary": "Kurszusammenfassung",
+          "dividendsAndSplits": "Dividenden und Splits",
+          "marketCapitalization": "Marktkapitalisierung",
+          "enterpriseValue": "Unternehmenswert",
+          "trailingPe": "Nachlaufendes P/E",
+          "forwardPe": "Erwartetes P/E",
+          "pegRatio": "PEG-Verhältnis",
+          "priceToSalesTtm": "Kurs/Umsatz (ttm)",
+          "priceToBookMrq": "Kurs/Buchwert (mrq)",
+          "enterpriseToRevenue": "Unternehmenswert/Umsatz",
+          "enterpriseToEbitda": "Unternehmenswert/EBITDA",
+          "fiscalYearEnds": "Geschäftsjahresende",
+          "mostRecentQuarter": "Letztes Quartal",
+          "profitMargin": "Gewinnmarge",
+          "operatingMargin": "Operative Marge",
+          "returnOnAssetsTtm": "Gesamtkapitalrendite (ttm)",
+          "returnOnEquityTtm": "Eigenkapitalrendite (ttm)",
+          "revenueTtm": "Umsatz (ttm)",
+          "revenuePerShareTtm": "Umsatz pro Aktie (ttm)",
+          "quarterlyRevenueGrowth": "Quartalsumsatzwachstum",
+          "grossProfitTtm": "Bruttogewinn (ttm)",
+          "ebitda": "EBITDA",
+          "netIncomeToCommonTtm": "Nettogewinn (ttm)",
+          "dilutedEpsTtm": "Verwässertes EPS (ttm)",
+          "quarterlyEarningsGrowthYoy": "Quartalsgewinnwachstum (yoy)",
+          "totalCashMrq": "Gesamte Barmittel (mrq)",
+          "totalCashPerShareMrq": "Barmittel pro Aktie (mrq)",
+          "totalDebtMrq": "Gesamtverbindlichkeiten (mrq)",
+          "totalDebtToEquityMrq": "Verschuldungsgrad (mrq)",
+          "currentRatioMrq": "Liquiditätsgrad (mrq)",
+          "bookValuePerShareMrq": "Buchwert pro Aktie (mrq)",
+          "operatingCashFlowTtm": "Operativer Cashflow (ttm)",
+          "leveredFreeCashFlowTtm": "Freier Cashflow (ttm)",
+          "sharesOutstanding": "Ausstehende Aktien",
+          "floatShares": "Streubesitz",
+          "avg10Volume": "Ø 10-Tage-Volumen",
+          "avg90Volume": "Ø 90-Tage-Volumen",
+          "sharesShort": "Leerverkaufte Aktien",
+          "shortRatio": "Short-Verhältnis",
+          "shortPercentOfSharesOutstanding": "Short-Anteil der ausstehenden Aktien",
+          "percentHeldByInsiders": "Anteil von Insidern",
+          "percentHeldByInstitutions": "Anteil von Institutionen",
+          "fiftyTwoWeekLow": "52-Wochen-Tief",
+          "fiftyTwoWeekHigh": "52-Wochen-Hoch",
+          "fiftyTwoWeekChange": "52-Wochen-Veränderung",
+          "beta": "Beta",
+          "day50Ma": "50-Tage-MA",
+          "day200Ma": "200-Tage-MA",
+          "forwardAnnualDividendRate": "Erwartete jährliche Dividendenrate",
+          "forwardAnnualDividendYield": "Erwartete jährliche Dividendenrendite",
+          "trailingAnnualDividendRate": "Nachlaufende jährliche Dividendenrate",
+          "trailingAnnualDividendYield": "Nachlaufende jährliche Dividendenrendite",
+          "fiveYearAverageDividendYield": "5-Jahres-Durchschnittsdividendenrendite",
+          "payoutRatio": "Ausschüttungsquote",
+          "dividendDate": "Dividendentermin",
+          "exDividendDate": "Ex-Dividendentermin"
+        }
+      }
+    },
+    "authentication": {
+      "login": {
+        "header": "Anmelden",
+        "email": "Email",
+        "emailRequired": "Email ist erforderlich",
+        "password": "Passwort",
+        "passwordRequired": "Passwort ist erforderlich",
+        "login": "Anmelden",
+        "signUp": "Registrieren",
+        "or": "oder",
+        "signInWithGoogle": "Mit Google anmelden"
+      },
+      "googleSignUp": {
+        "header": "Registrierung abschließen",
+        "description": "Bitte wählen Sie Ihre Standardwährung, um die Kontoeinrichtung abzuschließen.",
+        "defaultCurrency": "Standardwährung",
+        "defaultCurrencyRequired": "Standardwährung ist erforderlich",
+        "continue": "Weiter"
+      },
+      "signUp": {
+        "header": "Registrieren",
+        "name": "Name",
+        "nameRequired": "Name ist erforderlich",
+        "email": "Email",
+        "emailRequired": "Email ist erforderlich",
+        "emailIsEmail": "Email muss im Format 'jondow@example.com' sein",
+        "emailExists": "Email existiert bereits",
+        "password": "Passwort",
+        "passwordRequired": "Passwort ist erforderlich",
+        "passwordLength": "Passwort muss mindestens 6 Zeichen lang sein",
+        "defaultCurrency": "Standardwährung",
+        "defaultCurrencyRequired": "Standardwährung ist erforderlich",
+        "signUp": "Registrieren"
+      }
+    },
+    "emailVerify": {
+      "verify": {
+        "emailVerified": "Email wurde verifiziert.",
+        "login": "Anmelden"
+      }
+    },
+    "groups": {
+      "addEdit": {
+        "headerAdd": "Gruppe hinzufügen",
+        "headerEdit": "Gruppe bearbeiten",
+        "name": "Name",
+        "nameRequired": "Name ist erforderlich",
+        "color": "Farbe",
+        "colorRequired": "Farbe ist erforderlich",
+        "assets": "Vermögenswerte",
+        "assetsRequired": "Vermögenswerte sind erforderlich",
+        "assetDisabled": "Vermögenswert ist der Gruppe \u201c{{groupName}}\u201d zugeordnet"
+      },
+      "list": {
+        "title": "Gruppen",
+        "addGroup": "Gruppe hinzufügen",
+        "name": "Name"
+      }
+    },
+    "strategies": {
+      "addEdit": {
+        "headerAdd": "Strategie hinzufügen",
+        "headerEdit": "Strategie bearbeiten",
+        "name": "Name",
+        "nameRequired": "Name ist erforderlich",
+        "isDefault": "Standard",
+        "items": "Positionen",
+        "addItem": "Position hinzufügen",
+        "type": "Typ",
+        "typeAsset": "Vermögenswert",
+        "typeGroup": "Gruppe",
+        "typeOthers": "Sonstige",
+        "asset": "Vermögenswert",
+        "group": "Gruppe",
+        "percentage": "Prozentsatz",
+        "totalPercentage": "Gesamtprozentsatz",
+        "totalMustNotExceed100": "Der Gesamtprozentsatz darf 100% nicht überschreiten"
+      },
+      "list": {
+        "title": "Strategien",
+        "addStrategy": "Strategie hinzufügen",
+        "name": "Name",
+        "default": "Standard",
+        "detail": "Details"
+      },
+      "detail": {
+        "title": "Strategiedetails",
+        "targetAllocation": "Zielverteilung",
+        "actualAllocation": "Tatsächliche Verteilung",
+        "name": "Name",
+        "target": "Ziel",
+        "actual": "Tatsächlich",
+        "difference": "Differenz"
+      }
+    },
+    "history": {
+      "history": {
+        "title": "Verlauf",
+        "d": "T",
+        "m": "M",
+        "y": "J",
+        "ytd": "YTD",
+        "all": "Alle",
+        "custom": "Benutzerdefiniert",
+        "from": "Von",
+        "to": "Bis",
+        "portfolioValue": "Portfoliowert",
+        "benchmarkAsset": "Benchmark-Vermögenswert",
+        "choose": "Vermögenswert auswählen",
+        "value": "Wert",
+        "investedValue": "Investierter Wert",
+        "benchmark": "Benchmark",
+        "chooseBenchmark": "Benchmark auswählen"
+      }
+    },
+    "overviews": {
+      "list": {
+        "title": "Übersichten",
+        "interannually": "Jahresübergreifend",
+        "year": "Jahr",
+        "value": "Wert",
+        "investedValue": "Investierter Wert",
+        "unrealizedGain": "Nicht realisierter Gewinn/Verlust",
+        "realizedGain": "Realisierter Gewinn/Verlust",
+        "dividend": "Dividende",
+        "fxImpact": "FX-Einfluss",
+        "return": "Rendite"
+      }
+    },
+    "portfolios": {
+      "addEdit": {
+        "headerAdd": "Portfolio hinzufügen",
+        "headerEdit": "Portfolio bearbeiten",
+        "name": "Name",
+        "nameRequired": "Name ist erforderlich",
+        "currency": "Währung",
+        "currencyRequired": "Währung ist erforderlich",
+        "default": "Standard"
+      },
+      "list": {
+        "title": "Portfolios",
+        "addPortfolio": "Portfolio hinzufügen",
+        "name": "Name"
+      }
+    },
+    "transactions": {
+      "list": {
+        "title": "Transaktionen",
+        "addTransaction": "Transaktion hinzufügen",
+        "addDividend": "Dividende hinzufügen",
+        "import": "Importieren",
+        "date": "Datum",
+        "created": "Erstellt",
+        "type": "Typ",
+        "asset": "Vermögenswert"
+      },
+      "import": {
+        "import": {
+          "title": "CSV-Datei importieren",
+          "broker": "Broker",
+          "brokerRequired": "Broker ist erforderlich",
+          "fileDropText": "CSV-Dateien hier ablegen oder klicken zum Hochladen",
+          "fileDropButton": "Dateien auswählen",
+          "import": "Importieren",
+          "importFiles": "Dateien importieren",
+          "uploading": "Wird hochgeladen...",
+          "processing": "Wird verarbeitet...",
+          "uploaded": "Hochgeladen",
+          "notSupported": "Datei wird nicht unterstützt",
+          "error": "Fehler beim Importieren der Datei",
+          "selectTicker": "Bitte wählen Sie den richtigen Vermögenswert für diese Ticker",
+          "allTickersSelectedAutomatically": "Alle Ticker wurden automatisch zugeordnet",
+          "pleaseWait": "Dies kann einige Sekunden dauern. Bitte warten..."
+        }
+      },
+      "search": {
+        "search": "Suche",
+        "filterBy": "Filtern nach",
+        "type": "Typ",
+        "all": "Alle",
+        "createdDate": "Erstelldatum"
+      }
+    },
+    "users": {
+      "addEdit": {
+        "headerAdd": "Benutzer hinzufügen",
+        "headerEdit": "Benutzer bearbeiten",
+        "name": "Name",
+        "nameRequired": "Name ist erforderlich",
+        "email": "Email",
+        "emailRequired": "Email ist erforderlich",
+        "password": "Passwort",
+        "passwordLeaveBlank": "(Leer lassen, um das Passwort beizubehalten)",
+        "passwordRequired": "Passwort ist erforderlich",
+        "passwordLength": "Passwort muss mindestens 6 Zeichen lang sein",
+        "defaultCurrency": "Standardwährung",
+        "defaultCurrencyRequired": "Standardwährung ist erforderlich",
+        "role": "Rolle",
+        "roleRequired": "Rolle ist erforderlich",
+        "plan": "Tarif",
+        "planRequired": "Tarif ist erforderlich"
+      },
+      "list": {
+        "title": "Benutzer",
+        "addUser": "Benutzer hinzufügen",
+        "email": "Email",
+        "name": "Name",
+        "plan": "Tarif",
+        "planExpires": "Läuft ab",
+        "assets": "Vermögenswerte",
+        "transactions": "Transaktionen",
+        "lastLoggedIn": "Letzte Anmeldung",
+        "lastRefreshTokenGenerated": "Letzte Token-Aktualisierung",
+        "never": "nie"
+      }
+    },
+    "dividends": {
+      "dividends-history": {
+        "title": "Dividendenverlauf"
+      }
+    },
+    "onboarding": {
+      "onboarding": {
+        "title": "Willkommen bei FinGather",
+        "subtitle": "Legen Sie los,<br>indem Sie Ihre Vermögenswerte importieren.",
+        "skip": "Überspringen"
+      },
+      "stepOne": {
+        "name": "Benennen Sie zunächst Ihr Portfolio",
+        "nameRequired": "Portfolioname ist erforderlich",
+        "namePlaceholder": "Portfolioname",
+        "saveAndContinue": "Speichern & Weiter zur Portfoliowährung",
+        "setCurrency": "Währung festlegen"
+      },
+      "stepTwo": {
+        "currency": "Wählen Sie die Währung für Ihr Portfolio",
+        "currencyRequired": "Währung ist erforderlich",
+        "saveAndContinue": "Speichern & Weiter zum Import Ihrer Vermögenswerte",
+        "importAssets": "Vermögenswerte importieren"
+      },
+      "steps": {
+        "name": "Name",
+        "currency": "Währung",
+        "import": "Import"
+      }
+    },
+    "apiKeys": {
+      "apiKeys": {
+        "title": "API-Schlüssel",
+        "apiKey": "API-Schlüssel",
+        "type": "Typ",
+        "addApiKey": "API-Schlüssel hinzufügen",
+        "deleteTitle": "API-Schlüssel löschen",
+        "deleteMessage": "Sind Sie sicher, dass Sie diesen API-Schlüssel löschen möchten?"
+      },
+      "addEdit": {
+        "headerAdd": "API-Schlüssel hinzufügen",
+        "headerEdit": "API-Schlüssel bearbeiten",
+        "type": "Typ",
+        "typeRequired": "Typ ist erforderlich",
+        "apiKey": "API-Schlüssel",
+        "apiKeyRequired": "API-Schlüssel ist erforderlich",
+        "userKey": "Benutzerschlüssel"
+      }
+    },
+    "account": {
+      "accountInfo": {
+        "title": "Konto",
+        "name": "Name",
+        "nameRequired": "Name ist erforderlich",
+        "email": "Email",
+        "emailRequired": "Email ist erforderlich",
+        "emailIsEmail": "Email muss im Format 'jondow@example.com' sein",
+        "emailExists": "Email existiert bereits",
+        "password": "Passwort",
+        "passwordLeaveBlank": "(Leer lassen, um das Passwort beizubehalten)",
+        "passwordLength": "Passwort muss mindestens 6 Zeichen lang sein",
+        "emailNotifications": "Email-Benachrichtigungen",
+        "updateSuccess": "Konto wurde erfolgreich aktualisiert",
+        "plan": "Tarif",
+        "planExpires": "Läuft ab",
+        "upgradeTo": "Upgrade auf",
+        "cancelPlan": "Tarif kündigen",
+        "cancelPlanMessage": "Sind Sie sicher, dass Sie Ihren Tarif kündigen möchten?"
+      },
+      "planUpgrade": {
+        "title": "Tarif-Upgrade",
+        "pay": "Bezahlen"
+      }
+    },
+    "settings": {
+      "benchmarkAssets": {
+        "title": "Benchmark-Vermögenswerte",
+        "add": "Benchmark-Vermögenswert hinzufügen",
+        "ticker": "Ticker",
+        "name": "Name",
+        "market": "Markt",
+        "selectAsset": "Vermögenswert auswählen",
+        "deleteTitle": "Benchmark-Vermögenswert löschen",
+        "deleteMessage": "Sind Sie sicher, dass Sie diesen Benchmark-Vermögenswert löschen möchten?"
+      }
+    },
+    "shared": {
+      "portfolioTotal": {
+        "portfolioValue": "Portfoliowert",
+        "gain": "Nicht realisierter Gewinn/Verlust",
+        "gainRealized": "Realisierter Gewinn/Verlust",
+        "dividend": "Dividendenrendite",
+        "investedValue": "Investierter Wert",
+        "fxImpact": "FX-Einfluss",
+        "taxFee": "Steuer/Gebühr",
+        "tax": "Steuer",
+        "fee": "Gebühr",
+        "total": "Gesamt",
+        "help": {
+          "portfolioValue": "Gesamtwert aller Vermögenswerte im Portfolio ohne realisierte Gewinne, Dividenden, FX-Einfluss, Steuern und Gebühren.",
+          "gain": "Differenz zwischen investiertem Wert und aktuellem Wert des Portfolios",
+          "gainRealized": "Realisierter Gewinn aus dem Verkauf von Vermögenswerten.",
+          "investedValue": "Gesamter investierter Wert des Portfolios ohne Steuern und Gebühren.",
+          "fxImpact": "Der Einfluss von Wechselkursen auf den Wert des Portfolios."
+        }
+      },
+      "dividendDialog": {
+        "headerAdd": "Dividende hinzufügen",
+        "headerEdit": "Dividende bearbeiten",
+        "asset": "Vermögenswert",
+        "assetRequired": "Vermögenswert ist erforderlich",
+        "broker": "Broker",
+        "brokerRequired": "Broker ist erforderlich",
+        "paidDate": "Auszahlungsdatum",
+        "paidDateRequired": "Auszahlungsdatum ist erforderlich",
+        "price": "Betrag",
+        "priceRequired": "Betrag ist erforderlich",
+        "tax": "Steuer",
+        "taxRequired": "Steuer ist erforderlich",
+        "fee": "Gebühr",
+        "feeRequired": "Gebühr ist erforderlich",
+        "currency": "Währung",
+        "currencyRequired": "Währung ist erforderlich"
+      },
+      "transactionDialog": {
+        "headerAdd": "Transaktion hinzufügen",
+        "headerEdit": "Transaktion bearbeiten",
+        "asset": "Vermögenswert",
+        "assetRequired": "Vermögenswert ist erforderlich",
+        "broker": "Broker",
+        "brokerRequired": "Broker ist erforderlich",
+        "brokerUndefined": "Nicht definiert",
+        "actionType": "Aktionstyp",
+        "actionTypeRequired": "Aktionstyp ist erforderlich",
+        "actionCreated": "Erstellt",
+        "actionCreatedRequired": "Erstellt ist erforderlich",
+        "units": "Anteile",
+        "unitsRequired": "Anteile sind erforderlich",
+        "unitPrice": "Stückpreis",
+        "unitPriceRequired": "Stückpreis ist erforderlich",
+        "tax": "Steuer",
+        "taxRequired": "Steuer ist erforderlich",
+        "fee": "Gebühr",
+        "feeRequired": "Gebühr ist erforderlich",
+        "currency": "Währung",
+        "currencyRequired": "Währung ist erforderlich"
+      },
+      "tag": {
+        "undefined": "Nicht definiert",
+        "buy": "Kauf",
+        "sell": "Verkauf",
+        "dividend": "Dividende",
+        "tax": "Steuer",
+        "fee": "Gebühr",
+        "dividendTax": "Dividendensteuer"
+      },
+      "pagination": {
+        "pagination": "Seitennavigation",
+        "previous": "Zurück",
+        "next": "Weiter",
+        "recordsPerPage": "Einträge pro Seite",
+        "total": "Gesamt",
+        "records": "Einträge"
+      },
+      "colorPicker": {
+        "recommendedColors": "Empfohlene Farben",
+        "custom": "Benutzerdefiniert"
+      },
+      "tickerSearchSelector": {
+        "search": "Vermögenswert suchen"
+      }
+    },
+    "common": {
+      "cancel": "Abbrechen",
+      "save": "Speichern",
+      "edit": "Bearbeiten",
+      "delete": "Löschen",
+      "choose": "Auswählen",
+      "ok": "OK"
+    }
+  }
+}

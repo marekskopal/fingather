@@ -1,0 +1,547 @@
+{
+  "app" : {
+    "navbar": {
+      "dashboard": "Dashboard",
+      "assets": "Activos",
+      "transactions": "Transacciones",
+      "dividends": "Dividendos",
+      "overviews": "Resúmenes",
+      "history": "Historial",
+      "groups": "Grupos",
+      "strategies": "Estrategias",
+      "brokers": "Brokers",
+      "portfolios": "Portafolios",
+      "users": "Usuarios",
+      "apiKeys": "Claves API",
+      "settings": "Configuración",
+      "account": "Cuenta",
+      "logout": "Cerrar sesión"
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "groupsAllocation": {
+        "groupsAllocation": "Asignación por Grupos",
+        "countriesAllocation": "Países",
+        "sectorsAllocation": "Sectores",
+        "industriesAllocation": "Industrias",
+        "group": "Grupo",
+        "allocation": "Asignación",
+        "value": "Valor",
+        "gain": "Ganancia/Pérdida",
+        "dividend": "Dividendo",
+        "fxImpact": "Impacto FX",
+        "return": "Rendimiento"
+      }
+    },
+    "assets": {
+      "addAsset": {
+        "header": "Agregar Activo",
+        "selectAsset": "Seleccionar Activo",
+        "searching": "Buscando...",
+        "searchFailed": "Lo sentimos, no se pudieron cargar los Tickers.",
+        "required": "El activo es obligatorio"
+      },
+      "dividends": {
+        "title": "Dividendos",
+        "addDividend": "Agregar Dividendo",
+        "date": "Fecha"
+      },
+      "list": {
+        "title": "Activos",
+        "addAsset": "Agregar Activo",
+        "openPositions": "Posiciones abiertas",
+        "closedPositions": "Posiciones cerradas",
+        "watchList": "Lista de seguimiento",
+        "withGroups": "Con Grupos",
+        "showPerAnnum": "Porcentaje p.a.",
+        "name": "Nombre",
+        "price": "Precio",
+        "units": "Unidades",
+        "value": "Valor",
+        "gain": "Ganancia/Pérdida",
+        "gainRealized": "Ganancia/Pérdida Realizada",
+        "dividend": "Dividendo",
+        "fxImpact": "Impacto FX",
+        "return": "Rendimiento",
+        "total": "Total",
+        "detail": "Detalle"
+      },
+      "transactions": {
+        "title": "Transacciones",
+        "addTransaction": "Agregar Transacción",
+        "date": "Fecha",
+        "action": "Acción"
+      },
+      "detail": {
+        "value": "Valor",
+        "investedValue": "Valor Invertido",
+        "gain": "Ganancia/Pérdida",
+        "dividend": "Dividendo",
+        "fxImpact": "Impacto FX",
+        "return": "Rendimiento",
+        "about": "Acerca de",
+        "fundamentals": {
+          "header": "Fundamentales",
+          "valuationsMetrics": "Métricas de Valoración",
+          "financials": "Finanzas",
+          "incomeStatement": "Estado de Resultados",
+          "balanceSheet": "Balance General",
+          "cashFlow": "Flujo de Caja",
+          "statistics": "Estadísticas",
+          "priceSummary": "Resumen de Precio",
+          "dividendsAndSplits": "Dividendos y Splits",
+          "marketCapitalization": "Capitalización de Mercado",
+          "enterpriseValue": "Valor de Empresa",
+          "trailingPe": "P/E Histórico",
+          "forwardPe": "P/E Proyectado",
+          "pegRatio": "Ratio PEG",
+          "priceToSalesTtm": "Precio/Ventas (ttm)",
+          "priceToBookMrq": "Precio/Valor en Libros (mrq)",
+          "enterpriseToRevenue": "Valor de Empresa/Ingresos",
+          "enterpriseToEbitda": "Valor de Empresa/EBITDA",
+          "fiscalYearEnds": "Fin del Año Fiscal",
+          "mostRecentQuarter": "Trimestre Más Reciente",
+          "profitMargin": "Margen de Beneficio",
+          "operatingMargin": "Margen Operativo",
+          "returnOnAssetsTtm": "Rentabilidad sobre Activos (ttm)",
+          "returnOnEquityTtm": "Rentabilidad sobre Patrimonio (ttm)",
+          "revenueTtm": "Ingresos (ttm)",
+          "revenuePerShareTtm": "Ingresos por Acción (ttm)",
+          "quarterlyRevenueGrowth": "Crecimiento Trimestral de Ingresos",
+          "grossProfitTtm": "Beneficio Bruto (ttm)",
+          "ebitda": "EBITDA",
+          "netIncomeToCommonTtm": "Ingreso Neto Común (ttm)",
+          "dilutedEpsTtm": "EPS Diluido (ttm)",
+          "quarterlyEarningsGrowthYoy": "Crecimiento Trimestral de Ganancias (yoy)",
+          "totalCashMrq": "Efectivo Total (mrq)",
+          "totalCashPerShareMrq": "Efectivo Total por Acción (mrq)",
+          "totalDebtMrq": "Deuda Total (mrq)",
+          "totalDebtToEquityMrq": "Deuda Total/Patrimonio (mrq)",
+          "currentRatioMrq": "Ratio Corriente (mrq)",
+          "bookValuePerShareMrq": "Valor en Libros por Acción (mrq)",
+          "operatingCashFlowTtm": "Flujo de Caja Operativo (ttm)",
+          "leveredFreeCashFlowTtm": "Flujo de Caja Libre Apalancado (ttm)",
+          "sharesOutstanding": "Acciones en Circulación",
+          "floatShares": "Acciones Flotantes",
+          "avg10Volume": "Volumen Promedio 10 Días",
+          "avg90Volume": "Volumen Promedio 90 Días",
+          "sharesShort": "Acciones en Corto",
+          "shortRatio": "Ratio de Cortos",
+          "shortPercentOfSharesOutstanding": "Porcentaje de Cortos sobre Acciones en Circulación",
+          "percentHeldByInsiders": "Porcentaje en Manos de Insiders",
+          "percentHeldByInstitutions": "Porcentaje en Manos de Instituciones",
+          "fiftyTwoWeekLow": "Mínimo de 52 Semanas",
+          "fiftyTwoWeekHigh": "Máximo de 52 Semanas",
+          "fiftyTwoWeekChange": "Cambio de 52 Semanas",
+          "beta": "Beta",
+          "day50Ma": "MA de 50 Días",
+          "day200Ma": "MA de 200 Días",
+          "forwardAnnualDividendRate": "Tasa de Dividendo Anual Proyectada",
+          "forwardAnnualDividendYield": "Rendimiento de Dividendo Anual Proyectado",
+          "trailingAnnualDividendRate": "Tasa de Dividendo Anual Histórica",
+          "trailingAnnualDividendYield": "Rendimiento de Dividendo Anual Histórico",
+          "fiveYearAverageDividendYield": "Rendimiento Promedio de Dividendo a 5 Años",
+          "payoutRatio": "Ratio de Pago",
+          "dividendDate": "Fecha de Dividendo",
+          "exDividendDate": "Fecha Ex-Dividendo"
+        }
+      }
+    },
+    "authentication": {
+      "login": {
+        "header": "Iniciar Sesión",
+        "email": "Email",
+        "emailRequired": "El email es obligatorio",
+        "password": "Contraseña",
+        "passwordRequired": "La contraseña es obligatoria",
+        "login": "Iniciar Sesión",
+        "signUp": "Registrarse",
+        "or": "o",
+        "signInWithGoogle": "Iniciar sesión con Google"
+      },
+      "googleSignUp": {
+        "header": "Completar Registro",
+        "description": "Por favor selecciona tu moneda predeterminada para completar la configuración de tu cuenta.",
+        "defaultCurrency": "Moneda Predeterminada",
+        "defaultCurrencyRequired": "La moneda predeterminada es obligatoria",
+        "continue": "Continuar"
+      },
+      "signUp": {
+        "header": "Registrarse",
+        "name": "Nombre",
+        "nameRequired": "El nombre es obligatorio",
+        "email": "Email",
+        "emailRequired": "El email es obligatorio",
+        "emailIsEmail": "El email debe tener el formato 'jondow@example.com'",
+        "emailExists": "El email ya existe",
+        "password": "Contraseña",
+        "passwordRequired": "La contraseña es obligatoria",
+        "passwordLength": "La contraseña debe tener al menos 6 caracteres",
+        "defaultCurrency": "Moneda Predeterminada",
+        "defaultCurrencyRequired": "La moneda predeterminada es obligatoria",
+        "signUp": "Registrarse"
+      }
+    },
+    "emailVerify": {
+      "verify": {
+        "emailVerified": "El email ha sido verificado.",
+        "login": "Iniciar Sesión"
+      }
+    },
+    "groups": {
+      "addEdit": {
+        "headerAdd": "Agregar Grupo",
+        "headerEdit": "Editar Grupo",
+        "name": "Nombre",
+        "nameRequired": "El nombre es obligatorio",
+        "color": "Color",
+        "colorRequired": "El color es obligatorio",
+        "assets": "Activos",
+        "assetsRequired": "Los activos son obligatorios",
+        "assetDisabled": "El activo está asignado al grupo \u201c{{groupName}}\u201d"
+      },
+      "list": {
+        "title": "Grupos",
+        "addGroup": "Agregar Grupo",
+        "name": "Nombre"
+      }
+    },
+    "strategies": {
+      "addEdit": {
+        "headerAdd": "Agregar Estrategia",
+        "headerEdit": "Editar Estrategia",
+        "name": "Nombre",
+        "nameRequired": "El nombre es obligatorio",
+        "isDefault": "Predeterminada",
+        "items": "Elementos",
+        "addItem": "Agregar Elemento",
+        "type": "Tipo",
+        "typeAsset": "Activo",
+        "typeGroup": "Grupo",
+        "typeOthers": "Otros",
+        "asset": "Activo",
+        "group": "Grupo",
+        "percentage": "Porcentaje",
+        "totalPercentage": "Porcentaje total",
+        "totalMustNotExceed100": "El porcentaje total no debe superar el 100%"
+      },
+      "list": {
+        "title": "Estrategias",
+        "addStrategy": "Agregar Estrategia",
+        "name": "Nombre",
+        "default": "Predeterminada",
+        "detail": "Detalle"
+      },
+      "detail": {
+        "title": "Detalle de Estrategia",
+        "targetAllocation": "Asignación Objetivo",
+        "actualAllocation": "Asignación Actual",
+        "name": "Nombre",
+        "target": "Objetivo",
+        "actual": "Actual",
+        "difference": "Diferencia"
+      }
+    },
+    "history": {
+      "history": {
+        "title": "Historial",
+        "d": "d",
+        "m": "m",
+        "y": "a",
+        "ytd": "YTD",
+        "all": "todo",
+        "custom": "Personalizado",
+        "from": "Desde",
+        "to": "Hasta",
+        "portfolioValue": "Valor del Portafolio",
+        "benchmarkAsset": "Activo de Referencia",
+        "choose": "Elegir Activo",
+        "value": "Valor",
+        "investedValue": "Valor Invertido",
+        "benchmark": "Referencia",
+        "chooseBenchmark": "Elegir Referencia"
+      }
+    },
+    "overviews": {
+      "list": {
+        "title": "Resúmenes",
+        "interannually": "Interanual",
+        "year": "Año",
+        "value": "Valor",
+        "investedValue": "Valor Invertido",
+        "unrealizedGain": "Ganancia/Pérdida No Realizada",
+        "realizedGain": "Ganancia/Pérdida Realizada",
+        "dividend": "Dividendo",
+        "fxImpact": "Impacto Forex",
+        "return": "Rendimiento"
+      }
+    },
+    "portfolios": {
+      "addEdit": {
+        "headerAdd": "Agregar Portafolio",
+        "headerEdit": "Editar Portafolio",
+        "name": "Nombre",
+        "nameRequired": "El nombre es obligatorio",
+        "currency": "Moneda",
+        "currencyRequired": "La moneda es obligatoria",
+        "default": "Predeterminado"
+      },
+      "list": {
+        "title": "Portafolios",
+        "addPortfolio": "Agregar Portafolio",
+        "name": "Nombre"
+      }
+    },
+    "transactions": {
+      "list": {
+        "title": "Transacciones",
+        "addTransaction": "Agregar Transacción",
+        "addDividend": "Agregar Dividendo",
+        "import": "Importar",
+        "date": "Fecha",
+        "created": "Creado",
+        "type": "Tipo",
+        "asset": "Activo"
+      },
+      "import": {
+        "import": {
+          "title": "Importar Archivo CSV",
+          "broker": "Broker",
+          "brokerRequired": "El broker es obligatorio",
+          "fileDropText": "Arrastra archivos CSV aquí o haz clic para subir",
+          "fileDropButton": "Elegir archivos",
+          "import": "Importar",
+          "importFiles": "Importar Archivos",
+          "uploading": "Subiendo...",
+          "processing": "Procesando...",
+          "uploaded": "Subido",
+          "notSupported": "El archivo no es compatible",
+          "error": "Error al importar el archivo",
+          "selectTicker": "Por favor selecciona el activo correcto para estos tickers",
+          "allTickersSelectedAutomatically": "Todos los tickers fueron seleccionados automáticamente",
+          "pleaseWait": "Puede tardar unos segundos. Por favor espera..."
+        }
+      },
+      "search": {
+        "search": "Buscar",
+        "filterBy": "Filtrar por",
+        "type": "Tipo",
+        "all": "Todos",
+        "createdDate": "Fecha de creación"
+      }
+    },
+    "users": {
+      "addEdit": {
+        "headerAdd": "Agregar Usuario",
+        "headerEdit": "Editar Usuario",
+        "name": "Nombre",
+        "nameRequired": "El nombre es obligatorio",
+        "email": "Email",
+        "emailRequired": "El email es obligatorio",
+        "password": "Contraseña",
+        "passwordLeaveBlank": "(Deja en blanco para mantener la misma contraseña)",
+        "passwordRequired": "La contraseña es obligatoria",
+        "passwordLength": "La contraseña debe tener al menos 6 caracteres",
+        "defaultCurrency": "Moneda Predeterminada",
+        "defaultCurrencyRequired": "La moneda predeterminada es obligatoria",
+        "role": "Rol",
+        "roleRequired": "El rol es obligatorio",
+        "plan": "Plan",
+        "planRequired": "El plan es obligatorio"
+      },
+      "list": {
+        "title": "Usuarios",
+        "addUser": "Agregar Usuario",
+        "email": "Email",
+        "name": "Nombre",
+        "plan": "Plan",
+        "planExpires": "Expira",
+        "assets": "Activos",
+        "transactions": "Transacciones",
+        "lastLoggedIn": "Último Inicio de Sesión",
+        "lastRefreshTokenGenerated": "Última Actualización de Token",
+        "never": "nunca"
+      }
+    },
+    "dividends": {
+      "dividends-history": {
+        "title": "Historial de Dividendos"
+      }
+    },
+    "onboarding": {
+      "onboarding": {
+        "title": "Bienvenido a FinGather",
+        "subtitle": "Empecemos<br>importando tus activos.",
+        "skip": "Omitir"
+      },
+      "stepOne": {
+        "name": "Primero, ponle nombre a tu portafolio",
+        "nameRequired": "El nombre del portafolio es obligatorio",
+        "namePlaceholder": "Nombre del portafolio",
+        "saveAndContinue": "Guardar y Continuar para establecer la moneda del portafolio",
+        "setCurrency": "Establecer Moneda"
+      },
+      "stepTwo": {
+        "currency": "Elige la moneda para tu portafolio",
+        "currencyRequired": "La moneda es obligatoria",
+        "saveAndContinue": "Guardar y Continuar para importar tus activos",
+        "importAssets": "Importar Activos"
+      },
+      "steps": {
+        "name": "Nombre",
+        "currency": "Moneda",
+        "import": "Importar"
+      }
+    },
+    "apiKeys": {
+      "apiKeys": {
+        "title": "Claves API",
+        "apiKey": "Clave API",
+        "type": "Tipo",
+        "addApiKey": "Agregar Clave API",
+        "deleteTitle": "Eliminar Clave API",
+        "deleteMessage": "¿Estás seguro de que quieres eliminar esta clave API?"
+      },
+      "addEdit": {
+        "headerAdd": "Agregar Clave API",
+        "headerEdit": "Editar Clave API",
+        "type": "Tipo",
+        "typeRequired": "El tipo es obligatorio",
+        "apiKey": "Clave API",
+        "apiKeyRequired": "La clave API es obligatoria",
+        "userKey": "Clave de Usuario"
+      }
+    },
+    "account": {
+      "accountInfo": {
+        "title": "Cuenta",
+        "name": "Nombre",
+        "nameRequired": "El nombre es obligatorio",
+        "email": "Email",
+        "emailRequired": "El email es obligatorio",
+        "emailIsEmail": "El email debe tener el formato 'jondow@example.com'",
+        "emailExists": "El email ya existe",
+        "password": "Contraseña",
+        "passwordLeaveBlank": "(Deja en blanco para mantener la misma contraseña)",
+        "passwordLength": "La contraseña debe tener al menos 6 caracteres",
+        "emailNotifications": "Notificaciones por email",
+        "updateSuccess": "Cuenta actualizada correctamente",
+        "plan": "Plan",
+        "planExpires": "Expira",
+        "upgradeTo": "Mejorar a",
+        "cancelPlan": "Cancelar Plan",
+        "cancelPlanMessage": "¿Estás seguro de que quieres cancelar tu plan?"
+      },
+      "planUpgrade": {
+        "title": "Mejorar Plan",
+        "pay": "Pagar"
+      }
+    },
+    "settings": {
+      "benchmarkAssets": {
+        "title": "Activos de Referencia",
+        "add": "Agregar Activo de Referencia",
+        "ticker": "Ticker",
+        "name": "Nombre",
+        "market": "Mercado",
+        "selectAsset": "Seleccionar Activo",
+        "deleteTitle": "Eliminar Activo de Referencia",
+        "deleteMessage": "¿Estás seguro de que quieres eliminar este activo de referencia?"
+      }
+    },
+    "shared": {
+      "portfolioTotal": {
+        "portfolioValue": "Valor del Portafolio",
+        "gain": "Ganancia/Pérdida No Realizada",
+        "gainRealized": "Ganancia/Pérdida Realizada",
+        "dividend": "Rendimiento por Dividendo",
+        "investedValue": "Valor Invertido",
+        "fxImpact": "Impacto Forex",
+        "taxFee": "Impuesto/Comisión",
+        "tax": "Impuesto",
+        "fee": "Comisión",
+        "total": "Total",
+        "help": {
+          "portfolioValue": "Valor total de todos los activos en el portafolio sin ganancia realizada, dividendos, impacto forex, impuestos y comisiones.",
+          "gain": "Diferencia entre el valor invertido y el valor actual del portafolio",
+          "gainRealized": "Ganancia realizada por la venta de activos.",
+          "investedValue": "Valor total invertido del portafolio sin impuestos ni comisiones.",
+          "fxImpact": "El impacto de los tipos de cambio en el valor del portafolio."
+        }
+      },
+      "dividendDialog": {
+        "headerAdd": "Agregar Dividendo",
+        "headerEdit": "Editar Dividendo",
+        "asset": "Activo",
+        "assetRequired": "El activo es obligatorio",
+        "broker": "Broker",
+        "brokerRequired": "El broker es obligatorio",
+        "paidDate": "Fecha de pago",
+        "paidDateRequired": "La fecha de pago es obligatoria",
+        "price": "Precio",
+        "priceRequired": "El precio es obligatorio",
+        "tax": "Impuesto",
+        "taxRequired": "El impuesto es obligatorio",
+        "fee": "Comisión",
+        "feeRequired": "La comisión es obligatoria",
+        "currency": "Moneda",
+        "currencyRequired": "La moneda es obligatoria"
+      },
+      "transactionDialog": {
+        "headerAdd": "Agregar Transacción",
+        "headerEdit": "Editar Transacción",
+        "asset": "Activo",
+        "assetRequired": "El activo es obligatorio",
+        "broker": "Broker",
+        "brokerRequired": "El broker es obligatorio",
+        "brokerUndefined": "Sin definir",
+        "actionType": "Tipo de Acción",
+        "actionTypeRequired": "El tipo de acción es obligatorio",
+        "actionCreated": "Creado",
+        "actionCreatedRequired": "La fecha de creación es obligatoria",
+        "units": "Unidades",
+        "unitsRequired": "Las unidades son obligatorias",
+        "unitPrice": "Precio Unitario",
+        "unitPriceRequired": "El precio unitario es obligatorio",
+        "tax": "Impuesto",
+        "taxRequired": "El impuesto es obligatorio",
+        "fee": "Comisión",
+        "feeRequired": "La comisión es obligatoria",
+        "currency": "Moneda",
+        "currencyRequired": "La moneda es obligatoria"
+      },
+      "tag": {
+        "undefined": "Sin definir",
+        "buy": "Compra",
+        "sell": "Venta",
+        "dividend": "Dividendo",
+        "tax": "Impuesto",
+        "fee": "Comisión",
+        "dividendTax": "Impuesto de Dividendo"
+      },
+      "pagination": {
+        "pagination": "Paginación",
+        "previous": "Anterior",
+        "next": "Siguiente",
+        "recordsPerPage": "Registros por página",
+        "total": "Total",
+        "records": "registros"
+      },
+      "colorPicker": {
+        "recommendedColors": "Colores recomendados",
+        "custom": "Personalizado"
+      },
+      "tickerSearchSelector": {
+        "search": "Buscar Activo"
+      }
+    },
+    "common": {
+      "cancel": "Cancelar",
+      "save": "Guardar",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "choose": "Elegir",
+      "ok": "OK"
+    }
+  }
+}
