@@ -12,6 +12,7 @@ abstract class AbstractMapperTestCase extends TestCase
 {
 	protected static string $currentTestFile = '';
 
+	/** @return Generator<int, array{0:string, 1:bool}> */
 	public static function mapperDataProvider(): Generator
 	{
 		$files = Finder::findFiles('*')
