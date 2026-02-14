@@ -111,7 +111,7 @@ final class PortfolioDataController
 			return new JsonResponse([]);
 		}
 
-		$firstTransaction = $transactions[array_key_first($transactions)];
+		$firstTransaction = array_first($transactions);
 
 		$portfolioDatas = [];
 

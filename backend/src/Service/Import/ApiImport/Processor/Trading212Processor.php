@@ -47,7 +47,7 @@ class Trading212Processor implements ProcessorInterface
 				return;
 			}
 
-			$firstTransaction = $transactions[array_key_last($transactions)];
+			$firstTransaction = array_last($transactions);
 			$dateFrom = $firstTransaction->dateCreated;
 		}
 

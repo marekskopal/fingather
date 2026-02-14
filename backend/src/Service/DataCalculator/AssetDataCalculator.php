@@ -63,7 +63,7 @@ final class AssetDataCalculator
 
 		$exchangeRate = $this->exchangeRateProvider->getExchangeRate($dateTime, $tickerCurrency, $portfolio->currency);
 
-		$firstTransaction = $transactions[array_key_first($transactions)];
+		$firstTransaction = array_first($transactions);
 		$fromFirstTransactionDays = (int) $dateTime->diff($firstTransaction->actionCreated)->days;
 
 		$buys = [];
