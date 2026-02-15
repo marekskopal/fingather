@@ -1,3 +1,11 @@
+# Rate limiting zones for authentication endpoints
+# 5 requests/minute per IP for login (brute-force protection)
+limit_req_zone $binary_remote_addr zone=auth_login:10m rate=5r/m;
+# 3 requests/minute per IP for signup (abuse prevention)
+limit_req_zone $binary_remote_addr zone=auth_signup:10m rate=3r/m;
+# 10 requests/minute per IP for email-exists (enumeration protection)
+limit_req_zone $binary_remote_addr zone=auth_email_exists:10m rate=10r/m;
+
 upstream http_frontend {
     server frontend:80;
 
@@ -61,6 +69,33 @@ server {
 
         sub_filter_once off;
         sub_filter random_nonce_value $request_id;
+    }
+
+    location = /api/authentication/login {
+        limit_req zone=auth_login burst=5 nodelay;
+        limit_req_status 429;
+
+        fastcgi_pass fastcgi_backend;
+        fastcgi_keep_conn on;
+        include fastcgi_params;
+    }
+
+    location = /api/authentication/sign-up {
+        limit_req zone=auth_signup burst=3 nodelay;
+        limit_req_status 429;
+
+        fastcgi_pass fastcgi_backend;
+        fastcgi_keep_conn on;
+        include fastcgi_params;
+    }
+
+    location = /api/authentication/email-exists {
+        limit_req zone=auth_email_exists burst=5 nodelay;
+        limit_req_status 429;
+
+        fastcgi_pass fastcgi_backend;
+        fastcgi_keep_conn on;
+        include fastcgi_params;
     }
 
     location /api {
