@@ -16,6 +16,7 @@ export * from './portfolio.service';
 export * from './portfolio-data.service';
 export * from './strategy.service';
 export * from './strategy-comparison.service';
+export * from './tax-report.service';
 export * from './ticker.service';
 export * from './ticker-data.service';
 export * from './transaction.service';

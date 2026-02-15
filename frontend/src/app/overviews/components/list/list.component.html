@@ -25,6 +25,7 @@
                         <th class="w-14 text-end">{{ 'app.overviews.list.dividend' | translate }}</th>
                         <th class="w-14 text-end">{{ 'app.overviews.list.fxImpact' | translate }}</th>
                         <th class="w-14 text-end">{{ 'app.overviews.list.return' | translate }}</th>
+                        <th class="w-auto"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -202,11 +203,16 @@
                                     </div>
                                 }
                             </td>
+                            <td>
+                                <a [routerLink]="['tax-report', yearCalculatedData.year]" class="btn btn-sm btn-secondary">
+                                    {{ 'app.overviews.list.taxReport' | translate }}
+                                </a>
+                            </td>
                         </tr>
                     }
                     @if(yearCalculatedDatas() === null) {
                         <tr>
-                            <td colspan="8" class="text-center">
+                            <td colspan="9" class="text-center">
                                 <span class="spinner-border spinner-border-lg align-center"></span>
                             </td>
                         </tr>

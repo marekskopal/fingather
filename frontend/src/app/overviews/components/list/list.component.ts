@@ -2,6 +2,7 @@ import {AsyncPipe, DecimalPipe} from "@angular/common";
 import {
     ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal,
 } from '@angular/core';
+import {RouterLink} from '@angular/router';
 import { Currency, YearCalculatedData } from '@app/models';
 import { ModeEnum } from '@app/overviews/components/list/enum/mode-enum';
 import { CurrencyService, OverviewService, PortfolioService } from '@app/services';
@@ -22,6 +23,7 @@ import { TranslatePipe} from "@ngx-translate/core";
         MoneyPipe,
         AsyncPipe,
         ScrollShadowDirective,
+        RouterLink,
     ],
 })
 export class ListComponent implements OnInit {
