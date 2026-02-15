@@ -75,6 +75,8 @@ server {
         limit_req zone=auth_login burst=5 nodelay;
         limit_req_status 429;
 
+        add_header X-Content-Type-Options nosniff;
+
         fastcgi_pass fastcgi_backend;
         fastcgi_keep_conn on;
         include fastcgi_params;
@@ -83,6 +85,8 @@ server {
     location = /api/authentication/sign-up {
         limit_req zone=auth_signup burst=3 nodelay;
         limit_req_status 429;
+
+        add_header X-Content-Type-Options nosniff;
 
         fastcgi_pass fastcgi_backend;
         fastcgi_keep_conn on;
@@ -93,12 +97,16 @@ server {
         limit_req zone=auth_email_exists burst=5 nodelay;
         limit_req_status 429;
 
+        add_header X-Content-Type-Options nosniff;
+
         fastcgi_pass fastcgi_backend;
         fastcgi_keep_conn on;
         include fastcgi_params;
     }
 
     location /api {
+        add_header X-Content-Type-Options nosniff;
+
         fastcgi_pass fastcgi_backend;
         fastcgi_keep_conn on;
         include fastcgi_params;
