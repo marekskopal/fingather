@@ -30,6 +30,7 @@ export * from './strategy';
 export * from './strategy-comparison-item';
 export * from './strategy-item';
 export * from './strategy-with-comparison';
+export * from './tax-report';
 export * from './ticker';
 export * from './ticker-data';
 export * from './transaction';

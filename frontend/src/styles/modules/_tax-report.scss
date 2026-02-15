@@ -1,0 +1,24 @@
+.tax-report {
+    .tax-report-total {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-gap: $spacing-lg;
+
+        @include media-breakpoint-up(sm) {
+            grid-template-columns: 1fr 1fr;
+        }
+        @include media-breakpoint-up(xl) {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+        @include media-breakpoint-up(xxl) {
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+        }
+    }
+
+    .tax-report-section {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: $spacing-2xl;
+        row-gap: $spacing-md;;
+    }
+}

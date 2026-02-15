@@ -1,0 +1,364 @@
+<a routerLink=".." class="btn-link" tabindex="0">
+    <mat-icon>chevron_left</mat-icon>
+    {{ 'app.overviews.list.title' | translate }}
+</a>
+
+<div class="header">
+    <h1 class="h3">{{ 'app.overviews.taxReport.title' | translate }} &mdash; {{year}}</h1>
+
+    <div class="header-controls">
+        <div class="header-controls-buttons">
+            <button class="btn btn-primary" (click)="exportXlsx()" [disabled]="!taxReport()">
+                <mat-icon>table_view</mat-icon>
+                {{ 'app.overviews.taxReport.exportXlsx' | translate }}
+            </button>
+            <button class="btn btn-primary" (click)="exportPdf()" [disabled]="!taxReport()">
+                <mat-icon>picture_as_pdf</mat-icon>
+                {{ 'app.overviews.taxReport.exportPdf' | translate }}
+            </button>
+        </div>
+        <fingather-portfolio-selector />
+    </div>
+</div>
+
+@if (taxReport(); as report) {
+    <div class="tax-report">
+        <div class="tax-report-section">
+
+            <!-- Realized Capital Gains/Losses -->
+            <h2 class="h5">{{ 'app.overviews.taxReport.realizedGains' | translate }}</h2>
+
+            <div class="tax-report-total">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="icon-circle icon-circle-small">
+                            <mat-icon>sell</mat-icon>
+                        </span>
+                        <h3 class="h6">{{ 'app.overviews.taxReport.salesProceeds' | translate }}</h3>
+                    </div>
+                    <div class="card-body">
+                        <span class="value h3">{{report.realizedGains.totalSalesProceeds | number:'1.2-2' | money: defaultCurrency.id | async}}</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <span class="icon-circle icon-circle-small">
+                            <mat-icon>shopping_cart</mat-icon>
+                        </span>
+                        <h3 class="h6">{{ 'app.overviews.taxReport.costBasis' | translate }}</h3>
+                    </div>
+                    <div class="card-body">
+                        <span class="value h3">{{report.realizedGains.totalCostBasis | number:'1.2-2' | money: defaultCurrency.id | async}}</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <span class="icon-circle icon-circle-small">
+                            <mat-icon>trending_up</mat-icon>
+                        </span>
+                        <h3 class="h6">{{ 'app.overviews.taxReport.gains' | translate }}</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="value h3">
+                            <fingather-value-icon [value]="report.realizedGains.totalGains" />
+                            {{report.realizedGains.totalGains | number:'1.2-2' | money: defaultCurrency.id | async}}
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <span class="icon-circle icon-circle-small">
+                            <mat-icon>trending_down</mat-icon>
+                        </span>
+                        <h3 class="h6">{{ 'app.overviews.taxReport.losses' | translate }}</h3>
+                    </div>
+                    <div class="card-body">
+                        <span class="value h3">{{report.realizedGains.totalLosses | number:'1.2-2' | money: defaultCurrency.id | async}}</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <span class="icon-circle icon-circle-small">
+                            <mat-icon>receipt_long</mat-icon>
+                        </span>
+                        <h3 class="h6">{{ 'app.overviews.taxReport.fees' | translate }}</h3>
+                    </div>
+                    <div class="card-body">
+                        <span class="value h3">{{report.realizedGains.totalFees | number:'1.2-2' | money: defaultCurrency.id | async}}</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <span class="icon-circle icon-circle-small">
+                            <mat-icon>balance</mat-icon>
+                        </span>
+                        <h3 class="h6">{{ 'app.overviews.taxReport.netRealizedGainLoss' | translate }}</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="value h3">
+                            <fingather-value-icon [value]="report.realizedGains.netRealizedGainLoss" />
+                            {{report.realizedGains.netRealizedGainLoss | number:'1.2-2' | money: defaultCurrency.id | async}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @if (report.realizedGains.transactions.length > 0) {
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive" scrollShadow>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>{{ 'app.overviews.taxReport.holdingName' | translate }}</th>
+                                        <th>{{ 'app.overviews.taxReport.buyDate' | translate }}</th>
+                                        <th>{{ 'app.overviews.taxReport.sellDate' | translate }}</th>
+                                        <th class="text-end">{{ 'app.overviews.taxReport.holdingPeriod' | translate }}</th>
+                                        <th class="text-end">{{ 'app.overviews.taxReport.units' | translate }}</th>
+                                        <th class="text-end">{{ 'app.overviews.taxReport.buyPrice' | translate }}</th>
+                                        <th class="text-end">{{ 'app.overviews.taxReport.sellPrice' | translate }}</th>
+                                        <th class="text-end">{{ 'app.overviews.taxReport.costBasis' | translate }}</th>
+                                        <th class="text-end">{{ 'app.overviews.taxReport.salesProceeds' | translate }}</th>
+                                        <th class="text-end">{{ 'app.overviews.taxReport.fee' | translate }}</th>
+                                        <th class="text-end">{{ 'app.overviews.taxReport.gainLoss' | translate }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (tx of report.realizedGains.transactions; track $index) {
+                                        <tr>
+                                            <td>
+                                                <div>{{tx.tickerTicker}}</div>
+                                                <div class="small text-muted">{{tx.tickerName}}</div>
+                                            </td>
+                                            <td>{{tx.buyDate}}</td>
+                                            <td>{{tx.sellDate}}</td>
+                                            <td class="text-end">{{tx.holdingPeriodDays}}</td>
+                                            <td class="text-end">{{tx.units | number:'1.2-8'}}</td>
+                                            <td class="text-end">{{tx.buyPrice | number:'1.2-2' | money: defaultCurrency.id | async}}</td>
+                                            <td class="text-end">{{tx.sellPrice | number:'1.2-2' | money: defaultCurrency.id | async}}</td>
+                                            <td class="text-end">{{tx.costBasis | number:'1.2-2' | money: defaultCurrency.id | async}}</td>
+                                            <td class="text-end">{{tx.salesProceeds | number:'1.2-2' | money: defaultCurrency.id | async}}</td>
+                                            <td class="text-end">{{tx.fee | number:'1.2-2' | money: defaultCurrency.id | async}}</td>
+                                            <td class="text-end">
+                                                <fingather-table-value [value]="tx.gainLoss">
+                                                    {{tx.gainLoss | number:'1.2-2' | money: defaultCurrency.id | async}}
+                                                </fingather-table-value>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- Unrealized Positions -->
+        <div class="tax-report-section">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="h5">{{ 'app.overviews.taxReport.unrealizedPositions' | translate }}</h2>
+                </div>
+                <div class="card-body">
+                    @if (report.unrealizedPositions.positions.length > 0) {
+                        <div class="table-responsive" scrollShadow>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>{{ 'app.overviews.taxReport.holdingName' | translate }}</th>
+                                        <th>{{ 'app.overviews.taxReport.firstBuyDate' | translate }}</th>
+                                        <th class="text-end">{{ 'app.overviews.taxReport.holdingPeriod' | translate }}</th>
+                                        <th class="text-end">{{ 'app.overviews.taxReport.units' | translate }}</th>
+                                        <th class="text-end">{{ 'app.overviews.taxReport.avgBuyPrice' | translate }}</th>
+                                        <th class="text-end">{{ 'app.overviews.taxReport.costBasis' | translate }}</th>
+                                        <th class="text-end">{{ 'app.overviews.taxReport.marketValue' | translate }}</th>
+                                        <th class="text-end">{{ 'app.overviews.taxReport.gainLoss' | translate }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (pos of report.unrealizedPositions.positions; track $index) {
+                                        <tr>
+                                            <td>
+                                                <div>{{pos.tickerTicker}}</div>
+                                                <div class="small text-muted">{{pos.tickerName}}</div>
+                                            </td>
+                                            <td>{{pos.firstBuyDate}}</td>
+                                            <td class="text-end">{{pos.holdingPeriodDays}}</td>
+                                            <td class="text-end">{{pos.units | number:'1.2-8'}}</td>
+                                            <td class="text-end">{{pos.buyPrice | number:'1.2-2' | money: defaultCurrency.id | async}}</td>
+                                            <td class="text-end">{{pos.costBasis | number:'1.2-2' | money: defaultCurrency.id | async}}</td>
+                                            <td class="text-end">{{pos.marketValue | number:'1.2-2' | money: defaultCurrency.id | async}}</td>
+                                            <td class="text-end">
+                                                <fingather-table-value [value]="pos.gainLoss">
+                                                    {{pos.gainLoss | number:'1.2-2' | money: defaultCurrency.id | async}}
+                                                </fingather-table-value>
+                                            </td>
+                                        </tr>
+                                    }
+                                    <tr class="fw-bold">
+                                        <td colspan="5">{{ 'app.assets.list.total' | translate }}</td>
+                                        <td class="text-end">{{report.unrealizedPositions.totalCostBasis | number:'1.2-2' | money: defaultCurrency.id | async}}</td>
+                                        <td class="text-end">{{report.unrealizedPositions.totalMarketValue | number:'1.2-2' | money: defaultCurrency.id | async}}</td>
+                                        <td class="text-end">
+                                            <fingather-table-value [value]="report.unrealizedPositions.totalGainLoss">
+                                                {{report.unrealizedPositions.totalGainLoss | number:'1.2-2' | money: defaultCurrency.id | async}}
+                                            </fingather-table-value>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Dividends -->
+        <div class="tax-report-section">
+            <h2 class="h5">{{ 'app.overviews.taxReport.dividends' | translate }}</h2>
+
+            <div class="tax-report-total">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="icon-circle icon-circle-small">
+                            <mat-icon>payments</mat-icon>
+                        </span>
+                        <h3 class="h6">{{ 'app.overviews.taxReport.totalGross' | translate }}</h3>
+                    </div>
+                    <div class="card-body">
+                        <span class="value h3">{{report.dividends.totalGross | number:'1.2-2' | money: defaultCurrency.id | async}}</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <span class="icon-circle icon-circle-small">
+                            <mat-icon>account_balance</mat-icon>
+                        </span>
+                        <h3 class="h6">{{ 'app.overviews.taxReport.totalTax' | translate }}</h3>
+                    </div>
+                    <div class="card-body">
+                        <span class="value h3">{{report.dividends.totalTax | number:'1.2-2' | money: defaultCurrency.id | async}}</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <span class="icon-circle icon-circle-small">
+                            <mat-icon>savings</mat-icon>
+                        </span>
+                        <h3 class="h6">{{ 'app.overviews.taxReport.totalNet' | translate }}</h3>
+                    </div>
+                    <div class="card-body">
+                        <span class="value h3">{{report.dividends.totalNet | number:'1.2-2' | money: defaultCurrency.id | async}}</span>
+                    </div>
+                </div>
+            </div>
+
+            @if (report.dividends.dividendsByCountry.length > 0) {
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="h6">{{ 'app.overviews.taxReport.dividendsByCountry' | translate }}</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive" scrollShadow>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>{{ 'app.overviews.taxReport.country' | translate }}</th>
+                                        <th class="text-end">{{ 'app.overviews.taxReport.grossAmount' | translate }}</th>
+                                        <th class="text-end">{{ 'app.overviews.taxReport.tax' | translate }}</th>
+                                        <th class="text-end">{{ 'app.overviews.taxReport.netAmount' | translate }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (country of report.dividends.dividendsByCountry; track country.countryIsoCode) {
+                                        <tr>
+                                            <td>{{country.countryName}}</td>
+                                            <td class="text-end">{{country.totalGross | number:'1.2-2' | money: defaultCurrency.id | async}}</td>
+                                            <td class="text-end">{{country.totalTax | number:'1.2-2' | money: defaultCurrency.id | async}}</td>
+                                            <td class="text-end">{{country.totalNet | number:'1.2-2' | money: defaultCurrency.id | async}}</td>
+                                        </tr>
+                                    }
+                                    <tr class="fw-bold">
+                                        <td>{{ 'app.assets.list.total' | translate }}</td>
+                                        <td class="text-end">{{report.dividends.totalGross | number:'1.2-2' | money: defaultCurrency.id | async}}</td>
+                                        <td class="text-end">{{report.dividends.totalTax | number:'1.2-2' | money: defaultCurrency.id | async}}</td>
+                                        <td class="text-end">{{report.dividends.totalNet | number:'1.2-2' | money: defaultCurrency.id | async}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (report.dividends.transactions.length > 0) {
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive" scrollShadow>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>{{ 'app.overviews.taxReport.holdingName' | translate }}</th>
+                                        <th>{{ 'app.overviews.taxReport.date' | translate }}</th>
+                                        <th class="text-end">{{ 'app.overviews.taxReport.grossAmount' | translate }}</th>
+                                        <th class="text-end">{{ 'app.overviews.taxReport.tax' | translate }}</th>
+                                        <th class="text-end">{{ 'app.overviews.taxReport.netAmount' | translate }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (div of report.dividends.transactions; track $index) {
+                                        <tr>
+                                            <td>
+                                                <div>{{div.tickerTicker}}</div>
+                                                <div class="small text-muted">{{div.tickerName}}</div>
+                                            </td>
+                                            <td>{{div.date}}</td>
+                                            <td class="text-end">{{div.grossAmount | number:'1.2-2' | money: defaultCurrency.id | async}}</td>
+                                            <td class="text-end">{{div.tax | number:'1.2-2' | money: defaultCurrency.id | async}}</td>
+                                            <td class="text-end">{{div.netAmount | number:'1.2-2' | money: defaultCurrency.id | async}}</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- Summary -->
+        <div class="tax-report-section">
+            <h2 class="h5">{{ 'app.overviews.taxReport.summary' | translate }}</h2>
+
+            <div class="tax-report-total">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="icon-circle icon-circle-small">
+                            <mat-icon>receipt_long</mat-icon>
+                        </span>
+                        <h3 class="h6">{{ 'app.overviews.taxReport.fees' | translate }}</h3>
+                    </div>
+                    <div class="card-body">
+                        <span class="value h3">{{report.totalFees | number:'1.2-2' | money: defaultCurrency.id | async}}</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <span class="icon-circle icon-circle-small">
+                            <mat-icon>account_balance</mat-icon>
+                        </span>
+                        <h3 class="h6">{{ 'app.overviews.taxReport.taxes' | translate }}</h3>
+                    </div>
+                    <div class="card-body">
+                        <span class="value h3">{{report.totalTaxes | number:'1.2-2' | money: defaultCurrency.id | async}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+} @else {
+    <div class="text-center">
+        <span class="spinner-border spinner-border-lg align-center"></span>
+    </div>
+}

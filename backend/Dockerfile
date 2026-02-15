@@ -27,7 +27,10 @@ RUN set -x \
         supervisor \
    		supercronic \
     	curl \
-    	tzdata
+    	tzdata \
+    	libreoffice-calc \
+    	libreoffice-writer \
+    	font-noto
 
 COPY --from=roadrunner /usr/bin/rr /usr/local/bin/rr
 COPY --from=composer /usr/bin/composer /usr/local/bin/composer

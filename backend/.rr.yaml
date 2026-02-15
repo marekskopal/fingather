@@ -14,6 +14,7 @@ http:
             allowed_origin: ${BACKEND_CORS_ALLOWED_ORIGIN:-*}
             allowed_headers: ${BACKEND_CORS_ALLOWED_HEADERS:-*}
             allowed_methods: ${BACKEND_CORS_ALLOWED_METHODS:-GET,POST,PUT,DELETE,OPTIONS}
+            exposed_headers: "Content-Disposition"
 
     pool:
         supervisor:

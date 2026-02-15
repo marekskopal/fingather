@@ -82,6 +82,10 @@ enum Routes: string
 
 	case TickerData = '/api/ticker-data/{tickerId:number}';
 
+	case TaxReport = '/api/tax-report/{portfolioId:number}/{year:number}';
+	case TaxReportExportXlsx = '/api/tax-report/{portfolioId:number}/{year:number}/export-xlsx';
+	case TaxReportExportPdf = '/api/tax-report/{portfolioId:number}/{year:number}/export-pdf';
+
 	case Transactions = '/api/transactions/{portfolioId:number}';
 	case Transaction = '/api/transaction/{transactionId:number}';
 }
