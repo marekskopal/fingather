@@ -63,7 +63,7 @@ final readonly class AuthenticationController
 		$refreshToken = $this->requestService->getRequestBodyDto($request, RefreshTokenDto::class);
 
 		try {
-			JWT::decode(
+			$decodedRefreshToken = JWT::decode(
 				$refreshToken->refreshToken,
 				new Key((string) getenv('AUTHORIZATION_TOKEN_KEY'), AuthenticationService::TokenAlgorithm),
 			);
@@ -74,6 +74,10 @@ final readonly class AuthenticationController
 		}
 
 		$user = $this->requestService->getUser($request);
+
+		if ($decodedRefreshToken->id !== $user->id) {
+			return new NotAuthorizedResponse('Invalid RefreshToken.');
+		}
 
 		return new JsonResponse($this->authenticationService->createAuthentication($user));
 	}
