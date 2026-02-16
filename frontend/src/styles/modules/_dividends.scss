@@ -1,3 +1,15 @@
 .dividends-chart-container {
     margin-bottom: $spacing-xl;
 }
+
+.dividends-calendar {
+    display: flex;
+    flex-direction: column;
+    row-gap: $spacing-xl;
+
+    .dividends-calendar-header {
+        display: flex;
+        column-gap: $spacing-xl;
+        justify-content: space-between;
+    }
+}

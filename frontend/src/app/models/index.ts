@@ -11,6 +11,7 @@ export * from './benchmark-data';
 export * from './broker';
 export * from './country-with-country-data';
 export * from './currency';
+export * from './dividend-calendar-item';
 export * from './dividend-data-asset';
 export * from './dividend-data-date-interval';
 export * from './group';

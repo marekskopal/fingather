@@ -1,4 +1,4 @@
-﻿<div class="header">
+<div class="header">
     <h1 class="h3">{{ 'app.dividends.dividends-history.title' | translate }}</h1>
 
     <div class="header-controls d-none d-lg-block">
@@ -6,31 +6,60 @@
     </div>
 </div>
 
-<div class="card dividends-chart-container">
-    <div class="card-body">
-        <ul class="nav nav-tabs" scrollShadow>
-            @for (range of ranges; track range.range) {
-                <li class="nav-item">
-                    <a
-                        (click)="changeActiveRange(range.range)"
-                        class="nav-link"
-                        [class.active]="range.range === activeRange"
-                        tabindex="0"
-                    >
-                        @if(range.number !== null){{{range.number}}}{{ range.text | translate }}
-                    </a>
-                </li>
-            }
-        </ul>
+<ul class="nav nav-tabs mb-3">
+    <li class="nav-item">
+        <a
+            (click)="setTab('history')"
+            class="nav-link"
+            [class.active]="activeTab() === 'history'"
+            tabindex="0"
+        >
+            {{ 'app.dividends.dividends-history.tabHistory' | translate }}
+        </a>
+    </li>
+    <li class="nav-item">
+        <a
+            (click)="setTab('forecast')"
+            class="nav-link"
+            [class.active]="activeTab() === 'forecast'"
+            tabindex="0"
+        >
+            {{ 'app.dividends.dividends-history.tabForecast' | translate }}
+        </a>
+    </li>
+</ul>
 
-        <fingather-dividends-data-chart
-            [range]="activeRange"
-        />
+@if (activeTab() === 'history') {
+    <div class="card dividends-chart-container">
+        <div class="card-body">
+            <ul class="nav nav-tabs" scrollShadow>
+                @for (range of ranges; track range.range) {
+                    <li class="nav-item">
+                        <a
+                            (click)="changeActiveRange(range.range)"
+                            class="nav-link"
+                            [class.active]="range.range === activeRange"
+                            tabindex="0"
+                        >
+                            @if(range.number !== null){{{range.number}}}{{ range.text | translate }}
+                        </a>
+                    </li>
+                }
+            </ul>
+
+            <fingather-dividends-data-chart
+                [range]="activeRange"
+            />
+        </div>
     </div>
-</div>
 
-<fingather-transaction-list
-    [actionTypes]="[TransactionActionType.Dividend, TransactionActionType.DividendTax]"
-    [showSearch]="false"
-    [columns]="[TransactionGridColumnEnum.Date, TransactionGridColumnEnum.Created, TransactionGridColumnEnum.Asset, TransactionGridColumnEnum.Actions]"
-/>
+    <fingather-transaction-list
+        [actionTypes]="[TransactionActionType.Dividend, TransactionActionType.DividendTax]"
+        [showSearch]="false"
+        [columns]="[TransactionGridColumnEnum.Date, TransactionGridColumnEnum.Created, TransactionGridColumnEnum.Asset, TransactionGridColumnEnum.Actions]"
+    />
+}
+
+@if (activeTab() === 'forecast') {
+    <fingather-dividend-forecast-calendar />
+}

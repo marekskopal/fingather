@@ -1,0 +1,64 @@
+@if (!loading()) {
+    <div class="dividends-calendar">
+        @if (monthGroups().length === 0) {
+            <div class="text-center text-muted py-5">
+                {{ 'app.dividends.forecast-calendar.empty' | translate }}
+            </div>
+        } @else {
+            @for (group of monthGroups(); track group.label) {
+                <div class="card">
+                    <div class="card-body">
+                        <div class="dividends-calendar-header">
+                            <h5>{{ group.label }}</h5>
+                            <span class="total h5">
+                                @if (defaultCurrency(); as currency) {
+                                    {{ 'app.dividends.forecast-calendar.monthTotal' | translate }}: {{ group.total | number:'1.2-2' | money: currency.id | async }}
+                                }
+                            </span>
+                        </div>
+                        <table
+                            class="table"
+                            scrollShadow
+                        >
+                            <thead>
+                                <tr>
+                                    <th>{{ 'app.dividends.forecast-calendar.asset' | translate }}</th>
+                                    <th>{{ 'app.dividends.forecast-calendar.exDate' | translate }}</th>
+                                    <th class="text-end">{{ 'app.dividends.forecast-calendar.amountPerShare' | translate }}</th>
+                                    <th class="text-end">{{ 'app.dividends.forecast-calendar.units' | translate }}</th>
+                                    <th class="text-end">{{ 'app.dividends.forecast-calendar.totalAmount' | translate }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (item of group.items; track item.assetId + item.exDate) {
+                                    <tr>
+                                        <td>
+                                            <div class="asset">
+                                                <fingather-ticker-logo
+                                                    [ticker]="item.ticker"
+                                                    [width]="46"
+                                                    [height]="46"
+                                                />
+                                                <div class="asset-text">
+                                                    <div class="asset-ticker">{{item.ticker.ticker}}</div>
+                                                    <div class="asset-name ellipsis">{{item.ticker.name}}</div>
+                                                </div>
+                                            </div>
+
+                                        </td>
+                                        <td>{{ item.exDate | date: 'y-MM-dd' }}</td>
+                                        <td class="text-end">{{ item.amountPerShare | number:'1.2-4' | money: item.ticker.currencyId | async }}</td>
+                                        <td class="text-end">{{ item.units | number:'1.2-8' }}</td>
+                                        @if (defaultCurrency(); as currency) {
+                                            <td class="text-end">{{ item.totalAmountDefaultCurrency | number:'1.2-2' | money: currency.id | async }}</td>
+                                        }
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+}

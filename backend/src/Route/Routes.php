@@ -43,6 +43,8 @@ enum Routes: string
 
 	case DividendDataRange = '/api/dividend-data-range/{portfolioId:number}';
 
+	case DividendCalendar = '/api/dividend-calendar/{portfolioId:number}';
+
 	case EmailVerify = '/api/email-verify';
 
 	case Groups = '/api/groups/{portfolioId:number}';
