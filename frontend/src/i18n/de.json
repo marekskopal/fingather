@@ -403,7 +403,18 @@
     },
     "dividends": {
       "dividends-history": {
-        "title": "Dividendenverlauf"
+        "title": "Dividenden",
+        "tabHistory": "Verlauf",
+        "tabForecast": "Prognosekalender"
+      },
+      "forecast-calendar": {
+        "asset": "Vermögenswert",
+        "exDate": "Ex-Datum",
+        "amountPerShare": "Betrag/Aktie",
+        "units": "Einheiten",
+        "totalAmount": "Erwarteter Gesamtbetrag",
+        "monthTotal": "Monatssumme",
+        "empty": "Keine anstehenden Dividenden für Ihre aktuellen Bestände gefunden."
       }
     },
     "onboarding": {

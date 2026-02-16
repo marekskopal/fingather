@@ -24,6 +24,7 @@ final readonly class Cache
 		?User $user = null,
 		?Portfolio $portfolio = null,
 		?DateTimeImmutable $date = null,
+		?int $expireSeconds = null,
 	): mixed {
 		$dependencies = null;
 		$tags = CacheTag::getForSave($this->namespace, $user, $portfolio, $date);
@@ -31,6 +32,10 @@ final readonly class Cache
 			$dependencies = [
 				\Nette\Caching\Cache::Tags => $tags,
 			];
+		}
+
+		if ($expireSeconds !== null) {
+			$dependencies[\Nette\Caching\Cache::Expire] = $expireSeconds;
 		}
 
 		return $this->cache->save($key, $data, $dependencies);

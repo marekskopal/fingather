@@ -399,7 +399,18 @@
     },
     "dividends": {
       "dividends-history": {
-        "title": "Historie dividend"
+        "title": "Dividendy",
+        "tabHistory": "Historie",
+        "tabForecast": "Kalendář prognóz"
+      },
+      "forecast-calendar": {
+        "asset": "Aktivum",
+        "exDate": "Ex-datum",
+        "amountPerShare": "Částka/akcii",
+        "units": "Jednotky",
+        "totalAmount": "Očekávaný celkem",
+        "monthTotal": "Celkem za měsíc",
+        "empty": "Pro vaše aktuální držení nebyly nalezeny žádné nadcházející dividendy."
       }
     },
     "onboarding": {

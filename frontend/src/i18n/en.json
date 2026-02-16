@@ -399,7 +399,18 @@
     },
     "dividends": {
       "dividends-history": {
-        "title": "Dividends History"
+        "title": "Dividends",
+        "tabHistory": "History",
+        "tabForecast": "Forecast Calendar"
+      },
+      "forecast-calendar": {
+        "asset": "Asset",
+        "exDate": "Ex-Date",
+        "amountPerShare": "Amount/Share",
+        "units": "Units",
+        "totalAmount": "Expected Total",
+        "monthTotal": "Month Total",
+        "empty": "No upcoming dividends found for your current holdings."
       }
     },
     "onboarding": {

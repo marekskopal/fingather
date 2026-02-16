@@ -5,6 +5,7 @@ export * from './benchmark-asset.service';
 export * from './broker.service';
 export * from './currency.service';
 export * from './current-user.service';
+export * from './dividend-calendar.service';
 export * from './dividend-data.service';
 export * from './email-verify.service';
 export * from './group.service';

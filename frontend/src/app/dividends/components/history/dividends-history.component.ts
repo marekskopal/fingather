@@ -1,7 +1,10 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import {
     DividendsDataChartComponent,
 } from "@app/dividends/components/dividend-data-chart/dividends-data-chart.component";
+import {
+    DividendForecastCalendarComponent,
+} from "@app/dividends/components/forecast-calendar/dividend-forecast-calendar.component";
 import {TransactionActionType} from "@app/models";
 import { RangeEnum } from '@app/models/enums/range-enum';
 import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selector/portfolio-selector.component";
@@ -20,10 +23,13 @@ import { TranslatePipe} from "@ngx-translate/core";
         DividendsDataChartComponent,
         ScrollShadowDirective,
         TransactionListComponent,
+        DividendForecastCalendarComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DividendsHistoryComponent {
+    protected readonly activeTab = signal<'history' | 'forecast'>('history');
+
     protected activeRange: RangeEnum = RangeEnum.YTD;
 
     protected ranges: {range: RangeEnum, text: string, number: number | null}[] = [
@@ -35,6 +41,10 @@ export class DividendsHistoryComponent {
         {range: RangeEnum.OneYear, text: 'app.history.history.y', number: 1},
         {range: RangeEnum.All, text: 'app.history.history.all', number: null},
     ];
+
+    protected setTab(tab: 'history' | 'forecast'): void {
+        this.activeTab.set(tab);
+    }
 
     protected changeActiveRange(activeRange: RangeEnum): void {
         this.activeRange = activeRange;
