@@ -16,9 +16,9 @@ use MarekSkopal\Router\Attribute\RoutePut;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-final class CurrentUserController
+final readonly class CurrentUserController
 {
-	public function __construct(private readonly RequestService $requestService, private readonly UserProvider $userProvider)
+	public function __construct(private RequestService $requestService, private UserProvider $userProvider)
 	{
 	}
 

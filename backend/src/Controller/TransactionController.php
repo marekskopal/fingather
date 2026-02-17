@@ -29,16 +29,16 @@ use MarekSkopal\Router\Attribute\RoutePut;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-final class TransactionController
+final readonly class TransactionController
 {
 	public function __construct(
-		private readonly TransactionProvider $transactionProvider,
-		private readonly AssetProvider $assetProvider,
-		private readonly BrokerProvider $brokerProvider,
-		private readonly CurrencyProvider $currencyProvider,
-		private readonly DataProvider $dataProvider,
-		private readonly PortfolioProvider $portfolioProvider,
-		private readonly RequestService $requestService,
+		private TransactionProvider $transactionProvider,
+		private AssetProvider $assetProvider,
+		private BrokerProvider $brokerProvider,
+		private CurrencyProvider $currencyProvider,
+		private DataProvider $dataProvider,
+		private PortfolioProvider $portfolioProvider,
+		private RequestService $requestService,
 	) {
 	}
 

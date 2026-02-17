@@ -25,16 +25,16 @@ use MarekSkopal\Router\Attribute\RouteGet;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-final class PortfolioDataController
+final readonly class PortfolioDataController
 {
 	public function __construct(
-		private readonly PortfolioDataProvider $portfolioDataProvider,
-		private readonly CurrentTransactionProvider $currentTransactionProvider,
-		private readonly BenchmarkDataProvider $benchmarkDataProvider,
-		private readonly AssetProvider $assetProvider,
-		private readonly PortfolioProvider $portfolioProvider,
-		private readonly TickerProvider $tickerProvider,
-		private readonly RequestService $requestService,
+		private PortfolioDataProvider $portfolioDataProvider,
+		private CurrentTransactionProvider $currentTransactionProvider,
+		private BenchmarkDataProvider $benchmarkDataProvider,
+		private AssetProvider $assetProvider,
+		private PortfolioProvider $portfolioProvider,
+		private TickerProvider $tickerProvider,
+		private RequestService $requestService,
 	) {
 	}
 

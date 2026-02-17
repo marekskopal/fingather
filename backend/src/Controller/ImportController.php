@@ -23,16 +23,16 @@ use MarekSkopal\Router\Attribute\RoutePost;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-final class ImportController
+final readonly class ImportController
 {
 	public function __construct(
-		private readonly ImportService $importService,
-		private readonly ImportPrepareService $importPrepareService,
-		private readonly ImportProvider $importProvider,
-		private readonly ImportFileProvider $importFileProvider,
-		private readonly ImportMappingProvider $importMappingProvider,
-		private readonly PortfolioProvider $portfolioProvider,
-		private readonly RequestService $requestService,
+		private ImportService $importService,
+		private ImportPrepareService $importPrepareService,
+		private ImportProvider $importProvider,
+		private ImportFileProvider $importFileProvider,
+		private ImportMappingProvider $importMappingProvider,
+		private PortfolioProvider $portfolioProvider,
+		private RequestService $requestService,
 	) {
 	}
 

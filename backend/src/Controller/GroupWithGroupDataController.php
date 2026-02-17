@@ -15,12 +15,12 @@ use MarekSkopal\Router\Attribute\RouteGet;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-final class GroupWithGroupDataController
+final readonly class GroupWithGroupDataController
 {
 	public function __construct(
-		private readonly GroupWithGroupDataProvider $groupWithGroupDataProvider,
-		private readonly PortfolioProvider $portfolioProvider,
-		private readonly RequestService $requestService,
+		private GroupWithGroupDataProvider $groupWithGroupDataProvider,
+		private PortfolioProvider $portfolioProvider,
+		private RequestService $requestService,
 	) {
 	}
 

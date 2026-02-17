@@ -22,12 +22,12 @@ use MarekSkopal\Router\Attribute\RoutePut;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-final class ApiKeyController
+final readonly class ApiKeyController
 {
 	public function __construct(
-		private readonly ApiKeyProvider $apiKeyProvider,
-		private readonly PortfolioProvider $portfolioProvider,
-		private readonly RequestService $requestService,
+		private ApiKeyProvider $apiKeyProvider,
+		private PortfolioProvider $portfolioProvider,
+		private RequestService $requestService,
 	) {
 	}
 

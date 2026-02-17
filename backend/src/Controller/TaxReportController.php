@@ -14,12 +14,12 @@ use MarekSkopal\Router\Attribute\RouteGet;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-final class TaxReportController
+final readonly class TaxReportController
 {
 	public function __construct(
-		private readonly TaxReportCalculator $taxReportCalculator,
-		private readonly PortfolioProvider $portfolioProvider,
-		private readonly RequestService $requestService,
+		private TaxReportCalculator $taxReportCalculator,
+		private PortfolioProvider $portfolioProvider,
+		private RequestService $requestService,
 	) {
 	}
 

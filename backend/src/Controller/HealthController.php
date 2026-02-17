@@ -11,7 +11,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 #[RouteGet(Routes::Health->value)]
-final class HealthController
+final readonly class HealthController
 {
 	public function __invoke(ServerRequestInterface $request): ResponseInterface
 	{

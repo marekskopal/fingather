@@ -19,13 +19,13 @@ use MarekSkopal\Router\Attribute\RouteGet;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-final class AssetDataController
+final readonly class AssetDataController
 {
 	public function __construct(
-		private readonly AssetProvider $assetProvider,
-		private readonly AssetDataProvider $assetDataProvider,
-		private readonly TransactionProvider $transactionProvider,
-		private readonly RequestServiceInterface $requestService,
+		private AssetProvider $assetProvider,
+		private AssetDataProvider $assetDataProvider,
+		private TransactionProvider $transactionProvider,
+		private RequestServiceInterface $requestService,
 	) {
 	}
 
