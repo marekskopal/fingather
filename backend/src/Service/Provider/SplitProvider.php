@@ -13,7 +13,7 @@ use FinGather\Service\Cache\Cache;
 use FinGather\Service\Cache\CacheFactory;
 use FinGather\Service\Provider\Dto\SplitDto;
 
-class SplitProvider
+final class SplitProvider implements SplitProviderInterface
 {
 	private readonly Cache $cache;
 

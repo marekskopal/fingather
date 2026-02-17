@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Dto;
 
-readonly class StrategyComparisonItemDto
+final readonly class StrategyComparisonItemDto
 {
 	public function __construct(
 		public string $name,

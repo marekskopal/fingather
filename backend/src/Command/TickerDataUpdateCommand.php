@@ -7,7 +7,7 @@ namespace FinGather\Command;
 use DateTimeImmutable;
 use FinGather\App\ApplicationFactory;
 use FinGather\Service\Provider\DataProvider;
-use FinGather\Service\Provider\TickerDataProvider;
+use FinGather\Service\Provider\TickerDataProviderInterface;
 use FinGather\Service\Provider\TickerProvider;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -23,8 +23,8 @@ final class TickerDataUpdateCommand extends AbstractCommand
 	{
 		$application = ApplicationFactory::create();
 
-		$tickerDataProvider = $application->container->get(TickerDataProvider::class);
-		assert($tickerDataProvider instanceof TickerDataProvider);
+		$tickerDataProvider = $application->container->get(TickerDataProviderInterface::class);
+		assert($tickerDataProvider instanceof TickerDataProviderInterface);
 
 		$tickerProvider = $application->container->get(TickerProvider::class);
 		assert($tickerProvider instanceof TickerProvider);

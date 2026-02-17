@@ -59,6 +59,26 @@ use FinGather\Route\Strategy\JsonStrategy;
 use FinGather\Service\Cache\CacheFactory;
 use FinGather\Service\Dbal\DbContext;
 use FinGather\Service\Logger\Logger;
+use FinGather\Service\Provider\AssetDataProvider;
+use FinGather\Service\Provider\AssetDataProviderInterface;
+use FinGather\Service\Provider\AssetProvider;
+use FinGather\Service\Provider\AssetProviderInterface;
+use FinGather\Service\Provider\CountryWithCountryDataProvider;
+use FinGather\Service\Provider\CountryWithCountryDataProviderInterface;
+use FinGather\Service\Provider\CurrentTransactionProvider;
+use FinGather\Service\Provider\CurrentTransactionProviderInterface;
+use FinGather\Service\Provider\ExchangeRateProvider;
+use FinGather\Service\Provider\ExchangeRateProviderInterface;
+use FinGather\Service\Provider\PortfolioProvider;
+use FinGather\Service\Provider\PortfolioProviderInterface;
+use FinGather\Service\Provider\SplitProvider;
+use FinGather\Service\Provider\SplitProviderInterface;
+use FinGather\Service\Provider\TickerDataProvider;
+use FinGather\Service\Provider\TickerDataProviderInterface;
+use FinGather\Service\Provider\TransactionProvider;
+use FinGather\Service\Provider\TransactionProviderInterface;
+use FinGather\Service\Provider\UserProvider;
+use FinGather\Service\Provider\UserProviderInterface;
 use FinGather\Service\Request\RequestService;
 use FinGather\Service\Request\RequestServiceInterface;
 use FinGather\Service\Task\TaskService;
@@ -133,8 +153,19 @@ final class ApplicationFactory
 
 		self::initializeOrmContainer($container, $dbContext);
 
-		$container->add(RequestServiceInterface::class, fn () => new RequestService());
-		$container->add(TaskServiceInterface::class, fn () => new TaskService());
+		$container->add(RequestServiceInterface::class, RequestService::class);
+		$container->add(TaskServiceInterface::class, TaskService::class);
+
+		$container->add(AssetProviderInterface::class, AssetProvider::class);
+		$container->add(AssetDataProviderInterface::class, AssetDataProvider::class);
+		$container->add(CountryWithCountryDataProviderInterface::class, CountryWithCountryDataProvider::class);
+		$container->add(CurrentTransactionProviderInterface::class, CurrentTransactionProvider::class);
+		$container->add(ExchangeRateProviderInterface::class, ExchangeRateProvider::class);
+		$container->add(PortfolioProviderInterface::class, PortfolioProvider::class);
+		$container->add(SplitProviderInterface::class, SplitProvider::class);
+		$container->add(TickerDataProviderInterface::class, TickerDataProvider::class);
+		$container->add(TransactionProviderInterface::class, TransactionProvider::class);
+		$container->add(UserProviderInterface::class, UserProvider::class);
 
 		return $container;
 	}

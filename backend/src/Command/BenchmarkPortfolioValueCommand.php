@@ -9,8 +9,8 @@ use FinGather\Dto\Enum\RangeEnum;
 use FinGather\Service\Authentication\AuthenticationService;
 use FinGather\Service\Provider\DataProvider;
 use FinGather\Service\Provider\PortfolioDataProvider;
-use FinGather\Service\Provider\PortfolioProvider;
-use FinGather\Service\Provider\UserProvider;
+use FinGather\Service\Provider\PortfolioProviderInterface;
+use FinGather\Service\Provider\UserProviderInterface;
 use FinGather\Utils\BenchmarkUtils;
 use GuzzleHttp\Psr7\ServerRequest;
 use Symfony\Component\Console\Input\InputInterface;
@@ -27,14 +27,14 @@ final class BenchmarkPortfolioValueCommand extends AbstractCommand
 	{
 		$application = ApplicationFactory::create();
 
-		$userProvider = $application->container->get(UserProvider::class);
-		assert($userProvider instanceof UserProvider);
+		$userProvider = $application->container->get(UserProviderInterface::class);
+		assert($userProvider instanceof UserProviderInterface);
 
 		$dataProvider = $application->container->get(DataProvider::class);
 		assert($dataProvider instanceof DataProvider);
 
-		$portfolioProvider = $application->container->get(PortfolioProvider::class);
-		assert($portfolioProvider instanceof PortfolioProvider);
+		$portfolioProvider = $application->container->get(PortfolioProviderInterface::class);
+		assert($portfolioProvider instanceof PortfolioProviderInterface);
 
 		$portfolioDataProvider = $application->container->get(PortfolioDataProvider::class);
 		assert($portfolioDataProvider instanceof PortfolioDataProvider);

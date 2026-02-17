@@ -25,11 +25,11 @@ use FinGather\Service\DataCalculator\Dto\AssetDataDto;
 use FinGather\Service\DataCalculator\Dto\TransactionBuyDto;
 use FinGather\Service\DataCalculator\Dto\TransactionValueDto;
 use FinGather\Service\DataCalculator\Dto\ValueDto;
-use FinGather\Service\Provider\CurrentTransactionProvider;
+use FinGather\Service\Provider\CurrentTransactionProviderInterface;
 use FinGather\Service\Provider\Dto\SplitDto;
-use FinGather\Service\Provider\ExchangeRateProvider;
-use FinGather\Service\Provider\SplitProvider;
-use FinGather\Service\Provider\TickerDataProvider;
+use FinGather\Service\Provider\ExchangeRateProviderInterface;
+use FinGather\Service\Provider\SplitProviderInterface;
+use FinGather\Service\Provider\TickerDataProviderInterface;
 use FinGather\Tests\Fixtures\Model\Entity\AssetFixture;
 use FinGather\Tests\Fixtures\Model\Entity\PortfolioFixture;
 use FinGather\Tests\Fixtures\Model\Entity\SplitDtoFixture;
@@ -609,19 +609,19 @@ final class AssetDataCalculatorTest extends TestCase
 		Decimal $exchangeRate,
 	): AssetDataCalculator
 	{
-		$currentTransactionProvider = self::createStub(CurrentTransactionProvider::class);
+		$currentTransactionProvider = self::createStub(CurrentTransactionProviderInterface::class);
 		$currentTransactionProvider->method('getTransactions')
 			->willReturn($transactions);
 
-		$splitProvider = self::createStub(SplitProvider::class);
+		$splitProvider = self::createStub(SplitProviderInterface::class);
 		$splitProvider->method('getSplits')
 			->willReturn($splits);
 
-		$tickerDataProvider = self::createStub(TickerDataProvider::class);
+		$tickerDataProvider = self::createStub(TickerDataProviderInterface::class);
 		$tickerDataProvider->method('getLastTickerDataClose')
 			->willReturn($lastTickerDataClose);
 
-		$exchangeRateProvider = self::createStub(ExchangeRateProvider::class);
+		$exchangeRateProvider = self::createStub(ExchangeRateProviderInterface::class);
 		$exchangeRateProvider->method('getExchangeRate')
 			->willReturn($exchangeRate);
 

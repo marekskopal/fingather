@@ -11,9 +11,9 @@ use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\BrokerRepository;
 use Iterator;
 
-class BrokerProvider
+final readonly class BrokerProvider
 {
-	public function __construct(private readonly BrokerRepository $brokerRepository)
+	public function __construct(private BrokerRepository $brokerRepository)
 	{
 	}
 

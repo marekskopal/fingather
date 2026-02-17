@@ -15,12 +15,12 @@ use FinGather\Service\DataCalculator\DataCalculator;
 use FinGather\Service\DataCalculator\Dto\CalculatedDataDto;
 use FinGather\Utils\DateTimeUtils;
 
-class CalculatedGroupDataProvider
+final readonly class CalculatedGroupDataProvider
 {
 	public function __construct(
-		private readonly DataCalculator $dataCalculator,
-		private readonly AssetProvider $assetProvider,
-		private readonly AssetDataProvider $assetDataProvider,
+		private DataCalculator $dataCalculator,
+		private AssetProviderInterface $assetProvider,
+		private AssetDataProviderInterface $assetDataProvider,
 	) {
 	}
 

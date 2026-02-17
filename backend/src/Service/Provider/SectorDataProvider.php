@@ -14,7 +14,7 @@ use FinGather\Service\Cache\CacheStorageEnum;
 use FinGather\Service\DataCalculator\Dto\CalculatedDataDto;
 use FinGather\Utils\DateTimeUtils;
 
-class SectorDataProvider
+final class SectorDataProvider
 {
 	private Cache $cache;
 

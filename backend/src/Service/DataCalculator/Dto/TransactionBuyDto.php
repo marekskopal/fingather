@@ -7,7 +7,7 @@ namespace FinGather\Service\DataCalculator\Dto;
 use DateTimeImmutable;
 use Decimal\Decimal;
 
-class TransactionBuyDto
+final class TransactionBuyDto
 {
 	public function __construct(
 		public readonly ?int $brokerId,

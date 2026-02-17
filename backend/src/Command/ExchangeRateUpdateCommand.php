@@ -8,7 +8,7 @@ use DateTimeImmutable;
 use FinGather\App\ApplicationFactory;
 use FinGather\Service\Provider\CurrencyProvider;
 use FinGather\Service\Provider\DataProvider;
-use FinGather\Service\Provider\ExchangeRateProvider;
+use FinGather\Service\Provider\ExchangeRateProviderInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -23,8 +23,8 @@ final class ExchangeRateUpdateCommand extends AbstractCommand
 	{
 		$application = ApplicationFactory::create();
 
-		$exchangeRateProvider = $application->container->get(ExchangeRateProvider::class);
-		assert($exchangeRateProvider instanceof ExchangeRateProvider);
+		$exchangeRateProvider = $application->container->get(ExchangeRateProviderInterface::class);
+		assert($exchangeRateProvider instanceof ExchangeRateProviderInterface);
 
 		$currencyProvider = $application->container->get(CurrencyProvider::class);
 		assert($currencyProvider instanceof CurrencyProvider);

@@ -10,16 +10,16 @@ use FinGather\Dto\TickerDataDto;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Route\Routes;
 use FinGather\Service\Provider\Dto\TickerDataAdjustedDto;
-use FinGather\Service\Provider\TickerDataProvider;
+use FinGather\Service\Provider\TickerDataProviderInterface;
 use FinGather\Service\Provider\TickerProvider;
 use Laminas\Diactoros\Response\JsonResponse;
 use MarekSkopal\Router\Attribute\RouteGet;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-final class TickerDataController
+final readonly class TickerDataController
 {
-	public function __construct(private readonly TickerDataProvider $tickerDataProvider, private readonly TickerProvider $tickerProvider,)
+	public function __construct(private TickerDataProviderInterface $tickerDataProvider, private TickerProvider $tickerProvider,)
 	{
 	}
 

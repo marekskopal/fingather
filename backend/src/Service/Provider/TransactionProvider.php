@@ -19,12 +19,10 @@ use FinGather\Model\Repository\Enum\TransactionOrderByEnum;
 use FinGather\Model\Repository\TransactionRepository;
 use Iterator;
 
-class TransactionProvider
+final readonly class TransactionProvider implements TransactionProviderInterface
 {
-	public function __construct(
-		private readonly TransactionRepository $transactionRepository,
-		private readonly ExchangeRateProvider $exchangeRateProvider,
-	) {
+	public function __construct(private TransactionRepository $transactionRepository, private ExchangeRateProvider $exchangeRateProvider,)
+	{
 	}
 
 	/**

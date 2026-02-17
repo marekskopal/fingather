@@ -13,9 +13,9 @@ use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\ApiImportRepository;
 use Iterator;
 
-class ApiImportProvider
+final readonly class ApiImportProvider
 {
-	public function __construct(private readonly ApiImportRepository $apiImportRepository)
+	public function __construct(private ApiImportRepository $apiImportRepository)
 	{
 	}
 

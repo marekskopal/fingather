@@ -6,15 +6,15 @@ namespace FinGather\Controller;
 
 use FinGather\Response\OkResponse;
 use FinGather\Route\Routes;
-use FinGather\Service\Provider\UserProvider;
+use FinGather\Service\Provider\UserProviderInterface;
 use FinGather\Service\Request\RequestServiceInterface;
 use MarekSkopal\Router\Attribute\RoutePost;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-final class OnboardingController
+final readonly class OnboardingController
 {
-	public function __construct(private readonly UserProvider $userProvider, private readonly RequestServiceInterface $requestService)
+	public function __construct(private UserProviderInterface $userProvider, private RequestServiceInterface $requestService)
 	{
 	}
 

@@ -8,19 +8,19 @@ use DateTimeImmutable;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Route\Routes;
 use FinGather\Service\Provider\GroupWithGroupDataProvider;
-use FinGather\Service\Provider\PortfolioProvider;
+use FinGather\Service\Provider\PortfolioProviderInterface;
 use FinGather\Service\Request\RequestService;
 use Laminas\Diactoros\Response\JsonResponse;
 use MarekSkopal\Router\Attribute\RouteGet;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-final class GroupWithGroupDataController
+final readonly class GroupWithGroupDataController
 {
 	public function __construct(
-		private readonly GroupWithGroupDataProvider $groupWithGroupDataProvider,
-		private readonly PortfolioProvider $portfolioProvider,
-		private readonly RequestService $requestService,
+		private GroupWithGroupDataProvider $groupWithGroupDataProvider,
+		private PortfolioProviderInterface $portfolioProvider,
+		private RequestService $requestService,
 	) {
 	}
 

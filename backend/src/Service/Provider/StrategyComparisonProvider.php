@@ -12,14 +12,14 @@ use FinGather\Model\Entity\Strategy;
 use FinGather\Model\Entity\User;
 use FinGather\Utils\CalculatorUtils;
 
-class StrategyComparisonProvider
+final readonly class StrategyComparisonProvider
 {
 	public function __construct(
-		private readonly PortfolioDataProvider $portfolioDataProvider,
-		private readonly AssetProvider $assetProvider,
-		private readonly AssetDataProvider $assetDataProvider,
-		private readonly GroupDataProvider $groupDataProvider,
-		private readonly GroupProvider $groupProvider,
+		private PortfolioDataProvider $portfolioDataProvider,
+		private AssetProviderInterface $assetProvider,
+		private AssetDataProviderInterface $assetDataProvider,
+		private GroupDataProvider $groupDataProvider,
+		private GroupProvider $groupProvider,
 	) {
 	}
 

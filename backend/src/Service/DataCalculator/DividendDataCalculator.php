@@ -12,12 +12,12 @@ use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Service\DataCalculator\Dto\DividendDataAssetDto;
 use FinGather\Service\DataCalculator\Dto\DividendDataIntervalDto;
-use FinGather\Service\Provider\TransactionProvider;
+use FinGather\Service\Provider\TransactionProviderInterface;
 use FinGather\Utils\DateTimeUtils;
 
 final class DividendDataCalculator
 {
-	public function __construct(private readonly TransactionProvider $transactionProvider,)
+	public function __construct(private readonly TransactionProviderInterface $transactionProvider,)
 	{
 	}
 

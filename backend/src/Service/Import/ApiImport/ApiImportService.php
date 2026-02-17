@@ -13,7 +13,7 @@ use FinGather\Service\Provider\ApiKeyProvider;
 use FinGather\Service\Provider\BrokerProvider;
 use Psr\Log\LoggerInterface;
 
-readonly class ApiImportService
+final readonly class ApiImportService
 {
 	public function __construct(
 		private ProcessorFactory $processorFactory,

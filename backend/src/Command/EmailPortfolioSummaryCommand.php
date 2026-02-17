@@ -9,8 +9,8 @@ use FinGather\App\ApplicationFactory;
 use FinGather\Service\Email\EmailFactory;
 use FinGather\Service\Email\MailerFactory;
 use FinGather\Service\Provider\PortfolioDataProvider;
-use FinGather\Service\Provider\PortfolioProvider;
-use FinGather\Service\Provider\UserProvider;
+use FinGather\Service\Provider\PortfolioProviderInterface;
+use FinGather\Service\Provider\UserProviderInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -30,11 +30,11 @@ final class EmailPortfolioSummaryCommand extends AbstractCommand
 	{
 		$application = ApplicationFactory::create();
 
-		$userProvider = $application->container->get(UserProvider::class);
-		assert($userProvider instanceof UserProvider);
+		$userProvider = $application->container->get(UserProviderInterface::class);
+		assert($userProvider instanceof UserProviderInterface);
 
-		$portfolioProvider = $application->container->get(PortfolioProvider::class);
-		assert($portfolioProvider instanceof PortfolioProvider);
+		$portfolioProvider = $application->container->get(PortfolioProviderInterface::class);
+		assert($portfolioProvider instanceof PortfolioProviderInterface);
 
 		$portfolioDataProvider = $application->container->get(PortfolioDataProvider::class);
 		assert($portfolioDataProvider instanceof PortfolioDataProvider);

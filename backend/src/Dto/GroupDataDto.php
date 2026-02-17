@@ -7,7 +7,7 @@ namespace FinGather\Dto;
 use Decimal\Decimal;
 use FinGather\Service\DataCalculator\Dto\CalculatedDataDto;
 
-readonly class GroupDataDto
+final readonly class GroupDataDto
 {
 	public function __construct(
 		public Decimal $value,

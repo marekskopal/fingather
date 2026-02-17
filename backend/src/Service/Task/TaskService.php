@@ -8,7 +8,7 @@ use FinGather\Dto\ArrayFactoryInterface;
 use Nette\Utils\Json;
 use Spiral\RoadRunner\Jobs\Task\ReceivedTaskInterface;
 
-class TaskService implements TaskServiceInterface
+final class TaskService implements TaskServiceInterface
 {
 	/**
 	 * @param class-string<T> $dtoClass

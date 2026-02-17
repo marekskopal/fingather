@@ -11,8 +11,8 @@ use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\Transaction;
 use FinGather\Service\DataCalculator\Dto\BenchmarkDataDto;
-use FinGather\Service\Provider\ExchangeRateProvider;
-use FinGather\Service\Provider\TickerDataProvider;
+use FinGather\Service\Provider\ExchangeRateProviderInterface;
+use FinGather\Service\Provider\TickerDataProviderInterface;
 
 final class BenchmarkDataCalculator
 {
@@ -20,8 +20,8 @@ final class BenchmarkDataCalculator
 	private array $transactionBenchmarkUnits = [];
 
 	public function __construct(
-		private readonly ExchangeRateProvider $exchangeRateProvider,
-		private readonly TickerDataProvider $tickerDataProvider,
+		private readonly ExchangeRateProviderInterface $exchangeRateProvider,
+		private readonly TickerDataProviderInterface $tickerDataProvider,
 	) {
 	}
 
