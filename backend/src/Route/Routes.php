@@ -63,6 +63,9 @@ enum Routes: string
 
 	case OverviewYearOverview = '/api/overview/year-overview/{portfolioId:number}';
 
+	case PriceAlerts = '/api/price-alerts';
+	case PriceAlert = '/api/price-alert/{priceAlertId:number}';
+
 	case Portfolios = '/api/portfolios';
 	case Portfolio = '/api/portfolio/{portfolioId:number}';
 	case PortfolioDefault = '/api/portfolio/default';

@@ -13,6 +13,7 @@
       "portfolios": "Portefeuilles",
       "users": "Utilisateurs",
       "apiKeys": "Clés API",
+      "priceAlerts": "Alertes de prix",
       "settings": "Paramètres",
       "account": "Compte",
       "logout": "Déconnexion"
@@ -459,6 +460,37 @@
         "apiKey": "Clé API",
         "apiKeyRequired": "La clé API est requise",
         "userKey": "Clé utilisateur"
+      }
+    },
+    "priceAlerts": {
+      "priceAlerts": {
+        "title": "Alertes de prix",
+        "type": "Type",
+        "subject": "Ticker / Portefeuille",
+        "condition": "Condition",
+        "recurrence": "Récurrence",
+        "active": "Active",
+        "lastTriggered": "Dernier déclenchement",
+        "addPriceAlert": "Ajouter une alerte",
+        "deleteTitle": "Supprimer l'alerte de prix",
+        "deleteMessage": "Êtes-vous sûr de vouloir supprimer cette alerte de prix ?"
+      },
+      "addEdit": {
+        "headerAdd": "Ajouter une alerte de prix",
+        "headerEdit": "Modifier l'alerte de prix",
+        "type": "Type",
+        "typeRequired": "Le type est obligatoire",
+        "ticker": "Ticker",
+        "tickerPlaceholder": "Rechercher un ticker...",
+        "portfolio": "Portefeuille",
+        "condition": "Condition",
+        "conditionRequired": "La condition est obligatoire",
+        "targetValue": "Valeur cible",
+        "targetValueRequired": "La valeur cible est obligatoire",
+        "recurrence": "Récurrence",
+        "recurrenceOneTime": "Une fois",
+        "recurrenceRecurring": "Récurrent",
+        "cooldownHours": "Délai de refroidissement (heures)"
       }
     },
     "account": {

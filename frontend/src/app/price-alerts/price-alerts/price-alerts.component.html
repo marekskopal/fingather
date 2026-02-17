@@ -1,0 +1,64 @@
+<div class="header">
+    <h1 class="h3">{{ 'app.priceAlerts.priceAlerts.title' | translate }}</h1>
+
+    <div class="header-controls">
+        <a routerLink="add-price-alert" class="btn btn-primary" tabindex="0">
+            <mat-icon>add</mat-icon>
+            <span> {{ 'app.priceAlerts.priceAlerts.addPriceAlert' | translate }}</span>
+        </a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        @if(priceAlerts(); as priceAlerts) {
+            <div class="table-responsive" scrollShadow>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="w-15">{{ 'app.priceAlerts.priceAlerts.type' | translate }}</th>
+                            <th class="w-20">{{ 'app.priceAlerts.priceAlerts.subject' | translate }}</th>
+                            <th class="w-20">{{ 'app.priceAlerts.priceAlerts.condition' | translate }}</th>
+                            <th class="w-10">{{ 'app.priceAlerts.priceAlerts.recurrence' | translate }}</th>
+                            <th class="w-10">{{ 'app.priceAlerts.priceAlerts.active' | translate }}</th>
+                            <th class="w-10">{{ 'app.priceAlerts.priceAlerts.lastTriggered' | translate }}</th>
+                            <th class="w-15"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(priceAlert of priceAlerts; track priceAlert.id) {
+                            <tr>
+                                <td>{{priceAlert.type}}</td>
+                                <td>{{getSubjectName(priceAlert)}}</td>
+                                <td>{{priceAlert.condition}} {{formatTargetValue(priceAlert.targetValue)}}</td>
+                                <td>{{getRecurrenceLabel(priceAlert.recurrence)}}</td>
+                                <td>
+                                    <div class="form-check form-switch">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            role="switch"
+                                            [checked]="priceAlert.isActive"
+                                            (change)="toggleActive(priceAlert)"
+                                        >
+                                    </div>
+                                </td>
+                                <td>{{priceAlert.lastTriggeredAt ?? '—'}}</td>
+                                <td class="actions">
+                                    <a routerLink="edit-price-alert/{{priceAlert.id}}" class="btn btn-secondary" tabindex="0">
+                                        <mat-icon>edit</mat-icon>
+                                    </a>
+                                    <fingather-delete-button
+                                        (confirm)="deletePriceAlert(priceAlert.id)"
+                                        [title]="'app.priceAlerts.priceAlerts.deleteTitle' | translate"
+                                        [message]="'app.priceAlerts.priceAlerts.deleteMessage' | translate"
+                                    />
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>

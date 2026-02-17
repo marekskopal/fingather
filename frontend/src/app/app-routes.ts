@@ -68,6 +68,11 @@ export const appRoutes: Routes = [
         canActivate: [AuthGuard],
     },
     {
+        path: 'price-alerts',
+        loadChildren: () => import('./price-alerts/price-alerts-routes'),
+        canActivate: [AuthGuard],
+    },
+    {
         path: 'account',
         loadChildren: () => import('./account/account-routes'),
         canActivate: [AuthGuard],

@@ -24,6 +24,7 @@ export * from './industry-with-industry-data';
 export * from './market';
 export * from './portfolio';
 export * from './portfolio-data';
+export * from './price-alert';
 export * from './portfolio-data-with-benchmark-data';
 export * from './sector-with-sector-data';
 export * from './sign-up';
