@@ -9,6 +9,7 @@ use Decimal\Decimal;
 use FinGather\Dto\DividendCalendarItemDto;
 use FinGather\Dto\TickerDto;
 use FinGather\Model\Entity\Portfolio;
+use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\User;
 use FinGather\Service\Cache\Cache;
 use FinGather\Service\Cache\CacheFactory;
@@ -18,7 +19,7 @@ use MarekSkopal\TwelveData\Dto\Fundamentals\DividendsCalendar;
 use MarekSkopal\TwelveData\Exception\NotFoundException;
 use MarekSkopal\TwelveData\TwelveData;
 
-class DividendCalendarProvider
+final readonly class DividendCalendarProvider
 {
 	private Cache $cache;
 
@@ -27,17 +28,20 @@ class DividendCalendarProvider
 	private const int CacheTtlSeconds = 86400;
 
 	public function __construct(
-		private readonly AssetProvider $assetProvider,
-		private readonly AssetDataProvider $assetDataProvider,
-		private readonly ExchangeRateProvider $exchangeRateProvider,
-		private readonly TwelveData $twelveData,
+		private AssetProvider $assetProvider,
+		private AssetDataProvider $assetDataProvider,
+		private ExchangeRateProvider $exchangeRateProvider,
+		private TwelveData $twelveData,
 		CacheFactory $cacheFactory,
 	) {
 		$this->cache = $cacheFactory->create(driver: CacheStorageEnum::Redis, namespace: self::CacheNamespace);
 	}
 
-	/** @return list<DividendCalendarItemDto> */
-	public function getDividendCalendar(User $user, Portfolio $portfolio): array
+	/**
+	 * @param callable(): void|null $onApiCall
+	 * @return list<DividendCalendarItemDto>
+	 */
+	public function getDividendCalendar(User $user, Portfolio $portfolio, ?callable $onApiCall = null): array
 	{
 		$today = new DateTimeImmutable('today');
 		$endDate = new DateTimeImmutable('+12 months');
@@ -51,24 +55,8 @@ class DividendCalendarProvider
 			}
 
 			$ticker = $asset->ticker;
-			$cacheKey = $ticker->ticker . '_' . $ticker->market->mic . '_' . $today->format('Y-m-d');
 
-			/** @var list<DividendsCalendar>|null $calendarEntries */
-			$calendarEntries = $this->cache->load($cacheKey);
-			if ($calendarEntries === null) {
-				try {
-					$calendarEntries = $this->twelveData->fundamentals->dividendsCalendar(
-						symbol: $ticker->ticker,
-						micCode: $ticker->market->mic,
-						startDate: $today,
-						endDate: $endDate,
-					);
-				} catch (NotFoundException) {
-					$calendarEntries = [];
-				}
-
-				$this->cache->save(key: $cacheKey, data: $calendarEntries, expireSeconds: self::CacheTtlSeconds);
-			}
+			$calendarEntries = $this->getTwelvedataCalendarEntries($ticker, $today, $endDate, $onApiCall);
 
 			$exchangeRate = $this->exchangeRateProvider->getExchangeRate($today, $ticker->currency, $portfolio->currency);
 
@@ -92,5 +80,44 @@ class DividendCalendarProvider
 		usort($items, static fn (DividendCalendarItemDto $a, DividendCalendarItemDto $b): int => $a->exDate <=> $b->exDate);
 
 		return $items;
+	}
+
+	/**
+	 * @param callable(): void|null $onApiCall
+	 * @return list<DividendsCalendar>
+	 */
+	private function getTwelvedataCalendarEntries(
+		Ticker $ticker,
+		DateTimeImmutable $startDate,
+		DateTimeImmutable $endDate,
+		?callable $onApiCall = null,
+	): array
+	{
+		$cacheKey = $ticker->ticker . '_' . $ticker->market->mic . '_' . $startDate->format('Y-m-d');
+
+		/** @var list<DividendsCalendar>|null $calendarEntries */
+		$calendarEntries = $this->cache->load($cacheKey);
+		if ($calendarEntries !== null) {
+			return $calendarEntries;
+		}
+
+		if ($onApiCall !== null) {
+			$onApiCall();
+		}
+
+		try {
+			$calendarEntries = $this->twelveData->fundamentals->dividendsCalendar(
+				symbol: $ticker->ticker,
+				micCode: $ticker->market->mic,
+				startDate: $startDate,
+				endDate: $endDate,
+			);
+		} catch (NotFoundException) {
+			$calendarEntries = [];
+		}
+
+		$this->cache->save(key: $cacheKey, data: $calendarEntries, expireSeconds: self::CacheTtlSeconds);
+
+		return $calendarEntries;
 	}
 }
