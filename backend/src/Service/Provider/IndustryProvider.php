@@ -9,9 +9,9 @@ use FinGather\Model\Entity\Industry;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 
-final readonly class IndustryProvider
+class IndustryProvider
 {
-	public function __construct(private AssetProviderInterface $assetProvider,)
+	public function __construct(private readonly AssetProvider $assetProvider,)
 	{
 	}
 

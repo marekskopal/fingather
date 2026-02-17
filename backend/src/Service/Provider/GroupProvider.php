@@ -12,12 +12,12 @@ use FinGather\Model\Repository\AssetRepository;
 use FinGather\Model\Repository\GroupRepository;
 use Iterator;
 
-final readonly class GroupProvider
+class GroupProvider
 {
 	public function __construct(
-		private GroupRepository $groupRepository,
-		private AssetRepository $assetRepository,
-		private GroupDataProvider $groupDataProvider,
+		private readonly GroupRepository $groupRepository,
+		private readonly AssetRepository $assetRepository,
+		private readonly GroupDataProvider $groupDataProvider,
 	) {
 	}
 

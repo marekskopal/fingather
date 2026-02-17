@@ -18,9 +18,9 @@ use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\User;
 use FinGather\Response\ErrorResponse;
 use FinGather\Response\NotFoundResponse;
-use FinGather\Service\Provider\AssetDataProviderInterface;
-use FinGather\Service\Provider\AssetProviderInterface;
-use FinGather\Service\Provider\TransactionProviderInterface;
+use FinGather\Service\Provider\AssetDataProvider;
+use FinGather\Service\Provider\AssetProvider;
+use FinGather\Service\Provider\TransactionProvider;
 use FinGather\Service\Request\RequestServiceInterface;
 use FinGather\Tests\Fixtures\Model\Entity\AssetFixture;
 use Laminas\Diactoros\Response\JsonResponse;
@@ -50,9 +50,9 @@ final class AssetDataControllerTest extends TestCase
 	protected function setUp(): void
 	{
 		$this->assetDataController = new AssetDataController(
-			$this::createStub(AssetProviderInterface::class),
-			$this::createStub(AssetDataProviderInterface::class),
-			$this::createStub(TransactionProviderInterface::class),
+			$this::createStub(AssetProvider::class),
+			$this::createStub(AssetDataProvider::class),
+			$this::createStub(TransactionProvider::class),
 			$this::createStub(RequestServiceInterface::class),
 		);
 	}
@@ -66,13 +66,13 @@ final class AssetDataControllerTest extends TestCase
 
 	public function testActionGetAssetDataRangeReturnsNotFoundWhenAssetNotFound(): void
 	{
-		$assetProvider = $this::createStub(AssetProviderInterface::class);
+		$assetProvider = $this::createStub(AssetProvider::class);
 		$assetProvider->method('getAsset')->willReturn(null);
 
 		$assetDataController = new AssetDataController(
 			$assetProvider,
-			$this::createStub(AssetDataProviderInterface::class),
-			$this::createStub(TransactionProviderInterface::class),
+			$this::createStub(AssetDataProvider::class),
+			$this::createStub(TransactionProvider::class),
 			$this::createStub(RequestServiceInterface::class),
 		);
 
@@ -83,16 +83,16 @@ final class AssetDataControllerTest extends TestCase
 
 	public function testActionGetAssetDataRangeReturnsNotFoundWhenRangeNotFound(): void
 	{
-		$assetProvider = $this::createStub(AssetProviderInterface::class);
+		$assetProvider = $this::createStub(AssetProvider::class);
 		$assetProvider->method('getAsset')->willReturn(AssetFixture::getAsset());
 
-		$transactionProvider = $this::createStub(TransactionProviderInterface::class);
+		$transactionProvider = $this::createStub(TransactionProvider::class);
 		$transactionProvider->method('getFirstTransaction')->willReturn(null);
 
 		$assetDataController = new AssetDataController(
 			$assetProvider,
-			$this::createStub(AssetDataProviderInterface::class),
-			$this::createStub(TransactionProviderInterface::class),
+			$this::createStub(AssetDataProvider::class),
+			$this::createStub(TransactionProvider::class),
 			$this::createStub(RequestServiceInterface::class),
 		);
 
@@ -103,17 +103,17 @@ final class AssetDataControllerTest extends TestCase
 
 	public function testActionGetAssetDataRangeReturnsEmptyJsonWhenNoFirstTransaction(): void
 	{
-		$assetProvider = $this::createStub(AssetProviderInterface::class);
+		$assetProvider = $this::createStub(AssetProvider::class);
 		$assetProvider->method('getAsset')->willReturn(AssetFixture::getAsset());
 
-		$transactionProvider = $this::createStub(TransactionProviderInterface::class);
+		$transactionProvider = $this::createStub(TransactionProvider::class);
 		$transactionProvider->method('getFirstTransaction')->willReturn(null);
 
 		$request = new ServerRequest(method: 'GET', uri: '/api/asset-data-range/1', queryParams: ['range' => RangeEnum::OneYear->value]);
 
 		$assetDataController = new AssetDataController(
 			$assetProvider,
-			$this::createStub(AssetDataProviderInterface::class),
+			$this::createStub(AssetDataProvider::class),
 			$transactionProvider,
 			$this::createStub(RequestServiceInterface::class),
 		);

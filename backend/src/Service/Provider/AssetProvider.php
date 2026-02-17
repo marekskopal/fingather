@@ -17,9 +17,12 @@ use FinGather\Model\Repository\AssetRepository;
 use FinGather\Service\Update\TickerRelationsUpdater;
 use Iterator;
 
-final readonly class AssetProvider implements AssetProviderInterface
+class AssetProvider
 {
-	public function __construct(private AssetRepository $assetRepository, private TickerRelationsUpdater $tickerRelationsUpdater,)
+	public function __construct(
+		private readonly AssetRepository $assetRepository,
+		private readonly TickerRelationsUpdater $tickerRelationsUpdater,
+	)
 	{
 	}
 

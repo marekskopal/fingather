@@ -6,7 +6,7 @@ namespace FinGather\Tests\Controller;
 
 use FinGather\Controller\OnboardingController;
 use FinGather\Response\OkResponse;
-use FinGather\Service\Provider\UserProviderInterface;
+use FinGather\Service\Provider\UserProvider;
 use FinGather\Service\Request\RequestServiceInterface;
 use Laminas\Diactoros\ServerRequest;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -22,7 +22,7 @@ final class OnboardingControllerTest extends TestCase
 	protected function setUp(): void
 	{
 		$this->onboardingController = new OnboardingController(
-			$this::createStub(UserProviderInterface::class),
+			$this::createStub(UserProvider::class),
 			$this::createStub(RequestServiceInterface::class),
 		);
 	}

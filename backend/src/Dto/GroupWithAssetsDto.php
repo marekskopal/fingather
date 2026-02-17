@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Dto;
 
-final readonly class GroupWithAssetsDto extends GroupDto
+readonly class GroupWithAssetsDto extends GroupDto
 {
 	/**
 	 * @param list<int> $assetIds

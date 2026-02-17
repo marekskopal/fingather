@@ -17,7 +17,7 @@ use MarekSkopal\TwelveData\Exception\BadRequestException;
 use MarekSkopal\TwelveData\Exception\NotFoundException;
 use MarekSkopal\TwelveData\TwelveData;
 
-final readonly class ExchangeRateProvider implements ExchangeRateProviderInterface
+readonly class ExchangeRateProvider
 {
 	private Cache $cache;
 

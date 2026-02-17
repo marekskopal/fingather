@@ -12,7 +12,7 @@ use PHPStan\Reflection\Php\PhpPropertyReflection;
 use PHPStan\Reflection\PropertyReflection;
 use PHPStan\Rules\Properties\ReadWritePropertiesExtension;
 
-final class CycleReadWritePropertiesExtension implements ReadWritePropertiesExtension
+class CycleReadWritePropertiesExtension implements ReadWritePropertiesExtension
 {
 	public function isAlwaysRead(PropertyReflection $property, string $propertyName): bool
 	{

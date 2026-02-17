@@ -9,9 +9,9 @@ use FinGather\Dto\AssetDataDto;
 use FinGather\Dto\Enum\RangeEnum;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Route\Routes;
-use FinGather\Service\Provider\AssetDataProviderInterface;
-use FinGather\Service\Provider\AssetProviderInterface;
-use FinGather\Service\Provider\TransactionProviderInterface;
+use FinGather\Service\Provider\AssetDataProvider;
+use FinGather\Service\Provider\AssetProvider;
+use FinGather\Service\Provider\TransactionProvider;
 use FinGather\Service\Request\RequestServiceInterface;
 use FinGather\Utils\DateTimeUtils;
 use Laminas\Diactoros\Response\JsonResponse;
@@ -19,13 +19,13 @@ use MarekSkopal\Router\Attribute\RouteGet;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-final readonly class AssetDataController
+final class AssetDataController
 {
 	public function __construct(
-		private AssetProviderInterface $assetProvider,
-		private AssetDataProviderInterface $assetDataProvider,
-		private TransactionProviderInterface $transactionProvider,
-		private RequestServiceInterface $requestService,
+		private readonly AssetProvider $assetProvider,
+		private readonly AssetDataProvider $assetDataProvider,
+		private readonly TransactionProvider $transactionProvider,
+		private readonly RequestServiceInterface $requestService,
 	) {
 	}
 

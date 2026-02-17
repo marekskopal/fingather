@@ -13,13 +13,13 @@ use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\ImportMappingRepository;
 use FinGather\Model\Repository\ImportRepository;
 
-final readonly class ImportMappingProvider
+class ImportMappingProvider
 {
 	public function __construct(
-		private ImportMappingRepository $importMappingRepository,
-		private ImportRepository $importRepository,
-		private TickerProvider $tickerProvider,
-		private BrokerProvider $brokerProvider,
+		private readonly ImportMappingRepository $importMappingRepository,
+		private readonly ImportRepository $importRepository,
+		private readonly TickerProvider $tickerProvider,
+		private readonly BrokerProvider $brokerProvider,
 	) {
 	}
 

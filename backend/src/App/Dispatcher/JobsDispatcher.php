@@ -10,7 +10,7 @@ use FinGather\Jobs\Handler\ApiImportProcessCheckHandler;
 use FinGather\Jobs\Handler\EmailVerifyHandler;
 use FinGather\Jobs\Handler\JobHandler;
 use FinGather\Jobs\Handler\UserWarmupHandler;
-use FinGather\Service\Provider\CurrentTransactionProviderInterface;
+use FinGather\Service\Provider\CurrentTransactionProvider;
 use FinGather\Service\Queue\Enum\QueueEnum;
 use Psr\Log\LoggerInterface;
 use Spiral\RoadRunner\Environment\Mode;
@@ -34,8 +34,8 @@ final class JobsDispatcher implements Dispatcher
 		$logger = $application->container->get(LoggerInterface::class);
 		assert($logger instanceof LoggerInterface);
 
-		$currentTransactionProvider = $application->container->get(CurrentTransactionProviderInterface::class);
-		assert($currentTransactionProvider instanceof CurrentTransactionProviderInterface);
+		$currentTransactionProvider = $application->container->get(CurrentTransactionProvider::class);
+		assert($currentTransactionProvider instanceof CurrentTransactionProvider);
 
 		while (($task = $consumer->waitTask()) !== null) {
 			try {

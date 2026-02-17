@@ -24,7 +24,7 @@ use MarekSkopal\TwelveData\Exception\BadRequestException;
 use MarekSkopal\TwelveData\Exception\NotFoundException;
 use MarekSkopal\TwelveData\TwelveData;
 
-final readonly class TickerDataProvider implements TickerDataProviderInterface
+readonly class TickerDataProvider
 {
 	private const TwelveDataTimeSeriesMaxResults = 5000;
 

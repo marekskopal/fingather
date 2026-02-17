@@ -11,9 +11,9 @@ use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\ImportFileRepository;
 use Iterator;
 
-final readonly class ImportFileProvider
+class ImportFileProvider
 {
-	public function __construct(private ImportFileRepository $importFileRepository)
+	public function __construct(private readonly ImportFileRepository $importFileRepository)
 	{
 	}
 

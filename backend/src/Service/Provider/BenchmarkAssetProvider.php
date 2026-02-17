@@ -9,9 +9,9 @@ use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Repository\BenchmarkAssetRepository;
 use Iterator;
 
-final readonly class BenchmarkAssetProvider
+class BenchmarkAssetProvider
 {
-	public function __construct(private BenchmarkAssetRepository $benchmarkAssetRepository)
+	public function __construct(private readonly BenchmarkAssetRepository $benchmarkAssetRepository)
 	{
 	}
 

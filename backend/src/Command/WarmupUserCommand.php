@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace FinGather\Command;
 
 use FinGather\App\ApplicationFactory;
-use FinGather\Service\Provider\PortfolioProviderInterface;
-use FinGather\Service\Provider\UserProviderInterface;
+use FinGather\Service\Provider\PortfolioProvider;
+use FinGather\Service\Provider\UserProvider;
 use FinGather\Service\Warmup\UserWarmup;
 use FinGather\Utils\BenchmarkUtils;
 use Symfony\Component\Console\Input\InputArgument;
@@ -33,11 +33,11 @@ final class WarmupUserCommand extends AbstractCommand
 		$userWarmup = $application->container->get(UserWarmup::class);
 		assert($userWarmup instanceof UserWarmup);
 
-		$userProvider = $application->container->get(UserProviderInterface::class);
-		assert($userProvider instanceof UserProviderInterface);
+		$userProvider = $application->container->get(UserProvider::class);
+		assert($userProvider instanceof UserProvider);
 
-		$portfolioProvider = $application->container->get(PortfolioProviderInterface::class);
-		assert($portfolioProvider instanceof PortfolioProviderInterface);
+		$portfolioProvider = $application->container->get(PortfolioProvider::class);
+		assert($portfolioProvider instanceof PortfolioProvider);
 
 		$userId = $input->getArgument(self::ArgumentUserId);
 		if (!is_numeric($userId)) {

@@ -6,14 +6,14 @@ namespace FinGather\Service\Update;
 
 use Decimal\Decimal;
 use FinGather\Model\Entity\Ticker;
-use FinGather\Service\Provider\SplitProviderInterface;
+use FinGather\Service\Provider\SplitProvider;
 use MarekSkopal\TwelveData\Enum\RangeEnum;
 use MarekSkopal\TwelveData\Exception\NotFoundException;
 use MarekSkopal\TwelveData\TwelveData;
 
 final readonly class SplitUpdater
 {
-	public function __construct(private SplitProviderInterface $splitProvider, private TwelveData $twelveData)
+	public function __construct(private SplitProvider $splitProvider, private TwelveData $twelveData)
 	{
 	}
 

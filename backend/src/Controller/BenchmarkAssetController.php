@@ -11,9 +11,9 @@ use Laminas\Diactoros\Response\JsonResponse;
 use MarekSkopal\Router\Attribute\RouteGet;
 use Psr\Http\Message\ResponseInterface;
 
-final readonly class BenchmarkAssetController
+final class BenchmarkAssetController
 {
-	public function __construct(private BenchmarkAssetProvider $benchmarkAssetProvider)
+	public function __construct(private readonly BenchmarkAssetProvider $benchmarkAssetProvider)
 	{
 	}
 

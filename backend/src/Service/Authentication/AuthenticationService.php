@@ -9,7 +9,7 @@ use FinGather\Dto\CredentialsDto;
 use FinGather\Middleware\AuthorizationMiddleware;
 use FinGather\Model\Entity\User;
 use FinGather\Service\Authentication\Exceptions\AuthenticationException;
-use FinGather\Service\Provider\UserProviderInterface;
+use FinGather\Service\Provider\UserProvider;
 use Firebase\JWT\JWT;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -20,7 +20,7 @@ final class AuthenticationService
 	private const AccessTokenExpiration = 3600;
 	private const RefreshTokenExpiration = 604800;
 
-	public function __construct(private readonly UserProviderInterface $userProvider)
+	public function __construct(private readonly UserProvider $userProvider)
 	{
 	}
 

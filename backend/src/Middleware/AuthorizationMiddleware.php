@@ -7,7 +7,7 @@ namespace FinGather\Middleware;
 use FinGather\Middleware\Exception\NotAuthorizedException;
 use FinGather\Route\Routes;
 use FinGather\Service\Authentication\AuthenticationService;
-use FinGather\Service\Provider\UserProviderInterface;
+use FinGather\Service\Provider\UserProvider;
 use Firebase\JWT\ExpiredException;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -26,7 +26,7 @@ final class AuthorizationMiddleware implements MiddlewareInterface
 	public const string AuthHeader = 'Authorization';
 	public const string AuthHeaderType = 'Bearer ';
 
-	public function __construct(private readonly UserProviderInterface $userProvider)
+	public function __construct(private readonly UserProvider $userProvider)
 	{
 	}
 

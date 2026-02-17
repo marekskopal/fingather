@@ -7,20 +7,20 @@ namespace FinGather\Controller;
 use DateTimeImmutable;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Route\Routes;
-use FinGather\Service\Provider\CountryWithCountryDataProviderInterface;
-use FinGather\Service\Provider\PortfolioProviderInterface;
+use FinGather\Service\Provider\CountryWithCountryDataProvider;
+use FinGather\Service\Provider\PortfolioProvider;
 use FinGather\Service\Request\RequestServiceInterface;
 use Laminas\Diactoros\Response\JsonResponse;
 use MarekSkopal\Router\Attribute\RouteGet;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-final readonly class CountryWithCountryDataController
+final class CountryWithCountryDataController
 {
 	public function __construct(
-		private CountryWithCountryDataProviderInterface $countryWithCountryDataProvider,
-		private PortfolioProviderInterface $portfolioProvider,
-		private RequestServiceInterface $requestService,
+		private readonly CountryWithCountryDataProvider $countryWithCountryDataProvider,
+		private readonly PortfolioProvider $portfolioProvider,
+		private readonly RequestServiceInterface $requestService,
 	) {
 	}
 

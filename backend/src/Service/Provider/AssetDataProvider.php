@@ -15,7 +15,7 @@ use FinGather\Service\DataCalculator\AssetDataCalculator;
 use FinGather\Service\DataCalculator\Dto\AssetDataDto;
 use FinGather\Utils\DateTimeUtils;
 
-final class AssetDataProvider implements AssetDataProviderInterface
+class AssetDataProvider
 {
 	private Cache $cache;
 

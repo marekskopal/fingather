@@ -11,9 +11,9 @@ use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\ImportRepository;
 use Ramsey\Uuid\UuidInterface;
 
-final readonly class ImportProvider
+class ImportProvider
 {
-	public function __construct(private ImportRepository $importRepository)
+	public function __construct(private readonly ImportRepository $importRepository)
 	{
 	}
 

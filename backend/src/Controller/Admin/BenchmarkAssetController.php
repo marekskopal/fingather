@@ -20,12 +20,12 @@ use MarekSkopal\Router\Attribute\RoutePost;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-final readonly class BenchmarkAssetController extends AdminController
+final class BenchmarkAssetController extends AdminController
 {
 	public function __construct(
 		RequestService $requestService,
-		private BenchmarkAssetProvider $benchmarkAssetProvider,
-		private TickerProvider $tickerProvider,
+		private readonly BenchmarkAssetProvider $benchmarkAssetProvider,
+		private readonly TickerProvider $tickerProvider,
 	) {
 		parent::__construct($requestService);
 	}

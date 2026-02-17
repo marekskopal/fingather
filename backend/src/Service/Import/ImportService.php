@@ -23,25 +23,25 @@ use FinGather\Service\Import\Entity\TransactionRecord;
 use FinGather\Service\Import\Factory\ImportMapperFactory;
 use FinGather\Service\Import\Factory\TransactionRecordFactory;
 use FinGather\Service\Import\Mapper\MapperInterface;
-use FinGather\Service\Provider\AssetProviderInterface;
+use FinGather\Service\Provider\AssetProvider;
 use FinGather\Service\Provider\BrokerProvider;
 use FinGather\Service\Provider\DataProvider;
 use FinGather\Service\Provider\GroupProvider;
 use FinGather\Service\Provider\ImportFileProvider;
 use FinGather\Service\Provider\ImportMappingProvider;
 use FinGather\Service\Provider\ImportProvider;
-use FinGather\Service\Provider\SplitProviderInterface;
+use FinGather\Service\Provider\SplitProvider;
 use FinGather\Service\Provider\TickerProvider;
-use FinGather\Service\Provider\TransactionProviderInterface;
+use FinGather\Service\Provider\TransactionProvider;
 use Psr\Log\LoggerInterface;
 
 final readonly class ImportService
 {
 	public function __construct(
 		private TransactionRepository $transactionRepository,
-		private TransactionProviderInterface $transactionProvider,
+		private TransactionProvider $transactionProvider,
 		private TickerProvider $tickerProvider,
-		private AssetProviderInterface $assetProvider,
+		private AssetProvider $assetProvider,
 		private CurrencyRepository $currencyRepository,
 		private GroupProvider $groupProvider,
 		private DataProvider $dataProvider,
@@ -51,7 +51,7 @@ final readonly class ImportService
 		private BrokerProvider $brokerProvider,
 		private ImportMapperFactory $importMapperFactory,
 		private TransactionRecordFactory $transactionRecordFactory,
-		private SplitProviderInterface $splitProvider,
+		private SplitProvider $splitProvider,
 		private LoggerInterface $logger,
 	) {
 	}

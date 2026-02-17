@@ -7,7 +7,7 @@ namespace FinGather\Controller;
 use DateTimeImmutable;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Route\Routes;
-use FinGather\Service\Provider\PortfolioProviderInterface;
+use FinGather\Service\Provider\PortfolioProvider;
 use FinGather\Service\Provider\SectorWithSectorDataProvider;
 use FinGather\Service\Request\RequestServiceInterface;
 use Laminas\Diactoros\Response\JsonResponse;
@@ -15,12 +15,12 @@ use MarekSkopal\Router\Attribute\RouteGet;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-final readonly class SectorWithSectorDataController
+final class SectorWithSectorDataController
 {
 	public function __construct(
-		private SectorWithSectorDataProvider $sectorWithSectorDataProvider,
-		private PortfolioProviderInterface $portfolioProvider,
-		private RequestServiceInterface $requestService,
+		private readonly SectorWithSectorDataProvider $sectorWithSectorDataProvider,
+		private readonly PortfolioProvider $portfolioProvider,
+		private readonly RequestServiceInterface $requestService,
 	) {
 	}
 
