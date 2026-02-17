@@ -11,9 +11,9 @@ use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\ApiKeyRepository;
 use Iterator;
 
-final readonly class ApiKeyProvider
+class ApiKeyProvider
 {
-	public function __construct(private ApiKeyRepository $apiKeyRepository)
+	public function __construct(private readonly ApiKeyRepository $apiKeyRepository)
 	{
 	}
 

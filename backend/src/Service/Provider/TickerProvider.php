@@ -9,9 +9,9 @@ use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Repository\TickerRepository;
 use Iterator;
 
-final readonly class TickerProvider
+class TickerProvider
 {
-	public function __construct(private TickerRepository $tickerRepository,)
+	public function __construct(private readonly TickerRepository $tickerRepository,)
 	{
 	}
 

@@ -17,7 +17,7 @@ use FinGather\Service\DataCalculator\BenchmarkDataCalculator;
 use FinGather\Service\DataCalculator\Dto\BenchmarkDataDto;
 use FinGather\Utils\DateTimeUtils;
 
-final readonly class BenchmarkDataProvider
+readonly class BenchmarkDataProvider
 {
 	private Cache $cache;
 
@@ -25,8 +25,8 @@ final readonly class BenchmarkDataProvider
 
 	public function __construct(
 		private BenchmarkDataCalculator $benchmarkDataCalculator,
-		private ExchangeRateProviderInterface $exchangeRateProvider,
-		private TickerDataProviderInterface $tickerDataProvider,
+		private ExchangeRateProvider $exchangeRateProvider,
+		private TickerDataProvider $tickerDataProvider,
 		CacheFactory $cacheFactory,
 	) {
 		$this->cache = $cacheFactory->create(driver: CacheStorageEnum::Redis, namespace: self::CacheNamespace);

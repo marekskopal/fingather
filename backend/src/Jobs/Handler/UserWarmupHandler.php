@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Jobs\Handler;
 
-use FinGather\Service\Provider\UserProviderInterface;
+use FinGather\Service\Provider\UserProvider;
 use FinGather\Service\Task\TaskServiceInterface;
 use FinGather\Service\Warmup\Dto\UserWarmupDto;
 use FinGather\Service\Warmup\UserWarmup;
@@ -12,13 +12,13 @@ use FinGather\Utils\BenchmarkUtils;
 use Psr\Log\LoggerInterface;
 use Spiral\RoadRunner\Jobs\Task\ReceivedTaskInterface;
 
-final readonly class UserWarmupHandler implements JobHandler
+class UserWarmupHandler implements JobHandler
 {
 	public function __construct(
-		private UserWarmup $userWarmup,
-		private UserProviderInterface $userProvider,
-		private LoggerInterface $logger,
-		private TaskServiceInterface $taskService,
+		private readonly UserWarmup $userWarmup,
+		private readonly UserProvider $userProvider,
+		private readonly LoggerInterface $logger,
+		private readonly TaskServiceInterface $taskService,
 	)
 	{
 	}

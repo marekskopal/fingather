@@ -10,8 +10,8 @@ use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Response\ErrorResponse;
 use FinGather\Response\NotFoundResponse;
-use FinGather\Service\Provider\CountryWithCountryDataProviderInterface;
-use FinGather\Service\Provider\PortfolioProviderInterface;
+use FinGather\Service\Provider\CountryWithCountryDataProvider;
+use FinGather\Service\Provider\PortfolioProvider;
 use FinGather\Service\Request\RequestServiceInterface;
 use FinGather\Tests\Fixtures\Model\Entity\PortfolioFixture;
 use FinGather\Tests\Fixtures\Model\Entity\UserFixture;
@@ -31,9 +31,9 @@ use Psr\Http\Message\ServerRequestInterface;
 #[UsesClass(NotFoundResponse::class)]
 final class CountryWithCountryDataControllerTest extends TestCase
 {
-	private CountryWithCountryDataProviderInterface&Stub $countryWithCountryDataProvider;
+	private CountryWithCountryDataProvider&Stub $countryWithCountryDataProvider;
 
-	private PortfolioProviderInterface&Stub $portfolioProvider;
+	private PortfolioProvider&Stub $portfolioProvider;
 
 	private RequestServiceInterface&Stub $requestService;
 
@@ -41,8 +41,8 @@ final class CountryWithCountryDataControllerTest extends TestCase
 
 	protected function setUp(): void
 	{
-		$this->countryWithCountryDataProvider = $this::createStub(CountryWithCountryDataProviderInterface::class);
-		$this->portfolioProvider = $this::createStub(PortfolioProviderInterface::class);
+		$this->countryWithCountryDataProvider = $this::createStub(CountryWithCountryDataProvider::class);
+		$this->portfolioProvider = $this::createStub(PortfolioProvider::class);
 		$this->requestService = $this::createStub(RequestServiceInterface::class);
 
 		$this->countryWithCountryDataController = new CountryWithCountryDataController(

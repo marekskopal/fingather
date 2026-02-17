@@ -17,13 +17,13 @@ use FinGather\Model\Repository\StrategyItemRepository;
 use FinGather\Model\Repository\StrategyRepository;
 use Iterator;
 
-final readonly class StrategyProvider
+class StrategyProvider
 {
 	public function __construct(
-		private StrategyRepository $strategyRepository,
-		private StrategyItemRepository $strategyItemRepository,
-		private AssetRepository $assetRepository,
-		private GroupRepository $groupRepository,
+		private readonly StrategyRepository $strategyRepository,
+		private readonly StrategyItemRepository $strategyItemRepository,
+		private readonly AssetRepository $assetRepository,
+		private readonly GroupRepository $groupRepository,
 	) {
 	}
 

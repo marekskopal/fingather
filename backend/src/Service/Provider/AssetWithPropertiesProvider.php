@@ -13,13 +13,13 @@ use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Utils\CalculatorUtils;
 
-final readonly class AssetWithPropertiesProvider
+class AssetWithPropertiesProvider
 {
 	public function __construct(
-		private AssetProviderInterface $assetProvider,
-		private AssetDataProviderInterface $assetDataProvider,
-		private TickerDataProviderInterface $tickerDataProvider,
-		private PortfolioDataProvider $portfolioDataProvider,
+		private readonly AssetProvider $assetProvider,
+		private readonly AssetDataProvider $assetDataProvider,
+		private readonly TickerDataProvider $tickerDataProvider,
+		private readonly PortfolioDataProvider $portfolioDataProvider,
 	) {
 	}
 

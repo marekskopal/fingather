@@ -15,12 +15,12 @@ use MarekSkopal\Router\Attribute\RouteGet;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-final readonly class StrategyWithComparisonController
+final class StrategyWithComparisonController
 {
 	public function __construct(
-		private StrategyComparisonProvider $strategyComparisonProvider,
-		private StrategyProvider $strategyProvider,
-		private RequestService $requestService,
+		private readonly StrategyComparisonProvider $strategyComparisonProvider,
+		private readonly StrategyProvider $strategyProvider,
+		private readonly RequestService $requestService,
 	) {
 	}
 

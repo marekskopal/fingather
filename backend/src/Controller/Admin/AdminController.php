@@ -9,9 +9,9 @@ use FinGather\Model\Entity\Enum\UserRoleEnum;
 use FinGather\Service\Request\RequestService;
 use Psr\Http\Message\ServerRequestInterface;
 
-abstract readonly class AdminController
+abstract class AdminController
 {
-	public function __construct(protected RequestService $requestService)
+	public function __construct(protected readonly RequestService $requestService)
 	{
 	}
 

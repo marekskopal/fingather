@@ -13,9 +13,9 @@ use MarekSkopal\Router\Attribute\RouteGet;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-final readonly class CurrencyController
+final class CurrencyController
 {
-	public function __construct(private CurrencyProvider $currencyProvider)
+	public function __construct(private readonly CurrencyProvider $currencyProvider)
 	{
 	}
 

@@ -10,9 +10,9 @@ use FinGather\Model\Entity\User;
 use FinGather\Service\DataCalculator\DividendDataCalculator;
 use FinGather\Service\DataCalculator\Dto\DividendDataIntervalDto;
 
-final readonly class DividendDataProvider
+class DividendDataProvider
 {
-	public function __construct(private DividendDataCalculator $dividendDataCalculator,)
+	public function __construct(private readonly DividendDataCalculator $dividendDataCalculator,)
 	{
 	}
 

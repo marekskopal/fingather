@@ -13,10 +13,10 @@ use FinGather\Response\ConflictResponse;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Response\OkResponse;
 use FinGather\Route\Routes;
-use FinGather\Service\Provider\AssetProviderInterface;
+use FinGather\Service\Provider\AssetProvider;
 use FinGather\Service\Provider\CurrencyProvider;
-use FinGather\Service\Provider\TransactionProviderInterface;
-use FinGather\Service\Provider\UserProviderInterface;
+use FinGather\Service\Provider\TransactionProvider;
+use FinGather\Service\Provider\UserProvider;
 use FinGather\Service\Request\RequestService;
 use Laminas\Diactoros\Response\JsonResponse;
 use MarekSkopal\Router\Attribute\RouteDelete;
@@ -26,14 +26,14 @@ use MarekSkopal\Router\Attribute\RoutePut;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-final readonly class UserController extends AdminController
+final class UserController extends AdminController
 {
 	public function __construct(
 		RequestService $requestService,
-		private UserProviderInterface $userProvider,
-		private CurrencyProvider $currencyProvider,
-		private AssetProviderInterface $assetProvider,
-		private TransactionProviderInterface $transactionProvider,
+		private readonly UserProvider $userProvider,
+		private readonly CurrencyProvider $currencyProvider,
+		private readonly AssetProvider $assetProvider,
+		private readonly TransactionProvider $transactionProvider,
 	) {
 		parent::__construct($requestService);
 	}
