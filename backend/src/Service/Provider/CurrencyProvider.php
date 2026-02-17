@@ -8,9 +8,9 @@ use FinGather\Model\Entity\Currency;
 use FinGather\Model\Repository\CurrencyRepository;
 use Iterator;
 
-class CurrencyProvider
+final readonly class CurrencyProvider
 {
-	public function __construct(private readonly CurrencyRepository $currencyRepository)
+	public function __construct(private CurrencyRepository $currencyRepository)
 	{
 	}
 

@@ -10,12 +10,12 @@ use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\PortfolioRepository;
 use Iterator;
 
-class PortfolioProvider
+final readonly class PortfolioProvider implements PortfolioProviderInterface
 {
 	public function __construct(
-		private readonly PortfolioRepository $portfolioRepository,
-		private readonly GroupProvider $groupProvider,
-		private readonly DataProvider $dataProvider,
+		private PortfolioRepository $portfolioRepository,
+		private GroupProvider $groupProvider,
+		private DataProvider $dataProvider,
 	) {
 	}
 

@@ -14,12 +14,12 @@ use FinGather\Model\Entity\Transaction;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Response\OkResponse;
 use FinGather\Route\Routes;
-use FinGather\Service\Provider\AssetProvider;
+use FinGather\Service\Provider\AssetProviderInterface;
 use FinGather\Service\Provider\BrokerProvider;
 use FinGather\Service\Provider\CurrencyProvider;
 use FinGather\Service\Provider\DataProvider;
-use FinGather\Service\Provider\PortfolioProvider;
-use FinGather\Service\Provider\TransactionProvider;
+use FinGather\Service\Provider\PortfolioProviderInterface;
+use FinGather\Service\Provider\TransactionProviderInterface;
 use FinGather\Service\Request\RequestService;
 use Laminas\Diactoros\Response\JsonResponse;
 use MarekSkopal\Router\Attribute\RouteDelete;
@@ -29,16 +29,16 @@ use MarekSkopal\Router\Attribute\RoutePut;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-final class TransactionController
+final readonly class TransactionController
 {
 	public function __construct(
-		private readonly TransactionProvider $transactionProvider,
-		private readonly AssetProvider $assetProvider,
-		private readonly BrokerProvider $brokerProvider,
-		private readonly CurrencyProvider $currencyProvider,
-		private readonly DataProvider $dataProvider,
-		private readonly PortfolioProvider $portfolioProvider,
-		private readonly RequestService $requestService,
+		private TransactionProviderInterface $transactionProvider,
+		private AssetProviderInterface $assetProvider,
+		private BrokerProvider $brokerProvider,
+		private CurrencyProvider $currencyProvider,
+		private DataProvider $dataProvider,
+		private PortfolioProviderInterface $portfolioProvider,
+		private RequestService $requestService,
 	) {
 	}
 

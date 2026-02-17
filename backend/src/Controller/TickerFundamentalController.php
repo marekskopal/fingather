@@ -14,12 +14,9 @@ use MarekSkopal\Router\Attribute\RouteGet;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-final class TickerFundamentalController
+final readonly class TickerFundamentalController
 {
-	public function __construct(
-		private readonly TickerFundamentalProvider $tickerFundamentalProvider,
-		private readonly TickerProvider $tickerProvider,
-	)
+	public function __construct(private TickerFundamentalProvider $tickerFundamentalProvider, private TickerProvider $tickerProvider,)
 	{
 	}
 

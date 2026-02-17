@@ -18,7 +18,7 @@ use MarekSkopal\TwelveData\Dto\Fundamentals\DividendsCalendar;
 use MarekSkopal\TwelveData\Exception\NotFoundException;
 use MarekSkopal\TwelveData\TwelveData;
 
-class DividendCalendarProvider
+final class DividendCalendarProvider
 {
 	private Cache $cache;
 
@@ -27,9 +27,9 @@ class DividendCalendarProvider
 	private const int CacheTtlSeconds = 86400;
 
 	public function __construct(
-		private readonly AssetProvider $assetProvider,
-		private readonly AssetDataProvider $assetDataProvider,
-		private readonly ExchangeRateProvider $exchangeRateProvider,
+		private readonly AssetProviderInterface $assetProvider,
+		private readonly AssetDataProviderInterface $assetDataProvider,
+		private readonly ExchangeRateProviderInterface $exchangeRateProvider,
 		private readonly TwelveData $twelveData,
 		CacheFactory $cacheFactory,
 	) {

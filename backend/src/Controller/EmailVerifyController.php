@@ -9,18 +9,18 @@ use FinGather\Response\NotFoundResponse;
 use FinGather\Response\OkResponse;
 use FinGather\Route\Routes;
 use FinGather\Service\Provider\EmailVerifyProvider;
-use FinGather\Service\Provider\UserProvider;
+use FinGather\Service\Provider\UserProviderInterface;
 use FinGather\Service\Request\RequestService;
 use MarekSkopal\Router\Attribute\RoutePost;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-final class EmailVerifyController
+final readonly class EmailVerifyController
 {
 	public function __construct(
-		private readonly EmailVerifyProvider $emailVerifyProvider,
-		private readonly UserProvider $userProvider,
-		private readonly RequestService $requestService,
+		private EmailVerifyProvider $emailVerifyProvider,
+		private UserProviderInterface $userProvider,
+		private RequestService $requestService,
 	)
 	{
 	}

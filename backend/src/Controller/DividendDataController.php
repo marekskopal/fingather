@@ -8,19 +8,19 @@ use FinGather\Dto\Enum\RangeEnum;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Route\Routes;
 use FinGather\Service\Provider\DividendDataProvider;
-use FinGather\Service\Provider\PortfolioProvider;
+use FinGather\Service\Provider\PortfolioProviderInterface;
 use FinGather\Service\Request\RequestService;
 use Laminas\Diactoros\Response\JsonResponse;
 use MarekSkopal\Router\Attribute\RouteGet;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-final class DividendDataController
+final readonly class DividendDataController
 {
 	public function __construct(
-		private readonly DividendDataProvider $dividendDataProvider,
-		private readonly PortfolioProvider $portfolioProvider,
-		private readonly RequestService $requestService,
+		private DividendDataProvider $dividendDataProvider,
+		private PortfolioProviderInterface $portfolioProvider,
+		private RequestService $requestService,
 	) {
 	}
 

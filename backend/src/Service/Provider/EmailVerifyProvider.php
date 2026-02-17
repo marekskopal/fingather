@@ -12,12 +12,10 @@ use FinGather\Service\Queue\Enum\QueueEnum;
 use FinGather\Service\Queue\QueuePublisher;
 use Ramsey\Uuid\Uuid;
 
-class EmailVerifyProvider
+final readonly class EmailVerifyProvider
 {
-	public function __construct(
-		private readonly EmailVerifyRepository $emailVerifyRepository,
-		private readonly QueuePublisher $queuePublisher,
-	) {
+	public function __construct(private EmailVerifyRepository $emailVerifyRepository, private QueuePublisher $queuePublisher,)
+	{
 	}
 
 	public function getEmailVerify(string $token): ?EmailVerify

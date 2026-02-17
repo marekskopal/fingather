@@ -10,7 +10,7 @@ use FinGather\Model\Repository\TickerFundamentalRepository;
 use MarekSkopal\TwelveData\Exception\NotFoundException;
 use MarekSkopal\TwelveData\TwelveData;
 
-readonly class TickerFundamentalProvider
+final readonly class TickerFundamentalProvider
 {
 	public function __construct(private TickerFundamentalRepository $tickerFundamentalRepository, private TwelveData $twelveData,)
 	{

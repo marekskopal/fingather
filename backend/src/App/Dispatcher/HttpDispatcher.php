@@ -7,7 +7,7 @@ namespace FinGather\App\Dispatcher;
 use FinGather\App\ApplicationFactory;
 use FinGather\Middleware\Exception\NotAuthorizedException;
 use FinGather\Response\ErrorResponse;
-use FinGather\Service\Provider\CurrentTransactionProvider;
+use FinGather\Service\Provider\CurrentTransactionProviderInterface;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
@@ -35,8 +35,8 @@ final class HttpDispatcher implements Dispatcher
 		$logger = $application->container->get(LoggerInterface::class);
 		assert($logger instanceof LoggerInterface);
 
-		$currentTransactionProvider = $application->container->get(CurrentTransactionProvider::class);
-		assert($currentTransactionProvider instanceof CurrentTransactionProvider);
+		$currentTransactionProvider = $application->container->get(CurrentTransactionProviderInterface::class);
+		assert($currentTransactionProvider instanceof CurrentTransactionProviderInterface);
 
 		try {
 			while (true) {

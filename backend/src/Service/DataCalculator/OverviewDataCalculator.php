@@ -10,13 +10,13 @@ use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Service\DataCalculator\Dto\YearCalculatedDataDto;
 use FinGather\Service\Provider\PortfolioDataProvider;
-use FinGather\Service\Provider\TransactionProvider;
+use FinGather\Service\Provider\TransactionProviderInterface;
 use FinGather\Utils\CalculatorUtils;
 
 final class OverviewDataCalculator
 {
 	public function __construct(
-		private readonly TransactionProvider $transactionProvider,
+		private readonly TransactionProviderInterface $transactionProvider,
 		private readonly PortfolioDataProvider $portfolioDataProvider,
 	) {
 	}

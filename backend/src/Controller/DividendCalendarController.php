@@ -7,19 +7,19 @@ namespace FinGather\Controller;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Route\Routes;
 use FinGather\Service\Provider\DividendCalendarProvider;
-use FinGather\Service\Provider\PortfolioProvider;
+use FinGather\Service\Provider\PortfolioProviderInterface;
 use FinGather\Service\Request\RequestService;
 use Laminas\Diactoros\Response\JsonResponse;
 use MarekSkopal\Router\Attribute\RouteGet;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-final class DividendCalendarController
+final readonly class DividendCalendarController
 {
 	public function __construct(
-		private readonly DividendCalendarProvider $dividendCalendarProvider,
-		private readonly PortfolioProvider $portfolioProvider,
-		private readonly RequestService $requestService,
+		private DividendCalendarProvider $dividendCalendarProvider,
+		private PortfolioProviderInterface $portfolioProvider,
+		private RequestService $requestService,
 	) {
 	}
 

@@ -6,7 +6,7 @@ namespace FinGather\Dto;
 
 use FinGather\Model\Entity\StrategyItem;
 
-readonly class StrategyItemDto
+final readonly class StrategyItemDto
 {
 	public function __construct(
 		public int $id,

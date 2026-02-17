@@ -8,7 +8,7 @@ use FinGather\Dto\CurrentUserUpdateDto;
 use FinGather\Dto\UserDto;
 use FinGather\Response\ConflictResponse;
 use FinGather\Route\Routes;
-use FinGather\Service\Provider\UserProvider;
+use FinGather\Service\Provider\UserProviderInterface;
 use FinGather\Service\Request\RequestService;
 use Laminas\Diactoros\Response\JsonResponse;
 use MarekSkopal\Router\Attribute\RouteGet;
@@ -16,9 +16,9 @@ use MarekSkopal\Router\Attribute\RoutePut;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-final class CurrentUserController
+final readonly class CurrentUserController
 {
-	public function __construct(private readonly RequestService $requestService, private readonly UserProvider $userProvider)
+	public function __construct(private RequestService $requestService, private UserProviderInterface $userProvider)
 	{
 	}
 

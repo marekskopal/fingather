@@ -15,7 +15,7 @@ use FinGather\Service\DataCalculator\Dto\CalculatedDataDto;
 use FinGather\Utils\DateTimeUtils;
 use Psr\Log\LoggerInterface;
 
-class PortfolioDataProvider
+final class PortfolioDataProvider
 {
 	private Cache $cache;
 
@@ -23,9 +23,9 @@ class PortfolioDataProvider
 
 	public function __construct(
 		private readonly DataCalculator $dataCalculator,
-		private readonly AssetProvider $assetProvider,
-		private readonly AssetDataProvider $assetDataProvider,
-		private readonly TransactionProvider $transactionProvider,
+		private readonly AssetProviderInterface $assetProvider,
+		private readonly AssetDataProviderInterface $assetDataProvider,
+		private readonly TransactionProviderInterface $transactionProvider,
 		private readonly LoggerInterface $logger,
 		CacheFactory $cacheFactory,
 	) {

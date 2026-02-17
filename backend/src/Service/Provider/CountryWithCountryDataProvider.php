@@ -11,12 +11,12 @@ use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Utils\CalculatorUtils;
 
-class CountryWithCountryDataProvider
+final readonly class CountryWithCountryDataProvider implements CountryWithCountryDataProviderInterface
 {
 	public function __construct(
-		private readonly PortfolioDataProvider $portfolioDataProvider,
-		private readonly CountryProvider $countryProvider,
-		private readonly CountryDataProvider $countryDataProvider,
+		private PortfolioDataProvider $portfolioDataProvider,
+		private CountryProvider $countryProvider,
+		private CountryDataProvider $countryDataProvider,
 	) {
 	}
 

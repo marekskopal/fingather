@@ -21,7 +21,7 @@ use FinGather\Service\Authentication\Exceptions\AuthenticationException;
 use FinGather\Service\Authentication\Exceptions\GoogleAuthException;
 use FinGather\Service\Authentication\GoogleAuthService;
 use FinGather\Service\Provider\CurrencyProvider;
-use FinGather\Service\Provider\UserProvider;
+use FinGather\Service\Provider\UserProviderInterface;
 use FinGather\Service\Request\RequestService;
 use Firebase\JWT\ExpiredException;
 use Firebase\JWT\JWT;
@@ -39,7 +39,7 @@ final readonly class AuthenticationController
 		private AuthenticationService $authenticationService,
 		private GoogleAuthService $googleAuthService,
 		private CurrencyProvider $currencyProvider,
-		private UserProvider $userProvider,
+		private UserProviderInterface $userProvider,
 		private RequestService $requestService,
 		private LoggerInterface $logger,
 	) {
