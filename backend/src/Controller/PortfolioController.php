@@ -22,14 +22,13 @@ use MarekSkopal\Router\Attribute\RoutePut;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-final class PortfolioController
+final readonly class PortfolioController
 {
 	public function __construct(
-		private readonly PortfolioProvider $portfolioProvider,
-		private readonly CurrencyProvider $currencyProvider,
-		private readonly RequestService $requestService,
-	)
-	{
+		private PortfolioProvider $portfolioProvider,
+		private CurrencyProvider $currencyProvider,
+		private RequestService $requestService,
+	) {
 	}
 
 	#[RouteGet(Routes::Portfolios->value)]

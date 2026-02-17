@@ -14,12 +14,12 @@ use MarekSkopal\Router\Attribute\RouteGet;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-final class OverviewController
+final readonly class OverviewController
 {
 	public function __construct(
-		private readonly OverviewDataCalculator $overviewDataCalculator,
-		private readonly PortfolioProvider $portfolioProvider,
-		private readonly RequestService $requestService,
+		private OverviewDataCalculator $overviewDataCalculator,
+		private PortfolioProvider $portfolioProvider,
+		private RequestService $requestService,
 	) {
 	}
 

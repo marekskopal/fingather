@@ -26,14 +26,14 @@ use MarekSkopal\Router\Attribute\RoutePut;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-final class UserController extends AdminController
+final readonly class UserController extends AdminController
 {
 	public function __construct(
 		RequestService $requestService,
-		private readonly UserProvider $userProvider,
-		private readonly CurrencyProvider $currencyProvider,
-		private readonly AssetProvider $assetProvider,
-		private readonly TransactionProvider $transactionProvider,
+		private UserProvider $userProvider,
+		private CurrencyProvider $currencyProvider,
+		private AssetProvider $assetProvider,
+		private TransactionProvider $transactionProvider,
 	) {
 		parent::__construct($requestService);
 	}

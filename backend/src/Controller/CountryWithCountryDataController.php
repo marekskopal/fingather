@@ -15,12 +15,12 @@ use MarekSkopal\Router\Attribute\RouteGet;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-final class CountryWithCountryDataController
+final readonly class CountryWithCountryDataController
 {
 	public function __construct(
-		private readonly CountryWithCountryDataProvider $countryWithCountryDataProvider,
-		private readonly PortfolioProvider $portfolioProvider,
-		private readonly RequestServiceInterface $requestService,
+		private CountryWithCountryDataProvider $countryWithCountryDataProvider,
+		private PortfolioProvider $portfolioProvider,
+		private RequestServiceInterface $requestService,
 	) {
 	}
 

@@ -12,9 +12,9 @@ use MarekSkopal\Router\Attribute\RoutePost;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-final class OnboardingController
+final readonly class OnboardingController
 {
-	public function __construct(private readonly UserProvider $userProvider, private readonly RequestServiceInterface $requestService)
+	public function __construct(private UserProvider $userProvider, private RequestServiceInterface $requestService)
 	{
 	}
 

@@ -25,17 +25,17 @@ use MarekSkopal\Router\Attribute\RoutePost;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-final class AssetController
+final readonly class AssetController
 {
 	public function __construct(
-		private readonly AssetProvider $assetProvider,
-		private readonly AssetDataProvider $assetDataProvider,
-		private readonly AssetWithPropertiesProvider $assetWithPropertiesProvider,
-		private readonly TickerProvider $tickerProvider,
-		private readonly TickerDataProvider $tickerDataProvider,
-		private readonly PortfolioProvider $portfolioProvider,
-		private readonly GroupProvider $groupProvider,
-		private readonly RequestService $requestService,
+		private AssetProvider $assetProvider,
+		private AssetDataProvider $assetDataProvider,
+		private AssetWithPropertiesProvider $assetWithPropertiesProvider,
+		private TickerProvider $tickerProvider,
+		private TickerDataProvider $tickerDataProvider,
+		private PortfolioProvider $portfolioProvider,
+		private GroupProvider $groupProvider,
+		private RequestService $requestService,
 	) {
 	}
 

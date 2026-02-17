@@ -14,12 +14,12 @@ use MarekSkopal\Router\Attribute\RouteGet;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-final class DividendCalendarController
+final readonly class DividendCalendarController
 {
 	public function __construct(
-		private readonly DividendCalendarProvider $dividendCalendarProvider,
-		private readonly PortfolioProvider $portfolioProvider,
-		private readonly RequestService $requestService,
+		private DividendCalendarProvider $dividendCalendarProvider,
+		private PortfolioProvider $portfolioProvider,
+		private RequestService $requestService,
 	) {
 	}
 

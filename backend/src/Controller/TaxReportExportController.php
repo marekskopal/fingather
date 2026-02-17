@@ -16,14 +16,14 @@ use MarekSkopal\Router\Attribute\RouteGet;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-final class TaxReportExportController
+final readonly class TaxReportExportController
 {
 	public function __construct(
-		private readonly TaxReportCalculator $taxReportCalculator,
-		private readonly TaxReportExcelExporter $taxReportExcelExporter,
-		private readonly PdfConverter $pdfConverter,
-		private readonly PortfolioProvider $portfolioProvider,
-		private readonly RequestService $requestService,
+		private TaxReportCalculator $taxReportCalculator,
+		private TaxReportExcelExporter $taxReportExcelExporter,
+		private PdfConverter $pdfConverter,
+		private PortfolioProvider $portfolioProvider,
+		private RequestService $requestService,
 	) {
 	}
 

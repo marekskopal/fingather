@@ -21,12 +21,12 @@ use MarekSkopal\Router\Attribute\RoutePut;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-final class StrategyController
+final readonly class StrategyController
 {
 	public function __construct(
-		private readonly StrategyProvider $strategyProvider,
-		private readonly PortfolioProvider $portfolioProvider,
-		private readonly RequestService $requestService,
+		private StrategyProvider $strategyProvider,
+		private PortfolioProvider $portfolioProvider,
+		private RequestService $requestService,
 	) {
 	}
 
