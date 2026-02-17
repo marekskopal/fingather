@@ -15,6 +15,7 @@ export * from './notify-service';
 export * from './overview.service';
 export * from './portfolio.service';
 export * from './portfolio-data.service';
+export * from './price-alert.service';
 export * from './strategy.service';
 export * from './strategy-comparison.service';
 export * from './tax-report.service';

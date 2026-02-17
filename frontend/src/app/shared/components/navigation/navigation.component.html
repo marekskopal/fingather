@@ -82,6 +82,12 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" (click)="collapseNavigation()" routerLink="/price-alerts" routerLinkActive="active">
+                    <mat-icon>notifications</mat-icon>
+                    <span>{{ 'app.navbar.priceAlerts' | translate }}</span>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" (click)="collapseNavigation()" routerLink="/api-keys" routerLinkActive="active">
                     <mat-icon>key</mat-icon>
                     <span>{{ 'app.navbar.apiKeys' | translate }}</span>

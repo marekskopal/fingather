@@ -13,6 +13,7 @@
       "portfolios": "Portafolios",
       "users": "Usuarios",
       "apiKeys": "Claves API",
+      "priceAlerts": "Alertas de precio",
       "settings": "Configuración",
       "account": "Cuenta",
       "logout": "Cerrar sesión"
@@ -459,6 +460,37 @@
         "apiKey": "Clave API",
         "apiKeyRequired": "La clave API es obligatoria",
         "userKey": "Clave de Usuario"
+      }
+    },
+    "priceAlerts": {
+      "priceAlerts": {
+        "title": "Alertas de precio",
+        "type": "Tipo",
+        "subject": "Ticker / Cartera",
+        "condition": "Condición",
+        "recurrence": "Recurrencia",
+        "active": "Activa",
+        "lastTriggered": "Última activación",
+        "addPriceAlert": "Añadir alerta",
+        "deleteTitle": "Eliminar alerta de precio",
+        "deleteMessage": "¿Está seguro de que desea eliminar esta alerta de precio?"
+      },
+      "addEdit": {
+        "headerAdd": "Añadir alerta de precio",
+        "headerEdit": "Editar alerta de precio",
+        "type": "Tipo",
+        "typeRequired": "El tipo es obligatorio",
+        "ticker": "Ticker",
+        "tickerPlaceholder": "Buscar ticker...",
+        "portfolio": "Cartera",
+        "condition": "Condición",
+        "conditionRequired": "La condición es obligatoria",
+        "targetValue": "Valor objetivo",
+        "targetValueRequired": "El valor objetivo es obligatorio",
+        "recurrence": "Recurrencia",
+        "recurrenceOneTime": "Una vez",
+        "recurrenceRecurring": "Recurrente",
+        "cooldownHours": "Tiempo de espera (horas)"
       }
     },
     "account": {

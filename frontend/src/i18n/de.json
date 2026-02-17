@@ -13,6 +13,7 @@
       "portfolios": "Portfolios",
       "users": "Benutzer",
       "apiKeys": "API-Schlüssel",
+      "priceAlerts": "Preisalarme",
       "settings": "Einstellungen",
       "account": "Konto",
       "logout": "Abmelden"
@@ -459,6 +460,37 @@
         "apiKey": "API-Schlüssel",
         "apiKeyRequired": "API-Schlüssel ist erforderlich",
         "userKey": "Benutzerschlüssel"
+      }
+    },
+    "priceAlerts": {
+      "priceAlerts": {
+        "title": "Preisalarme",
+        "type": "Typ",
+        "subject": "Ticker / Portfolio",
+        "condition": "Bedingung",
+        "recurrence": "Wiederholung",
+        "active": "Aktiv",
+        "lastTriggered": "Zuletzt ausgelöst",
+        "addPriceAlert": "Alarm hinzufügen",
+        "deleteTitle": "Preisalarm löschen",
+        "deleteMessage": "Möchten Sie diesen Preisalarm wirklich löschen?"
+      },
+      "addEdit": {
+        "headerAdd": "Preisalarm hinzufügen",
+        "headerEdit": "Preisalarm bearbeiten",
+        "type": "Typ",
+        "typeRequired": "Typ ist erforderlich",
+        "ticker": "Ticker",
+        "tickerPlaceholder": "Ticker suchen...",
+        "portfolio": "Portfolio",
+        "condition": "Bedingung",
+        "conditionRequired": "Bedingung ist erforderlich",
+        "targetValue": "Zielwert",
+        "targetValueRequired": "Zielwert ist erforderlich",
+        "recurrence": "Wiederholung",
+        "recurrenceOneTime": "Einmalig",
+        "recurrenceRecurring": "Wiederkehrend",
+        "cooldownHours": "Abklingzeit (Stunden)"
       }
     },
     "account": {

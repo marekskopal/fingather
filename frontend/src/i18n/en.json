@@ -13,6 +13,7 @@
       "portfolios": "Portfolios",
       "users": "Users",
       "apiKeys": "API keys",
+      "priceAlerts": "Price Alerts",
       "settings": "Settings",
       "account": "Account",
       "logout": "Logout"
@@ -455,6 +456,37 @@
         "apiKey": "API Key",
         "apiKeyRequired": "API Key is required",
         "userKey": "User Key"
+      }
+    },
+    "priceAlerts": {
+      "priceAlerts": {
+        "title": "Price Alerts",
+        "type": "Type",
+        "subject": "Ticker / Portfolio",
+        "condition": "Condition",
+        "recurrence": "Recurrence",
+        "active": "Active",
+        "lastTriggered": "Last Triggered",
+        "addPriceAlert": "Add Alert",
+        "deleteTitle": "Delete Price Alert",
+        "deleteMessage": "Are you sure you want to delete this price alert?"
+      },
+      "addEdit": {
+        "headerAdd": "Add Price Alert",
+        "headerEdit": "Edit Price Alert",
+        "type": "Type",
+        "typeRequired": "Type is required",
+        "ticker": "Ticker",
+        "tickerPlaceholder": "Search ticker...",
+        "portfolio": "Portfolio",
+        "condition": "Condition",
+        "conditionRequired": "Condition is required",
+        "targetValue": "Target Value",
+        "targetValueRequired": "Target value is required",
+        "recurrence": "Recurrence",
+        "recurrenceOneTime": "One Time",
+        "recurrenceRecurring": "Recurring",
+        "cooldownHours": "Cooldown (hours)"
       }
     },
     "account": {

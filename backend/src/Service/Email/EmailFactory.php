@@ -6,8 +6,10 @@ namespace FinGather\Service\Email;
 
 use FinGather\Dto\EmailVerifyDto;
 use FinGather\Email\PortfolioSummaryEmail;
+use FinGather\Email\PriceAlertEmail;
 use FinGather\Email\VerifyEmail;
 use FinGather\Model\Entity\Portfolio;
+use FinGather\Model\Entity\PriceAlert;
 use FinGather\Model\Entity\User;
 use FinGather\Service\DataCalculator\Dto\CalculatedDataDto;
 use Symfony\Component\Mime\Email;
@@ -28,6 +30,17 @@ final readonly class EmailFactory
 			->to($emailVerify->user->email)
 			->subject('FinGather - Verify your email.')
 			->html(VerifyEmail::getHtml($emailVerify));
+	}
+
+	public function createPriceAlertEmail(User $user, PriceAlert $priceAlert, string $currentValue): Email
+	{
+		$html = PriceAlertEmail::getHtml(alert: $priceAlert, currentValue: $currentValue);
+
+		return new Email()
+			->from($this->from)
+			->to($user->email)
+			->subject('FinGather - Price Alert Triggered')
+			->html($html);
 	}
 
 	public function createPortfolioSummaryEmail(User $user, Portfolio $portfolio, CalculatedDataDto $portfolioData): Email

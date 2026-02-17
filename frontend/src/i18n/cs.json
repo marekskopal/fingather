@@ -13,6 +13,7 @@
       "portfolios": "Portfólia",
       "users": "Uživatelé",
       "apiKeys": "API klíče",
+      "priceAlerts": "Cenové alerty",
       "settings": "Nastavení",
       "account": "Účet",
       "logout": "Odhlásit"
@@ -455,6 +456,37 @@
         "apiKey": "API klíč",
         "apiKeyRequired": "API klíč je povinný",
         "userKey": "Uživatelský klíč"
+      }
+    },
+    "priceAlerts": {
+      "priceAlerts": {
+        "title": "Cenové alerty",
+        "type": "Typ",
+        "subject": "Ticker / Portfolio",
+        "condition": "Podmínka",
+        "recurrence": "Opakování",
+        "active": "Aktivní",
+        "lastTriggered": "Naposledy spuštěno",
+        "addPriceAlert": "Přidat alert",
+        "deleteTitle": "Smazat cenový alert",
+        "deleteMessage": "Opravdu chcete smazat tento cenový alert?"
+      },
+      "addEdit": {
+        "headerAdd": "Přidat cenový alert",
+        "headerEdit": "Upravit cenový alert",
+        "type": "Typ",
+        "typeRequired": "Typ je povinný",
+        "ticker": "Ticker",
+        "tickerPlaceholder": "Hledat ticker...",
+        "portfolio": "Portfolio",
+        "condition": "Podmínka",
+        "conditionRequired": "Podmínka je povinná",
+        "targetValue": "Cílová hodnota",
+        "targetValueRequired": "Cílová hodnota je povinná",
+        "recurrence": "Opakování",
+        "recurrenceOneTime": "Jednorázově",
+        "recurrenceRecurring": "Opakovaně",
+        "cooldownHours": "Čekací doba (hodiny)"
       }
     },
     "account": {

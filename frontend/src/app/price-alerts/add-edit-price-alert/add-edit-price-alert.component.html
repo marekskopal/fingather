@@ -1,0 +1,107 @@
+<div class="header">
+    <div>
+        @if (id() === null) {
+            <h1 class="h3">{{ 'app.priceAlerts.addEdit.headerAdd' | translate }}</h1>
+        } @else {
+            <h1 class="h3">{{ 'app.priceAlerts.addEdit.headerEdit' | translate }}</h1>
+        }
+
+        <a [routerLink]="routerBackLink()" class="btn-link" tabindex="0">
+            <mat-icon>chevron_left</mat-icon>
+            {{ 'app.priceAlerts.priceAlerts.title' | translate }}
+        </a>
+    </div>
+</div>
+
+<div class="content-center">
+    <div class="card form">
+        <div class="card-body">
+            @if (!loading()) {
+                <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                    <div class="mb-3">
+                        <label for="type" class="form-label">{{ 'app.priceAlerts.addEdit.type' | translate }}</label>
+                        <fingather-select
+                            id="type"
+                            formControlName="type"
+                            [items]="types"
+                        />
+                        <fingather-input-validator
+                            [control]="f['type']"
+                            [isSubmitted]="submitted()"
+                            [errorMessages]="{
+                                required: 'app.priceAlerts.addEdit.typeRequired',
+                            }"
+                        />
+                    </div>
+                    @if (f['type'].value === PriceAlertTypeEnum.Price) {
+                        <div class="mb-3">
+                            <label for="tickerId" class="form-label">{{ 'app.priceAlerts.addEdit.ticker' | translate }}</label>
+                            <fingather-ticker-search-selector
+                                id="tickerId"
+                                formControlName="tickerId"
+                                [placeholder]="'app.priceAlerts.addEdit.tickerPlaceholder' | translate"
+                            />
+                        </div>
+                    }
+                    @if (f['type'].value === PriceAlertTypeEnum.Portfolio) {
+                        <div class="mb-3">
+                            <label for="portfolioId" class="form-label">{{ 'app.priceAlerts.addEdit.portfolio' | translate }}</label>
+                            <fingather-select
+                                id="portfolioId"
+                                formControlName="portfolioId"
+                                [items]="portfolios()"
+                            />
+                        </div>
+                    }
+                    <div class="mb-3">
+                        <label for="condition" class="form-label">{{ 'app.priceAlerts.addEdit.condition' | translate }}</label>
+                        <fingather-select
+                            id="condition"
+                            formControlName="condition"
+                            [items]="conditions"
+                        />
+                        <fingather-input-validator
+                            [control]="f['condition']"
+                            [isSubmitted]="submitted()"
+                            [errorMessages]="{
+                                required: 'app.priceAlerts.addEdit.conditionRequired',
+                            }"
+                        />
+                    </div>
+                    <div class="mb-3">
+                        <label for="targetValue" class="form-label">{{ 'app.priceAlerts.addEdit.targetValue' | translate }}</label>
+                        <input id="targetValue" type="text" formControlName="targetValue" class="form-control" [class.is-invalid]="submitted() && f['targetValue'].errors" />
+                        <fingather-input-validator
+                            [control]="f['targetValue']"
+                            [isSubmitted]="submitted()"
+                            [errorMessages]="{
+                                required: 'app.priceAlerts.addEdit.targetValueRequired',
+                            }"
+                        />
+                    </div>
+                    <div class="mb-3">
+                        <label for="recurrence" class="form-label">{{ 'app.priceAlerts.addEdit.recurrence' | translate }}</label>
+                        <fingather-select
+                            id="recurrence"
+                            formControlName="recurrence"
+                            [items]="recurrences"
+                        />
+                    </div>
+                    @if (f['recurrence'].value === AlertRecurrenceEnum.Recurring) {
+                        <div class="mb-3">
+                            <label for="cooldownHours" class="form-label">{{ 'app.priceAlerts.addEdit.cooldownHours' | translate }}</label>
+                            <input id="cooldownHours" type="number" formControlName="cooldownHours" class="form-control" />
+                        </div>
+                    }
+                    <div class="form-group buttons">
+                        <a [routerLink]="routerBackLink()" class="btn btn-secondary" tabindex="0">{{ 'app.common.cancel' | translate }}</a>
+
+                        <fingather-save-button
+                            [saving]="saving()"
+                        />
+                    </div>
+                </form>
+            }
+        </div>
+    </div>
+</div>

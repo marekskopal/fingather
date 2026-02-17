@@ -9,3 +9,4 @@ SHELL=/bin/sh
 */15 * * * *  /app/bin/console apiImport:processCheck >> /app/log/cron.log 2>&1
 0 * * * *  /app/bin/console warmup:async >> /app/log/cron.log 2>&1
 0 6 1 * *  /app/bin/console email:portfolioSummary >> /app/log/cron.log 2>&1
+30 * * * *  /app/bin/console priceAlert:check >> /app/log/cron.log 2>&1
