@@ -1,0 +1,46 @@
+<?php
+
+declare(strict_types=1);
+
+namespace FinGather\Service\Provider;
+
+use DateTimeImmutable;
+use FinGather\Model\Entity\Asset;
+use FinGather\Model\Entity\Country;
+use FinGather\Model\Entity\Group;
+use FinGather\Model\Entity\Industry;
+use FinGather\Model\Entity\Portfolio;
+use FinGather\Model\Entity\Sector;
+use FinGather\Model\Entity\Ticker;
+use FinGather\Model\Entity\User;
+use Iterator;
+
+interface AssetProviderInterface
+{
+	/** @return Iterator<Asset> */
+	public function getAssets(
+		User $user,
+		Portfolio $portfolio,
+		?DateTimeImmutable $dateTime = null,
+		?Group $group = null,
+		?Country $country = null,
+		?Sector $sector = null,
+		?Industry $industry = null,
+	): Iterator;
+
+	public function countAssets(
+		User $user,
+		?Portfolio $portfolio = null,
+		?DateTimeImmutable $dateTime = null,
+		?Group $group = null,
+		?Country $country = null,
+		?Sector $sector = null,
+		?Industry $industry = null,
+	): int;
+
+	public function getAsset(User $user, int $assetId): ?Asset;
+
+	public function createAsset(User $user, Portfolio $portfolio, Ticker $ticker, Group $othersGroup): Asset;
+
+	public function getOrCreateAsset(User $user, Portfolio $portfolio, Ticker $ticker, Group $othersGroup): Asset;
+}
