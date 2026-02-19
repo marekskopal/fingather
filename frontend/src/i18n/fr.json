@@ -659,5 +659,9 @@
       "choose": "Choisir",
       "ok": "OK"
     }
+  },
+  "transaction": {
+    "exportCsv": "Exporter CSV",
+    "exportXlsx": "Exporter XLSX"
   }
 }

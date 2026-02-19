@@ -646,6 +646,10 @@
       "choose": "Vybrat",
       "ok": "OK"
     }
+  },
+  "transaction": {
+    "exportCsv": "Exportovat CSV",
+    "exportXlsx": "Exportovat XLSX"
   }
 }
 

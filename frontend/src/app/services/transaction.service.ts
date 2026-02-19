@@ -4,6 +4,7 @@ import { Transaction, TransactionActionType } from '@app/models';
 import { OkResponse } from '@app/models/ok-response';
 import { TransactionList } from '@app/models/transaction-list';
 import { NotifyService } from '@app/services/notify-service';
+import {DownloadUtils} from "@app/utils/download-utils";
 import { environment } from '@environments/environment';
 import { firstValueFrom } from 'rxjs';
 
@@ -71,5 +72,67 @@ export class TransactionService extends NotifyService {
 
     public deleteTransaction(id: number): Promise<OkResponse> {
         return firstValueFrom<OkResponse>(this.http.delete<OkResponse>(`${environment.apiUrl}/transaction/${id}`));
+    }
+
+    public async exportCsv(
+        portfolioId: number,
+        assetId: number | null = null,
+        actionTypes: TransactionActionType[] | null = null,
+        search: string | null = null,
+        created: string | null = null,
+    ): Promise<void> {
+        let params = new HttpParams();
+
+        if (assetId !== null) {
+            params = params.set('assetId', assetId);
+        }
+
+        if (actionTypes !== null) {
+            params = params.set('actionTypes', actionTypes.join('|'));
+        }
+
+        if (search !== null) {
+            params = params.set('search', search);
+        }
+
+        if (created !== null) {
+            params = params.set('created', created);
+        }
+
+        const blob = await firstValueFrom(
+            this.http.get(`${environment.apiUrl}/transactions/${portfolioId}/export-csv`, { params, responseType: 'blob' }),
+        );
+        DownloadUtils.downloadBlob(blob, 'transactions.csv');
+    }
+
+    public async exportXlsx(
+        portfolioId: number,
+        assetId: number | null = null,
+        actionTypes: TransactionActionType[] | null = null,
+        search: string | null = null,
+        created: string | null = null,
+    ): Promise<void> {
+        let params = new HttpParams();
+
+        if (assetId !== null) {
+            params = params.set('assetId', assetId);
+        }
+
+        if (actionTypes !== null) {
+            params = params.set('actionTypes', actionTypes.join('|'));
+        }
+
+        if (search !== null) {
+            params = params.set('search', search);
+        }
+
+        if (created !== null) {
+            params = params.set('created', created);
+        }
+
+        const blob = await firstValueFrom(
+            this.http.get(`${environment.apiUrl}/transactions/${portfolioId}/export-xlsx`, { params, responseType: 'blob' }),
+        );
+        DownloadUtils.downloadBlob(blob, 'transactions.xlsx');
     }
 }
