@@ -6,7 +6,7 @@ export const environment = {
     production: false,
     apiUrl: 'https://localhost:7196/api',
     i18nPath: '/i18n/',
-    i18nVersion: '6',
+    i18nVersion: '7',
 };
 
 /*
