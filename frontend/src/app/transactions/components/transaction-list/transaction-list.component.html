@@ -29,6 +29,15 @@
                                     {{ 'app.transactions.list.type' | translate }}
                                 } @else if ($column === TransactionGridColumnEnum.Asset) {
                                     {{ 'app.transactions.list.asset' | translate }}
+
+                                    <div class="transaction-export">
+                                        <button class="btn btn-sm btn-secondary" (click)="exportCsv()">
+                                            {{ 'transaction.exportCsv' | translate }}
+                                        </button>
+                                        <button class="btn btn-sm btn-secondary" (click)="exportXlsx()">
+                                            {{ 'transaction.exportXlsx' | translate }}
+                                        </button>
+                                    </div>
                                 }
                             </th>
                         }

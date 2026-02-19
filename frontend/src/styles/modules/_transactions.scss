@@ -16,3 +16,10 @@
 .money-select {
     width: 124px;
 }
+
+.transaction-export {
+    position: absolute;
+    right: 0;
+    display: flex;
+    gap: $spacing-sm;
+}

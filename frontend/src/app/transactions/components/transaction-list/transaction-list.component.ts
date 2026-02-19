@@ -160,6 +160,30 @@ export class TransactionListComponent implements OnInit {
         this.refreshTransactions();
     }
 
+    protected async exportCsv(): Promise<void> {
+        const portfolio = await this.portfolioService.getCurrentPortfolio();
+        const transactionSearch = this.transactionSearch();
+        await this.transactionService.exportCsv(
+            portfolio.id,
+            this.assetId(),
+            transactionSearch.selectedType !== null ? [transactionSearch.selectedType] : this.actionTypes(),
+            transactionSearch.search,
+            transactionSearch.created,
+        );
+    }
+
+    protected async exportXlsx(): Promise<void> {
+        const portfolio = await this.portfolioService.getCurrentPortfolio();
+        const transactionSearch = this.transactionSearch();
+        await this.transactionService.exportXlsx(
+            portfolio.id,
+            this.assetId(),
+            transactionSearch.selectedType !== null ? [transactionSearch.selectedType] : this.actionTypes(),
+            transactionSearch.search,
+            transactionSearch.created,
+        );
+    }
+
     protected readonly TransactionActionType = TransactionActionType;
     protected readonly TransactionGridColumnEnum = TransactionGridColumnEnum;
 }
