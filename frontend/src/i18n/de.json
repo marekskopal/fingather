@@ -13,6 +13,7 @@
       "portfolios": "Portfolios",
       "users": "Benutzer",
       "apiKeys": "API-Schlüssel",
+      "goals": "Ziele",
       "priceAlerts": "Preisalarme",
       "settings": "Einstellungen",
       "account": "Konto",
@@ -20,6 +21,7 @@
     },
     "dashboard": {
       "title": "Dashboard",
+      "goals": "Ziele",
       "groupsAllocation": {
         "groupsAllocation": "Gruppenverteilung",
         "countriesAllocation": "Länder",
@@ -460,6 +462,39 @@
         "apiKey": "API-Schlüssel",
         "apiKeyRequired": "API-Schlüssel ist erforderlich",
         "userKey": "Benutzerschlüssel"
+      }
+    },
+    "goals": {
+      "goals": {
+        "title": "Ziele",
+        "portfolio": "Portfolio",
+        "type": "Typ",
+        "targetValue": "Ziel",
+        "currentValue": "Aktuell",
+        "progress": "Fortschritt",
+        "deadline": "Frist",
+        "achievedAt": "Erreicht",
+        "achieved": "Erreicht",
+        "active": "Aktiv",
+        "addGoal": "Ziel hinzufügen",
+        "deleteTitle": "Ziel löschen",
+        "deleteMessage": "Möchten Sie dieses Ziel wirklich löschen?"
+      },
+      "addEdit": {
+        "headerAdd": "Ziel hinzufügen",
+        "headerEdit": "Ziel bearbeiten",
+        "portfolio": "Portfolio",
+        "portfolioRequired": "Portfolio ist erforderlich",
+        "type": "Zieltyp",
+        "typeRequired": "Typ ist erforderlich",
+        "targetValue": "Zielwert",
+        "targetValueRequired": "Zielwert ist erforderlich",
+        "deadline": "Frist (optional)"
+      },
+      "type": {
+        "portfolioValue": "Portfoliowert",
+        "returnPercentage": "Rendite %",
+        "investedAmount": "Investierter Betrag"
       }
     },
     "priceAlerts": {

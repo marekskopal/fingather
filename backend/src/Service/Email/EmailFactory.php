@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace FinGather\Service\Email;
 
 use FinGather\Dto\EmailVerifyDto;
+use FinGather\Email\GoalEmail;
 use FinGather\Email\PortfolioSummaryEmail;
 use FinGather\Email\PriceAlertEmail;
 use FinGather\Email\VerifyEmail;
+use FinGather\Model\Entity\Goal;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\PriceAlert;
 use FinGather\Model\Entity\User;
@@ -40,6 +42,17 @@ final readonly class EmailFactory
 			->from($this->from)
 			->to($user->email)
 			->subject('FinGather - Price Alert Triggered')
+			->html($html);
+	}
+
+	public function createGoalEmail(User $user, Goal $goal, string $currentValue): Email
+	{
+		$html = GoalEmail::getHtml(goal: $goal, currentValue: $currentValue);
+
+		return new Email()
+			->from($this->from)
+			->to($user->email)
+			->subject('FinGather - Goal Achieved!')
 			->html($html);
 	}
 

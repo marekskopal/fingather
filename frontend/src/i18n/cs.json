@@ -13,6 +13,7 @@
       "portfolios": "Portfólia",
       "users": "Uživatelé",
       "apiKeys": "API klíče",
+      "goals": "Cíle",
       "priceAlerts": "Cenové alerty",
       "settings": "Nastavení",
       "account": "Účet",
@@ -20,6 +21,7 @@
     },
     "dashboard": {
       "title": "Dashboard",
+      "goals": "Cíle",
       "groupsAllocation": {
         "groupsAllocation": "Alokace dle skupin",
         "countriesAllocation": "Země",
@@ -456,6 +458,39 @@
         "apiKey": "API klíč",
         "apiKeyRequired": "API klíč je povinný",
         "userKey": "Uživatelský klíč"
+      }
+    },
+    "goals": {
+      "goals": {
+        "title": "Cíle",
+        "portfolio": "Portfolio",
+        "type": "Typ",
+        "targetValue": "Cíl",
+        "currentValue": "Aktuální",
+        "progress": "Průběh",
+        "deadline": "Termín",
+        "achievedAt": "Dosaženo",
+        "achieved": "Dosaženo",
+        "active": "Aktivní",
+        "addGoal": "Přidat cíl",
+        "deleteTitle": "Smazat cíl",
+        "deleteMessage": "Opravdu chcete smazat tento cíl?"
+      },
+      "addEdit": {
+        "headerAdd": "Přidat cíl",
+        "headerEdit": "Upravit cíl",
+        "portfolio": "Portfolio",
+        "portfolioRequired": "Portfolio je povinné",
+        "type": "Typ cíle",
+        "typeRequired": "Typ je povinný",
+        "targetValue": "Cílová hodnota",
+        "targetValueRequired": "Cílová hodnota je povinná",
+        "deadline": "Termín (volitelné)"
+      },
+      "type": {
+        "portfolioValue": "Hodnota portfolia",
+        "returnPercentage": "Výnos %",
+        "investedAmount": "Investovaná částka"
       }
     },
     "priceAlerts": {

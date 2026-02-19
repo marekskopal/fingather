@@ -1,0 +1,32 @@
+<nav class="settings-nav">
+    <ul class="settings-nav-list">
+        <li class="settings-nav-item">
+            <a class="settings-nav-link" routerLink="/settings/groups" routerLinkActive="active">
+                <mat-icon>stacks</mat-icon>
+                <span>{{ 'app.navbar.groups' | translate }}</span>
+            </a>
+        </li>
+        <li class="settings-nav-item">
+            <a class="settings-nav-link" routerLink="/settings/api-keys" routerLinkActive="active">
+                <mat-icon>key</mat-icon>
+                <span>{{ 'app.navbar.apiKeys' | translate }}</span>
+            </a>
+        </li>
+        @if (isAdmin()) {
+            <li class="settings-nav-item">
+                <a class="settings-nav-link" routerLink="/settings/benchmark-assets" routerLinkActive="active">
+                    <mat-icon>bar_chart</mat-icon>
+                    <span>{{ 'app.settings.benchmarkAssets.title' | translate }}</span>
+                </a>
+            </li>
+        }
+    </ul>
+</nav>
+<div class="settings-container">
+    <div class="content-container">
+        <div class="container-fluid">
+            <router-outlet />
+        </div>
+    </div>
+</div>
+

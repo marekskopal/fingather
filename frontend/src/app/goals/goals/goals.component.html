@@ -1,0 +1,75 @@
+<div class="header">
+    <h1 class="h3">{{ 'app.goals.goals.title' | translate }}</h1>
+
+    <div class="header-controls">
+        <a routerLink="add-goal" class="btn btn-primary" tabindex="0">
+            <mat-icon>add</mat-icon>
+            <span> {{ 'app.goals.goals.addGoal' | translate }}</span>
+        </a>
+
+        <div class="d-none d-lg-block">
+            <fingather-portfolio-selector />
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        @if(goals(); as goals) {
+            <div class="table-responsive" scrollShadow>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="w-20">{{ 'app.goals.goals.type' | translate }}</th>
+                            <th class="w-10">{{ 'app.goals.goals.targetValue' | translate }}</th>
+                            <th class="w-10">{{ 'app.goals.goals.currentValue' | translate }}</th>
+                            <th class="w-15">{{ 'app.goals.goals.progress' | translate }}</th>
+                            <th class="w-10">{{ 'app.goals.goals.deadline' | translate }}</th>
+                            <th class="w-10">{{ 'app.goals.goals.achievedAt' | translate }}</th>
+                            <th class="w-10">{{ 'app.goals.goals.active' | translate }}</th>
+                            <th class="w-15"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(goal of goals; track goal.id) {
+                            <tr>
+                                <td>{{getTypeLabel(goal.type)}}</td>
+                                <td>{{formatValue(goal.targetValue)}}</td>
+                                <td>{{formatValue(goal.currentValue)}}</td>
+                                <td>
+                                    <fingather-goal-progress-bar
+                                        [goal]="goal"
+                                        [index]="$index"
+                                    />
+                                </td>
+                                <td>{{goal.deadline ? (goal.deadline | date: 'y-MM-dd') : '—'}}</td>
+                                <td>{{goal.achievedAt ? (goal.achievedAt | date: 'y-MM-dd') : '—'}}</td>
+                                <td>
+                                    <div class="form-check form-switch">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            role="switch"
+                                            [checked]="goal.isActive"
+                                            (change)="toggleActive(goal)"
+                                        >
+                                    </div>
+                                </td>
+                                <td class="actions">
+                                    <a routerLink="edit-goal/{{goal.id}}" class="btn btn-secondary" tabindex="0">
+                                        <mat-icon>edit</mat-icon>
+                                    </a>
+                                    <fingather-delete-button
+                                        (confirm)="deleteGoal(goal.id)"
+                                        [title]="'app.goals.goals.deleteTitle' | translate"
+                                        [message]="'app.goals.goals.deleteMessage' | translate"
+                                    />
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,26 @@
+<div class="goal-progress-bar">
+    <div class="goal-progress-bar-bar">
+        <div class="goal-progress-bar-track">
+            <div
+                class="goal-progress-bar-fill"
+                [style.width]="trackWidth()"
+                [style.background-color]="barColor()"
+            ></div>
+        </div>
+        <span class="goal-progress-bar-label">{{clampedPercentage().toFixed(1)}}%</span>
+    </div>
+    @if (showText()) {
+        <div class="goal-progress-bar-text">
+            <small class="text-muted">
+                @if (goal().type === GoalTypeEnum.PortfolioValue) {
+                    {{goal().currentValue | number:'1.2-2' | money: defaultCurrency.id | async}} / {{goal().targetValue | number:'1.2-2' | money: defaultCurrency.id | async}}
+                } @else {
+                    {{goal().currentValue | number:'1.2-2'}} / {{goal().targetValue | number:'1.2-2'}}
+                }
+            </small>
+            @if (goal().deadline) {
+                <small class="text-muted">{{ 'app.goals.goals.deadline' | translate }}: {{goal().deadline | date: 'y-MM-dd'}}</small>
+            }
+        </div>
+    }
+</div>

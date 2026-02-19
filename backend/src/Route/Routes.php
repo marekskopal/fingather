@@ -47,6 +47,9 @@ enum Routes: string
 
 	case EmailVerify = '/api/email-verify';
 
+	case Goals = '/api/goals/{portfolioId:number}';
+	case Goal = '/api/goal/{goalId:number}';
+
 	case Groups = '/api/groups/{portfolioId:number}';
 	case Group = '/api/group/{groupId:number}';
 	case GroupOthers = '/api/group/others/{portfolioId:number}';

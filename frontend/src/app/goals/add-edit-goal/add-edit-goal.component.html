@@ -1,0 +1,80 @@
+<div class="header">
+    <div>
+        @if (id() === null) {
+            <h1 class="h3">{{ 'app.goals.addEdit.headerAdd' | translate }}</h1>
+        } @else {
+            <h1 class="h3">{{ 'app.goals.addEdit.headerEdit' | translate }}</h1>
+        }
+
+        <a [routerLink]="routerBackLink()" class="btn-link" tabindex="0">
+            <mat-icon>chevron_left</mat-icon>
+            {{ 'app.goals.goals.title' | translate }}
+        </a>
+    </div>
+</div>
+
+<div class="content-center">
+    <div class="card form">
+        <div class="card-body">
+            @if (!loading()) {
+                <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                    <div class="mb-3">
+                        <label for="portfolioId" class="form-label">{{ 'app.goals.addEdit.portfolio' | translate }}</label>
+                        <fingather-select
+                            id="portfolioId"
+                            formControlName="portfolioId"
+                            [items]="portfolios()"
+                        />
+                        <fingather-input-validator
+                            [control]="f['portfolioId']"
+                            [isSubmitted]="submitted()"
+                            [errorMessages]="{
+                                required: 'app.goals.addEdit.portfolioRequired',
+                            }"
+                        />
+                    </div>
+                    <div class="mb-3">
+                        <label for="type" class="form-label">{{ 'app.goals.addEdit.type' | translate }}</label>
+                        <fingather-select
+                            id="type"
+                            formControlName="type"
+                            [items]="types"
+                        />
+                        <fingather-input-validator
+                            [control]="f['type']"
+                            [isSubmitted]="submitted()"
+                            [errorMessages]="{
+                                required: 'app.goals.addEdit.typeRequired',
+                            }"
+                        />
+                    </div>
+                    <div class="mb-3">
+                        <label for="targetValue" class="form-label">{{ 'app.goals.addEdit.targetValue' | translate }}</label>
+                        <input id="targetValue" type="number" formControlName="targetValue" class="form-control" [class.is-invalid]="submitted() && f['targetValue'].errors" />
+                        <fingather-input-validator
+                            [control]="f['targetValue']"
+                            [isSubmitted]="submitted()"
+                            [errorMessages]="{
+                                required: 'app.goals.addEdit.targetValueRequired',
+                            }"
+                        />
+                    </div>
+                    <div class="mb-3">
+                        <label for="deadline" class="form-label">{{ 'app.goals.addEdit.deadline' | translate }}</label>
+                        <fingather-date-input
+                            id="deadline"
+                            formControlName="deadline"
+                        />
+                    </div>
+                    <div class="form-group buttons">
+                        <a [routerLink]="routerBackLink()" class="btn btn-secondary" tabindex="0">{{ 'app.common.cancel' | translate }}</a>
+
+                        <fingather-save-button
+                            [saving]="saving()"
+                        />
+                    </div>
+                </form>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,38 @@
+.goal-progress-bar {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+
+    .goal-progress-bar-bar {
+        display: flex;
+        align-items: center;
+        gap: $spacing-xs;
+    }
+
+    .goal-progress-bar-track {
+            flex: 1;
+            height: 6px;
+            background-color: $color-gray-lighter;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+    .goal-progress-bar-fill {
+        height: 100%;
+        border-radius: 3px;
+        transition: width 0.4s ease;
+    }
+
+    .goal-progress-bar-label {
+        min-width: 40px;
+        text-align: right;
+        font-size: $font-size-xs;
+        line-height: $line-height-xs;
+        color: $color-gray-lightest;
+    }
+
+    .goal-progress-bar-text {
+        display: flex;
+        justify-content: space-between;
+    }
+}
