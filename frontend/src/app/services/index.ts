@@ -8,6 +8,7 @@ export * from './current-user.service';
 export * from './dividend-calendar.service';
 export * from './dividend-data.service';
 export * from './email-verify.service';
+export * from './goal.service';
 export * from './group.service';
 export * from './group-with-group-data.service';
 export * from './import.service';

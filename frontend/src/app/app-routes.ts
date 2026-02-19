@@ -34,8 +34,7 @@ export const appRoutes: Routes = [
     },
     {
         path: 'groups',
-        loadChildren: () => import('./groups/groups-routes'),
-        canActivate: [AuthGuard],
+        redirectTo: '/settings/groups',
     },
     {
         path: 'strategies',
@@ -64,7 +63,11 @@ export const appRoutes: Routes = [
     },
     {
         path: 'api-keys',
-        loadChildren: () => import('./api-keys/api-keys-routes'),
+        redirectTo: '/settings/api-keys',
+    },
+    {
+        path: 'goals',
+        loadChildren: () => import('./goals/goals-routes'),
         canActivate: [AuthGuard],
     },
     {

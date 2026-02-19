@@ -64,12 +64,6 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" (click)="collapseNavigation()" routerLink="/groups" routerLinkActive="active">
-                    <mat-icon>stacks</mat-icon>
-                    <span>{{ 'app.navbar.groups' | translate }}</span>
-                </a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link" (click)="collapseNavigation()" routerLink="/strategies" routerLinkActive="active">
                     <mat-icon>track_changes</mat-icon>
                     <span>{{ 'app.navbar.strategies' | translate }}</span>
@@ -82,15 +76,15 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" (click)="collapseNavigation()" routerLink="/price-alerts" routerLinkActive="active">
-                    <mat-icon>notifications</mat-icon>
-                    <span>{{ 'app.navbar.priceAlerts' | translate }}</span>
+                <a class="nav-link" (click)="collapseNavigation()" routerLink="/goals" routerLinkActive="active">
+                    <mat-icon>flag</mat-icon>
+                    <span>{{ 'app.navbar.goals' | translate }}</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" (click)="collapseNavigation()" routerLink="/api-keys" routerLinkActive="active">
-                    <mat-icon>key</mat-icon>
-                    <span>{{ 'app.navbar.apiKeys' | translate }}</span>
+                <a class="nav-link" (click)="collapseNavigation()" routerLink="/price-alerts" routerLinkActive="active">
+                    <mat-icon>notifications</mat-icon>
+                    <span>{{ 'app.navbar.priceAlerts' | translate }}</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -99,17 +93,17 @@
                     <span>{{ 'app.navbar.account' | translate }}</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="collapseNavigation()" routerLink="/settings" routerLinkActive="active">
+                    <mat-icon>settings</mat-icon>
+                    <span>{{ 'app.navbar.settings' | translate }}</span>
+                </a>
+            </li>
             @if(currentUser()?.role === UserRoleEnum.Admin) {
                 <li class="nav-item">
                     <a class="nav-link" (click)="collapseNavigation()" routerLink="/users" routerLinkActive="active">
                         <mat-icon>group</mat-icon>
                         <span>{{ 'app.navbar.users' | translate }}</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" (click)="collapseNavigation()" routerLink="/settings" routerLinkActive="active">
-                        <mat-icon>settings</mat-icon>
-                        <span>{{ 'app.navbar.settings' | translate }}</span>
                     </a>
                 </li>
             }

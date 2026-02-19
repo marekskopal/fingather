@@ -1,0 +1,24 @@
+@if (goals(); as goals) {
+    @if (goals.length > 0) {
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5>{{ 'app.dashboard.goals' | translate }}</h5>
+                @for (goal of goals; track goal.id) {
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span class="fw-semibold">{{getTypeLabel(goal.type)}}</span>
+                            @if (goal.achievedAt) {
+                                <span class="badge bg-success">{{ 'app.goals.goals.achieved' | translate }}</span>
+                            }
+                        </div>
+                        <fingather-goal-progress-bar
+                            [goal]="goal"
+                            [index]="$index"
+                            [showText]="true"
+                        />
+                    </div>
+                }
+            </div>
+        </div>
+    }
+}

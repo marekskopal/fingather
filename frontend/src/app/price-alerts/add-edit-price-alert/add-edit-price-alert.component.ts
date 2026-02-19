@@ -10,13 +10,13 @@ import {AlertConditionEnum} from "@app/models/enums/alert-condition-enum";
 import {AlertRecurrenceEnum} from "@app/models/enums/alert-recurrence-enum";
 import {PriceAlertTypeEnum} from "@app/models/enums/price-alert-type-enum";
 import {PortfolioService, PriceAlertService} from '@app/services';
-import {TranslateService} from "@ngx-translate/core";
 import {BaseAddEditForm} from "@app/shared/components/form/base-add-edit-form";
 import {InputValidatorComponent} from "@app/shared/components/input-validator/input-validator.component";
 import {SaveButtonComponent} from "@app/shared/components/save-button/save-button.component";
 import {SelectComponent} from "@app/shared/components/select/select.component";
 import {TickerSearchSelectorComponent} from "@app/shared/components/ticker-search-selector/ticker-search-selector.component";
 import {SelectItem} from "@app/shared/types/select-item";
+import {TranslateService} from "@ngx-translate/core";
 import {TranslatePipe} from "@ngx-translate/core";
 
 @Component({
@@ -64,8 +64,14 @@ export class AddEditPriceAlertComponent extends BaseAddEditForm implements OnIni
         ];
 
         this.recurrences = [
-            {key: AlertRecurrenceEnum.OneTime, label: this.translateService.instant('app.priceAlerts.addEdit.recurrenceOneTime')},
-            {key: AlertRecurrenceEnum.Recurring, label: this.translateService.instant('app.priceAlerts.addEdit.recurrenceRecurring')},
+            {
+                key: AlertRecurrenceEnum.OneTime,
+                label: this.translateService.instant('app.priceAlerts.addEdit.recurrenceOneTime'),
+            },
+            {
+                key: AlertRecurrenceEnum.Recurring,
+                label: this.translateService.instant('app.priceAlerts.addEdit.recurrenceRecurring'),
+            },
         ];
 
         this.form = this.formBuilder.group({

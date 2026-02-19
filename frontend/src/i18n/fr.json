@@ -13,6 +13,7 @@
       "portfolios": "Portefeuilles",
       "users": "Utilisateurs",
       "apiKeys": "Clés API",
+      "goals": "Objectifs",
       "priceAlerts": "Alertes de prix",
       "settings": "Paramètres",
       "account": "Compte",
@@ -20,6 +21,7 @@
     },
     "dashboard": {
       "title": "Dashboard",
+      "goals": "Objectifs",
       "groupsAllocation": {
         "groupsAllocation": "Répartition par groupes",
         "countriesAllocation": "Pays",
@@ -460,6 +462,39 @@
         "apiKey": "Clé API",
         "apiKeyRequired": "La clé API est requise",
         "userKey": "Clé utilisateur"
+      }
+    },
+    "goals": {
+      "goals": {
+        "title": "Objectifs",
+        "portfolio": "Portefeuille",
+        "type": "Type",
+        "targetValue": "Objectif",
+        "currentValue": "Actuel",
+        "progress": "Progression",
+        "deadline": "Échéance",
+        "achievedAt": "Atteint le",
+        "achieved": "Atteint",
+        "active": "Actif",
+        "addGoal": "Ajouter un objectif",
+        "deleteTitle": "Supprimer l'objectif",
+        "deleteMessage": "Êtes-vous sûr de vouloir supprimer cet objectif ?"
+      },
+      "addEdit": {
+        "headerAdd": "Ajouter un objectif",
+        "headerEdit": "Modifier l'objectif",
+        "portfolio": "Portefeuille",
+        "portfolioRequired": "Le portefeuille est requis",
+        "type": "Type d'objectif",
+        "typeRequired": "Le type est obligatoire",
+        "targetValue": "Valeur cible",
+        "targetValueRequired": "La valeur cible est obligatoire",
+        "deadline": "Échéance (optionnel)"
+      },
+      "type": {
+        "portfolioValue": "Valeur du portefeuille",
+        "returnPercentage": "Rendement %",
+        "investedAmount": "Montant investi"
       }
     },
     "priceAlerts": {

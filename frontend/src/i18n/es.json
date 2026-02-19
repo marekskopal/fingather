@@ -13,6 +13,7 @@
       "portfolios": "Portafolios",
       "users": "Usuarios",
       "apiKeys": "Claves API",
+      "goals": "Objetivos",
       "priceAlerts": "Alertas de precio",
       "settings": "Configuración",
       "account": "Cuenta",
@@ -20,6 +21,7 @@
     },
     "dashboard": {
       "title": "Dashboard",
+      "goals": "Objetivos",
       "groupsAllocation": {
         "groupsAllocation": "Asignación por Grupos",
         "countriesAllocation": "Países",
@@ -460,6 +462,39 @@
         "apiKey": "Clave API",
         "apiKeyRequired": "La clave API es obligatoria",
         "userKey": "Clave de Usuario"
+      }
+    },
+    "goals": {
+      "goals": {
+        "title": "Objetivos",
+        "portfolio": "Cartera",
+        "type": "Tipo",
+        "targetValue": "Objetivo",
+        "currentValue": "Actual",
+        "progress": "Progreso",
+        "deadline": "Fecha límite",
+        "achievedAt": "Logrado",
+        "achieved": "Logrado",
+        "active": "Activo",
+        "addGoal": "Añadir objetivo",
+        "deleteTitle": "Eliminar objetivo",
+        "deleteMessage": "¿Está seguro de que desea eliminar este objetivo?"
+      },
+      "addEdit": {
+        "headerAdd": "Añadir objetivo",
+        "headerEdit": "Editar objetivo",
+        "portfolio": "Cartera",
+        "portfolioRequired": "La cartera es obligatoria",
+        "type": "Tipo de objetivo",
+        "typeRequired": "El tipo es obligatorio",
+        "targetValue": "Valor objetivo",
+        "targetValueRequired": "El valor objetivo es obligatorio",
+        "deadline": "Fecha límite (opcional)"
+      },
+      "type": {
+        "portfolioValue": "Valor de cartera",
+        "returnPercentage": "Rendimiento %",
+        "investedAmount": "Importe invertido"
       }
     },
     "priceAlerts": {
