@@ -546,7 +546,9 @@
         "planExpires": "Expiration",
         "upgradeTo": "Passer à",
         "cancelPlan": "Annuler l'abonnement",
-        "cancelPlanMessage": "Êtes-vous sûr de vouloir annuler votre abonnement ?"
+        "cancelPlanMessage": "Êtes-vous sûr de vouloir annuler votre abonnement ?",
+        "deleteAccount": "Supprimer le compte",
+        "deleteAccountMessage": "Cela supprimera définitivement votre compte et toutes vos données. Cette action est irréversible."
       },
       "planUpgrade": {
         "title": "Améliorer l'abonnement",

@@ -97,6 +97,6 @@ enum Routes: string
 	case Transactions = '/api/transactions/{portfolioId:number}';
 	case Transaction = '/api/transaction/{transactionId:number}';
 
-	case TransactionExportCsv  = '/api/transactions/{portfolioId:number}/export-csv';
+	case TransactionExportCsv = '/api/transactions/{portfolioId:number}/export-csv';
 	case TransactionExportXlsx = '/api/transactions/{portfolioId:number}/export-xlsx';
 }

@@ -537,7 +537,9 @@
         "passwordLeaveBlank": "(Nechte prázdné pro stejné heslo)",
         "passwordLength": "Heslo musí být nejméně 6 znaků dlouhé",
         "emailNotifications": "Emailové notifikace",
-        "updateSuccess": "Účet byl úspěšně aktualizován"
+        "updateSuccess": "Účet byl úspěšně aktualizován",
+        "deleteAccount": "Smazat účet",
+        "deleteAccountMessage": "Tímto trvale smažete svůj účet a všechna data. Tuto akci nelze vrátit zpět."
       }
     },
     "settings": {
