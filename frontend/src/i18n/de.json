@@ -546,7 +546,9 @@
         "planExpires": "Läuft ab",
         "upgradeTo": "Upgrade auf",
         "cancelPlan": "Tarif kündigen",
-        "cancelPlanMessage": "Sind Sie sicher, dass Sie Ihren Tarif kündigen möchten?"
+        "cancelPlanMessage": "Sind Sie sicher, dass Sie Ihren Tarif kündigen möchten?",
+        "deleteAccount": "Konto löschen",
+        "deleteAccountMessage": "Dadurch werden Ihr Konto und alle Daten dauerhaft gelöscht. Diese Aktion kann nicht rückgängig gemacht werden."
       },
       "planUpgrade": {
         "title": "Tarif-Upgrade",

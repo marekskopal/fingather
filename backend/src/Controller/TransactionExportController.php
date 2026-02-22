@@ -141,11 +141,7 @@ final readonly class TransactionExportController
 		$xlsxPath = $this->transactionExcelExporter->export($transactions);
 
 		try {
-			return new FileResponse(
-				$xlsxPath,
-				'transactions.xlsx',
-				'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-			);
+			return new FileResponse($xlsxPath, 'transactions.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 		} finally {
 			@unlink($xlsxPath);
 		}

@@ -35,6 +35,11 @@ export class CurrentUserService {
         return this.currentUser;
     }
 
+    public async deleteCurrentUser(): Promise<void> {
+        await lastValueFrom(this.http.delete(`${environment.apiUrl}/current-user`));
+        this.currentUser = null;
+    }
+
     public cleanCurrentUser(): void {
         this.currentUser = null;
     }

@@ -1,0 +1,10 @@
+.account {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-lg;
+
+    .buttons {
+        display: flex;
+        justify-content: space-between;
+    }
+}

@@ -7,10 +7,12 @@ namespace FinGather\Controller;
 use FinGather\Dto\CurrentUserUpdateDto;
 use FinGather\Dto\UserDto;
 use FinGather\Response\ConflictResponse;
+use FinGather\Response\OkResponse;
 use FinGather\Route\Routes;
 use FinGather\Service\Provider\UserProvider;
 use FinGather\Service\Request\RequestService;
 use Laminas\Diactoros\Response\JsonResponse;
+use MarekSkopal\Router\Attribute\RouteDelete;
 use MarekSkopal\Router\Attribute\RouteGet;
 use MarekSkopal\Router\Attribute\RoutePut;
 use Psr\Http\Message\ResponseInterface;
@@ -26,6 +28,14 @@ final readonly class CurrentUserController
 	public function actionGetCurrentUser(ServerRequestInterface $request): ResponseInterface
 	{
 		return new JsonResponse(UserDto::fromEntity($this->requestService->getUser($request)));
+	}
+
+	#[RouteDelete(Routes::CurrentUser->value)]
+	public function actionDeleteCurrentUser(ServerRequestInterface $request): ResponseInterface
+	{
+		$user = $this->requestService->getUser($request);
+		$this->userProvider->deleteUser($user);
+		return new OkResponse();
 	}
 
 	#[RoutePut(Routes::CurrentUser->value)]

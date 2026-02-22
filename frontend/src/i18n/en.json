@@ -537,7 +537,9 @@
         "passwordLeaveBlank": "(Leave blank to keep the same password)",
         "passwordLength": "Password must be at least 6 characters",
         "emailNotifications": "Email notifications",
-        "updateSuccess": "Account updated successfully"
+        "updateSuccess": "Account updated successfully",
+        "deleteAccount": "Delete Account",
+        "deleteAccountMessage": "This will permanently delete your account and all data. This action cannot be undone."
       }
     },
     "settings": {

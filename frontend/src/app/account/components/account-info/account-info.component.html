@@ -113,6 +113,14 @@
 
                         <div class="form-group buttons mt-4">
                             <button type="button" class="btn btn-primary" (click)="onEdit()">{{ 'app.common.edit' | translate }}</button>
+                            <fingather-delete-button
+                                [title]="'app.account.accountInfo.deleteAccount' | translate"
+                                [message]="'app.account.accountInfo.deleteAccountMessage' | translate"
+                                [text]="'app.account.accountInfo.deleteAccount' | translate"
+                                [showText]="true"
+                                [showAsLink]="true"
+                                (confirm)="deleteAccount()"
+                            />
                         </div>
                     </div>
                 </div>

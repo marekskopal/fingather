@@ -3,6 +3,8 @@ import {AbstractControl, ReactiveFormsModule, ValidationErrors, Validators} from
 import {UniqueEmailValidator} from '@app/authentication/validator/UniqueEmailValidator';
 import {User} from '@app/models';
 import {CurrentUserService} from '@app/services';
+import {AuthenticationService} from "@app/services/authentication.service";
+import {DeleteButtonComponent} from "@app/shared/components/delete-button/delete-button.component";
 import {BaseForm} from '@app/shared/components/form/base-form';
 import {InputValidatorComponent} from '@app/shared/components/input-validator/input-validator.component';
 import {PortfolioSelectorComponent} from '@app/shared/components/portfolio-selector/portfolio-selector.component';
@@ -18,11 +20,13 @@ import {TranslateModule} from '@ngx-translate/core';
         ReactiveFormsModule,
         InputValidatorComponent,
         SaveButtonComponent,
+        DeleteButtonComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AccountInfoComponent extends BaseForm implements OnInit {
     private readonly currentUserService = inject(CurrentUserService);
+    private readonly authenticationService = inject(AuthenticationService);
     private readonly uniqueEmailValidator = inject(UniqueEmailValidator);
 
     protected readonly editing = signal<boolean>(false);
@@ -80,6 +84,11 @@ export class AccountInfoComponent extends BaseForm implements OnInit {
 
         this.saving.set(true);
         this.updateCurrentUser();
+    }
+
+    protected async deleteAccount(): Promise<void> {
+        await this.currentUserService.deleteCurrentUser();
+        this.authenticationService.logout();
     }
 
     private async validateUniqueEmail(control: AbstractControl): Promise<ValidationErrors | null> {

@@ -546,7 +546,9 @@
         "planExpires": "Expira",
         "upgradeTo": "Mejorar a",
         "cancelPlan": "Cancelar Plan",
-        "cancelPlanMessage": "¿Estás seguro de que quieres cancelar tu plan?"
+        "cancelPlanMessage": "¿Estás seguro de que quieres cancelar tu plan?",
+        "deleteAccount": "Eliminar cuenta",
+        "deleteAccountMessage": "Esto eliminará permanentemente tu cuenta y todos los datos. Esta acción no se puede deshacer."
       },
       "planUpgrade": {
         "title": "Mejorar Plan",
