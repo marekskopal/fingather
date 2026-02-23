@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace FinGather\Dto;
 
-use DateTimeImmutable;
 use FinGather\Model\Entity\Enum\AlertConditionEnum;
 use FinGather\Model\Entity\Enum\AlertRecurrenceEnum;
 use FinGather\Model\Entity\Enum\PriceAlertTypeEnum;
 use FinGather\Model\Entity\PriceAlert;
+use FinGather\Utils\DateTimeUtils;
 
 final readonly class PriceAlertDto
 {
@@ -20,7 +20,7 @@ final readonly class PriceAlertDto
 		public AlertRecurrenceEnum $recurrence,
 		public int $cooldownHours,
 		public bool $isActive,
-		public ?DateTimeImmutable $lastTriggeredAt,
+		public ?string $lastTriggeredAt,
 		public ?int $portfolioId,
 		public ?int $tickerId,
 		public ?string $tickerTicker,
@@ -38,7 +38,7 @@ final readonly class PriceAlertDto
 			recurrence: $entity->recurrence,
 			cooldownHours: $entity->cooldownHours,
 			isActive: $entity->isActive,
-			lastTriggeredAt: $entity->lastTriggeredAt,
+			lastTriggeredAt: $entity->lastTriggeredAt !== null ? DateTimeUtils::formatZulu($entity->lastTriggeredAt) : null,
 			portfolioId: $entity->portfolio?->id,
 			tickerId: $entity->ticker?->id,
 			tickerTicker: $entity->ticker?->ticker,
