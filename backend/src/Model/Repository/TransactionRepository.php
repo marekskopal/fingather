@@ -124,10 +124,11 @@ final class TransactionRepository extends AbstractRepository
 		}
 
 		if ($search !== null) {
+			$escapedSearch = '%' . addcslashes($search, '%_\\') . '%';
 			$transactions->where(
 				fn (WhereBuilder $builder): WhereBuilder =>
-				$builder->where(['asset.ticker.name', 'like', '%' . $search . '%'])
-					->orWhere(['asset.ticker.ticker', 'like', '%' . $search . '%']),
+				$builder->where(['asset.ticker.name', 'like', $escapedSearch])
+					->orWhere(['asset.ticker.ticker', 'like', $escapedSearch]),
 			);
 		}
 
