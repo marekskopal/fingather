@@ -41,8 +41,6 @@ final readonly class UserController extends AdminController
 	#[RouteGet(Routes::AdminUsers->value)]
 	public function actionGetUsers(ServerRequestInterface $request): ResponseInterface
 	{
-		$this->checkAdminRole($request);
-
 		$users = array_map(
 			function (User $user): UserWithStatisticDto {
 				return UserWithStatisticDto::fromEntity(
@@ -60,8 +58,6 @@ final readonly class UserController extends AdminController
 	#[RouteGet(Routes::AdminUser->value)]
 	public function actionGetUser(ServerRequestInterface $request, int $userId): ResponseInterface
 	{
-		$this->checkAdminRole($request);
-
 		if ($userId < 1) {
 			return new NotFoundResponse('User id is required.');
 		}
@@ -77,8 +73,6 @@ final readonly class UserController extends AdminController
 	#[RoutePost(Routes::AdminUsers->value)]
 	public function actionCreateUser(ServerRequestInterface $request): ResponseInterface
 	{
-		$this->checkAdminRole($request);
-
 		$userCreateDto = $this->requestService->getRequestBodyDto($request, UserCreateDto::class);
 
 		$existsUser = $this->userProvider->getUserByEmail($userCreateDto->email);
@@ -104,8 +98,6 @@ final readonly class UserController extends AdminController
 	#[RoutePut(Routes::AdminUser->value)]
 	public function actionUpdateUser(ServerRequestInterface $request, int $userId): ResponseInterface
 	{
-		$this->checkAdminRole($request);
-
 		if ($userId < 1) {
 			return new NotFoundResponse('User id is required.');
 		}
@@ -129,8 +121,6 @@ final readonly class UserController extends AdminController
 	#[RouteDelete(Routes::AdminUser->value)]
 	public function actionDeleteUser(ServerRequestInterface $request, int $userId): ResponseInterface
 	{
-		$this->checkAdminRole($request);
-
 		if ($userId < 1) {
 			return new NotFoundResponse('User id is required.');
 		}

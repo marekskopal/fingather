@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Middleware;
 
 use FinGather\Middleware\Exception\NotAuthorizedException;
+use FinGather\Model\Entity\Enum\UserRoleEnum;
 use FinGather\Route\Routes;
 use FinGather\Service\Authentication\AuthenticationService;
 use FinGather\Service\Provider\UserProvider;
@@ -98,6 +99,12 @@ final class AuthorizationMiddleware implements MiddlewareInterface
 		$user = $this->userProvider->getUser($userId);
 		if ($user === null) {
 			throw new NotAuthorizedException('User is not authorized.', $request);
+		}
+
+		if (str_starts_with($request->getUri()->getPath(), '/api/admin/')) {
+			if ($user->role !== UserRoleEnum::Admin) {
+				throw new NotAuthorizedException('User is not authorized.', $request);
+			}
 		}
 
 		return $request->withAttribute(self::AttributeUser, $user);

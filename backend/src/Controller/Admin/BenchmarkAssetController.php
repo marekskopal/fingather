@@ -33,8 +33,6 @@ final readonly class BenchmarkAssetController extends AdminController
 	#[RouteGet(Routes::AdminBenchmarkAssets->value)]
 	public function actionGetBenchmarkAssets(ServerRequestInterface $request): ResponseInterface
 	{
-		$this->checkAdminRole($request);
-
 		$benchmarkAssets = [];
 		foreach ($this->benchmarkAssetProvider->getBenchmarkAssets() as $benchmarkAsset) {
 			$benchmarkAssets[] = BenchmarkAssetDto::fromEntity($benchmarkAsset);
@@ -48,8 +46,6 @@ final readonly class BenchmarkAssetController extends AdminController
 	#[RoutePost(Routes::AdminBenchmarkAssets->value)]
 	public function actionCreateBenchmarkAsset(ServerRequestInterface $request): ResponseInterface
 	{
-		$this->checkAdminRole($request);
-
 		$benchmarkAssetCreateDto = $this->requestService->getRequestBodyDto($request, BenchmarkAssetCreateDto::class);
 
 		$ticker = $this->tickerProvider->getTicker($benchmarkAssetCreateDto->tickerId);
@@ -70,8 +66,6 @@ final readonly class BenchmarkAssetController extends AdminController
 	#[RouteDelete(Routes::AdminBenchmarkAsset->value)]
 	public function actionDeleteBenchmarkAsset(ServerRequestInterface $request, int $benchmarkAssetId): ResponseInterface
 	{
-		$this->checkAdminRole($request);
-
 		$benchmarkAsset = $this->benchmarkAssetProvider->getBenchmarkAsset($benchmarkAssetId);
 		if ($benchmarkAsset === null) {
 			return new NotFoundResponse('Benchmark asset with id "' . $benchmarkAssetId . '" was not found.');
