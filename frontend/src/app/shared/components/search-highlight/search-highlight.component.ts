@@ -14,20 +14,30 @@ export class SearchHighlightComponent {
 
     public readonly highlight = computed(() => {
         if (!this.search()) {
-            return this.value();
+            return this.escapeHtml(this.value());
         }
 
         const search = this.search()?.toLowerCase() ?? '';
         const value = this.value();
 
-        const parts = value.split(new RegExp(`(${search})`, 'gi'));
+        const escapedSearch = search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const parts = value.split(new RegExp(`(${escapedSearch})`, 'gi'));
 
         return parts.map((part) => {
             if (part.toLowerCase() === search) {
-                return `<span class="highlight">${part}</span>`;
+                return `<span class="highlight">${this.escapeHtml(part)}</span>`;
             }
 
-            return part;
+            return this.escapeHtml(part);
         }).join('');
     });
+
+    private escapeHtml(text: string): string {
+        return text
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#x27;');
+    }
 }

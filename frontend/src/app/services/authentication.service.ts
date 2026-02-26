@@ -79,7 +79,6 @@ export class AuthenticationService {
     }
 
     public async googleLogin(idToken: string, defaultCurrencyId?: number): Promise<GoogleLoginResponse> {
-        console.log("yop");
         const response = await firstValueFrom<GoogleLoginResponse>(
             this.http.post<GoogleLoginResponse>(`${environment.apiUrl}/authentication/google-login`, {
                 idToken,
