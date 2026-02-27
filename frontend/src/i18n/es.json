@@ -393,6 +393,7 @@
       "list": {
         "title": "Usuarios",
         "addUser": "Agregar Usuario",
+        "id": "ID",
         "email": "Email",
         "name": "Nombre",
         "plan": "Plan",

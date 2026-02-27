@@ -2,10 +2,12 @@ import {DatePipe} from "@angular/common";
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal} from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
 import {Router, RouterLink} from "@angular/router";
-import {User, UserWithStatistic} from '@app/models';
+import {User} from '@app/models';
 import {UserRoleEnum} from "@app/models/enums/user-role-enum";
+import {UserList} from '@app/models/user-list';
 import {CurrentUserService, UserService} from '@app/services';
 import {DeleteButtonComponent} from "@app/shared/components/delete-button/delete-button.component";
+import {PaginationComponent} from "@app/shared/components/pagination/pagination.component";
 import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selector/portfolio-selector.component";
 import {ScrollShadowDirective} from "@marekskopal/ng-scroll-shadow";
 import { TranslatePipe} from "@ngx-translate/core";
@@ -18,6 +20,7 @@ import { TranslatePipe} from "@ngx-translate/core";
         RouterLink,
         MatIcon,
         DeleteButtonComponent,
+        PaginationComponent,
         ScrollShadowDirective,
         DatePipe,
     ],
@@ -29,8 +32,10 @@ export class ListComponent implements OnInit {
     private readonly changeDetectorRef = inject(ChangeDetectorRef);
     private readonly router = inject(Router);
 
-    protected readonly users = signal<UserWithStatistic[]>([]);
+    protected readonly users = signal<UserList | null>(null);
     protected currentUser: User;
+    protected page = 1;
+    protected pageSize = 50;
 
     public async ngOnInit(): Promise<void> {
         this.currentUser = await this.currentUserService.getCurrentUser();
@@ -47,18 +52,36 @@ export class ListComponent implements OnInit {
     }
 
     private async refreshUsers(): Promise<void> {
-        const users = await this.userService.getUsers();
-        this.users.set(users);
+        this.users.set(null);
+        const userList = await this.userService.getUsers(
+            this.pageSize,
+            (this.page - 1) * this.pageSize,
+        );
+        this.users.set(userList);
+    }
+
+    protected async changePage(page: number): Promise<void> {
+        this.page = page;
+        await this.refreshUsers();
+    }
+
+    protected async changePageSize(pageSize: number): Promise<void> {
+        this.pageSize = pageSize;
+        this.page = 1;
+        await this.refreshUsers();
     }
 
     protected async deleteUser(id: number): Promise<void> {
-        const user = this.users().find((x) => x.id === id);
+        const user = this.users()?.users.find((x) => x.id === id);
         if (user === undefined) {
             return;
         }
 
         await this.userService.deleteUser(id);
 
-        this.users.update((users) => users.filter((x) => x.id !== id));
+        this.users.update((userList) => userList === null ? null : {
+            ...userList,
+            users: userList.users.filter((x) => x.id !== id),
+        });
     }
 }

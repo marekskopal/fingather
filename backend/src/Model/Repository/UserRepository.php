@@ -12,9 +12,18 @@ use MarekSkopal\ORM\Repository\AbstractRepository;
 final class UserRepository extends AbstractRepository
 {
 	/** @return Iterator<User> */
-	public function findUsers(): Iterator
+	public function findUsers(?int $limit = null, ?int $offset = null): Iterator
 	{
-		return $this->findAll();
+		return $this->select()
+			->orderBy('id', 'DESC')
+			->limit($limit)
+			->offset($offset)
+			->fetchAll();
+	}
+
+	public function countUsers(): int
+	{
+		return $this->select()->count();
 	}
 
 	public function findUserById(int $userId): ?User

@@ -24,9 +24,14 @@ class UserProvider
 	}
 
 	/** @return Iterator<User> */
-	public function getUsers(): Iterator
+	public function getUsers(?int $limit = null, ?int $offset = null): Iterator
 	{
-		return $this->userRepository->findUsers();
+		return $this->userRepository->findUsers($limit, $offset);
+	}
+
+	public function countUsers(): int
+	{
+		return $this->userRepository->countUsers();
 	}
 
 	public function getUser(int $userId): ?User

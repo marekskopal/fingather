@@ -391,6 +391,7 @@
       "list": {
         "title": "Users",
         "addUser": "Add User",
+        "id": "ID",
         "email": "Email",
         "name": "Name",
         "assets": "Assets",

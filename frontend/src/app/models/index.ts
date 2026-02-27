@@ -38,5 +38,6 @@ export * from './ticker';
 export * from './ticker-data';
 export * from './transaction';
 export * from './user';
+export * from './user-list';
 export * from './user-with-statistic';
 export * from './year-calculated-data';

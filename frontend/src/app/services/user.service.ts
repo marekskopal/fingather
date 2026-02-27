@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
-import { User, UserWithStatistic } from '@app/models';
+import { User } from '@app/models';
 import { OkResponse } from '@app/models/ok-response';
+import { UserList } from '@app/models/user-list';
 import { NotifyService } from '@app/services/notify-service';
 import { environment } from '@environments/environment';
 import { firstValueFrom } from 'rxjs';
@@ -14,9 +15,16 @@ export class UserService extends NotifyService {
         return firstValueFrom<User>(this.http.post<User>(`${environment.apiUrl}/admin/user`, user));
     }
 
-    public getUsers(): Promise<UserWithStatistic[]> {
-        return firstValueFrom<UserWithStatistic[]>(
-            this.http.get<UserWithStatistic[]>(`${environment.apiUrl}/admin/user`),
+    public getUsers(limit: number | null = null, offset: number | null = null): Promise<UserList> {
+        let params = new HttpParams();
+        if (limit !== null) {
+            params = params.set('limit', limit);
+        }
+        if (offset !== null) {
+            params = params.set('offset', offset);
+        }
+        return firstValueFrom<UserList>(
+            this.http.get<UserList>(`${environment.apiUrl}/admin/user`, { params }),
         );
     }
 

@@ -6,6 +6,7 @@ namespace FinGather\Controller\Admin;
 
 use FinGather\Dto\UserCreateDto;
 use FinGather\Dto\UserDto;
+use FinGather\Dto\UserListDto;
 use FinGather\Dto\UserUpdateDto;
 use FinGather\Dto\UserWithStatisticDto;
 use FinGather\Model\Entity\User;
@@ -41,6 +42,12 @@ final readonly class UserController extends AdminController
 	#[RouteGet(Routes::AdminUsers->value)]
 	public function actionGetUsers(ServerRequestInterface $request): ResponseInterface
 	{
+		/** @var array{limit?: string, offset?: string} $queryParams */
+		$queryParams = $request->getQueryParams();
+
+		$limit = ($queryParams['limit'] ?? null) !== null ? (int) $queryParams['limit'] : null;
+		$offset = ($queryParams['offset'] ?? null) !== null ? (int) $queryParams['offset'] : null;
+
 		$users = array_map(
 			function (User $user): UserWithStatisticDto {
 				return UserWithStatisticDto::fromEntity(
@@ -49,10 +56,12 @@ final readonly class UserController extends AdminController
 					transactionCount: $this->transactionProvider->countTransactions($user),
 				);
 			},
-			iterator_to_array($this->userProvider->getUsers(), false),
+			iterator_to_array($this->userProvider->getUsers($limit, $offset), false),
 		);
 
-		return new JsonResponse($users);
+		$count = $this->userProvider->countUsers();
+
+		return new JsonResponse(new UserListDto($users, $count));
 	}
 
 	#[RouteGet(Routes::AdminUser->value)]

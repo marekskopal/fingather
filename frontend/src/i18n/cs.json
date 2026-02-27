@@ -391,6 +391,7 @@
       "list": {
         "title": "Uživatelé",
         "addUser": "Přidat uživatele",
+        "id": "ID",
         "email": "Email",
         "name": "Jméno",
         "assets": "Aktiv",

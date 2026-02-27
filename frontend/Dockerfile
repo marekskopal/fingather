@@ -7,7 +7,7 @@ RUN npm install -g @angular/cli
 COPY ./package.json ./pnpm-lock.yaml ./
 RUN pnpm install --reporter=silent
 COPY ./src /app/src
-COPY ./angular.json ./tsconfig.app.json ./tsconfig.json ./tsconfig.spec.json ./
+COPY ./angular.json ./tsconfig.app.json ./tsconfig.json ./
 RUN npm run build-prod
 
 FROM nginx:1.29.5-alpine AS runtime
