@@ -9,6 +9,25 @@ table {
         justify-content: flex-end;
         gap: $spacing-xs;
     }
+
+    th.sortable {
+        cursor: pointer;
+        user-select: none;
+
+        span {
+            display: inline-flex;
+            align-items: center;
+            gap: $spacing-xs;
+        }
+
+        .mat-icon {
+            width: 16px;
+            height: 16px;
+            font-size: 16px;
+            line-height: 16px;
+            color: $color-gray-8;
+        }
+    }
 }
 
 .table,
@@ -31,7 +50,7 @@ table {
             height: 16px;
             font-size: 16px;
             line-height: 16px;
-            color: $color-gray-lightest;
+            color: $color-gray-8;
         }
     }
 }

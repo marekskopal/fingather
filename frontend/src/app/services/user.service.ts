@@ -1,6 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
 import { User } from '@app/models';
+import { OrderDirection } from '@app/models/enums/order-direction';
+import { UserOrderBy } from '@app/models/enums/user-order-by';
 import { OkResponse } from '@app/models/ok-response';
 import { UserList } from '@app/models/user-list';
 import { NotifyService } from '@app/services/notify-service';
@@ -15,13 +17,24 @@ export class UserService extends NotifyService {
         return firstValueFrom<User>(this.http.post<User>(`${environment.apiUrl}/admin/user`, user));
     }
 
-    public getUsers(limit: number | null = null, offset: number | null = null): Promise<UserList> {
+    public getUsers(
+        limit: number | null = null,
+        offset: number | null = null,
+        orderBy: UserOrderBy | null = null,
+        orderDirection: OrderDirection | null = null,
+    ): Promise<UserList> {
         let params = new HttpParams();
         if (limit !== null) {
             params = params.set('limit', limit);
         }
         if (offset !== null) {
             params = params.set('offset', offset);
+        }
+        if (orderBy !== null) {
+            params = params.set('orderBy', orderBy);
+        }
+        if (orderDirection !== null) {
+            params = params.set('orderDirection', orderDirection);
         }
         return firstValueFrom<UserList>(
             this.http.get<UserList>(`${environment.apiUrl}/admin/user`, { params }),

@@ -11,6 +11,8 @@ use FinGather\Dto\TransactionListDto;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Enum\TransactionCreateTypeEnum;
 use FinGather\Model\Entity\Transaction;
+use FinGather\Model\Repository\Enum\OrderDirectionEnum;
+use FinGather\Model\Repository\Enum\TransactionOrderByEnum;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Response\OkResponse;
 use FinGather\Route\Routes;
@@ -52,6 +54,8 @@ final readonly class TransactionController
 		 *     actionTypes?: string,
 		 *     created?: string,
 		 *     search?: string,
+		 *     orderBy?: string,
+		 *     orderDirection?: string,
 		 * } $queryParams
 		 */
 		$queryParams = $request->getQueryParams();
@@ -89,6 +93,13 @@ final readonly class TransactionController
 
 		$search = ($queryParams['search'] ?? null) !== null ? $queryParams['search'] : null;
 
+		$orderByColumn = ($queryParams['orderBy'] ?? null) !== null ? TransactionOrderByEnum::tryFrom($queryParams['orderBy']) : null;
+		$orderDirection = ($queryParams['orderDirection'] ?? null) !== null ? OrderDirectionEnum::tryFrom($queryParams['orderDirection']) : null;
+
+		$orderBy = $orderByColumn !== null
+			? [$orderByColumn->value => $orderDirection ?? OrderDirectionEnum::DESC]
+			: [TransactionOrderByEnum::ActionCreated->value => OrderDirectionEnum::DESC];
+
 		$transactions = $this->transactionProvider->getTransactions(
 			user: $user,
 			portfolio: $portfolio,
@@ -98,6 +109,7 @@ final readonly class TransactionController
 			search: $search,
 			limit: $limit,
 			offset: $offset,
+			orderBy: $orderBy,
 		);
 		$count = $this->transactionProvider->countTransactions(
 			user: $user,

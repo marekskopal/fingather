@@ -8,4 +8,5 @@ enum TransactionOrderByEnum: string
 {
 	case ActionCreated = 'action_created';
 	case BrokerId = 'broker_id';
+	case Created = 'created';
 }

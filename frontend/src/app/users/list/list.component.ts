@@ -3,6 +3,8 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, s
 import {MatIcon} from "@angular/material/icon";
 import {Router, RouterLink} from "@angular/router";
 import {User} from '@app/models';
+import {OrderDirection} from "@app/models/enums/order-direction";
+import {UserOrderBy} from "@app/models/enums/user-order-by";
 import {UserRoleEnum} from "@app/models/enums/user-role-enum";
 import {UserList} from '@app/models/user-list';
 import {CurrentUserService, UserService} from '@app/services';
@@ -36,6 +38,11 @@ export class ListComponent implements OnInit {
     protected currentUser: User;
     protected page = 1;
     protected pageSize = 50;
+    protected sortBy: UserOrderBy = UserOrderBy.Id;
+    protected sortDirection: OrderDirection = OrderDirection.Desc;
+
+    protected readonly UserOrderBy = UserOrderBy;
+    protected readonly OrderDirection = OrderDirection;
 
     public async ngOnInit(): Promise<void> {
         this.currentUser = await this.currentUserService.getCurrentUser();
@@ -56,6 +63,8 @@ export class ListComponent implements OnInit {
         const userList = await this.userService.getUsers(
             this.pageSize,
             (this.page - 1) * this.pageSize,
+            this.sortBy,
+            this.sortDirection,
         );
         this.users.set(userList);
     }
@@ -67,6 +76,18 @@ export class ListComponent implements OnInit {
 
     protected async changePageSize(pageSize: number): Promise<void> {
         this.pageSize = pageSize;
+        this.page = 1;
+        await this.refreshUsers();
+    }
+
+    protected async changeSort(column: UserOrderBy): Promise<void> {
+        if (this.sortBy === column) {
+            this.sortDirection = this.sortDirection === OrderDirection.Asc
+                ? OrderDirection.Desc : OrderDirection.Asc;
+        } else {
+            this.sortBy = column;
+            this.sortDirection = OrderDirection.Desc;
+        }
         this.page = 1;
         await this.refreshUsers();
     }

@@ -8,6 +8,8 @@ use DateTimeImmutable;
 use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\Enum\UserRoleEnum;
 use FinGather\Model\Entity\User;
+use FinGather\Model\Repository\Enum\OrderDirectionEnum;
+use FinGather\Model\Repository\Enum\UserOrderByEnum;
 use FinGather\Model\Repository\UserRepository;
 use Iterator;
 use SensitiveParameter;
@@ -23,10 +25,16 @@ class UserProvider
 	) {
 	}
 
-	/** @return Iterator<User> */
-	public function getUsers(?int $limit = null, ?int $offset = null): Iterator
-	{
-		return $this->userRepository->findUsers($limit, $offset);
+	/**
+	 * @param array<value-of<UserOrderByEnum>,OrderDirectionEnum> $orderBy
+	 * @return Iterator<User>
+	 */
+	public function getUsers(
+		?int $limit = null,
+		?int $offset = null,
+		array $orderBy = [UserOrderByEnum::Id->value => OrderDirectionEnum::DESC],
+	): Iterator {
+		return $this->userRepository->findUsers($limit, $offset, $orderBy);
 	}
 
 	public function countUsers(): int

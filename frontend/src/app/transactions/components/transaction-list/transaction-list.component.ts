@@ -5,6 +5,8 @@ import {
 import {MatIcon} from "@angular/material/icon";
 import {RouterLink} from "@angular/router";
 import {TransactionActionType} from "@app/models";
+import {OrderDirection} from "@app/models/enums/order-direction";
+import {TransactionOrderBy} from "@app/models/enums/transaction-order-by";
 import { TransactionList } from '@app/models/transaction-list';
 import { PortfolioService, TransactionService } from '@app/services';
 import {DeleteButtonComponent} from "@app/shared/components/delete-button/delete-button.component";
@@ -64,6 +66,11 @@ export class TransactionListComponent implements OnInit {
 
     private page: number = 1;
     public pageSize: number = 50;
+    protected sortBy: TransactionOrderBy = TransactionOrderBy.ActionCreated;
+    protected sortDirection: OrderDirection = OrderDirection.Desc;
+
+    protected readonly TransactionOrderBy = TransactionOrderBy;
+    protected readonly OrderDirection = OrderDirection;
 
     protected readonly transactionList = signal<TransactionList | null>(null);
 
@@ -134,6 +141,8 @@ export class TransactionListComponent implements OnInit {
             transactionSearch.created,
             this.showPagination() ? this.pageSize : null,
             this.showPagination() ? (this.page - 1) * this.pageSize : null,
+            this.sortBy,
+            this.sortDirection,
         );
         this.transactionList.set(transactionList);
     }
@@ -151,6 +160,18 @@ export class TransactionListComponent implements OnInit {
 
     protected async changePageSize(pageSize: number): Promise<void> {
         this.pageSize = pageSize;
+        await this.refreshTransactions();
+    }
+
+    protected async changeSort(column: TransactionOrderBy): Promise<void> {
+        if (this.sortBy === column) {
+            this.sortDirection = this.sortDirection === OrderDirection.Asc
+                ? OrderDirection.Desc : OrderDirection.Asc;
+        } else {
+            this.sortBy = column;
+            this.sortDirection = OrderDirection.Desc;
+        }
+        this.page = 1;
         await this.refreshTransactions();
     }
 

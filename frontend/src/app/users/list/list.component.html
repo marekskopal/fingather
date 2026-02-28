@@ -22,10 +22,56 @@
                         <tr>
                             <th>{{ 'app.users.list.id' | translate }}</th>
                             <th>{{ 'app.users.list.email' | translate }}</th>
+                            <th (click)="changeSort(UserOrderBy.Id)" class="sortable">
+                                <span>
+                                    {{ 'app.users.list.id' | translate }}
+                                    @if (sortBy === UserOrderBy.Id) {
+                                        <mat-icon>
+                                            {{ sortDirection === OrderDirection.Asc ? 'arrow_upward' : 'arrow_downward' }}
+                                        </mat-icon>
+                                    } @else {
+                                        <mat-icon>expand_all</mat-icon>
+                                    }
+                                </span>
+                            </th>
+                            <th (click)="changeSort(UserOrderBy.Email)" class="sortable">
+                                <span>
+                                    {{ 'app.users.list.email' | translate }}
+                                    @if (sortBy === UserOrderBy.Email) {
+                                        <mat-icon>
+                                            {{ sortDirection === OrderDirection.Asc ? 'arrow_upward' : 'arrow_downward' }}
+                                        </mat-icon>
+                                    } @else {
+                                        <mat-icon>expand_all</mat-icon>
+                                    }
+                                </span>
+                            </th>
                             <th>{{ 'app.users.list.assets' | translate }}</th>
                             <th>{{ 'app.users.list.transactions' | translate }}</th>
-                            <th>{{ 'app.users.list.lastLoggedIn' | translate }}</th>
-                            <th>{{ 'app.users.list.lastRefreshTokenGenerated' | translate }}</th>
+                            <th (click)="changeSort(UserOrderBy.LastLoggedIn)" class="sortable">
+                                <span>
+                                    {{ 'app.users.list.lastLoggedIn' | translate }}
+                                    @if (sortBy === UserOrderBy.LastLoggedIn) {
+                                        <mat-icon>
+                                            {{ sortDirection === OrderDirection.Asc ? 'arrow_upward' : 'arrow_downward' }}
+                                        </mat-icon>
+                                    } @else {
+                                        <mat-icon>expand_all</mat-icon>
+                                    }
+                                </span>
+                            </th>
+                            <th (click)="changeSort(UserOrderBy.LastRefreshTokenGenerated)" class="sortable">
+                                <span>
+                                    {{ 'app.users.list.lastRefreshTokenGenerated' | translate }}
+                                    @if (sortBy === UserOrderBy.LastRefreshTokenGenerated) {
+                                        <mat-icon>
+                                            {{ sortDirection === OrderDirection.Asc ? 'arrow_upward' : 'arrow_downward' }}
+                                        </mat-icon>
+                                    } @else {
+                                        <mat-icon>expand_all</mat-icon>
+                                    }
+                                </span>
+                            </th>
                             <th></th>
                         </tr>
                     </thead>

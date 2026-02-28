@@ -10,6 +10,8 @@ use FinGather\Dto\UserListDto;
 use FinGather\Dto\UserUpdateDto;
 use FinGather\Dto\UserWithStatisticDto;
 use FinGather\Model\Entity\User;
+use FinGather\Model\Repository\Enum\OrderDirectionEnum;
+use FinGather\Model\Repository\Enum\UserOrderByEnum;
 use FinGather\Response\ConflictResponse;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Response\OkResponse;
@@ -42,11 +44,18 @@ final readonly class UserController extends AdminController
 	#[RouteGet(Routes::AdminUsers->value)]
 	public function actionGetUsers(ServerRequestInterface $request): ResponseInterface
 	{
-		/** @var array{limit?: string, offset?: string} $queryParams */
+		/** @var array{limit?: string, offset?: string, orderBy?: string, orderDirection?: string} $queryParams */
 		$queryParams = $request->getQueryParams();
 
 		$limit = ($queryParams['limit'] ?? null) !== null ? (int) $queryParams['limit'] : null;
 		$offset = ($queryParams['offset'] ?? null) !== null ? (int) $queryParams['offset'] : null;
+
+		$orderByColumn = ($queryParams['orderBy'] ?? null) !== null ? UserOrderByEnum::tryFrom($queryParams['orderBy']) : null;
+		$orderDirection = ($queryParams['orderDirection'] ?? null) !== null ? OrderDirectionEnum::tryFrom($queryParams['orderDirection']) : null;
+
+		$orderBy = $orderByColumn !== null
+			? [$orderByColumn->value => $orderDirection ?? OrderDirectionEnum::DESC]
+			: [UserOrderByEnum::Id->value => OrderDirectionEnum::DESC];
 
 		$users = array_map(
 			function (User $user): UserWithStatisticDto {
@@ -56,7 +65,7 @@ final readonly class UserController extends AdminController
 					transactionCount: $this->transactionProvider->countTransactions($user),
 				);
 			},
-			iterator_to_array($this->userProvider->getUsers($limit, $offset), false),
+			iterator_to_array($this->userProvider->getUsers($limit, $offset, $orderBy), false),
 		);
 
 		$count = $this->userProvider->countUsers();

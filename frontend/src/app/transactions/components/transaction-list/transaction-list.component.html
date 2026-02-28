@@ -20,26 +20,50 @@
                 <thead>
                     <tr>
                         @for ($column of columns(); track $index) {
-                            <th>
-                                @if ($column === TransactionGridColumnEnum.Date) {
-                                    {{ 'app.transactions.list.date' | translate }}
-                                } @else if ($column === TransactionGridColumnEnum.Created) {
-                                    {{ 'app.transactions.list.created' | translate }}
-                                } @else if ($column === TransactionGridColumnEnum.Type) {
-                                    {{ 'app.transactions.list.type' | translate }}
-                                } @else if ($column === TransactionGridColumnEnum.Asset) {
-                                    {{ 'app.transactions.list.asset' | translate }}
+                            @if ($column === TransactionGridColumnEnum.Date) {
+                                <th (click)="changeSort(TransactionOrderBy.ActionCreated)" class="sortable">
+                                    <span>
+                                        {{ 'app.transactions.list.date' | translate }}
+                                        @if (sortBy === TransactionOrderBy.ActionCreated) {
+                                            <mat-icon>
+                                                {{ sortDirection === OrderDirection.Asc ? 'arrow_upward' : 'arrow_downward' }}
+                                            </mat-icon>
+                                        } @else {
+                                            <mat-icon>expand_all</mat-icon>
+                                        }
+                                    </span>
+                                </th>
+                            } @else if ($column === TransactionGridColumnEnum.Created) {
+                                <th (click)="changeSort(TransactionOrderBy.Created)" class="sortable">
+                                    <span>
+                                        {{ 'app.transactions.list.created' | translate }}
+                                        @if (sortBy === TransactionOrderBy.Created) {
+                                            <mat-icon>
+                                                {{ sortDirection === OrderDirection.Asc ? 'arrow_upward' : 'arrow_downward' }}
+                                            </mat-icon>
+                                        } @else {
+                                            <mat-icon>expand_all</mat-icon>
+                                        }
+                                    </span>
+                                </th>
+                            } @else {
+                                <th>
+                                    @if ($column === TransactionGridColumnEnum.Type) {
+                                        {{ 'app.transactions.list.type' | translate }}
+                                    } @else if ($column === TransactionGridColumnEnum.Asset) {
+                                        {{ 'app.transactions.list.asset' | translate }}
 
-                                    <div class="transaction-export">
-                                        <button class="btn btn-sm btn-secondary" (click)="exportCsv()">
-                                            {{ 'transaction.exportCsv' | translate }}
-                                        </button>
-                                        <button class="btn btn-sm btn-secondary" (click)="exportXlsx()">
-                                            {{ 'transaction.exportXlsx' | translate }}
-                                        </button>
-                                    </div>
-                                }
-                            </th>
+                                        <div class="transaction-export">
+                                            <button class="btn btn-sm btn-secondary" (click)="exportCsv()">
+                                                {{ 'transaction.exportCsv' | translate }}
+                                            </button>
+                                            <button class="btn btn-sm btn-secondary" (click)="exportXlsx()">
+                                                {{ 'transaction.exportXlsx' | translate }}
+                                            </button>
+                                        </div>
+                                    }
+                                </th>
+                            }
                         }
                     </tr>
                 </thead>

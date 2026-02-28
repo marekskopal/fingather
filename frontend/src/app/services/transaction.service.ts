@@ -1,6 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
 import { Transaction, TransactionActionType } from '@app/models';
+import { OrderDirection } from '@app/models/enums/order-direction';
+import { TransactionOrderBy } from '@app/models/enums/transaction-order-by';
 import { OkResponse } from '@app/models/ok-response';
 import { TransactionList } from '@app/models/transaction-list';
 import { NotifyService } from '@app/services/notify-service';
@@ -26,6 +28,8 @@ export class TransactionService extends NotifyService {
         created: string | null = null,
         limit: number | null = null,
         offset: number | null = null,
+        orderBy: TransactionOrderBy | null = null,
+        orderDirection: OrderDirection | null = null,
     ): Promise<TransactionList> {
         let params = new HttpParams();
 
@@ -51,6 +55,14 @@ export class TransactionService extends NotifyService {
 
         if (offset !== null) {
             params = params.set('offset', offset);
+        }
+
+        if (orderBy !== null) {
+            params = params.set('orderBy', orderBy);
+        }
+
+        if (orderDirection !== null) {
+            params = params.set('orderDirection', orderDirection);
         }
 
         return firstValueFrom<TransactionList>(
