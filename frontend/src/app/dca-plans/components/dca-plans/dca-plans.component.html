@@ -1,0 +1,59 @@
+<div class="header">
+    <h1 class="h3">{{ 'app.dcaPlans.dcaPlans.title' | translate }}</h1>
+
+    <div class="header-controls">
+        <a routerLink="add-dca-plan" class="btn btn-primary" tabindex="0">
+            <mat-icon>add</mat-icon>
+            <span> {{ 'app.dcaPlans.dcaPlans.addDcaPlan' | translate }}</span>
+        </a>
+
+        <div class="d-none d-lg-block">
+            <fingather-portfolio-selector />
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        @if(plans(); as plans) {
+            <div class="table-responsive" scrollShadow>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="w-20">{{ 'app.dcaPlans.dcaPlans.target' | translate }}</th>
+                            <th class="w-10">{{ 'app.dcaPlans.dcaPlans.amount' | translate }}</th>
+                            <th class="w-10">{{ 'app.dcaPlans.dcaPlans.interval' | translate }}</th>
+                            <th class="w-15">{{ 'app.dcaPlans.dcaPlans.startDate' | translate }}</th>
+                            <th class="w-15">{{ 'app.dcaPlans.dcaPlans.endDate' | translate }}</th>
+                            <th class="w-10"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(plan of plans; track plan.id) {
+                            <tr>
+                                <td>{{plan.targetName}}</td>
+                                <td>{{plan.amount | number:'1.2-2' | money: plan.currencyId | async}}</td>
+                                <td>{{ 'app.dcaPlans.dcaPlans.everyMonths' | translate: { months: plan.intervalMonths } }}</td>
+                                <td>{{plan.startDate | date: 'y-MM-dd'}}</td>
+                                <td>{{plan.endDate ? (plan.endDate | date: 'y-MM-dd') : '—'}}</td>
+                                <td class="actions">
+                                    <a routerLink="{{plan.id}}" class="btn btn-secondary" tabindex="0">
+                                        <mat-icon>bar_chart</mat-icon>
+                                    </a>
+                                    <a routerLink="edit-dca-plan/{{plan.id}}" class="btn btn-secondary" tabindex="0">
+                                        <mat-icon>edit</mat-icon>
+                                    </a>
+                                    <fingather-delete-button
+                                        (confirm)="deletePlan(plan.id)"
+                                        [title]="'app.dcaPlans.dcaPlans.deleteTitle' | translate"
+                                        [message]="'app.dcaPlans.dcaPlans.deleteMessage' | translate"
+                                    />
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>

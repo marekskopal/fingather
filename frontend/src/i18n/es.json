@@ -1,5 +1,5 @@
 {
-  "app" : {
+  "app": {
     "navbar": {
       "dashboard": "Dashboard",
       "assets": "Activos",
@@ -14,6 +14,7 @@
       "users": "Usuarios",
       "apiKeys": "Claves API",
       "goals": "Objetivos",
+      "dcaPlans": "Planes DCA",
       "priceAlerts": "Alertas de precio",
       "settings": "Configuración",
       "account": "Cuenta",
@@ -201,7 +202,7 @@
         "colorRequired": "El color es obligatorio",
         "assets": "Activos",
         "assetsRequired": "Los activos son obligatorios",
-        "assetDisabled": "El activo está asignado al grupo \u201c{{groupName}}\u201d"
+        "assetDisabled": "El activo está asignado al grupo “{{groupName}}”"
       },
       "list": {
         "title": "Grupos",
@@ -311,8 +312,8 @@
         "totalTax": "Total Impuesto Retenido",
         "totalNet": "Total Neto",
         "summary": "Resumen",
-        "dividendsByCountry": "Dividendos por pa\u00eds",
-        "country": "Pa\u00eds",
+        "dividendsByCountry": "Dividendos por país",
+        "country": "País",
         "exportXlsx": "Exportar Excel",
         "exportPdf": "Exportar PDF"
       }
@@ -496,6 +497,74 @@
         "portfolioValue": "Valor de cartera",
         "returnPercentage": "Rendimiento %",
         "investedAmount": "Importe invertido"
+      }
+    },
+    "dcaPlans": {
+      "dcaPlans": {
+        "title": "Planes DCA",
+        "target": "Objetivo",
+        "amount": "Importe",
+        "interval": "Intervalo",
+        "startDate": "Fecha de inicio",
+        "endDate": "Fecha de fin",
+        "expectedReturn": "Rendimiento esperado",
+        "active": "Activo",
+        "yes": "Sí",
+        "no": "No",
+        "everyMonths": "Cada {{months}} mes(es)",
+        "addDcaPlan": "Añadir plan DCA",
+        "deleteTitle": "Eliminar plan DCA",
+        "deleteMessage": "¿Está seguro de que desea eliminar este plan DCA?"
+      },
+      "addEdit": {
+        "headerAdd": "Añadir plan DCA",
+        "headerEdit": "Editar plan DCA",
+        "targetType": "Tipo de objetivo",
+        "targetTypeRequired": "El tipo de objetivo es obligatorio",
+        "portfolio": "Cartera",
+        "portfolioRequired": "La cartera es obligatoria",
+        "asset": "Activo",
+        "group": "Grupo",
+        "strategy": "Estrategia",
+        "amount": "Importe",
+        "amountRequired": "El importe es obligatorio",
+        "amountMin": "El importe debe ser mayor que 0",
+        "currency": "Moneda",
+        "currencyRequired": "La moneda es obligatoria",
+        "intervalMonths": "Intervalo (meses)",
+        "intervalMonthsRequired": "El intervalo es obligatorio",
+        "intervalMonthsMin": "El intervalo debe ser de al menos 1 mes",
+        "startDate": "Fecha de inicio",
+        "startDateRequired": "La fecha de inicio es obligatoria",
+        "endDate": "Fecha de fin (opcional)",
+        "expectedAnnualReturnRate": "Tasa de rendimiento anual esperada (%)",
+        "expectedAnnualReturnRateRequired": "La tasa de rendimiento anual esperada es obligatoria",
+        "expectedAnnualReturnRateMin": "La tasa de rendimiento anual esperada debe ser 0 o mayor",
+        "isActive": "Activo"
+      },
+      "targetType": {
+        "portfolio": "Cartera",
+        "asset": "Activo",
+        "group": "Grupo",
+        "strategy": "Estrategia"
+      },
+      "projection": {
+        "title": "Crecimiento proyectado",
+        "years": "A",
+        "withCurrentValue": "Incluir valor actual"
+      },
+      "detail": {
+        "title": "Detalle del plan DCA",
+        "edit": "Editar",
+        "target": "Objetivo",
+        "amount": "Importe de inversión",
+        "interval": "Intervalo",
+        "expectedReturn": "Rendimiento anual esperado",
+        "startDate": "Fecha de inicio",
+        "endDate": "Fecha de fin",
+        "status": "Estado",
+        "annualReturnRate": "Rendimiento anual",
+        "monthlyReturnRate": "Rendimiento mensual"
       }
     },
     "priceAlerts": {

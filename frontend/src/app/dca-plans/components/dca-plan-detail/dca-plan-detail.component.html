@@ -1,0 +1,57 @@
+<div class="header">
+    <div>
+        @if (plan(); as plan) {
+            <h1 class="h3">{{plan.targetName}}</h1>
+        } @else {
+            <h1 class="h3">&nbsp;</h1>
+        }
+
+        <a routerLink=".." class="btn-link" tabindex="0">
+            <mat-icon>chevron_left</mat-icon>
+            {{ 'app.dcaPlans.dcaPlans.title' | translate }}
+        </a>
+    </div>
+
+    @if (plan(); as plan) {
+        <div class="header-controls">
+            <a routerLink="../edit-dca-plan/{{plan.id}}" class="btn btn-secondary" tabindex="0">
+                <mat-icon>edit</mat-icon>
+                <span> {{ 'app.dcaPlans.detail.edit' | translate }}</span>
+            </a>
+        </div>
+    }
+</div>
+
+@if (plan(); as plan) {
+    <div class="dca-plan-detail">
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="dca-plan-detail-info">
+                    <dl>
+                        <dt>{{ 'app.dcaPlans.detail.amount' | translate }}</dt>
+                        <dd>{{plan.amount | number:'1.2-2' | money: plan.currencyId | async}}</dd>
+
+                        <dt>{{ 'app.dcaPlans.detail.interval' | translate }}</dt>
+                        <dd>{{ 'app.dcaPlans.dcaPlans.everyMonths' | translate: { months: plan.intervalMonths } }}</dd>
+                    </dl>
+                    <dl>
+                        <dt>{{ 'app.dcaPlans.detail.startDate' | translate }}</dt>
+                        <dd>{{plan.startDate | date: 'y-MM-dd'}}</dd>
+
+                        <dt>{{ 'app.dcaPlans.detail.endDate' | translate }}</dt>
+                        <dd>{{plan.endDate ? (plan.endDate | date: 'y-MM-dd') : '—'}}</dd>
+                    </dl>
+                    <dl>
+                        <dt>{{ 'app.dcaPlans.detail.annualReturnRate' | translate }}</dt>
+                        <dd>{{plan.annualReturnRate | number: '1.2-2'}}%</dd>
+
+                        <dt>{{ 'app.dcaPlans.detail.monthlyReturnRate' | translate }}</dt>
+                        <dd>{{plan.monthlyReturnRate | number: '1.2-2'}}%</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+        <fingather-dca-plan-projection-chart [dcaPlanId]="plan.id" />
+    </div>
+}

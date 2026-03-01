@@ -51,7 +51,9 @@ final readonly class UserController extends AdminController
 		$offset = ($queryParams['offset'] ?? null) !== null ? (int) $queryParams['offset'] : null;
 
 		$orderByColumn = ($queryParams['orderBy'] ?? null) !== null ? UserOrderByEnum::tryFrom($queryParams['orderBy']) : null;
-		$orderDirection = ($queryParams['orderDirection'] ?? null) !== null ? OrderDirectionEnum::tryFrom($queryParams['orderDirection']) : null;
+		$orderDirection = ($queryParams['orderDirection'] ?? null) !== null
+			? OrderDirectionEnum::tryFrom($queryParams['orderDirection'])
+			: null;
 
 		$orderBy = $orderByColumn !== null
 			? [$orderByColumn->value => $orderDirection ?? OrderDirectionEnum::DESC]

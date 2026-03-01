@@ -66,6 +66,11 @@ export const appRoutes: Routes = [
         redirectTo: '/settings/api-keys',
     },
     {
+        path: 'dca-plans',
+        loadChildren: () => import('./dca-plans/dca-plans-routes'),
+        canActivate: [AuthGuard],
+    },
+    {
         path: 'goals',
         loadChildren: () => import('./goals/goals-routes'),
         canActivate: [AuthGuard],

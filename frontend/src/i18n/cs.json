@@ -1,5 +1,5 @@
 {
-  "app" : {
+  "app": {
     "navbar": {
       "dashboard": "Dashboard",
       "assets": "Aktiva",
@@ -14,6 +14,7 @@
       "users": "Uživatelé",
       "apiKeys": "API klíče",
       "goals": "Cíle",
+      "dcaPlans": "DCA Plány",
       "priceAlerts": "Cenové alerty",
       "settings": "Nastavení",
       "account": "Účet",
@@ -311,8 +312,8 @@
         "totalTax": "Celkem sražená daň",
         "totalNet": "Celkem čistá",
         "summary": "Souhrn",
-        "dividendsByCountry": "Dividendy podle zem\u011b",
-        "country": "Zem\u011b",
+        "dividendsByCountry": "Dividendy podle země",
+        "country": "Země",
         "exportXlsx": "Exportovat Excel",
         "exportPdf": "Exportovat PDF"
       }
@@ -494,6 +495,74 @@
         "investedAmount": "Investovaná částka"
       }
     },
+    "dcaPlans": {
+      "dcaPlans": {
+        "title": "DCA Plány",
+        "target": "Cíl",
+        "amount": "Částka",
+        "interval": "Interval",
+        "startDate": "Datum začátku",
+        "endDate": "Datum konce",
+        "expectedReturn": "Očekávaný výnos",
+        "active": "Aktivní",
+        "yes": "Ano",
+        "no": "Ne",
+        "everyMonths": "Každých {{months}} měsíc(e)",
+        "addDcaPlan": "Přidat DCA Plán",
+        "deleteTitle": "Smazat DCA Plán",
+        "deleteMessage": "Opravdu chcete smazat tento DCA plán?"
+      },
+      "addEdit": {
+        "headerAdd": "Přidat DCA Plán",
+        "headerEdit": "Upravit DCA Plán",
+        "targetType": "Typ cíle",
+        "targetTypeRequired": "Typ cíle je povinný",
+        "portfolio": "Portfólio",
+        "portfolioRequired": "Portfólio je povinné",
+        "asset": "Aktivum",
+        "group": "Skupina",
+        "strategy": "Strategie",
+        "amount": "Částka",
+        "amountRequired": "Částka je povinná",
+        "amountMin": "Částka musí být větší než 0",
+        "currency": "Měna",
+        "currencyRequired": "Měna je povinná",
+        "intervalMonths": "Interval (měsíce)",
+        "intervalMonthsRequired": "Interval je povinný",
+        "intervalMonthsMin": "Interval musí být alespoň 1 měsíc",
+        "startDate": "Datum začátku",
+        "startDateRequired": "Datum začátku je povinné",
+        "endDate": "Datum konce (volitelné)",
+        "expectedAnnualReturnRate": "Očekávaný roční výnos (%)",
+        "expectedAnnualReturnRateRequired": "Očekávaný roční výnos je povinný",
+        "expectedAnnualReturnRateMin": "Očekávaný roční výnos musí být 0 nebo větší",
+        "isActive": "Aktivní"
+      },
+      "targetType": {
+        "portfolio": "Portfólio",
+        "asset": "Aktivum",
+        "group": "Skupina",
+        "strategy": "Strategie"
+      },
+      "projection": {
+        "title": "Předpokládaný růst",
+        "years": "R",
+        "withCurrentValue": "Zahrnout aktuální hodnotu"
+      },
+      "detail": {
+        "title": "Detail DCA Plánu",
+        "edit": "Upravit",
+        "target": "Cíl",
+        "amount": "Výše investice",
+        "interval": "Interval",
+        "expectedReturn": "Očekávaný roční výnos",
+        "startDate": "Datum začátku",
+        "endDate": "Datum konce",
+        "status": "Stav",
+        "annualReturnRate": "Roční výnos",
+        "monthlyReturnRate": "Měsíční výnos"
+      }
+    },
     "priceAlerts": {
       "priceAlerts": {
         "title": "Cenové alerty",
@@ -655,4 +724,3 @@
     "exportXlsx": "Exportovat XLSX"
   }
 }
-

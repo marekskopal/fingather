@@ -23,6 +23,20 @@ final class TickerDataRepository extends AbstractRepository
 			->fetchAll();
 	}
 
+	public function findFirstTickerData(int $tickerId, ?DateTimeImmutable $afterDate = null): ?TickerData
+	{
+		$select = $this->select()
+			->where(['ticker_id' => $tickerId]);
+
+		if ($afterDate !== null) {
+			$select->where(['date', '>=', $afterDate]);
+		}
+
+		$select->orderBy('date', 'ASC');
+
+		return $select->fetchOne();
+	}
+
 	public function findLastTickerData(int $tickerId, ?DateTimeImmutable $beforeDate = null): ?TickerData
 	{
 		$select = $this->select()

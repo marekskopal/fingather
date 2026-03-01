@@ -1,5 +1,5 @@
 {
-  "app" : {
+  "app": {
     "navbar": {
       "dashboard": "Dashboard",
       "assets": "Actifs",
@@ -14,6 +14,7 @@
       "users": "Utilisateurs",
       "apiKeys": "Clés API",
       "goals": "Objectifs",
+      "dcaPlans": "Plans DCA",
       "priceAlerts": "Alertes de prix",
       "settings": "Paramètres",
       "account": "Compte",
@@ -201,7 +202,7 @@
         "colorRequired": "La couleur est requise",
         "assets": "Actifs",
         "assetsRequired": "Les actifs sont requis",
-        "assetDisabled": "L'actif est assigné au groupe \u201c{{groupName}}\u201d"
+        "assetDisabled": "L'actif est assigné au groupe “{{groupName}}”"
       },
       "list": {
         "title": "Groupes",
@@ -496,6 +497,74 @@
         "portfolioValue": "Valeur du portefeuille",
         "returnPercentage": "Rendement %",
         "investedAmount": "Montant investi"
+      }
+    },
+    "dcaPlans": {
+      "dcaPlans": {
+        "title": "Plans DCA",
+        "target": "Cible",
+        "amount": "Montant",
+        "interval": "Intervalle",
+        "startDate": "Date de début",
+        "endDate": "Date de fin",
+        "expectedReturn": "Rendement attendu",
+        "active": "Actif",
+        "yes": "Oui",
+        "no": "Non",
+        "everyMonths": "Tous les {{months}} mois",
+        "addDcaPlan": "Ajouter un plan DCA",
+        "deleteTitle": "Supprimer le plan DCA",
+        "deleteMessage": "Voulez-vous vraiment supprimer ce plan DCA ?"
+      },
+      "addEdit": {
+        "headerAdd": "Ajouter un plan DCA",
+        "headerEdit": "Modifier le plan DCA",
+        "targetType": "Type de cible",
+        "targetTypeRequired": "Le type de cible est requis",
+        "portfolio": "Portefeuille",
+        "portfolioRequired": "Le portefeuille est requis",
+        "asset": "Actif",
+        "group": "Groupe",
+        "strategy": "Stratégie",
+        "amount": "Montant",
+        "amountRequired": "Le montant est requis",
+        "amountMin": "Le montant doit être supérieur à 0",
+        "currency": "Devise",
+        "currencyRequired": "La devise est requise",
+        "intervalMonths": "Intervalle (mois)",
+        "intervalMonthsRequired": "L'intervalle est requis",
+        "intervalMonthsMin": "L'intervalle doit être d'au moins 1 mois",
+        "startDate": "Date de début",
+        "startDateRequired": "La date de début est requise",
+        "endDate": "Date de fin (optionnel)",
+        "expectedAnnualReturnRate": "Taux de rendement annuel attendu (%)",
+        "expectedAnnualReturnRateRequired": "Le taux de rendement annuel attendu est requis",
+        "expectedAnnualReturnRateMin": "Le taux de rendement annuel attendu doit être 0 ou plus",
+        "isActive": "Actif"
+      },
+      "targetType": {
+        "portfolio": "Portefeuille",
+        "asset": "Actif",
+        "group": "Groupe",
+        "strategy": "Stratégie"
+      },
+      "projection": {
+        "title": "Croissance projetée",
+        "years": "A",
+        "withCurrentValue": "Inclure la valeur actuelle"
+      },
+      "detail": {
+        "title": "Détail du plan DCA",
+        "edit": "Modifier",
+        "target": "Cible",
+        "amount": "Montant de l'investissement",
+        "interval": "Intervalle",
+        "expectedReturn": "Rendement annuel attendu",
+        "startDate": "Date de début",
+        "endDate": "Date de fin",
+        "status": "Statut",
+        "annualReturnRate": "Rendement annuel",
+        "monthlyReturnRate": "Rendement mensuel"
       }
     },
     "priceAlerts": {

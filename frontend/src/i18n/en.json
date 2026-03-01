@@ -1,5 +1,5 @@
 {
-  "app" : {
+  "app": {
     "navbar": {
       "dashboard": "Dashboard",
       "assets": "Assets",
@@ -14,6 +14,7 @@
       "users": "Users",
       "apiKeys": "API keys",
       "goals": "Goals",
+      "dcaPlans": "DCA Plans",
       "priceAlerts": "Price Alerts",
       "settings": "Settings",
       "account": "Account",
@@ -492,6 +493,74 @@
         "portfolioValue": "Portfolio Value",
         "returnPercentage": "Return %",
         "investedAmount": "Invested Amount"
+      }
+    },
+    "dcaPlans": {
+      "dcaPlans": {
+        "title": "DCA Plans",
+        "target": "Target",
+        "amount": "Amount",
+        "interval": "Interval",
+        "startDate": "Start Date",
+        "endDate": "End Date",
+        "expectedReturn": "Expected Return",
+        "active": "Active",
+        "yes": "Yes",
+        "no": "No",
+        "everyMonths": "Every {{months}} month(s)",
+        "addDcaPlan": "Add DCA Plan",
+        "deleteTitle": "Delete DCA Plan",
+        "deleteMessage": "Are you sure you want to delete this DCA plan?"
+      },
+      "addEdit": {
+        "headerAdd": "Add DCA Plan",
+        "headerEdit": "Edit DCA Plan",
+        "targetType": "Target Type",
+        "targetTypeRequired": "Target type is required",
+        "portfolio": "Portfolio",
+        "portfolioRequired": "Portfolio is required",
+        "asset": "Asset",
+        "group": "Group",
+        "strategy": "Strategy",
+        "amount": "Amount",
+        "amountRequired": "Amount is required",
+        "amountMin": "Amount must be greater than 0",
+        "currency": "Currency",
+        "currencyRequired": "Currency is required",
+        "intervalMonths": "Interval (months)",
+        "intervalMonthsRequired": "Interval is required",
+        "intervalMonthsMin": "Interval must be at least 1 month",
+        "startDate": "Start Date",
+        "startDateRequired": "Start date is required",
+        "endDate": "End Date (optional)",
+        "expectedAnnualReturnRate": "Expected Annual Return Rate (%)",
+        "expectedAnnualReturnRateRequired": "Expected annual return rate is required",
+        "expectedAnnualReturnRateMin": "Expected annual return rate must be 0 or greater",
+        "isActive": "Active"
+      },
+      "targetType": {
+        "portfolio": "Portfolio",
+        "asset": "Asset",
+        "group": "Group",
+        "strategy": "Strategy"
+      },
+      "projection": {
+        "title": "Projected Growth",
+        "years": "Y",
+        "withCurrentValue": "Include current value"
+      },
+      "detail": {
+        "title": "DCA Plan Detail",
+        "edit": "Edit",
+        "target": "Target",
+        "amount": "Investment Amount",
+        "interval": "Interval",
+        "expectedReturn": "Expected Annual Return",
+        "startDate": "Start Date",
+        "endDate": "End Date",
+        "status": "Status",
+        "annualReturnRate": "Annual Return Rate",
+        "monthlyReturnRate": "Monthly Return Rate"
       }
     },
     "priceAlerts": {

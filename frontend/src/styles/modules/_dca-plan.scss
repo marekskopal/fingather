@@ -1,0 +1,17 @@
+.dca-plan-detail-info {
+    display: flex;
+    gap: $spacing-xl;
+
+    dl {
+        display: grid;
+        grid-template-columns: auto auto;
+        margin-bottom: 0;
+        column-gap: $spacing-md;
+        row-gap: $spacing-sm;
+
+        dd {
+            margin-bottom: 0;
+            color: $color-gray-lightest;
+        }
+    }
+}

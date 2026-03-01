@@ -47,6 +47,10 @@ enum Routes: string
 
 	case EmailVerify = '/api/email-verify';
 
+	case DcaPlans = '/api/dca-plans/{portfolioId:number}';
+	case DcaPlan = '/api/dca-plan/{dcaPlanId:number}';
+	case DcaPlanProjection = '/api/dca-plan/{dcaPlanId:number}/projection';
+
 	case Goals = '/api/goals/{portfolioId:number}';
 	case Goal = '/api/goal/{goalId:number}';
 

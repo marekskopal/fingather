@@ -94,7 +94,9 @@ final readonly class TransactionController
 		$search = ($queryParams['search'] ?? null) !== null ? $queryParams['search'] : null;
 
 		$orderByColumn = ($queryParams['orderBy'] ?? null) !== null ? TransactionOrderByEnum::tryFrom($queryParams['orderBy']) : null;
-		$orderDirection = ($queryParams['orderDirection'] ?? null) !== null ? OrderDirectionEnum::tryFrom($queryParams['orderDirection']) : null;
+		$orderDirection = ($queryParams['orderDirection'] ?? null) !== null
+			? OrderDirectionEnum::tryFrom($queryParams['orderDirection'])
+			: null;
 
 		$orderBy = $orderByColumn !== null
 			? [$orderByColumn->value => $orderDirection ?? OrderDirectionEnum::DESC]

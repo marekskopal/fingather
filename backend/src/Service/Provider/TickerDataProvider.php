@@ -76,6 +76,16 @@ readonly class TickerDataProvider
 		);
 	}
 
+	public function getFirstTickerData(int $tickerId, DateTimeImmutable $afterDate): ?TickerData
+	{
+		return $this->tickerDataRepository->findFirstTickerData($tickerId, $afterDate);
+	}
+
+	public function getLastTickerData(int $tickerId, DateTimeImmutable $beforeDate): ?TickerData
+	{
+		return $this->tickerDataRepository->findLastTickerData($tickerId, $beforeDate);
+	}
+
 	public function getLastTickerDataClose(Ticker $ticker, DateTimeImmutable $beforeDate): ?Decimal
 	{
 		$dayOfWeek = (int) $beforeDate->format('w');

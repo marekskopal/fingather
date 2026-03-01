@@ -1,0 +1,53 @@
+<div class="card">
+    <div class="card-header">
+        <h2 class="h4">{{ 'app.dcaPlans.projection.title' | translate }}</h2>
+    </div>
+    <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <ul class="nav nav-tabs mb-0">
+                @for (option of horizonOptions; track option) {
+                    <li class="nav-item">
+                        <a
+                            class="nav-link"
+                            [class.active]="horizonYears() === option"
+                            (click)="setHorizon(option)"
+                            tabindex="0"
+                        >
+                            {{ option }}{{ 'app.dcaPlans.projection.years' | translate }}
+                        </a>
+                    </li>
+                }
+            </ul>
+            <div class="form-check form-switch mb-0">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    role="switch"
+                    id="withCurrentValue"
+                    [ngModel]="withCurrentValue()"
+                    (ngModelChange)="toggleWithCurrentValue($event)"
+                />
+                <label class="form-check-label" for="withCurrentValue">
+                    {{ 'app.dcaPlans.projection.withCurrentValue' | translate }}
+                </label>
+            </div>
+        </div>
+        @if (!loading()) {
+            <apx-chart
+                [series]="chartOptions.series"
+                [chart]="chartOptions.chart"
+                [xaxis]="chartOptions.xaxis"
+                [yaxis]="chartOptions.yaxis"
+                [dataLabels]="chartOptions.dataLabels"
+                [grid]="chartOptions.grid"
+                [stroke]="chartOptions.stroke"
+                [legend]="chartOptions.legend"
+                [theme]="chartOptions.theme"
+                [fill]="chartOptions.fill"
+                [colors]="chartOptions.colors"
+            />
+        } @else {
+            <span class="spinner-border spinner-border-sm mr-1"></span>
+        }
+    </div>
+</div>

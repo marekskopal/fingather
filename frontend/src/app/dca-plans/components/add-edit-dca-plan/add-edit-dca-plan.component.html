@@ -1,0 +1,125 @@
+<div class="header">
+    <div>
+        @if (id() === null) {
+            <h1 class="h3">{{ 'app.dcaPlans.addEdit.headerAdd' | translate }}</h1>
+        } @else {
+            <h1 class="h3">{{ 'app.dcaPlans.addEdit.headerEdit' | translate }}</h1>
+        }
+
+        <a [routerLink]="routerBackLink()" class="btn-link" tabindex="0">
+            <mat-icon>chevron_left</mat-icon>
+            {{ 'app.dcaPlans.dcaPlans.title' | translate }}
+        </a>
+    </div>
+</div>
+
+<div class="content-center">
+    <div class="card form">
+        <div class="card-body">
+            @if (!loading()) {
+                <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                    <div class="mb-3">
+                        <label for="targetType" class="form-label">{{ 'app.dcaPlans.addEdit.targetType' | translate }}</label>
+                        <fingather-select
+                            id="targetType"
+                            formControlName="targetType"
+                            [items]="targetTypes"
+                        />
+                        <fingather-input-validator
+                            [control]="f['targetType']"
+                            [isSubmitted]="submitted()"
+                            [errorMessages]="{ required: 'app.dcaPlans.addEdit.targetTypeRequired' }"
+                        />
+                    </div>
+@if (targetType === DcaPlanTargetTypeEnum.Asset) {
+                        <div class="mb-3">
+                            <label for="assetId" class="form-label">{{ 'app.dcaPlans.addEdit.asset' | translate }}</label>
+                            <fingather-select
+                                id="assetId"
+                                formControlName="assetId"
+                                [items]="assets()"
+                            />
+                        </div>
+                    }
+                    @if (targetType === DcaPlanTargetTypeEnum.Group) {
+                        <div class="mb-3">
+                            <label for="groupId" class="form-label">{{ 'app.dcaPlans.addEdit.group' | translate }}</label>
+                            <fingather-select
+                                id="groupId"
+                                formControlName="groupId"
+                                [items]="groups()"
+                            />
+                        </div>
+                    }
+                    @if (targetType === DcaPlanTargetTypeEnum.Strategy) {
+                        <div class="mb-3">
+                            <label for="strategyId" class="form-label">{{ 'app.dcaPlans.addEdit.strategy' | translate }}</label>
+                            <fingather-select
+                                id="strategyId"
+                                formControlName="strategyId"
+                                [items]="strategies()"
+                            />
+                        </div>
+                    }
+                    <div class="mb-3">
+                        <label for="amount" class="form-label">{{ 'app.dcaPlans.addEdit.amount' | translate }}</label>
+                        <input id="amount" type="number" formControlName="amount" class="form-control" [class.is-invalid]="submitted() && f['amount'].errors" step="0.01" />
+                        <fingather-input-validator
+                            [control]="f['amount']"
+                            [isSubmitted]="submitted()"
+                            [errorMessages]="{ required: 'app.dcaPlans.addEdit.amountRequired', min: 'app.dcaPlans.addEdit.amountMin' }"
+                        />
+                    </div>
+                    <div class="mb-3">
+                        <label for="currencyId" class="form-label">{{ 'app.dcaPlans.addEdit.currency' | translate }}</label>
+                        <fingather-select
+                            id="currencyId"
+                            formControlName="currencyId"
+                            [items]="currencies()"
+                        />
+                        <fingather-input-validator
+                            [control]="f['currencyId']"
+                            [isSubmitted]="submitted()"
+                            [errorMessages]="{ required: 'app.dcaPlans.addEdit.currencyRequired' }"
+                        />
+                    </div>
+                    <div class="mb-3">
+                        <label for="intervalMonths" class="form-label">{{ 'app.dcaPlans.addEdit.intervalMonths' | translate }}</label>
+                        <input id="intervalMonths" type="number" formControlName="intervalMonths" class="form-control" [class.is-invalid]="submitted() && f['intervalMonths'].errors" min="1" />
+                        <fingather-input-validator
+                            [control]="f['intervalMonths']"
+                            [isSubmitted]="submitted()"
+                            [errorMessages]="{ required: 'app.dcaPlans.addEdit.intervalMonthsRequired', min: 'app.dcaPlans.addEdit.intervalMonthsMin' }"
+                        />
+                    </div>
+                    <div class="mb-3">
+                        <label for="startDate" class="form-label">{{ 'app.dcaPlans.addEdit.startDate' | translate }}</label>
+                        <fingather-date-input
+                            id="startDate"
+                            formControlName="startDate"
+                        />
+                        <fingather-input-validator
+                            [control]="f['startDate']"
+                            [isSubmitted]="submitted()"
+                            [errorMessages]="{ required: 'app.dcaPlans.addEdit.startDateRequired' }"
+                        />
+                    </div>
+                    <div class="mb-3">
+                        <label for="endDate" class="form-label">{{ 'app.dcaPlans.addEdit.endDate' | translate }}</label>
+                        <fingather-date-input
+                            id="endDate"
+                            formControlName="endDate"
+                        />
+                    </div>
+                    <div class="form-group buttons">
+                        <a [routerLink]="routerBackLink()" class="btn btn-secondary" tabindex="0">{{ 'app.common.cancel' | translate }}</a>
+
+                        <fingather-save-button
+                            [saving]="saving()"
+                        />
+                    </div>
+                </form>
+            }
+        </div>
+    </div>
+</div>
