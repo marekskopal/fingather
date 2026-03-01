@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace FinGather\Service\Task;
 
 use FinGather\Dto\ArrayFactoryInterface;
+use FinGather\Jobs\Message\ReceivedMessageInterface;
 use Nette\Utils\Json;
-use Spiral\RoadRunner\Jobs\Task\ReceivedTaskInterface;
 
 class TaskService implements TaskServiceInterface
 {
@@ -15,10 +15,10 @@ class TaskService implements TaskServiceInterface
 	 * @return T
 	 * @template T of ArrayFactoryInterface
 	 */
-	public function getPayloadDto(ReceivedTaskInterface $task, string $dtoClass): object
+	public function getPayloadDto(ReceivedMessageInterface $message, string $dtoClass): object
 	{
 		/** @var array<mixed> $decodedPayload */
-		$decodedPayload = Json::decode($task->getPayload(), forceArrays: true);
+		$decodedPayload = Json::decode($message->getPayload(), forceArrays: true);
 
 		return $dtoClass::fromArray($decodedPayload);
 	}

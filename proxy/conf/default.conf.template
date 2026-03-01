@@ -12,8 +12,8 @@ upstream http_frontend {
     keepalive 16;
 }
 
-upstream fastcgi_backend {
-    server backend:9000;
+upstream http_backend {
+    server backend:80;
 
     keepalive 8;
 }
@@ -77,9 +77,13 @@ server {
 
         add_header X-Content-Type-Options nosniff;
 
-        fastcgi_pass fastcgi_backend;
-        fastcgi_keep_conn on;
-        include fastcgi_params;
+        proxy_pass http://http_backend;
+        proxy_http_version 1.1;
+        proxy_set_header Connection "";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
     }
 
     location = /api/authentication/sign-up {
@@ -88,9 +92,13 @@ server {
 
         add_header X-Content-Type-Options nosniff;
 
-        fastcgi_pass fastcgi_backend;
-        fastcgi_keep_conn on;
-        include fastcgi_params;
+        proxy_pass http://http_backend;
+        proxy_http_version 1.1;
+        proxy_set_header Connection "";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
     }
 
     location = /api/authentication/email-exists {
@@ -99,17 +107,25 @@ server {
 
         add_header X-Content-Type-Options nosniff;
 
-        fastcgi_pass fastcgi_backend;
-        fastcgi_keep_conn on;
-        include fastcgi_params;
+        proxy_pass http://http_backend;
+        proxy_http_version 1.1;
+        proxy_set_header Connection "";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
     }
 
     location /api {
         add_header X-Content-Type-Options nosniff;
 
-        fastcgi_pass fastcgi_backend;
-        fastcgi_keep_conn on;
-        include fastcgi_params;
+        proxy_pass http://http_backend;
+        proxy_http_version 1.1;
+        proxy_set_header Connection "";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
     }
 
     location /adminer {
@@ -120,7 +136,5 @@ server {
     proxy_connect_timeout 300;
     proxy_send_timeout 300;
     proxy_read_timeout 300;
-    fastcgi_read_timeout 300;
-    fastcgi_send_timeout 300;
     send_timeout 300;
 }

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace FinGather\Jobs\Handler;
 
 use FinGather\Dto\ApiImportPrepareCheckDto;
+use FinGather\Jobs\Message\ReceivedMessageInterface;
 use FinGather\Service\Import\ApiImport\ApiImportService;
 use FinGather\Service\Task\TaskServiceInterface;
-use Spiral\RoadRunner\Jobs\Task\ReceivedTaskInterface;
 
 final class ApiImportPrepareCheckHandler implements JobHandler
 {
@@ -15,9 +15,9 @@ final class ApiImportPrepareCheckHandler implements JobHandler
 	{
 	}
 
-	public function handle(ReceivedTaskInterface $task): void
+	public function handle(ReceivedMessageInterface $message): void
 	{
-		$apiImportPrepareCheck = $this->taskService->getPayloadDto($task, ApiImportPrepareCheckDto::class);
+		$apiImportPrepareCheck = $this->taskService->getPayloadDto($message, ApiImportPrepareCheckDto::class);
 
 		$this->apiImportService->prepareImport($apiImportPrepareCheck);
 	}

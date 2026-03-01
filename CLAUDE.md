@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-FinGather is a portfolio tracking application with PHP backend (Spiral RoadRunner), Angular frontend, and MariaDB database. Uses memcached and Redis for caching, RabbitMQ for async job processing.
+FinGather is a portfolio tracking application with PHP backend (FrankenPHP), Angular frontend, and MariaDB database. Uses memcached and Redis for caching, RabbitMQ for async job processing.
 
 ## Build & Development Commands
 

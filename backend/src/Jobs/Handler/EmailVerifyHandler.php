@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace FinGather\Jobs\Handler;
 
 use FinGather\Dto\EmailVerifyDto;
+use FinGather\Jobs\Message\ReceivedMessageInterface;
 use FinGather\Service\Email\EmailFactory;
 use FinGather\Service\Email\MailerFactory;
 use FinGather\Service\Task\TaskServiceInterface;
 use Psr\Log\LoggerInterface;
-use Spiral\RoadRunner\Jobs\Task\ReceivedTaskInterface;
 
 final class EmailVerifyHandler implements JobHandler
 {
@@ -21,9 +21,9 @@ final class EmailVerifyHandler implements JobHandler
 	) {
 	}
 
-	public function handle(ReceivedTaskInterface $task): void
+	public function handle(ReceivedMessageInterface $message): void
 	{
-		$emailVerify = $this->taskService->getPayloadDto($task, EmailVerifyDto::class);
+		$emailVerify = $this->taskService->getPayloadDto($message, EmailVerifyDto::class);
 
 		$mailer = $this->mailerFactory->create();
 

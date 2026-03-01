@@ -1,7 +1,6 @@
-FROM spiralscout/roadrunner:2025.1.6 AS roadrunner
 FROM composer:2.9.5 AS composer
 FROM mlocati/php-extension-installer:2.9.30 AS php-extension-installer
-FROM php:8.5.3-cli-alpine AS php
+FROM dunglas/frankenphp:1.11.3-php8.5.3-alpine AS php
 
 COPY --from=php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
 
@@ -32,7 +31,6 @@ RUN set -x \
     	libreoffice-writer \
     	font-noto
 
-COPY --from=roadrunner /usr/bin/rr /usr/local/bin/rr
 COPY --from=composer /usr/bin/composer /usr/local/bin/composer
 
 COPY ./docker/etc/supervisor/supervisor.conf /etc/supervisor/supervisor.conf
@@ -47,7 +45,7 @@ COPY ./docker/docker-php.ini /usr/local/etc/php/conf.d/docker-php.ini
 COPY ./bin /app/bin
 COPY ./migrations /app/migrations
 COPY ./src /app/src
-COPY ./.rr.yaml ./composer.json ./composer.lock /app/
+COPY ./Caddyfile ./composer.json ./composer.lock /app/
 
 WORKDIR /app/
 

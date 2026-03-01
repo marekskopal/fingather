@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Service\Task;
 
 use FinGather\Dto\ArrayFactoryInterface;
-use Spiral\RoadRunner\Jobs\Task\ReceivedTaskInterface;
+use FinGather\Jobs\Message\ReceivedMessageInterface;
 
 interface TaskServiceInterface
 {
@@ -14,5 +14,5 @@ interface TaskServiceInterface
 	 * @return T
 	 * @template T of ArrayFactoryInterface
 	 */
-	public function getPayloadDto(ReceivedTaskInterface $task, string $dtoClass): object;
+	public function getPayloadDto(ReceivedMessageInterface $message, string $dtoClass): object;
 }

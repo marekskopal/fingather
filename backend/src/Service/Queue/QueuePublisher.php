@@ -5,39 +5,43 @@ declare(strict_types=1);
 namespace FinGather\Service\Queue;
 
 use FinGather\Service\Queue\Enum\QueueEnum;
-use Spiral\Goridge\RPC\RPC;
-use Spiral\RoadRunner\Environment;
-use Spiral\RoadRunner\Jobs\Jobs;
-use Spiral\RoadRunner\Jobs\Options;
-use Spiral\RoadRunner\Jobs\Task\QueuedTaskInterface;
+use PhpAmqpLib\Channel\AMQPChannel;
+use PhpAmqpLib\Connection\AMQPStreamConnection;
+use PhpAmqpLib\Message\AMQPMessage;
 
-final class QueuePublisher
+final readonly class QueuePublisher
 {
-	private readonly Jobs $jobs;
+	private AMQPStreamConnection $connection;
+
+	private AMQPChannel $channel;
 
 	private const int DefaultDelay = 5;
 
 	public function __construct()
 	{
-		/** @var non-empty-string $address */
-		$address = Environment::fromGlobals()->getRPCAddress();
-		$this->jobs = new Jobs(
-			RPC::create($address),
+		$this->connection = new AMQPStreamConnection(
+			(string) getenv('RABBITMQ_HOST'),
+			(int) getenv('RABBITMQ_PORT'),
+			(string) getenv('RABBITMQ_USER'),
+			(string) getenv('RABBITMQ_PASSWORD'),
 		);
+		$this->channel = $this->connection->channel();
 	}
 
 	/** @param positive-int $delay */
-	public function publishMessage(object $message, QueueEnum $queueType, int $delay = self::DefaultDelay): QueuedTaskInterface
+	public function publishMessage(object $message, QueueEnum $queueType, int $delay = self::DefaultDelay): void
 	{
-		$queue = $this->jobs->connect($queueType->value);
-
 		$payload = json_encode($message);
 		if ($payload === false) {
 			throw new \RuntimeException('Failed to encode message to JSON.');
 		}
 
-		return $queue->dispatch($queue->create($queueType->value, $payload, new Options(
-			delay: $delay,
-		)));
+		sleep($delay);
+
+		$this->channel->basic_publish(
+			new AMQPMessage($payload, ['delivery_mode' => AMQPMessage::DELIVERY_MODE_PERSISTENT]),
+			'',
+			$queueType->value,
+		);
 	}
 }

@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace FinGather\Jobs\Handler;
 
+use FinGather\Jobs\Message\ReceivedMessageInterface;
 use FinGather\Service\Provider\UserProvider;
 use FinGather\Service\Task\TaskServiceInterface;
 use FinGather\Service\Warmup\Dto\UserWarmupDto;
 use FinGather\Service\Warmup\UserWarmup;
 use FinGather\Utils\BenchmarkUtils;
 use Psr\Log\LoggerInterface;
-use Spiral\RoadRunner\Jobs\Task\ReceivedTaskInterface;
 
 class UserWarmupHandler implements JobHandler
 {
@@ -23,9 +23,9 @@ class UserWarmupHandler implements JobHandler
 	{
 	}
 
-	public function handle(ReceivedTaskInterface $task): void
+	public function handle(ReceivedMessageInterface $message): void
 	{
-		$userWarmup = $this->taskService->getPayloadDto($task, UserWarmupDto::class);
+		$userWarmup = $this->taskService->getPayloadDto($message, UserWarmupDto::class);
 
 		$user = $this->userProvider->getUser($userWarmup->userId);
 		if ($user === null) {
