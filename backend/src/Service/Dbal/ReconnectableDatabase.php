@@ -10,7 +10,7 @@ use PDO;
 
 final class ReconnectableDatabase implements DatabaseInterface
 {
-	private PDO $pdo;
+	private MySqlDatabase $innerDatabase;
 
 	private int $lastPingAt;
 
@@ -23,14 +23,19 @@ final class ReconnectableDatabase implements DatabaseInterface
 		private readonly string $username,
 		private readonly string $password,
 	) {
-		$this->pdo = $this->createPdo();
+		$this->innerDatabase = $this->createInnerDatabase();
 		$this->lastPingAt = time();
 	}
 
 	public function getPdo(): PDO
 	{
+		return $this->getInnerDatabase()->getPdo();
+	}
+
+	public function getInnerDatabase(): MySqlDatabase
+	{
 		$this->pingIfIdle();
-		return $this->pdo;
+		return $this->innerDatabase;
 	}
 
 	private function pingIfIdle(): void
@@ -40,16 +45,16 @@ final class ReconnectableDatabase implements DatabaseInterface
 		}
 
 		try {
-			$this->pdo->query('SELECT 1');
+			$this->innerDatabase->getPdo()->query('SELECT 1');
 		} catch (\PDOException) {
-			$this->pdo = $this->createPdo();
+			$this->innerDatabase = $this->createInnerDatabase();
 		}
 
 		$this->lastPingAt = time();
 	}
 
-	private function createPdo(): PDO
+	private function createInnerDatabase(): MySqlDatabase
 	{
-		return new MySqlDatabase($this->host, $this->username, $this->password, $this->database)->getPdo();
+		return new MySqlDatabase($this->host, $this->username, $this->password, $this->database);
 	}
 }

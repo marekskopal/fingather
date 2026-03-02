@@ -55,7 +55,7 @@ final readonly class DbContext
 
 	public function getMigrator(): Migrator
 	{
-		return new Migrator(__DIR__ . '/../../../migrations/', $this->database);
+		return new Migrator(__DIR__ . '/../../../migrations/', $this->database->getInnerDatabase());
 	}
 
 	public function getSchema(): Schema
