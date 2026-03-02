@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Service\Dbal;
 
 use FinGather\Service\Cache\CacheFactory;
+use MarekSkopal\ORM\Database\DatabaseInterface;
 use MarekSkopal\ORM\Database\MySqlDatabase;
 use MarekSkopal\ORM\Migrations\Migrator;
 use MarekSkopal\ORM\ORM;
@@ -46,6 +47,11 @@ final readonly class DbContext
 	public function getOrm(): ORM
 	{
 		return $this->orm;
+	}
+
+	public function getDatabase(): DatabaseInterface
+	{
+		return $this->database;
 	}
 
 	public function getMigrator(): Migrator

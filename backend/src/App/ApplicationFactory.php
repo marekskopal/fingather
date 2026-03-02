@@ -74,6 +74,7 @@ use League\Container\Container;
 use League\Container\ReflectionContainer;
 use MarekSkopal\BuggregatorClient\Middleware\XhprofMiddleware;
 use MarekSkopal\OpenFigi\OpenFigi;
+use MarekSkopal\ORM\Database\DatabaseInterface;
 use MarekSkopal\ORM\ORM;
 use MarekSkopal\ORM\Repository\RepositoryInterface;
 use MarekSkopal\Router\Builder\RouterBuilder;
@@ -147,6 +148,7 @@ final class ApplicationFactory
 
 	private static function initializeOrmContainer(Container $container, DbContext $dbContext): void
 	{
+		$container->add(DatabaseInterface::class, fn () => $dbContext->getDatabase());
 		$container->add(ORM::class, $dbContext->getOrm());
 
 		$orm = $container->get(ORM::class);
