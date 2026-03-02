@@ -6,7 +6,6 @@ namespace FinGather\Service\Dbal;
 
 use FinGather\Service\Cache\CacheFactory;
 use MarekSkopal\ORM\Database\DatabaseInterface;
-use MarekSkopal\ORM\Database\MySqlDatabase;
 use MarekSkopal\ORM\Migrations\Migrator;
 use MarekSkopal\ORM\ORM;
 use MarekSkopal\ORM\Schema\Builder\SchemaBuilder;
@@ -17,7 +16,7 @@ final readonly class DbContext
 	private const string CacheNamespace = 'Orm';
 	private const string CacheKey = 'Schema';
 
-	private MySqlDatabase $database;
+	private ReconnectableDatabase $database;
 
 	private Schema $schema;
 
@@ -25,7 +24,7 @@ final readonly class DbContext
 
 	public function __construct(string $host, string $name, string $user, string $password)
 	{
-		$this->database = new MySqlDatabase($host, $user, $password, $name);
+		$this->database = new ReconnectableDatabase($host, $name, $user, $password);
 
 		$cache = CacheFactory::createPsrCache(namespace: self::CacheNamespace);
 		$schema = $cache->get(self::CacheKey);
