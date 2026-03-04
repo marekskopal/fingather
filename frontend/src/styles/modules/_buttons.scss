@@ -88,6 +88,37 @@
     --mat-app-primary: #{$color-white};
 }
 
+.google-button-wrapper {
+    position: relative;
+    height: 44px;
+    overflow: hidden;
+
+    .google-button-overlay {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        background-color: $color-gray-light;
+        border: 1px solid $color-gray-light;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: $spacing-xs;
+        color: $color-gray-lightest;
+        font-weight: 700;
+        font-size: $font-size;
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+
+        &.loading {
+            cursor: default;
+        }
+    }
+
+    &:hover .google-button-overlay:not(.loading) {
+        background-color: $color-gray;
+    }
+}
+
 .btn-round {
     display: inline-block;
     width: 48px;

@@ -35,7 +35,6 @@ export class LoginComponent extends BaseForm implements OnInit, AfterViewInit {
     private readonly currentUserService = inject( CurrentUserService);
 
     protected readonly googleLoading = signal<boolean>(false);
-    protected readonly googleReady = signal<boolean>(false);
     protected readonly googleEnabled = signal<boolean>(false);
 
     public ngOnInit(): void {
@@ -58,29 +57,27 @@ export class LoginComponent extends BaseForm implements OnInit, AfterViewInit {
 
     private initializeGoogleSignIn(googleClientId: string): void {
         const checkGoogle = (): void => {
-            if (window.google?.accounts?.id) {
+            const container = document.getElementById('googleButtonContainer');
+            if (window.google?.accounts?.id && container) {
                 window.google.accounts.id.initialize({
                     client_id: googleClientId,
                     callback: (response) => this.handleGoogleCallback(response),
-                    prompt_parent_id: 'googleButtonContainer',
-                    use_fedcm_for_prompt: false,
                 });
 
-                this.googleReady.set(true);
+                window.google.accounts.id.renderButton(container, {
+                    type: 'standard',
+                    theme: 'filled_black',
+                    size: 'large',
+                    text: 'signin_with',
+                    shape: 'rectangular',
+                    width: container.offsetWidth,
+                });
             } else {
                 setTimeout(checkGoogle, 100);
             }
         };
 
         checkGoogle();
-    }
-
-    protected onGoogleSignIn(): void {
-        if (!this.googleReady() || this.googleLoading()) {
-            return;
-        }
-
-        window.google?.accounts.id.prompt();
     }
 
     private handleGoogleCallback(response: google.accounts.id.CredentialResponse): void {
