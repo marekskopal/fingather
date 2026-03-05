@@ -48,7 +48,7 @@ export class TickerSearchSelectorComponent implements ControlValueAccessor, OnIn
     protected disabled: boolean = false;
 
     //eslint-disable-next-line unused-imports/no-unused-vars
-    private onChange = (value: number | null): void => {};
+    private onChange = (value: Ticker | null): void => {};
     private onTouched = (): void => {};
 
     public writeValue(value: Ticker | null): void {
@@ -74,7 +74,7 @@ export class TickerSearchSelectorComponent implements ControlValueAccessor, OnIn
     protected onSelect(value: Ticker | null): void {
         this.value = value;
 
-        this.onChange(value?.id ?? null);
+        this.onChange(value);
         this.onTouched();
 
         this.markAsTouched();

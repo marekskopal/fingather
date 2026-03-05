@@ -635,6 +635,15 @@
         "selectAsset": "Seleccionar Activo",
         "deleteTitle": "Eliminar Activo de Referencia",
         "deleteMessage": "¿Estás seguro de que quieres eliminar este activo de referencia?"
+      },
+      "importMappings": {
+        "title": "Asignaciones de importación",
+        "broker": "Broker",
+        "importTicker": "Ticker de importación",
+        "mappedTicker": "Ticker asignado",
+        "deleteTitle": "Eliminar asignación de importación",
+        "deleteMessage": "¿Estás seguro de que quieres eliminar esta asignación de importación?",
+        "editTitle": "Editar asignación de importación"
       }
     },
     "shared": {

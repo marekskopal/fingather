@@ -11,13 +11,13 @@
         <div class="add-benchmark-asset">
             <fingather-ticker-search-selector
                 id="ticker"
-                [(ngModel)]="selectedTickerId"
+                [(ngModel)]="selectedTicker"
                 [placeholder]="'app.settings.benchmarkAssets.selectAsset' | translate"
             />
             <button
                 type="button"
                 class="btn btn-primary"
-                [disabled]="selectedTickerId === null"
+                [disabled]="selectedTicker === null"
                 (click)="addBenchmarkAsset()"
             >
                 <mat-icon>add</mat-icon>

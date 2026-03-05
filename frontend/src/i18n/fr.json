@@ -635,6 +635,15 @@
         "selectAsset": "Sélectionner un actif",
         "deleteTitle": "Supprimer l'actif de référence",
         "deleteMessage": "Êtes-vous sûr de vouloir supprimer cet actif de référence ?"
+      },
+      "importMappings": {
+        "title": "Correspondances d'importation",
+        "broker": "Courtier",
+        "importTicker": "Ticker d'importation",
+        "mappedTicker": "Ticker associé",
+        "deleteTitle": "Supprimer la correspondance d'importation",
+        "deleteMessage": "Êtes-vous sûr de vouloir supprimer cette correspondance d'importation ?",
+        "editTitle": "Modifier la correspondance d'importation"
       }
     },
     "shared": {

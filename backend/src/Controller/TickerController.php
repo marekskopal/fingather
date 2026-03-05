@@ -6,6 +6,7 @@ namespace FinGather\Controller;
 
 use FinGather\Dto\TickerDto;
 use FinGather\Model\Entity\Ticker;
+use FinGather\Response\NotFoundResponse;
 use FinGather\Route\Routes;
 use FinGather\Service\Provider\TickerProvider;
 use Laminas\Diactoros\Response\JsonResponse;
@@ -17,6 +18,17 @@ final readonly class TickerController
 {
 	public function __construct(private TickerProvider $tickerProvider)
 	{
+	}
+
+	#[RouteGet(Routes::Ticker->value)]
+	public function actionGetTicker(ServerRequestInterface $request, int $tickerId): ResponseInterface
+	{
+		$ticker = $this->tickerProvider->getTicker($tickerId);
+		if ($ticker === null) {
+			return new NotFoundResponse('Ticker with id "' . $tickerId . '" was not found.');
+		}
+
+		return new JsonResponse(TickerDto::fromEntity($ticker));
 	}
 
 	#[RouteGet(Routes::Tickers->value)]

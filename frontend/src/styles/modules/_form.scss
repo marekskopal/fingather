@@ -212,37 +212,38 @@ fingather-color-picker {
     }
 }
 
+.ticker {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    color: $color-gray-lightest;
+
+    .ticker-info {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+
+        .ticker-ticker {
+            color: $color-white;
+        }
+        .ticker-name {
+            font-size: 0.875rem;
+            line-height: 20px;
+        };
+    }
+
+    .ticker-data {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: $spacing-md;
+    }
+}
+
 fingather-ticker-search-selector {
     fingather-search-input {
         display: block;
         padding: $spacing-sm;
-    }
-
-    .ticker {
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-
-        .ticker-info {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-
-            .ticker-ticker {
-                color: $color-white;
-            }
-            .ticker-name {
-                font-size: 0.875rem;
-                line-height: 20px;
-            };
-        }
-
-        .ticker-data {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            gap: $spacing-md;
-        }
     }
 
     .dropdown-menu {

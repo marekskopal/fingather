@@ -635,6 +635,15 @@
         "selectAsset": "Vermögenswert auswählen",
         "deleteTitle": "Benchmark-Vermögenswert löschen",
         "deleteMessage": "Sind Sie sicher, dass Sie diesen Benchmark-Vermögenswert löschen möchten?"
+      },
+      "importMappings": {
+        "title": "Import-Zuordnungen",
+        "broker": "Broker",
+        "importTicker": "Import-Ticker",
+        "mappedTicker": "Zugeordneter Ticker",
+        "deleteTitle": "Import-Zuordnung löschen",
+        "deleteMessage": "Sind Sie sicher, dass Sie diese Import-Zuordnung löschen möchten?",
+        "editTitle": "Import-Zuordnung bearbeiten"
       }
     },
     "shared": {

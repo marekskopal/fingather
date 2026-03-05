@@ -20,4 +20,18 @@ final class ImportMappingRepository extends AbstractRepository
 			'broker_id' => $brokerId,
 		]);
 	}
+
+	/** @return Iterator<ImportMapping> */
+	public function findByPortfolio(int $userId, int $portfolioId): Iterator
+	{
+		return $this->findAll([
+			'user_id' => $userId,
+			'portfolio_id' => $portfolioId,
+		]);
+	}
+
+	public function findById(int $id): ?ImportMapping
+	{
+		return $this->findOne(['id' => $id]);
+	}
 }

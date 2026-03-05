@@ -12,6 +12,12 @@
                 <span>{{ 'app.navbar.apiKeys' | translate }}</span>
             </a>
         </li>
+        <li class="settings-nav-item">
+            <a class="settings-nav-link" routerLink="/settings/import-mappings" routerLinkActive="active">
+                <mat-icon>sync_alt</mat-icon>
+                <span>{{ 'app.settings.importMappings.title' | translate }}</span>
+            </a>
+        </li>
         @if (isAdmin()) {
             <li class="settings-nav-item">
                 <a class="settings-nav-link" routerLink="/settings/benchmark-assets" routerLinkActive="active">

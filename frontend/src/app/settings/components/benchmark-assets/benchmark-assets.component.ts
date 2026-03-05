@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angul
 import {FormsModule} from '@angular/forms';
 import {MatIcon} from '@angular/material/icon';
 import {Router} from '@angular/router';
-import {BenchmarkAsset} from '@app/models';
+import {BenchmarkAsset, Ticker} from '@app/models';
 import {UserRoleEnum} from '@app/models/enums/user-role-enum';
 import {CurrentUserService} from '@app/services';
 import {BenchmarkAssetService} from '@app/services/benchmark-asset.service';
@@ -31,7 +31,7 @@ export class BenchmarkAssetsComponent implements OnInit {
     private readonly router = inject(Router);
 
     protected readonly benchmarkAssets = signal<BenchmarkAsset[]>([]);
-    protected selectedTickerId: number | null = null;
+    protected selectedTicker: Ticker | null = null;
 
     public async ngOnInit(): Promise<void> {
         const currentUser = await this.currentUserService.getCurrentUser();
@@ -49,12 +49,12 @@ export class BenchmarkAssetsComponent implements OnInit {
     }
 
     protected async addBenchmarkAsset(): Promise<void> {
-        if (this.selectedTickerId === null) {
+        if (this.selectedTicker === null) {
             return;
         }
 
-        await this.benchmarkAssetService.createBenchmarkAsset({tickerId: this.selectedTickerId});
-        this.selectedTickerId = null;
+        await this.benchmarkAssetService.createBenchmarkAsset({tickerId: this.selectedTicker.id});
+        this.selectedTicker = null;
         await this.refreshBenchmarkAssets();
     }
 

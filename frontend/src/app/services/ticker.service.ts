@@ -8,6 +8,10 @@ import {firstValueFrom} from 'rxjs';
 export class TickerService {
     private readonly http = inject(HttpClient);
 
+    public getTicker(id: number): Promise<Ticker> {
+        return firstValueFrom(this.http.get<Ticker>(`${environment.apiUrl}/ticker/${id}`));
+    }
+
     public getTickers(
         search: string | null = null,
         limit: number | null = null,

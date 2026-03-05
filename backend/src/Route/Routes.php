@@ -60,6 +60,9 @@ enum Routes: string
 
 	case GroupsWithGroupData = '/api/groups-with-group-data/{portfolioId:number}';
 
+	case ImportMappings = '/api/import-mappings/{portfolioId:number}';
+	case ImportMapping = '/api/import-mapping/{importMappingId:number}';
+
 	case ImportPrepare = '/api/import/import-prepare/{portfolioId:number}';
 	case ImportStart = '/api/import/import-start';
 	case ImportImportFile = '/api/import/import-file/{importFileId:number}';
@@ -87,6 +90,7 @@ enum Routes: string
 	case StrategyDefault = '/api/strategy/default/{portfolioId:number}';
 	case StrategyWithComparison = '/api/strategy-with-comparison/{strategyId:number}';
 
+	case Ticker = '/api/ticker/{tickerId:number}';
 	case Tickers = '/api/tickers';
 	case TickersMostUsed = '/api/tickers/most-used';
 

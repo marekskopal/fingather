@@ -1,0 +1,42 @@
+<div class="header">
+    <div>
+        <h1 class="h3">{{ 'app.settings.importMappings.editTitle' | translate }}</h1>
+
+        <a [routerLink]="routerBackLink()" class="btn-link" tabindex="0">
+            <mat-icon>chevron_left</mat-icon>
+            {{ 'app.settings.importMappings.title' | translate }}
+        </a>
+    </div>
+</div>
+
+<div class="content-center">
+    <div class="card form">
+        <div class="card-body">
+            @if (!loading()) {
+                <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                    <div class="mb-3">
+                        <label for="tickerId" class="form-label">{{ 'app.settings.importMappings.mappedTicker' | translate }}</label>
+                        <fingather-ticker-search-selector
+                            id="tickerId"
+                            formControlName="tickerId"
+                        />
+                        <fingather-input-validator
+                            [control]="f['tickerId']"
+                            [isSubmitted]="submitted()"
+                            [errorMessages]="{
+                                required: 'app.common.required',
+                            }"
+                        />
+                    </div>
+                    <div class="form-group buttons">
+                        <a [routerLink]="routerBackLink()" class="btn btn-secondary" tabindex="0">{{ 'app.common.cancel' | translate }}</a>
+
+                        <fingather-save-button
+                            [saving]="saving()"
+                        />
+                    </div>
+                </form>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,58 @@
+<div class="header">
+    <h1 class="h3">{{ 'app.settings.importMappings.title' | translate }}</h1>
+
+    <div class="header-controls">
+        <div class="d-none d-lg-block">
+            <fingather-portfolio-selector />
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        @if (importMappings(); as importMappings) {
+            <div class="table-responsive" scrollShadow>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>{{ 'app.settings.importMappings.broker' | translate }}</th>
+                            <th>{{ 'app.settings.importMappings.importTicker' | translate }}</th>
+                            <th>{{ 'app.settings.importMappings.mappedTicker' | translate }}</th>
+                            <th class="w-20"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (mapping of importMappings; track mapping.id) {
+                            <tr>
+                                <td>{{ mapping.brokerName }}</td>
+                                <td>{{ mapping.importTicker }}</td>
+                                <td>
+                                    <div class="ticker">
+                                        <div class="ticker-info">
+                                            <div class="ticker-ticker">{{ mapping.tickerTicker }}</div>
+                                            <div class="ticker-name ellipsis">{{ mapping.tickerName }}</div>
+                                        </div>
+                                        <div class="ticker-data">
+                                            <span class="tag">{{ mapping.tickerMarketMic }}</span>
+                                            <span>{{ mapping.tickerCurrencyId | currencyCode | async }}</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="actions">
+                                    <a routerLink="edit-mapping/{{ mapping.id }}" class="btn btn-secondary" tabindex="0">
+                                        <mat-icon>edit</mat-icon>
+                                    </a>
+                                    <fingather-delete-button
+                                        (confirm)="deleteImportMapping(mapping.id)"
+                                        [title]="'app.settings.importMappings.deleteTitle' | translate"
+                                        [message]="'app.settings.importMappings.deleteMessage' | translate"
+                                    />
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>

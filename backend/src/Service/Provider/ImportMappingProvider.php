@@ -12,6 +12,7 @@ use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\ImportMappingRepository;
 use FinGather\Model\Repository\ImportRepository;
+use Iterator;
 
 class ImportMappingProvider
 {
@@ -21,6 +22,35 @@ class ImportMappingProvider
 		private readonly TickerProvider $tickerProvider,
 		private readonly BrokerProvider $brokerProvider,
 	) {
+	}
+
+	/** @return Iterator<ImportMapping> */
+	public function getPortfolioImportMappings(User $user, Portfolio $portfolio): Iterator
+	{
+		return $this->importMappingRepository->findByPortfolio($user->id, $portfolio->id);
+	}
+
+	public function getImportMapping(User $user, int $importMappingId): ?ImportMapping
+	{
+		$importMapping = $this->importMappingRepository->findById($importMappingId);
+		if ($importMapping === null || $importMapping->user->id !== $user->id) {
+			return null;
+		}
+
+		return $importMapping;
+	}
+
+	public function updateImportMapping(ImportMapping $importMapping, Ticker $ticker): ImportMapping
+	{
+		$importMapping->ticker = $ticker;
+		$this->importMappingRepository->persist($importMapping);
+
+		return $importMapping;
+	}
+
+	public function deleteImportMapping(ImportMapping $importMapping): void
+	{
+		$this->importMappingRepository->delete($importMapping);
 	}
 
 	/** @return array<string, ImportMapping> */

@@ -23,7 +23,7 @@ class ImportMapping extends AEntity
 		#[Column(type: Type::String)]
 		public readonly string $importTicker,
 		#[ManyToOne(entityClass: Ticker::class)]
-		public readonly Ticker $ticker,
+		public Ticker $ticker,
 	) {
 	}
 }

@@ -4,6 +4,10 @@ import {ApiKeysComponent} from '@app/api-keys/api-keys/api-keys.component';
 import {AddEditGroupComponent} from '@app/groups/components/add-edit/add-edit-group.component';
 import {GroupListComponent} from '@app/groups/components/group-list/group-list.component';
 import {BenchmarkAssetsComponent} from '@app/settings/components/benchmark-assets/benchmark-assets.component';
+// eslint-disable-next-line max-len
+import {EditImportMappingComponent} from '@app/settings/components/import-mappings/edit-import-mapping/edit-import-mapping.component';
+// eslint-disable-next-line max-len
+import {ImportMappingListComponent} from '@app/settings/components/import-mappings/import-mapping-list/import-mapping-list.component';
 import {SettingsLayoutComponent} from '@app/settings/components/settings-layout/settings-layout.component';
 
 export default [
@@ -56,6 +60,19 @@ export default [
                     {
                         path: 'benchmark-assets',
                         component: BenchmarkAssetsComponent,
+                    },
+                    {
+                        path: 'import-mappings',
+                        children: [
+                            {
+                                path: '',
+                                component: ImportMappingListComponent,
+                            },
+                            {
+                                path: 'edit-mapping/:id',
+                                component: EditImportMappingComponent,
+                            },
+                        ],
                     },
                 ],
             },

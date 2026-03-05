@@ -622,6 +622,15 @@
         "selectAsset": "Vyberte aktivum",
         "deleteTitle": "Smazat srovnávací aktivum",
         "deleteMessage": "Opravdu chcete smazat toto srovnávací aktivum?"
+      },
+      "importMappings": {
+        "title": "Mapování importu",
+        "broker": "Broker",
+        "importTicker": "Importovaný ticker",
+        "mappedTicker": "Namapovaný ticker",
+        "deleteTitle": "Smazat mapování importu",
+        "deleteMessage": "Opravdu chcete smazat toto mapování importu?",
+        "editTitle": "Upravit mapování importu"
       }
     },
     "shared": {

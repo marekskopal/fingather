@@ -5,7 +5,7 @@ import {
 import {ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatIcon} from "@angular/material/icon";
 import {Router, RouterLink} from "@angular/router";
-import {Portfolio} from '@app/models';
+import {Portfolio, Ticker} from '@app/models';
 import {AlertConditionEnum} from "@app/models/enums/alert-condition-enum";
 import {AlertRecurrenceEnum} from "@app/models/enums/alert-recurrence-enum";
 import {PriceAlertTypeEnum} from "@app/models/enums/price-alert-type-enum";
@@ -125,8 +125,16 @@ export class AddEditPriceAlertComponent extends BaseAddEditForm implements OnIni
         }
     }
 
+    private priceAlertFormValue(): object {
+        const value = this.form.value;
+        return {
+            ...value,
+            tickerId: (value.tickerId as Ticker | null)?.id ?? null,
+        };
+    }
+
     private async createPriceAlert(): Promise<void> {
-        await this.priceAlertService.createPriceAlert(this.form.value);
+        await this.priceAlertService.createPriceAlert(this.priceAlertFormValue());
 
         this.alertService.success('Price alert added successfully', { keepAfterRouteChange: true });
         this.priceAlertService.notify();
@@ -139,7 +147,7 @@ export class AddEditPriceAlertComponent extends BaseAddEditForm implements OnIni
             return;
         }
 
-        await this.priceAlertService.updatePriceAlert(id, this.form.value);
+        await this.priceAlertService.updatePriceAlert(id, this.priceAlertFormValue());
 
         this.alertService.success('Update successful', { keepAfterRouteChange: true });
         this.priceAlertService.notify();
