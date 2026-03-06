@@ -47,6 +47,9 @@ enum Routes: string
 
 	case EmailVerify = '/api/email-verify';
 
+	case PasswordResetRequest = '/api/authentication/password-reset-request';
+	case PasswordResetConfirm = '/api/authentication/password-reset';
+
 	case DcaPlans = '/api/dca-plans/{portfolioId:number}';
 	case DcaPlan = '/api/dca-plan/{dcaPlanId:number}';
 	case DcaPlanProjection = '/api/dca-plan/{dcaPlanId:number}/projection';

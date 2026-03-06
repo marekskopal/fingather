@@ -160,8 +160,33 @@
         "passwordRequired": "Le mot de passe est requis",
         "login": "Connexion",
         "signUp": "Inscription",
+        "forgotPassword": "Mot de passe oublié ?",
         "or": "ou",
         "signInWithGoogle": "Se connecter avec Google"
+      },
+      "forgotPassword": {
+        "header": "Mot de passe oublié",
+        "description": "Entrez votre adresse e-mail et nous vous enverrons un lien pour réinitialiser votre mot de passe.",
+        "email": "Email",
+        "emailRequired": "L'email est requis",
+        "emailInvalid": "L'email doit être au format 'john@exemple.fr'",
+        "send": "Envoyer le lien de réinitialisation",
+        "sent": "Si un compte avec cet e-mail existe, un lien de réinitialisation a été envoyé.",
+        "backToLogin": "Retour à la connexion"
+      },
+      "resetPassword": {
+        "header": "Réinitialiser le mot de passe",
+        "password": "Nouveau mot de passe",
+        "passwordRequired": "Le mot de passe est requis",
+        "passwordLength": "Le mot de passe doit comporter au moins 6 caractères",
+        "confirmPassword": "Confirmer le nouveau mot de passe",
+        "confirmPasswordRequired": "Veuillez confirmer votre mot de passe",
+        "passwordsMismatch": "Les mots de passe ne correspondent pas",
+        "reset": "Réinitialiser le mot de passe",
+        "success": "Votre mot de passe a été réinitialisé avec succès.",
+        "goToLogin": "Aller à la connexion",
+        "tokenInvalid": "Ce lien de réinitialisation est invalide ou expiré.",
+        "requestNew": "Demander un nouveau lien"
       },
       "googleSignUp": {
         "header": "Finaliser l'inscription",

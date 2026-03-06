@@ -20,6 +20,14 @@ pnpm run test:coverage
 - **services/**: HTTP services for each domain entity
 - Feature modules: assets, portfolios, groups, transactions, dividends, users, etc.
 
+## i18n
+
+Translation files: `src/i18n/*.json` (en, cs, de, fr, es).
+
+**When any language file is changed, always increment `i18nVersion` in both environment files:**
+- `src/environments/environment.ts`
+- `src/environments/environment.prod.ts`
+
 ## Key Patterns
 
 - Angular 21 standalone components

@@ -148,6 +148,14 @@ class UserProvider
 		return $user;
 	}
 
+	public function resetPassword(User $user, #[SensitiveParameter] string $password): User
+	{
+		$user->password = password_hash($password, PASSWORD_BCRYPT);
+		$this->userRepository->persist($user);
+
+		return $user;
+	}
+
 	public function emailVerifyUser(User $user): User
 	{
 		$user->isEmailVerified = true;

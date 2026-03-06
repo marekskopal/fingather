@@ -160,8 +160,33 @@
         "passwordRequired": "La contraseña es obligatoria",
         "login": "Iniciar Sesión",
         "signUp": "Registrarse",
+        "forgotPassword": "¿Olvidaste tu contraseña?",
         "or": "o",
         "signInWithGoogle": "Iniciar sesión con Google"
+      },
+      "forgotPassword": {
+        "header": "Contraseña olvidada",
+        "description": "Introduce tu dirección de email y te enviaremos un enlace para restablecer tu contraseña.",
+        "email": "Email",
+        "emailRequired": "El email es obligatorio",
+        "emailInvalid": "El email debe tener el formato 'john@ejemplo.com'",
+        "send": "Enviar enlace de restablecimiento",
+        "sent": "Si existe una cuenta con ese email, se ha enviado un enlace de restablecimiento de contraseña.",
+        "backToLogin": "Volver al inicio de sesión"
+      },
+      "resetPassword": {
+        "header": "Restablecer contraseña",
+        "password": "Nueva contraseña",
+        "passwordRequired": "La contraseña es obligatoria",
+        "passwordLength": "La contraseña debe tener al menos 6 caracteres",
+        "confirmPassword": "Confirmar nueva contraseña",
+        "confirmPasswordRequired": "Por favor confirma tu contraseña",
+        "passwordsMismatch": "Las contraseñas no coinciden",
+        "reset": "Restablecer contraseña",
+        "success": "Tu contraseña ha sido restablecida correctamente.",
+        "goToLogin": "Ir al inicio de sesión",
+        "tokenInvalid": "Este enlace de restablecimiento es inválido o ha expirado.",
+        "requestNew": "Solicitar un nuevo enlace"
       },
       "googleSignUp": {
         "header": "Completar Registro",

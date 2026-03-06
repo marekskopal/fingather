@@ -19,6 +19,7 @@ import {TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'login.component.html',
+    styleUrl: 'login.component.scss',
     imports: [
         ReactiveFormsModule,
         TranslatePipe,

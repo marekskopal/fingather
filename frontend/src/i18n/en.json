@@ -160,8 +160,33 @@
         "passwordRequired": "Password is required",
         "login": "Login",
         "signUp": "Sign Up",
+        "forgotPassword": "Forgot password?",
         "or": "or",
         "signInWithGoogle": "Sign In with Google"
+      },
+      "forgotPassword": {
+        "header": "Forgot Password",
+        "description": "Enter your email address and we will send you a link to reset your password.",
+        "email": "Email",
+        "emailRequired": "Email is required",
+        "emailInvalid": "Email must be in form 'john@example.com'",
+        "send": "Send Reset Link",
+        "sent": "If an account with that email exists, a password reset link has been sent.",
+        "backToLogin": "Back to Login"
+      },
+      "resetPassword": {
+        "header": "Reset Password",
+        "password": "New Password",
+        "passwordRequired": "Password is required",
+        "passwordLength": "Password must be at least 6 characters",
+        "confirmPassword": "Confirm New Password",
+        "confirmPasswordRequired": "Please confirm your password",
+        "passwordsMismatch": "Passwords do not match",
+        "reset": "Reset Password",
+        "success": "Your password has been reset successfully.",
+        "goToLogin": "Go to Login",
+        "tokenInvalid": "This reset link is invalid or has expired.",
+        "requestNew": "Request a new reset link"
       },
       "googleSignUp": {
         "header": "Complete Sign Up",

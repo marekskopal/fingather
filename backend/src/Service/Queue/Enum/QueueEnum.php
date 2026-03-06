@@ -7,6 +7,7 @@ namespace FinGather\Service\Queue\Enum;
 enum QueueEnum: string
 {
 	case EmailVerify = 'email-verify';
+	case PasswordReset = 'password-reset';
 	case ApiImportPrepareCheck = 'api-import-prepare-check';
 	case ApiImportProcessCheck = 'api-import-process-check';
 	case UserWarmup = 'user-warmup';

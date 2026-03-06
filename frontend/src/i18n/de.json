@@ -160,8 +160,33 @@
         "passwordRequired": "Passwort ist erforderlich",
         "login": "Anmelden",
         "signUp": "Registrieren",
+        "forgotPassword": "Passwort vergessen?",
         "or": "oder",
         "signInWithGoogle": "Mit Google anmelden"
+      },
+      "forgotPassword": {
+        "header": "Passwort vergessen",
+        "description": "Geben Sie Ihre E-Mail-Adresse ein und wir senden Ihnen einen Link zum Zurücksetzen Ihres Passworts.",
+        "email": "Email",
+        "emailRequired": "Email ist erforderlich",
+        "emailInvalid": "Email muss im Format 'john@beispiel.de' sein",
+        "send": "Reset-Link senden",
+        "sent": "Falls ein Konto mit dieser E-Mail existiert, wurde ein Link zum Zurücksetzen des Passworts gesendet.",
+        "backToLogin": "Zurück zur Anmeldung"
+      },
+      "resetPassword": {
+        "header": "Passwort zurücksetzen",
+        "password": "Neues Passwort",
+        "passwordRequired": "Passwort ist erforderlich",
+        "passwordLength": "Das Passwort muss mindestens 6 Zeichen lang sein",
+        "confirmPassword": "Neues Passwort bestätigen",
+        "confirmPasswordRequired": "Bitte bestätigen Sie Ihr Passwort",
+        "passwordsMismatch": "Passwörter stimmen nicht überein",
+        "reset": "Passwort zurücksetzen",
+        "success": "Ihr Passwort wurde erfolgreich zurückgesetzt.",
+        "goToLogin": "Zur Anmeldung",
+        "tokenInvalid": "Dieser Reset-Link ist ungültig oder abgelaufen.",
+        "requestNew": "Neuen Link anfordern"
       },
       "googleSignUp": {
         "header": "Registrierung abschließen",

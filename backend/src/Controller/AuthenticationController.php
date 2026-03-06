@@ -8,6 +8,8 @@ use FinGather\Dto\CredentialsDto;
 use FinGather\Dto\EmailExistsDto;
 use FinGather\Dto\GoogleClientIdDto;
 use FinGather\Dto\GoogleLoginDto;
+use FinGather\Dto\PasswordResetConfirmDto;
+use FinGather\Dto\PasswordResetRequestDto;
 use FinGather\Dto\RefreshTokenDto;
 use FinGather\Dto\SignUpDto;
 use FinGather\Model\Entity\Enum\UserRoleEnum;
@@ -15,12 +17,14 @@ use FinGather\Response\BoolResponse;
 use FinGather\Response\ConflictResponse;
 use FinGather\Response\NotAuthorizedResponse;
 use FinGather\Response\NotFoundResponse;
+use FinGather\Response\OkResponse;
 use FinGather\Route\Routes;
 use FinGather\Service\Authentication\AuthenticationService;
 use FinGather\Service\Authentication\Exceptions\AuthenticationException;
 use FinGather\Service\Authentication\Exceptions\GoogleAuthException;
 use FinGather\Service\Authentication\GoogleAuthService;
 use FinGather\Service\Provider\CurrencyProvider;
+use FinGather\Service\Provider\PasswordResetProvider;
 use FinGather\Service\Provider\UserProvider;
 use FinGather\Service\Request\RequestService;
 use Firebase\JWT\ExpiredException;
@@ -40,6 +44,7 @@ final readonly class AuthenticationController
 		private GoogleAuthService $googleAuthService,
 		private CurrencyProvider $currencyProvider,
 		private UserProvider $userProvider,
+		private PasswordResetProvider $passwordResetProvider,
 		private RequestService $requestService,
 		private LoggerInterface $logger,
 	) {
@@ -110,6 +115,42 @@ final readonly class AuthenticationController
 			$signUp->email,
 			$signUp->password,
 		)));
+	}
+
+	#[RoutePost(Routes::PasswordResetRequest->value)]
+	public function actionPostPasswordResetRequest(ServerRequestInterface $request): ResponseInterface
+	{
+		$dto = $this->requestService->getRequestBodyDto($request, PasswordResetRequestDto::class);
+
+		$user = $this->userProvider->getUserByEmail($dto->email);
+		if ($user !== null && $user->password !== null) {
+			$this->passwordResetProvider->createPasswordReset($user);
+		}
+
+		// Always return OK to avoid leaking whether the email exists
+		return new OkResponse();
+	}
+
+	#[RoutePost(Routes::PasswordResetConfirm->value)]
+	public function actionPostPasswordResetConfirm(ServerRequestInterface $request): ResponseInterface
+	{
+		$dto = $this->requestService->getRequestBodyDto($request, PasswordResetConfirmDto::class);
+
+		$passwordReset = $this->passwordResetProvider->getPasswordReset($dto->token);
+		if ($passwordReset === null) {
+			return new NotFoundResponse('Password reset token not found or expired.');
+		}
+
+		$expiry = $passwordReset->createdAt->modify('+24 hours');
+		if ($expiry < new \DateTimeImmutable()) {
+			$this->passwordResetProvider->deletePasswordReset($passwordReset);
+			return new NotFoundResponse('Password reset token not found or expired.');
+		}
+
+		$this->userProvider->resetPassword($passwordReset->user, $dto->password);
+		$this->passwordResetProvider->deletePasswordReset($passwordReset);
+
+		return new OkResponse();
 	}
 
 	#[RoutePost(Routes::AuthenticationEmailExists->value)]

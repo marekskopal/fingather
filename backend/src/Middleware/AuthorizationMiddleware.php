@@ -39,6 +39,8 @@ final class AuthorizationMiddleware implements MiddlewareInterface
 				Routes::Health->value,
 				Routes::AuthenticationLogin->value,
 				Routes::AuthenticationSignUp->value,
+				Routes::PasswordResetRequest->value,
+				Routes::PasswordResetConfirm->value,
 				Routes::AuthenticationEmailExists->value,
 				Routes::AuthenticationGoogleClientId->value,
 				Routes::AuthenticationGoogleLogin->value,

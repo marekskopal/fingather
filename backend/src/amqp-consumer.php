@@ -11,6 +11,7 @@ use FinGather\Jobs\Handler\ApiImportPrepareCheckHandler;
 use FinGather\Jobs\Handler\ApiImportProcessCheckHandler;
 use FinGather\Jobs\Handler\EmailVerifyHandler;
 use FinGather\Jobs\Handler\JobHandler;
+use FinGather\Jobs\Handler\PasswordResetHandler;
 use FinGather\Jobs\Handler\UserWarmupHandler;
 use FinGather\Jobs\Message\AmqpReceivedMessage;
 use FinGather\Service\Provider\CurrentTransactionProvider;
@@ -37,6 +38,7 @@ $channel = $connection->channel();
 
 $handlerMap = [
 	QueueEnum::EmailVerify->value => EmailVerifyHandler::class,
+	QueueEnum::PasswordReset->value => PasswordResetHandler::class,
 	QueueEnum::ApiImportPrepareCheck->value => ApiImportPrepareCheckHandler::class,
 	QueueEnum::ApiImportProcessCheck->value => ApiImportProcessCheckHandler::class,
 	QueueEnum::UserWarmup->value => UserWarmupHandler::class,

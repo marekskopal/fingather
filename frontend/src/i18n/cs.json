@@ -160,8 +160,33 @@
         "passwordRequired": "Heslo je povinné",
         "login": "Přihlásit",
         "signUp": "Registrace",
+        "forgotPassword": "Zapomenuté heslo?",
         "or": "nebo",
         "signInWithGoogle": "Přihlásit pomocí Google"
+      },
+      "forgotPassword": {
+        "header": "Zapomenuté heslo",
+        "description": "Zadejte svůj e-mail a my vám pošleme odkaz pro obnovení hesla.",
+        "email": "Email",
+        "emailRequired": "Email je povinný",
+        "emailInvalid": "Email musí být ve formátu 'jan@priklad.cz'",
+        "send": "Odeslat odkaz pro obnovení",
+        "sent": "Pokud účet s tímto e-mailem existuje, byl odeslán odkaz pro obnovení hesla.",
+        "backToLogin": "Zpět na přihlášení"
+      },
+      "resetPassword": {
+        "header": "Obnovení hesla",
+        "password": "Nové heslo",
+        "passwordRequired": "Heslo je povinné",
+        "passwordLength": "Heslo musí mít alespoň 6 znaků",
+        "confirmPassword": "Potvrzení nového hesla",
+        "confirmPasswordRequired": "Prosím potvrďte heslo",
+        "passwordsMismatch": "Hesla se neshodují",
+        "reset": "Obnovit heslo",
+        "success": "Vaše heslo bylo úspěšně obnoveno.",
+        "goToLogin": "Přejít na přihlášení",
+        "tokenInvalid": "Tento odkaz pro obnovení hesla je neplatný nebo vypršel.",
+        "requestNew": "Požádat o nový odkaz"
       },
       "googleSignUp": {
         "header": "Dokončení registrace",

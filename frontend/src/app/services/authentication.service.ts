@@ -93,6 +93,18 @@ export class AuthenticationService {
         return response;
     }
 
+    public async requestPasswordReset(email: string): Promise<void> {
+        await firstValueFrom(
+            this.http.post(`${environment.apiUrl}/authentication/password-reset-request`, {email}),
+        );
+    }
+
+    public async confirmPasswordReset(token: string, password: string): Promise<void> {
+        await firstValueFrom(
+            this.http.post(`${environment.apiUrl}/authentication/password-reset`, {token, password}),
+        );
+    }
+
     public async refreshToken(): Promise<Authentication> {
         const authentication = await firstValueFrom<Authentication>(
             this.http.post<Authentication>(

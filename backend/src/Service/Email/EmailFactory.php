@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace FinGather\Service\Email;
 
 use FinGather\Dto\EmailVerifyDto;
+use FinGather\Dto\PasswordResetQueueDto;
 use FinGather\Email\GoalEmail;
+use FinGather\Email\PasswordResetEmail;
 use FinGather\Email\PortfolioSummaryEmail;
 use FinGather\Email\PriceAlertEmail;
 use FinGather\Email\VerifyEmail;
@@ -23,6 +25,15 @@ final readonly class EmailFactory
 	public function __construct()
 	{
 		$this->from = (string) getenv('EMAIL_FROM');
+	}
+
+	public function createPasswordResetEmail(PasswordResetQueueDto $passwordReset): Email
+	{
+		return new Email()
+			->from($this->from)
+			->to($passwordReset->user->email)
+			->subject('FinGather - Reset your password.')
+			->html(PasswordResetEmail::getHtml($passwordReset));
 	}
 
 	public function createEmailVerifyEmail(EmailVerifyDto $emailVerify): Email
