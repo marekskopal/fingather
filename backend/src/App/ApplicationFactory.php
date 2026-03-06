@@ -24,7 +24,6 @@ use FinGather\Model\Entity\Industry;
 use FinGather\Model\Entity\Market;
 use FinGather\Model\Entity\PasswordReset;
 use FinGather\Model\Entity\Portfolio;
-use FinGather\Model\Entity\PriceAlert;
 use FinGather\Model\Entity\Sector;
 use FinGather\Model\Entity\Split;
 use FinGather\Model\Entity\Strategy;
@@ -53,7 +52,6 @@ use FinGather\Model\Repository\IndustryRepository;
 use FinGather\Model\Repository\MarketRepository;
 use FinGather\Model\Repository\PasswordResetRepository;
 use FinGather\Model\Repository\PortfolioRepository;
-use FinGather\Model\Repository\PriceAlertRepository;
 use FinGather\Model\Repository\SectorRepository;
 use FinGather\Model\Repository\SplitRepository;
 use FinGather\Model\Repository\StrategyItemRepository;
@@ -67,6 +65,12 @@ use FinGather\Route\Strategy\JsonStrategy;
 use FinGather\Service\Cache\CacheFactory;
 use FinGather\Service\Dbal\DbContext;
 use FinGather\Service\Logger\Logger;
+use FinGather\Service\Goal\GoalChecker;
+use FinGather\Service\Goal\GoalCheckerInterface;
+use FinGather\Service\Provider\DcaPlanProvider;
+use FinGather\Service\Provider\DcaPlanProviderInterface;
+use FinGather\Service\Provider\GoalProvider;
+use FinGather\Service\Provider\GoalProviderInterface;
 use FinGather\Service\Request\RequestService;
 use FinGather\Service\Request\RequestServiceInterface;
 use FinGather\Service\Task\TaskService;
@@ -144,6 +148,9 @@ final class ApplicationFactory
 
 		$container->add(RequestServiceInterface::class, fn () => new RequestService());
 		$container->add(TaskServiceInterface::class, fn () => new TaskService());
+		$container->add(DcaPlanProviderInterface::class, DcaPlanProvider::class);
+		$container->add(GoalProviderInterface::class, GoalProvider::class);
+		$container->add(GoalCheckerInterface::class, GoalChecker::class);
 
 		return $container;
 	}

@@ -9,6 +9,7 @@ use FinGather\Model\Entity\Currency;
 final class CurrencyFixture
 {
 	public static function getCurrency(
+		?int $id = null,
 		?string $code = null,
 		?string $name = null,
 		?string $symbol = null,
@@ -16,7 +17,7 @@ final class CurrencyFixture
 		?int $multiplier = null,
 		?bool $isSelectable = null,
 	): Currency {
-		return new Currency(
+		$currency = new Currency(
 			code: $code ?? 'USD',
 			name: $name ?? 'US Dollar',
 			symbol: $symbol ?? '$',
@@ -24,5 +25,9 @@ final class CurrencyFixture
 			multiplier: $multiplier ?? 1,
 			isSelectable: $isSelectable ?? true,
 		);
+
+		$currency->id = $id ?? 1;
+
+		return $currency;
 	}
 }

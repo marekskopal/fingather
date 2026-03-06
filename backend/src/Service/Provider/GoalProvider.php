@@ -13,7 +13,7 @@ use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\GoalRepository;
 use Iterator;
 
-final readonly class GoalProvider
+final readonly class GoalProvider implements GoalProviderInterface
 {
 	public function __construct(private GoalRepository $goalRepository)
 	{

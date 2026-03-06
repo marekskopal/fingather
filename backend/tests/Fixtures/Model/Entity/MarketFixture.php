@@ -11,6 +11,7 @@ use FinGather\Model\Entity\Market;
 final class MarketFixture
 {
 	public static function getMarket(
+		?int $id = null,
 		?MarketTypeEnum $type = null,
 		?string $name = null,
 		?string $acronym = null,
@@ -21,7 +22,7 @@ final class MarketFixture
 		?string $timezone = null,
 		?Currency $currency = null,
 	): Market {
-		return new Market(
+		$market = new Market(
 			type: $type ?? MarketTypeEnum::Stock,
 			name: $name ?? 'New York Stock Exchange',
 			acronym: $acronym ?? 'NYSE',
@@ -32,5 +33,9 @@ final class MarketFixture
 			timezone: $timezone ?? 'America/New_York',
 			currency: $currency ?? CurrencyFixture::getCurrency(),
 		);
+
+		$market->id = $id ?? 1;
+
+		return $market;
 	}
 }

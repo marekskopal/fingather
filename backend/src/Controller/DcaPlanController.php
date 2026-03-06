@@ -13,11 +13,11 @@ use FinGather\Response\OkResponse;
 use FinGather\Route\Routes;
 use FinGather\Service\Provider\AssetProvider;
 use FinGather\Service\Provider\CurrencyProvider;
-use FinGather\Service\Provider\DcaPlanProvider;
+use FinGather\Service\Provider\DcaPlanProviderInterface;
 use FinGather\Service\Provider\GroupProvider;
 use FinGather\Service\Provider\PortfolioProvider;
 use FinGather\Service\Provider\StrategyProvider;
-use FinGather\Service\Request\RequestService;
+use FinGather\Service\Request\RequestServiceInterface;
 use Laminas\Diactoros\Response\JsonResponse;
 use MarekSkopal\Router\Attribute\RouteDelete;
 use MarekSkopal\Router\Attribute\RouteGet;
@@ -29,13 +29,13 @@ use Psr\Http\Message\ServerRequestInterface;
 final readonly class DcaPlanController
 {
 	public function __construct(
-		private DcaPlanProvider $dcaPlanProvider,
+		private DcaPlanProviderInterface $dcaPlanProvider,
 		private PortfolioProvider $portfolioProvider,
 		private AssetProvider $assetProvider,
 		private GroupProvider $groupProvider,
 		private StrategyProvider $strategyProvider,
 		private CurrencyProvider $currencyProvider,
-		private RequestService $requestService,
+		private RequestServiceInterface $requestService,
 	) {
 	}
 

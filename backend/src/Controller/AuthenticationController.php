@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Controller;
 
+use DateTimeImmutable;
 use FinGather\Dto\CredentialsDto;
 use FinGather\Dto\EmailExistsDto;
 use FinGather\Dto\GoogleClientIdDto;
@@ -123,7 +124,7 @@ final readonly class AuthenticationController
 		$dto = $this->requestService->getRequestBodyDto($request, PasswordResetRequestDto::class);
 
 		$user = $this->userProvider->getUserByEmail($dto->email);
-		if ($user !== null && $user->password !== null) {
+		if ($user?->password !== null) {
 			$this->passwordResetProvider->createPasswordReset($user);
 		}
 
@@ -142,7 +143,7 @@ final readonly class AuthenticationController
 		}
 
 		$expiry = $passwordReset->createdAt->modify('+24 hours');
-		if ($expiry < new \DateTimeImmutable()) {
+		if ($expiry < new DateTimeImmutable()) {
 			$this->passwordResetProvider->deletePasswordReset($passwordReset);
 			return new NotFoundResponse('Password reset token not found or expired.');
 		}

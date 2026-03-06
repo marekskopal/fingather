@@ -18,6 +18,7 @@ final class TransactionFixture
 {
 	/** @api */
 	public static function getTransaction(
+		?int $id = null,
 		?User $user = null,
 		?Portfolio $portfolio = null,
 		?Asset $asset = null,
@@ -43,7 +44,7 @@ final class TransactionFixture
 		?string $notes = null,
 		?string $importIdentifier = null,
 	): Transaction {
-		return new Transaction(
+		$transaction = new Transaction(
 			user: $user ?? UserFixture::getUser(),
 			portfolio: $portfolio ?? PortfolioFixture::getPortfolio(),
 			asset: $asset ?? AssetFixture::getAsset(),
@@ -69,5 +70,9 @@ final class TransactionFixture
 			notes: $notes ?? 'Test Notes',
 			importIdentifier: $importIdentifier ?? 'TestIdentifier',
 		);
+
+		$transaction->id = $id ?? 1;
+
+		return $transaction;
 	}
 }

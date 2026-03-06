@@ -10,7 +10,7 @@ use FinGather\Model\Entity\Enum\GoalTypeEnum;
 use FinGather\Model\Entity\Goal;
 use FinGather\Service\Provider\PortfolioDataProvider;
 
-final readonly class GoalChecker
+final readonly class GoalChecker implements GoalCheckerInterface
 {
 	public function __construct(private PortfolioDataProvider $portfolioDataProvider)
 	{

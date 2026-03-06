@@ -12,10 +12,10 @@ use FinGather\Model\Entity\Goal;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Response\OkResponse;
 use FinGather\Route\Routes;
-use FinGather\Service\Goal\GoalChecker;
-use FinGather\Service\Provider\GoalProvider;
+use FinGather\Service\Goal\GoalCheckerInterface;
+use FinGather\Service\Provider\GoalProviderInterface;
 use FinGather\Service\Provider\PortfolioProvider;
-use FinGather\Service\Request\RequestService;
+use FinGather\Service\Request\RequestServiceInterface;
 use Laminas\Diactoros\Response\JsonResponse;
 use MarekSkopal\Router\Attribute\RouteDelete;
 use MarekSkopal\Router\Attribute\RouteGet;
@@ -27,10 +27,10 @@ use Psr\Http\Message\ServerRequestInterface;
 final readonly class GoalController
 {
 	public function __construct(
-		private GoalProvider $goalProvider,
+		private GoalProviderInterface $goalProvider,
 		private PortfolioProvider $portfolioProvider,
-		private GoalChecker $goalChecker,
-		private RequestService $requestService,
+		private GoalCheckerInterface $goalChecker,
+		private RequestServiceInterface $requestService,
 	) {
 	}
 

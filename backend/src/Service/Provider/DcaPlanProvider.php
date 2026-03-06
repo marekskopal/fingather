@@ -20,7 +20,7 @@ use FinGather\Service\DataCalculator\DcaPlanDataCalculator;
 use FinGather\Service\DataCalculator\Dto\ReturnRateDto;
 use Iterator;
 
-final readonly class DcaPlanProvider
+final readonly class DcaPlanProvider implements DcaPlanProviderInterface
 {
 	public function __construct(private DcaPlanRepository $dcaPlanRepository, private DcaPlanDataCalculator $dcaPlanDataCalculator,)
 	{

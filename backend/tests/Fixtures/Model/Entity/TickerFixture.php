@@ -15,6 +15,7 @@ use FinGather\Model\Entity\Ticker;
 final class TickerFixture
 {
 	public static function getTicker(
+		?int $id = null,
 		?string $ticker = null,
 		?string $name = null,
 		?Market $market = null,
@@ -28,7 +29,7 @@ final class TickerFixture
 		?string $website = null,
 		?Country $country = null,
 	): Ticker {
-		return new Ticker(
+		$tickerEntity = new Ticker(
 			ticker: $ticker ?? 'AAPL',
 			name: $name ?? 'Apple Inc.',
 			market: $market ?? MarketFixture::getMarket(),
@@ -42,5 +43,9 @@ final class TickerFixture
 			website: $website ?? 'https://www.apple.com',
 			country: $country ?? CountryFixture::getCountry(),
 		);
+
+		$tickerEntity->id = $id ?? 1;
+
+		return $tickerEntity;
 	}
 }

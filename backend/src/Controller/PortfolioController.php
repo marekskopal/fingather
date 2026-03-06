@@ -13,7 +13,7 @@ use FinGather\Response\OkResponse;
 use FinGather\Route\Routes;
 use FinGather\Service\Provider\CurrencyProvider;
 use FinGather\Service\Provider\PortfolioProvider;
-use FinGather\Service\Request\RequestService;
+use FinGather\Service\Request\RequestServiceInterface;
 use Laminas\Diactoros\Response\JsonResponse;
 use MarekSkopal\Router\Attribute\RouteDelete;
 use MarekSkopal\Router\Attribute\RouteGet;
@@ -27,7 +27,7 @@ final readonly class PortfolioController
 	public function __construct(
 		private PortfolioProvider $portfolioProvider,
 		private CurrencyProvider $currencyProvider,
-		private RequestService $requestService,
+		private RequestServiceInterface $requestService,
 	) {
 	}
 

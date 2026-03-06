@@ -14,7 +14,7 @@ use FinGather\Route\Routes;
 use FinGather\Service\Provider\PortfolioProvider;
 use FinGather\Service\Provider\PriceAlertProvider;
 use FinGather\Service\Provider\TickerProvider;
-use FinGather\Service\Request\RequestService;
+use FinGather\Service\Request\RequestServiceInterface;
 use Laminas\Diactoros\Response\JsonResponse;
 use MarekSkopal\Router\Attribute\RouteDelete;
 use MarekSkopal\Router\Attribute\RouteGet;
@@ -29,7 +29,7 @@ final readonly class PriceAlertController
 		private PriceAlertProvider $priceAlertProvider,
 		private PortfolioProvider $portfolioProvider,
 		private TickerProvider $tickerProvider,
-		private RequestService $requestService,
+		private RequestServiceInterface $requestService,
 	) {
 	}
 

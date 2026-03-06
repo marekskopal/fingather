@@ -14,17 +14,12 @@ use SensitiveParameter;
  */
 final readonly class PasswordResetConfirmDto implements ArrayFactoryInterface
 {
-	public function __construct(
-		public string $token,
-		#[SensitiveParameter] public string $password,
-	) {
+	public function __construct(public string $token, #[SensitiveParameter] public string $password,)
+	{
 	}
 
 	public static function fromArray(array $data): static
 	{
-		return new self(
-			token: $data['token'],
-			password: $data['password'],
-		);
+		return new self(token: $data['token'], password: $data['password']);
 	}
 }
