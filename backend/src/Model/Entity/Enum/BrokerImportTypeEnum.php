@@ -19,6 +19,9 @@ enum BrokerImportTypeEnum: string
 	case FioBanka = 'FioBanka';
 	case Patria = 'Patria';
 	case EtoroApi = 'EtoroApi';
+	case Lightyear = 'Lightyear';
+	case Freetrade = 'Freetrade';
+	case Schwab = 'Schwab';
 
 	public static function fromApiKeyTypeEnum(ApiKeyTypeEnum $apiKeyTypeEnum): self
 	{

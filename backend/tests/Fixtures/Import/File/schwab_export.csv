@@ -1,0 +1,6 @@
+"Transactions  for account  XXXX-1234 as of 12/31/2023 12:00:00 AM ET"
+"Date","Action","Symbol","Description","Quantity","Price","Fees & Comm","Amount",
+"01/15/2024","Buy","AAPL","APPLE INC","10","$185.00","$0.00","-$1,850.00",
+"01/20/2024","Sell","MSFT","MICROSOFT CORP","5","$415.00","$0.00","$2,075.00",
+"02/01/2024","Dividend","AAPL","APPLE INC","","","","$23.50",
+"Transactions Total","","","","","","","$248.50",

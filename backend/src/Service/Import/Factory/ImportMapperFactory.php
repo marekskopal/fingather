@@ -12,11 +12,14 @@ use FinGather\Service\Import\Mapper\DegiroMapper;
 use FinGather\Service\Import\Mapper\EtoroApiMapper;
 use FinGather\Service\Import\Mapper\EtoroMapper;
 use FinGather\Service\Import\Mapper\FioBankaMapper;
+use FinGather\Service\Import\Mapper\FreetradeMapper;
 use FinGather\Service\Import\Mapper\InteractiveBrokersMapper;
+use FinGather\Service\Import\Mapper\LightyearMapper;
 use FinGather\Service\Import\Mapper\MapperInterface;
 use FinGather\Service\Import\Mapper\PatriaMapper;
 use FinGather\Service\Import\Mapper\PortuMapper;
 use FinGather\Service\Import\Mapper\RevolutMapper;
+use FinGather\Service\Import\Mapper\SchwabMapper;
 use FinGather\Service\Import\Mapper\Trading212Mapper;
 use FinGather\Service\Import\Mapper\XtbMapper;
 
@@ -36,6 +39,9 @@ final class ImportMapperFactory
 		BrokerImportTypeEnum::FioBanka->value => FioBankaMapper::class,
 		BrokerImportTypeEnum::Patria->value => PatriaMapper::class,
 		BrokerImportTypeEnum::EtoroApi->value => EtoroApiMapper::class,
+		BrokerImportTypeEnum::Lightyear->value => LightyearMapper::class,
+		BrokerImportTypeEnum::Freetrade->value => FreetradeMapper::class,
+		BrokerImportTypeEnum::Schwab->value => SchwabMapper::class,
 	];
 
 	public function createImportMapper(string $fileName, string $contents): MapperInterface

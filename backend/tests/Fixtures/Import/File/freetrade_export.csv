@@ -1,0 +1,4 @@
+Title,Type,Timestamp,Account Currency,Base FX Rate,GBP Amount (ex. fees),USD Amount (ex. fees),Price per Share in Account Currency,Stamp Duty,Quantity,Venue,Order Type,ISA Subscription,Stock Currency,Price per Share in Stock Currency,Total Shares Bought / Sold
+Apple Inc,ORDER,2024-01-15T10:30:00.000Z,GBP,1.27,-145.67,,185.00,0.74,1,XNAS,buy,,USD,185.00,1
+Microsoft Corporation,ORDER,2024-01-20T14:15:00.000Z,GBP,1.26,326.98,,415.00,0.00,1,XNAS,sell,,USD,415.00,1
+Apple Inc,DIVIDEND,2024-02-01T08:00:00.000Z,GBP,1.28,1.88,,0.24,,1,,,,,0.24,1

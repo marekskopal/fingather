@@ -64,7 +64,6 @@ use FinGather\Model\Repository\UserRepository;
 use FinGather\Route\Strategy\JsonStrategy;
 use FinGather\Service\Cache\CacheFactory;
 use FinGather\Service\Dbal\DbContext;
-use FinGather\Service\Logger\Logger;
 use FinGather\Service\Goal\GoalChecker;
 use FinGather\Service\Goal\GoalCheckerInterface;
 use FinGather\Service\Provider\DcaPlanProvider;
