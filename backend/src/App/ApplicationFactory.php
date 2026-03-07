@@ -63,6 +63,7 @@ use FinGather\Model\Repository\TransactionRepository;
 use FinGather\Model\Repository\UserRepository;
 use FinGather\Route\Strategy\JsonStrategy;
 use FinGather\Service\Cache\CacheFactory;
+use FinGather\Service\DataCalculator\DcaPlanDataCalculator;
 use FinGather\Service\Dbal\DbContext;
 use FinGather\Service\Goal\GoalChecker;
 use FinGather\Service\Goal\GoalCheckerInterface;
@@ -70,6 +71,7 @@ use FinGather\Service\Provider\DcaPlanProvider;
 use FinGather\Service\Provider\DcaPlanProviderInterface;
 use FinGather\Service\Provider\GoalProvider;
 use FinGather\Service\Provider\GoalProviderInterface;
+use FinGather\Service\Provider\PortfolioDataProvider;
 use FinGather\Service\Request\RequestService;
 use FinGather\Service\Request\RequestServiceInterface;
 use FinGather\Service\Task\TaskService;
@@ -147,9 +149,12 @@ final class ApplicationFactory
 
 		$container->add(RequestServiceInterface::class, fn () => new RequestService());
 		$container->add(TaskServiceInterface::class, fn () => new TaskService());
-		$container->add(DcaPlanProviderInterface::class, DcaPlanProvider::class);
-		$container->add(GoalProviderInterface::class, GoalProvider::class);
-		$container->add(GoalCheckerInterface::class, GoalChecker::class);
+		$container->add(DcaPlanProviderInterface::class, DcaPlanProvider::class)
+			->addArguments([DcaPlanRepository::class, DcaPlanDataCalculator::class]);
+		$container->add(GoalProviderInterface::class, GoalProvider::class)
+			->addArgument(GoalRepository::class);
+		$container->add(GoalCheckerInterface::class, GoalChecker::class)
+			->addArgument(PortfolioDataProvider::class);
 
 		return $container;
 	}
