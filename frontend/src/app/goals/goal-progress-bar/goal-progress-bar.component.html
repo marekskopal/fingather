@@ -1,3 +1,4 @@
+
 <div class="goal-progress-bar">
     <div class="goal-progress-bar-bar">
         <div class="goal-progress-bar-track">
@@ -12,10 +13,12 @@
     @if (showText()) {
         <div class="goal-progress-bar-text">
             <small class="text-muted">
-                @if (goal().type === GoalTypeEnum.PortfolioValue) {
-                    {{goal().currentValue | number:'1.2-2' | money: defaultCurrency.id | async}} / {{goal().targetValue | number:'1.2-2' | money: defaultCurrency.id | async}}
-                } @else {
-                    {{goal().currentValue | number:'1.2-2'}} / {{goal().targetValue | number:'1.2-2'}}
+                @if (!loading()) {
+                    @if (goal().type === GoalTypeEnum.PortfolioValue) {
+                        {{goal().currentValue | number:'1.2-2' | money: defaultCurrency.id | async}} / {{goal().targetValue | number:'1.2-2' | money: defaultCurrency.id | async}}
+                    } @else {
+                        {{goal().currentValue | number:'1.2-2'}} / {{goal().targetValue | number:'1.2-2'}}
+                    }
                 }
             </small>
             @if (goal().deadline) {

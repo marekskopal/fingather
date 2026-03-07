@@ -1,6 +1,6 @@
 import {AsyncPipe, DatePipe, DecimalPipe} from "@angular/common";
 import {
-    ChangeDetectionStrategy, Component, computed, inject, input, OnInit,
+    ChangeDetectionStrategy, Component, computed, inject, input, OnInit, signal,
 } from '@angular/core';
 import {Currency, Goal} from "@app/models";
 import {GoalTypeEnum} from "@app/models/enums/goal-type-enum";
@@ -43,10 +43,14 @@ export class GoalProgressBarComponent implements OnInit {
 
     protected readonly trackWidth = computed<string>(() => `${this.clampedPercentage()}%`);
 
+    protected readonly loading = signal<boolean>(true);
+
     protected defaultCurrency: Currency;
 
     public async ngOnInit(): Promise<void> {
         this.defaultCurrency = await this.currencyService.getDefaultCurrency();
+
+        this.loading.set(false);
     }
 
     protected formatValue(value: string): string {
