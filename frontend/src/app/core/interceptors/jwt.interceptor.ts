@@ -1,85 +1,79 @@
 import {
-    HttpEvent, HttpHandler, HttpInterceptor, HttpRequest,
+    HttpErrorResponse, HttpEvent, HttpHandlerFn, HttpRequest,
 } from '@angular/common/http';
-import {inject, Injectable} from '@angular/core';
+import { inject } from '@angular/core';
+import { Authentication } from '@app/models/authentication';
 import { AuthenticationService } from '@app/services/authentication.service';
 import { environment } from '@environments/environment';
-import { from, lastValueFrom, Observable } from 'rxjs';
+import { BehaviorSubject, catchError, filter, from, Observable, switchMap, take, throwError } from 'rxjs';
 
-@Injectable()
-export class JwtInterceptor implements HttpInterceptor {
-    private readonly authorizationService = inject(AuthenticationService);
+const refreshTokenUrl = `${environment.apiUrl}/authentication/refresh-token` as const;
 
-    private isRefreshing: boolean = false;
-    private refreshTokenUrl: string = `${environment.apiUrl}/authentication/refresh-token` as const;
+let isRefreshing = false;
+const refreshTokenSubject = new BehaviorSubject<string | null>(null);
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    public intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        return from(this.handle(request, next));
-    }
+export function jwtInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
+    const authService = inject(AuthenticationService);
 
-    private async handle(request: HttpRequest<any>, next: HttpHandler): Promise<HttpEvent<any>> {
-        // wait for token refresh
-        while (this.isRefreshing && request.url !== this.refreshTokenUrl) {
-            // eslint-disable-next-line no-await-in-loop, no-promise-executor-return
-            await new Promise((r) => setTimeout(r, 10));
-        }
+    req = addAuthHeader(req, authService);
 
-        // add auth header with jwt if user is logged in and request is to the api url
-        request = this.setAuthorizationHeader(request);
-
-        try {
-            return await lastValueFrom(next.handle(request));
-        } catch (err: any) {
+    return next(req).pipe(
+        catchError((err: HttpErrorResponse) => {
             if (
                 [401, 403].includes(err.status)
-                && this.authorizationService.isLoggedIn()
-                && request.url !== this.refreshTokenUrl
+                && authService.isLoggedIn()
+                && req.url !== refreshTokenUrl
             ) {
-                return this.handleRefreshToken(request, next);
+                return handleTokenRefresh(req, next, authService);
             }
 
-            const error = err.error?.message || err.statusText;
-            // eslint-disable-next-line no-console
-            console.error(error);
-            throw error;
-        }
+            return throwError(() => err);
+        }),
+    );
+}
+
+function addAuthHeader(req: HttpRequest<unknown>, authService: AuthenticationService): HttpRequest<unknown> {
+    if (!authService.isLoggedIn()) {
+        return req;
     }
 
-    private setAuthorizationHeader(request: HttpRequest<any>): HttpRequest<any> {
-        if (!this.authorizationService.isLoggedIn()) {
-            return request;
-        }
-
-        const isApiUrl = request.url.startsWith(environment.apiUrl);
-        if (!isApiUrl) {
-            return request;
-        }
-
-        return request.clone({
-            setHeaders: {
-                Authorization: `Bearer ${this.authorizationService.authentication()?.accessToken}`,
-            },
-        });
+    if (!req.url.startsWith(environment.apiUrl)) {
+        return req;
     }
 
-    private async handleRefreshToken(request: HttpRequest<any>, next: HttpHandler): Promise<HttpEvent<any>> {
-        this.isRefreshing = true;
+    return req.clone({
+        setHeaders: {
+            Authorization: `Bearer ${authService.authentication()?.accessToken}`,
+        },
+    });
+}
 
-        try {
-            await this.authorizationService.refreshToken();
+function handleTokenRefresh(
+    req: HttpRequest<unknown>,
+    next: HttpHandlerFn,
+    authService: AuthenticationService,
+): Observable<HttpEvent<unknown>> {
+    if (!isRefreshing) {
+        isRefreshing = true;
+        refreshTokenSubject.next(null);
 
-            request = this.setAuthorizationHeader(request);
-
-            this.isRefreshing = false;
-
-            return await lastValueFrom(next.handle(request));
-        } catch (error) {
-            this.isRefreshing = false;
-
-            this.authorizationService.logout();
-
-            throw error;
-        }
+        return from(authService.refreshToken()).pipe(
+            switchMap((auth: Authentication) => {
+                isRefreshing = false;
+                refreshTokenSubject.next(auth.accessToken);
+                return next(addAuthHeader(req, authService));
+            }),
+            catchError((err) => {
+                isRefreshing = false;
+                authService.logout();
+                return throwError(() => err);
+            }),
+        );
     }
+
+    return refreshTokenSubject.pipe(
+        filter((token): token is string => token !== null),
+        take(1),
+        switchMap(() => next(addAuthHeader(req, authService))),
+    );
 }

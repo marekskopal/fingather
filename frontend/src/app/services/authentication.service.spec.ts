@@ -1,4 +1,4 @@
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
@@ -32,7 +32,7 @@ describe('AuthenticationService', () => {
         TestBed.configureTestingModule({
             providers: [
                 AuthenticationService,
-                provideHttpClient(withInterceptorsFromDi()),
+                provideHttpClient(),
                 provideHttpClientTesting(),
                 { provide: Router, useValue: routerSpy },
                 { provide: PortfolioService, useValue: portfolioServiceSpy },

@@ -1,4 +1,4 @@
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { OkResponse } from '@app/models/ok-response';
@@ -13,7 +13,7 @@ describe('OnboardingService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [],
-            providers: [OnboardingService, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()],
+            providers: [OnboardingService, provideHttpClient(), provideHttpClientTesting()],
         });
 
         service = TestBed.inject(OnboardingService);
