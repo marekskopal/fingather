@@ -37,11 +37,11 @@ export class DateInputComponent implements ControlValueAccessor {
         this.value = value;
     }
 
-    public registerOnChange(onChange: any): void {
+    public registerOnChange(onChange: (value: string | null) => void): void {
         this.onChange = onChange;
     }
 
-    public registerOnTouched(onTouched: any): void {
+    public registerOnTouched(onTouched: () => void): void {
         this.onTouched = onTouched;
     }
 

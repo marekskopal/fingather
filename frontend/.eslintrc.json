@@ -43,7 +43,7 @@
         "@typescript-eslint/comma-dangle": "off",
         "@typescript-eslint/lines-between-class-members": "off",
         "@typescript-eslint/no-shadow": "error",
-        "@typescript-eslint/no-explicit-any": 0,
+        "@typescript-eslint/no-explicit-any": "error",
         "@angular-eslint/directive-selector": [
           "error",
           {

@@ -55,11 +55,11 @@ export class TickerSearchSelectorComponent implements ControlValueAccessor, OnIn
         this.value = value;
     }
 
-    public registerOnChange(onChange: any): void {
+    public registerOnChange(onChange: (value: Ticker | null) => void): void {
         this.onChange = onChange;
     }
 
-    public registerOnTouched(onTouched: any): void {
+    public registerOnTouched(onTouched: () => void): void {
         this.onTouched = onTouched;
     }
 

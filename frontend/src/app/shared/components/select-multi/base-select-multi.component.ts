@@ -9,7 +9,7 @@ import {SelectItem} from "@app/shared/types/select-item";
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export abstract class BaseSelectMultiComponent<K extends keyof any, V> implements ControlValueAccessor {
+export abstract class BaseSelectMultiComponent<K extends PropertyKey, V> implements ControlValueAccessor {
     public readonly id = input.required<string>();
     public readonly items = input.required<SelectItem<K, V>[]>();
     public readonly placeholder = input<string>('');
@@ -27,11 +27,11 @@ export abstract class BaseSelectMultiComponent<K extends keyof any, V> implement
         this.values = this.getValuesFromItems(values);
     }
 
-    public registerOnChange(onChange: any): void {
+    public registerOnChange(onChange: (value: K[]) => void): void {
         this.onChange = onChange;
     }
 
-    public registerOnTouched(onTouched: any): void {
+    public registerOnTouched(onTouched: () => void): void {
         this.onTouched = onTouched;
     }
 
