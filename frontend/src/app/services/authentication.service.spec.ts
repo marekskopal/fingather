@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Authentication } from '@app/models/authentication';
 import { CurrentUserService } from '@app/services/current-user.service';
 import { PortfolioService } from '@app/services/portfolio.service';
+import { StorageService } from '@app/services/storage.service';
 import { environment } from '@environments/environment';
 
 import { AuthenticationService } from './authentication.service';
@@ -21,13 +22,17 @@ describe('AuthenticationService', () => {
     let routerSpy: { navigate: ReturnType<typeof vi.fn> };
     let portfolioServiceSpy: { cleanCurrentPortfolio: ReturnType<typeof vi.fn> };
     let currentUserServiceSpy: { cleanCurrentUser: ReturnType<typeof vi.fn> };
+    let storageServiceSpy: {
+        get: ReturnType<typeof vi.fn>;
+        set: ReturnType<typeof vi.fn>;
+        remove: ReturnType<typeof vi.fn>;
+    };
 
     beforeEach(() => {
-        localStorage.clear();
-
         routerSpy = { navigate: vi.fn() };
         portfolioServiceSpy = { cleanCurrentPortfolio: vi.fn() };
         currentUserServiceSpy = { cleanCurrentUser: vi.fn() };
+        storageServiceSpy = { get: vi.fn().mockReturnValue(null), set: vi.fn(), remove: vi.fn() };
 
         TestBed.configureTestingModule({
             providers: [
@@ -37,6 +42,7 @@ describe('AuthenticationService', () => {
                 { provide: Router, useValue: routerSpy },
                 { provide: PortfolioService, useValue: portfolioServiceSpy },
                 { provide: CurrentUserService, useValue: currentUserServiceSpy },
+                { provide: StorageService, useValue: storageServiceSpy },
             ],
         });
 
@@ -45,7 +51,6 @@ describe('AuthenticationService', () => {
     });
 
     afterEach(() => {
-        localStorage.clear();
         httpMock.verify();
     });
 
@@ -62,7 +67,7 @@ describe('AuthenticationService', () => {
     });
 
     describe('login', () => {
-        it('POSTs credentials, stores in localStorage, and sets signal', async () => {
+        it('POSTs credentials, stores via StorageService, and sets signal', async () => {
             const promise = service.login('user@example.com', 'secret');
 
             const req = httpMock.expectOne(`${environment.apiUrl}/authentication/login`);
@@ -73,18 +78,17 @@ describe('AuthenticationService', () => {
             const result = await promise;
             expect(result).toEqual(mockAuth);
             expect(service.authentication()).toEqual(mockAuth);
-            expect(JSON.parse(localStorage.getItem('authentication')!)).toEqual(mockAuth);
+            expect(storageServiceSpy.set).toHaveBeenCalledWith('authentication', mockAuth);
         });
     });
 
     describe('logout', () => {
-        it('clears localStorage, nulls signal, and navigates to login', () => {
-            localStorage.setItem('authentication', JSON.stringify(mockAuth));
+        it('removes from StorageService, nulls signal, and navigates to login', () => {
             service.authentication.set(mockAuth);
 
             service.logout();
 
-            expect(localStorage.getItem('authentication')).toBeNull();
+            expect(storageServiceSpy.remove).toHaveBeenCalledWith('authentication');
             expect(service.authentication()).toBeNull();
             expect(portfolioServiceSpy.cleanCurrentPortfolio).toHaveBeenCalled();
             expect(currentUserServiceSpy.cleanCurrentUser).toHaveBeenCalled();
@@ -93,7 +97,7 @@ describe('AuthenticationService', () => {
     });
 
     describe('refreshToken', () => {
-        it('POSTs the refresh token, updates localStorage and signal', async () => {
+        it('POSTs the refresh token, updates StorageService and signal', async () => {
             const newAuth: Authentication = { accessToken: 'new-access', refreshToken: 'new-refresh', userId: 1 };
             service.authentication.set(mockAuth);
 
@@ -107,7 +111,7 @@ describe('AuthenticationService', () => {
             const result = await promise;
             expect(result).toEqual(newAuth);
             expect(service.authentication()).toEqual(newAuth);
-            expect(JSON.parse(localStorage.getItem('authentication')!)).toEqual(newAuth);
+            expect(storageServiceSpy.set).toHaveBeenCalledWith('authentication', newAuth);
         });
     });
 });

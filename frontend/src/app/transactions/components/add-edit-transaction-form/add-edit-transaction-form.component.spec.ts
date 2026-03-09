@@ -44,7 +44,9 @@ describe('AddEditTransactionFormComponent', () => {
                 },
                 {
                     provide: PortfolioService,
-                    useValue: { getCurrentPortfolio: vi.fn().mockResolvedValue({ id: 1, name: 'Test', currencyId: 1, isDefault: true }) },
+                    useValue: { getCurrentPortfolio: vi.fn().mockResolvedValue(
+                        { id: 1, name: 'Test', currencyId: 1, isDefault: true },
+                        ) },
                 },
                 { provide: AlertService, useValue: { clear: vi.fn(), success: vi.fn(), error: vi.fn() } },
                 { provide: Router, useValue: { navigate: vi.fn() } },

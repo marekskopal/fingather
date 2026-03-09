@@ -2,6 +2,7 @@ import {NgOptimizedImage} from "@angular/common";
 import {
     ChangeDetectionStrategy, Component, inject,
 } from '@angular/core';
+import {StorageService} from "@app/services/storage.service";
 import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from "@ng-bootstrap/ng-bootstrap";
 import {TranslateService} from "@ngx-translate/core";
 
@@ -19,12 +20,13 @@ import {TranslateService} from "@ngx-translate/core";
 })
 export class LanguageSelectorComponent {
     private readonly translateService = inject(TranslateService);
+    private readonly storageService = inject(StorageService);
 
     protected languages: readonly string[] = this.translateService.getLangs();
     protected currentLanguage: string = this.translateService.currentLang;
 
     protected changeLanguage(lang: string): void {
-        localStorage.setItem('currentLanguage', lang);
+        this.storageService.set('currentLanguage', lang);
         this.translateService.use(lang);
         this.currentLanguage = this.translateService.currentLang;
     }

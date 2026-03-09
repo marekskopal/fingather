@@ -3,12 +3,14 @@ import {inject, Injectable} from '@angular/core';
 import { Portfolio } from '@app/models';
 import { OkResponse } from '@app/models/ok-response';
 import { NotifyService } from '@app/services/notify-service';
+import { StorageService } from '@app/services/storage.service';
 import { environment } from '@environments/environment';
 import { firstValueFrom, lastValueFrom } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class PortfolioService extends NotifyService {
     private readonly http = inject(HttpClient);
+    private readonly storageService = inject(StorageService);
 
     private currentPortfolio: Portfolio | null = null;
     private defaultPortfolio: Portfolio | null = null;
@@ -30,27 +32,25 @@ export class PortfolioService extends NotifyService {
             return this.currentPortfolio;
         }
 
-        const localStorageCurrentPortfolio = localStorage.getItem('currentPortfolio');
-        if (localStorageCurrentPortfolio !== null) {
-            this.currentPortfolio = JSON.parse(localStorageCurrentPortfolio);
-            if (this.currentPortfolio !== null) {
-                return this.currentPortfolio;
-            }
+        const stored = this.storageService.get<Portfolio>('currentPortfolio');
+        if (stored !== null) {
+            this.currentPortfolio = stored;
+            return this.currentPortfolio;
         }
 
         this.currentPortfolio = await this.getDefaultPortfolio();
-        localStorage.setItem('currentPortfolio', JSON.stringify(this.currentPortfolio));
+        this.storageService.set('currentPortfolio', this.currentPortfolio);
 
         return this.currentPortfolio;
     }
 
     public setCurrentPortfolio(currentPortfolio: Portfolio): void {
-        localStorage.setItem('currentPortfolio', JSON.stringify(currentPortfolio));
+        this.storageService.set('currentPortfolio', currentPortfolio);
         this.currentPortfolio = currentPortfolio;
     }
 
     public cleanCurrentPortfolio(): void {
-        localStorage.removeItem('currentPortfolio');
+        this.storageService.remove('currentPortfolio');
         this.currentPortfolio = null;
         this.defaultPortfolio = null;
     }
