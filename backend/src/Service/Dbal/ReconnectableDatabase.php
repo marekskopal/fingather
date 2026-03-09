@@ -32,6 +32,16 @@ final class ReconnectableDatabase implements DatabaseInterface
 		return $this->getInnerDatabase()->getPdo();
 	}
 
+	public function getIdentifierQuoteChar(): string
+	{
+		return '`';
+	}
+
+	public function getInsertReturningClause(string $primaryColumnName): string
+	{
+		return '';
+	}
+
 	public function getInnerDatabase(): MySqlDatabase
 	{
 		$this->pingIfIdle();
