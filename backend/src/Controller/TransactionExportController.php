@@ -85,7 +85,7 @@ final readonly class TransactionExportController
 		try {
 			return new FileResponse($csvPath, 'transactions.csv', 'text/csv');
 		} finally {
-			@unlink($csvPath);
+			unlink($csvPath);
 		}
 	}
 
@@ -143,7 +143,7 @@ final readonly class TransactionExportController
 		try {
 			return new FileResponse($xlsxPath, 'transactions.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 		} finally {
-			@unlink($xlsxPath);
+			unlink($xlsxPath);
 		}
 	}
 }

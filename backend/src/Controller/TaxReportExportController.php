@@ -51,7 +51,7 @@ final readonly class TaxReportExportController
 				'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
 			);
 		} finally {
-			@unlink($xlsxPath);
+			unlink($xlsxPath);
 		}
 	}
 
@@ -76,8 +76,8 @@ final readonly class TaxReportExportController
 		try {
 			return new FileResponse($pdfPath, 'tax-report-' . $year . '.pdf', 'application/pdf');
 		} finally {
-			@unlink($xlsxPath);
-			@unlink($pdfPath);
+			unlink($xlsxPath);
+			unlink($pdfPath);
 		}
 	}
 }

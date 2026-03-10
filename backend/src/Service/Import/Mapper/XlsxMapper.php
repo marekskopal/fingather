@@ -47,11 +47,11 @@ abstract class XlsxMapper implements XlsxMapperInterface
 
 		file_put_contents($tempFile, $content);
 
-		$spreadsheet = $reader->load($tempFile);
-
-		unlink($tempFile);
-
-		return $spreadsheet;
+		try {
+			return $reader->load($tempFile);
+		} finally {
+			unlink($tempFile);
+		}
 	}
 
 	public function check(string $content, string $fileName): bool
