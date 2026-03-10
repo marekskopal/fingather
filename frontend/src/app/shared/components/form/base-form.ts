@@ -1,18 +1,17 @@
 import { inject, signal} from '@angular/core';
-import { AbstractControl, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { AlertService } from '@app/services';
 
 export abstract class BaseForm {
-    protected form: UntypedFormGroup;
+    protected form!: FormGroup;
     protected readonly loading = signal<boolean>(false);
     protected readonly saving = signal<boolean>(false);
     protected readonly submitted = signal<boolean>(false);
 
-    protected readonly formBuilder = inject(UntypedFormBuilder);
+    protected readonly formBuilder = inject(FormBuilder);
     protected readonly alertService = inject(AlertService);
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    public get f(): { [key: string]: AbstractControl<any, any> } {
+    public get f(): { [key: string]: AbstractControl } {
         return this.form.controls;
     }
 

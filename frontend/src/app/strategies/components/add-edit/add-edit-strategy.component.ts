@@ -205,7 +205,7 @@ export class AddEditStrategyComponent extends BaseAddEditForm implements OnInit 
 
         group.get('type')?.valueChanges.pipe(
             takeUntilDestroyed(this.destroyRef),
-        ).subscribe((newType: string) => {
+        ).subscribe((newType: string | null) => {
             if (newType === 'asset') {
                 group.patchValue({ groupId: null });
             } else if (newType === 'group') {
@@ -215,7 +215,10 @@ export class AddEditStrategyComponent extends BaseAddEditForm implements OnInit 
 
         group.get('percentage')?.valueChanges.pipe(
             takeUntilDestroyed(this.destroyRef),
-        ).subscribe((value: number) => {
+        ).subscribe((value: number | null) => {
+            if (value === null) {
+                return;
+            }
             const othersTotal = this.getTotalPercentageExcept(group);
             const maxAllowed = Math.round((100 - othersTotal) * 100) / 100;
             if (value > maxAllowed) {
