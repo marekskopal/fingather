@@ -13,6 +13,7 @@ use FinGather\Model\Entity\User;
 
 final class GoalFixture
 {
+	/** @phpstan-ignore-next-line public.method.unused */
 	public static function getGoal(
 		?int $id = null,
 		?User $user = null,

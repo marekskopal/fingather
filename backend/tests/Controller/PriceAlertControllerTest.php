@@ -98,7 +98,8 @@ final class PriceAlertControllerTest extends TestCase
 
 	public function testGetPriceAlertReturnsJsonResponse(): void
 	{
-		$this->priceAlertProvider->method('getPriceAlert')->willReturn(PriceAlertFixture::getPriceAlert());
+		$priceAlert = PriceAlertFixture::getPriceAlert();
+		$this->priceAlertProvider->method('getPriceAlert')->willReturn($priceAlert);
 
 		$response = $this->priceAlertController->actionGetPriceAlert(
 			$this::createStub(ServerRequestInterface::class),
@@ -158,7 +159,8 @@ final class PriceAlertControllerTest extends TestCase
 
 	public function testDeletePriceAlertReturnsOkResponse(): void
 	{
-		$this->priceAlertProvider->method('getPriceAlert')->willReturn(PriceAlertFixture::getPriceAlert());
+		$priceAlert = PriceAlertFixture::getPriceAlert();
+		$this->priceAlertProvider->method('getPriceAlert')->willReturn($priceAlert);
 
 		$response = $this->priceAlertController->actionDeletePriceAlert(
 			$this::createStub(ServerRequestInterface::class),

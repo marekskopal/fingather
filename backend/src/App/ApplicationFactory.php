@@ -69,6 +69,7 @@ use FinGather\Service\DataCalculator\DcaPlanDataCalculator;
 use FinGather\Service\Dbal\DbContext;
 use FinGather\Service\Goal\GoalChecker;
 use FinGather\Service\Goal\GoalCheckerInterface;
+use FinGather\Service\Logger\Logger;
 use FinGather\Service\Provider\DcaPlanProvider;
 use FinGather\Service\Provider\DcaPlanProviderInterface;
 use FinGather\Service\Provider\GoalProvider;

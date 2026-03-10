@@ -118,7 +118,8 @@ final class DcaPlanControllerTest extends TestCase
 
 	public function testGetDcaPlanReturnsJsonResponse(): void
 	{
-		$this->dcaPlanProvider->method('getDcaPlan')->willReturn(DcaPlanFixture::getDcaPlan());
+		$dcaPlan = DcaPlanFixture::getDcaPlan();
+		$this->dcaPlanProvider->method('getDcaPlan')->willReturn($dcaPlan);
 
 		$response = $this->dcaPlanController->actionGetDcaPlan(
 			$this::createStub(ServerRequestInterface::class),
@@ -190,7 +191,8 @@ final class DcaPlanControllerTest extends TestCase
 
 	public function testDeleteDcaPlanReturnsOkResponse(): void
 	{
-		$this->dcaPlanProvider->method('getDcaPlan')->willReturn(DcaPlanFixture::getDcaPlan());
+		$dcaPlan = DcaPlanFixture::getDcaPlan();
+		$this->dcaPlanProvider->method('getDcaPlan')->willReturn($dcaPlan);
 
 		$response = $this->dcaPlanController->actionDeleteDcaPlan(
 			$this::createStub(ServerRequestInterface::class),

@@ -114,7 +114,8 @@ final class GoalControllerTest extends TestCase
 
 	public function testGetGoalReturnsJsonResponse(): void
 	{
-		$this->goalProvider->method('getGoal')->willReturn(GoalFixture::getGoal());
+		$goal = GoalFixture::getGoal();
+		$this->goalProvider->method('getGoal')->willReturn($goal);
 
 		$response = $this->goalController->actionGetGoal(
 			$this::createStub(ServerRequestInterface::class),
@@ -174,7 +175,8 @@ final class GoalControllerTest extends TestCase
 
 	public function testDeleteGoalReturnsOkResponse(): void
 	{
-		$this->goalProvider->method('getGoal')->willReturn(GoalFixture::getGoal());
+		$goal = GoalFixture::getGoal();
+		$this->goalProvider->method('getGoal')->willReturn($goal);
 
 		$response = $this->goalController->actionDeleteGoal(
 			$this::createStub(ServerRequestInterface::class),

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace FinGather\Dto;
 
-use FinGather\Model\Entity\Enum\UserPlanEnum;
 use FinGather\Model\Entity\Enum\UserRoleEnum;
 use FinGather\Model\Entity\PasswordReset;
 
@@ -16,7 +15,6 @@ use FinGather\Model\Entity\PasswordReset;
  *         name: string,
  *         defaultCurrencyId: int,
  *         role: value-of<UserRoleEnum>,
- *         plan: value-of<UserPlanEnum>,
  *         planExpires: string|null,
  *     },
  *     token: string,
