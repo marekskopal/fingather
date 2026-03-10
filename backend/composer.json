@@ -28,7 +28,7 @@
         "league/route": "^6.1",
         "marekskopal/buggregator-client": "^0.1.0",
         "marekskopal/etoro": "^0.9",
-        "marekskopal/openfigi": "^0.3",
+        "marekskopal/openfigi": "^1.0",
         "marekskopal/orm": "^1.0",
         "marekskopal/orm-decimal": "^1.1",
         "marekskopal/orm-migrations": "^1.0",

@@ -7,8 +7,8 @@ namespace FinGather\Service\Update;
 use FinGather\Model\Repository\MarketRepository;
 use FinGather\Model\Repository\TickerRepository;
 use FinGather\Utils\BatchUtils;
-use MarekSkopal\OpenFigi\Dto\FigiResult;
 use MarekSkopal\OpenFigi\Dto\MappingJob;
+use MarekSkopal\OpenFigi\Dto\MappingJobResult;
 use MarekSkopal\OpenFigi\Enum\IdTypeEnum;
 use MarekSkopal\OpenFigi\OpenFigi;
 
@@ -30,14 +30,14 @@ final readonly class TickerIsinUpdater
 			$batchMappingResults = $this->getBatchMappingResults($batchIsins);
 
 			$j = 0;
-			foreach ($batchMappingResults as $mappingResults) {
-				if ($mappingResults === null) {
+			foreach ($batchMappingResults as $mappingJobResult) {
+				if ($mappingJobResult->data === null) {
 					$j++;
 					continue;
 				}
 
-				foreach ($mappingResults as $mappingResult) {
-					if ($mappingResult->exchCode === null) {
+				foreach ($mappingJobResult->data as $mappingResult) {
+					if ($mappingResult->exchCode === null || $mappingResult->ticker === null) {
 						continue;
 					}
 
@@ -65,7 +65,7 @@ final readonly class TickerIsinUpdater
 
 	/**
 	 * @param list<string> $batchIsins
-	 * @return list<list<FigiResult>|null>
+	 * @return list<MappingJobResult>
 	 */
 	private function getBatchMappingResults(array $batchIsins): array
 	{
