@@ -6,8 +6,12 @@ namespace FinGather\Command;
 
 use DateTimeImmutable;
 use FinGather\App\ApplicationFactory;
+use FinGather\Dto\DividendCalendarItemDto;
 use FinGather\Service\Email\EmailFactory;
 use FinGather\Service\Email\MailerFactory;
+use FinGather\Service\Goal\GoalChecker;
+use FinGather\Service\Provider\DividendCalendarProvider;
+use FinGather\Service\Provider\GoalProvider;
 use FinGather\Service\Provider\PortfolioDataProvider;
 use FinGather\Service\Provider\PortfolioProvider;
 use FinGather\Service\Provider\UserProvider;
@@ -39,6 +43,15 @@ final class EmailPortfolioSummaryCommand extends AbstractCommand
 		$portfolioDataProvider = $application->container->get(PortfolioDataProvider::class);
 		assert($portfolioDataProvider instanceof PortfolioDataProvider);
 
+		$goalProvider = $application->container->get(GoalProvider::class);
+		assert($goalProvider instanceof GoalProvider);
+
+		$goalChecker = $application->container->get(GoalChecker::class);
+		assert($goalChecker instanceof GoalChecker);
+
+		$dividendCalendarProvider = $application->container->get(DividendCalendarProvider::class);
+		assert($dividendCalendarProvider instanceof DividendCalendarProvider);
+
 		$logger = $application->container->get(LoggerInterface::class);
 		assert($logger instanceof LoggerInterface);
 
@@ -66,6 +79,9 @@ final class EmailPortfolioSummaryCommand extends AbstractCommand
 
 		$dateTime = new DateTimeImmutable();
 
+		$previousMonthDate = new DateTimeImmutable('first day of last month');
+		$thirtyDaysLater = $dateTime->modify('+30 days');
+
 		foreach ($users as $user) {
 			if (!$user->isEmailNotificationsEnabled) {
 				$this->writeln('Skipping user ' . $user->id . ' - email notifications disabled.', $output);
@@ -81,7 +97,43 @@ final class EmailPortfolioSummaryCommand extends AbstractCommand
 				$portfolio = $portfolioProvider->getDefaultPortfolio($user);
 				$portfolioData = $portfolioDataProvider->getPortfolioData($user, $portfolio, $dateTime);
 
-				$email = $emailFactory->createPortfolioSummaryEmail(user: $user, portfolio: $portfolio, portfolioData: $portfolioData);
+				try {
+					$previousMonthPortfolioData = $portfolioDataProvider->getPortfolioData($user, $portfolio, $previousMonthDate);
+				} catch (\Throwable) {
+					$previousMonthPortfolioData = null;
+				}
+
+				try {
+					$allDividends = $dividendCalendarProvider->getDividendCalendar($user, $portfolio);
+					$upcomingDividends = array_slice(
+						array_values(array_filter(
+							$allDividends,
+							static fn (DividendCalendarItemDto $d): bool => $d->exDate <= $thirtyDaysLater->format('Y-m-d\TH:i:s\Z'),
+						)),
+						0,
+						5,
+					);
+				} catch (\Throwable) {
+					$upcomingDividends = [];
+				}
+
+				$activeGoalsWithProgress = [];
+				foreach ($goalProvider->getGoals($user, $portfolio) as $goal) {
+					if (!$goal->isActive) {
+						continue;
+					}
+					$currentValue = $goalChecker->getCurrentValue($goal, $dateTime);
+					$activeGoalsWithProgress[] = ['goal' => $goal, 'progress' => $goalChecker->getProgressPercentage($goal, $currentValue)];
+				}
+
+				$email = $emailFactory->createPortfolioSummaryEmail(
+					user: $user,
+					portfolio: $portfolio,
+					portfolioData: $portfolioData,
+					previousMonthPortfolioData: $previousMonthPortfolioData,
+					upcomingDividends: $upcomingDividends,
+					activeGoalsWithProgress: $activeGoalsWithProgress,
+				);
 
 				$mailer->send($email);
 

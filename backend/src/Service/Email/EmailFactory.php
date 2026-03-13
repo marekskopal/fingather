@@ -6,6 +6,7 @@ namespace FinGather\Service\Email;
 
 use FinGather\Dto\EmailVerifyDto;
 use FinGather\Dto\PasswordResetQueueDto;
+use FinGather\Dto\DividendCalendarItemDto;
 use FinGather\Email\GoalEmail;
 use FinGather\Email\PasswordResetEmail;
 use FinGather\Email\PortfolioSummaryEmail;
@@ -67,12 +68,25 @@ final readonly class EmailFactory
 			->html($html);
 	}
 
-	public function createPortfolioSummaryEmail(User $user, Portfolio $portfolio, CalculatedDataDto $portfolioData): Email
-	{
+	/**
+	 * @param list<DividendCalendarItemDto> $upcomingDividends
+	 * @param list<array{goal: Goal, progress: float}> $activeGoalsWithProgress
+	 */
+	public function createPortfolioSummaryEmail(
+		User $user,
+		Portfolio $portfolio,
+		CalculatedDataDto $portfolioData,
+		?CalculatedDataDto $previousMonthPortfolioData,
+		array $upcomingDividends,
+		array $activeGoalsWithProgress,
+	): Email {
 		$html = PortfolioSummaryEmail::getHtml(
 			portfolioName: $portfolio->name,
 			currencySymbol: $portfolio->currency->symbol,
 			portfolioData: $portfolioData,
+			previousMonthPortfolioData: $previousMonthPortfolioData,
+			upcomingDividends: $upcomingDividends,
+			activeGoalsWithProgress: $activeGoalsWithProgress,
 		);
 
 		return new Email()
