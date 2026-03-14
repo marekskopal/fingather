@@ -1,6 +1,6 @@
 import {
     ChangeDetectionStrategy,
-    Component, inject, input, OnDestroy, OnInit,
+    Component, inject, input, OnDestroy, OnInit, signal,
 } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { Alert, AlertType } from '@app/models';
@@ -20,7 +20,7 @@ export class AlertComponent implements OnInit, OnDestroy {
     public id = input<string>('default-alert');
     public fade = input<boolean>(true);
 
-    public alerts: Alert[] = [];
+    public readonly alerts = signal<Alert[]>([]);
     public alertSubscription: Subscription;
     public routeSubscription: Subscription;
 
@@ -31,15 +31,16 @@ export class AlertComponent implements OnInit, OnDestroy {
                 // clear alerts when an empty alert is received
                 if (!alert.message) {
                     // filter out alerts without 'keepAfterRouteChange' flag
-                    this.alerts = this.alerts.filter((x) => x.keepAfterRouteChange);
-
-                    // remove 'keepAfterRouteChange' flag on the rest
-                    this.alerts.forEach((x) => x.keepAfterRouteChange = false);
+                    this.alerts.update((alerts) => {
+                        const kept = alerts.filter((x) => x.keepAfterRouteChange);
+                        kept.forEach((x) => x.keepAfterRouteChange = false);
+                        return kept;
+                    });
                     return;
                 }
 
                 // add alert to array
-                this.alerts.push(alert);
+                this.alerts.update((alerts) => [...alerts, alert]);
 
                 // auto close alert if required
                 if (alert.autoClose) {
@@ -63,19 +64,19 @@ export class AlertComponent implements OnInit, OnDestroy {
 
     public removeAlert(alert: Alert): void {
         // check if already removed to prevent error on auto close
-        if (!this.alerts.includes(alert)) return;
+        if (!this.alerts().includes(alert)) return;
 
         if (this.fade()) {
             // fade out alert
             alert.fade = true;
+            this.alerts.update((alerts) => [...alerts]);
 
             // remove alert after faded out
             setTimeout(() => {
-                this.alerts = this.alerts.filter((x) => x !== alert);
+                this.alerts.update((alerts) => alerts.filter((x) => x !== alert));
             }, 250);
         } else {
-            // remove alert
-            this.alerts = this.alerts.filter((x) => x !== alert);
+            this.alerts.update((alerts) => alerts.filter((x) => x !== alert));
         }
     }
 

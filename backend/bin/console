@@ -6,6 +6,7 @@ declare(strict_types=1);
 require __DIR__ . '/../vendor/autoload.php';
 
 use FinGather\Command\ApiImportPrepareCheckCommand;
+use FinGather\Command\E2eSeedCommand;
 use FinGather\Command\ApiImportProcessCheckCommand;
 use FinGather\Command\BenchmarkPortfolioValueCommand;
 use FinGather\Command\CacheClearCommand;
@@ -29,6 +30,7 @@ use Symfony\Component\Console\Application;
 $application = new Application();
 
 $application->addCommand(new ApiImportPrepareCheckCommand());
+$application->addCommand(new E2eSeedCommand());
 $application->addCommand(new ApiImportProcessCheckCommand());
 $application->addCommand(new BenchmarkPortfolioValueCommand());
 $application->addCommand(new CacheClearCommand());

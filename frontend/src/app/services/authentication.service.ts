@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import {computed, effect, inject, Injectable, signal} from '@angular/core';
+import {computed, inject, Injectable, signal} from '@angular/core';
 import { Router } from '@angular/router';
 import { SignUp } from '@app/models';
 import { Authentication } from '@app/models/authentication';
@@ -20,16 +20,12 @@ export class AuthenticationService {
     private readonly currentUserService = inject(CurrentUserService);
     private readonly storageService = inject(StorageService);
 
-    public authentication = signal<Authentication | null>(null);
+    public authentication = signal<Authentication | null>(
+        this.storageService.get<Authentication>('authentication'),
+    );
     public isLoggedIn = computed<boolean>(
         () => this.authentication() !== null,
     );
-
-    public constructor() {
-        effect(() => {
-            this.authentication.set(this.storageService.get<Authentication>('authentication'));
-        });
-    }
 
     public async login(email: string, password: string): Promise<Authentication> {
         const authentication = await firstValueFrom<Authentication>(

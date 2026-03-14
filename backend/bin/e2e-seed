@@ -1,0 +1,14 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+require __DIR__ . '/../vendor/autoload.php';
+
+use FinGather\Command\E2eSeedCommand;
+use Symfony\Component\Console\Application;
+
+$application = new Application();
+$application->addCommand(new E2eSeedCommand());
+$application->setDefaultCommand('e2e:seed', true);
+$application->run();

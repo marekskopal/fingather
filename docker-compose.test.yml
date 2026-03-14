@@ -1,0 +1,110 @@
+services:
+    db-test:
+        image: mariadb:11.4
+        environment:
+            MYSQL_ROOT_PASSWORD: fingather_test
+            MYSQL_DATABASE: fingather_test
+            MYSQL_USER: fingather_test
+            MYSQL_PASSWORD: fingather_test
+        networks:
+            - backend-test
+        tmpfs:
+            - /var/lib/mysql   # ephemeral — data is lost on container stop
+
+    rabbitmq-test:
+        image: rabbitmq:4.2.3-alpine
+        environment:
+            RABBITMQ_DEFAULT_USER: fingather_test
+            RABBITMQ_DEFAULT_PASS: fingather_test
+        networks:
+            - backend-test
+
+    memcached-test:
+        image: memcached:1.6.40-alpine
+        networks:
+            - backend-test
+
+    redis-test:
+        image: redis:8.6.0-alpine
+        command: redis-server --save "" --loglevel warning --requirepass fingather_test
+        networks:
+            - backend-test
+
+    backend-test:
+        build:
+            context: ./backend
+            dockerfile: Dockerfile
+        environment:
+            PROXY_HOST: localhost
+            PROXY_PORT_SSL: 7297
+            MYSQL_HOST: db-test
+            MYSQL_DATABASE: fingather_test
+            MYSQL_USER: fingather_test
+            MYSQL_PASSWORD: fingather_test
+            BACKEND_FRANKENPHP_WORKERS: 4
+            BACKEND_AMQP_CONSUMER_PREFETCH: 4
+            BACKEND_CORS_ALLOWED_ORIGIN: "http://localhost:4200"
+            BACKEND_CORS_ALLOWED_HEADERS: "*"
+            BACKEND_CORS_ALLOWED_METHODS: GET,POST,PUT,DELETE,OPTIONS
+            BACKEND_CORS_ALLOWED_CREDENTIALS: "true"
+            BACKEND_LOG_LEVEL: error
+            RABBITMQ_HOST: rabbitmq-test
+            RABBITMQ_PORT: 5672
+            RABBITMQ_USER: fingather_test
+            RABBITMQ_PASSWORD: fingather_test
+            MEMCACHED_HOST: memcached-test
+            MEMCACHED_PORT: 11211
+            REDIS_HOST: redis-test
+            REDIS_PORT: 6379
+            REDIS_PASSWORD: fingather_test
+            SMTP_HOST: localhost
+            SMTP_PORT: 1025
+            SMTP_USER: ""
+            SMTP_PASSWORD: ""
+            PROFILER_ENABLE: "0"
+            PROFILER_ENDPOINT: ""
+            AUTHORIZATION_TOKEN_KEY: test-token-key-32-chars-minimum!!
+            ALPHAVANTAGE_API_KEY: ""
+            TWELVEDATA_API_KEY: ""
+            TWELVEDATA_CALENDAR_MAX_API_CALLS_PER_MINUTE: "0"
+            EMAIL_FROM: "FinGather Test<noreply@fingather.test>"
+            GOOGLE_CLIENT_ID: ""
+            GOOGLE_IOS_CLIENT_ID: ""
+            STRIPE_PUBLIC_KEY: ""
+            STRIPE_SECRET_KEY: ""
+        ports:
+            - "127.0.0.1:7297:80"
+        volumes:
+            - fingather_test_logs:/app/log
+        depends_on:
+            - db-test
+            - rabbitmq-test
+            - memcached-test
+            - redis-test
+        networks:
+            - backend-test
+        healthcheck:
+            test: ["CMD", "curl", "-sf", "http://localhost/api/health"]
+            interval: 10s
+            timeout: 5s
+            retries: 10
+            start_period: 30s
+
+    frontend-test:
+        build:
+            context: ./frontend
+            dockerfile: Dockerfile
+        ports:
+            - "127.0.0.1:4201:443"
+        depends_on:
+            - backend-test
+        networks:
+            - backend-test
+
+networks:
+    backend-test:
+        name: backend-test
+
+volumes:
+    fingather_test_logs:
+        name: fingather_test_logs

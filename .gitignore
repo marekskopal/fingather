@@ -1,5 +1,8 @@
 .idea
 .env
+.env.test
 fingather_data
 log
 docker-compose.override.yml
+.claude/settings.local.json
+/.playwright-mcp/

@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --ssl --open",
+    "start:e2e": "ng serve --configuration e2e",
     "build": "ng build",
     "build-prod": "ng build --configuration production",
     "test": "vitest run",
@@ -11,7 +12,9 @@
     "test:coverage": "vitest run --coverage",
     "lint": "ng lint && stylelint src/**/*.scss",
     "lint-fix": "ng lint --fix && stylelint src/**/*.scss --fix",
-    "e2e": "ng e2e",
+    "e2e": "playwright test",
+    "e2e:ui": "playwright test --ui",
+    "e2e:headed": "playwright test --headed",
     "analyze": "webpack-bundle-analyzer dist/fingather/stats.json"
   },
   "private": true,
@@ -50,6 +53,7 @@
     "@angular/cli": "^21.2.0",
     "@angular/compiler-cli": "^21.2.0",
     "@babel/runtime": "^7.28.6",
+    "@playwright/test": "^1.58.2",
     "@typescript-eslint/eslint-plugin": "^8.56.1",
     "@typescript-eslint/parser": "^8.56.1",
     "@vitest/coverage-v8": "^3.2.4",

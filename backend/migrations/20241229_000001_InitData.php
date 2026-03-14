@@ -55,11 +55,11 @@ final class InitDataMigration extends Migration
 		]);
 
 		$this->table('users')->insert([
-			['id' => 1, 'email' => 'admin@fingather.com', 'password' => '$2y$10$Gv6vVjtQsz2n/1zk.wbyKOOON7ThrnpzJ0U7xJAUNHSE.4dJSyvSS', 'name' => 'FinGather Admin', 'default_currency_id' => 5, 'role' => 'Admin'],
+			['id' => 1, 'email' => 'admin@fingather.com', 'password' => '$2y$10$Gv6vVjtQsz2n/1zk.wbyKOOON7ThrnpzJ0U7xJAUNHSE.4dJSyvSS', 'name' => 'FinGather Admin', 'role' => 'Admin'],
 		]);
 
 		$this->table('portfolios')->insert([
-			['id' => 1, 'user_id' => 1, 'name' => 'My Portfolio', 'is_default' => true],
+			['id' => 1, 'user_id' => 1, 'currency_id' => 1, 'name' => 'My Portfolio', 'is_default' => true],
 		]);
 
 		$this->table('markets')->insert([
