@@ -1,4 +1,5 @@
 export enum ColorEnum {
+    colorWhite = '#ffffff',
     colorGrayLighter = '#454545',
     colorGrayLightest = '#b0b0b0',
     colorChart1 = '#ee78fa',

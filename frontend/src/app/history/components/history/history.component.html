@@ -79,3 +79,67 @@
         </div>
     </div>
 </div>
+
+<div class="risk-overview mt-5">
+    <h2 class="h4 risk-overview-title">{{ 'app.history.risk.title' | translate }}</h2>
+
+    @if (riskLoading()) {
+        <div class="risk-metrics">
+            @for (i of [1, 2, 3, 4]; track i) {
+                <div class="card risk-metric-card">
+                    <div class="card-header">
+                        <span class="icon-circle icon-circle-small"></span>
+                        <span class="skeleton skeleton-line skeleton-line-strong"></span>
+                    </div>
+                    <div class="card-body">
+                        <span class="skeleton skeleton-value"></span>
+                    </div>
+                </div>
+            }
+        </div>
+    } @else if (riskError()) {
+        <div class="card">
+            <div class="card-body risk-error">{{ 'app.history.risk.error' | translate }}</div>
+        </div>
+    } @else if (riskData() !== null) {
+        <fingather-risk-metrics
+            [riskData]="riskData()!"
+            [hasBenchmark]="benchmarkTickerId() !== null"
+        />
+
+        @if (riskData()!.correlationLabels.length > 1) {
+            <div class="card mt-3">
+                <div class="card-header">
+                    <span class="icon-circle icon-circle-small">
+                        <mat-icon>scatter_plot</mat-icon>
+                    </span>
+                    <h3 class="h6">{{ 'app.history.risk.diversification' | translate }}</h3>
+                    <fingather-help [text]="'app.history.risk.diversificationHelp' | translate" />
+
+                    <div
+                        class="sampling-frequency"
+                        role="group"
+                        [attr.aria-label]="'app.history.risk.samplingFrequency' | translate"
+                    >
+                        @for (option of samplingOptions; track option.value) {
+                            <button
+                                type="button"
+                                class="sampling-frequency-option"
+                                [class.active]="samplingFrequency() === option.value"
+                                (click)="changeSamplingFrequency(option.value)"
+                            >
+                                {{ option.label | translate }}
+                            </button>
+                        }
+                    </div>
+                </div>
+                <div class="card-body">
+                    <fingather-correlation-heatmap
+                        [riskData]="riskData()!"
+                        [samplingFrequency]="samplingFrequency()"
+                    />
+                </div>
+            </div>
+        }
+    }
+</div>

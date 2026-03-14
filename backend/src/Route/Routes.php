@@ -93,6 +93,7 @@ enum Routes: string
 
 	case PortfolioData = '/api/portfolio-data/{portfolioId:number}';
 	case PortfolioDataRange = '/api/portfolio-data-range/{portfolioId:number}';
+	case PortfolioRiskData = '/api/portfolio-risk-data/{portfolioId:number}';
 
 	case SectorsWithSectorData = '/api/sectors-with-sector-data/{portfolioId:number}';
 

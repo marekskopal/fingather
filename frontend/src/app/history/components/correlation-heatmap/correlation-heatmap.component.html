@@ -1,0 +1,36 @@
+<div class="correlation-heatmap">
+    @if (diversificationScore(); as score) {
+        <div class="diversification-score-value">
+            {{ score.levelKey | translate }}
+            <fingather-help [text]="score.detailKey | translate" />
+            <span class="diversification-score-number">({{ score.value.toFixed(2) }})</span>
+        </div>
+    }
+
+    @if (riskData().correlationLabels.length > 0) {
+        <div class="correlation-heatmap-chart" role="img" aria-label="Correlation heatmap of holdings">
+            <fingather-legend
+                class="correlation-heatmap-legend"
+                [legendItems]="legendItems()"
+                (itemClick)="toggleLegendItem($event)"
+            />
+
+            <apx-chart
+                [series]="chartOptions().series"
+                [chart]="chartOptions().chart"
+                [dataLabels]="chartOptions().dataLabels"
+                [plotOptions]="chartOptions().plotOptions"
+                [xaxis]="chartOptions().xaxis"
+                [yaxis]="chartOptions().yaxis"
+                [colors]="chartOptions().colors"
+                [legend]="chartOptions().legend"
+                [stroke]="chartOptions().stroke"
+                [grid]="chartOptions().grid"
+            />
+        </div>
+    } @else {
+        <div class="correlation-heatmap-empty">
+            {{ 'app.history.risk.correlationNoData' | translate }}
+        </div>
+    }
+</div>

@@ -14,7 +14,7 @@
             [colors]="chartOptions.colors"
         />
     } @else {
-        <span class="spinner-border spinner-border-sm mr-1"></span>
+        <div class="skeleton skeleton-chart-placeholder" [style.height]="height()" aria-hidden="true"></div>
     }
 </div>
 

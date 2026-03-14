@@ -1,6 +1,16 @@
-﻿<div class="legend">
+<div class="legend">
     @for (legendItem of legendItems(); track $index) {
-        <div class="legend-item">
+        <div
+            class="legend-item"
+            [class.legend-item-interactive]="legendItem.interactive"
+            [class.legend-item-inactive]="legendItem.inactive"
+            [attr.role]="legendItem.interactive ? 'button' : null"
+            [attr.tabindex]="legendItem.interactive ? 0 : null"
+            [attr.aria-pressed]="legendItem.interactive ? !legendItem.inactive : null"
+            (click)="onItemClick(legendItem)"
+            (keydown.enter)="onItemClick(legendItem); $event.preventDefault()"
+            (keydown.space)="onItemClick(legendItem); $event.preventDefault()"
+        >
             <div>
                 <span
                     class="legend-color"

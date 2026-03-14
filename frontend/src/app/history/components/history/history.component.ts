@@ -1,14 +1,25 @@
 import {
     ChangeDetectionStrategy, Component, computed, DestroyRef, inject, OnInit, signal,
 } from '@angular/core';
-import { Asset, BenchmarkAsset } from '@app/models';
+import { MatIcon } from '@angular/material/icon';
+import {
+    CorrelationHeatmapComponent,
+} from '@app/history/components/correlation-heatmap/correlation-heatmap.component';
+import {
+    RiskMetricsComponent,
+} from '@app/history/components/risk-metrics/risk-metrics.component';
+import { Asset, BenchmarkAsset, PortfolioRiskData } from '@app/models';
 import { RangeEnum } from '@app/models/enums/range-enum';
-import { AssetService, BenchmarkAssetService, PortfolioService } from '@app/services';
+import { SamplingFrequencyEnum } from '@app/models/enums/sampling-frequency-enum';
+import {
+    AssetService, BenchmarkAssetService, PortfolioRiskDataService, PortfolioService,
+} from '@app/services';
 import {AssetSelectorComponent} from "@app/shared/components/asset-selector/asset-selector.component";
 import {
     BenchmarkAssetSelectorComponent,
 } from "@app/shared/components/benchmark-asset-selector/benchmark-asset-selector.component";
 import {DateInputComponent} from "@app/shared/components/date-input/date-input.component";
+import { HelpComponent } from '@app/shared/components/help/help.component';
 import {LegendComponent} from "@app/shared/components/legend/legend.component";
 import {LegendItem} from "@app/shared/components/legend/types/legend-item";
 import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selector/portfolio-selector.component";
@@ -30,6 +41,10 @@ import { TranslatePipe} from "@ngx-translate/core";
         PortfolioValueChartComponent,
         ScrollShadowDirective,
         DateInputComponent,
+        RiskMetricsComponent,
+        CorrelationHeatmapComponent,
+        MatIcon,
+        HelpComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -37,6 +52,7 @@ export class HistoryComponent implements OnInit {
     private readonly assetService = inject(AssetService);
     private readonly benchmarkAssetService = inject(BenchmarkAssetService);
     private readonly portfolioService = inject(PortfolioService);
+    private readonly portfolioRiskDataService = inject(PortfolioRiskDataService);
     private readonly destroyRef = inject(DestroyRef);
 
     protected activeRange: RangeEnum = RangeEnum.YTD;
@@ -46,6 +62,17 @@ export class HistoryComponent implements OnInit {
     protected readonly fixedBenchmarkAssets = signal<BenchmarkAsset[]>([]);
     protected readonly benchmarkAssetId = signal<number | null>(null);
     protected readonly benchmarkTickerId = signal<number | null>(null);
+    protected readonly riskData = signal<PortfolioRiskData | null>(null);
+    protected readonly riskLoading = signal<boolean>(false);
+    protected readonly riskError = signal<boolean>(false);
+    protected readonly samplingFrequency = signal<SamplingFrequencyEnum>(SamplingFrequencyEnum.Weekly);
+    protected samplingFrequencyManuallySet = false;
+
+    protected readonly samplingOptions: { value: SamplingFrequencyEnum, label: string }[] = [
+        { value: SamplingFrequencyEnum.Daily, label: 'app.history.risk.samplingDaily' },
+        { value: SamplingFrequencyEnum.Weekly, label: 'app.history.risk.samplingWeekly' },
+        { value: SamplingFrequencyEnum.Monthly, label: 'app.history.risk.samplingMonthly' },
+    ];
 
     protected ranges: {range: RangeEnum, text: string, number: number | null}[] = [
         {range: RangeEnum.SevenDays, text: 'app.history.history.d', number: 7},
@@ -86,12 +113,36 @@ export class HistoryComponent implements OnInit {
     })
 
     public async ngOnInit(): Promise<void> {
+        this.applyDefaultSamplingForRange();
+
         this.refreshAssets();
         this.loadFixedBenchmarkAssets();
+        this.refreshRiskData();
 
         this.portfolioService.subscribe(() => {
             this.refreshAssets();
+            this.refreshRiskData();
         }, this.destroyRef);
+    }
+
+    private applyDefaultSamplingForRange(): void {
+        if (this.samplingFrequencyManuallySet) {
+            return;
+        }
+
+        // Defaults: < 3M → Daily, ≥ 3M & not All → Weekly, All → Monthly.
+        const shortRanges = new Set<RangeEnum>([
+            RangeEnum.SevenDays, RangeEnum.OneMonth, RangeEnum.Custom,
+        ]);
+        let frequency: SamplingFrequencyEnum;
+        if (shortRanges.has(this.activeRange)) {
+            frequency = SamplingFrequencyEnum.Daily;
+        } else if (this.activeRange === RangeEnum.All) {
+            frequency = SamplingFrequencyEnum.Monthly;
+        } else {
+            frequency = SamplingFrequencyEnum.Weekly;
+        }
+        this.samplingFrequency.set(frequency);
     }
 
     private async loadFixedBenchmarkAssets(): Promise<void> {
@@ -108,8 +159,32 @@ export class HistoryComponent implements OnInit {
         this.assets.set(assets);
     }
 
+    private async refreshRiskData(): Promise<void> {
+        this.riskLoading.set(true);
+        this.riskError.set(false);
+
+        try {
+            const portfolio = await this.portfolioService.getCurrentPortfolio();
+            const data = await this.portfolioRiskDataService.getPortfolioRiskData(
+                portfolio.id,
+                this.activeRange,
+                this.samplingFrequency(),
+                this.benchmarkTickerId(),
+                this.customRangeFrom,
+                this.customRangeTo,
+            );
+            this.riskData.set(data);
+        } catch {
+            this.riskError.set(true);
+        } finally {
+            this.riskLoading.set(false);
+        }
+    }
+
     protected changeActiveRange(activeRange: RangeEnum): void {
         this.activeRange = activeRange;
+        this.applyDefaultSamplingForRange();
+        this.refreshRiskData();
     }
 
     protected changeCustomRangeFrom(event: Event): void {
@@ -117,6 +192,8 @@ export class HistoryComponent implements OnInit {
 
         const target = event.target as HTMLInputElement;
         this.customRangeFrom = target.value;
+        this.applyDefaultSamplingForRange();
+        this.refreshRiskData();
     }
 
     protected changeCustomRangeTo(event: Event): void {
@@ -124,17 +201,28 @@ export class HistoryComponent implements OnInit {
 
         const target = event.target as HTMLInputElement;
         this.customRangeTo = target.value;
+        this.applyDefaultSamplingForRange();
+        this.refreshRiskData();
+    }
+
+    protected changeSamplingFrequency(frequency: SamplingFrequencyEnum): void {
+        this.samplingFrequencyManuallySet = true;
+        this.samplingFrequency.set(frequency);
+        this.refreshRiskData();
     }
 
     protected changeBenchmarkAsset(asset: Asset): void {
         this.benchmarkTickerId.set(null);
         this.benchmarkAssetId.set(asset.id);
+        this.refreshRiskData();
     }
 
     protected selectFixedBenchmark(benchmarkAsset: BenchmarkAsset): void {
         this.benchmarkAssetId.set(null);
         this.benchmarkTickerId.set(benchmarkAsset.ticker.id);
+        this.refreshRiskData();
     }
 
     protected readonly RangeEnum = RangeEnum;
+    protected readonly SamplingFrequencyEnum = SamplingFrequencyEnum;
 }

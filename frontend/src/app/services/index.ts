@@ -18,6 +18,7 @@ export * from './notify-service';
 export * from './overview.service';
 export * from './portfolio.service';
 export * from './portfolio-data.service';
+export * from './portfolio-risk-data.service';
 export * from './portfolio-tax-settings.service';
 export * from './price-alert.service';
 export * from './storage.service';

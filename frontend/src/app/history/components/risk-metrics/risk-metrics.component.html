@@ -1,0 +1,58 @@
+<div class="risk-metrics">
+    <div class="card risk-metric-card">
+        <div class="card-header">
+            <span class="icon-circle icon-circle-small">
+                <mat-icon>show_chart</mat-icon>
+            </span>
+            <h3 class="h6">{{ 'app.history.risk.priceSwings' | translate }}</h3>
+            <fingather-help [text]="'app.history.risk.priceSwingsHelp' | translate" />
+        </div>
+        <div class="card-body">
+            <span class="value h3">{{ riskData().volatility | number: '1.2-2' }}%</span>
+        </div>
+    </div>
+
+    <div class="card risk-metric-card">
+        <div class="card-header">
+            <span class="icon-circle icon-circle-small">
+                <mat-icon>trending_down</mat-icon>
+            </span>
+            <h3 class="h6">{{ 'app.history.risk.worstDip' | translate }}</h3>
+            <fingather-help [text]="'app.history.risk.worstDipHelp' | translate" />
+        </div>
+        <div class="card-body">
+            <span class="value h3">{{ riskData().maxDrawdown | number: '1.2-2' }}%</span>
+        </div>
+    </div>
+
+    <div class="card risk-metric-card">
+        <div class="card-header">
+            <span class="icon-circle icon-circle-small">
+                <mat-icon>balance</mat-icon>
+            </span>
+            <h3 class="h6">{{ 'app.history.risk.rewardVsRisk' | translate }}</h3>
+            <fingather-help [text]="'app.history.risk.rewardVsRiskHelp' | translate" />
+        </div>
+        <div class="card-body">
+            <span class="value h3">{{ riskData().sharpeRatio | number: '1.2-2' }}</span>
+        </div>
+    </div>
+
+    <div class="card risk-metric-card">
+        <div class="card-header">
+            <span class="icon-circle icon-circle-small">
+                <mat-icon>compare_arrows</mat-icon>
+            </span>
+            <h3 class="h6">{{ 'app.history.risk.marketSensitivity' | translate }}</h3>
+            <fingather-help [text]="'app.history.risk.marketSensitivityHelp' | translate" />
+        </div>
+        <div class="card-body">
+            @if (hasBenchmark()) {
+                <span class="value h3">{{ riskData().beta | number: '1.2-2' }}</span>
+            } @else {
+                <span class="value h3 risk-metric-value-muted">—</span>
+                <div class="risk-metric-hint">{{ 'app.history.risk.selectBenchmark' | translate }}</div>
+            }
+        </div>
+    </div>
+</div>

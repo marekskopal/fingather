@@ -10,6 +10,12 @@
     border-radius: $border-radius;
 }
 
+.skeleton-chart-placeholder {
+    display: block;
+    width: 100%;
+    min-height: 120px;
+}
+
 .portfolio-total {
     display: grid;
     grid-template-columns: 1fr;

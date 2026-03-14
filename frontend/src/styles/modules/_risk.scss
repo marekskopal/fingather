@@ -1,0 +1,140 @@
+.risk-overview {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+}
+
+.risk-overview-title {
+    margin: 0;
+}
+
+.sampling-frequency {
+    display: inline-flex;
+    align-items: center;
+    margin-left: auto;
+    border: 1px solid $color-gray-lighter;
+    border-radius: $border-radius;
+    overflow: hidden;
+    background-color: $color-gray-darker;
+}
+
+.sampling-frequency-option {
+    appearance: none;
+    border: 0;
+    background-color: transparent;
+    color: $color-gray-lightest;
+    padding: $spacing-xs $spacing-md;
+    font-size: $font-size-sm;
+    line-height: $line-height-sm;
+    cursor: pointer;
+    transition: background-color 150ms ease, color 150ms ease;
+
+    & + .sampling-frequency-option {
+        border-left: 1px solid $color-gray-lighter;
+    }
+
+    &:hover {
+        background-color: $color-gray-light;
+        color: $color-white;
+    }
+
+    &.active {
+        background-color: $primary;
+        color: $color-white;
+    }
+}
+
+.risk-metrics {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-md;
+
+    @include media-breakpoint-up(sm) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include media-breakpoint-up(xl) {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .risk-metric-card {
+        min-width: 0;
+
+        .card-body {
+            gap: $spacing-xs;
+        }
+
+        .value {
+            white-space: nowrap;
+        }
+
+        .risk-metric-value-muted {
+            color: $color-gray-lightest;
+        }
+
+        .risk-metric-hint {
+            font-size: $font-size-xs;
+            line-height: $line-height-xs;
+            color: $color-gray-8;
+        }
+
+        .skeleton-value {
+            display: block;
+            height: 32px;
+            width: 65%;
+        }
+    }
+}
+
+.risk-error {
+    color: $color-red;
+}
+
+.correlation-heatmap {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+
+    .diversification-score-value {
+        display: flex;
+        align-items: center;
+        gap: $spacing-xs;
+        font-size: $h5-font-size;
+        line-height: $h5-line-height;
+        color: $color-white;
+
+        fingather-help .help {
+            margin-top: 0;
+        }
+    }
+
+    .diversification-score-number {
+        color: $color-gray-lightest;
+        font-size: $font-size-sm;
+    }
+
+    .correlation-heatmap-chart {
+        background-color: $color-gray-darker;
+        border-radius: $border-radius-lg;
+        padding: $spacing-sm;
+    }
+
+    .correlation-heatmap-legend {
+        display: flex;
+        justify-content: center;
+        margin-bottom: $spacing-sm;
+
+        .legend {
+            margin-left: 0;
+            padding-left: 16px;
+        }
+    }
+
+    .correlation-heatmap-empty {
+        padding: $spacing-lg;
+        border-radius: $border-radius-lg;
+        background-color: $color-gray-darker;
+        color: $color-gray-lightest;
+        text-align: center;
+    }
+}
