@@ -15,6 +15,20 @@ docker compose up -d --build              # Full stack
 docker compose --profile dev up -d        # With DB admin tools (Adminer, Buggregator)
 ```
 
+## Testing
+
+Root `Makefile` orchestrates all test suites:
+
+```bash
+make test           # All tests: unit (parallel) + e2e
+make test-unit      # Backend + frontend unit tests in parallel
+make test-backend   # PHPUnit only (no docker needed — pure unit tests)
+make test-frontend  # Vitest only
+make test-e2e       # Starts docker test stack → Playwright → tears down
+make test-env-up    # docker compose -f docker-compose.test.yml up -d --build --wait
+make test-env-down  # docker compose -f docker-compose.test.yml down
+```
+
 ## External APIs
 
 - **TwelveData**: Stock/crypto data (required API key in `.env`)
