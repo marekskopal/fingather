@@ -112,7 +112,7 @@ export class AddEditGoalComponent extends BaseAddEditForm implements OnInit {
     }
 
     private async createGoal(): Promise<void> {
-        await this.goalService.createGoal(this.form.value);
+        await this.goalService.createGoal(this.form.value.portfolioId, this.form.value);
 
         this.alertService.success('Goal added successfully', { keepAfterRouteChange: true });
         this.goalService.notify();

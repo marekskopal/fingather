@@ -80,12 +80,16 @@ final readonly class GoalController
 	}
 
 	#[RoutePost(Routes::Goals->value)]
-	public function actionPostGoal(ServerRequestInterface $request): ResponseInterface
+	public function actionPostGoal(ServerRequestInterface $request, int $portfolioId): ResponseInterface
 	{
+		if ($portfolioId < 1) {
+			return new NotFoundResponse('Portfolio id is required.');
+		}
+
 		$user = $this->requestService->getUser($request);
 		$dto = $this->requestService->getRequestBodyDto($request, GoalCreateDto::class);
 
-		$portfolio = $this->portfolioProvider->getPortfolio($user, $dto->portfolioId);
+		$portfolio = $this->portfolioProvider->getPortfolio($user, $portfolioId);
 		if ($portfolio === null) {
 			return new NotFoundResponse('Portfolio with id "' . $dto->portfolioId . '" was not found.');
 		}

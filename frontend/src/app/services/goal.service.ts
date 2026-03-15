@@ -18,8 +18,8 @@ export class GoalService extends NotifyService {
         return firstValueFrom<Goal>(this.http.get<Goal>(`${environment.apiUrl}/goal/${id}`));
     }
 
-    public createGoal(goal: Partial<Goal>): Promise<Goal> {
-        return firstValueFrom<Goal>(this.http.post<Goal>(`${environment.apiUrl}/goals`, goal));
+    public createGoal(portfolioId: number, goal: Partial<Goal>): Promise<Goal> {
+        return firstValueFrom<Goal>(this.http.post<Goal>(`${environment.apiUrl}/goals/${portfolioId}`, goal));
     }
 
     public updateGoal(id: number, goal: Partial<Goal>): Promise<Goal> {

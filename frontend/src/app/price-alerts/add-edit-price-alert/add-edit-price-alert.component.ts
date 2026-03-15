@@ -82,6 +82,7 @@ export class AddEditPriceAlertComponent extends BaseAddEditForm implements OnIni
             cooldownHours: [24],
             portfolioId: [null],
             tickerId: [null],
+            isActive: [true],
         });
 
         await this.loadPortfolios();
