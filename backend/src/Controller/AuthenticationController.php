@@ -70,10 +70,15 @@ final readonly class AuthenticationController
 	{
 		$refreshToken = $this->requestService->getRequestBodyDto($request, RefreshTokenDto::class);
 
+		$tokenKey = getenv('AUTHORIZATION_TOKEN_KEY');
+		if ($tokenKey === false || $tokenKey === '') {
+			throw new \RuntimeException('AUTHORIZATION_TOKEN_KEY environment variable is not configured.');
+		}
+
 		try {
 			$decodedRefreshToken = JWT::decode(
 				$refreshToken->refreshToken,
-				new Key((string) getenv('AUTHORIZATION_TOKEN_KEY'), AuthenticationService::TokenAlgorithm),
+				new Key($tokenKey, AuthenticationService::TokenAlgorithm),
 			);
 		} catch (ExpiredException) {
 			return new NotAuthorizedResponse('RefreshToken is expired.');
