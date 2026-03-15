@@ -65,10 +65,10 @@ final class PortfolioSummaryEmail
 
 		$date = $portfolioData->date->format('F Y');
 
-		$tdLabelStyle = 'style=' . $fontStyleTable . $colorGray . 'padding: 8px 16px 8px 0;';
-		$tdValueStyle = 'style=' . $fontStyleTable . $colorWhite . 'padding: 8px 0; text-align: right;';
-		$tdLabelStyleLarge = 'style=' . $fontStyleTableLarge . $colorGray . 'padding: 12px 16px 12px 0;';
-		$tdValueStyleLarge = 'style=' . $fontStyleTableLarge . $colorWhite . 'padding: 12px 0; text-align: right;';
+		$tdLabelStyle = 'style="' . $fontStyleTable . $colorGray . 'padding: 8px 16px 8px 0;"';
+		$tdValueStyle = 'style="' . $fontStyleTable . $colorWhite . 'padding: 8px 0; text-align: right;"';
+		$tdLabelStyleLarge = 'style="' . $fontStyleTableLarge . $colorGray . 'padding: 12px 16px 12px 0;"';
+		$tdValueStyleLarge = 'style="' . $fontStyleTableLarge . $colorWhite . 'padding: 12px 0; text-align: right;"';
 
 		$monthChangeRowData = self::getMonthChangeRow(
 			currencySymbol: $currencySymbol,
@@ -191,7 +191,7 @@ HTML;
 			2,
 		) . ' %)';
 
-		$tdLabelStyle = 'style=' . $fontStyleTable . $colorGray . 'padding: 8px 16px 8px 0;';
+		$tdLabelStyle = 'style="' . $fontStyleTable . $colorGray . 'padding: 8px 16px 8px 0;"';
 
 		$html = <<<HTML
 			<tr>

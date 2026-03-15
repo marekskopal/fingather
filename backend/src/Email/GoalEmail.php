@@ -44,8 +44,8 @@ final class GoalEmail
 
 		$portfolioName = $goal->portfolio->name;
 
-		$tdLabelStyle = 'style=' . $fontStyleTable . $colorGray . 'padding: 8px 16px 8px 0;';
-		$tdValueStyle = 'style=' . $fontStyleTable . $colorWhite . 'padding: 8px 0; text-align: right;';
+		$tdLabelStyle = 'style="' . $fontStyleTable . $colorGray . 'padding: 8px 16px 8px 0;"';
+		$tdValueStyle = 'style="' . $fontStyleTable . $colorWhite . 'padding: 8px 0; text-align: right;"';
 
 		$deadlineRow = '';
 		if ($goal->deadline !== null) {

@@ -56,8 +56,8 @@ final class PriceAlertEmail
 			$conditionText = $t['gainWent'] . ' ' . $conditionLabel . ' ' . $targetFormatted;
 		}
 
-		$tdLabelStyle = 'style=' . $fontStyleTable . $colorGray . 'padding: 8px 16px 8px 0;';
-		$tdValueStyle = 'style=' . $fontStyleTable . $colorWhite . 'padding: 8px 0; text-align: right;';
+		$tdLabelStyle = 'style="' . $fontStyleTable . $colorGray . 'padding: 8px 16px 8px 0;"';
+		$tdValueStyle = 'style="' . $fontStyleTable . $colorWhite . 'padding: 8px 0; text-align: right;"';
 
 		return <<<HTML
 <html>
