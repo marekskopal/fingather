@@ -28,11 +28,9 @@ use FinGather\Service\Provider\CurrencyProvider;
 use FinGather\Service\Provider\PasswordResetProvider;
 use FinGather\Service\Provider\UserProvider;
 use FinGather\Service\Request\RequestService;
-use Firebase\JWT\BeforeValidException;
 use Firebase\JWT\ExpiredException;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
-use Firebase\JWT\SignatureInvalidException;
 use Laminas\Diactoros\Response\JsonResponse;
 use MarekSkopal\Router\Attribute\RouteGet;
 use MarekSkopal\Router\Attribute\RoutePost;
@@ -82,7 +80,7 @@ final readonly class AuthenticationController
 			);
 		} catch (ExpiredException) {
 			return new NotAuthorizedResponse('RefreshToken is expired.');
-		} catch (SignatureInvalidException | BeforeValidException | \UnexpectedValueException | \InvalidArgumentException | \DomainException) {
+		} catch (\UnexpectedValueException | \InvalidArgumentException | \DomainException) {
 			return new NotAuthorizedResponse('Invalid RefreshToken.');
 		}
 

@@ -112,7 +112,6 @@ final class E2eSeedCommand extends AbstractCommand
 		$userProvider->onboardingCompleteUser($user);
 
 		$portfolio = $portfolioProvider->getDefaultPortfolio($user);
-		assert($portfolio !== null, 'Default portfolio should be created on user creation');
 
 		$othersGroup = $groupProvider->getOthersGroup($user, $portfolio);
 
@@ -120,9 +119,10 @@ final class E2eSeedCommand extends AbstractCommand
 		//    which would otherwise call the TwelveData splits API
 		$this->writeln('Creating assets and transactions...', $output);
 
-		$stmt = $pdo->prepare(
-			'INSERT INTO `assets` (`user_id`, `portfolio_id`, `ticker_id`, `group_id`) VALUES (?, ?, ?, ?)',
-		);
+		$stmt = $pdo->prepare('INSERT INTO `assets` (`user_id`, `portfolio_id`, `ticker_id`, `group_id`) VALUES (?, ?, ?, ?)');
+		if ($stmt === false) {
+			throw new \RuntimeException('Failed to prepare asset insert statement.');
+		}
 
 		foreach ([self::TickerAapl, self::TickerMsft, self::TickerNvda] as $tickerId) {
 			$ticker = $tickerProvider->getTicker($tickerId);
@@ -133,11 +133,7 @@ final class E2eSeedCommand extends AbstractCommand
 
 			$stmt->execute([$user->id, $portfolio->id, $ticker->id, $othersGroup->id]);
 
-			$asset = $assetRepository->findAssetByTickerId(
-				tickerId: $ticker->id,
-				userId: $user->id,
-				portfolioId: $portfolio->id,
-			);
+			$asset = $assetRepository->findAssetByTickerId(tickerId: $ticker->id, userId: $user->id, portfolioId: $portfolio->id);
 			assert($asset !== null);
 
 			foreach ([
