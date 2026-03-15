@@ -106,7 +106,6 @@ final class E2eSeedCommand extends AbstractCommand
 			name: self::TestName,
 			defaultCurrency: $usd,
 			role: UserRoleEnum::User,
-			plan: UserPlanEnum::Free,
 			isEmailVerified: true,
 			locale: LocaleEnum::En,
 		);
