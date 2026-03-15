@@ -18,7 +18,8 @@ final class TranslationsTest extends TestCase
 	public static function localeProvider(): array
 	{
 		$locales = [];
-		foreach (glob(self::TranslationsDir . '/*.json') as $file) {
+		$files = glob(self::TranslationsDir . '/*.json');
+		foreach ($files !== false ? $files : [] as $file) {
 			$locale = basename($file, '.json');
 			if ($locale !== 'en') {
 				$locales[$locale] = [$locale];
@@ -86,7 +87,10 @@ final class TranslationsTest extends TestCase
 			if (!array_key_exists($key, $actual)) {
 				$missing[] = $fullKey;
 			} elseif (is_array($value) && is_array($actual[$key])) {
-				$missing = array_merge($missing, $this->findMissingKeys($value, $actual[$key], $fullKey));
+				/** @var array<string, mixed> $value */
+				/** @var array<string, mixed> $nestedActual */
+				$nestedActual = $actual[$key];
+				$missing = array_merge($missing, $this->findMissingKeys($value, $nestedActual, $fullKey));
 			}
 		}
 		return $missing;

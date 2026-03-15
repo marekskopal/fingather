@@ -43,7 +43,8 @@ final class TranslatorServiceTest extends TestCase
 
 	protected function tearDown(): void
 	{
-		array_map('unlink', glob($this->translationsDir . '/*.json') ?: []);
+		$files = glob($this->translationsDir . '/*.json');
+		array_map('unlink', $files !== false ? $files : []);
 		rmdir($this->translationsDir);
 	}
 
