@@ -8,103 +8,15 @@ use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Dto\DividendCalendarItemDto;
 use FinGather\Model\Entity\Enum\GoalTypeEnum;
-use FinGather\Model\Entity\Enum\LocaleEnum;
 use FinGather\Model\Entity\Goal;
 use FinGather\Service\DataCalculator\Dto\CalculatedDataDto;
 
 final class PortfolioSummaryEmail
 {
-	private const array Translations = [
-		'en' => [
-			'title' => 'Monthly Portfolio Summary',
-			'portfolioValue' => 'Portfolio Value',
-			'investedValue' => 'Invested Value',
-			'gainLoss' => 'Gain/Loss',
-			'dividendYield' => 'Dividend Yield',
-			'totalReturn' => 'Total Return',
-			'monthChange' => 'Month Change',
-			'upcomingDividends' => 'Upcoming Dividends',
-			'next30Days' => 'Next 30 days',
-			'goalProgress' => 'Goal Progress',
-			'portfolioValueGoal' => 'Portfolio Value',
-			'returnGoal' => 'Return',
-			'investedGoal' => 'Invested',
-			'due' => 'due',
-			'auto' => 'This email was sent automatically. You can disable email notifications in your account settings.',
-		],
-		'cs' => [
-			'title' => 'Měsíční přehled portfolia',
-			'portfolioValue' => 'Hodnota portfolia',
-			'investedValue' => 'Investovaná hodnota',
-			'gainLoss' => 'Zisk/Ztráta',
-			'dividendYield' => 'Dividendový výnos',
-			'totalReturn' => 'Celkový výnos',
-			'monthChange' => 'Měsíční změna',
-			'upcomingDividends' => 'Nadcházející dividendy',
-			'next30Days' => 'Příštích 30 dní',
-			'goalProgress' => 'Průběh cílů',
-			'portfolioValueGoal' => 'Hodnota portfolia',
-			'returnGoal' => 'Výnos',
-			'investedGoal' => 'Investováno',
-			'due' => 'termín',
-			'auto' => 'Tento e-mail byl odeslán automaticky. Emailová upozornění můžete vypnout v nastavení účtu.',
-		],
-		'de' => [
-			'title' => 'Monatliche Portfolio-Zusammenfassung',
-			'portfolioValue' => 'Portfolio-Wert',
-			'investedValue' => 'Investierter Wert',
-			'gainLoss' => 'Gewinn/Verlust',
-			'dividendYield' => 'Dividendenrendite',
-			'totalReturn' => 'Gesamtrendite',
-			'monthChange' => 'Monatsveränderung',
-			'upcomingDividends' => 'Bevorstehende Dividenden',
-			'next30Days' => 'Nächste 30 Tage',
-			'goalProgress' => 'Zielfortschritt',
-			'portfolioValueGoal' => 'Portfolio-Wert',
-			'returnGoal' => 'Rendite',
-			'investedGoal' => 'Investiert',
-			'due' => 'fällig',
-			'auto' => 'Diese E-Mail wurde automatisch gesendet. Sie können E-Mail-Benachrichtigungen in Ihren Kontoeinstellungen deaktivieren.',
-		],
-		'es' => [
-			'title' => 'Resumen mensual del portafolio',
-			'portfolioValue' => 'Valor del portafolio',
-			'investedValue' => 'Valor invertido',
-			'gainLoss' => 'Ganancia/Pérdida',
-			'dividendYield' => 'Rendimiento de dividendos',
-			'totalReturn' => 'Retorno total',
-			'monthChange' => 'Cambio mensual',
-			'upcomingDividends' => 'Próximos dividendos',
-			'next30Days' => 'Próximos 30 días',
-			'goalProgress' => 'Progreso de metas',
-			'portfolioValueGoal' => 'Valor del portafolio',
-			'returnGoal' => 'Retorno',
-			'investedGoal' => 'Invertido',
-			'due' => 'vence',
-			'auto' => 'Este correo electrónico fue enviado automáticamente. Puedes desactivar las notificaciones por correo electrónico en la configuración de tu cuenta.',
-		],
-		'fr' => [
-			'title' => 'Résumé mensuel du portefeuille',
-			'portfolioValue' => 'Valeur du portefeuille',
-			'investedValue' => 'Valeur investie',
-			'gainLoss' => 'Gain/Perte',
-			'dividendYield' => 'Rendement des dividendes',
-			'totalReturn' => 'Rendement total',
-			'monthChange' => 'Variation mensuelle',
-			'upcomingDividends' => 'Dividendes à venir',
-			'next30Days' => '30 prochains jours',
-			'goalProgress' => 'Progression des objectifs',
-			'portfolioValueGoal' => 'Valeur du portefeuille',
-			'returnGoal' => 'Rendement',
-			'investedGoal' => 'Investi',
-			'due' => 'échéance',
-			'auto' => 'Cet e-mail a été envoyé automatiquement. Vous pouvez désactiver les notifications par e-mail dans les paramètres de votre compte.',
-		],
-	];
-
 	/**
 	 * @param list<DividendCalendarItemDto> $upcomingDividends
 	 * @param list<array{goal: Goal, progress: float}> $activeGoalsWithProgress
+	 * @param array<string, string> $t
 	 */
 	public static function getHtml(
 		string $portfolioName,
@@ -113,10 +25,8 @@ final class PortfolioSummaryEmail
 		?CalculatedDataDto $previousMonthPortfolioData,
 		array $upcomingDividends,
 		array $activeGoalsWithProgress,
-		LocaleEnum $locale = LocaleEnum::En,
+		array $t,
 	): string {
-		$t = self::Translations[$locale->value];
-
 		$colorGray = 'color: #b0b0b0';
 		$colorWhite = 'color: #ffffff';
 		$colorGreen = 'color: #a4e04f';

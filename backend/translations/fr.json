@@ -1,0 +1,75 @@
+{
+    "email": {
+        "subject": {
+            "passwordReset": "FinGather - R\u00e9initialisez votre mot de passe.",
+            "emailVerify": "FinGather - V\u00e9rifiez votre e-mail.",
+            "priceAlert": "FinGather - Alerte de prix d\u00e9clench\u00e9e",
+            "goalAchieved": "FinGather - Objectif atteint !",
+            "portfolioSummary": "FinGather - R\u00e9sum\u00e9 mensuel du portefeuille"
+        },
+        "verify": {
+            "hi": "Bonjour,",
+            "intro": "Merci de vous \u00eatre inscrit sur <b style=\"{colorWhite}\">FinGather</b> \u2013 votre outil de suivi de portefeuille ultime. Nous sommes ravis de vous accueillir !",
+            "action": "Pour finaliser votre inscription, <b style=\"{colorWhite}\">veuillez confirmer votre e-mail</b> en cliquant sur le lien ci-dessous :",
+            "features": "Une fois votre e-mail confirm\u00e9, vous aurez un acc\u00e8s complet \u00e0 toutes les fonctionnalit\u00e9s de <b>FinGather</b>, notamment la gestion de vos actifs, le suivi des gains et des rendements, et la g\u00e9n\u00e9ration de rapports de portefeuille d\u00e9taill\u00e9s.",
+            "support": "Si vous avez des questions ou besoin d'aide, n'h\u00e9sitez pas \u00e0 nous contacter.",
+            "thanks": "Merci de nous faire confiance pour votre parcours d'investissement,",
+            "team": "L'\u00e9quipe FinGather",
+            "auto": "Cet e-mail a \u00e9t\u00e9 envoy\u00e9 automatiquement."
+        },
+        "passwordReset": {
+            "hi": "Bonjour,",
+            "intro": "Nous avons re\u00e7u une demande de r\u00e9initialisation du mot de passe de votre compte <b style=\"{colorWhite}\">FinGather</b>.",
+            "action": "Pour r\u00e9initialiser votre mot de passe, cliquez sur le lien ci-dessous. Le lien est valable <b style=\"{colorWhite}\">24 heures</b>.",
+            "ignore": "Si vous n'avez pas demand\u00e9 de r\u00e9initialisation de mot de passe, vous pouvez ignorer cet e-mail en toute s\u00e9curit\u00e9. Votre mot de passe ne sera pas modifi\u00e9.",
+            "team": "L'\u00e9quipe FinGather",
+            "auto": "Cet e-mail a \u00e9t\u00e9 envoy\u00e9 automatiquement."
+        },
+        "priceAlert": {
+            "priceAlert": "Alerte de prix",
+            "portfolioAlert": "Alerte de portefeuille",
+            "above": "au-dessus de",
+            "below": "en dessous de",
+            "targetPrice": "Prix cible",
+            "currentPrice": "Prix actuel",
+            "targetGain": "Gain cible %",
+            "currentGain": "Gain actuel %",
+            "priceWent": "Le prix est pass\u00e9",
+            "gainWent": "Le gain est pass\u00e9",
+            "condition": "Condition",
+            "auto": "Cet e-mail a \u00e9t\u00e9 envoy\u00e9 automatiquement. Vous pouvez d\u00e9sactiver les notifications par e-mail dans les param\u00e8tres de votre compte."
+        },
+        "goal": {
+            "portfolioValueGoal": "Objectif de valeur du portefeuille",
+            "returnPercentageGoal": "Objectif de rendement %",
+            "investedAmountGoal": "Objectif de montant investi",
+            "targetPortfolioValue": "Valeur cible du portefeuille",
+            "targetReturn": "Rendement cible %",
+            "targetInvested": "Montant investi cible",
+            "currentPortfolioValue": "Valeur actuelle du portefeuille",
+            "currentReturn": "Rendement actuel %",
+            "currentInvested": "Montant investi actuel",
+            "achieved": "Atteint !",
+            "reached": "Votre objectif a \u00e9t\u00e9 atteint.",
+            "deadline": "\u00c9ch\u00e9ance",
+            "auto": "Cet e-mail a \u00e9t\u00e9 envoy\u00e9 automatiquement. Vous pouvez d\u00e9sactiver les notifications par e-mail dans les param\u00e8tres de votre compte."
+        },
+        "portfolioSummary": {
+            "title": "R\u00e9sum\u00e9 mensuel du portefeuille",
+            "portfolioValue": "Valeur du portefeuille",
+            "investedValue": "Valeur investie",
+            "gainLoss": "Gain/Perte",
+            "dividendYield": "Rendement des dividendes",
+            "totalReturn": "Rendement total",
+            "monthChange": "Variation mensuelle",
+            "upcomingDividends": "Dividendes \u00e0 venir",
+            "next30Days": "30 prochains jours",
+            "goalProgress": "Progression des objectifs",
+            "portfolioValueGoal": "Valeur du portefeuille",
+            "returnGoal": "Rendement",
+            "investedGoal": "Investi",
+            "due": "\u00e9ch\u00e9ance",
+            "auto": "Cet e-mail a \u00e9t\u00e9 envoy\u00e9 automatiquement. Vous pouvez d\u00e9sactiver les notifications par e-mail dans les param\u00e8tres de votre compte."
+        }
+    }
+}

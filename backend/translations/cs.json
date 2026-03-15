@@ -1,0 +1,75 @@
+{
+    "email": {
+        "subject": {
+            "passwordReset": "FinGather - Resetujte sv\u00e9 heslo.",
+            "emailVerify": "FinGather - Ov\u011b\u0159te sv\u016fj e-mail.",
+            "priceAlert": "FinGather - Cenov\u00e9 upozorn\u011bn\u00ed aktivov\u00e1no",
+            "goalAchieved": "FinGather - C\u00edl dosa\u017een!",
+            "portfolioSummary": "FinGather - M\u011bs\u00ed\u010dn\u00ed p\u0159ehled portfolia"
+        },
+        "verify": {
+            "hi": "Ahoj,",
+            "intro": "D\u011bkujeme za registraci do <b style=\"{colorWhite}\">FinGather</b> \u2013 va\u0161eho dokonal\u00e9ho sledova\u010de portfolia. Jsme r\u00e1di, \u017ee jste s n\u00e1mi!",
+            "action": "Chcete-li dokon\u010dit registraci, <b style=\"{colorWhite}\">potvrďte pros\u00edm sv\u016fj e-mail</b> kliknut\u00edm na odkaz n\u00ed\u017ee:",
+            "features": "Po potvrzen\u00ed e-mailu budete m\u00edt pln\u00fd p\u0159\u00edstup ke v\u0161em funkc\u00edm <b>FinGather</b>, v\u010detn\u011b spr\u00e1vy aktiv, sledov\u00e1n\u00ed zisku a v\u00fdnos\u016f a generov\u00e1n\u00ed podrobn\u00fdch zpr\u00e1v o portfoliu.",
+            "support": "Pokud m\u00e1te jak\u00e9koli dotazy nebo pot\u0159ebujete pomoc, nev\u00e1hejte n\u00e1s kontaktovat.",
+            "thanks": "D\u011bkujeme, \u017ee n\u00e1m sv\u011b\u0159ujete svou investi\u010dn\u00ed cestu,",
+            "team": "T\u00fdm FinGather",
+            "auto": "Tento e-mail byl odesl\u00e1n automaticky."
+        },
+        "passwordReset": {
+            "hi": "Ahoj,",
+            "intro": "Obdr\u017eeli jsme \u017e\u00e1dost o reset hesla pro v\u00e1\u0161 \u00fa\u010det <b style=\"{colorWhite}\">FinGather</b>.",
+            "action": "Pro reset hesla klikn\u011bte na odkaz n\u00ed\u017ee. Odkaz je platn\u00fd po dobu <b style=\"{colorWhite}\">24 hodin</b>.",
+            "ignore": "Pokud jste o reset hesla ne\u017e\u00e1dali, m\u016f\u017eete tento e-mail bezpe\u010dn\u011b ignorovat. Va\u0161e heslo nebude zm\u011bn\u011bno.",
+            "team": "T\u00fdm FinGather",
+            "auto": "Tento e-mail byl odesl\u00e1n automaticky."
+        },
+        "priceAlert": {
+            "priceAlert": "Cenov\u00e9 upozorn\u011bn\u00ed",
+            "portfolioAlert": "Upozorn\u011bn\u00ed portfolia",
+            "above": "nad",
+            "below": "pod",
+            "targetPrice": "C\u00edlov\u00e1 cena",
+            "currentPrice": "Aktu\u00e1ln\u00ed cena",
+            "targetGain": "C\u00edlov\u00fd zisk %",
+            "currentGain": "Aktu\u00e1ln\u00ed zisk %",
+            "priceWent": "Cena p\u0159e\u0161la",
+            "gainWent": "Zisk p\u0159e\u0161el",
+            "condition": "Podm\u00ednka",
+            "auto": "Tento e-mail byl odesl\u00e1n automaticky. Emailov\u00e1 upozorn\u011bn\u00ed m\u016f\u017eete vypnout v nastaven\u00ed \u00fa\u010dtu."
+        },
+        "goal": {
+            "portfolioValueGoal": "C\u00edl hodnoty portfolia",
+            "returnPercentageGoal": "C\u00edl v\u00fdnosu %",
+            "investedAmountGoal": "C\u00edl investovan\u00e9 \u010d\u00e1stky",
+            "targetPortfolioValue": "C\u00edlov\u00e1 hodnota portfolia",
+            "targetReturn": "C\u00edlov\u00fd v\u00fdnos %",
+            "targetInvested": "C\u00edlov\u00e1 investovan\u00e1 \u010d\u00e1stka",
+            "currentPortfolioValue": "Aktu\u00e1ln\u00ed hodnota portfolia",
+            "currentReturn": "Aktu\u00e1ln\u00ed v\u00fdnos %",
+            "currentInvested": "Aktu\u00e1ln\u00ed investovan\u00e1 \u010d\u00e1stka",
+            "achieved": "Dosa\u017eeno!",
+            "reached": "V\u00e1\u0161 c\u00edl byl dosa\u017een.",
+            "deadline": "Term\u00edn",
+            "auto": "Tento e-mail byl odesl\u00e1n automaticky. Emailov\u00e1 upozorn\u011bn\u00ed m\u016f\u017eete vypnout v nastaven\u00ed \u00fa\u010dtu."
+        },
+        "portfolioSummary": {
+            "title": "M\u011bs\u00ed\u010dn\u00ed p\u0159ehled portfolia",
+            "portfolioValue": "Hodnota portfolia",
+            "investedValue": "Investovan\u00e1 hodnota",
+            "gainLoss": "Zisk/Ztr\u00e1ta",
+            "dividendYield": "Dividendov\u00fd v\u00fdnos",
+            "totalReturn": "Celkov\u00fd v\u00fdnos",
+            "monthChange": "M\u011bs\u00ed\u010dn\u00ed zm\u011bna",
+            "upcomingDividends": "Nad\u00e1vaj\u00edc\u00ed dividendy",
+            "next30Days": "P\u0159\u00ed\u0161t\u00edch 30 dn\u00ed",
+            "goalProgress": "Pr\u016fb\u011bh c\u00edl\u016f",
+            "portfolioValueGoal": "Hodnota portfolia",
+            "returnGoal": "V\u00fdnos",
+            "investedGoal": "Investov\u00e1no",
+            "due": "term\u00edn",
+            "auto": "Tento e-mail byl odesl\u00e1n automaticky. Emailov\u00e1 upozorn\u011bn\u00ed m\u016f\u017eete vypnout v nastaven\u00ed \u00fa\u010dtu."
+        }
+    }
+}

@@ -79,6 +79,7 @@ use FinGather\Service\Request\RequestService;
 use FinGather\Service\Request\RequestServiceInterface;
 use FinGather\Service\Task\TaskService;
 use FinGather\Service\Task\TaskServiceInterface;
+use FinGather\Service\Translator\TranslatorService;
 use Http\Discovery\Psr17FactoryDiscovery;
 use League\Container\Container;
 use League\Container\ReflectionContainer;
@@ -149,6 +150,15 @@ final class ApplicationFactory
 		);
 
 		self::initializeOrmContainer($container, $dbContext);
+
+		$container->add(TranslatorService::class, static function () use ($container): TranslatorService {
+			$cacheFactory = $container->get(CacheFactory::class);
+			assert($cacheFactory instanceof CacheFactory);
+			return new TranslatorService(
+				translationsDir: __DIR__ . '/../../translations',
+				cache: $cacheFactory->create(namespace: 'translator'),
+			);
+		});
 
 		$container->add(RequestServiceInterface::class, fn () => new RequestService());
 		$container->add(TaskServiceInterface::class, fn () => new TaskService());

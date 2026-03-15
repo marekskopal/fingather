@@ -1,0 +1,75 @@
+{
+    "email": {
+        "subject": {
+            "passwordReset": "FinGather - Passwort zur\u00fccksetzen.",
+            "emailVerify": "FinGather - E-Mail best\u00e4tigen.",
+            "priceAlert": "FinGather - Kursalarm ausgel\u00f6st",
+            "goalAchieved": "FinGather - Ziel erreicht!",
+            "portfolioSummary": "FinGather - Monatliche Portfolio-Zusammenfassung"
+        },
+        "verify": {
+            "hi": "Hallo,",
+            "intro": "Vielen Dank f\u00fcr Ihre Registrierung bei <b style=\"{colorWhite}\">FinGather</b> \u2013 Ihrem ultimativen Portfolio-Tracker. Wir freuen uns, Sie an Bord zu haben!",
+            "action": "Um Ihre Registrierung abzuschlie\u00dfen, <b style=\"{colorWhite}\">best\u00e4tigen Sie bitte Ihre E-Mail</b> durch Klicken auf den unten stehenden Link:",
+            "features": "Nach der Best\u00e4tigung Ihrer E-Mail haben Sie vollen Zugriff auf alle <b>FinGather</b>-Funktionen, einschlie\u00dflich der Verwaltung Ihrer Assets, der Verfolgung von Gewinnen und Renditen sowie der Erstellung detaillierter Portfolio-Berichte.",
+            "support": "Wenn Sie Fragen haben oder Hilfe ben\u00f6tigen, z\u00f6gern Sie nicht, uns zu kontaktieren.",
+            "thanks": "Vielen Dank, dass Sie uns Ihre Investitionsreise anvertrauen,",
+            "team": "Das FinGather-Team",
+            "auto": "Diese E-Mail wurde automatisch gesendet."
+        },
+        "passwordReset": {
+            "hi": "Hallo,",
+            "intro": "Wir haben eine Anfrage erhalten, das Passwort f\u00fcr Ihr <b style=\"{colorWhite}\">FinGather</b>-Konto zur\u00fcckzusetzen.",
+            "action": "Um Ihr Passwort zur\u00fcckzusetzen, klicken Sie auf den untenstehenden Link. Der Link ist <b style=\"{colorWhite}\">24 Stunden</b> g\u00fcltig.",
+            "ignore": "Wenn Sie keine Passwortzur\u00fccksetzung angefordert haben, k\u00f6nnen Sie diese E-Mail ignorieren. Ihr Passwort wird nicht ge\u00e4ndert.",
+            "team": "Das FinGather-Team",
+            "auto": "Diese E-Mail wurde automatisch gesendet."
+        },
+        "priceAlert": {
+            "priceAlert": "Kursalarm",
+            "portfolioAlert": "Portfolio-Alarm",
+            "above": "\u00fcber",
+            "below": "unter",
+            "targetPrice": "Zielkurs",
+            "currentPrice": "Aktueller Kurs",
+            "targetGain": "Zielgewinn %",
+            "currentGain": "Aktueller Gewinn %",
+            "priceWent": "Kurs ging",
+            "gainWent": "Gewinn ging",
+            "condition": "Bedingung",
+            "auto": "Diese E-Mail wurde automatisch gesendet. Sie k\u00f6nnen E-Mail-Benachrichtigungen in Ihren Kontoeinstellungen deaktivieren."
+        },
+        "goal": {
+            "portfolioValueGoal": "Portfolio-Wert Ziel",
+            "returnPercentageGoal": "Rendite % Ziel",
+            "investedAmountGoal": "Investierter Betrag Ziel",
+            "targetPortfolioValue": "Ziel-Portfolio-Wert",
+            "targetReturn": "Zielrendite %",
+            "targetInvested": "Ziel investierter Betrag",
+            "currentPortfolioValue": "Aktueller Portfolio-Wert",
+            "currentReturn": "Aktuelle Rendite %",
+            "currentInvested": "Aktuell investierter Betrag",
+            "achieved": "Erreicht!",
+            "reached": "Ihr Ziel wurde erreicht.",
+            "deadline": "Frist",
+            "auto": "Diese E-Mail wurde automatisch gesendet. Sie k\u00f6nnen E-Mail-Benachrichtigungen in Ihren Kontoeinstellungen deaktivieren."
+        },
+        "portfolioSummary": {
+            "title": "Monatliche Portfolio-Zusammenfassung",
+            "portfolioValue": "Portfolio-Wert",
+            "investedValue": "Investierter Wert",
+            "gainLoss": "Gewinn/Verlust",
+            "dividendYield": "Dividendenrendite",
+            "totalReturn": "Gesamtrendite",
+            "monthChange": "Monatsvera\u0308nderung",
+            "upcomingDividends": "Bevorstehende Dividenden",
+            "next30Days": "N\u00e4chste 30 Tage",
+            "goalProgress": "Zielfortschritt",
+            "portfolioValueGoal": "Portfolio-Wert",
+            "returnGoal": "Rendite",
+            "investedGoal": "Investiert",
+            "due": "f\u00e4llig",
+            "auto": "Diese E-Mail wurde automatisch gesendet. Sie k\u00f6nnen E-Mail-Benachrichtigungen in Ihren Kontoeinstellungen deaktivieren."
+        }
+    }
+}

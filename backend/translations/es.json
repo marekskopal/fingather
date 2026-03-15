@@ -1,0 +1,75 @@
+{
+    "email": {
+        "subject": {
+            "passwordReset": "FinGather - Restablece tu contrase\u00f1a.",
+            "emailVerify": "FinGather - Verifica tu correo electr\u00f3nico.",
+            "priceAlert": "FinGather - Alerta de precio activada",
+            "goalAchieved": "FinGather - \u00a1Meta alcanzada!",
+            "portfolioSummary": "FinGather - Resumen mensual del portafolio"
+        },
+        "verify": {
+            "hi": "Hola,",
+            "intro": "Gracias por registrarte en <b style=\"{colorWhite}\">FinGather</b> \u2013 tu rastreador de portafolio definitivo. \u00a1Estamos emocionados de tenerte a bordo!",
+            "action": "Para completar tu registro, <b style=\"{colorWhite}\">por favor confirma tu correo electr\u00f3nico</b> haciendo clic en el enlace de abajo:",
+            "features": "Una vez que confirmes tu correo electr\u00f3nico, tendr\u00e1s acceso completo a todas las funciones de <b>FinGather</b>, incluyendo la gesti\u00f3n de tus activos, el seguimiento de ganancias y rendimientos, y la generaci\u00f3n de informes detallados de portafolio.",
+            "support": "Si tienes alguna pregunta o necesitas ayuda, no dudes en contactarnos.",
+            "thanks": "Gracias por confiar en nosotros con tu viaje de inversi\u00f3n,",
+            "team": "El equipo de FinGather",
+            "auto": "Este correo electr\u00f3nico fue enviado autom\u00e1ticamente."
+        },
+        "passwordReset": {
+            "hi": "Hola,",
+            "intro": "Recibimos una solicitud para restablecer la contrase\u00f1a de tu cuenta de <b style=\"{colorWhite}\">FinGather</b>.",
+            "action": "Para restablecer tu contrase\u00f1a, haz clic en el enlace de abajo. El enlace es v\u00e1lido durante <b style=\"{colorWhite}\">24 horas</b>.",
+            "ignore": "Si no solicitaste un restablecimiento de contrase\u00f1a, puedes ignorar este correo electr\u00f3nico de forma segura. Tu contrase\u00f1a no cambiar\u00e1.",
+            "team": "El equipo de FinGather",
+            "auto": "Este correo electr\u00f3nico fue enviado autom\u00e1ticamente."
+        },
+        "priceAlert": {
+            "priceAlert": "Alerta de precio",
+            "portfolioAlert": "Alerta de portafolio",
+            "above": "por encima de",
+            "below": "por debajo de",
+            "targetPrice": "Precio objetivo",
+            "currentPrice": "Precio actual",
+            "targetGain": "Ganancia objetivo %",
+            "currentGain": "Ganancia actual %",
+            "priceWent": "El precio fue",
+            "gainWent": "La ganancia fue",
+            "condition": "Condici\u00f3n",
+            "auto": "Este correo electr\u00f3nico fue enviado autom\u00e1ticamente. Puedes desactivar las notificaciones por correo electr\u00f3nico en la configuraci\u00f3n de tu cuenta."
+        },
+        "goal": {
+            "portfolioValueGoal": "Meta de valor de portafolio",
+            "returnPercentageGoal": "Meta de retorno %",
+            "investedAmountGoal": "Meta de monto invertido",
+            "targetPortfolioValue": "Valor objetivo del portafolio",
+            "targetReturn": "Retorno objetivo %",
+            "targetInvested": "Monto invertido objetivo",
+            "currentPortfolioValue": "Valor actual del portafolio",
+            "currentReturn": "Retorno actual %",
+            "currentInvested": "Monto invertido actual",
+            "achieved": "\u00a1Logrado!",
+            "reached": "Tu meta ha sido alcanzada.",
+            "deadline": "Fecha l\u00edmite",
+            "auto": "Este correo electr\u00f3nico fue enviado autom\u00e1ticamente. Puedes desactivar las notificaciones por correo electr\u00f3nico en la configuraci\u00f3n de tu cuenta."
+        },
+        "portfolioSummary": {
+            "title": "Resumen mensual del portafolio",
+            "portfolioValue": "Valor del portafolio",
+            "investedValue": "Valor invertido",
+            "gainLoss": "Ganancia/P\u00e9rdida",
+            "dividendYield": "Rendimiento de dividendos",
+            "totalReturn": "Retorno total",
+            "monthChange": "Cambio mensual",
+            "upcomingDividends": "Pr\u00f3ximos dividendos",
+            "next30Days": "Pr\u00f3ximos 30 d\u00edas",
+            "goalProgress": "Progreso de metas",
+            "portfolioValueGoal": "Valor del portafolio",
+            "returnGoal": "Retorno",
+            "investedGoal": "Invertido",
+            "due": "vence",
+            "auto": "Este correo electr\u00f3nico fue enviado autom\u00e1ticamente. Puedes desactivar las notificaciones por correo electr\u00f3nico en la configuraci\u00f3n de tu cuenta."
+        }
+    }
+}

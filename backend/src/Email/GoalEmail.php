@@ -5,93 +5,13 @@ declare(strict_types=1);
 namespace FinGather\Email;
 
 use FinGather\Model\Entity\Enum\GoalTypeEnum;
-use FinGather\Model\Entity\Enum\LocaleEnum;
 use FinGather\Model\Entity\Goal;
 
 final class GoalEmail
 {
-	private const array Translations = [
-		'en' => [
-			'portfolioValueGoal' => 'Portfolio Value Goal',
-			'returnPercentageGoal' => 'Return % Goal',
-			'investedAmountGoal' => 'Invested Amount Goal',
-			'targetPortfolioValue' => 'Target Portfolio Value',
-			'targetReturn' => 'Target Return %',
-			'targetInvested' => 'Target Invested Amount',
-			'currentPortfolioValue' => 'Current Portfolio Value',
-			'currentReturn' => 'Current Return %',
-			'currentInvested' => 'Current Invested Amount',
-			'achieved' => 'Achieved!',
-			'reached' => 'Your goal has been reached.',
-			'deadline' => 'Deadline',
-			'auto' => 'This email was sent automatically. You can disable email notifications in your account settings.',
-		],
-		'cs' => [
-			'portfolioValueGoal' => 'Cíl hodnoty portfolia',
-			'returnPercentageGoal' => 'Cíl výnosu %',
-			'investedAmountGoal' => 'Cíl investované částky',
-			'targetPortfolioValue' => 'Cílová hodnota portfolia',
-			'targetReturn' => 'Cílový výnos %',
-			'targetInvested' => 'Cílová investovaná částka',
-			'currentPortfolioValue' => 'Aktuální hodnota portfolia',
-			'currentReturn' => 'Aktuální výnos %',
-			'currentInvested' => 'Aktuální investovaná částka',
-			'achieved' => 'Dosaženo!',
-			'reached' => 'Váš cíl byl dosažen.',
-			'deadline' => 'Termín',
-			'auto' => 'Tento e-mail byl odeslán automaticky. Emailová upozornění můžete vypnout v nastavení účtu.',
-		],
-		'de' => [
-			'portfolioValueGoal' => 'Portfolio-Wert Ziel',
-			'returnPercentageGoal' => 'Rendite % Ziel',
-			'investedAmountGoal' => 'Investierter Betrag Ziel',
-			'targetPortfolioValue' => 'Ziel-Portfolio-Wert',
-			'targetReturn' => 'Zielrendite %',
-			'targetInvested' => 'Ziel investierter Betrag',
-			'currentPortfolioValue' => 'Aktueller Portfolio-Wert',
-			'currentReturn' => 'Aktuelle Rendite %',
-			'currentInvested' => 'Aktuell investierter Betrag',
-			'achieved' => 'Erreicht!',
-			'reached' => 'Ihr Ziel wurde erreicht.',
-			'deadline' => 'Frist',
-			'auto' => 'Diese E-Mail wurde automatisch gesendet. Sie können E-Mail-Benachrichtigungen in Ihren Kontoeinstellungen deaktivieren.',
-		],
-		'es' => [
-			'portfolioValueGoal' => 'Meta de valor de portafolio',
-			'returnPercentageGoal' => 'Meta de retorno %',
-			'investedAmountGoal' => 'Meta de monto invertido',
-			'targetPortfolioValue' => 'Valor objetivo del portafolio',
-			'targetReturn' => 'Retorno objetivo %',
-			'targetInvested' => 'Monto invertido objetivo',
-			'currentPortfolioValue' => 'Valor actual del portafolio',
-			'currentReturn' => 'Retorno actual %',
-			'currentInvested' => 'Monto invertido actual',
-			'achieved' => '¡Logrado!',
-			'reached' => 'Tu meta ha sido alcanzada.',
-			'deadline' => 'Fecha límite',
-			'auto' => 'Este correo electrónico fue enviado automáticamente. Puedes desactivar las notificaciones por correo electrónico en la configuración de tu cuenta.',
-		],
-		'fr' => [
-			'portfolioValueGoal' => 'Objectif de valeur du portefeuille',
-			'returnPercentageGoal' => 'Objectif de rendement %',
-			'investedAmountGoal' => 'Objectif de montant investi',
-			'targetPortfolioValue' => 'Valeur cible du portefeuille',
-			'targetReturn' => 'Rendement cible %',
-			'targetInvested' => 'Montant investi cible',
-			'currentPortfolioValue' => 'Valeur actuelle du portefeuille',
-			'currentReturn' => 'Rendement actuel %',
-			'currentInvested' => 'Montant investi actuel',
-			'achieved' => 'Atteint !',
-			'reached' => 'Votre objectif a été atteint.',
-			'deadline' => 'Échéance',
-			'auto' => 'Cet e-mail a été envoyé automatiquement. Vous pouvez désactiver les notifications par e-mail dans les paramètres de votre compte.',
-		],
-	];
-
-	public static function getHtml(Goal $goal, string $currentValue, LocaleEnum $locale = LocaleEnum::En): string
+	/** @param array<string, string> $t */
+	public static function getHtml(Goal $goal, string $currentValue, array $t): string
 	{
-		$t = self::Translations[$locale->value];
-
 		$colorGray = 'color: #b0b0b0';
 		$colorWhite = 'color: #ffffff';
 		$colorGreen = 'color: #a4e04f';

@@ -1,0 +1,75 @@
+{
+    "email": {
+        "subject": {
+            "passwordReset": "FinGather - Reset your password.",
+            "emailVerify": "FinGather - Verify your email.",
+            "priceAlert": "FinGather - Price Alert Triggered",
+            "goalAchieved": "FinGather - Goal Achieved!",
+            "portfolioSummary": "FinGather - Monthly Portfolio Summary"
+        },
+        "verify": {
+            "hi": "Hi,",
+            "intro": "Thank you for registering with <b style=\"{colorWhite}\">FinGather</b> \u2013 your ultimate portfolio tracker. We're excited to have you on board!",
+            "action": "To complete your registration, <b style=\"{colorWhite}\">please confirm your email</b> by clicking the link below:",
+            "features": "Once your email is confirmed, you'll have full access to all <b>FinGather</b> features, including managing your assets, tracking gain and returns, and generating detailed portfolio reports.",
+            "support": "If you have any questions or need assistance, feel free to reach out to us.",
+            "thanks": "Thank you for trusting us with your investment journey,",
+            "team": "The FinGather Team",
+            "auto": "This email was sent automatically."
+        },
+        "passwordReset": {
+            "hi": "Hi,",
+            "intro": "We received a request to reset the password for your <b style=\"{colorWhite}\">FinGather</b> account.",
+            "action": "To reset your password, click the link below. The link is valid for <b style=\"{colorWhite}\">24 hours</b>.",
+            "ignore": "If you did not request a password reset, you can safely ignore this email. Your password will not be changed.",
+            "team": "The FinGather Team",
+            "auto": "This email was sent automatically."
+        },
+        "priceAlert": {
+            "priceAlert": "Price Alert",
+            "portfolioAlert": "Portfolio Alert",
+            "above": "above",
+            "below": "below",
+            "targetPrice": "Target Price",
+            "currentPrice": "Current Price",
+            "targetGain": "Target Gain %",
+            "currentGain": "Current Gain %",
+            "priceWent": "Price went",
+            "gainWent": "Gain went",
+            "condition": "Condition",
+            "auto": "This email was sent automatically. You can disable email notifications in your account settings."
+        },
+        "goal": {
+            "portfolioValueGoal": "Portfolio Value Goal",
+            "returnPercentageGoal": "Return % Goal",
+            "investedAmountGoal": "Invested Amount Goal",
+            "targetPortfolioValue": "Target Portfolio Value",
+            "targetReturn": "Target Return %",
+            "targetInvested": "Target Invested Amount",
+            "currentPortfolioValue": "Current Portfolio Value",
+            "currentReturn": "Current Return %",
+            "currentInvested": "Current Invested Amount",
+            "achieved": "Achieved!",
+            "reached": "Your goal has been reached.",
+            "deadline": "Deadline",
+            "auto": "This email was sent automatically. You can disable email notifications in your account settings."
+        },
+        "portfolioSummary": {
+            "title": "Monthly Portfolio Summary",
+            "portfolioValue": "Portfolio Value",
+            "investedValue": "Invested Value",
+            "gainLoss": "Gain/Loss",
+            "dividendYield": "Dividend Yield",
+            "totalReturn": "Total Return",
+            "monthChange": "Month Change",
+            "upcomingDividends": "Upcoming Dividends",
+            "next30Days": "Next 30 days",
+            "goalProgress": "Goal Progress",
+            "portfolioValueGoal": "Portfolio Value",
+            "returnGoal": "Return",
+            "investedGoal": "Invested",
+            "due": "due",
+            "auto": "This email was sent automatically. You can disable email notifications in your account settings."
+        }
+    }
+}
