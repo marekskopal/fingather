@@ -15,7 +15,6 @@ use FinGather\Model\Entity\Enum\LocaleEnum;
 use FinGather\Model\Entity\Enum\PriceAlertTypeEnum;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Enum\TransactionCreateTypeEnum;
-use FinGather\Model\Entity\Enum\UserPlanEnum;
 use FinGather\Model\Entity\Enum\UserRoleEnum;
 use FinGather\Model\Repository\AssetRepository;
 use FinGather\Service\Provider\CurrencyProvider;
@@ -114,7 +113,7 @@ final class E2eSeedCommand extends AbstractCommand
 			password: self::TestPassword,
 			name: self::TestName,
 			defaultCurrency: $usd,
-			role: UserRoleEnum::User,
+			role: UserRoleEnum::Admin,
 			isEmailVerified: true,
 			locale: LocaleEnum::En,
 		);

@@ -18,4 +18,5 @@ export class DashboardPage {
     async expectGroupDataVisible(): Promise<void> {
         await expect(this.page.locator('fingather-group-data')).toBeVisible();
     }
+
 }
