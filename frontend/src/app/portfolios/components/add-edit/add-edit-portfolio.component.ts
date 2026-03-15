@@ -75,19 +75,18 @@ export class AddEditPortfolioComponent extends BaseAddEditForm implements OnInit
         }
 
         this.saving.set(true);
-        try {
-            if (this.id() === null) {
-                this.createPortfolio();
-            } else {
-                this.updatePortfolio();
-            }
-        } catch (error) {
-            if (error instanceof Error) {
-                this.alertService.error(error.message);
-            }
-        } finally {
-            this.saving.set(false);
-        }
+
+        const operation = this.id() === null ? this.createPortfolio() : this.updatePortfolio();
+
+        operation
+            .catch((error: unknown) => {
+                if (error instanceof Error) {
+                    this.alertService.error(error.message);
+                }
+            })
+            .finally(() => {
+                this.saving.set(false);
+            });
     }
 
     private async createPortfolio(): Promise<void> {
