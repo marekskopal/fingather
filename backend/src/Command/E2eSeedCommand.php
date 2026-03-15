@@ -7,6 +7,7 @@ namespace FinGather\Command;
 use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\App\ApplicationFactory;
+use FinGather\Model\Entity\Enum\LocaleEnum;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Enum\TransactionCreateTypeEnum;
 use FinGather\Model\Entity\Enum\UserPlanEnum;
@@ -107,6 +108,7 @@ final class E2eSeedCommand extends AbstractCommand
 			role: UserRoleEnum::User,
 			plan: UserPlanEnum::Free,
 			isEmailVerified: true,
+			locale: LocaleEnum::En,
 		);
 
 		$userProvider->onboardingCompleteUser($user);

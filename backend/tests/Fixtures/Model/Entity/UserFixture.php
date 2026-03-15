@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Tests\Fixtures\Model\Entity;
 
 use DateTimeImmutable;
+use FinGather\Model\Entity\Enum\LocaleEnum;
 use FinGather\Model\Entity\Enum\UserRoleEnum;
 use FinGather\Model\Entity\User;
 
@@ -34,6 +35,7 @@ final class UserFixture
 			lastRefreshTokenGenerated: $lastRefreshTokenGenerated,
 			googleId: $googleId,
 			isEmailNotificationsEnabled: $isEmailNotificationsEnabled ?? false,
+			locale: LocaleEnum::En,
 		);
 
 		$user->id = $id ?? 1;

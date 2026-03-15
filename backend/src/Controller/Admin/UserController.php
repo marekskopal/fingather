@@ -9,6 +9,7 @@ use FinGather\Dto\UserDto;
 use FinGather\Dto\UserListDto;
 use FinGather\Dto\UserUpdateDto;
 use FinGather\Dto\UserWithStatisticDto;
+use FinGather\Model\Entity\Enum\LocaleEnum;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\Enum\OrderDirectionEnum;
 use FinGather\Model\Repository\Enum\UserOrderByEnum;
@@ -112,6 +113,7 @@ final readonly class UserController extends AdminController
 			defaultCurrency: $defaultCurrency,
 			role: $userCreateDto->role,
 			isEmailVerified: true,
+			locale: LocaleEnum::En,
 		)));
 	}
 

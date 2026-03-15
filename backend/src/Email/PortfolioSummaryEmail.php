@@ -8,11 +8,100 @@ use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Dto\DividendCalendarItemDto;
 use FinGather\Model\Entity\Enum\GoalTypeEnum;
+use FinGather\Model\Entity\Enum\LocaleEnum;
 use FinGather\Model\Entity\Goal;
 use FinGather\Service\DataCalculator\Dto\CalculatedDataDto;
 
 final class PortfolioSummaryEmail
 {
+	private const array Translations = [
+		'en' => [
+			'title' => 'Monthly Portfolio Summary',
+			'portfolioValue' => 'Portfolio Value',
+			'investedValue' => 'Invested Value',
+			'gainLoss' => 'Gain/Loss',
+			'dividendYield' => 'Dividend Yield',
+			'totalReturn' => 'Total Return',
+			'monthChange' => 'Month Change',
+			'upcomingDividends' => 'Upcoming Dividends',
+			'next30Days' => 'Next 30 days',
+			'goalProgress' => 'Goal Progress',
+			'portfolioValueGoal' => 'Portfolio Value',
+			'returnGoal' => 'Return',
+			'investedGoal' => 'Invested',
+			'due' => 'due',
+			'auto' => 'This email was sent automatically. You can disable email notifications in your account settings.',
+		],
+		'cs' => [
+			'title' => 'Měsíční přehled portfolia',
+			'portfolioValue' => 'Hodnota portfolia',
+			'investedValue' => 'Investovaná hodnota',
+			'gainLoss' => 'Zisk/Ztráta',
+			'dividendYield' => 'Dividendový výnos',
+			'totalReturn' => 'Celkový výnos',
+			'monthChange' => 'Měsíční změna',
+			'upcomingDividends' => 'Nadcházející dividendy',
+			'next30Days' => 'Příštích 30 dní',
+			'goalProgress' => 'Průběh cílů',
+			'portfolioValueGoal' => 'Hodnota portfolia',
+			'returnGoal' => 'Výnos',
+			'investedGoal' => 'Investováno',
+			'due' => 'termín',
+			'auto' => 'Tento e-mail byl odeslán automaticky. Emailová upozornění můžete vypnout v nastavení účtu.',
+		],
+		'de' => [
+			'title' => 'Monatliche Portfolio-Zusammenfassung',
+			'portfolioValue' => 'Portfolio-Wert',
+			'investedValue' => 'Investierter Wert',
+			'gainLoss' => 'Gewinn/Verlust',
+			'dividendYield' => 'Dividendenrendite',
+			'totalReturn' => 'Gesamtrendite',
+			'monthChange' => 'Monatsveränderung',
+			'upcomingDividends' => 'Bevorstehende Dividenden',
+			'next30Days' => 'Nächste 30 Tage',
+			'goalProgress' => 'Zielfortschritt',
+			'portfolioValueGoal' => 'Portfolio-Wert',
+			'returnGoal' => 'Rendite',
+			'investedGoal' => 'Investiert',
+			'due' => 'fällig',
+			'auto' => 'Diese E-Mail wurde automatisch gesendet. Sie können E-Mail-Benachrichtigungen in Ihren Kontoeinstellungen deaktivieren.',
+		],
+		'es' => [
+			'title' => 'Resumen mensual del portafolio',
+			'portfolioValue' => 'Valor del portafolio',
+			'investedValue' => 'Valor invertido',
+			'gainLoss' => 'Ganancia/Pérdida',
+			'dividendYield' => 'Rendimiento de dividendos',
+			'totalReturn' => 'Retorno total',
+			'monthChange' => 'Cambio mensual',
+			'upcomingDividends' => 'Próximos dividendos',
+			'next30Days' => 'Próximos 30 días',
+			'goalProgress' => 'Progreso de metas',
+			'portfolioValueGoal' => 'Valor del portafolio',
+			'returnGoal' => 'Retorno',
+			'investedGoal' => 'Invertido',
+			'due' => 'vence',
+			'auto' => 'Este correo electrónico fue enviado automáticamente. Puedes desactivar las notificaciones por correo electrónico en la configuración de tu cuenta.',
+		],
+		'fr' => [
+			'title' => 'Résumé mensuel du portefeuille',
+			'portfolioValue' => 'Valeur du portefeuille',
+			'investedValue' => 'Valeur investie',
+			'gainLoss' => 'Gain/Perte',
+			'dividendYield' => 'Rendement des dividendes',
+			'totalReturn' => 'Rendement total',
+			'monthChange' => 'Variation mensuelle',
+			'upcomingDividends' => 'Dividendes à venir',
+			'next30Days' => '30 prochains jours',
+			'goalProgress' => 'Progression des objectifs',
+			'portfolioValueGoal' => 'Valeur du portefeuille',
+			'returnGoal' => 'Rendement',
+			'investedGoal' => 'Investi',
+			'due' => 'échéance',
+			'auto' => 'Cet e-mail a été envoyé automatiquement. Vous pouvez désactiver les notifications par e-mail dans les paramètres de votre compte.',
+		],
+	];
+
 	/**
 	 * @param list<DividendCalendarItemDto> $upcomingDividends
 	 * @param list<array{goal: Goal, progress: float}> $activeGoalsWithProgress
@@ -24,7 +113,10 @@ final class PortfolioSummaryEmail
 		?CalculatedDataDto $previousMonthPortfolioData,
 		array $upcomingDividends,
 		array $activeGoalsWithProgress,
+		LocaleEnum $locale = LocaleEnum::En,
 	): string {
+		$t = self::Translations[$locale->value];
+
 		$colorGray = 'color: #b0b0b0';
 		$colorWhite = 'color: #ffffff';
 		$colorGreen = 'color: #a4e04f';
@@ -72,6 +164,7 @@ final class PortfolioSummaryEmail
 			currencySymbol: $currencySymbol,
 			portfolioData: $portfolioData,
 			previousMonthPortfolioData: $previousMonthPortfolioData,
+			monthChangeLabel: $t['monthChange'],
 			fontStyleTable: $fontStyleTable,
 			colorGray: $colorGray,
 			colorGreen: $colorGreen,
@@ -83,6 +176,8 @@ final class PortfolioSummaryEmail
 		$dividendsSection = self::getDividendsSection(
 			currencySymbol: $currencySymbol,
 			upcomingDividends: $upcomingDividends,
+			upcomingDividendsLabel: $t['upcomingDividends'],
+			next30DaysLabel: $t['next30Days'],
 			fontStyle: $fontStyle,
 			fontStyleTable: $fontStyleTable,
 			fontStyleWhite: $fontStyleWhite,
@@ -94,6 +189,11 @@ final class PortfolioSummaryEmail
 		$goalsSection = self::getGoalsSection(
 			currencySymbol: $currencySymbol,
 			activeGoalsWithProgress: $activeGoalsWithProgress,
+			goalProgressLabel: $t['goalProgress'],
+			portfolioValueLabel: $t['portfolioValueGoal'],
+			returnLabel: $t['returnGoal'],
+			investedLabel: $t['investedGoal'],
+			dueLabel: $t['due'],
 			fontStyle: $fontStyle,
 			fontStyleTable: $fontStyleTable,
 			fontStyleWhite: $fontStyleWhite,
@@ -111,28 +211,28 @@ final class PortfolioSummaryEmail
 		</div>
 
 		<div style="margin: 0 auto; padding: 24px; width: 650px; background-color: #262626; border-radius: 16px">
-			<p style="{$fontStyleWhite} font-size: 20px; font-weight: bold;">Monthly Portfolio Summary</p>
+			<p style="{$fontStyleWhite} font-size: 20px; font-weight: bold;">{$t['title']}</p>
 			<p style="{$fontStyleGray}">{$portfolioName} &mdash; {$date}</p>
 
 			<table style="width: 100%; border-collapse: collapse; margin-top: 16px;">
 				<tr style="border-bottom: 1px solid #333;">
-					<td {$tdLabelStyleLarge}>Portfolio Value</td>
+					<td {$tdLabelStyleLarge}>{$t['portfolioValue']}</td>
 					<td {$tdValueStyleLarge}><b>{$value}</b></td>
 				</tr>
 				<tr style="border-bottom: 1px solid #333;">
-					<td {$tdLabelStyle}>Invested Value</td>
+					<td {$tdLabelStyle}>{$t['investedValue']}</td>
 					<td {$tdValueStyle}>{$transactionValue}</td>
 				</tr>
 				<tr style="border-bottom: 1px solid #333;">
-					<td {$tdLabelStyle}>Gain/Loss</td>
+					<td {$tdLabelStyle}>{$t['gainLoss']}</td>
 					<td style="{$fontStyleTable}{$gainColor} padding: 8px 0; text-align: right;">{$gain}</td>
 				</tr>
 				<tr style="border-bottom: 1px solid #333;">
-					<td {$tdLabelStyle}>Dividend Yield</td>
+					<td {$tdLabelStyle}>{$t['dividendYield']}</td>
 					<td {$tdValueStyle}>{$dividendYield}</td>
 				</tr>
 				<tr{$monthChangeRowSeparator}>
-					<td {$tdLabelStyle}>Total Return</td>
+					<td {$tdLabelStyle}>{$t['totalReturn']}</td>
 					<td style="{$fontStyleTable}{$returnColor} padding: 8px 0; text-align: right;"><b>{$totalReturn}</b></td>
 				</tr>
 				{$monthChangeRowHtml}
@@ -143,7 +243,7 @@ final class PortfolioSummaryEmail
 
 			<hr style="border-color: #333; margin-top: 24px;">
 
-			<p style="{$fontStyleGray}">This email was sent automatically. You can disable email notifications in your account settings.</p>
+			<p style="{$fontStyleGray}">{$t['auto']}</p>
 		</div>
 	</div>
 </body>
@@ -156,6 +256,7 @@ HTML;
 		string $currencySymbol,
 		CalculatedDataDto $portfolioData,
 		?CalculatedDataDto $previousMonthPortfolioData,
+		string $monthChangeLabel,
 		string $fontStyleTable,
 		string $colorGray,
 		string $colorGreen,
@@ -184,7 +285,7 @@ HTML;
 
 		$html = <<<HTML
 			<tr>
-				<td {$tdLabelStyle}>Month Change</td>
+				<td {$tdLabelStyle}>{$monthChangeLabel}</td>
 				<td style="{$fontStyleTable}{$monthDeltaColor} padding: 8px 0; text-align: right;">{$monthChange}</td>
 			</tr>
 HTML;
@@ -196,6 +297,8 @@ HTML;
 	private static function getDividendsSection(
 		string $currencySymbol,
 		array $upcomingDividends,
+		string $upcomingDividendsLabel,
+		string $next30DaysLabel,
 		string $fontStyle,
 		string $fontStyleTable,
 		string $fontStyleWhite,
@@ -225,8 +328,8 @@ HTML;
 		return <<<HTML
 
 			<hr style="border-color: #333; margin-top: 24px;">
-			<p style="{$fontStyleWhite} font-size: 18px; font-weight: bold; margin-bottom: 8px;">Upcoming Dividends</p>
-			<p style="{$fontStyle}{$colorGray} margin-top: 0;">Next 30 days</p>
+			<p style="{$fontStyleWhite} font-size: 18px; font-weight: bold; margin-bottom: 8px;">{$upcomingDividendsLabel}</p>
+			<p style="{$fontStyle}{$colorGray} margin-top: 0;">{$next30DaysLabel}</p>
 			<table style="width: 100%; border-collapse: collapse;">
 				{$rows}
 			</table>
@@ -237,6 +340,11 @@ HTML;
 	private static function getGoalsSection(
 		string $currencySymbol,
 		array $activeGoalsWithProgress,
+		string $goalProgressLabel,
+		string $portfolioValueLabel,
+		string $returnLabel,
+		string $investedLabel,
+		string $dueLabel,
 		string $fontStyle,
 		string $fontStyleTable,
 		string $fontStyleWhite,
@@ -251,9 +359,9 @@ HTML;
 		$rows = '';
 		foreach ($activeGoalsWithProgress as ['goal' => $goal, 'progress' => $progress]) {
 			$label = match ($goal->type) {
-				GoalTypeEnum::PortfolioValue => 'Portfolio Value ' . $currencySymbol . ' ' . $goal->targetValue->toFixed(0),
-				GoalTypeEnum::ReturnPercentage => 'Return ' . $goal->targetValue->toFixed(1) . ' %',
-				GoalTypeEnum::InvestedAmount => 'Invested ' . $currencySymbol . ' ' . $goal->targetValue->toFixed(0),
+				GoalTypeEnum::PortfolioValue => $portfolioValueLabel . ' ' . $currencySymbol . ' ' . $goal->targetValue->toFixed(0),
+				GoalTypeEnum::ReturnPercentage => $returnLabel . ' ' . $goal->targetValue->toFixed(1) . ' %',
+				GoalTypeEnum::InvestedAmount => $investedLabel . ' ' . $currencySymbol . ' ' . $goal->targetValue->toFixed(0),
 			};
 
 			$progressClamped = min(100.0, max(0.0, $progress));
@@ -265,7 +373,7 @@ HTML;
 
 			$deadlineHtml = '';
 			if ($goal->deadline !== null) {
-				$deadlineHtml = ' &mdash; due ' . $goal->deadline->format('d M Y');
+				$deadlineHtml = ' &mdash; ' . $dueLabel . ' ' . $goal->deadline->format('d M Y');
 			}
 
 			$rows .= <<<HTML
@@ -279,7 +387,7 @@ HTML;
 		return <<<HTML
 
 			<hr style="border-color: #333; margin-top: 24px;">
-			<p style="{$fontStyleWhite} font-size: 18px; font-weight: bold; margin-bottom: 8px;">Goal Progress</p>
+			<p style="{$fontStyleWhite} font-size: 18px; font-weight: bold; margin-bottom: 8px;">{$goalProgressLabel}</p>
 			<table style="width: 100%; border-collapse: collapse;">
 				{$rows}
 			</table>

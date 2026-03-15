@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Dto;
 
+use FinGather\Model\Entity\Enum\LocaleEnum;
 use FinGather\Model\Entity\Enum\UserRoleEnum;
 use FinGather\Model\Entity\User;
 use FinGather\Utils\DateTimeUtils;
@@ -20,6 +21,7 @@ final readonly class UserDto
 		public ?string $lastLoggedIn,
 		public ?string $lastRefreshTokenGenerated,
 		public bool $isEmailNotificationsEnabled,
+		public LocaleEnum $locale,
 	) {
 	}
 
@@ -37,6 +39,7 @@ final readonly class UserDto
 				$entity->lastRefreshTokenGenerated,
 			) : null,
 			isEmailNotificationsEnabled: $entity->isEmailNotificationsEnabled,
+			locale: $entity->locale,
 		);
 	}
 
@@ -46,6 +49,7 @@ final readonly class UserDto
 	 *     email: string,
 	 *     name: string,
 	 *     role: value-of<UserRoleEnum>,
+	 *     locale?: value-of<LocaleEnum>,
 	 * } $data
 	 */
 	public static function fromArray(array $data): self
@@ -60,6 +64,7 @@ final readonly class UserDto
 			lastLoggedIn: null,
 			lastRefreshTokenGenerated: null,
 			isEmailNotificationsEnabled: true,
+			locale: LocaleEnum::tryFrom($data['locale'] ?? '') ?? LocaleEnum::En,
 		);
 	}
 }

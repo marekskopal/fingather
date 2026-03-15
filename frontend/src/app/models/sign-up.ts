@@ -3,4 +3,5 @@ export interface SignUp {
     password: string;
     name: string;
     defaultCurrencyId: number;
+    locale: string;
 }

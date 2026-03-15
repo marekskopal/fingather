@@ -115,6 +115,7 @@ final readonly class AuthenticationController
 			defaultCurrency: $defaultCurrency,
 			role: UserRoleEnum::User,
 			isEmailVerified: false,
+			locale: $signUp->locale,
 		);
 
 		return new JsonResponse($this->authenticationService->authenticate(new CredentialsDto(
@@ -222,6 +223,7 @@ final readonly class AuthenticationController
 				name: $tokenInfo->name,
 				googleId: $tokenInfo->sub,
 				defaultCurrency: $defaultCurrency,
+				locale: $googleLoginDto->locale,
 			);
 		}
 

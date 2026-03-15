@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Model\Entity;
 
 use DateTimeImmutable;
+use FinGather\Model\Entity\Enum\LocaleEnum;
 use FinGather\Model\Entity\Enum\UserRoleEnum;
 use FinGather\Model\Repository\UserRepository;
 use MarekSkopal\ORM\Attribute\Column;
@@ -36,6 +37,8 @@ class User extends AEntity
 		public ?string $googleId,
 		#[Column(type: Type::Boolean, default: true)]
 		public bool $isEmailNotificationsEnabled,
+		#[ColumnEnum(enum: LocaleEnum::class, default: LocaleEnum::En)]
+		public LocaleEnum $locale,
 	) {
 	}
 }

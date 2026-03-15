@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Dto;
 
+use FinGather\Model\Entity\Enum\LocaleEnum;
 use SensitiveParameter;
 
 /**
@@ -12,6 +13,7 @@ use SensitiveParameter;
  *     name: string,
  *     password: string,
  *     defaultCurrencyId: int,
+ *     locale?: value-of<LocaleEnum>,
  * }>
  */
 final readonly class SignUpDto implements ArrayFactoryInterface
@@ -21,6 +23,7 @@ final readonly class SignUpDto implements ArrayFactoryInterface
 		#[SensitiveParameter] public string $password,
 		public string $name,
 		public int $defaultCurrencyId,
+		public LocaleEnum $locale = LocaleEnum::En,
 	) {
 	}
 
@@ -31,6 +34,7 @@ final readonly class SignUpDto implements ArrayFactoryInterface
 			name: $data['name'],
 			password: $data['password'],
 			defaultCurrencyId: $data['defaultCurrencyId'],
+			locale: LocaleEnum::tryFrom($data['locale'] ?? '') ?? LocaleEnum::En,
 		);
 	}
 }

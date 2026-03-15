@@ -13,8 +13,11 @@ test.describe('Assets', () => {
         await page.goto('/assets');
         // Wait for spinner to disappear (data loaded)
         await page.waitForSelector('.spinner-border', { state: 'hidden', timeout: 10000 }).catch(() => {});
-        // Either rows in the asset table exist, or the spinner is still gone (empty list)
-        const hasRows = await page.locator('fingather-opened-assets').isVisible().catch(() => false);
+        // Either grouped or ungrouped asset list is shown
+        const hasRows = await Promise.any([
+            page.locator('fingather-opened-assets').isVisible(),
+            page.locator('fingather-opened-grouped-assets').isVisible(),
+        ]).catch(() => false);
         expect(hasRows).toBeTruthy();
     });
 });

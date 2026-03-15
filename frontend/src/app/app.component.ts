@@ -1,7 +1,9 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {MatIconRegistry} from "@angular/material/icon";
 import {RouterOutlet} from "@angular/router";
+import {AuthenticationService} from "@app/services/authentication.service";
 import {ContentLayoutService} from "@app/services/content-layout.service";
+import {CurrentUserService} from "@app/services/current-user.service";
 import {StorageService} from "@app/services/storage.service";
 import {AlertComponent} from "@app/shared/components/alert/alert.component";
 import {NavigationComponent} from "@app/shared/components/navigation/navigation.component";
@@ -24,6 +26,8 @@ export class AppComponent {
     private readonly matIconRegistry = inject(MatIconRegistry);
     private readonly contentLayoutService = inject(ContentLayoutService);
     private readonly storageService = inject(StorageService);
+    private readonly authenticationService = inject(AuthenticationService);
+    private readonly currentUserService = inject(CurrentUserService);
 
     protected readonly contentCenter = this.contentLayoutService.contentCenter;
 
@@ -41,5 +45,17 @@ export class AppComponent {
         }
 
         this.matIconRegistry.setDefaultFontSetClass('material-symbols-outlined');
+
+        if (this.authenticationService.isLoggedIn()) {
+            this.currentUserService.getCurrentUser().then((user) => {
+                const supportedLangs = this.translateService.getLangs();
+                if (supportedLangs.includes(user.locale) && user.locale !== this.translateService.currentLang) {
+                    this.storageService.set('currentLanguage', user.locale);
+                    this.translateService.use(user.locale);
+                }
+            }).catch(() => {
+                // Ignore errors — locale sync is best-effort
+            });
+        }
     }
 }

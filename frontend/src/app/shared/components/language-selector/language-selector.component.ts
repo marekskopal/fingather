@@ -2,6 +2,8 @@ import {NgOptimizedImage} from "@angular/common";
 import {
     ChangeDetectionStrategy, Component, inject,
 } from '@angular/core';
+import {AuthenticationService} from "@app/services/authentication.service";
+import {CurrentUserService} from "@app/services/current-user.service";
 import {StorageService} from "@app/services/storage.service";
 import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from "@ng-bootstrap/ng-bootstrap";
 import {TranslateService} from "@ngx-translate/core";
@@ -21,6 +23,8 @@ import {TranslateService} from "@ngx-translate/core";
 export class LanguageSelectorComponent {
     private readonly translateService = inject(TranslateService);
     private readonly storageService = inject(StorageService);
+    private readonly authenticationService = inject(AuthenticationService);
+    private readonly currentUserService = inject(CurrentUserService);
 
     protected languages: readonly string[] = this.translateService.getLangs();
     protected currentLanguage: string = this.translateService.currentLang;
@@ -29,5 +33,11 @@ export class LanguageSelectorComponent {
         this.storageService.set('currentLanguage', lang);
         this.translateService.use(lang);
         this.currentLanguage = this.translateService.currentLang;
+
+        if (this.authenticationService.isLoggedIn()) {
+            this.currentUserService.updateLocale(lang).catch(() => {
+                // Ignore errors — locale update is best-effort
+            });
+        }
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Controller;
 
+use FinGather\Dto\CurrentUserLocaleDto;
 use FinGather\Dto\CurrentUserUpdateDto;
 use FinGather\Dto\UserDto;
 use FinGather\Response\ConflictResponse;
@@ -62,5 +63,16 @@ final readonly class CurrentUserController
 		$user = $this->userProvider->updateEmailNotifications($user, $currentUserUpdateDto->isEmailNotificationsEnabled);
 
 		return new JsonResponse(UserDto::fromEntity($user));
+	}
+
+	#[RoutePut(Routes::CurrentUserLocale->value)]
+	public function actionPutCurrentUserLocale(ServerRequestInterface $request): ResponseInterface
+	{
+		$user = $this->requestService->getUser($request);
+		$localeDto = $this->requestService->getRequestBodyDto($request, CurrentUserLocaleDto::class);
+
+		$this->userProvider->updateLocale($user, $localeDto->locale);
+
+		return new OkResponse();
 	}
 }

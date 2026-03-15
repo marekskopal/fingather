@@ -48,7 +48,7 @@ final readonly class EmailFactory
 
 	public function createPriceAlertEmail(User $user, PriceAlert $priceAlert, string $currentValue): Email
 	{
-		$html = PriceAlertEmail::getHtml(alert: $priceAlert, currentValue: $currentValue);
+		$html = PriceAlertEmail::getHtml(alert: $priceAlert, currentValue: $currentValue, locale: $user->locale);
 
 		return new Email()
 			->from($this->from)
@@ -59,7 +59,7 @@ final readonly class EmailFactory
 
 	public function createGoalEmail(User $user, Goal $goal, string $currentValue): Email
 	{
-		$html = GoalEmail::getHtml(goal: $goal, currentValue: $currentValue);
+		$html = GoalEmail::getHtml(goal: $goal, currentValue: $currentValue, locale: $user->locale);
 
 		return new Email()
 			->from($this->from)
@@ -87,6 +87,7 @@ final readonly class EmailFactory
 			previousMonthPortfolioData: $previousMonthPortfolioData,
 			upcomingDividends: $upcomingDividends,
 			activeGoalsWithProgress: $activeGoalsWithProgress,
+			locale: $user->locale,
 		);
 
 		return new Email()

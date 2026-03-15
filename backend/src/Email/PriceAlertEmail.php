@@ -5,13 +5,89 @@ declare(strict_types=1);
 namespace FinGather\Email;
 
 use FinGather\Model\Entity\Enum\AlertConditionEnum;
+use FinGather\Model\Entity\Enum\LocaleEnum;
 use FinGather\Model\Entity\Enum\PriceAlertTypeEnum;
 use FinGather\Model\Entity\PriceAlert;
 
 final class PriceAlertEmail
 {
-	public static function getHtml(PriceAlert $alert, string $currentValue): string
+	private const array Translations = [
+		'en' => [
+			'priceAlert' => 'Price Alert',
+			'portfolioAlert' => 'Portfolio Alert',
+			'above' => 'above',
+			'below' => 'below',
+			'targetPrice' => 'Target Price',
+			'currentPrice' => 'Current Price',
+			'targetGain' => 'Target Gain %',
+			'currentGain' => 'Current Gain %',
+			'priceWent' => 'Price went',
+			'gainWent' => 'Gain went',
+			'condition' => 'Condition',
+			'auto' => 'This email was sent automatically. You can disable email notifications in your account settings.',
+		],
+		'cs' => [
+			'priceAlert' => 'Cenové upozornění',
+			'portfolioAlert' => 'Upozornění portfolia',
+			'above' => 'nad',
+			'below' => 'pod',
+			'targetPrice' => 'Cílová cena',
+			'currentPrice' => 'Aktuální cena',
+			'targetGain' => 'Cílový zisk %',
+			'currentGain' => 'Aktuální zisk %',
+			'priceWent' => 'Cena přešla',
+			'gainWent' => 'Zisk přešel',
+			'condition' => 'Podmínka',
+			'auto' => 'Tento e-mail byl odeslán automaticky. Emailová upozornění můžete vypnout v nastavení účtu.',
+		],
+		'de' => [
+			'priceAlert' => 'Kursalarm',
+			'portfolioAlert' => 'Portfolio-Alarm',
+			'above' => 'über',
+			'below' => 'unter',
+			'targetPrice' => 'Zielkurs',
+			'currentPrice' => 'Aktueller Kurs',
+			'targetGain' => 'Zielgewinn %',
+			'currentGain' => 'Aktueller Gewinn %',
+			'priceWent' => 'Kurs ging',
+			'gainWent' => 'Gewinn ging',
+			'condition' => 'Bedingung',
+			'auto' => 'Diese E-Mail wurde automatisch gesendet. Sie können E-Mail-Benachrichtigungen in Ihren Kontoeinstellungen deaktivieren.',
+		],
+		'es' => [
+			'priceAlert' => 'Alerta de precio',
+			'portfolioAlert' => 'Alerta de portafolio',
+			'above' => 'por encima de',
+			'below' => 'por debajo de',
+			'targetPrice' => 'Precio objetivo',
+			'currentPrice' => 'Precio actual',
+			'targetGain' => 'Ganancia objetivo %',
+			'currentGain' => 'Ganancia actual %',
+			'priceWent' => 'El precio fue',
+			'gainWent' => 'La ganancia fue',
+			'condition' => 'Condición',
+			'auto' => 'Este correo electrónico fue enviado automáticamente. Puedes desactivar las notificaciones por correo electrónico en la configuración de tu cuenta.',
+		],
+		'fr' => [
+			'priceAlert' => 'Alerte de prix',
+			'portfolioAlert' => 'Alerte de portefeuille',
+			'above' => 'au-dessus de',
+			'below' => 'en dessous de',
+			'targetPrice' => 'Prix cible',
+			'currentPrice' => 'Prix actuel',
+			'targetGain' => 'Gain cible %',
+			'currentGain' => 'Gain actuel %',
+			'priceWent' => 'Le prix est passé',
+			'gainWent' => 'Le gain est passé',
+			'condition' => 'Condition',
+			'auto' => 'Cet e-mail a été envoyé automatiquement. Vous pouvez désactiver les notifications par e-mail dans les paramètres de votre compte.',
+		],
+	];
+
+	public static function getHtml(PriceAlert $alert, string $currentValue, LocaleEnum $locale = LocaleEnum::En): string
 	{
+		$t = self::Translations[$locale->value];
+
 		$colorGray = 'color: #b0b0b0';
 		$colorWhite = 'color: #ffffff';
 		$colorGreen = 'color: #a4e04f';
@@ -22,13 +98,13 @@ final class PriceAlertEmail
 		$fontStyleWhite = $fontStyle . $colorWhite;
 
 		$alertTypeLabel = match ($alert->type) {
-			PriceAlertTypeEnum::Price => 'Price Alert',
-			PriceAlertTypeEnum::Portfolio => 'Portfolio Alert',
+			PriceAlertTypeEnum::Price => $t['priceAlert'],
+			PriceAlertTypeEnum::Portfolio => $t['portfolioAlert'],
 		};
 
 		$conditionLabel = match ($alert->condition) {
-			AlertConditionEnum::Above => 'above',
-			AlertConditionEnum::Below => 'below',
+			AlertConditionEnum::Above => $t['above'],
+			AlertConditionEnum::Below => $t['below'],
 		};
 
 		$conditionColor = match ($alert->condition) {
@@ -38,21 +114,21 @@ final class PriceAlertEmail
 
 		if ($alert->type === PriceAlertTypeEnum::Price && $alert->ticker !== null) {
 			$subjectName = $alert->ticker->name . ' (' . $alert->ticker->ticker . ')';
-			$targetLabel = 'Target Price';
-			$currentLabel = 'Current Price';
+			$targetLabel = $t['targetPrice'];
+			$currentLabel = $t['currentPrice'];
 			$targetFormatted = $alert->targetValue->toFixed(2);
 			$currentFormatted = $currentValue;
 		} else {
 			$subjectName = $alert->portfolio->name ?? 'Default Portfolio';
-			$targetLabel = 'Target Gain %';
-			$currentLabel = 'Current Gain %';
+			$targetLabel = $t['targetGain'];
+			$currentLabel = $t['currentGain'];
 			$targetFormatted = $alert->targetValue->toFixed(2) . ' %';
 			$currentFormatted = $currentValue . ' %';
 		}
 
-		$conditionText = 'Price went ' . $conditionLabel . ' ' . $targetFormatted;
+		$conditionText = $t['priceWent'] . ' ' . $conditionLabel . ' ' . $targetFormatted;
 		if ($alert->type === PriceAlertTypeEnum::Portfolio) {
-			$conditionText = 'Gain went ' . $conditionLabel . ' ' . $targetFormatted;
+			$conditionText = $t['gainWent'] . ' ' . $conditionLabel . ' ' . $targetFormatted;
 		}
 
 		$tdLabelStyle = 'style=' . $fontStyleTable . $colorGray . 'padding: 8px 16px 8px 0;';
@@ -80,14 +156,14 @@ final class PriceAlertEmail
 					<td style="{$fontStyleTable}{$conditionColor} padding: 8px 0; text-align: right;"><b>{$currentFormatted}</b></td>
 				</tr>
 				<tr>
-					<td {$tdLabelStyle}>Condition</td>
+					<td {$tdLabelStyle}>{$t['condition']}</td>
 					<td {$tdValueStyle}>{$conditionLabel}</td>
 				</tr>
 			</table>
 
 			<hr style="border-color: #333; margin-top: 24px;">
 
-			<p style="{$fontStyleGray}">This email was sent automatically. You can disable email notifications in your account settings.</p>
+			<p style="{$fontStyleGray}">{$t['auto']}</p>
 		</div>
 	</div>
 </body>

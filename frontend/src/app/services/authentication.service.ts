@@ -10,6 +10,7 @@ import { CurrentUserService } from '@app/services/current-user.service';
 import { PortfolioService } from '@app/services/portfolio.service';
 import { StorageService } from '@app/services/storage.service';
 import { environment } from '@environments/environment';
+import { TranslateService } from '@ngx-translate/core';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -19,6 +20,7 @@ export class AuthenticationService {
     private readonly portfolioService = inject(PortfolioService);
     private readonly currentUserService = inject(CurrentUserService);
     private readonly storageService = inject(StorageService);
+    private readonly translateService = inject(TranslateService);
 
     public authentication = signal<Authentication | null>(
         this.storageService.get<Authentication>('authentication'),
@@ -49,7 +51,10 @@ export class AuthenticationService {
 
     public async signUp(signUp: SignUp): Promise<Authentication> {
         const authentication = await firstValueFrom<Authentication>(
-            this.http.post<Authentication>(`${environment.apiUrl}/authentication/sign-up`, signUp),
+            this.http.post<Authentication>(`${environment.apiUrl}/authentication/sign-up`, {
+                ...signUp,
+                locale: this.translateService.currentLang ?? 'en',
+            }),
         );
 
         return this.setAuthentication(authentication);
@@ -78,6 +83,7 @@ export class AuthenticationService {
             this.http.post<GoogleLoginResponse>(`${environment.apiUrl}/authentication/google-login`, {
                 idToken,
                 defaultCurrencyId,
+                locale: this.translateService.currentLang ?? 'en',
             }),
         );
 

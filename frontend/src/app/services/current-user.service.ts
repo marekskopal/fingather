@@ -26,13 +26,19 @@ export class CurrentUserService {
         name: string;
         email: string;
         password: string;
-        isEmailNotificationsEnabled: boolean
+        isEmailNotificationsEnabled: boolean;
     }): Promise<User> {
         this.currentUser = await lastValueFrom<User>(
             this.http.put<User>(`${environment.apiUrl}/current-user`, data),
         );
 
         return this.currentUser;
+    }
+
+    public async updateLocale(locale: string): Promise<void> {
+        await lastValueFrom(
+            this.http.put(`${environment.apiUrl}/current-user/locale`, {locale}),
+        );
     }
 
     public async deleteCurrentUser(): Promise<void> {

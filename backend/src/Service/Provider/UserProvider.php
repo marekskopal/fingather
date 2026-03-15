@@ -6,6 +6,7 @@ namespace FinGather\Service\Provider;
 
 use DateTimeImmutable;
 use FinGather\Model\Entity\Currency;
+use FinGather\Model\Entity\Enum\LocaleEnum;
 use FinGather\Model\Entity\Enum\UserRoleEnum;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\Enum\OrderDirectionEnum;
@@ -64,6 +65,7 @@ class UserProvider
 		Currency $defaultCurrency,
 		UserRoleEnum $role,
 		bool $isEmailVerified,
+		LocaleEnum $locale,
 	): User {
 		$hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
@@ -78,6 +80,7 @@ class UserProvider
 			lastRefreshTokenGenerated: null,
 			googleId: null,
 			isEmailNotificationsEnabled: true,
+			locale: $locale,
 		);
 		$this->userRepository->persist($user);
 
@@ -97,6 +100,7 @@ class UserProvider
 		string $name,
 		string $googleId,
 		Currency $defaultCurrency,
+		LocaleEnum $locale,
 	): User {
 		$user = new User(
 			email: $email,
@@ -109,6 +113,7 @@ class UserProvider
 			lastRefreshTokenGenerated: null,
 			googleId: $googleId,
 			isEmailNotificationsEnabled: true,
+			locale: $locale,
 		);
 		$this->userRepository->persist($user);
 
@@ -177,6 +182,14 @@ class UserProvider
 	public function updateEmailNotifications(User $user, bool $isEmailNotificationsEnabled): User
 	{
 		$user->isEmailNotificationsEnabled = $isEmailNotificationsEnabled;
+		$this->userRepository->persist($user);
+
+		return $user;
+	}
+
+	public function updateLocale(User $user, LocaleEnum $locale): User
+	{
+		$user->locale = $locale;
 		$this->userRepository->persist($user);
 
 		return $user;

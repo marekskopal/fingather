@@ -40,6 +40,7 @@ enum Routes: string
 	case Currencies = '/api/currency';
 
 	case CurrentUser = '/api/current-user';
+	case CurrentUserLocale = '/api/current-user/locale';
 
 	case DividendDataRange = '/api/dividend-data-range/{portfolioId:number}';
 

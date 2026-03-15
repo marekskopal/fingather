@@ -7,6 +7,7 @@ import { CurrentUserService } from '@app/services/current-user.service';
 import { PortfolioService } from '@app/services/portfolio.service';
 import { StorageService } from '@app/services/storage.service';
 import { environment } from '@environments/environment';
+import { TranslateService } from '@ngx-translate/core';
 
 import { AuthenticationService } from './authentication.service';
 
@@ -27,12 +28,14 @@ describe('AuthenticationService', () => {
         set: ReturnType<typeof vi.fn>;
         remove: ReturnType<typeof vi.fn>;
     };
+    let translateServiceSpy: { currentLang: string };
 
     beforeEach(() => {
         routerSpy = { navigate: vi.fn() };
         portfolioServiceSpy = { cleanCurrentPortfolio: vi.fn() };
         currentUserServiceSpy = { cleanCurrentUser: vi.fn() };
         storageServiceSpy = { get: vi.fn().mockReturnValue(null), set: vi.fn(), remove: vi.fn() };
+        translateServiceSpy = { currentLang: 'en' };
 
         TestBed.configureTestingModule({
             providers: [
@@ -43,6 +46,7 @@ describe('AuthenticationService', () => {
                 { provide: PortfolioService, useValue: portfolioServiceSpy },
                 { provide: CurrentUserService, useValue: currentUserServiceSpy },
                 { provide: StorageService, useValue: storageServiceSpy },
+                { provide: TranslateService, useValue: translateServiceSpy },
             ],
         });
 
