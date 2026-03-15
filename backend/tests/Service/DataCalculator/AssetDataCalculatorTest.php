@@ -598,6 +598,149 @@ final class AssetDataCalculatorTest extends TestCase
 		self::assertSame($dividendYieldDefaultCurrency, $assetData->dividendYieldDefaultCurrency->toFloat());
 	}
 
+	public function testCalculateDividend(): void
+	{
+		$assetDataCalculator = $this->createAssetDataCalculator(
+			transactions: [
+				TransactionFixture::getTransaction(
+					actionType: TransactionActionTypeEnum::Buy,
+					units: new Decimal(10),
+					price: new Decimal(10),
+					priceTickerCurrency: new Decimal(10),
+					priceDefaultCurrency: new Decimal(10),
+					taxTickerCurrency: new Decimal(0),
+					taxDefaultCurrency: new Decimal(0),
+					feeTickerCurrency: new Decimal(0),
+					feeDefaultCurrency: new Decimal(0),
+				),
+				TransactionFixture::getTransaction(
+					actionType: TransactionActionTypeEnum::Dividend,
+					units: new Decimal(0),
+					price: new Decimal(50),
+					priceTickerCurrency: new Decimal(50),
+					priceDefaultCurrency: new Decimal(50),
+					taxTickerCurrency: new Decimal(0),
+					taxDefaultCurrency: new Decimal(0),
+					feeTickerCurrency: new Decimal(0),
+					feeDefaultCurrency: new Decimal(0),
+				),
+			],
+			splits: [],
+			lastTickerDataClose: new Decimal(10),
+			exchangeRate: new Decimal(1),
+		);
+
+		$assetData = $assetDataCalculator->calculate(
+			UserFixture::getUser(),
+			PortfolioFixture::getPortfolio(),
+			AssetFixture::getAsset(),
+			new DateTimeImmutable(),
+		);
+
+		self::assertInstanceOf(AssetDataDto::class, $assetData);
+		self::assertSame(10.0, $assetData->units->toFloat());
+		self::assertSame(0.0, $assetData->gain->toFloat());
+		self::assertSame(50.0, $assetData->dividendYield->toFloat());
+		self::assertSame(50.0, $assetData->dividendYieldDefaultCurrency->toFloat());
+	}
+
+	public function testCalculateTaxAndFee(): void
+	{
+		$assetDataCalculator = $this->createAssetDataCalculator(
+			transactions: [
+				TransactionFixture::getTransaction(
+					actionType: TransactionActionTypeEnum::Buy,
+					units: new Decimal(10),
+					price: new Decimal(10),
+					priceTickerCurrency: new Decimal(10),
+					priceDefaultCurrency: new Decimal(10),
+					taxTickerCurrency: new Decimal(0),
+					taxDefaultCurrency: new Decimal(0),
+					feeTickerCurrency: new Decimal(0),
+					feeDefaultCurrency: new Decimal(0),
+				),
+				TransactionFixture::getTransaction(
+					actionType: TransactionActionTypeEnum::Tax,
+					units: new Decimal(0),
+					price: new Decimal(0),
+					priceTickerCurrency: new Decimal(0),
+					priceDefaultCurrency: new Decimal(0),
+					taxTickerCurrency: new Decimal(3),
+					taxDefaultCurrency: new Decimal(3),
+					feeTickerCurrency: new Decimal(0),
+					feeDefaultCurrency: new Decimal(0),
+				),
+				TransactionFixture::getTransaction(
+					actionType: TransactionActionTypeEnum::Fee,
+					units: new Decimal(0),
+					price: new Decimal(0),
+					priceTickerCurrency: new Decimal(0),
+					priceDefaultCurrency: new Decimal(0),
+					taxTickerCurrency: new Decimal(0),
+					taxDefaultCurrency: new Decimal(0),
+					feeTickerCurrency: new Decimal(2),
+					feeDefaultCurrency: new Decimal(2),
+				),
+			],
+			splits: [],
+			lastTickerDataClose: new Decimal(10),
+			exchangeRate: new Decimal(1),
+		);
+
+		$assetData = $assetDataCalculator->calculate(
+			UserFixture::getUser(),
+			PortfolioFixture::getPortfolio(),
+			AssetFixture::getAsset(),
+			new DateTimeImmutable(),
+		);
+
+		self::assertInstanceOf(AssetDataDto::class, $assetData);
+		// Tax and Fee action types do not affect units
+		self::assertSame(10.0, $assetData->units->toFloat());
+		self::assertSame(3.0, $assetData->tax->toFloat());
+		self::assertSame(3.0, $assetData->taxDefaultCurrency->toFloat());
+		self::assertSame(2.0, $assetData->fee->toFloat());
+		self::assertSame(2.0, $assetData->feeDefaultCurrency->toFloat());
+		self::assertSame(0.0, $assetData->dividendYield->toFloat());
+	}
+
+	public function testCalculateFxImpact(): void
+	{
+		// Purchase when rate was 1.0, current rate is 1.25: position gains value due to FX alone
+		$assetDataCalculator = $this->createAssetDataCalculator(
+			transactions: [
+				TransactionFixture::getTransaction(
+					actionType: TransactionActionTypeEnum::Buy,
+					units: new Decimal(10),
+					price: new Decimal(100),
+					priceTickerCurrency: new Decimal(100),
+					priceDefaultCurrency: new Decimal(100), // historic rate was 1.0
+					taxTickerCurrency: new Decimal(0),
+					taxDefaultCurrency: new Decimal(0),
+					feeTickerCurrency: new Decimal(0),
+					feeDefaultCurrency: new Decimal(0),
+				),
+			],
+			splits: [],
+			lastTickerDataClose: new Decimal(100),
+			exchangeRate: new Decimal('1.25'), // current rate
+		);
+
+		$assetData = $assetDataCalculator->calculate(
+			UserFixture::getUser(),
+			PortfolioFixture::getPortfolio(),
+			AssetFixture::getAsset(),
+			new DateTimeImmutable(),
+		);
+
+		self::assertInstanceOf(AssetDataDto::class, $assetData);
+		// fxImpact = transactionValue * currentRate - transactionValueDefaultCurrency
+		//           = 1000 * 1.25 - 1000 = 250
+		self::assertSame(250.0, $assetData->fxImpact->toFloat());
+		// gain is zero: price didn't change in ticker currency
+		self::assertSame(0.0, $assetData->gain->toFloat());
+	}
+
 	/**
 	 * @param list<Transaction> $transactions
 	 * @param list<SplitDto> $splits
