@@ -192,9 +192,7 @@ HTML;
 		return ['html' => $html, 'separator' => ' style="border-bottom: 1px solid #333;"'];
 	}
 
-	/**
-	 * @param list<DividendCalendarItemDto> $upcomingDividends
-	 */
+	/** @param list<DividendCalendarItemDto> $upcomingDividends */
 	private static function getDividendsSection(
 		string $currencySymbol,
 		array $upcomingDividends,
@@ -235,9 +233,7 @@ HTML;
 HTML;
 	}
 
-	/**
-	 * @param list<array{goal: Goal, progress: float}> $activeGoalsWithProgress
-	 */
+	/** @param list<array{goal: Goal, progress: float}> $activeGoalsWithProgress */
 	private static function getGoalsSection(
 		string $currencySymbol,
 		array $activeGoalsWithProgress,

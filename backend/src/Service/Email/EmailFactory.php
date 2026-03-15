@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Email;
 
+use FinGather\Dto\DividendCalendarItemDto;
 use FinGather\Dto\EmailVerifyDto;
 use FinGather\Dto\PasswordResetQueueDto;
-use FinGather\Dto\DividendCalendarItemDto;
 use FinGather\Email\GoalEmail;
 use FinGather\Email\PasswordResetEmail;
 use FinGather\Email\PortfolioSummaryEmail;

@@ -714,7 +714,8 @@ final class AssetDataCalculatorTest extends TestCase
 					units: new Decimal(10),
 					price: new Decimal(100),
 					priceTickerCurrency: new Decimal(100),
-					priceDefaultCurrency: new Decimal(100), // historic rate was 1.0
+					// historic rate was 1.0
+					priceDefaultCurrency: new Decimal(100),
 					taxTickerCurrency: new Decimal(0),
 					taxDefaultCurrency: new Decimal(0),
 					feeTickerCurrency: new Decimal(0),
@@ -723,7 +724,8 @@ final class AssetDataCalculatorTest extends TestCase
 			],
 			splits: [],
 			lastTickerDataClose: new Decimal(100),
-			exchangeRate: new Decimal('1.25'), // current rate
+			// current rate
+			exchangeRate: new Decimal('1.25'),
 		);
 
 		$assetData = $assetDataCalculator->calculate(
