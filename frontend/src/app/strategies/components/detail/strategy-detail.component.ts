@@ -9,6 +9,7 @@ import { LegendItem } from '@app/shared/components/legend/types/legend-item';
 import {
     StrategyChartComponent, StrategyChartItem,
 } from '@app/strategies/components/detail/components/strategy-chart/strategy-chart.component';
+import { StrategyRebalancingComponent } from '@app/strategies/components/rebalancing/strategy-rebalancing.component';
 import { ChartUtils } from '@app/utils/chart-utils';
 import { TranslatePipe } from '@ngx-translate/core';
 
@@ -21,6 +22,7 @@ import { TranslatePipe } from '@ngx-translate/core';
         LegendComponent,
         DecimalPipe,
         NgClass,
+        StrategyRebalancingComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

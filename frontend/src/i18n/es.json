@@ -269,6 +269,20 @@
         "target": "Objetivo",
         "actual": "Actual",
         "difference": "Diferencia"
+      },
+      "rebalancing": {
+        "title": "Calculadora de reequilibrio",
+        "help": "Introduzca el efectivo que desea invertir y haga clic en Calcular. Cada fila muestra cuánto comprar (o vender, si está habilitado) para alcanzar la asignación objetivo. La fila «Otros» muestra activos no asignados — no se sugiere ninguna operación allí, ya que no pueden negociarse como un único instrumento.",
+        "cashToInvest": "Efectivo a invertir",
+        "currency": "Moneda",
+        "allowSelling": "Permitir ventas",
+        "calculate": "Calcular",
+        "name": "Nombre",
+        "currentValue": "Valor actual",
+        "targetValue": "Valor objetivo",
+        "suggestedTrade": "Operación sugerida",
+        "units": "Unidades",
+        "currentPrice": "Precio actual"
       }
     },
     "history": {

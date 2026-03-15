@@ -133,7 +133,12 @@ export class LoginComponent extends BaseForm implements OnInit, AfterViewInit {
         } catch (error) {
             if (error instanceof Error) {
                 this.alertService.error(error.message);
-            } else if (error !== null && typeof error === 'object' && 'error' in error && typeof (error as {error: unknown}).error === 'string') {
+            } else if (
+                error !== null
+                && typeof error === 'object'
+                && 'error' in error
+                && typeof (error as {error: unknown}).error === 'string'
+            ) {
                 this.alertService.error((error as {error: string}).error);
             } else {
                 this.alertService.error('Login failed. Please check your credentials.');

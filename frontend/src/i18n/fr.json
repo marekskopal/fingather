@@ -269,6 +269,20 @@
         "target": "Cible",
         "actual": "Réel",
         "difference": "Écart"
+      },
+      "rebalancing": {
+        "title": "Calculateur de rééquilibrage",
+        "help": "Saisissez le montant à investir et cliquez sur Calculer. Chaque ligne indique combien acheter (ou vendre, si activé) pour atteindre l'allocation cible. La ligne « Autres » affiche les actifs non alloués — aucune transaction n'y est suggérée car ils ne peuvent pas être négociés comme un seul instrument.",
+        "cashToInvest": "Liquidités à investir",
+        "currency": "Devise",
+        "allowSelling": "Autoriser la vente",
+        "calculate": "Calculer",
+        "name": "Nom",
+        "currentValue": "Valeur actuelle",
+        "targetValue": "Valeur cible",
+        "suggestedTrade": "Transaction suggérée",
+        "units": "Unités",
+        "currentPrice": "Prix actuel"
       }
     },
     "history": {

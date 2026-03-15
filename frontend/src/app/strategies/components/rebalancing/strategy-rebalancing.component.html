@@ -1,0 +1,130 @@
+<div class="card mt-4">
+    <div class="card-body">
+        <div class="d-flex align-items-center gap-2 mb-3">
+            <h5 class="card-title mb-0">{{ 'app.strategies.rebalancing.title' | translate }}</h5>
+            <fingather-help [text]="'app.strategies.rebalancing.help' | translate" />
+        </div>
+
+        <form>
+            <div class="form-row">
+                <label class="form-label" for="cashToInvest">
+                    {{ 'app.strategies.rebalancing.cashToInvest' | translate }}
+                </label>
+                <div class="input-group">
+                    <input
+                        id="cashToInvest"
+                        type="number"
+                        class="form-control"
+                        min="0"
+                        step="any"
+                        [ngModel]="cashToInvest()"
+                        (ngModelChange)="cashToInvest.set($event)"
+                    />
+                    <fingather-select
+                        [id]="'cashCurrencyId'"
+                        [items]="currencies()"
+                        [ngModel]="selectedCurrencyId()"
+                        (ngModelChange)="selectedCurrencyId.set($event)"
+                        class="money-select"
+                    />
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-check mb-2">
+                    <input
+                        id="allowSelling"
+                        type="checkbox"
+                        class="form-check-input"
+                        [ngModel]="allowSelling()"
+                        (ngModelChange)="allowSelling.set($event)"
+                    />
+                    <label class="form-check-label" for="allowSelling">
+                        {{ 'app.strategies.rebalancing.allowSelling' | translate }}
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <button
+                    type="button"
+                    class="btn btn-primary mb-2"
+                    [disabled]="loading()"
+                    (click)="calculate()"
+                >
+                    @if (loading()) {
+                        <span class="spinner-border spinner-border-sm me-1"></span>
+                    }
+                    {{ 'app.strategies.rebalancing.calculate' | translate }}
+                </button>
+            </div>
+        </form>
+
+        @if (result(); as rebalancing) {
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>{{ 'app.strategies.rebalancing.name' | translate }}</th>
+                            <th class="text-end">{{ 'app.strategies.detail.target' | translate }}</th>
+                            <th class="text-end">{{ 'app.strategies.detail.actual' | translate }}</th>
+                            <th class="text-end">{{ 'app.strategies.detail.difference' | translate }}</th>
+                            <th class="text-end">{{ 'app.strategies.rebalancing.currentValue' | translate }}</th>
+                            <th class="text-end">{{ 'app.strategies.rebalancing.targetValue' | translate }}</th>
+                            <th class="text-end">{{ 'app.strategies.rebalancing.suggestedTrade' | translate }}</th>
+                            <th class="text-end">{{ 'app.strategies.rebalancing.units' | translate }}</th>
+                            <th class="text-end">{{ 'app.strategies.rebalancing.currentPrice' | translate }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (item of rebalancing.items; track $index) {
+                            <tr>
+                                <td>{{ item.name }}</td>
+                                <td class="text-end">{{ item.targetPercentage | number: '1.2-2' }}%</td>
+                                <td class="text-end">{{ item.actualPercentage | number: '1.2-2' }}%</td>
+                                <td class="text-end" [ngClass]="{
+                                    'text-success': item.differencePercentage > 0,
+                                    'text-danger': item.differencePercentage < 0
+                                }">
+                                    {{ item.differencePercentage > 0 ? '+' : '' }}{{ item.differencePercentage | number: '1.2-2' }}%
+                                </td>
+                                <td class="text-end">{{ item.currentValue | number: '1.2-2' }}</td>
+                                <td class="text-end">
+                                    @if (!item.isOthers) {
+                                        {{ item.targetValue | number: '1.2-2' }}
+                                    } @else {
+                                        &mdash;
+                                    }
+                                </td>
+                                <td class="text-end" [ngClass]="{
+                                    'text-success': isBuy(item.suggestedTradeValue),
+                                    'text-danger': isSell(item.suggestedTradeValue)
+                                }">
+                                    @if (!item.isOthers) {
+                                        {{ isBuy(item.suggestedTradeValue) ? '+' : '' }}{{ item.suggestedTradeValue | number: '1.2-2' }}
+                                    } @else {
+                                        &mdash;
+                                    }
+                                </td>
+                                <td class="text-end">
+                                    @if (item.suggestedTradeUnits !== null) {
+                                        {{ isBuy(item.suggestedTradeValue) ? '+' : '' }}{{ item.suggestedTradeUnits | number: '1.4-4' }}
+                                    } @else {
+                                        &mdash;
+                                    }
+                                </td>
+                                <td class="text-end">
+                                    @if (item.currentPrice !== null) {
+                                        {{ item.currentPrice | number: '1.2-2' }}
+                                    } @else {
+                                        &mdash;
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>

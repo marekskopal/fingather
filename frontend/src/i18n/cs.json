@@ -269,6 +269,20 @@
         "target": "Cíl",
         "actual": "Aktuální",
         "difference": "Rozdíl"
+      },
+      "rebalancing": {
+        "title": "Kalkulátor rebalancování",
+        "help": "Zadejte hotovost, kterou chcete investovat, a klikněte na Vypočítat. Každý řádek ukazuje, kolik koupit (nebo prodat, pokud je povoleno), abyste dosáhli cílové alokace. Řádek „Ostatní" zobrazuje nealokovaná aktiva — žádný obchod se tam nenavrhuje, protože je nelze obchodovat jako jeden instrument.",
+        "cashToInvest": "Hotovost k investování",
+        "currency": "Měna",
+        "allowSelling": "Povolit prodej",
+        "calculate": "Vypočítat",
+        "name": "Název",
+        "currentValue": "Aktuální hodnota",
+        "targetValue": "Cílová hodnota",
+        "suggestedTrade": "Navrhovaný obchod",
+        "units": "Jednotky",
+        "currentPrice": "Aktuální cena"
       }
     },
     "history": {

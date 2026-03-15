@@ -269,6 +269,20 @@
         "target": "Ziel",
         "actual": "Tatsächlich",
         "difference": "Differenz"
+      },
+      "rebalancing": {
+        "title": "Rebalancing-Rechner",
+        "help": "Geben Sie das zu investierende Kapital ein und klicken Sie auf Berechnen. Jede Zeile zeigt, wie viel gekauft (oder verkauft, falls aktiviert) werden soll, um die Zielallokation zu erreichen. Die Zeile „Sonstige" zeigt nicht zugewiesene Anlagen — dort wird kein Handel vorgeschlagen, da sie nicht als einzelnes Instrument gehandelt werden können.",
+        "cashToInvest": "Zu investierendes Kapital",
+        "currency": "Währung",
+        "allowSelling": "Verkauf erlauben",
+        "calculate": "Berechnen",
+        "name": "Name",
+        "currentValue": "Aktueller Wert",
+        "targetValue": "Zielwert",
+        "suggestedTrade": "Empfohlener Handel",
+        "units": "Einheiten",
+        "currentPrice": "Aktueller Preis"
       }
     },
     "history": {

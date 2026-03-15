@@ -269,6 +269,20 @@
         "target": "Target",
         "actual": "Actual",
         "difference": "Difference"
+      },
+      "rebalancing": {
+        "title": "Rebalancing Calculator",
+        "help": "Enter the cash you want to invest and click Calculate. Each row shows how much to buy (or sell, if enabled) to reach your target allocation. The \"Others\" row shows unallocated assets — no trade is suggested there as they cannot be traded as a single instrument.",
+        "cashToInvest": "Cash to invest",
+        "currency": "Currency",
+        "allowSelling": "Allow selling",
+        "calculate": "Calculate",
+        "name": "Name",
+        "currentValue": "Current value",
+        "targetValue": "Target value",
+        "suggestedTrade": "Suggested trade",
+        "units": "Units",
+        "currentPrice": "Current price"
       }
     },
     "history": {

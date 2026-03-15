@@ -21,6 +21,7 @@ export * from './price-alert.service';
 export * from './storage.service';
 export * from './strategy.service';
 export * from './strategy-comparison.service';
+export * from './strategy-rebalancing.service';
 export * from './tax-report.service';
 export * from './ticker.service';
 export * from './ticker-data.service';

@@ -92,6 +92,7 @@ enum Routes: string
 	case Strategy = '/api/strategy/{strategyId:number}';
 	case StrategyDefault = '/api/strategy/default/{portfolioId:number}';
 	case StrategyWithComparison = '/api/strategy-with-comparison/{strategyId:number}';
+	case StrategyRebalancing = '/api/strategy-rebalancing/{strategyId:number}';
 
 	case Ticker = '/api/ticker/{tickerId:number}';
 	case Tickers = '/api/tickers';
