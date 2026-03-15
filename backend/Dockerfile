@@ -44,6 +44,7 @@ COPY ./docker/docker-php.ini /usr/local/etc/php/conf.d/docker-php.ini
 
 COPY ./bin /app/bin
 COPY ./migrations /app/migrations
+COPY ./translations /app/translations
 COPY ./src /app/src
 COPY ./Caddyfile ./composer.json ./composer.lock /app/
 
