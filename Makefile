@@ -19,12 +19,13 @@ test-frontend:
 test-e2e: test-env-up
 	cd frontend && pnpm run e2e; \
 	status=$$?; \
-	$(MAKE) test-env-down; \
+	$(MAKE) -C $(CURDIR) test-env-down; \
 	exit $$status
 
-## Start docker test services and wait until healthy
+## Start docker test services, run migrations, and seed e2e data
 test-env-up:
 	docker compose -f docker-compose.test.yml up -d --build --wait
+	docker compose -f docker-compose.test.yml exec backend-test php /app/bin/console e2e:seed
 
 ## Stop docker test services
 test-env-down:
