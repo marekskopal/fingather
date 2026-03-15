@@ -12,9 +12,9 @@ final class GoalEmail
 	/** @param array<string, string> $t */
 	public static function getHtml(Goal $goal, string $currentValue, array $t): string
 	{
-		$colorGray = 'color: #b0b0b0';
-		$colorWhite = 'color: #ffffff';
-		$colorGreen = 'color: #a4e04f';
+		$colorGray = 'color: #b0b0b0;';
+		$colorWhite = 'color: #ffffff;';
+		$colorGreen = 'color: #a4e04f;';
 		$fontStyle = 'font-family: Geist, Helvetica, Arial, sans-serif; font-size: 16px; line-height: 1.5;';
 		$fontStyleTable = 'font-family: Geist, Helvetica, Arial, sans-serif; font-size: 18px; line-height: 1.5;';
 		$fontStyleGray = $fontStyle . $colorGray;

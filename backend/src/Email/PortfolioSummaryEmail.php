@@ -27,10 +27,10 @@ final class PortfolioSummaryEmail
 		array $activeGoalsWithProgress,
 		array $t,
 	): string {
-		$colorGray = 'color: #b0b0b0';
-		$colorWhite = 'color: #ffffff';
-		$colorGreen = 'color: #a4e04f';
-		$colorRed = 'color: #e04f4f';
+		$colorGray = 'color: #b0b0b0;';
+		$colorWhite = 'color: #ffffff;';
+		$colorGreen = 'color: #a4e04f;';
+		$colorRed = 'color: #e04f4f;';
 		$fontStyle = 'font-family: Geist, Helvetica, Arial, sans-serif; font-size: 16px; line-height: 1.5;';
 		$fontStyleTable = 'font-family: Geist, Helvetica, Arial, sans-serif; font-size: 18px; line-height: 1.5;';
 		$fontStyleTableLarge = 'font-family: Geist, Helvetica, Arial, sans-serif; font-size: 22px; line-height: 1.5;';
