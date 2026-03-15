@@ -53,9 +53,14 @@ export class ImportFileComponent implements OnInit {
 
     public ngOnInit(): void {
         this.fileReader.onload = (): void => {
+            if (typeof this.fileReader.result !== 'string') {
+                this.status.set(ImportFileStatus.Error);
+                return;
+            }
+
             this.createImportPrepare({
                 fileName: this.droppedFile().fileEntry.name,
-                contents: this.fileReader.result as string,
+                contents: this.fileReader.result,
             });
         };
 
