@@ -6,9 +6,9 @@ namespace FinGather\Dto;
 
 /**
  * @implements ArrayFactoryInterface<array{
- *     currency_id?: int,
+ *     currencyId?: int,
  *     name?: string,
- *     is_default?: bool,
+ *     isDefault?: bool,
  * }>
  */
 final readonly class PortfolioUpdateDto implements ArrayFactoryInterface
@@ -19,6 +19,6 @@ final readonly class PortfolioUpdateDto implements ArrayFactoryInterface
 
 	public static function fromArray(array $data): static
 	{
-		return new self(currencyId: $data['currency_id'] ?? null, name: $data['name'] ?? null, isDefault: $data['is_default'] ?? null);
+		return new self(currencyId: $data['currencyId'] ?? null, name: $data['name'] ?? null, isDefault: $data['isDefault'] ?? null);
 	}
 }

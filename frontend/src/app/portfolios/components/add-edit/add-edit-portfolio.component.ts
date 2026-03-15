@@ -111,6 +111,6 @@ export class AddEditPortfolioComponent extends BaseAddEditForm implements OnInit
 
         this.alertService.success('Update successful', { keepAfterRouteChange: true });
         this.portfolioService.notify();
-        this.router.navigate(['../'], { relativeTo: this.route });
+        this.router.navigate(['../../'], { relativeTo: this.route });
     }
 }

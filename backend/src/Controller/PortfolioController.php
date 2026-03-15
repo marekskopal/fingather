@@ -120,7 +120,7 @@ final readonly class PortfolioController
 			portfolio: $portfolio,
 			currency: $currency,
 			name: $portfolioUpdateDto->name ?? $portfolio->name,
-			isDefault: $portfolioUpdateDto->isDefault ?? true,
+			isDefault: $portfolioUpdateDto->isDefault ?? $portfolio->isDefault,
 		)));
 	}
 

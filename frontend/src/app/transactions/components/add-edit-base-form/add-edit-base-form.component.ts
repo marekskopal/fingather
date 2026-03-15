@@ -147,6 +147,6 @@ export abstract class AddEditBaseFormComponent extends BaseAddEditForm implement
 
         this.alertService.success('Update successful');
         this.transactionService.notify();
-        this.router.navigate(['../'], { relativeTo: this.route });
+        this.router.navigate(['../../'], { relativeTo: this.route });
     }
 }
