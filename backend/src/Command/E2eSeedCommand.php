@@ -7,15 +7,24 @@ namespace FinGather\Command;
 use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\App\ApplicationFactory;
+use FinGather\Model\Entity\Enum\AlertConditionEnum;
+use FinGather\Model\Entity\Enum\AlertRecurrenceEnum;
+use FinGather\Model\Entity\Enum\DcaPlanTargetTypeEnum;
+use FinGather\Model\Entity\Enum\GoalTypeEnum;
 use FinGather\Model\Entity\Enum\LocaleEnum;
+use FinGather\Model\Entity\Enum\PriceAlertTypeEnum;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Enum\TransactionCreateTypeEnum;
 use FinGather\Model\Entity\Enum\UserPlanEnum;
 use FinGather\Model\Entity\Enum\UserRoleEnum;
 use FinGather\Model\Repository\AssetRepository;
 use FinGather\Service\Provider\CurrencyProvider;
+use FinGather\Service\Provider\DcaPlanProvider;
+use FinGather\Service\Provider\GoalProvider;
 use FinGather\Service\Provider\GroupProvider;
 use FinGather\Service\Provider\PortfolioProvider;
+use FinGather\Service\Provider\PriceAlertProvider;
+use FinGather\Service\Provider\StrategyProvider;
 use FinGather\Service\Provider\TickerProvider;
 use FinGather\Service\Provider\TransactionProvider;
 use FinGather\Service\Provider\UserProvider;
@@ -125,6 +134,8 @@ final class E2eSeedCommand extends AbstractCommand
 			throw new \RuntimeException('Failed to prepare asset insert statement.');
 		}
 
+		$aaplAsset = null;
+
 		foreach ([self::TickerAapl, self::TickerMsft, self::TickerNvda] as $tickerId) {
 			$ticker = $tickerProvider->getTicker($tickerId);
 			if ($ticker === null) {
@@ -136,6 +147,10 @@ final class E2eSeedCommand extends AbstractCommand
 
 			$asset = $assetRepository->findAssetByTickerId(tickerId: $ticker->id, userId: $user->id, portfolioId: $portfolio->id);
 			assert($asset !== null);
+
+			if ($tickerId === self::TickerAapl) {
+				$aaplAsset = $asset;
+			}
 
 			foreach ([
 				new DateTimeImmutable('2023-06-01'),
@@ -161,6 +176,96 @@ final class E2eSeedCommand extends AbstractCommand
 				);
 			}
 		}
+
+		assert($aaplAsset !== null, 'AAPL asset must have been created');
+
+		// 8. Seed a dividend transaction for AAPL (enables "edit dividend form loads" test)
+		$this->writeln('Creating dividend transaction...', $output);
+		$transactionProvider->createTransaction(
+			user: $user,
+			portfolio: $portfolio,
+			asset: $aaplAsset,
+			broker: null,
+			actionType: TransactionActionTypeEnum::Dividend,
+			actionCreated: new DateTimeImmutable('2024-06-01'),
+			createType: TransactionCreateTypeEnum::Manual,
+			units: new Decimal('0'),
+			price: new Decimal('5.00'),
+			currency: $usd,
+			tax: null,
+			taxCurrency: $usd,
+			fee: null,
+			feeCurrency: $usd,
+			notes: 'E2E test dividend',
+			importIdentifier: null,
+		);
+
+		// 9. Seed a custom group with AAPL (enables group edit/delete tests).
+		//    MSFT and NVDA remain in "Others" so they are available for group-creation tests.
+		$this->writeln('Creating group...', $output);
+		$groupProvider->createGroup(
+			user: $user,
+			portfolio: $portfolio,
+			name: 'E2E Tech Group',
+			color: '#0d6efd',
+			assetIds: [$aaplAsset->id],
+		);
+
+		// 10. Seed a goal (enables goal edit/delete tests)
+		$this->writeln('Creating goal...', $output);
+		$goalProvider = $application->container->get(GoalProvider::class);
+		assert($goalProvider instanceof GoalProvider);
+		$goalProvider->createGoal(
+			user: $user,
+			portfolio: $portfolio,
+			type: GoalTypeEnum::PortfolioValue,
+			targetValue: new Decimal('100000'),
+			deadline: new DateTimeImmutable('2030-12-31'),
+		);
+
+		// 11. Seed a strategy (enables strategy edit/delete tests)
+		$this->writeln('Creating strategy...', $output);
+		$strategyProvider = $application->container->get(StrategyProvider::class);
+		assert($strategyProvider instanceof StrategyProvider);
+		$strategyProvider->createStrategy(
+			user: $user,
+			portfolio: $portfolio,
+			name: 'E2E Default Strategy',
+			isDefault: false,
+			items: [],
+		);
+
+		// 12. Seed a DCA plan (enables DCA plan edit/delete tests)
+		$this->writeln('Creating DCA plan...', $output);
+		$dcaPlanProvider = $application->container->get(DcaPlanProvider::class);
+		assert($dcaPlanProvider instanceof DcaPlanProvider);
+		$dcaPlanProvider->createDcaPlan(
+			user: $user,
+			targetType: DcaPlanTargetTypeEnum::Portfolio,
+			portfolio: $portfolio,
+			asset: null,
+			group: null,
+			strategy: null,
+			amount: new Decimal('500'),
+			currency: $usd,
+			intervalMonths: 1,
+			startDate: new DateTimeImmutable('2025-01-01'),
+			endDate: null,
+		);
+
+		// 13. Seed a price alert (enables price alert edit/delete tests)
+		$this->writeln('Creating price alert...', $output);
+		$priceAlertProvider = $application->container->get(PriceAlertProvider::class);
+		assert($priceAlertProvider instanceof PriceAlertProvider);
+		$priceAlertProvider->createPriceAlert(
+			user: $user,
+			type: PriceAlertTypeEnum::Portfolio,
+			condition: AlertConditionEnum::Above,
+			targetValue: '50000',
+			recurrence: AlertRecurrenceEnum::Recurring,
+			cooldownHours: 24,
+			portfolio: $portfolio,
+		);
 
 		$this->writeln('E2E seed completed successfully.', $output);
 
