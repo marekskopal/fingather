@@ -1,9 +1,11 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
 import {AbstractControl, ReactiveFormsModule, ValidationErrors, Validators} from '@angular/forms';
 import {ActivatedRoute, RouterLink} from '@angular/router';
+import {passwordValidator} from '@app/authentication/validator/password.validator';
 import { AuthenticationService } from '@app/services/authentication.service';
 import { BaseForm } from '@app/shared/components/form/base-form';
 import {InputValidatorComponent} from '@app/shared/components/input-validator/input-validator.component';
+import {PasswordRequirementsComponent} from '@app/shared/components/password-requirements/password-requirements.component';
 import {SaveButtonComponent} from '@app/shared/components/save-button/save-button.component';
 import {TranslatePipe} from '@ngx-translate/core';
 
@@ -13,6 +15,7 @@ import {TranslatePipe} from '@ngx-translate/core';
         ReactiveFormsModule,
         TranslatePipe,
         InputValidatorComponent,
+        PasswordRequirementsComponent,
         SaveButtonComponent,
         RouterLink,
     ],
@@ -32,7 +35,7 @@ export class ResetPasswordComponent extends BaseForm implements OnInit {
 
         this.form = this.formBuilder.group(
             {
-                password: ['', [Validators.required, Validators.minLength(6)]],
+                password: ['', [Validators.required, passwordValidator]],
                 confirmPassword: ['', Validators.required],
             },
             {validators: this.passwordsMatchValidator},

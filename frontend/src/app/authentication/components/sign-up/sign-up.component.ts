@@ -1,11 +1,13 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
 import { Router, RouterLink} from '@angular/router';
+import {passwordValidator} from '@app/authentication/validator/password.validator';
 import { UniqueEmailValidator } from '@app/authentication/validator/UniqueEmailValidator';
 import {CurrencyService, CurrentUserService} from '@app/services';
 import { AuthenticationService } from '@app/services/authentication.service';
 import { BaseForm } from '@app/shared/components/form/base-form';
 import {InputValidatorComponent} from "@app/shared/components/input-validator/input-validator.component";
+import {PasswordRequirementsComponent} from "@app/shared/components/password-requirements/password-requirements.component";
 import {SaveButtonComponent} from "@app/shared/components/save-button/save-button.component";
 import {SelectComponent} from "@app/shared/components/select/select.component";
 import {SelectItem} from "@app/shared/types/select-item";
@@ -17,6 +19,7 @@ import { TranslatePipe} from "@ngx-translate/core";
         ReactiveFormsModule,
         TranslatePipe,
         InputValidatorComponent,
+        PasswordRequirementsComponent,
         SelectComponent,
         SaveButtonComponent,
         RouterLink,
@@ -51,7 +54,7 @@ export class SignUpComponent extends BaseForm implements OnInit {
                 [this.uniqueEmailValidator.validate.bind(this.uniqueEmailValidator)],
                 'blur',
             ],
-            password: ['', [Validators.required, Validators.minLength(6)]],
+            password: ['', [Validators.required, passwordValidator]],
             defaultCurrencyId: [this.currencies[0].key, Validators.required],
         });
 

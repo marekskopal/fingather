@@ -5,6 +5,7 @@ import {
 import {ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatIcon} from "@angular/material/icon";
 import { Router, RouterLink} from "@angular/router";
+import {passwordValidator} from '@app/authentication/validator/password.validator';
 import { UserRoleEnum } from '@app/models/enums/user-role-enum';
 import {CurrencyService, CurrentUserService, UserService} from '@app/services';
 import {BaseAddEditForm} from "@app/shared/components/form/base-add-edit-form";
@@ -52,7 +53,7 @@ export class AddEditUserComponent extends BaseAddEditForm implements OnInit {
         this.initializeIdFromRoute();
 
         const emailValidators = [Validators.email];
-        const passwordValidators = [Validators.minLength(6)];
+        const passwordValidators = [passwordValidator];
 
         const id = this.id();
         if (id === null) {

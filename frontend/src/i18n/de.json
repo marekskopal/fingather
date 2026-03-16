@@ -178,7 +178,7 @@
         "header": "Passwort zurücksetzen",
         "password": "Neues Passwort",
         "passwordRequired": "Passwort ist erforderlich",
-        "passwordLength": "Das Passwort muss mindestens 6 Zeichen lang sein",
+        "passwordRequirements": "Das Passwort erfüllt nicht die Anforderungen",
         "confirmPassword": "Neues Passwort bestätigen",
         "confirmPasswordRequired": "Bitte bestätigen Sie Ihr Passwort",
         "passwordsMismatch": "Passwörter stimmen nicht überein",
@@ -205,7 +205,7 @@
         "emailExists": "Email existiert bereits",
         "password": "Passwort",
         "passwordRequired": "Passwort ist erforderlich",
-        "passwordLength": "Passwort muss mindestens 6 Zeichen lang sein",
+        "passwordRequirements": "Das Passwort erfüllt nicht die Anforderungen",
         "defaultCurrency": "Standardwährung",
         "defaultCurrencyRequired": "Standardwährung ist erforderlich",
         "signUp": "Registrieren"
@@ -422,7 +422,7 @@
         "password": "Passwort",
         "passwordLeaveBlank": "(Leer lassen, um das Passwort beizubehalten)",
         "passwordRequired": "Passwort ist erforderlich",
-        "passwordLength": "Passwort muss mindestens 6 Zeichen lang sein",
+        "passwordRequirements": "Das Passwort erfüllt nicht die Anforderungen",
         "defaultCurrency": "Standardwährung",
         "defaultCurrencyRequired": "Standardwährung ist erforderlich",
         "role": "Rolle",
@@ -648,7 +648,7 @@
         "emailExists": "Email existiert bereits",
         "password": "Passwort",
         "passwordLeaveBlank": "(Leer lassen, um das Passwort beizubehalten)",
-        "passwordLength": "Passwort muss mindestens 6 Zeichen lang sein",
+        "passwordRequirements": "Das Passwort erfüllt nicht die Anforderungen",
         "emailNotifications": "Email-Benachrichtigungen",
         "updateSuccess": "Konto wurde erfolgreich aktualisiert",
         "plan": "Tarif",
@@ -769,6 +769,14 @@
       },
       "tickerSearchSelector": {
         "search": "Vermögenswert suchen"
+      },
+      "passwordRequirements": {
+        "error": "Das Passwort erfüllt nicht die Anforderungen",
+        "minLength": "Mindestens 8 Zeichen",
+        "uppercase": "Mindestens ein Großbuchstabe",
+        "lowercase": "Mindestens ein Kleinbuchstabe",
+        "digit": "Mindestens eine Ziffer",
+        "specialChar": "Mindestens ein Sonderzeichen"
       }
     },
     "common": {

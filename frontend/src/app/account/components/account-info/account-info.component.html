@@ -51,9 +51,10 @@
                                     [control]="f['password']"
                                     [isSubmitted]="submitted()"
                                     [errorMessages]="{
-                                        minlength: 'app.account.accountInfo.passwordLength',
+                                        passwordRequirements: 'app.shared.passwordRequirements.error',
                                     }"
                                 />
+                                <fingather-password-requirements [control]="f['password']" />
                             </div>
                         </div>
                         <div class="form-row">

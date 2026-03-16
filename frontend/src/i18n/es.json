@@ -178,7 +178,7 @@
         "header": "Restablecer contraseña",
         "password": "Nueva contraseña",
         "passwordRequired": "La contraseña es obligatoria",
-        "passwordLength": "La contraseña debe tener al menos 6 caracteres",
+        "passwordRequirements": "La contraseña no cumple los requisitos",
         "confirmPassword": "Confirmar nueva contraseña",
         "confirmPasswordRequired": "Por favor confirma tu contraseña",
         "passwordsMismatch": "Las contraseñas no coinciden",
@@ -205,7 +205,7 @@
         "emailExists": "El email ya existe",
         "password": "Contraseña",
         "passwordRequired": "La contraseña es obligatoria",
-        "passwordLength": "La contraseña debe tener al menos 6 caracteres",
+        "passwordRequirements": "La contraseña no cumple los requisitos",
         "defaultCurrency": "Moneda Predeterminada",
         "defaultCurrencyRequired": "La moneda predeterminada es obligatoria",
         "signUp": "Registrarse"
@@ -422,7 +422,7 @@
         "password": "Contraseña",
         "passwordLeaveBlank": "(Deja en blanco para mantener la misma contraseña)",
         "passwordRequired": "La contraseña es obligatoria",
-        "passwordLength": "La contraseña debe tener al menos 6 caracteres",
+        "passwordRequirements": "La contraseña no cumple los requisitos",
         "defaultCurrency": "Moneda Predeterminada",
         "defaultCurrencyRequired": "La moneda predeterminada es obligatoria",
         "role": "Rol",
@@ -648,7 +648,7 @@
         "emailExists": "El email ya existe",
         "password": "Contraseña",
         "passwordLeaveBlank": "(Deja en blanco para mantener la misma contraseña)",
-        "passwordLength": "La contraseña debe tener al menos 6 caracteres",
+        "passwordRequirements": "La contraseña no cumple los requisitos",
         "emailNotifications": "Notificaciones por email",
         "updateSuccess": "Cuenta actualizada correctamente",
         "plan": "Plan",
@@ -769,6 +769,14 @@
       },
       "tickerSearchSelector": {
         "search": "Buscar Activo"
+      },
+      "passwordRequirements": {
+        "error": "La contraseña no cumple los requisitos",
+        "minLength": "Al menos 8 caracteres",
+        "uppercase": "Al menos una letra mayúscula",
+        "lowercase": "Al menos una letra minúscula",
+        "digit": "Al menos un dígito",
+        "specialChar": "Al menos un carácter especial"
       }
     },
     "common": {

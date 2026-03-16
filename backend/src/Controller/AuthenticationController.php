@@ -16,6 +16,7 @@ use FinGather\Dto\SignUpDto;
 use FinGather\Model\Entity\Enum\UserRoleEnum;
 use FinGather\Response\BoolResponse;
 use FinGather\Response\ConflictResponse;
+use FinGather\Response\ErrorResponse;
 use FinGather\Response\NotAuthorizedResponse;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Response\OkResponse;
@@ -28,6 +29,7 @@ use FinGather\Service\Provider\CurrencyProvider;
 use FinGather\Service\Provider\PasswordResetProvider;
 use FinGather\Service\Provider\UserProvider;
 use FinGather\Service\Request\RequestService;
+use FinGather\Validator\PasswordValidator;
 use Firebase\JWT\ExpiredException;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -98,6 +100,10 @@ final readonly class AuthenticationController
 	{
 		$signUp = $this->requestService->getRequestBodyDto($request, SignUpDto::class);
 
+		if (!PasswordValidator::isValid($signUp->password)) {
+			return new ErrorResponse('Password does not meet requirements.', 422);
+		}
+
 		$existsUser = $this->userProvider->getUserByEmail($signUp->email);
 		if ($existsUser !== null) {
 			return new ConflictResponse('User with email "' . $signUp->email . '" already exists.');
@@ -152,6 +158,10 @@ final readonly class AuthenticationController
 		if ($expiry < new DateTimeImmutable()) {
 			$this->passwordResetProvider->deletePasswordReset($passwordReset);
 			return new NotFoundResponse('Password reset token not found or expired.');
+		}
+
+		if (!PasswordValidator::isValid($dto->password)) {
+			return new ErrorResponse('Password does not meet requirements.', 422);
 		}
 
 		$this->userProvider->resetPassword($passwordReset->user, $dto->password);

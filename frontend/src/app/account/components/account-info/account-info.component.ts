@@ -1,5 +1,7 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
 import {AbstractControl, ReactiveFormsModule, ValidationErrors, Validators} from '@angular/forms';
+import {MatIcon} from "@angular/material/icon";
+import {passwordValidator} from '@app/authentication/validator/password.validator';
 import {UniqueEmailValidator} from '@app/authentication/validator/UniqueEmailValidator';
 import {User} from '@app/models';
 import {CurrentUserService} from '@app/services';
@@ -7,6 +9,7 @@ import {AuthenticationService} from "@app/services/authentication.service";
 import {DeleteButtonComponent} from "@app/shared/components/delete-button/delete-button.component";
 import {BaseForm} from '@app/shared/components/form/base-form';
 import {InputValidatorComponent} from '@app/shared/components/input-validator/input-validator.component';
+import {PasswordRequirementsComponent} from '@app/shared/components/password-requirements/password-requirements.component';
 import {PortfolioSelectorComponent} from '@app/shared/components/portfolio-selector/portfolio-selector.component';
 import {SaveButtonComponent} from '@app/shared/components/save-button/save-button.component';
 import {TranslateModule} from '@ngx-translate/core';
@@ -19,6 +22,7 @@ import {TranslateModule} from '@ngx-translate/core';
         TranslateModule,
         ReactiveFormsModule,
         InputValidatorComponent,
+        PasswordRequirementsComponent,
         SaveButtonComponent,
         DeleteButtonComponent,
     ],
@@ -48,7 +52,7 @@ export class AccountInfoComponent extends BaseForm implements OnInit {
                 [this.validateUniqueEmail.bind(this)],
                 'blur',
             ],
-            password: ['', [Validators.minLength(6)]],
+            password: ['', [passwordValidator]],
             isEmailNotificationsEnabled: [user.isEmailNotificationsEnabled],
         });
 

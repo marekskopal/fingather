@@ -8,10 +8,12 @@ use FinGather\Dto\CurrentUserLocaleDto;
 use FinGather\Dto\CurrentUserUpdateDto;
 use FinGather\Dto\UserDto;
 use FinGather\Response\ConflictResponse;
+use FinGather\Response\ErrorResponse;
 use FinGather\Response\OkResponse;
 use FinGather\Route\Routes;
 use FinGather\Service\Provider\UserProvider;
 use FinGather\Service\Request\RequestService;
+use FinGather\Validator\PasswordValidator;
 use Laminas\Diactoros\Response\JsonResponse;
 use MarekSkopal\Router\Attribute\RouteDelete;
 use MarekSkopal\Router\Attribute\RouteGet;
@@ -44,6 +46,10 @@ final readonly class CurrentUserController
 	{
 		$user = $this->requestService->getUser($request);
 		$currentUserUpdateDto = $this->requestService->getRequestBodyDto($request, CurrentUserUpdateDto::class);
+
+		if ($currentUserUpdateDto->password !== '' && !PasswordValidator::isValid($currentUserUpdateDto->password)) {
+			return new ErrorResponse('Password does not meet requirements.', 422);
+		}
 
 		if ($currentUserUpdateDto->email !== $user->email) {
 			$existsUser = $this->userProvider->getUserByEmail($currentUserUpdateDto->email);

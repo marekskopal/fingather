@@ -35,9 +35,10 @@
                         [isSubmitted]="submitted()"
                         [errorMessages]="{
                             required: 'app.authentication.signUp.passwordRequired',
-                            minlength: 'app.authentication.signUp.passwordLength',
+                            passwordRequirements: 'app.shared.passwordRequirements.error',
                         }"
                     />
+                    <fingather-password-requirements [control]="f['password']" />
                 </div>
                 <div class="form-row mb-3">
                     <div class="form-group col">

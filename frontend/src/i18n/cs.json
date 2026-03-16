@@ -178,7 +178,7 @@
         "header": "Obnovení hesla",
         "password": "Nové heslo",
         "passwordRequired": "Heslo je povinné",
-        "passwordLength": "Heslo musí mít alespoň 6 znaků",
+        "passwordRequirements": "Heslo nesplňuje požadavky",
         "confirmPassword": "Potvrzení nového hesla",
         "confirmPasswordRequired": "Prosím potvrďte heslo",
         "passwordsMismatch": "Hesla se neshodují",
@@ -205,7 +205,7 @@
         "emailExists": "Email již existuje",
         "password": "Heslo",
         "passwordRequired": "Heslo je povinné",
-        "passwordLength": "Heslo musí být nejméně 6 znaků dlouhé",
+        "passwordRequirements": "Heslo nesplňuje požadavky",
         "defaultCurrency": "Výchozí měna",
         "defaultCurrencyRequired": "Výchozí měna je povinná",
         "signUp": "Registrovat"
@@ -422,7 +422,7 @@
         "password": "Heslo",
         "passwordLeaveBlank": "(Nechte prázdné pro stejné heslo)",
         "passwordRequired": "Heslo je povinné",
-        "passwordLength": "Heslo musí být nejméně 6 znaků dlouhé",
+        "passwordRequirements": "Heslo nesplňuje požadavky",
         "defaultCurrency": "Výchozí měna",
         "defaultCurrencyRequired": "Výchozí měna je povinná",
         "role": "Role",
@@ -644,7 +644,7 @@
         "emailExists": "Email již existuje",
         "password": "Heslo",
         "passwordLeaveBlank": "(Nechte prázdné pro stejné heslo)",
-        "passwordLength": "Heslo musí být nejméně 6 znaků dlouhé",
+        "passwordRequirements": "Heslo nesplňuje požadavky",
         "emailNotifications": "Emailové notifikace",
         "updateSuccess": "Účet byl úspěšně aktualizován",
         "deleteAccount": "Smazat účet",
@@ -756,6 +756,14 @@
       },
       "tickerSearchSelector": {
         "search": "Hledat aktivum"
+      },
+      "passwordRequirements": {
+        "error": "Heslo nesplňuje požadavky",
+        "minLength": "Alespoň 8 znaků",
+        "uppercase": "Alespoň jedno velké písmeno",
+        "lowercase": "Alespoň jedno malé písmeno",
+        "digit": "Alespoň jedna číslice",
+        "specialChar": "Alespoň jeden speciální znak"
       }
     },
     "common": {

@@ -14,6 +14,7 @@ use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\Enum\OrderDirectionEnum;
 use FinGather\Model\Repository\Enum\UserOrderByEnum;
 use FinGather\Response\ConflictResponse;
+use FinGather\Response\ErrorResponse;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Response\OkResponse;
 use FinGather\Route\Routes;
@@ -22,6 +23,7 @@ use FinGather\Service\Provider\CurrencyProvider;
 use FinGather\Service\Provider\TransactionProvider;
 use FinGather\Service\Provider\UserProvider;
 use FinGather\Service\Request\RequestService;
+use FinGather\Validator\PasswordValidator;
 use Laminas\Diactoros\Response\JsonResponse;
 use MarekSkopal\Router\Attribute\RouteDelete;
 use MarekSkopal\Router\Attribute\RouteGet;
@@ -96,6 +98,10 @@ final readonly class UserController extends AdminController
 	{
 		$userCreateDto = $this->requestService->getRequestBodyDto($request, UserCreateDto::class);
 
+		if (!PasswordValidator::isValid($userCreateDto->password)) {
+			return new ErrorResponse('Password does not meet requirements.', 422);
+		}
+
 		$existsUser = $this->userProvider->getUserByEmail($userCreateDto->email);
 		if ($existsUser !== null) {
 			return new ConflictResponse('User with email "' . $userCreateDto->email . '" already exists.');
@@ -130,6 +136,10 @@ final readonly class UserController extends AdminController
 		}
 
 		$userUpdateDto = $this->requestService->getRequestBodyDto($request, UserUpdateDto::class);
+
+		if ($userUpdateDto->password !== '' && !PasswordValidator::isValid($userUpdateDto->password)) {
+			return new ErrorResponse('Password does not meet requirements.', 422);
+		}
 
 		return new JsonResponse(UserDto::fromEntity($this->userProvider->updateUser(
 			user: $user,

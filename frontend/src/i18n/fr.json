@@ -178,7 +178,7 @@
         "header": "Réinitialiser le mot de passe",
         "password": "Nouveau mot de passe",
         "passwordRequired": "Le mot de passe est requis",
-        "passwordLength": "Le mot de passe doit comporter au moins 6 caractères",
+        "passwordRequirements": "Le mot de passe ne répond pas aux exigences",
         "confirmPassword": "Confirmer le nouveau mot de passe",
         "confirmPasswordRequired": "Veuillez confirmer votre mot de passe",
         "passwordsMismatch": "Les mots de passe ne correspondent pas",
@@ -205,7 +205,7 @@
         "emailExists": "Cet email existe déjà",
         "password": "Mot de passe",
         "passwordRequired": "Le mot de passe est requis",
-        "passwordLength": "Le mot de passe doit contenir au moins 6 caractères",
+        "passwordRequirements": "Le mot de passe ne répond pas aux exigences",
         "defaultCurrency": "Devise par défaut",
         "defaultCurrencyRequired": "La devise par défaut est requise",
         "signUp": "Inscription"
@@ -422,7 +422,7 @@
         "password": "Mot de passe",
         "passwordLeaveBlank": "(Laissez vide pour conserver le même mot de passe)",
         "passwordRequired": "Le mot de passe est requis",
-        "passwordLength": "Le mot de passe doit contenir au moins 6 caractères",
+        "passwordRequirements": "Le mot de passe ne répond pas aux exigences",
         "defaultCurrency": "Devise par défaut",
         "defaultCurrencyRequired": "La devise par défaut est requise",
         "role": "Rôle",
@@ -648,7 +648,7 @@
         "emailExists": "Cet email existe déjà",
         "password": "Mot de passe",
         "passwordLeaveBlank": "(Laissez vide pour conserver le même mot de passe)",
-        "passwordLength": "Le mot de passe doit contenir au moins 6 caractères",
+        "passwordRequirements": "Le mot de passe ne répond pas aux exigences",
         "emailNotifications": "Notifications par email",
         "updateSuccess": "Compte mis à jour avec succès",
         "plan": "Abonnement",
@@ -769,6 +769,14 @@
       },
       "tickerSearchSelector": {
         "search": "Rechercher un actif"
+      },
+      "passwordRequirements": {
+        "error": "Le mot de passe ne répond pas aux exigences",
+        "minLength": "Au moins 8 caractères",
+        "uppercase": "Au moins une lettre majuscule",
+        "lowercase": "Au moins une lettre minuscule",
+        "digit": "Au moins un chiffre",
+        "specialChar": "Au moins un caractère spécial"
       }
     },
     "common": {
