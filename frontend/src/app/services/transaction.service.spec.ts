@@ -1,5 +1,6 @@
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { DestroyRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Transaction, TransactionActionType, TransactionCreateType } from '@app/models';
 import { OrderDirection } from '@app/models/enums/order-direction';
@@ -223,7 +224,7 @@ describe('TransactionService', () => {
     describe('NotifyService integration', () => {
         it('calls subscribers when notify() is invoked', () => {
             const cb = vi.fn();
-            service.subscribe(cb);
+            service.subscribe(cb, TestBed.inject(DestroyRef));
             service.notify();
             expect(cb).toHaveBeenCalledTimes(1);
         });

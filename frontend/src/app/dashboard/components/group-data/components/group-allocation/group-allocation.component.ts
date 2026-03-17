@@ -1,6 +1,6 @@
 import {AsyncPipe, DecimalPipe} from "@angular/common";
 import {
-    ChangeDetectionStrategy, Component, inject, input, OnInit, signal,
+    ChangeDetectionStrategy, Component, DestroyRef, inject, input, OnInit, signal,
 } from '@angular/core';
 import {GroupChartComponent} from "@app/dashboard/components/group-data/components/group-chart/group-chart.component";
 import { Currency } from '@app/models';
@@ -29,6 +29,7 @@ import { TranslatePipe} from "@ngx-translate/core";
 export class GroupAllocationComponent implements OnInit {
     private readonly currencyService = inject(CurrencyService);
     private readonly portfolioService = inject(PortfolioService);
+    private readonly destroyRef = inject(DestroyRef);
 
     public readonly groupsAllocationService = input.required<GroupAllocationService>();
 
@@ -42,7 +43,7 @@ export class GroupAllocationComponent implements OnInit {
 
         this.portfolioService.subscribe(() => {
             this.refreshGroupWithGroupData();
-        });
+        }, this.destroyRef);
     }
 
     public async refreshGroupWithGroupData(): Promise<void> {

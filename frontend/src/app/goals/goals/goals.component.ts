@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal,
+    ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIcon } from '@angular/material/icon';
@@ -34,7 +34,7 @@ export class GoalsComponent implements OnInit {
     private readonly goalService = inject(GoalService);
     private readonly portfolioService = inject(PortfolioService);
     private readonly translateService = inject(TranslateService);
-    private readonly changeDetectorRef = inject(ChangeDetectorRef);
+    private readonly destroyRef = inject(DestroyRef);
 
     public readonly goals = signal<Goal[] | null>(null);
 
@@ -43,13 +43,11 @@ export class GoalsComponent implements OnInit {
 
         this.goalService.subscribe(() => {
             this.refreshGoals();
-            this.changeDetectorRef.detectChanges();
-        });
+        }, this.destroyRef);
 
         this.portfolioService.subscribe(() => {
             this.refreshGoals();
-            this.changeDetectorRef.detectChanges();
-        });
+        }, this.destroyRef);
     }
 
     private async refreshGoals(): Promise<void> {

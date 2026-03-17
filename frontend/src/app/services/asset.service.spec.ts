@@ -1,5 +1,6 @@
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { DestroyRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Asset, AssetsWithProperties, AssetWithProperties } from '@app/models';
 import { AssetCreate } from '@app/models/asset-create';
@@ -114,7 +115,7 @@ describe('AssetService', () => {
     describe('NotifyService integration', () => {
         it('calls subscribers when notify() is invoked', () => {
             const cb = vi.fn();
-            service.subscribe(cb);
+            service.subscribe(cb, TestBed.inject(DestroyRef));
             service.notify();
             expect(cb).toHaveBeenCalledTimes(1);
         });

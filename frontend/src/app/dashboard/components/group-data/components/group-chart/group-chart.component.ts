@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy, Component, computed, CSP_NONCE, inject, input, OnInit, signal,
+    ChangeDetectionStrategy, Component, computed, CSP_NONCE, DestroyRef, inject, input, OnInit, signal,
 } from '@angular/core';
 import {AbstractGroupWithGroupDataEntity} from "@app/models/abstract-group-with-group-data-entity";
 import { PortfolioService } from '@app/services';
@@ -37,6 +37,7 @@ export type ChartOptions = {
 export class GroupChartComponent implements OnInit {
     private readonly portfolioService = inject(PortfolioService);
     private readonly nonce = inject(CSP_NONCE);
+    private readonly destroyRef = inject(DestroyRef);
 
     public readonly groupsWithGroupData = input.required<AbstractGroupWithGroupDataEntity[]>();
 
@@ -62,7 +63,7 @@ export class GroupChartComponent implements OnInit {
 
         this.portfolioService.subscribe(() => {
             this.refreshChart();
-        });
+        }, this.destroyRef);
     }
 
     public async refreshChart(): Promise<void> {

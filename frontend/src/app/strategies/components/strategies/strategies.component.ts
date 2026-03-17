@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal,
+    ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal,
 } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
@@ -25,7 +25,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 export class StrategiesComponent implements OnInit {
     private readonly strategyService = inject(StrategyService);
     private readonly portfolioService = inject(PortfolioService);
-    private readonly changeDetectorRef = inject(ChangeDetectorRef);
+    private readonly destroyRef = inject(DestroyRef);
 
     public readonly strategies = signal<Strategy[] | null>(null);
     public readonly selectedStrategyId = signal<number | null>(null);
@@ -35,13 +35,11 @@ export class StrategiesComponent implements OnInit {
 
         this.strategyService.subscribe(() => {
             this.refreshStrategies();
-            this.changeDetectorRef.detectChanges();
-        });
+        }, this.destroyRef);
 
         this.portfolioService.subscribe(() => {
             this.refreshStrategies();
-            this.changeDetectorRef.detectChanges();
-        });
+        }, this.destroyRef);
     }
 
     private async refreshStrategies(): Promise<void> {

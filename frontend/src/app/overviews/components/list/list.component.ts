@@ -1,6 +1,6 @@
 import {AsyncPipe, DecimalPipe} from "@angular/common";
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal,
+    ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal,
 } from '@angular/core';
 import {RouterLink} from '@angular/router';
 import { Currency, YearCalculatedData } from '@app/models';
@@ -30,7 +30,7 @@ export class ListComponent implements OnInit {
     private readonly overviewService = inject(OverviewService);
     private readonly currencyService = inject(CurrencyService);
     private readonly portfolioService = inject(PortfolioService);
-    private readonly changeDetectorRef = inject(ChangeDetectorRef);
+    private readonly destroyRef = inject(DestroyRef);
 
     protected readonly yearCalculatedDatas = signal<YearCalculatedData[] | null>(null);
     protected defaultCurrency: Currency;
@@ -45,8 +45,7 @@ export class ListComponent implements OnInit {
 
         this.portfolioService.subscribe(() => {
             this.refreshYearCalculatedData();
-            this.changeDetectorRef.detectChanges();
-        });
+        }, this.destroyRef);
     }
 
     private async refreshYearCalculatedData(): Promise<void> {

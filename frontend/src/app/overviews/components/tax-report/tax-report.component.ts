@@ -1,6 +1,6 @@
 import {AsyncPipe, DecimalPipe} from '@angular/common';
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal,
+    ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal,
 } from '@angular/core';
 import {MatIcon} from '@angular/material/icon';
 import {ActivatedRoute, RouterLink} from '@angular/router';
@@ -33,7 +33,7 @@ export class TaxReportComponent implements OnInit {
     private readonly taxReportService = inject(TaxReportService);
     private readonly currencyService = inject(CurrencyService);
     private readonly portfolioService = inject(PortfolioService);
-    private readonly changeDetectorRef = inject(ChangeDetectorRef);
+    private readonly destroyRef = inject(DestroyRef);
     private readonly route = inject(ActivatedRoute);
 
     protected readonly taxReport = signal<TaxReport | null>(null);
@@ -48,8 +48,7 @@ export class TaxReportComponent implements OnInit {
 
         this.portfolioService.subscribe(() => {
             this.refreshTaxReport();
-            this.changeDetectorRef.detectChanges();
-        });
+        }, this.destroyRef);
     }
 
     protected async exportXlsx(): Promise<void> {

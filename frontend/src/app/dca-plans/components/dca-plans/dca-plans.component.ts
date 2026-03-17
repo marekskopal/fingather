@@ -1,6 +1,6 @@
 import {AsyncPipe, DatePipe, DecimalPipe} from '@angular/common';
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal,
+    ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal,
 } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
@@ -31,7 +31,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 export class DcaPlansComponent implements OnInit {
     private readonly dcaPlanService = inject(DcaPlanService);
     private readonly portfolioService = inject(PortfolioService);
-    private readonly changeDetectorRef = inject(ChangeDetectorRef);
+    private readonly destroyRef = inject(DestroyRef);
 
     public readonly plans = signal<DcaPlan[] | null>(null);
 
@@ -40,13 +40,11 @@ export class DcaPlansComponent implements OnInit {
 
         this.dcaPlanService.subscribe(() => {
             this.refreshPlans();
-            this.changeDetectorRef.detectChanges();
-        });
+        }, this.destroyRef);
 
         this.portfolioService.subscribe(() => {
             this.refreshPlans();
-            this.changeDetectorRef.detectChanges();
-        });
+        }, this.destroyRef);
     }
 
     private async refreshPlans(): Promise<void> {

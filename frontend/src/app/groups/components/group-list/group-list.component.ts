@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal,
+    ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal,
 } from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
 import {RouterLink} from "@angular/router";
@@ -25,7 +25,7 @@ import { TranslatePipe} from "@ngx-translate/core";
 export class GroupListComponent implements OnInit {
     private readonly groupService = inject(GroupService);
     private readonly portfolioService = inject(PortfolioService);
-    private readonly changeDetectorRef = inject(ChangeDetectorRef);
+    private readonly destroyRef = inject(DestroyRef);
 
     public readonly groups = signal<Group[] | null>(null);
 
@@ -34,13 +34,11 @@ export class GroupListComponent implements OnInit {
 
         this.groupService.subscribe(() => {
             this.refreshGroups();
-            this.changeDetectorRef.detectChanges();
-        });
+        }, this.destroyRef);
 
         this.portfolioService.subscribe(() => {
             this.refreshGroups();
-            this.changeDetectorRef.detectChanges();
-        });
+        }, this.destroyRef);
     }
 
     private async refreshGroups(): Promise<void> {

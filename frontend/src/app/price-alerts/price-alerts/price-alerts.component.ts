@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal,
+    ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal,
 } from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import {MatIcon} from "@angular/material/icon";
@@ -26,7 +26,7 @@ import {TranslatePipe, TranslateService} from "@ngx-translate/core";
 export class PriceAlertsComponent implements OnInit {
     private readonly priceAlertService = inject(PriceAlertService);
     private readonly translateService = inject(TranslateService);
-    private readonly changeDetectorRef = inject(ChangeDetectorRef);
+    private readonly destroyRef = inject(DestroyRef);
 
     public readonly priceAlerts = signal<PriceAlert[] | null>(null);
 
@@ -35,8 +35,7 @@ export class PriceAlertsComponent implements OnInit {
 
         this.priceAlertService.subscribe(() => {
             this.refreshPriceAlerts();
-            this.changeDetectorRef.detectChanges();
-        });
+        }, this.destroyRef);
     }
 
     private async refreshPriceAlerts(): Promise<void> {

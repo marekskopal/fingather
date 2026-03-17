@@ -1,6 +1,6 @@
 import {
     ChangeDetectionStrategy,
-    Component, CSP_NONCE, inject, input, InputSignal, OnChanges, OnInit, signal,
+    Component, CSP_NONCE, DestroyRef, inject, input, InputSignal, OnChanges, OnInit, signal,
 } from '@angular/core';
 import {
     DividendDataDateInterval,
@@ -39,6 +39,7 @@ export class DividendsDataChartComponent implements OnInit, OnChanges {
     private readonly dividendDataService = inject(DividendDataService);
     private readonly portfolioService = inject(PortfolioService);
     private readonly nonce = inject(CSP_NONCE);
+    private readonly destroyRef = inject(DestroyRef);
 
     public readonly range: InputSignal<RangeEnum> = input.required<RangeEnum>();
     public chartOptions: ChartOptions;
@@ -49,7 +50,7 @@ export class DividendsDataChartComponent implements OnInit, OnChanges {
 
         this.portfolioService.subscribe(() => {
             this.refreshChart();
-        });
+        }, this.destroyRef);
     }
 
     public ngOnChanges(): void {

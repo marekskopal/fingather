@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal,
+    ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal,
 } from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
 import {RouterLink} from "@angular/router";
@@ -24,7 +24,7 @@ import { TranslatePipe} from "@ngx-translate/core";
 })
 export class ListComponent implements OnInit {
     private readonly portfolioService = inject(PortfolioService);
-    private readonly changeDetectorRef = inject(ChangeDetectorRef);
+    private readonly destroyRef = inject(DestroyRef);
 
     protected readonly portfolios = signal<Portfolio[] | null>(null);
     protected currentPortfolio: Portfolio;
@@ -36,8 +36,7 @@ export class ListComponent implements OnInit {
 
         this.portfolioService.subscribe(() => {
             this.refreshPortfolios();
-            this.changeDetectorRef.detectChanges();
-        });
+        }, this.destroyRef);
     }
 
     private async refreshPortfolios(): Promise<void> {

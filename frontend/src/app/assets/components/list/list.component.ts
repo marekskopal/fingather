@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal,
+    ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal,
 } from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
 import {RouterLink} from "@angular/router";
@@ -45,7 +45,7 @@ export class ListComponent implements OnInit {
     private readonly currencyService = inject(CurrencyService);
     private readonly groupWithGroupDataService = inject(GroupWithGroupDataService);
     private readonly portfolioService = inject(PortfolioService);
-    private readonly changeDetectorRef = inject(ChangeDetectorRef);
+    private readonly destroyRef = inject(DestroyRef);
 
     protected readonly assetsWithProperties = signal<AssetsWithProperties | null>(null);
     protected readonly openedGroupedAssets = signal<GroupWithGroupData[] | null>(null);
@@ -66,8 +66,7 @@ export class ListComponent implements OnInit {
 
         this.portfolioService.subscribe(() => {
             this.refreshOpenedAssets();
-            this.changeDetectorRef.detectChanges();
-        });
+        }, this.destroyRef);
     }
 
     private async refreshOpenedAssets(): Promise<void> {

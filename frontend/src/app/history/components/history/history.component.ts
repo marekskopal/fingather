@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy, Component, computed, inject, OnInit, signal,
+    ChangeDetectionStrategy, Component, computed, DestroyRef, inject, OnInit, signal,
 } from '@angular/core';
 import { Asset, BenchmarkAsset } from '@app/models';
 import { RangeEnum } from '@app/models/enums/range-enum';
@@ -37,6 +37,7 @@ export class HistoryComponent implements OnInit {
     private readonly assetService = inject(AssetService);
     private readonly benchmarkAssetService = inject(BenchmarkAssetService);
     private readonly portfolioService = inject(PortfolioService);
+    private readonly destroyRef = inject(DestroyRef);
 
     protected activeRange: RangeEnum = RangeEnum.YTD;
     protected customRangeFrom: string | null = null;
@@ -90,7 +91,7 @@ export class HistoryComponent implements OnInit {
 
         this.portfolioService.subscribe(() => {
             this.refreshAssets();
-        });
+        }, this.destroyRef);
     }
 
     private async loadFixedBenchmarkAssets(): Promise<void> {

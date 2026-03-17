@@ -1,6 +1,6 @@
 import {AsyncPipe, DecimalPipe} from "@angular/common";
 import {
-    ChangeDetectionStrategy, Component, inject, input, OnInit, signal,
+    ChangeDetectionStrategy, Component, DestroyRef, inject, input, OnInit, signal,
 } from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
 import {Currency, Portfolio, PortfolioData} from '@app/models';
@@ -35,6 +35,7 @@ export class PortfolioTotalComponent implements OnInit {
     private readonly portfolioDataService = inject(PortfolioDataService);
     private readonly currencyService = inject(CurrencyService);
     private readonly portfolioService = inject(PortfolioService);
+    private readonly destroyRef = inject(DestroyRef);
 
     public readonly portfolio = input<Portfolio | null>(null);
 
@@ -48,7 +49,7 @@ export class PortfolioTotalComponent implements OnInit {
 
         this.portfolioService.subscribe(() => {
             this.refreshPortfolioData();
-        });
+        }, this.destroyRef);
     }
 
     public async refreshPortfolioData(): Promise<void> {

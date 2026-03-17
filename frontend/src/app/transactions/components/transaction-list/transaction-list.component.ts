@@ -1,6 +1,6 @@
 import {DatePipe} from "@angular/common";
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef, Component, computed, inject, input, OnInit, signal,
+    ChangeDetectionStrategy, Component, computed, DestroyRef, inject, input, OnInit, signal,
 } from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
 import {RouterLink} from "@angular/router";
@@ -44,7 +44,7 @@ import { TranslatePipe} from "@ngx-translate/core";
 export class TransactionListComponent implements OnInit {
     private readonly transactionService = inject(TransactionService);
     private readonly portfolioService = inject(PortfolioService);
-    private readonly changeDetectorRef = inject(ChangeDetectorRef);
+    private readonly destroyRef = inject(DestroyRef);
 
     public readonly assetId = input<number | null>(null);
 
@@ -111,13 +111,11 @@ export class TransactionListComponent implements OnInit {
 
         this.transactionService.subscribe(() => {
             this.refreshTransactions();
-            this.changeDetectorRef.detectChanges();
-        });
+        }, this.destroyRef);
 
         this.portfolioService.subscribe(() => {
             this.refreshTransactions();
-            this.changeDetectorRef.detectChanges();
-        });
+        }, this.destroyRef);
     }
 
     protected async changePage(page: number): Promise<void> {

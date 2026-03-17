@@ -1,6 +1,6 @@
 import {AsyncPipe} from '@angular/common';
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal,
+    ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal,
 } from '@angular/core';
 import {MatIcon} from '@angular/material/icon';
 import {RouterLink} from '@angular/router';
@@ -30,7 +30,7 @@ import {TranslatePipe} from '@ngx-translate/core';
 export class ImportMappingListComponent implements OnInit {
     private readonly importMappingService = inject(ImportMappingService);
     private readonly portfolioService = inject(PortfolioService);
-    private readonly changeDetectorRef = inject(ChangeDetectorRef);
+    private readonly destroyRef = inject(DestroyRef);
 
     public readonly importMappings = signal<ImportMappingDetails[] | null>(null);
 
@@ -39,13 +39,11 @@ export class ImportMappingListComponent implements OnInit {
 
         this.importMappingService.subscribe(() => {
             this.refreshImportMappings();
-            this.changeDetectorRef.detectChanges();
-        });
+        }, this.destroyRef);
 
         this.portfolioService.subscribe(() => {
             this.refreshImportMappings();
-            this.changeDetectorRef.detectChanges();
-        });
+        }, this.destroyRef);
     }
 
     private async refreshImportMappings(): Promise<void> {

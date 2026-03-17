@@ -1,5 +1,5 @@
 import {DatePipe} from "@angular/common";
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal} from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
 import {Router, RouterLink} from "@angular/router";
 import {User} from '@app/models';
@@ -31,7 +31,7 @@ import { TranslatePipe} from "@ngx-translate/core";
 export class ListComponent implements OnInit {
     private readonly userService = inject(UserService);
     private readonly currentUserService = inject(CurrentUserService);
-    private readonly changeDetectorRef = inject(ChangeDetectorRef);
+    private readonly destroyRef = inject(DestroyRef);
     private readonly router = inject(Router);
 
     protected readonly users = signal<UserList | null>(null);
@@ -54,8 +54,7 @@ export class ListComponent implements OnInit {
 
         this.userService.subscribe(() => {
             this.refreshUsers();
-            this.changeDetectorRef.detectChanges();
-        });
+        }, this.destroyRef);
     }
 
     private async refreshUsers(): Promise<void> {

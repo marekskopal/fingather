@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal,
+    ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal,
 } from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
 import {RouterLink} from "@angular/router";
@@ -26,7 +26,7 @@ import {TranslatePipe} from "@ngx-translate/core";
 export class ApiKeysComponent implements OnInit {
     private readonly apiKeyService = inject(ApiKeyService);
     private readonly portfolioService = inject(PortfolioService);
-    private readonly changeDetectorRef = inject(ChangeDetectorRef);
+    private readonly destroyRef = inject(DestroyRef);
 
     public readonly apiKeys = signal<ApiKey[] | null>(null);
 
@@ -35,13 +35,11 @@ export class ApiKeysComponent implements OnInit {
 
         this.apiKeyService.subscribe(() => {
             this.refreshApiKeys();
-            this.changeDetectorRef.detectChanges();
-        });
+        }, this.destroyRef);
 
         this.portfolioService.subscribe(() => {
             this.refreshApiKeys();
-            this.changeDetectorRef.detectChanges();
-        });
+        }, this.destroyRef);
     }
 
     private async refreshApiKeys(): Promise<void> {

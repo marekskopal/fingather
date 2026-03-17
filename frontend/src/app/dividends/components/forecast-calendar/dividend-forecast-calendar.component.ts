@@ -1,6 +1,6 @@
 import { AsyncPipe, DatePipe, DecimalPipe } from '@angular/common';
 import {
-    ChangeDetectionStrategy, Component, computed, inject, OnInit, signal,
+    ChangeDetectionStrategy, Component, computed, DestroyRef, inject, OnInit, signal,
 } from '@angular/core';
 import { Currency, DividendCalendarItem } from '@app/models';
 import { CurrencyService, DividendCalendarService, PortfolioService } from '@app/services';
@@ -33,6 +33,7 @@ export class DividendForecastCalendarComponent implements OnInit {
     private readonly dividendCalendarService = inject(DividendCalendarService);
     private readonly currencyService = inject(CurrencyService);
     private readonly portfolioService = inject(PortfolioService);
+    private readonly destroyRef = inject(DestroyRef);
 
     protected readonly loading = signal<boolean>(false);
     protected readonly items = signal<DividendCalendarItem[]>([]);
@@ -69,7 +70,7 @@ export class DividendForecastCalendarComponent implements OnInit {
 
         this.portfolioService.subscribe(() => {
             this.loadData();
-        });
+        }, this.destroyRef);
     }
 
     private async loadData(): Promise<void> {

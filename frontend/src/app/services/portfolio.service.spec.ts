@@ -1,5 +1,6 @@
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { DestroyRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Portfolio } from '@app/models';
 import { OkResponse } from '@app/models/ok-response';
@@ -216,7 +217,7 @@ describe('PortfolioService', () => {
     describe('NotifyService integration', () => {
         it('calls subscribers when notify() is invoked', () => {
             const cb = vi.fn();
-            service.subscribe(cb);
+            service.subscribe(cb, TestBed.inject(DestroyRef));
             service.notify();
             expect(cb).toHaveBeenCalledTimes(1);
         });
