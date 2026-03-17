@@ -34,13 +34,15 @@ final class TaxReportCalculator
 		$yearStart = new DateTimeImmutable($year . '-01-01');
 		$yearEnd = new DateTimeImmutable($year . '-12-31 23:59:59');
 
+		$allTransactionsByAsset = $this->currentTransactionProvider->loadTransactions(user: $user, portfolio: $portfolio);
+
 		return new TaxReportDto(
 			year: $year,
 			realizedGains: $this->realizedGainsCalculator->calculate($user, $portfolio, $yearStart, $yearEnd),
 			unrealizedPositions: $this->calculateUnrealizedPositions($user, $portfolio, $yearEnd),
-			dividends: $this->calculateDividends($user, $portfolio, $yearStart, $yearEnd),
-			totalFees: $this->calculateTotalFees($user, $portfolio, $yearStart, $yearEnd),
-			totalTaxes: $this->calculateTotalTaxes($user, $portfolio, $yearStart, $yearEnd),
+			dividends: $this->calculateDividends($allTransactionsByAsset, $yearStart, $yearEnd),
+			totalFees: $this->calculateTotalFees($allTransactionsByAsset, $yearStart, $yearEnd),
+			totalTaxes: $this->calculateTotalTaxes($allTransactionsByAsset, $yearStart, $yearEnd),
 		);
 	}
 
@@ -85,14 +87,12 @@ final class TaxReportCalculator
 		);
 	}
 
+	/** @param array<int, list<Transaction>> $allTransactionsByAsset */
 	private function calculateDividends(
-		User $user,
-		Portfolio $portfolio,
+		array $allTransactionsByAsset,
 		DateTimeImmutable $yearStart,
 		DateTimeImmutable $yearEnd,
 	): TaxReportDividendsDto {
-		$allTransactionsByAsset = $this->currentTransactionProvider->loadTransactions(user: $user, portfolio: $portfolio);
-
 		$transactions = [];
 		$totalGross = new Decimal(0);
 		$totalTax = new Decimal(0);
@@ -245,13 +245,9 @@ final class TaxReportCalculator
 		return $result;
 	}
 
-	private function calculateTotalFees(
-		User $user,
-		Portfolio $portfolio,
-		DateTimeImmutable $yearStart,
-		DateTimeImmutable $yearEnd,
-	): Decimal {
-		$allTransactionsByAsset = $this->currentTransactionProvider->loadTransactions(user: $user, portfolio: $portfolio);
+	/** @param array<int, list<Transaction>> $allTransactionsByAsset */
+	private function calculateTotalFees(array $allTransactionsByAsset, DateTimeImmutable $yearStart, DateTimeImmutable $yearEnd,): Decimal
+	{
 		$total = new Decimal(0);
 
 		foreach ($allTransactionsByAsset as $assetTransactions) {
@@ -265,13 +261,9 @@ final class TaxReportCalculator
 		return $total;
 	}
 
-	private function calculateTotalTaxes(
-		User $user,
-		Portfolio $portfolio,
-		DateTimeImmutable $yearStart,
-		DateTimeImmutable $yearEnd,
-	): Decimal {
-		$allTransactionsByAsset = $this->currentTransactionProvider->loadTransactions(user: $user, portfolio: $portfolio);
+	/** @param array<int, list<Transaction>> $allTransactionsByAsset */
+	private function calculateTotalTaxes(array $allTransactionsByAsset, DateTimeImmutable $yearStart, DateTimeImmutable $yearEnd,): Decimal
+	{
 		$total = new Decimal(0);
 
 		foreach ($allTransactionsByAsset as $assetTransactions) {
