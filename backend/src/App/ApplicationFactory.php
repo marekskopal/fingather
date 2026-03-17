@@ -75,6 +75,8 @@ use FinGather\Service\DataCalculator\AssetDataCalculatorInterface;
 use FinGather\Service\DataCalculator\DataCalculator;
 use FinGather\Service\DataCalculator\DataCalculatorInterface;
 use FinGather\Service\DataCalculator\DcaPlanDataCalculator;
+use FinGather\Service\DataCalculator\TaxReportRealizedGainsCalculator;
+use FinGather\Service\DataCalculator\TaxReportRealizedGainsCalculatorInterface;
 use FinGather\Service\Dbal\DbContext;
 use FinGather\Service\Goal\GoalChecker;
 use FinGather\Service\Goal\GoalCheckerInterface;
@@ -91,6 +93,7 @@ use FinGather\Service\Provider\GoalProvider;
 use FinGather\Service\Provider\GoalProviderInterface;
 use FinGather\Service\Provider\PortfolioDataProvider;
 use FinGather\Service\Provider\SplitProvider;
+use FinGather\Service\Provider\SubscriptionProvider;
 use FinGather\Service\Provider\TickerDataProvider;
 use FinGather\Service\Provider\UserProvider;
 use FinGather\Service\Request\RequestService;
@@ -203,6 +206,8 @@ final class ApplicationFactory
 				[CurrentTransactionProvider::class, SplitProvider::class, TickerDataProvider::class, ExchangeRateProvider::class],
 			);
 		$container->add(DataCalculatorInterface::class, DataCalculator::class);
+		$container->add(TaxReportRealizedGainsCalculatorInterface::class, TaxReportRealizedGainsCalculator::class)
+			->addArguments([CurrentTransactionProvider::class, SplitProvider::class]);
 		$container->add(RequestServiceInterface::class, fn () => new RequestService());
 		$container->add(TaskServiceInterface::class, fn () => new TaskService());
 		$container->add(DcaPlanProviderInterface::class, DcaPlanProvider::class)

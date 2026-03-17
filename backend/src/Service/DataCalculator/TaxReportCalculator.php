@@ -26,7 +26,7 @@ final class TaxReportCalculator
 		private readonly CurrentTransactionProvider $currentTransactionProvider,
 		private readonly AssetProvider $assetProvider,
 		private readonly AssetDataProvider $assetDataProvider,
-		private readonly TaxReportRealizedGainsCalculator $realizedGainsCalculator,
+		private readonly TaxReportRealizedGainsCalculatorInterface $realizedGainsCalculator,
 	) {
 	}
 

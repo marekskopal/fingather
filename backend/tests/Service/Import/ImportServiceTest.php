@@ -35,7 +35,6 @@ use FinGather\Service\Provider\ImportFileProvider;
 use FinGather\Service\Provider\ImportMappingProvider;
 use FinGather\Service\Provider\ImportProvider;
 use FinGather\Service\Provider\SplitProvider;
-use FinGather\Service\Provider\Dto\SplitDto;
 use FinGather\Service\Provider\TickerProvider;
 use FinGather\Service\Provider\TransactionProvider;
 use FinGather\Tests\Fixtures\Model\Entity\AssetFixture;
@@ -71,11 +70,17 @@ use Ramsey\Uuid\Uuid;
 final class ImportServiceTest extends TestCase
 {
 	private User $user;
+
 	private Portfolio $portfolio;
+
 	private Broker $broker;
+
 	private Asset $asset;
+
 	private Ticker $ticker;
+
 	private Currency $defaultCurrency;
+
 	private Import $import;
 
 	protected function setUp(): void
@@ -279,8 +284,14 @@ final class ImportServiceTest extends TestCase
 		$transactionProvider->expects($this->once())
 			->method('createTransaction')
 			->with(
-				self::anything(), self::anything(), self::anything(), self::anything(),
-				self::anything(), self::anything(), self::anything(), self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
 				self::anything(),
 				self::identicalTo($eur),
 			)
@@ -309,8 +320,14 @@ final class ImportServiceTest extends TestCase
 		$transactionProvider->expects($this->once())
 			->method('createTransaction')
 			->with(
-				self::anything(), self::anything(), self::anything(), self::anything(),
-				self::anything(), self::anything(), self::anything(), self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
 				self::anything(),
 				self::identicalTo($this->defaultCurrency),
 			)
@@ -366,12 +383,22 @@ final class ImportServiceTest extends TestCase
 		$transactionProvider->expects($this->once())
 			->method('createTransaction')
 			->with(
-				self::anything(), self::anything(), self::anything(), self::anything(),
-				self::anything(), self::anything(), self::anything(), self::anything(),
-				self::anything(), self::anything(), self::anything(),
-				self::identicalTo($gbp),  // taxCurrency
 				self::anything(),
-				self::identicalTo($eur),  // feeCurrency — must NOT be $gbp
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				// taxCurrency
+				self::identicalTo($gbp),
+				self::anything(),
+				// feeCurrency — must NOT be $gbp
+				self::identicalTo($eur),
 			)
 			->willReturn(TransactionFixture::getTransaction());
 
@@ -394,12 +421,22 @@ final class ImportServiceTest extends TestCase
 		$transactionProvider->expects($this->once())
 			->method('createTransaction')
 			->with(
-				self::anything(), self::anything(), self::anything(), self::anything(),
-				self::anything(), self::anything(), self::anything(), self::anything(),
-				self::anything(), self::anything(), self::anything(),
-				self::identicalTo($this->defaultCurrency),  // taxCurrency
 				self::anything(),
-				self::identicalTo($this->defaultCurrency),  // feeCurrency
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				// taxCurrency
+				self::identicalTo($this->defaultCurrency),
+				self::anything(),
+				// feeCurrency
+				self::identicalTo($this->defaultCurrency),
 			)
 			->willReturn(TransactionFixture::getTransaction());
 
@@ -601,8 +638,14 @@ final class ImportServiceTest extends TestCase
 		$transactionProvider->expects($this->once())
 			->method('createTransaction')
 			->with(
-				self::anything(), self::anything(), self::anything(), self::anything(),
-				self::anything(), self::anything(), self::anything(), self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
 				self::callback(static fn (?Decimal $p): bool => $p !== null && $p->equals(new Decimal('150.00'))),
 			)
 			->willReturn(TransactionFixture::getTransaction());
@@ -625,8 +668,14 @@ final class ImportServiceTest extends TestCase
 		$transactionProvider->expects($this->once())
 			->method('createTransaction')
 			->with(
-				self::anything(), self::anything(), self::anything(), self::anything(),
-				self::anything(), self::anything(), self::anything(), self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
 				self::callback(static fn (?Decimal $p): bool => $p !== null && $p->equals(new Decimal('150'))),
 			)
 			->willReturn(TransactionFixture::getTransaction());
@@ -654,8 +703,14 @@ final class ImportServiceTest extends TestCase
 		$transactionProvider->expects($this->once())
 			->method('createTransaction')
 			->with(
-				self::anything(), self::anything(), self::anything(), self::anything(),
-				self::anything(), self::anything(), self::anything(), self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
 				self::callback(static fn (?Decimal $p): bool => $p !== null && $p->equals(new Decimal('50'))),
 			)
 			->willReturn(TransactionFixture::getTransaction());
@@ -678,8 +733,14 @@ final class ImportServiceTest extends TestCase
 		$transactionProvider->expects($this->once())
 			->method('createTransaction')
 			->with(
-				self::anything(), self::anything(), self::anything(), self::anything(),
-				self::anything(), self::anything(), self::anything(), self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
 				self::isNull(),
 			)
 			->willReturn(TransactionFixture::getTransaction());
@@ -736,8 +797,13 @@ final class ImportServiceTest extends TestCase
 		$transactionProvider->expects($this->once())
 			->method('createTransaction')
 			->with(
-				self::anything(), self::anything(), self::anything(), self::anything(),
-				self::anything(), self::anything(), self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
 				self::callback(static fn (Decimal $u): bool => $u->equals(new Decimal('5'))),
 				self::callback(static fn (?Decimal $p): bool => $p !== null && $p->equals(new Decimal('100'))),
 			)
@@ -776,8 +842,13 @@ final class ImportServiceTest extends TestCase
 		$transactionProvider->expects($this->once())
 			->method('createTransaction')
 			->with(
-				self::anything(), self::anything(), self::anything(), self::anything(),
-				self::anything(), self::anything(), self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
 				self::callback(static fn (Decimal $u): bool => $u->equals(new Decimal('1'))),
 				self::callback(static fn (?Decimal $p): bool => $p !== null && $p->equals(new Decimal('400'))),
 			)
@@ -816,8 +887,13 @@ final class ImportServiceTest extends TestCase
 		$transactionProvider->expects($this->once())
 			->method('createTransaction')
 			->with(
-				self::anything(), self::anything(), self::anything(), self::anything(),
-				self::anything(), self::anything(), self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
 				self::callback(static fn (Decimal $u): bool => $u->equals(new Decimal('4'))),
 				self::callback(static fn (?Decimal $p): bool => $p !== null && $p->equals(new Decimal('100'))),
 			)
@@ -844,9 +920,12 @@ final class ImportServiceTest extends TestCase
 		);
 
 		$splits = [
-			SplitDtoFixture::getSplitDto(date: new DateTimeImmutable('2023-01-01'), factor: new Decimal(5)), // past — skipped
-			SplitDtoFixture::getSplitDto(date: new DateTimeImmutable('2024-06-01'), factor: new Decimal(2)), // future
-			SplitDtoFixture::getSplitDto(date: new DateTimeImmutable('2024-09-01'), factor: new Decimal(3)), // future
+			// past — skipped
+			SplitDtoFixture::getSplitDto(date: new DateTimeImmutable('2023-01-01'), factor: new Decimal(5)),
+			// future
+			SplitDtoFixture::getSplitDto(date: new DateTimeImmutable('2024-06-01'), factor: new Decimal(2)),
+			// future
+			SplitDtoFixture::getSplitDto(date: new DateTimeImmutable('2024-09-01'), factor: new Decimal(3)),
 		];
 
 		$splitProvider = self::createStub(SplitProvider::class);
@@ -857,10 +936,17 @@ final class ImportServiceTest extends TestCase
 		$transactionProvider->expects($this->once())
 			->method('createTransaction')
 			->with(
-				self::anything(), self::anything(), self::anything(), self::anything(),
-				self::anything(), self::anything(), self::anything(),
-				self::callback(static fn (Decimal $u): bool => $u->equals(new Decimal('1'))),   // 6/2/3
-				self::callback(static fn (?Decimal $p): bool => $p !== null && $p->equals(new Decimal('180'))), // 30*2*3
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				// 6/2/3
+				self::callback(static fn (Decimal $u): bool => $u->equals(new Decimal('1'))),
+				// 30*2*3
+				self::callback(static fn (?Decimal $p): bool => $p !== null && $p->equals(new Decimal('180'))),
 			)
 			->willReturn(TransactionFixture::getTransaction());
 
@@ -898,10 +984,17 @@ final class ImportServiceTest extends TestCase
 		$transactionProvider->expects($this->once())
 			->method('createTransaction')
 			->with(
-				self::anything(), self::anything(), self::anything(), self::anything(),
-				self::anything(), self::anything(), self::anything(),
-				self::callback(static fn (Decimal $u): bool => $u->equals(new Decimal('1'))), // 2/2
-				self::callback(static fn (?Decimal $p): bool => $p !== null && $p->equals(new Decimal('100'))), // 100/1
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				// 2/2
+				self::callback(static fn (Decimal $u): bool => $u->equals(new Decimal('1'))),
+				// 100/1
+				self::callback(static fn (?Decimal $p): bool => $p !== null && $p->equals(new Decimal('100'))),
 			)
 			->willReturn(TransactionFixture::getTransaction());
 
@@ -970,9 +1063,13 @@ final class ImportServiceTest extends TestCase
 		$transactionProvider->expects($this->once())
 			->method('createTransaction')
 			->with(
-				self::anything(), self::anything(), self::anything(), self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
 				self::equalTo(TransactionActionTypeEnum::Undefined),
-				self::anything(), self::anything(),
+				self::anything(),
+				self::anything(),
 				self::callback(static fn (Decimal $u): bool => $u->equals(new Decimal('5'))),
 			)
 			->willReturn(TransactionFixture::getTransaction());
@@ -995,9 +1092,13 @@ final class ImportServiceTest extends TestCase
 		$transactionProvider->expects($this->once())
 			->method('createTransaction')
 			->with(
-				self::anything(), self::anything(), self::anything(), self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
 				self::equalTo(TransactionActionTypeEnum::Dividend),
-				self::anything(), self::anything(),
+				self::anything(),
+				self::anything(),
 				self::callback(static fn (Decimal $u): bool => $u->equals(new Decimal('5'))),
 			)
 			->willReturn(TransactionFixture::getTransaction());
@@ -1020,7 +1121,10 @@ final class ImportServiceTest extends TestCase
 		$transactionProvider->expects($this->once())
 			->method('createTransaction')
 			->with(
-				self::anything(), self::anything(), self::anything(), self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
+				self::anything(),
 				self::equalTo(TransactionActionTypeEnum::DividendTax),
 			)
 			->willReturn(TransactionFixture::getTransaction());
@@ -1053,7 +1157,9 @@ final class ImportServiceTest extends TestCase
 
 		$transactionProvider = $this->createMock(TransactionProvider::class);
 		$transactionProvider->method('getTransactionByIdentifier')
-			->willReturnCallback(static fn (?int $brokerId, string $id): ?Transaction => $id === 'DUP-001' ? TransactionFixture::getTransaction() : null);
+			->willReturnCallback(
+				static fn (?int $brokerId, string $id): ?Transaction => $id === 'DUP-001' ? TransactionFixture::getTransaction() : null,
+			);
 		$transactionProvider->expects($this->once())
 			->method('createTransaction')
 			->willReturn(TransactionFixture::getTransaction());

@@ -19,7 +19,7 @@ use FinGather\Service\Provider\Dto\SplitDto;
 use FinGather\Service\Provider\SplitProvider;
 use FinGather\Utils\CalculatorUtils;
 
-final class TaxReportRealizedGainsCalculator
+final class TaxReportRealizedGainsCalculator implements TaxReportRealizedGainsCalculatorInterface
 {
 	public function __construct(
 		private readonly CurrentTransactionProvider $currentTransactionProvider,
