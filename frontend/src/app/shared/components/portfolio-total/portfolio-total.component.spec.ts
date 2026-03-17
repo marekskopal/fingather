@@ -45,12 +45,15 @@ const mockPortfolioData: PortfolioData = {
 describe('PortfolioTotalComponent', () => {
     let fixture: ComponentFixture<PortfolioTotalComponent>;
     let component: PortfolioTotalComponent;
-    let portfolioDataServiceSpy: { getPortfolioData: ReturnType<typeof vi.fn> };
+    let portfolioDataServiceSpy: { getPortfolioData: ReturnType<typeof vi.fn>; getPortfolioDataRange: ReturnType<typeof vi.fn> };
     let currencyServiceSpy: { getDefaultCurrency: ReturnType<typeof vi.fn> };
     let portfolioServiceSpy: { getCurrentPortfolio: ReturnType<typeof vi.fn>; subscribe: ReturnType<typeof vi.fn> };
 
     beforeEach(async () => {
-        portfolioDataServiceSpy = { getPortfolioData: vi.fn().mockResolvedValue(mockPortfolioData) };
+        portfolioDataServiceSpy = {
+            getPortfolioData: vi.fn().mockResolvedValue(mockPortfolioData),
+            getPortfolioDataRange: vi.fn().mockResolvedValue([]),
+        };
         currencyServiceSpy = { getDefaultCurrency: vi.fn().mockResolvedValue(mockCurrency) };
         portfolioServiceSpy = {
             getCurrentPortfolio: vi.fn().mockResolvedValue(mockPortfolio),
