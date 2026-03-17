@@ -12,6 +12,7 @@ use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\Enum\OrderDirectionEnum;
 use FinGather\Model\Repository\Enum\UserOrderByEnum;
 use FinGather\Model\Repository\UserRepository;
+use FinGather\Validator\PasswordValidator;
 use Iterator;
 use SensitiveParameter;
 use const PASSWORD_BCRYPT;
@@ -141,8 +142,11 @@ class UserProvider
 		}
 
 		if ($password !== '') {
-			$hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-			$user->password = $hashedPassword;
+			if (!PasswordValidator::isValid($password)) {
+				throw new \InvalidArgumentException('Password does not meet requirements.');
+			}
+
+			$user->password = password_hash($password, PASSWORD_BCRYPT);
 		}
 
 		$user->name = $name;
