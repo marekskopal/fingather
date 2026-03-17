@@ -777,6 +777,8 @@
   },
   "transaction": {
     "exportCsv": "Export CSV",
-    "exportXlsx": "Export XLSX"
+    "exportXlsx": "Export XLSX",
+    "addedSuccessfully": "Transaction added successfully",
+    "updatedSuccessfully": "Update successful"
   }
 }

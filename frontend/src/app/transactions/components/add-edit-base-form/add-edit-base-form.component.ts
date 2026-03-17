@@ -14,6 +14,7 @@ import {
 } from '@app/services';
 import {BaseAddEditForm} from "@app/shared/components/form/base-add-edit-form";
 import {SelectItem} from "@app/shared/types/select-item";
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     template: '',
@@ -27,6 +28,7 @@ export abstract class AddEditBaseFormComponent extends BaseAddEditForm implement
     private readonly currencyService = inject(CurrencyService);
     private readonly portfolioService = inject(PortfolioService);
     private readonly router = inject(Router);
+    private readonly translateService = inject(TranslateService);
 
     protected assets: SelectItem<number, string>[] | null = null;
     protected assetId: number | null = null;
@@ -135,7 +137,7 @@ export abstract class AddEditBaseFormComponent extends BaseAddEditForm implement
 
         await this.transactionService.createTransaction(transaction, portfolioId);
 
-        this.alertService.success('Dividend added successfully');
+        this.alertService.success(this.translateService.instant('transaction.addedSuccessfully'));
         this.transactionService.notify();
         this.router.navigate(['../'], { relativeTo: this.route });
     }
@@ -145,7 +147,7 @@ export abstract class AddEditBaseFormComponent extends BaseAddEditForm implement
 
         await this.transactionService.updateTransaction(id, transaction);
 
-        this.alertService.success('Update successful');
+        this.alertService.success(this.translateService.instant('transaction.updatedSuccessfully'));
         this.transactionService.notify();
         this.router.navigate(['../../'], { relativeTo: this.route });
     }

@@ -790,6 +790,8 @@
   },
   "transaction": {
     "exportCsv": "Exporter CSV",
-    "exportXlsx": "Exporter XLSX"
+    "exportXlsx": "Exporter XLSX",
+    "addedSuccessfully": "Transaction ajoutée avec succès",
+    "updatedSuccessfully": "Mise à jour réussie"
   }
 }

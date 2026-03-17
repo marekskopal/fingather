@@ -272,7 +272,7 @@
       },
       "rebalancing": {
         "title": "Kalkulátor rebalancování",
-        "help": "Zadejte hotovost, kterou chcete investovat, a klikněte na Vypočítat. Každý řádek ukazuje, kolik koupit (nebo prodat, pokud je povoleno), abyste dosáhli cílové alokace. Řádek „Ostatní" zobrazuje nealokovaná aktiva — žádný obchod se tam nenavrhuje, protože je nelze obchodovat jako jeden instrument.",
+        "help": "Zadejte hotovost, kterou chcete investovat, a klikněte na Vypočítat. Každý řádek ukazuje, kolik koupit (nebo prodat, pokud je povoleno), abyste dosáhli cílové alokace. Řádek \"Ostatní\" zobrazuje nealokovaná aktiva — žádný obchod se tam nenavrhuje, protože je nelze obchodovat jako jeden instrument.",
         "cashToInvest": "Hotovost k investování",
         "currency": "Měna",
         "allowSelling": "Povolit prodej",
@@ -777,6 +777,8 @@
   },
   "transaction": {
     "exportCsv": "Exportovat CSV",
-    "exportXlsx": "Exportovat XLSX"
+    "exportXlsx": "Exportovat XLSX",
+    "addedSuccessfully": "Transakce byla úspěšně přidána",
+    "updatedSuccessfully": "Aktualizace proběhla úspěšně"
   }
 }
