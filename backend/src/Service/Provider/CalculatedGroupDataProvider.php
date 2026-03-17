@@ -11,14 +11,14 @@ use FinGather\Model\Entity\Industry;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\Sector;
 use FinGather\Model\Entity\User;
-use FinGather\Service\DataCalculator\DataCalculator;
+use FinGather\Service\DataCalculator\DataCalculatorInterface;
 use FinGather\Service\DataCalculator\Dto\CalculatedDataDto;
 use FinGather\Utils\DateTimeUtils;
 
 class CalculatedGroupDataProvider
 {
 	public function __construct(
-		private readonly DataCalculator $dataCalculator,
+		private readonly DataCalculatorInterface $dataCalculator,
 		private readonly AssetProvider $assetProvider,
 		private readonly AssetDataProvider $assetDataProvider,
 	) {

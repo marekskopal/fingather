@@ -11,7 +11,7 @@ use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\ExchangeRate;
 use FinGather\Model\Repository\ExchangeRateRepository;
 use FinGather\Service\Cache\Cache;
-use FinGather\Service\Cache\CacheFactory;
+use FinGather\Service\Cache\CacheFactoryInterface;
 use FinGather\Utils\DateTimeUtils;
 use MarekSkopal\TwelveData\Exception\BadRequestException;
 use MarekSkopal\TwelveData\Exception\NotFoundException;
@@ -24,7 +24,7 @@ readonly class ExchangeRateProvider
 	public function __construct(
 		private ExchangeRateRepository $exchangeRateRepository,
 		private TwelveData $twelveData,
-		CacheFactory $cacheFactory,
+		CacheFactoryInterface $cacheFactory,
 	)
 	{
 		$this->cache = $cacheFactory->create(namespace: self::class);

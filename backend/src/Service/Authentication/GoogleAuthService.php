@@ -10,7 +10,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use const JSON_THROW_ON_ERROR;
 
-final readonly class GoogleAuthService
+final readonly class GoogleAuthService implements GoogleAuthServiceInterface
 {
 	private const string TokenInfoUrl = 'https://oauth2.googleapis.com/tokeninfo';
 

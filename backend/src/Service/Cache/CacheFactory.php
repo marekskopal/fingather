@@ -12,7 +12,7 @@ use Nette\Caching\Storages\MemcachedStorage;
 use Predis\ClientInterface;
 use Psr\SimpleCache\CacheInterface;
 
-final class CacheFactory
+final class CacheFactory implements CacheFactoryInterface
 {
 	/** @var array<string, array<string, Cache>> */
 	private array $caches = [];

@@ -24,7 +24,7 @@ final class TaxReportCalculator
 	public function __construct(
 		private readonly CurrentTransactionProvider $currentTransactionProvider,
 		private readonly AssetProvider $assetProvider,
-		private readonly AssetDataCalculator $assetDataCalculator,
+		private readonly AssetDataCalculatorInterface $assetDataCalculator,
 		private readonly TaxReportRealizedGainsCalculator $realizedGainsCalculator,
 	) {
 	}

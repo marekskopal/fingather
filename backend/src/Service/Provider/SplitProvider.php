@@ -10,14 +10,14 @@ use FinGather\Model\Entity\Split;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Repository\SplitRepository;
 use FinGather\Service\Cache\Cache;
-use FinGather\Service\Cache\CacheFactory;
+use FinGather\Service\Cache\CacheFactoryInterface;
 use FinGather\Service\Provider\Dto\SplitDto;
 
 class SplitProvider
 {
 	private readonly Cache $cache;
 
-	public function __construct(private readonly SplitRepository $splitRepository, CacheFactory $cacheFactory,)
+	public function __construct(private readonly SplitRepository $splitRepository, CacheFactoryInterface $cacheFactory,)
 	{
 		$this->cache = $cacheFactory->create(namespace: self::class);
 	}

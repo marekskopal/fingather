@@ -64,7 +64,16 @@ use FinGather\Model\Repository\TickerRepository;
 use FinGather\Model\Repository\TransactionRepository;
 use FinGather\Model\Repository\UserRepository;
 use FinGather\Route\Strategy\JsonStrategy;
+use FinGather\Service\Authentication\AuthenticationService;
+use FinGather\Service\Authentication\AuthenticationServiceInterface;
+use FinGather\Service\Authentication\GoogleAuthService;
+use FinGather\Service\Authentication\GoogleAuthServiceInterface;
 use FinGather\Service\Cache\CacheFactory;
+use FinGather\Service\Cache\CacheFactoryInterface;
+use FinGather\Service\DataCalculator\AssetDataCalculator;
+use FinGather\Service\DataCalculator\AssetDataCalculatorInterface;
+use FinGather\Service\DataCalculator\DataCalculator;
+use FinGather\Service\DataCalculator\DataCalculatorInterface;
 use FinGather\Service\DataCalculator\DcaPlanDataCalculator;
 use FinGather\Service\Dbal\DbContext;
 use FinGather\Service\Goal\GoalChecker;
@@ -74,16 +83,22 @@ use FinGather\Service\Import\Factory\ImportMapperFactoryInterface;
 use FinGather\Service\Import\Factory\TransactionRecordFactory;
 use FinGather\Service\Import\Factory\TransactionRecordFactoryInterface;
 use FinGather\Service\Logger\Logger;
+use FinGather\Service\Provider\CurrentTransactionProvider;
 use FinGather\Service\Provider\DcaPlanProvider;
 use FinGather\Service\Provider\DcaPlanProviderInterface;
+use FinGather\Service\Provider\ExchangeRateProvider;
 use FinGather\Service\Provider\GoalProvider;
 use FinGather\Service\Provider\GoalProviderInterface;
 use FinGather\Service\Provider\PortfolioDataProvider;
+use FinGather\Service\Provider\SplitProvider;
+use FinGather\Service\Provider\TickerDataProvider;
+use FinGather\Service\Provider\UserProvider;
 use FinGather\Service\Request\RequestService;
 use FinGather\Service\Request\RequestServiceInterface;
 use FinGather\Service\Task\TaskService;
 use FinGather\Service\Task\TaskServiceInterface;
 use FinGather\Service\Translator\TranslatorService;
+use GuzzleHttp\Client as GuzzleClient;
 use Http\Discovery\Psr17FactoryDiscovery;
 use League\Container\Container;
 use League\Container\ReflectionContainer;
@@ -166,8 +181,8 @@ final class ApplicationFactory
 		self::initializeOrmContainer($container, $dbContext);
 
 		$container->add(TranslatorService::class, static function () use ($container): TranslatorService {
-			$cacheFactory = $container->get(CacheFactory::class);
-			if (!$cacheFactory instanceof CacheFactory) {
+			$cacheFactory = $container->get(CacheFactoryInterface::class);
+			if (!$cacheFactory instanceof CacheFactoryInterface) {
 				throw new \RuntimeException('CacheFactory not found in container.');
 			}
 			return new TranslatorService(
@@ -176,6 +191,18 @@ final class ApplicationFactory
 			);
 		});
 
+		$container->add(GuzzleClient::class, fn () => new GuzzleClient());
+		$container->add(AuthenticationServiceInterface::class, AuthenticationService::class)
+			->addArgument(UserProvider::class);
+		$container->add(GoogleAuthServiceInterface::class, GoogleAuthService::class)
+			->addArgument(GuzzleClient::class);
+		$container->add(CacheFactoryInterface::class, CacheFactory::class)
+			->addArgument(ClientInterface::class);
+		$container->add(AssetDataCalculatorInterface::class, AssetDataCalculator::class)
+			->addArguments(
+				[CurrentTransactionProvider::class, SplitProvider::class, TickerDataProvider::class, ExchangeRateProvider::class],
+			);
+		$container->add(DataCalculatorInterface::class, DataCalculator::class);
 		$container->add(RequestServiceInterface::class, fn () => new RequestService());
 		$container->add(TaskServiceInterface::class, fn () => new TaskService());
 		$container->add(DcaPlanProviderInterface::class, DcaPlanProvider::class)

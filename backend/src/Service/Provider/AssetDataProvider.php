@@ -9,9 +9,9 @@ use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Service\Cache\Cache;
-use FinGather\Service\Cache\CacheFactory;
+use FinGather\Service\Cache\CacheFactoryInterface;
 use FinGather\Service\Cache\CacheStorageEnum;
-use FinGather\Service\DataCalculator\AssetDataCalculator;
+use FinGather\Service\DataCalculator\AssetDataCalculatorInterface;
 use FinGather\Service\DataCalculator\Dto\AssetDataDto;
 use FinGather\Utils\DateTimeUtils;
 
@@ -21,7 +21,7 @@ class AssetDataProvider
 
 	private const string CacheNamespace = 'asset-data';
 
-	public function __construct(private readonly AssetDataCalculator $assetDataCalculator, CacheFactory $cacheFactory,)
+	public function __construct(private readonly AssetDataCalculatorInterface $assetDataCalculator, CacheFactoryInterface $cacheFactory,)
 	{
 		$this->cache = $cacheFactory->create(driver: CacheStorageEnum::Redis, namespace: self::CacheNamespace);
 	}

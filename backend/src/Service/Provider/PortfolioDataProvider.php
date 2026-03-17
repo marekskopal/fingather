@@ -8,9 +8,9 @@ use DateTimeImmutable;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Service\Cache\Cache;
-use FinGather\Service\Cache\CacheFactory;
+use FinGather\Service\Cache\CacheFactoryInterface;
 use FinGather\Service\Cache\CacheStorageEnum;
-use FinGather\Service\DataCalculator\DataCalculator;
+use FinGather\Service\DataCalculator\DataCalculatorInterface;
 use FinGather\Service\DataCalculator\Dto\CalculatedDataDto;
 use FinGather\Utils\DateTimeUtils;
 use Psr\Log\LoggerInterface;
@@ -22,12 +22,12 @@ class PortfolioDataProvider
 	private const string CacheNamespace = 'portfolio-data';
 
 	public function __construct(
-		private readonly DataCalculator $dataCalculator,
+		private readonly DataCalculatorInterface $dataCalculator,
 		private readonly AssetProvider $assetProvider,
 		private readonly AssetDataProvider $assetDataProvider,
 		private readonly TransactionProvider $transactionProvider,
 		private readonly LoggerInterface $logger,
-		CacheFactory $cacheFactory,
+		CacheFactoryInterface $cacheFactory,
 	) {
 		$this->cache = $cacheFactory->create(driver: CacheStorageEnum::Redis, namespace: self::CacheNamespace);
 	}

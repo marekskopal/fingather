@@ -9,7 +9,7 @@ use FinGather\Model\Entity\Industry;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Service\Cache\Cache;
-use FinGather\Service\Cache\CacheFactory;
+use FinGather\Service\Cache\CacheFactoryInterface;
 use FinGather\Service\Cache\CacheStorageEnum;
 use FinGather\Service\DataCalculator\Dto\CalculatedDataDto;
 use FinGather\Utils\DateTimeUtils;
@@ -20,7 +20,7 @@ class IndustryDataProvider
 
 	private const string CacheNamespace = 'industry-data';
 
-	public function __construct(private readonly CalculatedGroupDataProvider $calculatedDataProvider, CacheFactory $cacheFactory)
+	public function __construct(private readonly CalculatedGroupDataProvider $calculatedDataProvider, CacheFactoryInterface $cacheFactory)
 	{
 		$this->cache = $cacheFactory->create(driver: CacheStorageEnum::Redis, namespace: self::CacheNamespace);
 	}

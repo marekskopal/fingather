@@ -21,14 +21,14 @@ use FinGather\Response\NotAuthorizedResponse;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Response\OkResponse;
 use FinGather\Route\Routes;
-use FinGather\Service\Authentication\AuthenticationService;
+use FinGather\Service\Authentication\AuthenticationServiceInterface;
 use FinGather\Service\Authentication\Exceptions\AuthenticationException;
 use FinGather\Service\Authentication\Exceptions\GoogleAuthException;
-use FinGather\Service\Authentication\GoogleAuthService;
+use FinGather\Service\Authentication\GoogleAuthServiceInterface;
 use FinGather\Service\Provider\CurrencyProvider;
 use FinGather\Service\Provider\PasswordResetProvider;
 use FinGather\Service\Provider\UserProvider;
-use FinGather\Service\Request\RequestService;
+use FinGather\Service\Request\RequestServiceInterface;
 use FinGather\Validator\PasswordValidator;
 use Firebase\JWT\ExpiredException;
 use Firebase\JWT\JWT;
@@ -43,12 +43,12 @@ use Psr\Log\LoggerInterface;
 final readonly class AuthenticationController
 {
 	public function __construct(
-		private AuthenticationService $authenticationService,
-		private GoogleAuthService $googleAuthService,
+		private AuthenticationServiceInterface $authenticationService,
+		private GoogleAuthServiceInterface $googleAuthService,
 		private CurrencyProvider $currencyProvider,
 		private UserProvider $userProvider,
 		private PasswordResetProvider $passwordResetProvider,
-		private RequestService $requestService,
+		private RequestServiceInterface $requestService,
 		private LoggerInterface $logger,
 	) {
 	}
@@ -78,7 +78,7 @@ final readonly class AuthenticationController
 		try {
 			$decodedRefreshToken = JWT::decode(
 				$refreshToken->refreshToken,
-				new Key($tokenKey, AuthenticationService::TokenAlgorithm),
+				new Key($tokenKey, AuthenticationServiceInterface::TokenAlgorithm),
 			);
 		} catch (ExpiredException) {
 			return new NotAuthorizedResponse('RefreshToken is expired.');

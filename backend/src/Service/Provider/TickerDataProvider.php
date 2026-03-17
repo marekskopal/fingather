@@ -13,7 +13,7 @@ use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\TickerData;
 use FinGather\Model\Repository\TickerDataRepository;
 use FinGather\Service\Cache\Cache;
-use FinGather\Service\Cache\CacheFactory;
+use FinGather\Service\Cache\CacheFactoryInterface;
 use FinGather\Service\Provider\Dto\TickerDataAdjustedDto;
 use FinGather\Utils\DateTimeUtils;
 use Iterator;
@@ -34,7 +34,7 @@ readonly class TickerDataProvider
 		private TickerDataRepository $tickerDataRepository,
 		private SplitProvider $splitProvider,
 		private TwelveData $twelveData,
-		CacheFactory $cacheFactory,
+		CacheFactoryInterface $cacheFactory,
 	) {
 		$this->cache = $cacheFactory->create(namespace: self::class);
 	}

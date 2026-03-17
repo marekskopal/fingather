@@ -7,7 +7,7 @@ namespace FinGather\Middleware;
 use FinGather\Middleware\Exception\NotAuthorizedException;
 use FinGather\Model\Entity\Enum\UserRoleEnum;
 use FinGather\Route\Routes;
-use FinGather\Service\Authentication\AuthenticationService;
+use FinGather\Service\Authentication\AuthenticationServiceInterface;
 use FinGather\Service\Provider\UserProvider;
 use Firebase\JWT\ExpiredException;
 use Firebase\JWT\JWT;
@@ -70,7 +70,10 @@ final class AuthorizationMiddleware implements MiddlewareInterface
 
 		try {
 			/** @var object{id: int}&stdClass $token */
-			$token = JWT::decode($jwtToken, new Key((string) getenv('AUTHORIZATION_TOKEN_KEY'), AuthenticationService::TokenAlgorithm));
+			$token = JWT::decode(
+				$jwtToken,
+				new Key((string) getenv('AUTHORIZATION_TOKEN_KEY'), AuthenticationServiceInterface::TokenAlgorithm),
+			);
 		} catch (ExpiredException $exception) {
 			if ($request->getUri()->getPath() !== Routes::AuthenticationRefreshToken->value) {
 				throw new NotAuthorizedException('AccessToken is expired.', $request, 401, $exception);

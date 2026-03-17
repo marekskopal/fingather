@@ -1,6 +1,5 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
 import {AbstractControl, ReactiveFormsModule, ValidationErrors, Validators} from '@angular/forms';
-import {MatIcon} from "@angular/material/icon";
 import {passwordValidator} from '@app/authentication/validator/password.validator';
 import {UniqueEmailValidator} from '@app/authentication/validator/UniqueEmailValidator';
 import {User} from '@app/models';

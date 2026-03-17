@@ -1,10 +1,11 @@
 import { DestroyRef } from '@angular/core';
+
 import { NotifyService } from './notify-service';
 
 class ConcreteNotifyService extends NotifyService {}
 
 class MockDestroyRef extends DestroyRef {
-    override onDestroy(_callback: () => void): () => void {
+    public override onDestroy(_callback: () => void): () => void {
         return () => {};
     }
 }

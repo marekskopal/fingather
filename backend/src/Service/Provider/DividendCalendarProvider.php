@@ -12,7 +12,7 @@ use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\User;
 use FinGather\Service\Cache\Cache;
-use FinGather\Service\Cache\CacheFactory;
+use FinGather\Service\Cache\CacheFactoryInterface;
 use FinGather\Service\Cache\CacheStorageEnum;
 use FinGather\Utils\DateTimeUtils;
 use MarekSkopal\TwelveData\Dto\Fundamentals\DividendsCalendar;
@@ -32,7 +32,7 @@ final readonly class DividendCalendarProvider
 		private AssetDataProvider $assetDataProvider,
 		private ExchangeRateProvider $exchangeRateProvider,
 		private TwelveData $twelveData,
-		CacheFactory $cacheFactory,
+		CacheFactoryInterface $cacheFactory,
 	) {
 		$this->cache = $cacheFactory->create(driver: CacheStorageEnum::Redis, namespace: self::CacheNamespace);
 	}

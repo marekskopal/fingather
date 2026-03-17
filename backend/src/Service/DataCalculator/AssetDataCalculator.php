@@ -24,7 +24,7 @@ use FinGather\Service\Provider\SplitProvider;
 use FinGather\Service\Provider\TickerDataProvider;
 use FinGather\Utils\CalculatorUtils;
 
-final readonly class AssetDataCalculator
+final readonly class AssetDataCalculator implements AssetDataCalculatorInterface
 {
 	public function __construct(
 		private CurrentTransactionProvider $currentTransactionProvider,

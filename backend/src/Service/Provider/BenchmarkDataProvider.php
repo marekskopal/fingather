@@ -11,7 +11,7 @@ use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\Transaction;
 use FinGather\Model\Entity\User;
 use FinGather\Service\Cache\Cache;
-use FinGather\Service\Cache\CacheFactory;
+use FinGather\Service\Cache\CacheFactoryInterface;
 use FinGather\Service\Cache\CacheStorageEnum;
 use FinGather\Service\DataCalculator\BenchmarkDataCalculator;
 use FinGather\Service\DataCalculator\Dto\BenchmarkDataDto;
@@ -27,7 +27,7 @@ readonly class BenchmarkDataProvider
 		private BenchmarkDataCalculator $benchmarkDataCalculator,
 		private ExchangeRateProvider $exchangeRateProvider,
 		private TickerDataProvider $tickerDataProvider,
-		CacheFactory $cacheFactory,
+		CacheFactoryInterface $cacheFactory,
 	) {
 		$this->cache = $cacheFactory->create(driver: CacheStorageEnum::Redis, namespace: self::CacheNamespace);
 	}

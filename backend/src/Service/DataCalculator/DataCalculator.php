@@ -10,7 +10,7 @@ use FinGather\Service\DataCalculator\Dto\AssetDataDto;
 use FinGather\Service\DataCalculator\Dto\CalculatedDataDto;
 use FinGather\Utils\CalculatorUtils;
 
-final class DataCalculator
+final class DataCalculator implements DataCalculatorInterface
 {
 	/** @param array<int, AssetDataDto> $assets */
 	public function calculate(

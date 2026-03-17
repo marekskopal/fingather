@@ -13,10 +13,8 @@ use FinGather\Service\Provider\UserProvider;
 use Firebase\JWT\JWT;
 use Psr\Http\Message\ServerRequestInterface;
 
-final class AuthenticationService
+final class AuthenticationService implements AuthenticationServiceInterface
 {
-	public const TokenAlgorithm = 'HS256';
-
 	private const AccessTokenExpiration = 3600;
 	private const RefreshTokenExpiration = 604800;
 
