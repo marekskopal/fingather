@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace FinGather\Utils;
 
+use DateTimeImmutable;
 use Decimal\Decimal;
+use FinGather\Service\Provider\Dto\SplitDto;
 
 final class CalculatorUtils
 {
@@ -45,5 +47,19 @@ final class CalculatorUtils
 		}
 
 		return round($percentage / ($days / self::DaysInYear), 2);
+	}
+
+	/** @param list<SplitDto> $splits */
+	public static function countSplitFactor(DateTimeImmutable $dateFrom, DateTimeImmutable $dateTo, array $splits): Decimal
+	{
+		$splitFactor = new Decimal(1, 8);
+
+		foreach ($splits as $split) {
+			if ($split->date >= $dateFrom && $split->date <= $dateTo) {
+				$splitFactor = $splitFactor->mul($split->factor);
+			}
+		}
+
+		return $splitFactor;
 	}
 }

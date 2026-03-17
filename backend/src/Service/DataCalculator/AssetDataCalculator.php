@@ -191,7 +191,7 @@ final class AssetDataCalculator
 			return;
 		}
 
-		$splitFactor = $this->countSplitFactor($transaction->actionCreated, $dateTime, $splits);
+		$splitFactor = CalculatorUtils::countSplitFactor($transaction->actionCreated, $dateTime, $splits);
 
 		$transactionUnits = $transaction->units;
 		$transactionUnitsWithSplit = $transactionUnits->mul($splitFactor);
@@ -218,20 +218,6 @@ final class AssetDataCalculator
 
 		$realizedGain = $realizedGain->add($transactionRealizedGain->value);
 		$realizedGainDefaultCurrency = $realizedGainDefaultCurrency->add($transactionRealizedGain->valueDefaultCurrency);
-	}
-
-	/** @param list<SplitDto> $splits */
-	private function countSplitFactor(DateTimeImmutable $dateFrom, DateTimeImmutable $dateTo, array $splits): Decimal
-	{
-		$splitFactor = new Decimal(1, 8);
-
-		foreach ($splits as $split) {
-			if ($split->date >= $dateFrom && $split->date <= $dateTo) {
-				$splitFactor = $splitFactor->mul($split->factor);
-			}
-		}
-
-		return $splitFactor;
 	}
 
 	/** @param array<int, TransactionBuyDto> $buys */
@@ -288,7 +274,7 @@ final class AssetDataCalculator
 		$buysForBroker = array_filter($buys, fn(TransactionBuyDto $buy) => $buy->brokerId === $transaction->brokerId);
 
 		foreach ($buysForBroker as $buyKey => $buy) {
-			$buySplitFactor = $this->countSplitFactor($buy->actionCreated, $transaction->actionCreated, $splits);
+			$buySplitFactor = CalculatorUtils::countSplitFactor($buy->actionCreated, $transaction->actionCreated, $splits);
 
 			$buyUnitsWithSplits = $buy->units->mul($buySplitFactor);
 

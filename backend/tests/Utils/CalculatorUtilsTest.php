@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace FinGather\Tests\Utils;
 
+use DateTimeImmutable;
 use Decimal\Decimal;
+use FinGather\Service\Provider\Dto\SplitDto;
 use FinGather\Utils\CalculatorUtils;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\TestWith;
@@ -45,5 +47,78 @@ final class CalculatorUtilsTest extends TestCase
 		$toPercentage = CalculatorUtils::toPercentagePerAnnum($percentage, $days);
 
 		self::assertSame($expected, $toPercentage);
+	}
+
+	public function testCountSplitFactorNoSplits(): void
+	{
+		$result = CalculatorUtils::countSplitFactor(
+			new DateTimeImmutable('2024-01-01'),
+			new DateTimeImmutable('2024-12-31'),
+			[],
+		);
+
+		self::assertSame('1', (string) $result);
+	}
+
+	public function testCountSplitFactorSplitWithinRange(): void
+	{
+		$splits = [
+			new SplitDto(new DateTimeImmutable('2024-06-01'), new Decimal('2')),
+		];
+
+		$result = CalculatorUtils::countSplitFactor(
+			new DateTimeImmutable('2024-01-01'),
+			new DateTimeImmutable('2024-12-31'),
+			$splits,
+		);
+
+		self::assertSame('2', (string) $result);
+	}
+
+	public function testCountSplitFactorSplitOutsideRange(): void
+	{
+		$splits = [
+			new SplitDto(new DateTimeImmutable('2023-06-01'), new Decimal('2')),
+		];
+
+		$result = CalculatorUtils::countSplitFactor(
+			new DateTimeImmutable('2024-01-01'),
+			new DateTimeImmutable('2024-12-31'),
+			$splits,
+		);
+
+		self::assertSame('1', (string) $result);
+	}
+
+	public function testCountSplitFactorSplitOnBoundary(): void
+	{
+		$dateFrom = new DateTimeImmutable('2024-01-01');
+		$dateTo = new DateTimeImmutable('2024-12-31');
+
+		$splits = [
+			new SplitDto($dateFrom, new Decimal('3')),
+			new SplitDto($dateTo, new Decimal('2')),
+		];
+
+		$result = CalculatorUtils::countSplitFactor($dateFrom, $dateTo, $splits);
+
+		self::assertSame('6', (string) $result);
+	}
+
+	public function testCountSplitFactorMultipleSplits(): void
+	{
+		$splits = [
+			new SplitDto(new DateTimeImmutable('2024-03-01'), new Decimal('2')),
+			new SplitDto(new DateTimeImmutable('2024-07-01'), new Decimal('3')),
+			new SplitDto(new DateTimeImmutable('2025-01-01'), new Decimal('5')),
+		];
+
+		$result = CalculatorUtils::countSplitFactor(
+			new DateTimeImmutable('2024-01-01'),
+			new DateTimeImmutable('2024-12-31'),
+			$splits,
+		);
+
+		self::assertSame('6', (string) $result);
 	}
 }
