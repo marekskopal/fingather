@@ -106,11 +106,21 @@ final class ApplicationFactory
 {
 	public static function create(): Application
 	{
+		self::validateEnvironment();
+
 		$dbContext = self::initializeDbContext();
 		$container = self::initializeContainer($dbContext);
 		$requestHandler = self::initializeRequestHandler($container);
 
 		return new Application($container, $requestHandler, $dbContext);
+	}
+
+	private static function validateEnvironment(): void
+	{
+		$authKey = (string) getenv('AUTHORIZATION_TOKEN_KEY');
+		if ($authKey === '') {
+			throw new \RuntimeException('Required environment variable AUTHORIZATION_TOKEN_KEY is not set.');
+		}
 	}
 
 	private static function initializeContainer(DbContext $dbContext): ContainerInterface

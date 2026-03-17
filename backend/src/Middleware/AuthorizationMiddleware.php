@@ -82,7 +82,7 @@ final class AuthorizationMiddleware implements MiddlewareInterface
 
 			return $handler->handle($request);
 		} catch (\Throwable $exception) {
-			throw new NotAuthorizedException('AccessToken is expired.', $request, 401, $exception);
+			throw new NotAuthorizedException('AccessToken is invalid.', $request, 401, $exception);
 		}
 
 		$request = $this->withUserAttribute($request, $token->id);
