@@ -16,6 +16,7 @@ use FinGather\Service\DataCalculator\Dto\TaxReportDividendTransactionDto;
 use FinGather\Service\DataCalculator\Dto\TaxReportDto;
 use FinGather\Service\DataCalculator\Dto\TaxReportUnrealizedDto;
 use FinGather\Service\DataCalculator\Dto\TaxReportUnrealizedPositionDto;
+use FinGather\Service\Provider\AssetDataProvider;
 use FinGather\Service\Provider\AssetProvider;
 use FinGather\Service\Provider\CurrentTransactionProvider;
 
@@ -24,7 +25,7 @@ final class TaxReportCalculator
 	public function __construct(
 		private readonly CurrentTransactionProvider $currentTransactionProvider,
 		private readonly AssetProvider $assetProvider,
-		private readonly AssetDataCalculatorInterface $assetDataCalculator,
+		private readonly AssetDataProvider $assetDataProvider,
 		private readonly TaxReportRealizedGainsCalculator $realizedGainsCalculator,
 	) {
 	}
@@ -56,7 +57,7 @@ final class TaxReportCalculator
 		$totalGainLoss = new Decimal(0);
 
 		foreach ($assets as $asset) {
-			$assetData = $this->assetDataCalculator->calculate(user: $user, portfolio: $portfolio, asset: $asset, dateTime: $yearEnd,);
+			$assetData = $this->assetDataProvider->getAssetData(user: $user, portfolio: $portfolio, asset: $asset, dateTime: $yearEnd);
 
 			if ($assetData === null || !$assetData->isOpen()) {
 				continue;
