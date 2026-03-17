@@ -22,7 +22,9 @@ final class CountryRepository extends AbstractRepository
 		$othersCountry = $this->findOne([
 			'is_others' => true,
 		]);
-		assert($othersCountry instanceof Country);
+		if (!$othersCountry instanceof Country) {
+			throw new \RuntimeException('Others country not found.');
+		}
 		return $othersCountry;
 	}
 }

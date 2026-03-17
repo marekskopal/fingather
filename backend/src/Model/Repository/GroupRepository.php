@@ -36,7 +36,9 @@ final class GroupRepository extends AbstractRepository
 			'portfolio_id' => $portfolioId,
 			'is_others' => true,
 		]);
-		assert($othersGroup instanceof Group);
+		if (!$othersGroup instanceof Group) {
+			throw new \RuntimeException('Others group not found for user ' . $userId . ' and portfolio ' . $portfolioId . '.');
+		}
 		return $othersGroup;
 	}
 }

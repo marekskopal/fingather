@@ -243,5 +243,4 @@ final class TaxReportRealizedGainsCalculator
 			}
 		}
 	}
-
 }

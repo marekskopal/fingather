@@ -22,7 +22,9 @@ final class SectorRepository extends AbstractRepository
 		$othersTickerSector = $this->findOne([
 			'is_others' => true,
 		]);
-		assert($othersTickerSector instanceof Sector);
+		if (!$othersTickerSector instanceof Sector) {
+			throw new \RuntimeException('Others sector not found.');
+		}
 		return $othersTickerSector;
 	}
 }

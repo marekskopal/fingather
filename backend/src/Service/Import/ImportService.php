@@ -109,7 +109,9 @@ final readonly class ImportService
 		}
 
 		$broker = $this->brokerProvider->getBrokerByImportType($user, $portfolio, $importMapper->getImportType());
-		assert($broker instanceof Broker);
+		if (!$broker instanceof Broker) {
+			throw new \RuntimeException('Broker not found for import type ' . $importMapper->getImportType()->value . '.');
+		}
 		$importMappings = $this->importMappingProvider->getImportMappings($user, $portfolio, $broker);
 
 		foreach ($importMapper->getRecords($importFile->contents) as $record) {
@@ -144,11 +146,7 @@ final readonly class ImportService
 
 			$units = $transactionRecord->units ?? new Decimal(0);
 
-			$price = $transactionRecord->price;
-			if ($price === null && $transactionRecord->total !== null) {
-				// Avoid division by zero in dividends
-				$price = $units->isZero() ? $transactionRecord->total : $transactionRecord->total->div($units);
-			}
+			$price = $this->resolvePrice($transactionRecord, $units);
 
 			$created = $transactionRecord->created ?? new DateTimeImmutable();
 
@@ -262,6 +260,15 @@ final readonly class ImportService
 			return $defaultCurrency;
 		}
 		return $this->currencyProvider->getCurrencyByCode($code);
+	}
+
+	private function resolvePrice(TransactionRecord $transactionRecord, Decimal $units): ?Decimal
+	{
+		if ($transactionRecord->price !== null || $transactionRecord->total === null) {
+			return $transactionRecord->price;
+		}
+		// Avoid division by zero in dividends
+		return $units->isZero() ? $transactionRecord->total : $transactionRecord->total->div($units);
 	}
 
 	private function adjustTransaction(Decimal &$units, ?Decimal &$price, Ticker $ticker, DateTimeImmutable $created): void

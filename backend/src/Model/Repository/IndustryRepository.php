@@ -22,7 +22,9 @@ final class IndustryRepository extends AbstractRepository
 		$othersTickerIndustry = $this->findOne([
 			'is_others' => true,
 		]);
-		assert($othersTickerIndustry instanceof Industry);
+		if (!$othersTickerIndustry instanceof Industry) {
+			throw new \RuntimeException('Others industry not found.');
+		}
 		return $othersTickerIndustry;
 	}
 }

@@ -167,7 +167,9 @@ final class ApplicationFactory
 
 		$container->add(TranslatorService::class, static function () use ($container): TranslatorService {
 			$cacheFactory = $container->get(CacheFactory::class);
-			assert($cacheFactory instanceof CacheFactory);
+			if (!$cacheFactory instanceof CacheFactory) {
+				throw new \RuntimeException('CacheFactory not found in container.');
+			}
 			return new TranslatorService(
 				translationsDir: __DIR__ . '/../../translations',
 				cache: $cacheFactory->create(namespace: 'translator'),
@@ -194,7 +196,9 @@ final class ApplicationFactory
 		$container->add(ORM::class, $dbContext->getOrm());
 
 		$orm = $container->get(ORM::class);
-		assert($orm instanceof ORM);
+		if (!$orm instanceof ORM) {
+			throw new \RuntimeException('ORM not found in container.');
+		}
 
 		self::addRepository($container, $orm, ApiImportRepository::class, ApiImport::class);
 		self::addRepository($container, $orm, ApiKeyRepository::class, ApiKey::class);
@@ -241,7 +245,9 @@ final class ApplicationFactory
 	private static function initializeRequestHandler(ContainerInterface $container): RequestHandlerInterface
 	{
 		$strategy = $container->get(JsonStrategy::class);
-		assert($strategy instanceof JsonStrategy);
+		if (!$strategy instanceof JsonStrategy) {
+			throw new \RuntimeException('JsonStrategy not found in container.');
+		}
 		$strategy->setContainer($container);
 
 		$router = (new RouterBuilder())
@@ -253,12 +259,16 @@ final class ApplicationFactory
 
 		if ((bool) getenv('PROFILER_ENABLE') === true) {
 			$xhprofMiddleware = $container->get(XhprofMiddleware::class);
-			assert($xhprofMiddleware instanceof XhprofMiddleware);
+			if (!$xhprofMiddleware instanceof XhprofMiddleware) {
+				throw new \RuntimeException('XhprofMiddleware not found in container.');
+			}
 			$router->middleware($xhprofMiddleware);
 		}
 
 		$authorizationMiddleware = $container->get(AuthorizationMiddleware::class);
-		assert($authorizationMiddleware instanceof AuthorizationMiddleware);
+		if (!$authorizationMiddleware instanceof AuthorizationMiddleware) {
+			throw new \RuntimeException('AuthorizationMiddleware not found in container.');
+		}
 		$router->middleware($authorizationMiddleware);
 
 		return $router;

@@ -33,7 +33,9 @@ final class PortfolioRepository extends AbstractRepository
 			'user_id' => $userId,
 			'is_default' => true,
 		]);
-		assert($defaultPortfolio instanceof Portfolio);
+		if (!$defaultPortfolio instanceof Portfolio) {
+			throw new \RuntimeException('Default portfolio not found for user ' . $userId . '.');
+		}
 		return $defaultPortfolio;
 	}
 }
