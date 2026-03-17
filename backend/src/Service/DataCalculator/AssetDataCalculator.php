@@ -13,6 +13,7 @@ use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\Transaction;
 use FinGather\Model\Entity\User;
 use FinGather\Service\DataCalculator\Dto\AssetDataDto;
+use FinGather\Service\DataCalculator\Dto\TransactionAccumulatorDto;
 use FinGather\Service\DataCalculator\Dto\TransactionBuyDto;
 use FinGather\Service\DataCalculator\Dto\TransactionValueDto;
 use FinGather\Service\DataCalculator\Dto\ValueDto;
@@ -23,13 +24,13 @@ use FinGather\Service\Provider\SplitProvider;
 use FinGather\Service\Provider\TickerDataProvider;
 use FinGather\Utils\CalculatorUtils;
 
-final class AssetDataCalculator
+final readonly class AssetDataCalculator
 {
 	public function __construct(
-		private readonly CurrentTransactionProvider $currentTransactionProvider,
-		private readonly SplitProvider $splitProvider,
-		private readonly TickerDataProvider $tickerDataProvider,
-		private readonly ExchangeRateProvider $exchangeRateProvider,
+		private CurrentTransactionProvider $currentTransactionProvider,
+		private SplitProvider $splitProvider,
+		private TickerDataProvider $tickerDataProvider,
+		private ExchangeRateProvider $exchangeRateProvider,
 	) {
 	}
 
@@ -47,17 +48,6 @@ final class AssetDataCalculator
 
 		$splits = $this->splitProvider->getSplits($asset->ticker);
 
-		$units = new Decimal(0);
-		$dividendYield = new Decimal(0);
-		$dividendYieldDefaultCurrency = new Decimal(0);
-		$dividendYieldTickerCurrency = new Decimal(0);
-		$tax = new Decimal(0);
-		$taxDefaultCurrency = new Decimal(0);
-		$fee = new Decimal(0);
-		$feeDefaultCurrency = new Decimal(0);
-		$realizedGain = new Decimal(0);
-		$realizedGainDefaultCurrency = new Decimal(0);
-
 		$defaultCurrency = $portfolio->currency;
 		$tickerCurrency = $asset->ticker->currency;
 
@@ -66,46 +56,32 @@ final class AssetDataCalculator
 		$firstTransaction = array_first($transactions);
 		$fromFirstTransactionDays = (int) $dateTime->diff($firstTransaction->actionCreated)->days;
 
-		$buys = [];
+		$accumulator = new TransactionAccumulatorDto();
 
 		foreach ($transactions as $transaction) {
-			$this->processTransaction(
-				$transaction,
-				$dateTime,
-				$defaultCurrency,
-				$splits,
-				$buys,
-				$units,
-				$realizedGain,
-				$realizedGainDefaultCurrency,
-				$dividendYield,
-				$dividendYieldDefaultCurrency,
-				$dividendYieldTickerCurrency,
-				$tax,
-				$taxDefaultCurrency,
-				$fee,
-				$feeDefaultCurrency,
-			);
+			$this->processTransaction($transaction, $dateTime, $defaultCurrency, $splits, $accumulator);
 		}
 
-		if ($units->isNegative()) {
-			$units = new Decimal(0);
+		if ($accumulator->units->isNegative()) {
+			$accumulator->units = new Decimal(0);
 		}
 
-		$transactionValue = $this->countTransactionValue($buys);
+		$transactionValue = $this->countTransactionValue($accumulator->buys);
 
 		$lastTickerDataClose = $this->tickerDataProvider->getLastTickerDataClose($asset->ticker, $dateTime);
 		$price = $lastTickerDataClose ?? new Decimal(0);
 
-		$value = $units->mul($price);
+		$value = $accumulator->units->mul($price);
 		$gain = $value->sub($transactionValue->value);
 		$gainDefaultCurrency = $gain->mul($exchangeRate);
-		$dividendYieldDefaultCurrency = $dividendYieldDefaultCurrency->add($dividendYieldTickerCurrency->mul($exchangeRate));
+		$dividendYieldDefaultCurrency = $accumulator->dividendYieldDefaultCurrency->add(
+			$accumulator->dividendYieldTickerCurrency->mul($exchangeRate),
+		);
 		$fxImpact = $transactionValue->value->mul($exchangeRate)->sub($transactionValue->valueDefaultCurrency);
 
 		$gainPercentage = CalculatorUtils::toPercentage($gain, $transactionValue->value);
 		$gainPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($gainPercentage, $fromFirstTransactionDays);
-		$dividendYieldPercentage = CalculatorUtils::toPercentage($dividendYield, $transactionValue->value);
+		$dividendYieldPercentage = CalculatorUtils::toPercentage($accumulator->dividendYield, $transactionValue->value);
 		$dividendYieldPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($dividendYieldPercentage, $fromFirstTransactionDays);
 		$fxImpactPercentage = CalculatorUtils::toPercentage($fxImpact, $transactionValue->valueDefaultCurrency);
 		$fxImpactPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($fxImpactPercentage, $fromFirstTransactionDays);
@@ -113,7 +89,7 @@ final class AssetDataCalculator
 		return new AssetDataDto(
 			date: $dateTime,
 			price: $price,
-			units: $units,
+			units: $accumulator->units,
 			value: $value->mul($exchangeRate),
 			transactionValue: $transactionValue->value,
 			transactionValueDefaultCurrency: $transactionValue->valueDefaultCurrency,
@@ -123,9 +99,9 @@ final class AssetDataCalculator
 			gainDefaultCurrency: $gainDefaultCurrency,
 			gainPercentage: $gainPercentage,
 			gainPercentagePerAnnum: $gainPercentagePerAnnum,
-			realizedGain: $realizedGain,
-			realizedGainDefaultCurrency: $realizedGainDefaultCurrency,
-			dividendYield: $dividendYield,
+			realizedGain: $accumulator->realizedGain,
+			realizedGainDefaultCurrency: $accumulator->realizedGainDefaultCurrency,
+			dividendYield: $accumulator->dividendYield,
 			dividendYieldDefaultCurrency: $dividendYieldDefaultCurrency,
 			dividendYieldPercentage: $dividendYieldPercentage,
 			dividendYieldPercentagePerAnnum: $dividendYieldPercentagePerAnnum,
@@ -135,39 +111,26 @@ final class AssetDataCalculator
 			return: $gainDefaultCurrency->add($dividendYieldDefaultCurrency)->add($fxImpact),
 			returnPercentage: round($gainPercentage + $dividendYieldPercentage + $fxImpactPercentage, 2),
 			returnPercentagePerAnnum: round($gainPercentagePerAnnum + $dividendYieldPercentagePerAnnum + $fxImpactPercentagePerAnnum, 2),
-			tax: $tax,
-			taxDefaultCurrency: $taxDefaultCurrency,
-			fee: $fee,
-			feeDefaultCurrency: $feeDefaultCurrency,
+			tax: $accumulator->tax,
+			taxDefaultCurrency: $accumulator->taxDefaultCurrency,
+			fee: $accumulator->fee,
+			feeDefaultCurrency: $accumulator->feeDefaultCurrency,
 			firstTransactionActionCreated: $firstTransaction->actionCreated,
 		);
 	}
 
-	/**
-	 * @param list<SplitDto> $splits
-	 * @param array<int, TransactionBuyDto> $buys
-	 */
+	/** @param list<SplitDto> $splits */
 	private function processTransaction(
 		Transaction $transaction,
 		DateTimeImmutable $dateTime,
 		Currency $defaultCurrency,
 		array $splits,
-		array &$buys,
-		Decimal &$units,
-		Decimal &$realizedGain,
-		Decimal &$realizedGainDefaultCurrency,
-		Decimal &$dividendYield,
-		Decimal &$dividendYieldDefaultCurrency,
-		Decimal &$dividendYieldTickerCurrency,
-		Decimal &$tax,
-		Decimal &$taxDefaultCurrency,
-		Decimal &$fee,
-		Decimal &$feeDefaultCurrency,
+		TransactionAccumulatorDto $accumulator,
 	): void {
-		$tax = $tax->add($transaction->taxTickerCurrency);
-		$taxDefaultCurrency = $taxDefaultCurrency->add($transaction->taxDefaultCurrency);
-		$fee = $fee->add($transaction->feeTickerCurrency);
-		$feeDefaultCurrency = $feeDefaultCurrency->add($transaction->feeDefaultCurrency);
+		$accumulator->tax = $accumulator->tax->add($transaction->taxTickerCurrency);
+		$accumulator->taxDefaultCurrency = $accumulator->taxDefaultCurrency->add($transaction->taxDefaultCurrency);
+		$accumulator->fee = $accumulator->fee->add($transaction->feeTickerCurrency);
+		$accumulator->feeDefaultCurrency = $accumulator->feeDefaultCurrency->add($transaction->feeDefaultCurrency);
 
 		if (
 			$transaction->actionType === TransactionActionTypeEnum::Tax
@@ -180,12 +143,12 @@ final class AssetDataCalculator
 		if ($transaction->actionType === TransactionActionTypeEnum::Dividend) {
 			$dividendTransactionValue = $transaction->priceTickerCurrency;
 
-			$dividendYield = $dividendYield->add($dividendTransactionValue);
+			$accumulator->dividendYield = $accumulator->dividendYield->add($dividendTransactionValue);
 
 			if ($transaction->currency->id === $defaultCurrency->id) {
-				$dividendYieldDefaultCurrency = $dividendYieldDefaultCurrency->add($transaction->price);
+				$accumulator->dividendYieldDefaultCurrency = $accumulator->dividendYieldDefaultCurrency->add($transaction->price);
 			} else {
-				$dividendYieldTickerCurrency = $dividendYieldTickerCurrency->add($dividendTransactionValue);
+				$accumulator->dividendYieldTickerCurrency = $accumulator->dividendYieldTickerCurrency->add($dividendTransactionValue);
 			}
 
 			return;
@@ -196,10 +159,10 @@ final class AssetDataCalculator
 		$transactionUnits = $transaction->units;
 		$transactionUnitsWithSplit = $transactionUnits->mul($splitFactor);
 
-		$units = $units->add($transactionUnitsWithSplit);
+		$accumulator->units = $accumulator->units->add($transactionUnitsWithSplit);
 
 		if ($transaction->actionType === TransactionActionTypeEnum::Buy) {
-			$buys[] = new TransactionBuyDto(
+			$accumulator->buys[] = new TransactionBuyDto(
 				brokerId: $transaction->brokerId,
 				actionCreated: $transaction->actionCreated,
 				units: $transactionUnits,
@@ -214,10 +177,17 @@ final class AssetDataCalculator
 			return;
 		}
 
-		$transactionRealizedGain = $this->countTransactionRealizedGain($buys, $transaction, $transactionUnitsWithSplit, $splits);
+		$transactionRealizedGain = $this->countTransactionRealizedGain(
+			$accumulator->buys,
+			$transaction,
+			$transactionUnitsWithSplit,
+			$splits,
+		);
 
-		$realizedGain = $realizedGain->add($transactionRealizedGain->value);
-		$realizedGainDefaultCurrency = $realizedGainDefaultCurrency->add($transactionRealizedGain->valueDefaultCurrency);
+		$accumulator->realizedGain = $accumulator->realizedGain->add($transactionRealizedGain->value);
+		$accumulator->realizedGainDefaultCurrency = $accumulator->realizedGainDefaultCurrency->add(
+			$transactionRealizedGain->valueDefaultCurrency,
+		);
 	}
 
 	/** @param array<int, TransactionBuyDto> $buys */
