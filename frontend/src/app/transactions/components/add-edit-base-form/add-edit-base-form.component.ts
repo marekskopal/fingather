@@ -114,9 +114,9 @@ export abstract class AddEditBaseFormComponent extends BaseAddEditForm implement
             const id = this.id();
             if (id === null) {
                 const portfolio = await this.portfolioService.getCurrentPortfolio();
-                this.createTransaction(portfolio.id);
+                await this.createTransaction(portfolio.id);
             } else {
-                this.updateTransaction(id);
+                await this.updateTransaction(id);
             }
         } catch (error) {
             if (error instanceof Error) {
