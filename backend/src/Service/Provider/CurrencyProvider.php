@@ -24,4 +24,9 @@ class CurrencyProvider
 	{
 		return $this->currencyRepository->findCurrency($currencyId);
 	}
+
+	public function getCurrencyByCode(string $code): ?Currency
+	{
+		return $this->currencyRepository->findCurrencyByCode($code);
+	}
 }

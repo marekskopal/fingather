@@ -69,6 +69,10 @@ use FinGather\Service\DataCalculator\DcaPlanDataCalculator;
 use FinGather\Service\Dbal\DbContext;
 use FinGather\Service\Goal\GoalChecker;
 use FinGather\Service\Goal\GoalCheckerInterface;
+use FinGather\Service\Import\Factory\ImportMapperFactory;
+use FinGather\Service\Import\Factory\ImportMapperFactoryInterface;
+use FinGather\Service\Import\Factory\TransactionRecordFactory;
+use FinGather\Service\Import\Factory\TransactionRecordFactoryInterface;
 use FinGather\Service\Logger\Logger;
 use FinGather\Service\Provider\DcaPlanProvider;
 use FinGather\Service\Provider\DcaPlanProviderInterface;
@@ -168,6 +172,8 @@ final class ApplicationFactory
 			->addArgument(GoalRepository::class);
 		$container->add(GoalCheckerInterface::class, GoalChecker::class)
 			->addArgument(PortfolioDataProvider::class);
+		$container->add(ImportMapperFactoryInterface::class, ImportMapperFactory::class);
+		$container->add(TransactionRecordFactoryInterface::class, TransactionRecordFactory::class);
 
 		return $container;
 	}

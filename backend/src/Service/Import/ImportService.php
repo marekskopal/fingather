@@ -17,14 +17,13 @@ use FinGather\Model\Entity\ImportMapping;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\User;
-use FinGather\Model\Repository\CurrencyRepository;
-use FinGather\Model\Repository\TransactionRepository;
 use FinGather\Service\Import\Entity\TransactionRecord;
-use FinGather\Service\Import\Factory\ImportMapperFactory;
-use FinGather\Service\Import\Factory\TransactionRecordFactory;
+use FinGather\Service\Import\Factory\ImportMapperFactoryInterface;
+use FinGather\Service\Import\Factory\TransactionRecordFactoryInterface;
 use FinGather\Service\Import\Mapper\MapperInterface;
 use FinGather\Service\Provider\AssetProvider;
 use FinGather\Service\Provider\BrokerProvider;
+use FinGather\Service\Provider\CurrencyProvider;
 use FinGather\Service\Provider\DataProvider;
 use FinGather\Service\Provider\GroupProvider;
 use FinGather\Service\Provider\ImportFileProvider;
@@ -38,19 +37,18 @@ use Psr\Log\LoggerInterface;
 final readonly class ImportService
 {
 	public function __construct(
-		private TransactionRepository $transactionRepository,
 		private TransactionProvider $transactionProvider,
 		private TickerProvider $tickerProvider,
 		private AssetProvider $assetProvider,
-		private CurrencyRepository $currencyRepository,
+		private CurrencyProvider $currencyProvider,
 		private GroupProvider $groupProvider,
 		private DataProvider $dataProvider,
 		private ImportProvider $importProvider,
 		private ImportFileProvider $importFileProvider,
 		private ImportMappingProvider $importMappingProvider,
 		private BrokerProvider $brokerProvider,
-		private ImportMapperFactory $importMapperFactory,
-		private TransactionRecordFactory $transactionRecordFactory,
+		private ImportMapperFactoryInterface $importMapperFactory,
+		private TransactionRecordFactoryInterface $transactionRecordFactory,
 		private SplitProvider $splitProvider,
 		private LoggerInterface $logger,
 	) {
@@ -120,7 +118,7 @@ final readonly class ImportService
 
 			if (
 				isset($transactionRecord->importIdentifier)
-				&& $this->transactionRepository->findTransactionByIdentifier($broker->id, $transactionRecord->importIdentifier) !== null
+				&& $this->transactionProvider->getTransactionByIdentifier($broker->id, $transactionRecord->importIdentifier) !== null
 			) {
 				$this->logger->log('import', 'Skipped transaction: ' . implode(',', $record));
 				continue;
@@ -140,7 +138,7 @@ final readonly class ImportService
 			}
 
 			$taxCurrency = $this->getCurrencyFromCode($transactionRecord->taxCurrency, $defaultCurrency);
-			$feeCurrency = $this->getCurrencyFromCode($transactionRecord->taxCurrency, $defaultCurrency);
+			$feeCurrency = $this->getCurrencyFromCode($transactionRecord->feeCurrency, $defaultCurrency);
 
 			$actionType = TransactionActionTypeEnum::fromString($transactionRecord->actionType ?? '');
 
@@ -263,7 +261,7 @@ final readonly class ImportService
 		if ($code === null) {
 			return $defaultCurrency;
 		}
-		return $this->currencyRepository->findCurrencyByCode($code);
+		return $this->currencyProvider->getCurrencyByCode($code);
 	}
 
 	private function adjustTransaction(Decimal &$units, ?Decimal &$price, Ticker $ticker, DateTimeImmutable $created): void

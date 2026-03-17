@@ -90,6 +90,11 @@ class TransactionProvider
 		return $this->transactionRepository->findTransaction($transactionId, $user->id);
 	}
 
+	public function getTransactionByIdentifier(int $brokerId, string $identifier): ?Transaction
+	{
+		return $this->transactionRepository->findTransactionByIdentifier($brokerId, $identifier);
+	}
+
 	public function getFirstTransaction(User $user, Portfolio $portfolio, ?Asset $asset = null): ?Transaction
 	{
 		return $this->transactionRepository->findFirstTransaction($user->id, $portfolio->id, $asset?->id);

@@ -13,16 +13,21 @@ final class BrokerFixture
 {
 	/** @api */
 	public static function getBroker(
+		?int $id = null,
 		?User $user = null,
 		?Portfolio $portfolio = null,
 		?string $name = null,
 		?BrokerImportTypeEnum $importType = null,
 	): Broker {
-		return new Broker(
+		$broker = new Broker(
 			user: $user ?? UserFixture::getUser(),
 			portfolio: $portfolio ?? PortfolioFixture::getPortfolio(),
 			name: $name ?? 'Test Broker',
 			importType: $importType ?? BrokerImportTypeEnum::Trading212,
 		);
+
+		$broker->id = $id ?? 1;
+
+		return $broker;
 	}
 }
