@@ -4,6 +4,7 @@ import {bootstrapApplication} from "@angular/platform-browser";
 import {provideRouter} from "@angular/router";
 import {AppComponent} from "@app/app.component";
 import {appRoutes} from "@app/app-routes";
+import {errorInterceptor} from "@app/core/interceptors/error.interceptor";
 import {jwtInterceptor} from "@app/core/interceptors/jwt.interceptor";
 import { environment } from '@environments/environment';
 import {provideTranslateService} from "@ngx-translate/core";
@@ -19,7 +20,7 @@ bootstrapApplication(AppComponent, {
         provideTranslateService({
             loader: provideTranslateHttpLoader({prefix: "/i18n/", suffix: `.json?v=${environment.i18nVersion}`}),
         }),
-        provideHttpClient(withInterceptors([jwtInterceptor])),
+        provideHttpClient(withInterceptors([jwtInterceptor, errorInterceptor])),
         provideZonelessChangeDetection(),
     ],
 });
