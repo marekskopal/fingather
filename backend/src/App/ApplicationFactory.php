@@ -135,9 +135,37 @@ final class ApplicationFactory
 
 	private static function validateEnvironment(): void
 	{
-		$authKey = (string) getenv('AUTHORIZATION_TOKEN_KEY');
-		if ($authKey === '') {
-			throw new \RuntimeException('Required environment variable AUTHORIZATION_TOKEN_KEY is not set.');
+		$required = [
+			'AUTHORIZATION_TOKEN_KEY',
+			'MYSQL_HOST',
+			'MYSQL_DATABASE',
+			'MYSQL_USER',
+			'MYSQL_PASSWORD',
+			'REDIS_HOST',
+			'REDIS_PORT',
+			'MEMCACHED_HOST',
+			'MEMCACHED_PORT',
+			'RABBITMQ_HOST',
+			'RABBITMQ_PORT',
+			'RABBITMQ_USER',
+			'RABBITMQ_PASSWORD',
+			'SMTP_HOST',
+			'SMTP_PORT',
+			'EMAIL_FROM',
+			'PROXY_HOST',
+			'PROXY_PORT_SSL',
+		];
+
+		$missing = [];
+		foreach ($required as $var) {
+			$value = getenv($var);
+			if ($value === false || $value === '') {
+				$missing[] = $var;
+			}
+		}
+
+		if ($missing !== []) {
+			throw new \RuntimeException('Required environment variables are not set: ' . implode(', ', $missing));
 		}
 	}
 
