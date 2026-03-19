@@ -6,6 +6,7 @@ import {Portfolio, PortfolioDataWithBenchmarkData} from '@app/models';
 import { RangeEnum } from '@app/models/enums/range-enum';
 import { PortfolioDataService, PortfolioService } from '@app/services';
 import {ChartUtils} from "@app/utils/chart-utils";
+import { TranslateService } from '@ngx-translate/core';
 import {
     ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill,
     ApexGrid, ApexLegend, ApexStroke, ApexTheme, ApexXAxis, ApexYAxis, NgApexchartsModule,
@@ -38,6 +39,7 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
     private readonly portfolioService = inject(PortfolioService);
     private readonly nonce = inject(CSP_NONCE);
     private readonly destroyRef = inject(DestroyRef);
+    private readonly translateService = inject(TranslateService);
 
     public readonly range = input.required<RangeEnum>();
     public readonly customRangeFrom = input<string | null>(null);
@@ -93,17 +95,18 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
         this.chartOptions = {
             series: [
                 {
-                    name: 'Value',
+                    name: this.translateService.instant('app.shared.charts.seriesValue'),
                     data: [],
                     zIndex: 3,
                 },
                 {
-                    name: 'Invested Value',
+                    name: this.translateService.instant('app.shared.charts.seriesInvestedValue'),
                     data: [],
                     zIndex: 1,
                 },
             ],
             chart: {
+                ...ChartUtils.locale(this.translateService.currentLang ?? 'en'),
                 height: this.height(),
                 type: 'area',
                 zoom: {
@@ -140,7 +143,7 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
 
         if (this.benchmarkAssetId() !== null || this.benchmarkTickerId() !== null) {
             this.chartOptions.series[2] = {
-                name: 'Benchmark',
+                name: this.translateService.instant('app.shared.charts.seriesBenchmark'),
                 data: [],
             };
         }
@@ -152,7 +155,7 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
         }
 
         this.chartOptions.series[2] = {
-            name: 'Benchmark',
+            name: this.translateService.instant('app.shared.charts.seriesBenchmark'),
             data: [],
             zIndex: 2,
         };

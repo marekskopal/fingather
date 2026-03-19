@@ -1,5 +1,18 @@
 import {ColorEnum} from "@app/utils/enum/color-enum";
-import {ApexFill, ApexGrid, ApexTheme, ApexXAxis, ApexYAxis} from "ng-apexcharts";
+import csLocale from 'apexcharts/dist/locales/cs.json';
+import deLocale from 'apexcharts/dist/locales/de.json';
+import enLocale from 'apexcharts/dist/locales/en.json';
+import esLocale from 'apexcharts/dist/locales/es.json';
+import frLocale from 'apexcharts/dist/locales/fr.json';
+import {ApexFill, ApexGrid, ApexLocale, ApexTheme, ApexXAxis, ApexYAxis} from "ng-apexcharts";
+
+const APEX_LOCALES: Record<string, ApexLocale> = {
+    en: enLocale as ApexLocale,
+    cs: csLocale as ApexLocale,
+    de: deLocale as ApexLocale,
+    fr: frLocale as ApexLocale,
+    es: esLocale as ApexLocale,
+};
 
 export class ChartUtils {
     public static gradientFill(): ApexFill {
@@ -51,6 +64,14 @@ export class ChartUtils {
         const colorNumber = number % this.colors().length;
 
         return this.colors()[colorNumber];
+    }
+
+    public static locale(lang: string): { locales: ApexLocale[], defaultLocale: string } {
+        const locale = APEX_LOCALES[lang] ?? APEX_LOCALES['en'];
+        return {
+            locales: [locale],
+            defaultLocale: lang,
+        };
     }
 
     public static theme(): ApexTheme {

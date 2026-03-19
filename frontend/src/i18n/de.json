@@ -84,6 +84,12 @@
         "fxImpact": "FX-Einfluss",
         "return": "Rendite",
         "about": "Über",
+        "charts": {
+          "tabPortfolioValue": "Portfoliowert",
+          "tabMarketPrice": "Marktpreis",
+          "seriesPrice": "Preis",
+          "seriesAverageBuyPrice": "Durchschn. Kaufpreis"
+        },
         "fundamentals": {
           "header": "Fundamentaldaten",
           "valuationsMetrics": "Bewertungskennzahlen",
@@ -590,7 +596,9 @@
       "projection": {
         "title": "Prognostiziertes Wachstum",
         "years": "J",
-        "withCurrentValue": "Aktuellen Wert einbeziehen"
+        "withCurrentValue": "Aktuellen Wert einbeziehen",
+        "seriesProjectedValue": "Prognostizierter Wert",
+        "seriesInvestedCapital": "Investiertes Kapital"
       },
       "detail": {
         "title": "DCA-Plan Details",
@@ -686,6 +694,12 @@
       }
     },
     "shared": {
+      "charts": {
+        "seriesValue": "Wert",
+        "seriesInvestedValue": "Investierter Wert",
+        "seriesBenchmark": "Benchmark",
+        "seriesGainLoss": "Gewinn/Verlust"
+      },
       "portfolioTotal": {
         "portfolioValue": "Portfoliowert",
         "gain": "Nicht realisierter Gewinn/Verlust",

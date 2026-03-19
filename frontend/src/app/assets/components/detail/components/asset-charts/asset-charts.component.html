@@ -3,23 +3,23 @@
         <ul ngbNav #assetChartsNav="ngbNav" [(activeId)]="activeTab" class="nav nav-tabs" role="tablist">
             <li [ngbNavItem]="AssetChartsTabEnum.AssetValueChart">
                 <button ngbNavLink>
-                    Value
+                    {{ 'app.assets.detail.charts.tabPortfolioValue' | translate }}
                 </button>
                 <ng-template ngbNavContent>
-                    <fingather-asset-ticker-chart
+                    <fingather-asset-value-chart
                         [assetId]="asset().id"
-                        [assetTickerId]="asset().ticker.id"
                         [height]="'450px'"
                     />
                 </ng-template>
             </li>
             <li [ngbNavItem]="AssetChartsTabEnum.AssetTickerChart">
                 <button ngbNavLink>
-                    Ticker
+                    {{ 'app.assets.detail.charts.tabMarketPrice' | translate }}
                 </button>
                 <ng-template ngbNavContent>
-                    <fingather-asset-value-chart
+                    <fingather-asset-ticker-chart
                         [assetId]="asset().id"
+                        [assetTickerId]="asset().ticker.id"
                         [height]="'450px'"
                     />
                 </ng-template>

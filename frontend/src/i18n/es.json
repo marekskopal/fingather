@@ -84,6 +84,12 @@
         "fxImpact": "Impacto FX",
         "return": "Rendimiento",
         "about": "Acerca de",
+        "charts": {
+          "tabPortfolioValue": "Valor de la cartera",
+          "tabMarketPrice": "Precio de mercado",
+          "seriesPrice": "Precio",
+          "seriesAverageBuyPrice": "Precio de compra prom."
+        },
         "fundamentals": {
           "header": "Fundamentales",
           "valuationsMetrics": "Métricas de Valoración",
@@ -590,7 +596,9 @@
       "projection": {
         "title": "Crecimiento proyectado",
         "years": "A",
-        "withCurrentValue": "Incluir valor actual"
+        "withCurrentValue": "Incluir valor actual",
+        "seriesProjectedValue": "Valor proyectado",
+        "seriesInvestedCapital": "Capital invertido"
       },
       "detail": {
         "title": "Detalle del plan DCA",
@@ -686,6 +694,12 @@
       }
     },
     "shared": {
+      "charts": {
+        "seriesValue": "Valor",
+        "seriesInvestedValue": "Valor invertido",
+        "seriesBenchmark": "Referencia",
+        "seriesGainLoss": "Ganancia/Pérdida"
+      },
       "portfolioTotal": {
         "portfolioValue": "Valor del Portafolio",
         "gain": "Ganancia/Pérdida No Realizada",

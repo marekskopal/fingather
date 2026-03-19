@@ -84,6 +84,12 @@
         "fxImpact": "FX dopad",
         "return": "Návratnost",
         "about": "O aktivu",
+        "charts": {
+          "tabPortfolioValue": "Hodnota portfolia",
+          "tabMarketPrice": "Tržní cena",
+          "seriesPrice": "Cena",
+          "seriesAverageBuyPrice": "Průměrná nák. cena"
+        },
         "fundamentals": {
           "header": "Fundamentální data",
           "valuationsMetrics": "Valuations Metrics",
@@ -586,7 +592,9 @@
       "projection": {
         "title": "Předpokládaný růst",
         "years": "R",
-        "withCurrentValue": "Zahrnout aktuální hodnotu"
+        "withCurrentValue": "Zahrnout aktuální hodnotu",
+        "seriesProjectedValue": "Předpokládaná hodnota",
+        "seriesInvestedCapital": "Investovaný kapitál"
       },
       "detail": {
         "title": "Detail DCA Plánu",
@@ -673,6 +681,12 @@
       }
     },
     "shared": {
+      "charts": {
+        "seriesValue": "Hodnota",
+        "seriesInvestedValue": "Investovaná částka",
+        "seriesBenchmark": "Benchmark",
+        "seriesGainLoss": "Zisk/Ztráta"
+      },
       "portfolioTotal": {
         "portfolioValue": "Hodnota portfólia",
         "gain": "Nerealizovaný Zisk/Ztráta",

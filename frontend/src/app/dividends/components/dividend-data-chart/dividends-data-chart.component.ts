@@ -8,6 +8,7 @@ import {
 import { RangeEnum } from '@app/models/enums/range-enum';
 import { DividendDataService, PortfolioService } from '@app/services';
 import {ChartUtils} from "@app/utils/chart-utils";
+import { TranslateService } from '@ngx-translate/core';
 import {
     ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexGrid, ApexLegend, ApexPlotOptions,
     ApexTheme, ApexXAxis, ApexYAxis, NgApexchartsModule,
@@ -40,6 +41,7 @@ export class DividendsDataChartComponent implements OnInit, OnChanges {
     private readonly portfolioService = inject(PortfolioService);
     private readonly nonce = inject(CSP_NONCE);
     private readonly destroyRef = inject(DestroyRef);
+    private readonly translateService = inject(TranslateService);
 
     public readonly range: InputSignal<RangeEnum> = input.required<RangeEnum>();
     public chartOptions: ChartOptions;
@@ -76,6 +78,7 @@ export class DividendsDataChartComponent implements OnInit, OnChanges {
         return {
             series: [],
             chart: {
+                ...ChartUtils.locale(this.translateService.currentLang ?? 'en'),
                 type: 'bar',
                 height: 600,
                 stacked: true,

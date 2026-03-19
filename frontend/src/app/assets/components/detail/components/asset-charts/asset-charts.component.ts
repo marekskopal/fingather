@@ -11,6 +11,7 @@ import {
 import {AssetChartsTabEnum} from "@app/assets/components/detail/components/asset-charts/types/asset-charts-tab-enum";
 import { AssetWithProperties} from '@app/models';
 import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLinkButton, NgbNavOutlet} from "@ng-bootstrap/ng-bootstrap";
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     templateUrl: 'asset-charts.component.html',
@@ -23,6 +24,7 @@ import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLinkButton, NgbNavOutlet} from 
         AssetTickerChartComponent,
         AssetValueChartComponent,
         NgbNavOutlet,
+        TranslatePipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

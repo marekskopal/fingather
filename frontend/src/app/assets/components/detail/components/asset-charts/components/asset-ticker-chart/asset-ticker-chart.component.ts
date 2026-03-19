@@ -5,6 +5,7 @@ import {
 import { TickerData } from '@app/models';
 import { AssetService, TickerDataService } from '@app/services';
 import {ChartUtils} from "@app/utils/chart-utils";
+import { TranslateService } from '@ngx-translate/core';
 import {
     ApexAnnotations,
     ApexAxisChartSeries,
@@ -41,6 +42,7 @@ export class AssetTickerChartComponent implements OnInit {
     private readonly tickerDataService = inject(TickerDataService);
     private readonly assetService = inject(AssetService);
     private readonly nonce = inject(CSP_NONCE);
+    private readonly translateService = inject(TranslateService);
 
     public assetId: InputSignal<number> = input.required<number>();
     public assetTickerId: InputSignal<number> = input.required<number>();
@@ -69,7 +71,8 @@ export class AssetTickerChartComponent implements OnInit {
         // @ts-expect-error yaxis is always an array
         this.chartOptions.annotations.yaxis[0].y = asset.averagePrice;
         // @ts-expect-error yaxis is always an array
-        this.chartOptions.annotations.yaxis[0].label.text = `Average Buy Price - ${asset.averagePrice}`;
+        this.chartOptions.annotations.yaxis[0].label.text =
+            `${this.translateService.instant('app.assets.detail.charts.seriesAverageBuyPrice')} - ${asset.averagePrice}`;
 
         this.loading.set(false);
     }
@@ -78,11 +81,12 @@ export class AssetTickerChartComponent implements OnInit {
         this.chartOptions = {
             series: [
                 {
-                    name: 'Price',
+                    name: this.translateService.instant('app.assets.detail.charts.seriesPrice'),
                     data: [],
                 },
             ],
             chart: {
+                ...ChartUtils.locale(this.translateService.currentLang ?? 'en'),
                 height: this.height(),
                 type: 'area',
                 zoom: {
@@ -119,7 +123,7 @@ export class AssetTickerChartComponent implements OnInit {
                                 color: '#1b2627',
                                 background: '#7597f2',
                             },
-                            text: 'Average Buy Price - ',
+                            text: '',
                         },
                     },
                 ],

@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { DcaPlanProjection } from '@app/models';
 import { DcaPlanService } from '@app/services';
 import { ChartUtils } from '@app/utils/chart-utils';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import {
     ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill,
     ApexGrid, ApexLegend, ApexStroke, ApexTheme, ApexXAxis, ApexYAxis, NgApexchartsModule,
@@ -39,6 +39,7 @@ export type ChartOptions = {
 export class DcaPlanProjectionChartComponent {
     private readonly dcaPlanService = inject(DcaPlanService);
     private readonly nonce = inject(CSP_NONCE);
+    private readonly translateService = inject(TranslateService);
 
     public readonly dcaPlanId = input.required<number>();
 
@@ -86,11 +87,11 @@ export class DcaPlanProjectionChartComponent {
         this.chartOptions = {
             series: [
                 {
-                    name: 'Projected Value',
+                    name: this.translateService.instant('app.dcaPlans.projection.seriesProjectedValue'),
                     data: [],
                 },
                 {
-                    name: 'Invested Capital',
+                    name: this.translateService.instant('app.dcaPlans.projection.seriesInvestedCapital'),
                     data: [],
                 },
             ],

@@ -6,6 +6,7 @@ import { AssetData } from '@app/models';
 import { RangeEnum } from '@app/models/enums/range-enum';
 import { AssetDataService } from '@app/services/asset-data.service';
 import {ChartUtils} from "@app/utils/chart-utils";
+import { TranslateService } from '@ngx-translate/core';
 import {
     ApexAxisChartSeries,
     ApexChart,
@@ -43,6 +44,7 @@ export type ChartOptions = {
 export class AssetValueChartComponent implements OnInit {
     private readonly assetDataService = inject(AssetDataService);
     private readonly nonce = inject(CSP_NONCE);
+    private readonly translateService = inject(TranslateService);
 
     public assetId: InputSignal<number> = input.required<number>();
     public height: InputSignal<string> = input<string>('auto');
@@ -74,17 +76,18 @@ export class AssetValueChartComponent implements OnInit {
         this.chartOptions = {
             series: [
                 {
-                    name: 'Gain/Loss',
+                    name: this.translateService.instant('app.shared.charts.seriesGainLoss'),
                     data: [],
                     zIndex: 2,
                 },
                 {
-                    name: 'Invested value',
+                    name: this.translateService.instant('app.shared.charts.seriesInvestedValue'),
                     data: [],
                     zIndex: 1,
                 },
             ],
             chart: {
+                ...ChartUtils.locale(this.translateService.currentLang ?? 'en'),
                 height: this.height(),
                 type: 'area',
                 zoom: {
