@@ -6,7 +6,6 @@ namespace FinGather\Service\DataCalculator;
 
 use DateInterval;
 use DateTimeImmutable;
-use Decimal\Decimal;
 use FinGather\Dto\AssetWithPropertiesDto;
 use FinGather\Dto\DcaPlanProjectionDto;
 use FinGather\Dto\DcaPlanProjectionPointDto;

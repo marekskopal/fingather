@@ -59,7 +59,8 @@ final class TickerLogoUpdaterTest extends TestCase
 	public function testHandlesNotFoundExceptionGracefully(): void
 	{
 		$ticker = TickerFixture::getTicker();
-		$ticker->logo = null; // TickerFixture defaults to a non-null logo; override it
+		// TickerFixture defaults to a non-null logo; override it
+		$ticker->logo = null;
 
 		$fundamentalsStub = $this->createStub(Fundamentals::class);
 		$fundamentalsStub->method('logo')->willThrowException(new NotFoundException('Not found'));
@@ -68,7 +69,8 @@ final class TickerLogoUpdaterTest extends TestCase
 		$twelveData->method('getFundamentals')->willReturn($fundamentalsStub);
 
 		$updater = new TickerLogoUpdater($this->makeTickerRepository(), $twelveData);
-		$updater->updateTickerLogo($ticker); // should not throw
+		// should not throw
+		$updater->updateTickerLogo($ticker);
 
 		// Logo not set because exception was caught
 		self::assertNull($ticker->logo);
@@ -88,7 +90,8 @@ final class TickerLogoUpdaterTest extends TestCase
 		$twelveData->method('getFundamentals')->willReturn($fundamentalsStub);
 
 		$updater = new TickerLogoUpdater($this->makeTickerRepository(), $twelveData);
-		$updater->updateTickerLogo($ticker); // should not throw
+		// should not throw
+		$updater->updateTickerLogo($ticker);
 
 		// Logo not set because URL was null
 		self::assertNull($ticker->logo);
@@ -107,6 +110,7 @@ final class TickerLogoUpdaterTest extends TestCase
 			function (string $symbol, ?string $exchange = null, ?string $micCode = null) use (&$capturedSymbol, &$capturedMicCode): never {
 				$capturedSymbol = $symbol;
 				$capturedMicCode = $micCode;
+
 				throw new NotFoundException('Not found');
 			},
 		);
@@ -133,6 +137,7 @@ final class TickerLogoUpdaterTest extends TestCase
 		$fundamentalsStub->method('logo')->willReturnCallback(
 			function (string $symbol) use (&$capturedSymbol): never {
 				$capturedSymbol = $symbol;
+
 				throw new NotFoundException('Not found');
 			},
 		);

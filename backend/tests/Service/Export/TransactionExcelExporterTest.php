@@ -7,6 +7,7 @@ namespace FinGather\Tests\Service\Export;
 use ArrayIterator;
 use FinGather\Service\Export\TransactionExcelExporter;
 use FinGather\Tests\Fixtures\Model\Entity\TransactionFixture;
+use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx as XlsxReader;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
@@ -39,7 +40,7 @@ final class TransactionExcelExporterTest extends TestCase
 
 		// All 13 header cells in row 1 should be bold
 		for ($col = 1; $col <= 13; $col++) {
-			$colLetter = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($col);
+			$colLetter = Coordinate::stringFromColumnIndex($col);
 			$cell = $sheet->getCell($colLetter . '1');
 			self::assertTrue(
 				$cell->getStyle()->getFont()->getBold(),

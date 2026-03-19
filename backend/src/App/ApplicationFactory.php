@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace FinGather\App;
 
 use FinGather\App\ServiceProvider\AuthenticationServiceProvider;
-use FinGather\App\ServiceProvider\CalculatorServiceProvider;
 use FinGather\App\ServiceProvider\CacheServiceProvider;
+use FinGather\App\ServiceProvider\CalculatorServiceProvider;
 use FinGather\App\ServiceProvider\DomainServiceProvider;
 use FinGather\App\ServiceProvider\ImportServiceProvider;
 use FinGather\App\ServiceProvider\InfrastructureServiceProvider;
@@ -18,9 +18,9 @@ use FinGather\Service\Dbal\DbContext;
 use League\Container\Container;
 use League\Container\ReflectionContainer;
 use MarekSkopal\BuggregatorClient\Middleware\XhprofMiddleware;
+use MarekSkopal\Router\Builder\RouterBuilder;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use MarekSkopal\Router\Builder\RouterBuilder;
 
 final class ApplicationFactory
 {

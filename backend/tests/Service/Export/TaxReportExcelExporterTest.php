@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace FinGather\Tests\Service\Export;
 
-use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Service\DataCalculator\Dto\TaxReportDividendsDto;
 use FinGather\Service\DataCalculator\Dto\TaxReportDto;
 use FinGather\Service\DataCalculator\Dto\TaxReportRealizedGainsDto;
 use FinGather\Service\DataCalculator\Dto\TaxReportUnrealizedDto;
 use FinGather\Service\Export\TaxReportExcelExporter;
+use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx as XlsxReader;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
@@ -94,7 +94,7 @@ final class TaxReportExcelExporterTest extends TestCase
 
 		// 12 headers in Realized Gains sheet
 		for ($col = 1; $col <= 12; $col++) {
-			$colLetter = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($col);
+			$colLetter = Coordinate::stringFromColumnIndex($col);
 			$cell = $sheet->getCell($colLetter . '1');
 			self::assertTrue(
 				$cell->getStyle()->getFont()->getBold(),
@@ -114,7 +114,8 @@ final class TaxReportExcelExporterTest extends TestCase
 
 		$reader = new XlsxReader();
 		$spreadsheet = $reader->load($file);
-		$sheet = $spreadsheet->getSheet(3); // Summary sheet
+		// Summary sheet
+		$sheet = $spreadsheet->getSheet(3);
 
 		$title = $sheet->getCell('A1')->getValue();
 		self::assertStringContainsString('2023', (string) $title);

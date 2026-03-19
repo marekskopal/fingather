@@ -64,7 +64,11 @@ final class DataCalculator implements DataCalculatorInterface
 			fxImpactPercentagePerAnnum: $fxImpactPercentagePerAnnum,
 			return: $sumGainDefaultCurrency->add($sumDividendYield)->add($sumFxImpact),
 			returnPercentage: CalculatorUtils::sumPercentages($gainPercentage, $dividendYieldPercentage, $fxImpactPercentage),
-			returnPercentagePerAnnum: CalculatorUtils::sumPercentages($gainPercentagePerAnnum, $dividendYieldPercentagePerAnnum, $fxImpactPercentagePerAnnum),
+			returnPercentagePerAnnum: CalculatorUtils::sumPercentages(
+				$gainPercentagePerAnnum,
+				$dividendYieldPercentagePerAnnum,
+				$fxImpactPercentagePerAnnum,
+			),
 			tax: $sumTax,
 			fee: $sumFee,
 			realizedGain: $sumRealizedGainDefaultCurrency,

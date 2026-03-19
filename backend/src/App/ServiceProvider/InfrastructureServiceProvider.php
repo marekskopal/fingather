@@ -74,11 +74,13 @@ final class InfrastructureServiceProvider extends AbstractServiceProvider
 
 		$container->add(StripeClient::class, fn () => new StripeClient((string) getenv('STRIPE_SECRET_KEY')));
 
-		if ((bool) getenv('PROFILER_ENABLE') === true) {
-			$container->add(XhprofMiddleware::class, fn () => new XhprofMiddleware(
-				appName: 'FinGather',
-				url: (string) getenv('PROFILER_ENDPOINT'),
-			));
+		if ((bool) getenv('PROFILER_ENABLE') !== true) {
+			return;
 		}
+
+		$container->add(XhprofMiddleware::class, fn () => new XhprofMiddleware(
+			appName: 'FinGather',
+			url: (string) getenv('PROFILER_ENDPOINT'),
+		));
 	}
 }

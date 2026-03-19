@@ -110,7 +110,11 @@ final readonly class AssetDataCalculator implements AssetDataCalculatorInterface
 			fxImpactPercentagePerAnnum: $fxImpactPercentagePerAnnum,
 			return: $gainDefaultCurrency->add($dividendYieldDefaultCurrency)->add($fxImpact),
 			returnPercentage: CalculatorUtils::sumPercentages($gainPercentage, $dividendYieldPercentage, $fxImpactPercentage),
-			returnPercentagePerAnnum: CalculatorUtils::sumPercentages($gainPercentagePerAnnum, $dividendYieldPercentagePerAnnum, $fxImpactPercentagePerAnnum),
+			returnPercentagePerAnnum: CalculatorUtils::sumPercentages(
+				$gainPercentagePerAnnum,
+				$dividendYieldPercentagePerAnnum,
+				$fxImpactPercentagePerAnnum,
+			),
 			tax: $accumulator->tax,
 			taxDefaultCurrency: $accumulator->taxDefaultCurrency,
 			fee: $accumulator->fee,

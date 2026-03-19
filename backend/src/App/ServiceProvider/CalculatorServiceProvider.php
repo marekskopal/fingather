@@ -10,10 +10,6 @@ use FinGather\Service\DataCalculator\DataCalculator;
 use FinGather\Service\DataCalculator\DataCalculatorInterface;
 use FinGather\Service\DataCalculator\TaxReportRealizedGainsCalculator;
 use FinGather\Service\DataCalculator\TaxReportRealizedGainsCalculatorInterface;
-use FinGather\Service\Provider\CurrentTransactionProvider;
-use FinGather\Service\Provider\ExchangeRateProvider;
-use FinGather\Service\Provider\SplitProvider;
-use FinGather\Service\Provider\TickerDataProvider;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 
 final class CalculatorServiceProvider extends AbstractServiceProvider

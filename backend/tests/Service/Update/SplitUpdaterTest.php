@@ -6,6 +6,7 @@ namespace FinGather\Tests\Service\Update;
 
 use DateTimeImmutable;
 use Decimal\Decimal;
+use FinGather\Model\Entity\Split;
 use FinGather\Service\Provider\SplitProvider;
 use FinGather\Service\Update\SplitUpdater;
 use FinGather\Tests\Fixtures\Model\Entity\TickerFixture;
@@ -23,7 +24,7 @@ use ReflectionProperty;
 #[CoversClass(SplitUpdater::class)]
 #[UsesClass(Splits::class)]
 #[UsesClass(SplitsSplit::class)]
-#[UsesClass(\FinGather\Model\Entity\Split::class)]
+#[UsesClass(Split::class)]
 #[UsesClass(Decimal::class)]
 final class SplitUpdaterTest extends TestCase
 {
@@ -39,11 +40,8 @@ final class SplitUpdaterTest extends TestCase
 		);
 	}
 
-	private function makeSplitsSplit(
-		string $date = '2021-06-01',
-		float $fromFactor = 4.0,
-		float $toFactor = 1.0,
-	): SplitsSplit {
+	private function makeSplitsSplit(string $date = '2021-06-01', float $fromFactor = 4.0, float $toFactor = 1.0,): SplitsSplit
+	{
 		return new SplitsSplit(
 			date: new DateTimeImmutable($date),
 			description: 'Split',
@@ -85,7 +83,8 @@ final class SplitUpdaterTest extends TestCase
 		$splitsDto = $this->makeSplitsDto($split);
 
 		$splitProvider = $this->createMock(SplitProvider::class);
-		$splitProvider->method('getSplit')->willReturn(null); // not a duplicate
+		// not a duplicate
+		$splitProvider->method('getSplit')->willReturn(null);
 		$splitProvider->expects(self::once())->method('createSplit')->with(
 			$ticker,
 			$split->date,
@@ -103,14 +102,15 @@ final class SplitUpdaterTest extends TestCase
 		$split = $this->makeSplitsSplit();
 		$splitsDto = $this->makeSplitsDto($split);
 
-		$existingSplit = new \FinGather\Model\Entity\Split(
+		$existingSplit = new Split(
 			tickerId: $ticker->id,
 			date: $split->date,
 			factor: new Decimal(4),
 		);
 
 		$splitProvider = $this->createMock(SplitProvider::class);
-		$splitProvider->method('getSplit')->willReturn($existingSplit); // already exists
+		// already exists
+		$splitProvider->method('getSplit')->willReturn($existingSplit);
 		$splitProvider->expects(self::never())->method('createSplit');
 		$splitProvider->expects(self::never())->method('cleanCache');
 
@@ -133,7 +133,8 @@ final class SplitUpdaterTest extends TestCase
 		$splitProvider->expects(self::never())->method('createSplit');
 
 		$updater = $this->makeUpdater($splitProvider, $twelveDataStub);
-		$updater->updateSplits($ticker); // should not throw
+		// should not throw
+		$updater->updateSplits($ticker);
 	}
 
 	public function testUpdateCalculatesSplitFactor(): void
@@ -147,9 +148,9 @@ final class SplitUpdaterTest extends TestCase
 
 		$capturedFactor = null;
 		$splitProvider->method('createSplit')
-			->willReturnCallback(function ($t, $d, Decimal $factor) use (&$capturedFactor): \FinGather\Model\Entity\Split {
+			->willReturnCallback(function ($t, $d, Decimal $factor) use (&$capturedFactor): Split {
 				$capturedFactor = $factor;
-				return new \FinGather\Model\Entity\Split(tickerId: $t->id, date: $d, factor: $factor);
+				return new Split(tickerId: $t->id, date: $d, factor: $factor);
 			});
 		$splitProvider->method('cleanCache');
 
@@ -164,7 +165,8 @@ final class SplitUpdaterTest extends TestCase
 	public function testUpdateDoesNotCleanCacheWhenNoNewSplits(): void
 	{
 		$ticker = TickerFixture::getTicker();
-		$splitsDto = $this->makeSplitsDto(); // empty splits
+		// empty splits
+		$splitsDto = $this->makeSplitsDto();
 
 		$splitProvider = $this->createMock(SplitProvider::class);
 		$splitProvider->expects(self::never())->method('cleanCache');

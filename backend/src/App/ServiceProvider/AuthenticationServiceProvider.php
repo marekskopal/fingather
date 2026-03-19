@@ -8,8 +8,6 @@ use FinGather\Service\Authentication\AuthenticationService;
 use FinGather\Service\Authentication\AuthenticationServiceInterface;
 use FinGather\Service\Authentication\GoogleAuthService;
 use FinGather\Service\Authentication\GoogleAuthServiceInterface;
-use FinGather\Service\Provider\UserProvider;
-use GuzzleHttp\Client as GuzzleClient;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 
 final class AuthenticationServiceProvider extends AbstractServiceProvider

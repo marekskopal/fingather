@@ -10,7 +10,6 @@ use FinGather\Email\GoalEmail;
 use FinGather\Model\Entity\Enum\GoalTypeEnum;
 use FinGather\Tests\Fixtures\Model\Entity\GoalFixture;
 use FinGather\Tests\Fixtures\Model\Entity\PortfolioFixture;
-use FinGather\Tests\Fixtures\Model\Entity\UserFixture;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;

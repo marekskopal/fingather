@@ -9,7 +9,6 @@ use FinGather\Service\Cache\CacheFactoryInterface;
 use FinGather\Service\Translator\TranslatorService;
 use FinGather\Service\Translator\TranslatorServiceInterface;
 use League\Container\ServiceProvider\AbstractServiceProvider;
-use Predis\ClientInterface;
 
 final class CacheServiceProvider extends AbstractServiceProvider
 {

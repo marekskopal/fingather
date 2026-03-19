@@ -80,7 +80,8 @@ final class TickerIsinUpdaterTest extends TestCase
 		// Repos are reflection-instantiated; any accidental call would throw an Error.
 		$this->makeUpdater($openFigi)->updateTickerIsins(['US0000000000']);
 
-		$this->addToAssertionCount(1); // reaching this line means no exception was thrown
+		// reaching this line means no exception was thrown
+		$this->addToAssertionCount(1);
 	}
 
 	public function testUpdateSkipsWhenFigiResultExchCodeIsNull(): void

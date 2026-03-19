@@ -7,7 +7,6 @@ namespace FinGather\Tests\Service\Email;
 use FinGather\Dto\EmailVerifyDto;
 use FinGather\Dto\PasswordResetQueueDto;
 use FinGather\Dto\UserDto;
-use FinGather\Model\Entity\Enum\LocaleEnum;
 use FinGather\Service\Cache\Cache;
 use FinGather\Service\Email\EmailFactory;
 use FinGather\Service\Translator\TranslatorService;

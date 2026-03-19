@@ -65,17 +65,22 @@ final class TransactionCsvExporterTest extends TestCase
 
 		$handle = fopen($file, 'r');
 		self::assertNotFalse($handle);
-		fgetcsv($handle); // skip headers
+		// skip headers
+		fgetcsv($handle);
 		$dataRow = fgetcsv($handle);
 		fclose($handle);
 
 		self::assertNotFalse($dataRow);
 
 		// Decimal values are serialised as strings (not floats)
-		self::assertSame('10', $dataRow[4]); // Units
-		self::assertSame('100', $dataRow[5]); // Price
-		self::assertSame('2', $dataRow[7]); // Tax
-		self::assertSame('1', $dataRow[9]); // Fee
+		// Units
+		self::assertSame('10', $dataRow[4]);
+		// Price
+		self::assertSame('100', $dataRow[5]);
+		// Tax
+		self::assertSame('2', $dataRow[7]);
+		// Fee
+		self::assertSame('1', $dataRow[9]);
 
 		unlink($file);
 	}

@@ -138,6 +138,7 @@ final class CalculatorUtilsTest extends TestCase
 	#[TestWith([[10.0, 20.0, 30.0], 60.0])]
 	#[TestWith([[10.0, -30.0], -20.0])]
 	// float imprecision: 1.23 + 4.56 + 7.89 = 13.680000000000001 without rounding
+
 	#[TestWith([[1.23, 4.56, 7.89], 13.68])]
 	public function testSumPercentages(array $percentages, float $expected): void
 	{
