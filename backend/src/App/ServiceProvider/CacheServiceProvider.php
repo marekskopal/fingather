@@ -25,8 +25,7 @@ final class CacheServiceProvider extends AbstractServiceProvider
 	{
 		$container = $this->getContainer();
 
-		$container->add(CacheFactoryInterface::class, CacheFactory::class)
-			->addArgument(ClientInterface::class);
+		$container->add(CacheFactoryInterface::class, CacheFactory::class);
 
 		$container->add(TranslatorServiceInterface::class, static function () use ($container): TranslatorService {
 			$cacheFactory = $container->get(CacheFactoryInterface::class);

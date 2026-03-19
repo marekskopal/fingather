@@ -26,10 +26,8 @@ final class AuthenticationServiceProvider extends AbstractServiceProvider
 	{
 		$container = $this->getContainer();
 
-		$container->add(AuthenticationServiceInterface::class, AuthenticationService::class)
-			->addArgument(UserProvider::class);
+		$container->add(AuthenticationServiceInterface::class, AuthenticationService::class);
 
-		$container->add(GoogleAuthServiceInterface::class, GoogleAuthService::class)
-			->addArgument(GuzzleClient::class);
+		$container->add(GoogleAuthServiceInterface::class, GoogleAuthService::class);
 	}
 }

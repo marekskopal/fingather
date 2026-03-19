@@ -31,12 +31,10 @@ final class CalculatorServiceProvider extends AbstractServiceProvider
 	{
 		$container = $this->getContainer();
 
-		$container->add(AssetDataCalculatorInterface::class, AssetDataCalculator::class)
-			->addArguments([CurrentTransactionProvider::class, SplitProvider::class, TickerDataProvider::class, ExchangeRateProvider::class]);
+		$container->add(AssetDataCalculatorInterface::class, AssetDataCalculator::class);
 
 		$container->add(DataCalculatorInterface::class, DataCalculator::class);
 
-		$container->add(TaxReportRealizedGainsCalculatorInterface::class, TaxReportRealizedGainsCalculator::class)
-			->addArguments([CurrentTransactionProvider::class, SplitProvider::class]);
+		$container->add(TaxReportRealizedGainsCalculatorInterface::class, TaxReportRealizedGainsCalculator::class);
 	}
 }
