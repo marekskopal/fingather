@@ -15,7 +15,7 @@ describe('DashboardComponent', () => {
             providers: [provideRouter([])],
             schemas: [NO_ERRORS_SCHEMA],
         })
-            .overrideComponent(DashboardComponent, { set: { imports: [TranslatePipe] } })
+            .overrideComponent(DashboardComponent, { set: { imports: [TranslatePipe], schemas: [NO_ERRORS_SCHEMA] } })
             .compileComponents();
 
         fixture = TestBed.createComponent(DashboardComponent);

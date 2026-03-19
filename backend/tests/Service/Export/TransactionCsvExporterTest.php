@@ -34,7 +34,7 @@ final class TransactionCsvExporterTest extends TestCase
 
 		$handle = fopen($file, 'r');
 		self::assertNotFalse($handle);
-		$headers = fgetcsv($handle);
+		$headers = fgetcsv($handle, escape: '\\');
 		fclose($handle);
 
 		self::assertNotFalse($headers);
@@ -66,8 +66,8 @@ final class TransactionCsvExporterTest extends TestCase
 		$handle = fopen($file, 'r');
 		self::assertNotFalse($handle);
 		// skip headers
-		fgetcsv($handle);
-		$dataRow = fgetcsv($handle);
+		fgetcsv($handle, escape: '\\');
+		$dataRow = fgetcsv($handle, escape: '\\');
 		fclose($handle);
 
 		self::assertNotFalse($dataRow);
@@ -94,7 +94,7 @@ final class TransactionCsvExporterTest extends TestCase
 		$rows = [];
 		$handle = fopen($file, 'r');
 		self::assertNotFalse($handle);
-		while (($row = fgetcsv($handle)) !== false) {
+		while (($row = fgetcsv($handle, escape: '\\')) !== false) {
 			$rows[] = $row;
 		}
 		fclose($handle);

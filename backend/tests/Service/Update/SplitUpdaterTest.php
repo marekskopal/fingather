@@ -144,7 +144,7 @@ final class SplitUpdaterTest extends TestCase
 		$split = $this->makeSplitsSplit(fromFactor: 3.0, toFactor: 1.0);
 		$splitsDto = $this->makeSplitsDto($split);
 
-		$splitProvider = $this->createMock(SplitProviderInterface::class);
+		$splitProvider = self::createStub(SplitProviderInterface::class);
 		$splitProvider->method('getSplit')->willReturn(null);
 
 		$capturedFactor = null;
