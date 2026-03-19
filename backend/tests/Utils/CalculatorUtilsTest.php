@@ -133,6 +133,7 @@ final class CalculatorUtilsTest extends TestCase
 		self::assertSame($expected, CalculatorUtils::roundPercentage($value));
 	}
 
+	/** @param float[] $percentages */
 	#[TestWith([[], 0.0])]
 	#[TestWith([[10.0], 10.0])]
 	#[TestWith([[10.0, 20.0, 30.0], 60.0])]

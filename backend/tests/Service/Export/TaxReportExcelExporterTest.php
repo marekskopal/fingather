@@ -117,8 +117,8 @@ final class TaxReportExcelExporterTest extends TestCase
 		// Summary sheet
 		$sheet = $spreadsheet->getSheet(3);
 
-		$title = $sheet->getCell('A1')->getValue();
-		self::assertStringContainsString('2023', (string) $title);
+		$title = $sheet->getCell('A1')->getFormattedValue();
+		self::assertStringContainsString('2023', $title);
 
 		$spreadsheet->disconnectWorksheets();
 		unlink($file);
@@ -135,8 +135,8 @@ final class TaxReportExcelExporterTest extends TestCase
 		$sheet = $spreadsheet->getSheet(0);
 
 		// Buy Price header should include currency symbol
-		$buyPriceHeader = $sheet->getCell('G1')->getValue();
-		self::assertStringContainsString('€', (string) $buyPriceHeader);
+		$buyPriceHeader = $sheet->getCell('G1')->getFormattedValue();
+		self::assertStringContainsString('€', $buyPriceHeader);
 
 		$spreadsheet->disconnectWorksheets();
 		unlink($file);

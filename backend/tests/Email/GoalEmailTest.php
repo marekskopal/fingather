@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(GoalEmail::class)]
 final class GoalEmailTest extends TestCase
 {
-	/** @return array<string, mixed> */
+	/** @return array<string, string> */
 	private function makeTranslations(): array
 	{
 		return [

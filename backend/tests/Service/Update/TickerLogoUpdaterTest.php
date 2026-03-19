@@ -46,7 +46,7 @@ final class TickerLogoUpdaterTest extends TestCase
 		$ticker = TickerFixture::getTicker(logo: 'aapl.svg');
 		$logoBeforeUpdate = $ticker->logo;
 
-		$twelveData = $this->createStub(TwelveData::class);
+		$twelveData = self::createStub(TwelveData::class);
 		// TwelveData must not be called — if it were, getFundamentals() would return a stub that returns null for logo()
 		// and the method would reach persist(), which would throw because the repo is uninitialized.
 		$updater = new TickerLogoUpdater($this->makeTickerRepository(), $twelveData);
@@ -62,10 +62,10 @@ final class TickerLogoUpdaterTest extends TestCase
 		// TickerFixture defaults to a non-null logo; override it
 		$ticker->logo = null;
 
-		$fundamentalsStub = $this->createStub(Fundamentals::class);
+		$fundamentalsStub = self::createStub(Fundamentals::class);
 		$fundamentalsStub->method('logo')->willThrowException(new NotFoundException('Not found'));
 
-		$twelveData = $this->createStub(TwelveData::class);
+		$twelveData = self::createStub(TwelveData::class);
 		$twelveData->method('getFundamentals')->willReturn($fundamentalsStub);
 
 		$updater = new TickerLogoUpdater($this->makeTickerRepository(), $twelveData);
@@ -83,10 +83,10 @@ final class TickerLogoUpdaterTest extends TestCase
 
 		$logo = $this->makeLogo(url: null, logoBase: null);
 
-		$fundamentalsStub = $this->createStub(Fundamentals::class);
+		$fundamentalsStub = self::createStub(Fundamentals::class);
 		$fundamentalsStub->method('logo')->willReturn($logo);
 
-		$twelveData = $this->createStub(TwelveData::class);
+		$twelveData = self::createStub(TwelveData::class);
 		$twelveData->method('getFundamentals')->willReturn($fundamentalsStub);
 
 		$updater = new TickerLogoUpdater($this->makeTickerRepository(), $twelveData);
@@ -105,7 +105,7 @@ final class TickerLogoUpdaterTest extends TestCase
 		$capturedSymbol = null;
 		$capturedMicCode = null;
 
-		$fundamentalsStub = $this->createStub(Fundamentals::class);
+		$fundamentalsStub = self::createStub(Fundamentals::class);
 		$fundamentalsStub->method('logo')->willReturnCallback(
 			function (string $symbol, ?string $exchange = null, ?string $micCode = null) use (&$capturedSymbol, &$capturedMicCode): never {
 				$capturedSymbol = $symbol;
@@ -115,7 +115,7 @@ final class TickerLogoUpdaterTest extends TestCase
 			},
 		);
 
-		$twelveData = $this->createStub(TwelveData::class);
+		$twelveData = self::createStub(TwelveData::class);
 		$twelveData->method('getFundamentals')->willReturn($fundamentalsStub);
 
 		$updater = new TickerLogoUpdater($this->makeTickerRepository(), $twelveData);
@@ -133,7 +133,7 @@ final class TickerLogoUpdaterTest extends TestCase
 
 		$capturedSymbol = null;
 
-		$fundamentalsStub = $this->createStub(Fundamentals::class);
+		$fundamentalsStub = self::createStub(Fundamentals::class);
 		$fundamentalsStub->method('logo')->willReturnCallback(
 			function (string $symbol) use (&$capturedSymbol): never {
 				$capturedSymbol = $symbol;
@@ -142,7 +142,7 @@ final class TickerLogoUpdaterTest extends TestCase
 			},
 		);
 
-		$twelveData = $this->createStub(TwelveData::class);
+		$twelveData = self::createStub(TwelveData::class);
 		$twelveData->method('getFundamentals')->willReturn($fundamentalsStub);
 
 		$updater = new TickerLogoUpdater($this->makeTickerRepository(), $twelveData);

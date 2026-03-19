@@ -7,6 +7,7 @@ namespace FinGather\Tests\Service\Update;
 use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Model\Entity\Split;
+use FinGather\Model\Entity\Ticker;
 use FinGather\Service\Provider\SplitProviderInterface;
 use FinGather\Service\Update\SplitUpdater;
 use FinGather\Tests\Fixtures\Model\Entity\TickerFixture;
@@ -53,7 +54,7 @@ final class SplitUpdaterTest extends TestCase
 
 	private function makeSplitsDto(SplitsSplit ...$splits): Splits
 	{
-		return new Splits(meta: $this->makeMeta(), splits: $splits);
+		return new Splits(meta: $this->makeMeta(), splits: array_values($splits));
 	}
 
 	private function makeUpdater(SplitProviderInterface $splitProvider, TwelveData $twelveData): SplitUpdater
@@ -63,10 +64,10 @@ final class SplitUpdaterTest extends TestCase
 
 	private function makeTwelveDataStub(Splits $splitsDto): TwelveData
 	{
-		$fundamentalsStub = $this->createStub(Fundamentals::class);
+		$fundamentalsStub = self::createStub(Fundamentals::class);
 		$fundamentalsStub->method('splits')->willReturn($splitsDto);
 
-		$twelveDataStub = $this->createStub(TwelveData::class);
+		$twelveDataStub = self::createStub(TwelveData::class);
 
 		// TwelveData is a `readonly class`, so its `fundamentals` property cannot be set externally.
 		// We use ReflectionProperty to initialise the uninitialized readonly property on the stub.
@@ -122,10 +123,10 @@ final class SplitUpdaterTest extends TestCase
 	{
 		$ticker = TickerFixture::getTicker();
 
-		$fundamentalsStub = $this->createStub(Fundamentals::class);
+		$fundamentalsStub = self::createStub(Fundamentals::class);
 		$fundamentalsStub->method('splits')->willThrowException(new NotFoundException('Not found'));
 
-		$twelveDataStub = $this->createStub(TwelveData::class);
+		$twelveDataStub = self::createStub(TwelveData::class);
 		$prop = new ReflectionProperty(TwelveData::class, 'fundamentals');
 		$prop->setValue($twelveDataStub, $fundamentalsStub);
 
@@ -148,7 +149,7 @@ final class SplitUpdaterTest extends TestCase
 
 		$capturedFactor = null;
 		$splitProvider->method('createSplit')
-			->willReturnCallback(function ($t, $d, Decimal $factor) use (&$capturedFactor): Split {
+			->willReturnCallback(function (Ticker $t, DateTimeImmutable $d, Decimal $factor) use (&$capturedFactor): Split {
 				$capturedFactor = $factor;
 				return new Split(tickerId: $t->id, date: $d, factor: $factor);
 			});

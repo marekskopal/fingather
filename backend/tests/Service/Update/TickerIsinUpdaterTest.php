@@ -8,6 +8,7 @@ use FinGather\Model\Repository\MarketRepository;
 use FinGather\Model\Repository\TickerRepository;
 use FinGather\Service\Update\TickerIsinUpdater;
 use MarekSkopal\OpenFigi\Dto\FigiResult;
+use MarekSkopal\OpenFigi\Dto\MappingJob;
 use MarekSkopal\OpenFigi\Dto\MappingJobResult;
 use MarekSkopal\OpenFigi\OpenFigi;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -71,54 +72,53 @@ final class TickerIsinUpdaterTest extends TestCase
 
 	public function testUpdateSkipsWhenMappingResultDataIsNull(): void
 	{
+		self::expectNotToPerformAssertions();
+
 		$mappingResult = new MappingJobResult(data: null, warning: 'No data');
 
-		$openFigi = $this->createStub(OpenFigi::class);
+		$openFigi = self::createStub(OpenFigi::class);
 		$openFigi->method('getMaxJobsPerRequest')->willReturn(10);
 		$openFigi->method('mapping')->willReturn([$mappingResult]);
 
 		// Repos are reflection-instantiated; any accidental call would throw an Error.
 		$this->makeUpdater($openFigi)->updateTickerIsins(['US0000000000']);
-
-		// reaching this line means no exception was thrown
-		$this->addToAssertionCount(1);
 	}
 
 	public function testUpdateSkipsWhenFigiResultExchCodeIsNull(): void
 	{
+		self::expectNotToPerformAssertions();
+
 		$figiResult = $this->makeFigiResult(ticker: 'AAPL', exchCode: null);
 		$mappingResult = new MappingJobResult(data: [$figiResult], warning: null);
 
-		$openFigi = $this->createStub(OpenFigi::class);
+		$openFigi = self::createStub(OpenFigi::class);
 		$openFigi->method('getMaxJobsPerRequest')->willReturn(10);
 		$openFigi->method('mapping')->willReturn([$mappingResult]);
 
 		// Repos are reflection-instantiated; any call to findMarketByExchangeCode would throw.
 		$this->makeUpdater($openFigi)->updateTickerIsins(['US0378331005']);
-
-		$this->addToAssertionCount(1);
 	}
 
 	public function testUpdateSkipsWhenFigiResultTickerIsNull(): void
 	{
+		self::expectNotToPerformAssertions();
+
 		$figiResult = $this->makeFigiResult(ticker: null, exchCode: 'US');
 		$mappingResult = new MappingJobResult(data: [$figiResult], warning: null);
 
-		$openFigi = $this->createStub(OpenFigi::class);
+		$openFigi = self::createStub(OpenFigi::class);
 		$openFigi->method('getMaxJobsPerRequest')->willReturn(10);
 		$openFigi->method('mapping')->willReturn([$mappingResult]);
 
 		// Repos are reflection-instantiated; any call to findMarketByExchangeCode would throw.
 		$this->makeUpdater($openFigi)->updateTickerIsins(['US0378331005']);
-
-		$this->addToAssertionCount(1);
 	}
 
 	public function testUpdateCallsMappingWithCorrectIsins(): void
 	{
 		$capturedJobs = null;
 
-		$openFigi = $this->createStub(OpenFigi::class);
+		$openFigi = self::createStub(OpenFigi::class);
 		$openFigi->method('getMaxJobsPerRequest')->willReturn(10);
 		$openFigi->method('mapping')->willReturnCallback(
 			function (array $jobs) use (&$capturedJobs): array {
@@ -132,6 +132,7 @@ final class TickerIsinUpdaterTest extends TestCase
 
 		self::assertNotNull($capturedJobs);
 		self::assertCount(1, $capturedJobs);
+		self::assertInstanceOf(MappingJob::class, $capturedJobs[0]);
 		self::assertSame('US0378331005', $capturedJobs[0]->idValue);
 	}
 }
