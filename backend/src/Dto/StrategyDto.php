@@ -6,6 +6,7 @@ namespace FinGather\Dto;
 
 use FinGather\Model\Entity\Strategy;
 use FinGather\Model\Entity\StrategyItem;
+use FinGather\Utils\CalculatorUtils;
 
 readonly class StrategyDto
 {
@@ -32,7 +33,7 @@ readonly class StrategyDto
 			$totalPercentage += $item->percentage;
 		}
 
-		$othersPercentage = round(100.0 - $totalPercentage, 2);
+		$othersPercentage = CalculatorUtils::roundPercentage(100.0 - $totalPercentage);
 		if ($othersPercentage > 0.0) {
 			$items[] = new StrategyItemDto(
 				id: 0,

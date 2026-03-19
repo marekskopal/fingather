@@ -69,8 +69,8 @@ class StrategyRebalancingProvider
 			}
 		}
 
-		$othersTargetPercentage = round(100.0 - $totalTargetPercentage, 2);
-		$othersActualPercentage = round(100.0 - $totalActualPercentage, 2);
+		$othersTargetPercentage = CalculatorUtils::roundPercentage(100.0 - $totalTargetPercentage);
+		$othersActualPercentage = CalculatorUtils::roundPercentage(100.0 - $totalActualPercentage);
 
 		if ($othersTargetPercentage > 0.0 || $othersActualPercentage > 0.0) {
 			$items[] = $this->buildOthersItem(
@@ -163,7 +163,7 @@ class StrategyRebalancingProvider
 			isOthers: false,
 			targetPercentage: $targetPercentage,
 			actualPercentage: $actualPercentage,
-			differencePercentage: round($actualPercentage - $targetPercentage, 2),
+			differencePercentage: CalculatorUtils::roundPercentage($actualPercentage - $targetPercentage),
 			currentValue: $currentValue,
 			targetValue: $targetValue,
 			suggestedTradeValue: $suggestedTradeValue,
@@ -197,7 +197,7 @@ class StrategyRebalancingProvider
 			isOthers: false,
 			targetPercentage: $targetPercentage,
 			actualPercentage: $actualPercentage,
-			differencePercentage: round($actualPercentage - $targetPercentage, 2),
+			differencePercentage: CalculatorUtils::roundPercentage($actualPercentage - $targetPercentage),
 			currentValue: $currentValue,
 			targetValue: $targetValue,
 			suggestedTradeValue: $suggestedTradeValue,
@@ -222,7 +222,7 @@ class StrategyRebalancingProvider
 			isOthers: true,
 			targetPercentage: $othersTargetPercentage,
 			actualPercentage: $othersActualPercentage,
-			differencePercentage: round($othersActualPercentage - $othersTargetPercentage, 2),
+			differencePercentage: CalculatorUtils::roundPercentage($othersActualPercentage - $othersTargetPercentage),
 			currentValue: $othersCurrentValue,
 			targetValue: $targetValue,
 			suggestedTradeValue: new Decimal('0'),

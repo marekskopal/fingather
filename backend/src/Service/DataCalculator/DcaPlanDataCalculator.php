@@ -21,6 +21,7 @@ use FinGather\Service\DataCalculator\Dto\ReturnRateDto;
 use FinGather\Service\DataCalculator\Dto\TickerWeightDto;
 use FinGather\Service\Provider\AssetWithPropertiesProvider;
 use FinGather\Service\Provider\TickerDataProvider;
+use FinGather\Utils\CalculatorUtils;
 
 final readonly class DcaPlanDataCalculator
 {
@@ -58,7 +59,7 @@ final readonly class DcaPlanDataCalculator
 			$weightedReturn += $this->calculateTickerReturnRate($tickerWeight->tickerId) * $tickerWeight->weight / $totalWeight;
 		}
 
-		$annualRate = round($weightedReturn, 2);
+		$annualRate = CalculatorUtils::roundPercentage($weightedReturn);
 		$monthlyRate = ((1 + $annualRate / 100) ** (1 / self::MonthsPerYear) - 1) * 100;
 
 		return new ReturnRateDto(annual: $annualRate, monthly: $monthlyRate);
@@ -90,8 +91,8 @@ final readonly class DcaPlanDataCalculator
 			$dataPoints[] = new DcaPlanProjectionPointDto(
 				id: $n,
 				date: $date->format('Y-m'),
-				investedCapital: new Decimal((string) round($investedCapital, self::DecimalPrecision)),
-				projectedValue: new Decimal((string) round($projectedValue, self::DecimalPrecision)),
+				investedCapital: CalculatorUtils::floatToDecimal($investedCapital, self::DecimalPrecision),
+				projectedValue: CalculatorUtils::floatToDecimal($projectedValue, self::DecimalPrecision),
 			);
 		}
 
@@ -233,6 +234,6 @@ final readonly class DcaPlanDataCalculator
 		$years = max($days, self::MinDays) / 365.0;
 		$cagr = (($lastData->close->toFloat() / $firstData->close->toFloat()) ** (1.0 / $years) - 1.0) * 100.0;
 
-		return round($cagr, 2);
+		return CalculatorUtils::roundPercentage($cagr);
 	}
 }

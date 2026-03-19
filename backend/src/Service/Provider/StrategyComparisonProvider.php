@@ -74,7 +74,7 @@ class StrategyComparisonProvider
 					isOthers: false,
 					targetPercentage: $targetPercentage,
 					actualPercentage: $actualPercentage,
-					differencePercentage: round($actualPercentage - $targetPercentage, 2),
+					differencePercentage: CalculatorUtils::roundPercentage($actualPercentage - $targetPercentage),
 				);
 			} elseif ($item->group !== null) {
 				$actualPercentage = $groupPercentages[$item->group->id] ?? 0.0;
@@ -88,13 +88,13 @@ class StrategyComparisonProvider
 					isOthers: false,
 					targetPercentage: $targetPercentage,
 					actualPercentage: $actualPercentage,
-					differencePercentage: round($actualPercentage - $targetPercentage, 2),
+					differencePercentage: CalculatorUtils::roundPercentage($actualPercentage - $targetPercentage),
 				);
 			}
 		}
 
-		$othersTargetPercentage = round(100.0 - $totalTargetPercentage, 2);
-		$othersActualPercentage = round(100.0 - $totalActualPercentage, 2);
+		$othersTargetPercentage = CalculatorUtils::roundPercentage(100.0 - $totalTargetPercentage);
+		$othersActualPercentage = CalculatorUtils::roundPercentage(100.0 - $totalActualPercentage);
 
 		if ($othersTargetPercentage > 0.0 || $othersActualPercentage > 0.0) {
 			$comparisonItems[] = new StrategyComparisonItemDto(
@@ -105,7 +105,7 @@ class StrategyComparisonProvider
 				isOthers: true,
 				targetPercentage: $othersTargetPercentage,
 				actualPercentage: $othersActualPercentage,
-				differencePercentage: round($othersActualPercentage - $othersTargetPercentage, 2),
+				differencePercentage: CalculatorUtils::roundPercentage($othersActualPercentage - $othersTargetPercentage),
 			);
 		}
 

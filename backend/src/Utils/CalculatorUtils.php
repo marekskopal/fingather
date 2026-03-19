@@ -49,6 +49,21 @@ final class CalculatorUtils
 		return round($percentage / ($days / self::DaysInYear), 2);
 	}
 
+	public static function roundPercentage(float $value): float
+	{
+		return round($value, 2);
+	}
+
+	public static function sumPercentages(float ...$percentages): float
+	{
+		return round(array_sum($percentages), 2);
+	}
+
+	public static function floatToDecimal(float $value, int $precision = 8): Decimal
+	{
+		return new Decimal((string) round($value, $precision));
+	}
+
 	/** @param list<SplitDto> $splits */
 	public static function countSplitFactor(DateTimeImmutable $dateFrom, DateTimeImmutable $dateTo, array $splits): Decimal
 	{
