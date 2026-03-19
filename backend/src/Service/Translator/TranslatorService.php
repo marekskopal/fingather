@@ -7,7 +7,7 @@ namespace FinGather\Service\Translator;
 use FinGather\Model\Entity\Enum\LocaleEnum;
 use FinGather\Service\Cache\Cache;
 
-final class TranslatorService
+final class TranslatorService implements TranslatorServiceInterface
 {
 	public function __construct(private readonly string $translationsDir, private readonly Cache $cache)
 	{

@@ -17,14 +17,14 @@ use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\PriceAlert;
 use FinGather\Model\Entity\User;
 use FinGather\Service\DataCalculator\Dto\CalculatedDataDto;
-use FinGather\Service\Translator\TranslatorService;
+use FinGather\Service\Translator\TranslatorServiceInterface;
 use Symfony\Component\Mime\Email;
 
 final readonly class EmailFactory
 {
 	private string $from;
 
-	public function __construct(private TranslatorService $translator)
+	public function __construct(private TranslatorServiceInterface $translator)
 	{
 		$this->from = (string) getenv('EMAIL_FROM');
 	}

@@ -30,4 +30,14 @@ describe('DashboardComponent', () => {
         fixture.detectChanges();
         expect(fixture.nativeElement).toBeTruthy();
     });
+
+    it('should be an instance of DashboardComponent', () => {
+        expect(component).toBeInstanceOf(DashboardComponent);
+    });
+
+    it('should have a native element after change detection', () => {
+        fixture.detectChanges();
+        expect(fixture.debugElement).toBeTruthy();
+        expect(fixture.debugElement.nativeElement.tagName).toBeTruthy();
+    });
 });

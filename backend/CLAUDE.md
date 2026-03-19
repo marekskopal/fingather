@@ -55,6 +55,13 @@ final class ExampleMigration extends Migration
 }
 ```
 
+## Testing Patterns
+
+- PHPUnit 13 with `#[CoversClass]`/`#[UsesClass]` attributes, `createStub()`/`createMock()`
+- **Final class mocking rule:** PHPUnit cannot double `final` classes. If a `final` service needs to be mocked in tests, extract an interface (`*Interface`), make the class implement it, and register the interface binding in `ApplicationFactory`. Use the interface as the type-hint in consumers and test stubs.
+- For `final` repository/infrastructure classes that only need to be "never called" in a test, use `(new ReflectionClass(Foo::class))->newInstanceWithoutConstructor()` — any accidental call throws an Error as an implicit assertion.
+- For `readonly class` stubs, set uninitialized readonly properties via `ReflectionProperty::setValue($stub, $value)`.
+
 ## Code Quality
 
 - PHPStan max level, cognitive complexity limit 15

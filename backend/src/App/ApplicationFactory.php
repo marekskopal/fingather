@@ -101,6 +101,7 @@ use FinGather\Service\Request\RequestServiceInterface;
 use FinGather\Service\Task\TaskService;
 use FinGather\Service\Task\TaskServiceInterface;
 use FinGather\Service\Translator\TranslatorService;
+use FinGather\Service\Translator\TranslatorServiceInterface;
 use GuzzleHttp\Client as GuzzleClient;
 use Http\Discovery\Psr17FactoryDiscovery;
 use League\Container\Container;
@@ -211,7 +212,7 @@ final class ApplicationFactory
 
 		self::initializeOrmContainer($container, $dbContext);
 
-		$container->add(TranslatorService::class, static function () use ($container): TranslatorService {
+		$container->add(TranslatorServiceInterface::class, static function () use ($container): TranslatorService {
 			$cacheFactory = $container->get(CacheFactoryInterface::class);
 			if (!$cacheFactory instanceof CacheFactoryInterface) {
 				throw new \RuntimeException('CacheFactory not found in container.');
