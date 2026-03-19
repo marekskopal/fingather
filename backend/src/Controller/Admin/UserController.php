@@ -18,10 +18,10 @@ use FinGather\Response\ErrorResponse;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Response\OkResponse;
 use FinGather\Route\Routes;
-use FinGather\Service\Provider\AssetProvider;
-use FinGather\Service\Provider\CurrencyProvider;
-use FinGather\Service\Provider\TransactionProvider;
-use FinGather\Service\Provider\UserProvider;
+use FinGather\Service\Provider\AssetProviderInterface;
+use FinGather\Service\Provider\CurrencyProviderInterface;
+use FinGather\Service\Provider\TransactionProviderInterface;
+use FinGather\Service\Provider\UserProviderInterface;
 use FinGather\Service\Request\RequestService;
 use FinGather\Validator\PasswordValidator;
 use Laminas\Diactoros\Response\JsonResponse;
@@ -36,10 +36,10 @@ final readonly class UserController extends AdminController
 {
 	public function __construct(
 		RequestService $requestService,
-		private UserProvider $userProvider,
-		private CurrencyProvider $currencyProvider,
-		private AssetProvider $assetProvider,
-		private TransactionProvider $transactionProvider,
+		private UserProviderInterface $userProvider,
+		private CurrencyProviderInterface $currencyProvider,
+		private AssetProviderInterface $assetProvider,
+		private TransactionProviderInterface $transactionProvider,
 	) {
 		parent::__construct($requestService);
 	}

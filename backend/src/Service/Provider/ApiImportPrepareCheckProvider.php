@@ -9,9 +9,9 @@ use FinGather\Model\Entity\ApiKey;
 use FinGather\Service\Queue\Enum\QueueEnum;
 use FinGather\Service\Queue\QueuePublisher;
 
-class ApiImportPrepareCheckProvider
+final readonly class ApiImportPrepareCheckProvider implements ApiImportPrepareCheckProviderInterface
 {
-	public function __construct(private readonly QueuePublisher $queuePublisher,)
+	public function __construct(private QueuePublisher $queuePublisher,)
 	{
 	}
 

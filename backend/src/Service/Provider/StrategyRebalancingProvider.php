@@ -17,16 +17,16 @@ use FinGather\Service\DataCalculator\Dto\CalculatedDataDto;
 use FinGather\Utils\CalculatorUtils;
 use RuntimeException;
 
-class StrategyRebalancingProvider
+final readonly class StrategyRebalancingProvider implements StrategyRebalancingProviderInterface
 {
 	public function __construct(
-		private readonly PortfolioDataProvider $portfolioDataProvider,
-		private readonly AssetProvider $assetProvider,
-		private readonly AssetDataProvider $assetDataProvider,
-		private readonly GroupDataProvider $groupDataProvider,
-		private readonly GroupProvider $groupProvider,
-		private readonly CurrencyProvider $currencyProvider,
-		private readonly ExchangeRateProvider $exchangeRateProvider,
+		private PortfolioDataProviderInterface $portfolioDataProvider,
+		private AssetProviderInterface $assetProvider,
+		private AssetDataProviderInterface $assetDataProvider,
+		private GroupDataProviderInterface $groupDataProvider,
+		private GroupProviderInterface $groupProvider,
+		private CurrencyProviderInterface $currencyProvider,
+		private ExchangeRateProviderInterface $exchangeRateProvider,
 	) {
 	}
 

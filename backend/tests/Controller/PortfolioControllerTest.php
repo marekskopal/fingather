@@ -12,8 +12,8 @@ use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Response\OkResponse;
-use FinGather\Service\Provider\CurrencyProvider;
-use FinGather\Service\Provider\PortfolioProvider;
+use FinGather\Service\Provider\CurrencyProviderInterface;
+use FinGather\Service\Provider\PortfolioProviderInterface;
 use FinGather\Service\Request\RequestServiceInterface;
 use FinGather\Tests\Fixtures\Model\Entity\CurrencyFixture;
 use FinGather\Tests\Fixtures\Model\Entity\PortfolioFixture;
@@ -34,9 +34,9 @@ use Psr\Http\Message\ServerRequestInterface;
 #[UsesClass(OkResponse::class)]
 final class PortfolioControllerTest extends TestCase
 {
-	private PortfolioProvider&Stub $portfolioProvider;
+	private PortfolioProviderInterface&Stub $portfolioProvider;
 
-	private CurrencyProvider&Stub $currencyProvider;
+	private CurrencyProviderInterface&Stub $currencyProvider;
 
 	private RequestServiceInterface&Stub $requestService;
 
@@ -44,8 +44,8 @@ final class PortfolioControllerTest extends TestCase
 
 	protected function setUp(): void
 	{
-		$this->portfolioProvider = $this::createStub(PortfolioProvider::class);
-		$this->currencyProvider = $this::createStub(CurrencyProvider::class);
+		$this->portfolioProvider = $this::createStub(PortfolioProviderInterface::class);
+		$this->currencyProvider = $this::createStub(CurrencyProviderInterface::class);
 		$this->requestService = $this::createStub(RequestServiceInterface::class);
 		$this->requestService->method('getUser')->willReturn(UserFixture::getUser());
 

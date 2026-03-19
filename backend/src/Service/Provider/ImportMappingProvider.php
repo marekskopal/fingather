@@ -14,13 +14,13 @@ use FinGather\Model\Repository\ImportMappingRepository;
 use FinGather\Model\Repository\ImportRepository;
 use Iterator;
 
-class ImportMappingProvider
+final readonly class ImportMappingProvider implements ImportMappingProviderInterface
 {
 	public function __construct(
-		private readonly ImportMappingRepository $importMappingRepository,
-		private readonly ImportRepository $importRepository,
-		private readonly TickerProvider $tickerProvider,
-		private readonly BrokerProvider $brokerProvider,
+		private ImportMappingRepository $importMappingRepository,
+		private ImportRepository $importRepository,
+		private TickerProviderInterface $tickerProvider,
+		private BrokerProviderInterface $brokerProvider,
 	) {
 	}
 

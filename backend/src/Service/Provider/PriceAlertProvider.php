@@ -16,9 +16,9 @@ use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\PriceAlertRepository;
 use Iterator;
 
-class PriceAlertProvider
+final readonly class PriceAlertProvider implements PriceAlertProviderInterface
 {
-	public function __construct(private readonly PriceAlertRepository $priceAlertRepository)
+	public function __construct(private PriceAlertRepository $priceAlertRepository)
 	{
 	}
 

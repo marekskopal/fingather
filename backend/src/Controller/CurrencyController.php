@@ -7,7 +7,7 @@ namespace FinGather\Controller;
 use FinGather\Dto\CurrencyDto;
 use FinGather\Model\Entity\Currency;
 use FinGather\Route\Routes;
-use FinGather\Service\Provider\CurrencyProvider;
+use FinGather\Service\Provider\CurrencyProviderInterface;
 use Laminas\Diactoros\Response\JsonResponse;
 use MarekSkopal\Router\Attribute\RouteGet;
 use Psr\Http\Message\ResponseInterface;
@@ -15,7 +15,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 final readonly class CurrencyController
 {
-	public function __construct(private CurrencyProvider $currencyProvider)
+	public function __construct(private CurrencyProviderInterface $currencyProvider)
 	{
 	}
 

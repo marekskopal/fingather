@@ -12,10 +12,11 @@ use FinGather\Service\Cache\CacheFactoryInterface;
 use FinGather\Service\DataCalculator\DataCalculatorInterface;
 use FinGather\Service\DataCalculator\Dto\AssetDataDto;
 use FinGather\Service\DataCalculator\Dto\CalculatedDataDto;
-use FinGather\Service\Provider\AssetDataProvider;
-use FinGather\Service\Provider\AssetProvider;
+use FinGather\Service\Provider\AssetDataProviderInterface;
+use FinGather\Service\Provider\AssetProviderInterface;
 use FinGather\Service\Provider\PortfolioDataProvider;
-use FinGather\Service\Provider\TransactionProvider;
+use FinGather\Service\Provider\PortfolioDataProviderInterface;
+use FinGather\Service\Provider\TransactionProviderInterface;
 use FinGather\Tests\Fixtures\Model\Entity\AssetFixture;
 use FinGather\Tests\Fixtures\Model\Entity\PortfolioFixture;
 use FinGather\Tests\Fixtures\Model\Entity\TransactionFixture;
@@ -27,7 +28,7 @@ use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
-#[CoversClass(PortfolioDataProvider::class)]
+#[CoversClass(PortfolioDataProviderInterface::class)]
 #[UsesClass(Cache::class)]
 #[UsesClass(CalculatedDataDto::class)]
 #[UsesClass(AssetDataDto::class)]
@@ -35,20 +36,20 @@ final class PortfolioDataProviderTest extends TestCase
 {
 	private DataCalculatorInterface&Stub $dataCalculator;
 
-	private AssetProvider&Stub $assetProvider;
+	private AssetProviderInterface&Stub $assetProvider;
 
-	private AssetDataProvider&Stub $assetDataProvider;
+	private AssetDataProviderInterface&Stub $assetDataProvider;
 
-	private TransactionProvider&Stub $transactionProvider;
+	private TransactionProviderInterface&Stub $transactionProvider;
 
-	private PortfolioDataProvider $portfolioDataProvider;
+	private PortfolioDataProviderInterface $portfolioDataProvider;
 
 	protected function setUp(): void
 	{
 		$this->dataCalculator = $this::createStub(DataCalculatorInterface::class);
-		$this->assetProvider = $this::createStub(AssetProvider::class);
-		$this->assetDataProvider = $this::createStub(AssetDataProvider::class);
-		$this->transactionProvider = $this::createStub(TransactionProvider::class);
+		$this->assetProvider = $this::createStub(AssetProviderInterface::class);
+		$this->assetDataProvider = $this::createStub(AssetDataProviderInterface::class);
+		$this->transactionProvider = $this::createStub(TransactionProviderInterface::class);
 
 		$storage = $this::createStub(Storage::class);
 		$cache = new Cache($storage, 'test-portfolio-data');

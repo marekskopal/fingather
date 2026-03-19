@@ -10,9 +10,9 @@ use FinGather\Model\Entity\ApiImport;
 use FinGather\Model\Entity\ApiKey;
 use FinGather\Model\Entity\Enum\ApiImportStatusEnum;
 use FinGather\Service\Import\ImportService;
-use FinGather\Service\Provider\ApiImportProvider;
-use FinGather\Service\Provider\ImportFileProvider;
-use FinGather\Service\Provider\ImportProvider;
+use FinGather\Service\Provider\ApiImportProviderInterface;
+use FinGather\Service\Provider\ImportFileProviderInterface;
+use FinGather\Service\Provider\ImportProviderInterface;
 use MarekSkopal\Trading212\Config\Config;
 use MarekSkopal\Trading212\Dto\HistoricalItems\DataIncluded;
 use MarekSkopal\Trading212\Dto\HistoricalItems\Export;
@@ -23,10 +23,10 @@ use Ramsey\Uuid\Uuid;
 class Trading212Processor implements ProcessorInterface
 {
 	public function __construct(
-		private readonly ApiImportProvider $apiImportProvider,
+		private readonly ApiImportProviderInterface $apiImportProvider,
 		private readonly ImportService $importService,
-		private readonly ImportProvider $importProvider,
-		private readonly ImportFileProvider $importFileProvider,
+		private readonly ImportProviderInterface $importProvider,
+		private readonly ImportFileProviderInterface $importFileProvider,
 	) {
 	}
 

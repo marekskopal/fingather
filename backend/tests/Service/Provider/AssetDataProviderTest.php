@@ -11,6 +11,7 @@ use FinGather\Service\Cache\CacheFactoryInterface;
 use FinGather\Service\DataCalculator\AssetDataCalculatorInterface;
 use FinGather\Service\DataCalculator\Dto\AssetDataDto;
 use FinGather\Service\Provider\AssetDataProvider;
+use FinGather\Service\Provider\AssetDataProviderInterface;
 use FinGather\Tests\Fixtures\Model\Entity\AssetFixture;
 use FinGather\Tests\Fixtures\Model\Entity\PortfolioFixture;
 use FinGather\Tests\Fixtures\Model\Entity\UserFixture;
@@ -20,14 +21,14 @@ use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(AssetDataProvider::class)]
+#[CoversClass(AssetDataProviderInterface::class)]
 #[UsesClass(Cache::class)]
 #[UsesClass(AssetDataDto::class)]
 final class AssetDataProviderTest extends TestCase
 {
 	private AssetDataCalculatorInterface&Stub $assetDataCalculator;
 
-	private AssetDataProvider $assetDataProvider;
+	private AssetDataProviderInterface $assetDataProvider;
 
 	protected function setUp(): void
 	{

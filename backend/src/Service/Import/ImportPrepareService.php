@@ -17,11 +17,11 @@ use FinGather\Service\Import\Entity\TransactionRecord;
 use FinGather\Service\Import\Factory\ImportMapperFactory;
 use FinGather\Service\Import\Factory\TransactionRecordFactory;
 use FinGather\Service\Import\Mapper\MapperInterface;
-use FinGather\Service\Provider\BrokerProvider;
-use FinGather\Service\Provider\ImportFileProvider;
-use FinGather\Service\Provider\ImportMappingProvider;
-use FinGather\Service\Provider\ImportProvider;
-use FinGather\Service\Provider\TickerProvider;
+use FinGather\Service\Provider\BrokerProviderInterface;
+use FinGather\Service\Provider\ImportFileProviderInterface;
+use FinGather\Service\Provider\ImportMappingProviderInterface;
+use FinGather\Service\Provider\ImportProviderInterface;
+use FinGather\Service\Provider\TickerProviderInterface;
 use FinGather\Service\Update\TickerIsinUpdater;
 use MarekSkopal\ORM\Exception\ConstrainException;
 use Psr\Log\LoggerInterface;
@@ -29,12 +29,12 @@ use Psr\Log\LoggerInterface;
 final class ImportPrepareService
 {
 	public function __construct(
-		private readonly TickerProvider $tickerProvider,
+		private readonly TickerProviderInterface $tickerProvider,
 		private readonly TickerIsinUpdater $tickerIsinUpdater,
-		private readonly ImportProvider $importProvider,
-		private readonly ImportFileProvider $importFileProvider,
-		private readonly ImportMappingProvider $importMappingProvider,
-		private readonly BrokerProvider $brokerProvider,
+		private readonly ImportProviderInterface $importProvider,
+		private readonly ImportFileProviderInterface $importFileProvider,
+		private readonly ImportMappingProviderInterface $importMappingProvider,
+		private readonly BrokerProviderInterface $brokerProvider,
 		private readonly ImportMapperFactory $importMapperFactory,
 		private readonly TransactionRecordFactory $transactionRecordFactory,
 		private readonly LoggerInterface $logger,

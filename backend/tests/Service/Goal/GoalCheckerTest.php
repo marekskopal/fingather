@@ -10,7 +10,7 @@ use FinGather\Model\Entity\Enum\GoalTypeEnum;
 use FinGather\Model\Entity\Goal;
 use FinGather\Service\DataCalculator\Dto\CalculatedDataDto;
 use FinGather\Service\Goal\GoalChecker;
-use FinGather\Service\Provider\PortfolioDataProvider;
+use FinGather\Service\Provider\PortfolioDataProviderInterface;
 use FinGather\Tests\Fixtures\Model\Entity\PortfolioFixture;
 use FinGather\Tests\Fixtures\Model\Entity\UserFixture;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -170,7 +170,7 @@ final class GoalCheckerTest extends TestCase
 
 	private function makeChecker(?CalculatedDataDto $portfolioData = null): GoalChecker
 	{
-		$portfolioDataProvider = self::createStub(PortfolioDataProvider::class);
+		$portfolioDataProvider = self::createStub(PortfolioDataProviderInterface::class);
 
 		if ($portfolioData !== null) {
 			$portfolioDataProvider->method('getPortfolioData')

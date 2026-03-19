@@ -12,13 +12,13 @@ use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Utils\CalculatorUtils;
 
-class GroupWithGroupDataProvider
+final readonly class GroupWithGroupDataProvider implements GroupWithGroupDataProviderInterface
 {
 	public function __construct(
-		private readonly PortfolioDataProvider $portfolioDataProvider,
-		private readonly AssetProvider $assetProvider,
-		private readonly GroupDataProvider $groupDataProvider,
-		private readonly AssetDataProvider $assetDataProvider,
+		private PortfolioDataProviderInterface $portfolioDataProvider,
+		private AssetProviderInterface $assetProvider,
+		private GroupDataProviderInterface $groupDataProvider,
+		private AssetDataProviderInterface $assetDataProvider,
 	) {
 	}
 

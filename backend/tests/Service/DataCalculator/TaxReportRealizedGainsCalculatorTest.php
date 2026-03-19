@@ -16,9 +16,9 @@ use FinGather\Service\DataCalculator\Dto\TaxReportRealizedGainsDto;
 use FinGather\Service\DataCalculator\Dto\TaxReportRealizedGainTransactionDto;
 use FinGather\Service\DataCalculator\Dto\TransactionBuyDto;
 use FinGather\Service\DataCalculator\TaxReportRealizedGainsCalculator;
-use FinGather\Service\Provider\CurrentTransactionProvider;
+use FinGather\Service\Provider\CurrentTransactionProviderInterface;
 use FinGather\Service\Provider\Dto\SplitDto;
-use FinGather\Service\Provider\SplitProvider;
+use FinGather\Service\Provider\SplitProviderInterface;
 use FinGather\Tests\Fixtures\Model\Entity\PortfolioFixture;
 use FinGather\Tests\Fixtures\Model\Entity\SplitDtoFixture;
 use FinGather\Tests\Fixtures\Model\Entity\TransactionFixture;
@@ -309,11 +309,11 @@ final class TaxReportRealizedGainsCalculatorTest extends TestCase
 	 */
 	private function calculate(array $transactionsByAsset, array $splits = []): TaxReportRealizedGainsDto
 	{
-		$currentTransactionProvider = self::createStub(CurrentTransactionProvider::class);
+		$currentTransactionProvider = self::createStub(CurrentTransactionProviderInterface::class);
 		$currentTransactionProvider->method('loadTransactions')
 			->willReturn($transactionsByAsset);
 
-		$splitProvider = self::createStub(SplitProvider::class);
+		$splitProvider = self::createStub(SplitProviderInterface::class);
 		$splitProvider->method('getSplits')
 			->willReturn($splits);
 

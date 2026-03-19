@@ -11,8 +11,8 @@ use FinGather\Model\Entity\ApiKey;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Response\OkResponse;
 use FinGather\Route\Routes;
-use FinGather\Service\Provider\ApiKeyProvider;
-use FinGather\Service\Provider\PortfolioProvider;
+use FinGather\Service\Provider\ApiKeyProviderInterface;
+use FinGather\Service\Provider\PortfolioProviderInterface;
 use FinGather\Service\Request\RequestService;
 use Laminas\Diactoros\Response\JsonResponse;
 use MarekSkopal\Router\Attribute\RouteDelete;
@@ -25,8 +25,8 @@ use Psr\Http\Message\ServerRequestInterface;
 final readonly class ApiKeyController
 {
 	public function __construct(
-		private ApiKeyProvider $apiKeyProvider,
-		private PortfolioProvider $portfolioProvider,
+		private ApiKeyProviderInterface $apiKeyProvider,
+		private PortfolioProviderInterface $portfolioProvider,
 		private RequestService $requestService,
 	) {
 	}

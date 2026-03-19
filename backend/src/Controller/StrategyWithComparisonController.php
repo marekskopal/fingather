@@ -7,8 +7,8 @@ namespace FinGather\Controller;
 use DateTimeImmutable;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Route\Routes;
-use FinGather\Service\Provider\StrategyComparisonProvider;
-use FinGather\Service\Provider\StrategyProvider;
+use FinGather\Service\Provider\StrategyComparisonProviderInterface;
+use FinGather\Service\Provider\StrategyProviderInterface;
 use FinGather\Service\Request\RequestService;
 use Laminas\Diactoros\Response\JsonResponse;
 use MarekSkopal\Router\Attribute\RouteGet;
@@ -18,8 +18,8 @@ use Psr\Http\Message\ServerRequestInterface;
 final readonly class StrategyWithComparisonController
 {
 	public function __construct(
-		private StrategyComparisonProvider $strategyComparisonProvider,
-		private StrategyProvider $strategyProvider,
+		private StrategyComparisonProviderInterface $strategyComparisonProvider,
+		private StrategyProviderInterface $strategyProvider,
 		private RequestService $requestService,
 	) {
 	}

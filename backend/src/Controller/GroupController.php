@@ -10,8 +10,8 @@ use FinGather\Model\Entity\Group;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Response\OkResponse;
 use FinGather\Route\Routes;
-use FinGather\Service\Provider\GroupProvider;
-use FinGather\Service\Provider\PortfolioProvider;
+use FinGather\Service\Provider\GroupProviderInterface;
+use FinGather\Service\Provider\PortfolioProviderInterface;
 use FinGather\Service\Request\RequestService;
 use Laminas\Diactoros\Response\JsonResponse;
 use MarekSkopal\Router\Attribute\RouteDelete;
@@ -24,8 +24,8 @@ use Psr\Http\Message\ServerRequestInterface;
 final readonly class GroupController
 {
 	public function __construct(
-		private GroupProvider $groupProvider,
-		private PortfolioProvider $portfolioProvider,
+		private GroupProviderInterface $groupProvider,
+		private PortfolioProviderInterface $portfolioProvider,
 		private RequestService $requestService,
 	) {
 	}

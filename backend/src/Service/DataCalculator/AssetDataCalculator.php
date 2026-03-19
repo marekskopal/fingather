@@ -17,20 +17,20 @@ use FinGather\Service\DataCalculator\Dto\TransactionAccumulatorDto;
 use FinGather\Service\DataCalculator\Dto\TransactionBuyDto;
 use FinGather\Service\DataCalculator\Dto\TransactionValueDto;
 use FinGather\Service\DataCalculator\Dto\ValueDto;
-use FinGather\Service\Provider\CurrentTransactionProvider;
+use FinGather\Service\Provider\CurrentTransactionProviderInterface;
 use FinGather\Service\Provider\Dto\SplitDto;
-use FinGather\Service\Provider\ExchangeRateProvider;
-use FinGather\Service\Provider\SplitProvider;
-use FinGather\Service\Provider\TickerDataProvider;
+use FinGather\Service\Provider\ExchangeRateProviderInterface;
+use FinGather\Service\Provider\SplitProviderInterface;
+use FinGather\Service\Provider\TickerDataProviderInterface;
 use FinGather\Utils\CalculatorUtils;
 
 final readonly class AssetDataCalculator implements AssetDataCalculatorInterface
 {
 	public function __construct(
-		private CurrentTransactionProvider $currentTransactionProvider,
-		private SplitProvider $splitProvider,
-		private TickerDataProvider $tickerDataProvider,
-		private ExchangeRateProvider $exchangeRateProvider,
+		private CurrentTransactionProviderInterface $currentTransactionProvider,
+		private SplitProviderInterface $splitProvider,
+		private TickerDataProviderInterface $tickerDataProvider,
+		private ExchangeRateProviderInterface $exchangeRateProvider,
 	) {
 	}
 

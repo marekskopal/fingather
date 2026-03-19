@@ -11,13 +11,13 @@ use FinGather\Dto\AssetWithPropertiesDto;
 use FinGather\Dto\Enum\AssetOrderEnum;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Route\Routes;
-use FinGather\Service\Provider\AssetDataProvider;
-use FinGather\Service\Provider\AssetProvider;
-use FinGather\Service\Provider\AssetWithPropertiesProvider;
-use FinGather\Service\Provider\GroupProvider;
-use FinGather\Service\Provider\PortfolioProvider;
-use FinGather\Service\Provider\TickerDataProvider;
-use FinGather\Service\Provider\TickerProvider;
+use FinGather\Service\Provider\AssetDataProviderInterface;
+use FinGather\Service\Provider\AssetProviderInterface;
+use FinGather\Service\Provider\AssetWithPropertiesProviderInterface;
+use FinGather\Service\Provider\GroupProviderInterface;
+use FinGather\Service\Provider\PortfolioProviderInterface;
+use FinGather\Service\Provider\TickerDataProviderInterface;
+use FinGather\Service\Provider\TickerProviderInterface;
 use FinGather\Service\Request\RequestService;
 use Laminas\Diactoros\Response\JsonResponse;
 use MarekSkopal\Router\Attribute\RouteGet;
@@ -28,13 +28,13 @@ use Psr\Http\Message\ServerRequestInterface;
 final readonly class AssetController
 {
 	public function __construct(
-		private AssetProvider $assetProvider,
-		private AssetDataProvider $assetDataProvider,
-		private AssetWithPropertiesProvider $assetWithPropertiesProvider,
-		private TickerProvider $tickerProvider,
-		private TickerDataProvider $tickerDataProvider,
-		private PortfolioProvider $portfolioProvider,
-		private GroupProvider $groupProvider,
+		private AssetProviderInterface $assetProvider,
+		private AssetDataProviderInterface $assetDataProvider,
+		private AssetWithPropertiesProviderInterface $assetWithPropertiesProvider,
+		private TickerProviderInterface $tickerProvider,
+		private TickerDataProviderInterface $tickerDataProvider,
+		private PortfolioProviderInterface $portfolioProvider,
+		private GroupProviderInterface $groupProvider,
 		private RequestService $requestService,
 	) {
 	}

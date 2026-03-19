@@ -13,12 +13,12 @@ use FinGather\Model\Entity\Transaction;
 use FinGather\Model\Entity\User;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Response\OkResponse;
-use FinGather\Service\Provider\AssetProvider;
-use FinGather\Service\Provider\BrokerProvider;
-use FinGather\Service\Provider\CurrencyProvider;
-use FinGather\Service\Provider\DataProvider;
-use FinGather\Service\Provider\PortfolioProvider;
-use FinGather\Service\Provider\TransactionProvider;
+use FinGather\Service\Provider\AssetProviderInterface;
+use FinGather\Service\Provider\BrokerProviderInterface;
+use FinGather\Service\Provider\CurrencyProviderInterface;
+use FinGather\Service\Provider\DataProviderInterface;
+use FinGather\Service\Provider\PortfolioProviderInterface;
+use FinGather\Service\Provider\TransactionProviderInterface;
 use FinGather\Service\Request\RequestServiceInterface;
 use FinGather\Tests\Fixtures\Model\Entity\PortfolioFixture;
 use FinGather\Tests\Fixtures\Model\Entity\TransactionFixture;
@@ -41,11 +41,11 @@ use Psr\Http\Message\ServerRequestInterface;
 #[UsesClass(OkResponse::class)]
 final class TransactionControllerTest extends TestCase
 {
-	private TransactionProvider&Stub $transactionProvider;
+	private TransactionProviderInterface&Stub $transactionProvider;
 
-	private AssetProvider&Stub $assetProvider;
+	private AssetProviderInterface&Stub $assetProvider;
 
-	private PortfolioProvider&Stub $portfolioProvider;
+	private PortfolioProviderInterface&Stub $portfolioProvider;
 
 	private RequestServiceInterface&Stub $requestService;
 
@@ -53,18 +53,18 @@ final class TransactionControllerTest extends TestCase
 
 	protected function setUp(): void
 	{
-		$this->transactionProvider = $this::createStub(TransactionProvider::class);
-		$this->assetProvider = $this::createStub(AssetProvider::class);
-		$this->portfolioProvider = $this::createStub(PortfolioProvider::class);
+		$this->transactionProvider = $this::createStub(TransactionProviderInterface::class);
+		$this->assetProvider = $this::createStub(AssetProviderInterface::class);
+		$this->portfolioProvider = $this::createStub(PortfolioProviderInterface::class);
 		$this->requestService = $this::createStub(RequestServiceInterface::class);
 		$this->requestService->method('getUser')->willReturn(UserFixture::getUser());
 
 		$this->transactionController = new TransactionController(
 			$this->transactionProvider,
 			$this->assetProvider,
-			$this::createStub(BrokerProvider::class),
-			$this::createStub(CurrencyProvider::class),
-			$this::createStub(DataProvider::class),
+			$this::createStub(BrokerProviderInterface::class),
+			$this::createStub(CurrencyProviderInterface::class),
+			$this::createStub(DataProviderInterface::class),
 			$this->portfolioProvider,
 			$this->requestService,
 		);

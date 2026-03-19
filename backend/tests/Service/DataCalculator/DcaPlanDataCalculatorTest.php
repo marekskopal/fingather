@@ -30,8 +30,8 @@ use FinGather\Model\Entity\TickerData;
 use FinGather\Model\Entity\User;
 use FinGather\Service\DataCalculator\DcaPlanDataCalculator;
 use FinGather\Service\DataCalculator\Dto\TickerWeightDto;
-use FinGather\Service\Provider\AssetWithPropertiesProvider;
-use FinGather\Service\Provider\TickerDataProvider;
+use FinGather\Service\Provider\AssetWithPropertiesProviderInterface;
+use FinGather\Service\Provider\TickerDataProviderInterface;
 use FinGather\Tests\Fixtures\Model\Entity\AssetFixture;
 use FinGather\Tests\Fixtures\Model\Entity\CurrencyFixture;
 use FinGather\Tests\Fixtures\Model\Entity\GroupFixture;
@@ -110,7 +110,7 @@ final class DcaPlanDataCalculatorTest extends TestCase
 		$lastData2 = TickerDataFixture::getTickerData(date: new DateTimeImmutable('2026-01-01'), close: new Decimal(120));
 		$lastData2->id = 2;
 
-		$tickerDataProvider = self::createStub(TickerDataProvider::class);
+		$tickerDataProvider = self::createStub(TickerDataProviderInterface::class);
 		$tickerDataProvider->method('getFirstTickerData')
 			->willReturnCallback(fn (int $tickerId) => match ($tickerId) {
 				1 => $firstData1,
@@ -127,7 +127,7 @@ final class DcaPlanDataCalculatorTest extends TestCase
 		$assetDto1 = $this->createAssetWithPropertiesDto(tickerId: 1, percentage: 60.0);
 		$assetDto2 = $this->createAssetWithPropertiesDto(tickerId: 2, percentage: 40.0);
 
-		$assetWithPropertiesProvider = self::createStub(AssetWithPropertiesProvider::class);
+		$assetWithPropertiesProvider = self::createStub(AssetWithPropertiesProviderInterface::class);
 		$assetWithPropertiesProvider->method('getAssetsWithAssetData')
 			->willReturn(new AssetsWithPropertiesDto(openAssets: [$assetDto1, $assetDto2], closedAssets: [], watchedAssets: []));
 
@@ -226,7 +226,7 @@ final class DcaPlanDataCalculatorTest extends TestCase
 		$lastData2 = TickerDataFixture::getTickerData(date: new DateTimeImmutable('2026-01-01'), close: new Decimal(70));
 		$lastData2->id = 2;
 
-		$tickerDataProvider = self::createStub(TickerDataProvider::class);
+		$tickerDataProvider = self::createStub(TickerDataProviderInterface::class);
 		$tickerDataProvider->method('getFirstTickerData')
 			->willReturnCallback(fn (int $tickerId) => match ($tickerId) {
 				1 => $firstData1,
@@ -243,7 +243,7 @@ final class DcaPlanDataCalculatorTest extends TestCase
 		$assetDto1 = $this->createAssetWithPropertiesDto(tickerId: 1, percentage: 50.0);
 		$assetDto2 = $this->createAssetWithPropertiesDto(tickerId: 2, percentage: 50.0);
 
-		$assetWithPropertiesProvider = self::createStub(AssetWithPropertiesProvider::class);
+		$assetWithPropertiesProvider = self::createStub(AssetWithPropertiesProviderInterface::class);
 		$assetWithPropertiesProvider->method('getAssetsWithAssetData')
 			->willReturn(new AssetsWithPropertiesDto(openAssets: [$assetDto1, $assetDto2], closedAssets: [], watchedAssets: []));
 
@@ -278,7 +278,7 @@ final class DcaPlanDataCalculatorTest extends TestCase
 		$lastData2 = TickerDataFixture::getTickerData(date: new DateTimeImmutable('2026-01-01'), close: new Decimal(150));
 		$lastData2->id = 2;
 
-		$tickerDataProvider = self::createStub(TickerDataProvider::class);
+		$tickerDataProvider = self::createStub(TickerDataProviderInterface::class);
 		$tickerDataProvider->method('getFirstTickerData')
 			->willReturnCallback(fn (int $tickerId) => match ($tickerId) {
 				1 => $firstData1,
@@ -315,7 +315,7 @@ final class DcaPlanDataCalculatorTest extends TestCase
 
 		$dcaPlan = $this->createDcaPlan(DcaPlanTargetTypeEnum::Strategy, strategy: $strategy);
 
-		$assetWithPropertiesProvider = self::createStub(AssetWithPropertiesProvider::class);
+		$assetWithPropertiesProvider = self::createStub(AssetWithPropertiesProviderInterface::class);
 		$calculator = new DcaPlanDataCalculator($tickerDataProvider, $assetWithPropertiesProvider);
 
 		$returnRate = $calculator->calculateReturnRate($dcaPlan);
@@ -345,7 +345,7 @@ final class DcaPlanDataCalculatorTest extends TestCase
 		$lastData2 = TickerDataFixture::getTickerData(date: new DateTimeImmutable('2026-01-01'), close: new Decimal(130));
 		$lastData2->id = 2;
 
-		$tickerDataProvider = self::createStub(TickerDataProvider::class);
+		$tickerDataProvider = self::createStub(TickerDataProviderInterface::class);
 		$tickerDataProvider->method('getFirstTickerData')
 			->willReturnCallback(fn (int $tickerId) => match ($tickerId) {
 				1 => $firstData1,
@@ -382,7 +382,7 @@ final class DcaPlanDataCalculatorTest extends TestCase
 
 		$dcaPlan = $this->createDcaPlan(DcaPlanTargetTypeEnum::Strategy, strategy: $strategy);
 
-		$assetWithPropertiesProvider = self::createStub(AssetWithPropertiesProvider::class);
+		$assetWithPropertiesProvider = self::createStub(AssetWithPropertiesProviderInterface::class);
 		$calculator = new DcaPlanDataCalculator($tickerDataProvider, $assetWithPropertiesProvider);
 
 		$returnRate = $calculator->calculateReturnRate($dcaPlan);
@@ -533,11 +533,11 @@ final class DcaPlanDataCalculatorTest extends TestCase
 		// Each month: investedCapital = 1000 + 100*n, projectedValue = 1000 + 100*n
 		$assetDto = $this->createAssetWithPropertiesDto(tickerId: 1, percentage: 100.0, value: 1000.0);
 
-		$assetWithPropertiesProvider = self::createStub(AssetWithPropertiesProvider::class);
+		$assetWithPropertiesProvider = self::createStub(AssetWithPropertiesProviderInterface::class);
 		$assetWithPropertiesProvider->method('getAssetsWithAssetData')
 			->willReturn(new AssetsWithPropertiesDto(openAssets: [$assetDto], closedAssets: [], watchedAssets: []));
 
-		$tickerDataProvider = self::createStub(TickerDataProvider::class);
+		$tickerDataProvider = self::createStub(TickerDataProviderInterface::class);
 		$tickerDataProvider->method('getFirstTickerData')->willReturn(null);
 		$tickerDataProvider->method('getLastTickerData')->willReturn(null);
 
@@ -564,11 +564,11 @@ final class DcaPlanDataCalculatorTest extends TestCase
 		$assetDto1 = $this->createAssetWithPropertiesDto(tickerId: 1, percentage: 60.0, value: 500.0);
 		$assetDto2 = $this->createAssetWithPropertiesDto(tickerId: 2, percentage: 40.0, value: 300.0);
 
-		$assetWithPropertiesProvider = self::createStub(AssetWithPropertiesProvider::class);
+		$assetWithPropertiesProvider = self::createStub(AssetWithPropertiesProviderInterface::class);
 		$assetWithPropertiesProvider->method('getAssetsWithAssetData')
 			->willReturn(new AssetsWithPropertiesDto(openAssets: [$assetDto1, $assetDto2], closedAssets: [], watchedAssets: []));
 
-		$tickerDataProvider = self::createStub(TickerDataProvider::class);
+		$tickerDataProvider = self::createStub(TickerDataProviderInterface::class);
 		$tickerDataProvider->method('getFirstTickerData')->willReturn(null);
 		$tickerDataProvider->method('getLastTickerData')->willReturn(null);
 
@@ -596,13 +596,13 @@ final class DcaPlanDataCalculatorTest extends TestCase
 		$assetDto2 = $this->createAssetWithPropertiesDto(tickerId: 2, percentage: 30.0, value: 300.0, groupId: 1);
 		$assetDto3 = $this->createAssetWithPropertiesDto(tickerId: 3, percentage: 30.0, value: 400.0, groupId: 2);
 
-		$assetWithPropertiesProvider = self::createStub(AssetWithPropertiesProvider::class);
+		$assetWithPropertiesProvider = self::createStub(AssetWithPropertiesProviderInterface::class);
 		$assetWithPropertiesProvider->method('getAssetsWithAssetData')
 			->willReturn(
 				new AssetsWithPropertiesDto(openAssets: [$assetDto1, $assetDto2, $assetDto3], closedAssets: [], watchedAssets: []),
 			);
 
-		$tickerDataProvider = self::createStub(TickerDataProvider::class);
+		$tickerDataProvider = self::createStub(TickerDataProviderInterface::class);
 		$tickerDataProvider->method('getFirstTickerData')->willReturn(null);
 		$tickerDataProvider->method('getLastTickerData')->willReturn(null);
 
@@ -622,11 +622,11 @@ final class DcaPlanDataCalculatorTest extends TestCase
 		// withCurrentValue=false: starts from 0 regardless of portfolio value
 		$assetDto = $this->createAssetWithPropertiesDto(tickerId: 1, percentage: 100.0, value: 9999.0);
 
-		$assetWithPropertiesProvider = self::createStub(AssetWithPropertiesProvider::class);
+		$assetWithPropertiesProvider = self::createStub(AssetWithPropertiesProviderInterface::class);
 		$assetWithPropertiesProvider->method('getAssetsWithAssetData')
 			->willReturn(new AssetsWithPropertiesDto(openAssets: [$assetDto], closedAssets: [], watchedAssets: []));
 
-		$tickerDataProvider = self::createStub(TickerDataProvider::class);
+		$tickerDataProvider = self::createStub(TickerDataProviderInterface::class);
 		$tickerDataProvider->method('getFirstTickerData')->willReturn(null);
 		$tickerDataProvider->method('getLastTickerData')->willReturn(null);
 
@@ -672,11 +672,11 @@ final class DcaPlanDataCalculatorTest extends TestCase
 
 	private function createCalculator(?TickerData $firstTickerData, ?TickerData $lastTickerData): DcaPlanDataCalculator
 	{
-		$tickerDataProvider = self::createStub(TickerDataProvider::class);
+		$tickerDataProvider = self::createStub(TickerDataProviderInterface::class);
 		$tickerDataProvider->method('getFirstTickerData')->willReturn($firstTickerData);
 		$tickerDataProvider->method('getLastTickerData')->willReturn($lastTickerData);
 
-		$assetWithPropertiesProvider = self::createStub(AssetWithPropertiesProvider::class);
+		$assetWithPropertiesProvider = self::createStub(AssetWithPropertiesProviderInterface::class);
 		$assetWithPropertiesProvider->method('getAssetsWithAssetData')
 			->willReturn(new AssetsWithPropertiesDto(openAssets: [], closedAssets: [], watchedAssets: []));
 

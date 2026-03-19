@@ -10,9 +10,9 @@ use FinGather\Model\Entity\ApiImport;
 use FinGather\Model\Entity\ApiKey;
 use FinGather\Model\Entity\Enum\ApiImportStatusEnum;
 use FinGather\Service\Import\ImportService;
-use FinGather\Service\Provider\ApiImportProvider;
-use FinGather\Service\Provider\ImportFileProvider;
-use FinGather\Service\Provider\ImportProvider;
+use FinGather\Service\Provider\ApiImportProviderInterface;
+use FinGather\Service\Provider\ImportFileProviderInterface;
+use FinGather\Service\Provider\ImportProviderInterface;
 use League\Csv\Writer;
 use MarekSkopal\Etoro\Config\Config;
 use MarekSkopal\Etoro\Dto\MarketData\InstrumentMetadata;
@@ -24,10 +24,10 @@ use Ramsey\Uuid\Uuid;
 final readonly class EtoroProcessor implements ProcessorInterface
 {
 	public function __construct(
-		private ApiImportProvider $apiImportProvider,
+		private ApiImportProviderInterface $apiImportProvider,
 		private ImportService $importService,
-		private ImportProvider $importProvider,
-		private ImportFileProvider $importFileProvider,
+		private ImportProviderInterface $importProvider,
+		private ImportFileProviderInterface $importFileProvider,
 	) {
 	}
 

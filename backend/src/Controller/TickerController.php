@@ -8,7 +8,7 @@ use FinGather\Dto\TickerDto;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Route\Routes;
-use FinGather\Service\Provider\TickerProvider;
+use FinGather\Service\Provider\TickerProviderInterface;
 use Laminas\Diactoros\Response\JsonResponse;
 use MarekSkopal\Router\Attribute\RouteGet;
 use Psr\Http\Message\ResponseInterface;
@@ -16,7 +16,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 final readonly class TickerController
 {
-	public function __construct(private TickerProvider $tickerProvider)
+	public function __construct(private TickerProviderInterface $tickerProvider)
 	{
 	}
 

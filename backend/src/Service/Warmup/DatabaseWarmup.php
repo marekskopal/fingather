@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Warmup;
 
-use FinGather\Service\Provider\UserProvider;
+use FinGather\Service\Provider\UserProviderInterface;
 use FinGather\Service\Queue\Enum\QueueEnum;
 use FinGather\Service\Queue\QueuePublisher;
 use FinGather\Service\Warmup\Dto\UserWarmupDto;
@@ -12,7 +12,7 @@ use FinGather\Service\Warmup\Dto\UserWarmupDto;
 final class DatabaseWarmup
 {
 	public function __construct(
-		private readonly UserProvider $userProvider,
+		private readonly UserProviderInterface $userProvider,
 		private readonly QueuePublisher $queuePublisher,
 		private readonly UserWarmup $userWarmup,
 	) {

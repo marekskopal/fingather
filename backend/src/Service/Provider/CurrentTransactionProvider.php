@@ -13,12 +13,12 @@ use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\Enum\OrderDirectionEnum;
 use FinGather\Model\Repository\Enum\TransactionOrderByEnum;
 
-class CurrentTransactionProvider
+final class CurrentTransactionProvider implements CurrentTransactionProviderInterface
 {
 	/** @var array<string, array<int, list<Transaction>>> */
 	private array $transactions = [];
 
-	public function __construct(private readonly TransactionProvider $transactionProvider)
+	public function __construct(private readonly TransactionProviderInterface $transactionProvider)
 	{
 	}
 

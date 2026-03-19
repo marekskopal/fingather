@@ -28,9 +28,9 @@ use FinGather\Service\Authentication\Dto\TokenInfoDto;
 use FinGather\Service\Authentication\Exceptions\AuthenticationException;
 use FinGather\Service\Authentication\Exceptions\GoogleAuthException;
 use FinGather\Service\Authentication\GoogleAuthServiceInterface;
-use FinGather\Service\Provider\CurrencyProvider;
-use FinGather\Service\Provider\PasswordResetProvider;
-use FinGather\Service\Provider\UserProvider;
+use FinGather\Service\Provider\CurrencyProviderInterface;
+use FinGather\Service\Provider\PasswordResetProviderInterface;
+use FinGather\Service\Provider\UserProviderInterface;
 use FinGather\Service\Request\RequestServiceInterface;
 use FinGather\Tests\Fixtures\Model\Entity\CurrencyFixture;
 use FinGather\Tests\Fixtures\Model\Entity\UserFixture;
@@ -71,11 +71,11 @@ final class AuthenticationControllerTest extends TestCase
 
 	private GoogleAuthServiceInterface&Stub $googleAuthService;
 
-	private CurrencyProvider&Stub $currencyProvider;
+	private CurrencyProviderInterface&Stub $currencyProvider;
 
-	private UserProvider&Stub $userProvider;
+	private UserProviderInterface&Stub $userProvider;
 
-	private PasswordResetProvider&Stub $passwordResetProvider;
+	private PasswordResetProviderInterface&Stub $passwordResetProvider;
 
 	private RequestServiceInterface&Stub $requestService;
 
@@ -93,9 +93,9 @@ final class AuthenticationControllerTest extends TestCase
 		$this->authenticationService->method('createAuthentication')->willReturn($authDto);
 
 		$this->googleAuthService = $this::createStub(GoogleAuthServiceInterface::class);
-		$this->currencyProvider = $this::createStub(CurrencyProvider::class);
-		$this->userProvider = $this::createStub(UserProvider::class);
-		$this->passwordResetProvider = $this::createStub(PasswordResetProvider::class);
+		$this->currencyProvider = $this::createStub(CurrencyProviderInterface::class);
+		$this->userProvider = $this::createStub(UserProviderInterface::class);
+		$this->passwordResetProvider = $this::createStub(PasswordResetProviderInterface::class);
 		$this->requestService = $this::createStub(RequestServiceInterface::class);
 		$this->logger = $this::createStub(LoggerInterface::class);
 

@@ -9,18 +9,18 @@ use DateTimeImmutable;
 use FinGather\Helper\DatePeriod;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
-use FinGather\Service\Provider\DataProvider;
-use FinGather\Service\Provider\PortfolioDataProvider;
-use FinGather\Service\Provider\PortfolioProvider;
-use FinGather\Service\Provider\TransactionProvider;
+use FinGather\Service\Provider\DataProviderInterface;
+use FinGather\Service\Provider\PortfolioDataProviderInterface;
+use FinGather\Service\Provider\PortfolioProviderInterface;
+use FinGather\Service\Provider\TransactionProviderInterface;
 
 final class UserWarmup
 {
 	public function __construct(
-		private readonly PortfolioProvider $portfolioProvider,
-		private readonly PortfolioDataProvider $portfolioDataProvider,
-		private readonly TransactionProvider $transactionProvider,
-		private readonly DataProvider $dataProvider,
+		private readonly PortfolioProviderInterface $portfolioProvider,
+		private readonly PortfolioDataProviderInterface $portfolioDataProvider,
+		private readonly TransactionProviderInterface $transactionProvider,
+		private readonly DataProviderInterface $dataProvider,
 	) {
 	}
 

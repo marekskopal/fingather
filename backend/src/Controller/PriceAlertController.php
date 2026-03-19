@@ -11,9 +11,9 @@ use FinGather\Model\Entity\PriceAlert;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Response\OkResponse;
 use FinGather\Route\Routes;
-use FinGather\Service\Provider\PortfolioProvider;
-use FinGather\Service\Provider\PriceAlertProvider;
-use FinGather\Service\Provider\TickerProvider;
+use FinGather\Service\Provider\PortfolioProviderInterface;
+use FinGather\Service\Provider\PriceAlertProviderInterface;
+use FinGather\Service\Provider\TickerProviderInterface;
 use FinGather\Service\Request\RequestServiceInterface;
 use Laminas\Diactoros\Response\JsonResponse;
 use MarekSkopal\Router\Attribute\RouteDelete;
@@ -26,9 +26,9 @@ use Psr\Http\Message\ServerRequestInterface;
 final readonly class PriceAlertController
 {
 	public function __construct(
-		private PriceAlertProvider $priceAlertProvider,
-		private PortfolioProvider $portfolioProvider,
-		private TickerProvider $tickerProvider,
+		private PriceAlertProviderInterface $priceAlertProvider,
+		private PortfolioProviderInterface $portfolioProvider,
+		private TickerProviderInterface $tickerProvider,
 		private RequestServiceInterface $requestService,
 	) {
 	}

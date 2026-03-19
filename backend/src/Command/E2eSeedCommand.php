@@ -17,16 +17,16 @@ use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Enum\TransactionCreateTypeEnum;
 use FinGather\Model\Entity\Enum\UserRoleEnum;
 use FinGather\Model\Repository\AssetRepository;
-use FinGather\Service\Provider\CurrencyProvider;
-use FinGather\Service\Provider\DcaPlanProvider;
-use FinGather\Service\Provider\GoalProvider;
-use FinGather\Service\Provider\GroupProvider;
-use FinGather\Service\Provider\PortfolioProvider;
-use FinGather\Service\Provider\PriceAlertProvider;
-use FinGather\Service\Provider\StrategyProvider;
-use FinGather\Service\Provider\TickerProvider;
-use FinGather\Service\Provider\TransactionProvider;
-use FinGather\Service\Provider\UserProvider;
+use FinGather\Service\Provider\CurrencyProviderInterface;
+use FinGather\Service\Provider\DcaPlanProviderInterface;
+use FinGather\Service\Provider\GoalProviderInterface;
+use FinGather\Service\Provider\GroupProviderInterface;
+use FinGather\Service\Provider\PortfolioProviderInterface;
+use FinGather\Service\Provider\PriceAlertProviderInterface;
+use FinGather\Service\Provider\StrategyProviderInterface;
+use FinGather\Service\Provider\TickerProviderInterface;
+use FinGather\Service\Provider\TransactionProviderInterface;
+use FinGather\Service\Provider\UserProviderInterface;
 use PDO;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -64,26 +64,26 @@ final class E2eSeedCommand extends AbstractCommand
 		$this->seedReferenceData($pdo);
 
 		// 3. Resolve providers
-		$userProvider = $application->container->get(UserProvider::class);
-		assert($userProvider instanceof UserProvider);
+		$userProvider = $application->container->get(UserProviderInterface::class);
+		assert($userProvider instanceof UserProviderInterface);
 
-		$currencyProvider = $application->container->get(CurrencyProvider::class);
-		assert($currencyProvider instanceof CurrencyProvider);
+		$currencyProvider = $application->container->get(CurrencyProviderInterface::class);
+		assert($currencyProvider instanceof CurrencyProviderInterface);
 
-		$portfolioProvider = $application->container->get(PortfolioProvider::class);
-		assert($portfolioProvider instanceof PortfolioProvider);
+		$portfolioProvider = $application->container->get(PortfolioProviderInterface::class);
+		assert($portfolioProvider instanceof PortfolioProviderInterface);
 
-		$groupProvider = $application->container->get(GroupProvider::class);
-		assert($groupProvider instanceof GroupProvider);
+		$groupProvider = $application->container->get(GroupProviderInterface::class);
+		assert($groupProvider instanceof GroupProviderInterface);
 
 		$assetRepository = $application->container->get(AssetRepository::class);
 		assert($assetRepository instanceof AssetRepository);
 
-		$tickerProvider = $application->container->get(TickerProvider::class);
-		assert($tickerProvider instanceof TickerProvider);
+		$tickerProvider = $application->container->get(TickerProviderInterface::class);
+		assert($tickerProvider instanceof TickerProviderInterface);
 
-		$transactionProvider = $application->container->get(TransactionProvider::class);
-		assert($transactionProvider instanceof TransactionProvider);
+		$transactionProvider = $application->container->get(TransactionProviderInterface::class);
+		assert($transactionProvider instanceof TransactionProviderInterface);
 
 		// 4. Delete existing test user (cascades to all owned data)
 		$existing = $userProvider->getUserByEmail(self::TestEmail);
@@ -212,8 +212,8 @@ final class E2eSeedCommand extends AbstractCommand
 
 		// 10. Seed a goal (enables goal edit/delete tests)
 		$this->writeln('Creating goal...', $output);
-		$goalProvider = $application->container->get(GoalProvider::class);
-		assert($goalProvider instanceof GoalProvider);
+		$goalProvider = $application->container->get(GoalProviderInterface::class);
+		assert($goalProvider instanceof GoalProviderInterface);
 		$goalProvider->createGoal(
 			user: $user,
 			portfolio: $portfolio,
@@ -224,8 +224,8 @@ final class E2eSeedCommand extends AbstractCommand
 
 		// 11. Seed a strategy (enables strategy edit/delete tests)
 		$this->writeln('Creating strategy...', $output);
-		$strategyProvider = $application->container->get(StrategyProvider::class);
-		assert($strategyProvider instanceof StrategyProvider);
+		$strategyProvider = $application->container->get(StrategyProviderInterface::class);
+		assert($strategyProvider instanceof StrategyProviderInterface);
 		$strategyProvider->createStrategy(
 			user: $user,
 			portfolio: $portfolio,
@@ -236,8 +236,8 @@ final class E2eSeedCommand extends AbstractCommand
 
 		// 12. Seed a DCA plan (enables DCA plan edit/delete tests)
 		$this->writeln('Creating DCA plan...', $output);
-		$dcaPlanProvider = $application->container->get(DcaPlanProvider::class);
-		assert($dcaPlanProvider instanceof DcaPlanProvider);
+		$dcaPlanProvider = $application->container->get(DcaPlanProviderInterface::class);
+		assert($dcaPlanProvider instanceof DcaPlanProviderInterface);
 		$dcaPlanProvider->createDcaPlan(
 			user: $user,
 			targetType: DcaPlanTargetTypeEnum::Portfolio,
@@ -254,8 +254,8 @@ final class E2eSeedCommand extends AbstractCommand
 
 		// 13. Seed a price alert (enables price alert edit/delete tests)
 		$this->writeln('Creating price alert...', $output);
-		$priceAlertProvider = $application->container->get(PriceAlertProvider::class);
-		assert($priceAlertProvider instanceof PriceAlertProvider);
+		$priceAlertProvider = $application->container->get(PriceAlertProviderInterface::class);
+		assert($priceAlertProvider instanceof PriceAlertProviderInterface);
 		$priceAlertProvider->createPriceAlert(
 			user: $user,
 			type: PriceAlertTypeEnum::Portfolio,

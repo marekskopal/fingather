@@ -13,12 +13,12 @@ use FinGather\Model\Entity\User;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Response\OkResponse;
 use FinGather\Service\DataCalculator\Dto\ReturnRateDto;
-use FinGather\Service\Provider\AssetProvider;
-use FinGather\Service\Provider\CurrencyProvider;
+use FinGather\Service\Provider\AssetProviderInterface;
+use FinGather\Service\Provider\CurrencyProviderInterface;
 use FinGather\Service\Provider\DcaPlanProviderInterface;
-use FinGather\Service\Provider\GroupProvider;
-use FinGather\Service\Provider\PortfolioProvider;
-use FinGather\Service\Provider\StrategyProvider;
+use FinGather\Service\Provider\GroupProviderInterface;
+use FinGather\Service\Provider\PortfolioProviderInterface;
+use FinGather\Service\Provider\StrategyProviderInterface;
 use FinGather\Service\Request\RequestServiceInterface;
 use FinGather\Tests\Fixtures\Model\Entity\DcaPlanFixture;
 use FinGather\Tests\Fixtures\Model\Entity\PortfolioFixture;
@@ -42,7 +42,7 @@ final class DcaPlanControllerTest extends TestCase
 {
 	private DcaPlanProviderInterface&Stub $dcaPlanProvider;
 
-	private PortfolioProvider&Stub $portfolioProvider;
+	private PortfolioProviderInterface&Stub $portfolioProvider;
 
 	private RequestServiceInterface&Stub $requestService;
 
@@ -51,7 +51,7 @@ final class DcaPlanControllerTest extends TestCase
 	protected function setUp(): void
 	{
 		$this->dcaPlanProvider = $this::createStub(DcaPlanProviderInterface::class);
-		$this->portfolioProvider = $this::createStub(PortfolioProvider::class);
+		$this->portfolioProvider = $this::createStub(PortfolioProviderInterface::class);
 		$this->requestService = $this::createStub(RequestServiceInterface::class);
 		$this->requestService->method('getUser')->willReturn(UserFixture::getUser());
 		$this->dcaPlanProvider->method('getReturnRate')->willReturn(new ReturnRateDto(annual: 7.0, monthly: 0.58));
@@ -59,10 +59,10 @@ final class DcaPlanControllerTest extends TestCase
 		$this->dcaPlanController = new DcaPlanController(
 			$this->dcaPlanProvider,
 			$this->portfolioProvider,
-			$this::createStub(AssetProvider::class),
-			$this::createStub(GroupProvider::class),
-			$this::createStub(StrategyProvider::class),
-			$this::createStub(CurrencyProvider::class),
+			$this::createStub(AssetProviderInterface::class),
+			$this::createStub(GroupProviderInterface::class),
+			$this::createStub(StrategyProviderInterface::class),
+			$this::createStub(CurrencyProviderInterface::class),
 			$this->requestService,
 		);
 	}

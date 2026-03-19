@@ -10,11 +10,11 @@ use FinGather\Dto\DividendCalendarItemDto;
 use FinGather\Service\Email\EmailFactory;
 use FinGather\Service\Email\MailerFactory;
 use FinGather\Service\Goal\GoalChecker;
-use FinGather\Service\Provider\DividendCalendarProvider;
-use FinGather\Service\Provider\GoalProvider;
-use FinGather\Service\Provider\PortfolioDataProvider;
-use FinGather\Service\Provider\PortfolioProvider;
-use FinGather\Service\Provider\UserProvider;
+use FinGather\Service\Provider\DividendCalendarProviderInterface;
+use FinGather\Service\Provider\GoalProviderInterface;
+use FinGather\Service\Provider\PortfolioDataProviderInterface;
+use FinGather\Service\Provider\PortfolioProviderInterface;
+use FinGather\Service\Provider\UserProviderInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -34,23 +34,23 @@ final class EmailPortfolioSummaryCommand extends AbstractCommand
 	{
 		$application = ApplicationFactory::create();
 
-		$userProvider = $application->container->get(UserProvider::class);
-		assert($userProvider instanceof UserProvider);
+		$userProvider = $application->container->get(UserProviderInterface::class);
+		assert($userProvider instanceof UserProviderInterface);
 
-		$portfolioProvider = $application->container->get(PortfolioProvider::class);
-		assert($portfolioProvider instanceof PortfolioProvider);
+		$portfolioProvider = $application->container->get(PortfolioProviderInterface::class);
+		assert($portfolioProvider instanceof PortfolioProviderInterface);
 
-		$portfolioDataProvider = $application->container->get(PortfolioDataProvider::class);
-		assert($portfolioDataProvider instanceof PortfolioDataProvider);
+		$portfolioDataProvider = $application->container->get(PortfolioDataProviderInterface::class);
+		assert($portfolioDataProvider instanceof PortfolioDataProviderInterface);
 
-		$goalProvider = $application->container->get(GoalProvider::class);
-		assert($goalProvider instanceof GoalProvider);
+		$goalProvider = $application->container->get(GoalProviderInterface::class);
+		assert($goalProvider instanceof GoalProviderInterface);
 
 		$goalChecker = $application->container->get(GoalChecker::class);
 		assert($goalChecker instanceof GoalChecker);
 
-		$dividendCalendarProvider = $application->container->get(DividendCalendarProvider::class);
-		assert($dividendCalendarProvider instanceof DividendCalendarProvider);
+		$dividendCalendarProvider = $application->container->get(DividendCalendarProviderInterface::class);
+		assert($dividendCalendarProvider instanceof DividendCalendarProviderInterface);
 
 		$logger = $application->container->get(LoggerInterface::class);
 		assert($logger instanceof LoggerInterface);

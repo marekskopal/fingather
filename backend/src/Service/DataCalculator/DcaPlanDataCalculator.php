@@ -18,8 +18,8 @@ use FinGather\Model\Entity\Strategy;
 use FinGather\Model\Entity\User;
 use FinGather\Service\DataCalculator\Dto\ReturnRateDto;
 use FinGather\Service\DataCalculator\Dto\TickerWeightDto;
-use FinGather\Service\Provider\AssetWithPropertiesProvider;
-use FinGather\Service\Provider\TickerDataProvider;
+use FinGather\Service\Provider\AssetWithPropertiesProviderInterface;
+use FinGather\Service\Provider\TickerDataProviderInterface;
 use FinGather\Utils\CalculatorUtils;
 
 final readonly class DcaPlanDataCalculator
@@ -31,8 +31,8 @@ final readonly class DcaPlanDataCalculator
 	private const int DecimalPrecision = 8;
 
 	public function __construct(
-		private TickerDataProvider $tickerDataProvider,
-		private AssetWithPropertiesProvider $assetWithPropertiesProvider,
+		private TickerDataProviderInterface $tickerDataProvider,
+		private AssetWithPropertiesProviderInterface $assetWithPropertiesProvider,
 	) {
 	}
 

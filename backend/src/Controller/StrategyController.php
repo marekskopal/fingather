@@ -10,8 +10,8 @@ use FinGather\Model\Entity\Strategy;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Response\OkResponse;
 use FinGather\Route\Routes;
-use FinGather\Service\Provider\PortfolioProvider;
-use FinGather\Service\Provider\StrategyProvider;
+use FinGather\Service\Provider\PortfolioProviderInterface;
+use FinGather\Service\Provider\StrategyProviderInterface;
 use FinGather\Service\Request\RequestService;
 use Laminas\Diactoros\Response\JsonResponse;
 use MarekSkopal\Router\Attribute\RouteDelete;
@@ -24,8 +24,8 @@ use Psr\Http\Message\ServerRequestInterface;
 final readonly class StrategyController
 {
 	public function __construct(
-		private StrategyProvider $strategyProvider,
-		private PortfolioProvider $portfolioProvider,
+		private StrategyProviderInterface $strategyProvider,
+		private PortfolioProviderInterface $portfolioProvider,
 		private RequestService $requestService,
 	) {
 	}

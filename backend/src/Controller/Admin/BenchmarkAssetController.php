@@ -10,8 +10,8 @@ use FinGather\Response\ConflictResponse;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Response\OkResponse;
 use FinGather\Route\Routes;
-use FinGather\Service\Provider\BenchmarkAssetProvider;
-use FinGather\Service\Provider\TickerProvider;
+use FinGather\Service\Provider\BenchmarkAssetProviderInterface;
+use FinGather\Service\Provider\TickerProviderInterface;
 use FinGather\Service\Request\RequestService;
 use Laminas\Diactoros\Response\JsonResponse;
 use MarekSkopal\Router\Attribute\RouteDelete;
@@ -24,8 +24,8 @@ final readonly class BenchmarkAssetController extends AdminController
 {
 	public function __construct(
 		RequestService $requestService,
-		private BenchmarkAssetProvider $benchmarkAssetProvider,
-		private TickerProvider $tickerProvider,
+		private BenchmarkAssetProviderInterface $benchmarkAssetProvider,
+		private TickerProviderInterface $tickerProvider,
 	) {
 		parent::__construct($requestService);
 	}

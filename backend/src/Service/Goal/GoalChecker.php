@@ -8,11 +8,11 @@ use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Model\Entity\Enum\GoalTypeEnum;
 use FinGather\Model\Entity\Goal;
-use FinGather\Service\Provider\PortfolioDataProvider;
+use FinGather\Service\Provider\PortfolioDataProviderInterface;
 
 final readonly class GoalChecker implements GoalCheckerInterface
 {
-	public function __construct(private PortfolioDataProvider $portfolioDataProvider)
+	public function __construct(private PortfolioDataProviderInterface $portfolioDataProvider)
 	{
 	}
 

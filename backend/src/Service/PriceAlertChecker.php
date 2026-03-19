@@ -9,18 +9,18 @@ use FinGather\Model\Entity\Enum\AlertConditionEnum;
 use FinGather\Model\Entity\Enum\AlertRecurrenceEnum;
 use FinGather\Model\Entity\Enum\PriceAlertTypeEnum;
 use FinGather\Model\Entity\PriceAlert;
-use FinGather\Service\Provider\PortfolioDataProvider;
-use FinGather\Service\Provider\PortfolioProvider;
-use FinGather\Service\Provider\PriceAlertProvider;
-use FinGather\Service\Provider\TickerDataProvider;
+use FinGather\Service\Provider\PortfolioDataProviderInterface;
+use FinGather\Service\Provider\PortfolioProviderInterface;
+use FinGather\Service\Provider\PriceAlertProviderInterface;
+use FinGather\Service\Provider\TickerDataProviderInterface;
 
 class PriceAlertChecker
 {
 	public function __construct(
-		private readonly PriceAlertProvider $priceAlertProvider,
-		private readonly TickerDataProvider $tickerDataProvider,
-		private readonly PortfolioDataProvider $portfolioDataProvider,
-		private readonly PortfolioProvider $portfolioProvider,
+		private readonly PriceAlertProviderInterface $priceAlertProvider,
+		private readonly TickerDataProviderInterface $tickerDataProvider,
+		private readonly PortfolioDataProviderInterface $portfolioDataProvider,
+		private readonly PortfolioProviderInterface $portfolioProvider,
 	) {
 	}
 

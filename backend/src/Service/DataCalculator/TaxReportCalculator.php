@@ -16,16 +16,16 @@ use FinGather\Service\DataCalculator\Dto\TaxReportDividendTransactionDto;
 use FinGather\Service\DataCalculator\Dto\TaxReportDto;
 use FinGather\Service\DataCalculator\Dto\TaxReportUnrealizedDto;
 use FinGather\Service\DataCalculator\Dto\TaxReportUnrealizedPositionDto;
-use FinGather\Service\Provider\AssetDataProvider;
-use FinGather\Service\Provider\AssetProvider;
-use FinGather\Service\Provider\CurrentTransactionProvider;
+use FinGather\Service\Provider\AssetDataProviderInterface;
+use FinGather\Service\Provider\AssetProviderInterface;
+use FinGather\Service\Provider\CurrentTransactionProviderInterface;
 
 final class TaxReportCalculator
 {
 	public function __construct(
-		private readonly CurrentTransactionProvider $currentTransactionProvider,
-		private readonly AssetProvider $assetProvider,
-		private readonly AssetDataProvider $assetDataProvider,
+		private readonly CurrentTransactionProviderInterface $currentTransactionProvider,
+		private readonly AssetProviderInterface $assetProvider,
+		private readonly AssetDataProviderInterface $assetDataProvider,
 		private readonly TaxReportRealizedGainsCalculatorInterface $realizedGainsCalculator,
 	) {
 	}

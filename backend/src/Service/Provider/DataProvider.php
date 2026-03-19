@@ -11,17 +11,17 @@ use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use Psr\Log\LoggerInterface;
 
-readonly class DataProvider
+final readonly class DataProvider implements DataProviderInterface
 {
 	public function __construct(
-		private AssetDataProvider $assetDataProvider,
-		private GroupDataProvider $groupDataProvider,
-		private PortfolioDataProvider $portfolioDataProvider,
-		private BenchmarkDataProvider $benchmarkDataProvider,
-		private CountryDataProvider $countryDataProvider,
-		private SectorDataProvider $sectorDataProvider,
-		private IndustryDataProvider $industryDataProvider,
-		private TransactionProvider $transactionProvider,
+		private AssetDataProviderInterface $assetDataProvider,
+		private GroupDataProviderInterface $groupDataProvider,
+		private PortfolioDataProviderInterface $portfolioDataProvider,
+		private BenchmarkDataProviderInterface $benchmarkDataProvider,
+		private CountryDataProviderInterface $countryDataProvider,
+		private SectorDataProviderInterface $sectorDataProvider,
+		private IndustryDataProviderInterface $industryDataProvider,
+		private TransactionProviderInterface $transactionProvider,
 		private LoggerInterface $logger,
 	) {
 	}

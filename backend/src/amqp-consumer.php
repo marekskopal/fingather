@@ -14,7 +14,7 @@ use FinGather\Jobs\Handler\JobHandler;
 use FinGather\Jobs\Handler\PasswordResetHandler;
 use FinGather\Jobs\Handler\UserWarmupHandler;
 use FinGather\Jobs\Message\AmqpReceivedMessage;
-use FinGather\Service\Provider\CurrentTransactionProvider;
+use FinGather\Service\Provider\CurrentTransactionProviderInterface;
 use FinGather\Service\Queue\Enum\QueueEnum;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
@@ -25,8 +25,8 @@ $application = ApplicationFactory::create();
 $logger = $application->container->get(LoggerInterface::class);
 assert($logger instanceof LoggerInterface);
 
-$currentTransactionProvider = $application->container->get(CurrentTransactionProvider::class);
-assert($currentTransactionProvider instanceof CurrentTransactionProvider);
+$currentTransactionProvider = $application->container->get(CurrentTransactionProviderInterface::class);
+assert($currentTransactionProvider instanceof CurrentTransactionProviderInterface);
 
 $connection = new AMQPStreamConnection(
 	(string) getenv('RABBITMQ_HOST'),

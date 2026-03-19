@@ -14,7 +14,7 @@ use FinGather\Response\OkResponse;
 use FinGather\Route\Routes;
 use FinGather\Service\Goal\GoalCheckerInterface;
 use FinGather\Service\Provider\GoalProviderInterface;
-use FinGather\Service\Provider\PortfolioProvider;
+use FinGather\Service\Provider\PortfolioProviderInterface;
 use FinGather\Service\Request\RequestServiceInterface;
 use Laminas\Diactoros\Response\JsonResponse;
 use MarekSkopal\Router\Attribute\RouteDelete;
@@ -28,7 +28,7 @@ final readonly class GoalController
 {
 	public function __construct(
 		private GoalProviderInterface $goalProvider,
-		private PortfolioProvider $portfolioProvider,
+		private PortfolioProviderInterface $portfolioProvider,
 		private GoalCheckerInterface $goalChecker,
 		private RequestServiceInterface $requestService,
 	) {

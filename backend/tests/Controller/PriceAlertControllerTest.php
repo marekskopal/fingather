@@ -12,9 +12,9 @@ use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\User;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Response\OkResponse;
-use FinGather\Service\Provider\PortfolioProvider;
-use FinGather\Service\Provider\PriceAlertProvider;
-use FinGather\Service\Provider\TickerProvider;
+use FinGather\Service\Provider\PortfolioProviderInterface;
+use FinGather\Service\Provider\PriceAlertProviderInterface;
+use FinGather\Service\Provider\TickerProviderInterface;
 use FinGather\Service\Request\RequestServiceInterface;
 use FinGather\Tests\Fixtures\Model\Entity\PriceAlertFixture;
 use FinGather\Tests\Fixtures\Model\Entity\UserFixture;
@@ -35,11 +35,11 @@ use Psr\Http\Message\ServerRequestInterface;
 #[UsesClass(OkResponse::class)]
 final class PriceAlertControllerTest extends TestCase
 {
-	private PriceAlertProvider&Stub $priceAlertProvider;
+	private PriceAlertProviderInterface&Stub $priceAlertProvider;
 
-	private PortfolioProvider&Stub $portfolioProvider;
+	private PortfolioProviderInterface&Stub $portfolioProvider;
 
-	private TickerProvider&Stub $tickerProvider;
+	private TickerProviderInterface&Stub $tickerProvider;
 
 	private RequestServiceInterface&Stub $requestService;
 
@@ -47,9 +47,9 @@ final class PriceAlertControllerTest extends TestCase
 
 	protected function setUp(): void
 	{
-		$this->priceAlertProvider = $this::createStub(PriceAlertProvider::class);
-		$this->portfolioProvider = $this::createStub(PortfolioProvider::class);
-		$this->tickerProvider = $this::createStub(TickerProvider::class);
+		$this->priceAlertProvider = $this::createStub(PriceAlertProviderInterface::class);
+		$this->portfolioProvider = $this::createStub(PortfolioProviderInterface::class);
+		$this->tickerProvider = $this::createStub(TickerProviderInterface::class);
 		$this->requestService = $this::createStub(RequestServiceInterface::class);
 		$this->requestService->method('getUser')->willReturn(UserFixture::getUser());
 

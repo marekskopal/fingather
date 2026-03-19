@@ -14,7 +14,7 @@ use FinGather\Response\NotFoundResponse;
 use FinGather\Response\OkResponse;
 use FinGather\Service\Goal\GoalCheckerInterface;
 use FinGather\Service\Provider\GoalProviderInterface;
-use FinGather\Service\Provider\PortfolioProvider;
+use FinGather\Service\Provider\PortfolioProviderInterface;
 use FinGather\Service\Request\RequestServiceInterface;
 use FinGather\Tests\Fixtures\Model\Entity\GoalFixture;
 use FinGather\Tests\Fixtures\Model\Entity\PortfolioFixture;
@@ -37,7 +37,7 @@ final class GoalControllerTest extends TestCase
 {
 	private GoalProviderInterface&Stub $goalProvider;
 
-	private PortfolioProvider&Stub $portfolioProvider;
+	private PortfolioProviderInterface&Stub $portfolioProvider;
 
 	private GoalCheckerInterface&Stub $goalChecker;
 
@@ -48,7 +48,7 @@ final class GoalControllerTest extends TestCase
 	protected function setUp(): void
 	{
 		$this->goalProvider = $this::createStub(GoalProviderInterface::class);
-		$this->portfolioProvider = $this::createStub(PortfolioProvider::class);
+		$this->portfolioProvider = $this::createStub(PortfolioProviderInterface::class);
 		$this->goalChecker = $this::createStub(GoalCheckerInterface::class);
 		$this->requestService = $this::createStub(RequestServiceInterface::class);
 		$this->requestService->method('getUser')->willReturn(UserFixture::getUser());

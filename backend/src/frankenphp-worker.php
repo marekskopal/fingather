@@ -8,7 +8,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use FinGather\App\ApplicationFactory;
 use FinGather\Response\ErrorResponse;
-use FinGather\Service\Provider\CurrentTransactionProvider;
+use FinGather\Service\Provider\CurrentTransactionProviderInterface;
 use Laminas\Diactoros\ServerRequestFactory;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use Psr\Log\LoggerInterface;
@@ -17,8 +17,8 @@ $application = ApplicationFactory::create();
 
 $logger = $application->container->get(LoggerInterface::class);
 assert($logger instanceof LoggerInterface);
-$currentTransactionProvider = $application->container->get(CurrentTransactionProvider::class);
-assert($currentTransactionProvider instanceof CurrentTransactionProvider);
+$currentTransactionProvider = $application->container->get(CurrentTransactionProviderInterface::class);
+assert($currentTransactionProvider instanceof CurrentTransactionProviderInterface);
 
 $emitter = new SapiEmitter();
 

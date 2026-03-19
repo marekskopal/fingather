@@ -10,8 +10,8 @@ use FinGather\Model\Entity\Broker;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Response\OkResponse;
 use FinGather\Route\Routes;
-use FinGather\Service\Provider\BrokerProvider;
-use FinGather\Service\Provider\PortfolioProvider;
+use FinGather\Service\Provider\BrokerProviderInterface;
+use FinGather\Service\Provider\PortfolioProviderInterface;
 use FinGather\Service\Request\RequestService;
 use Laminas\Diactoros\Response\JsonResponse;
 use MarekSkopal\Router\Attribute\RouteDelete;
@@ -24,8 +24,8 @@ use Psr\Http\Message\ServerRequestInterface;
 final readonly class BrokerController
 {
 	public function __construct(
-		private BrokerProvider $brokerProvider,
-		private PortfolioProvider $portfolioProvider,
+		private BrokerProviderInterface $brokerProvider,
+		private PortfolioProviderInterface $portfolioProvider,
 		private RequestService $requestService,
 	) {
 	}

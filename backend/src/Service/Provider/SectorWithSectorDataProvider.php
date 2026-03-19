@@ -11,12 +11,12 @@ use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Utils\CalculatorUtils;
 
-class SectorWithSectorDataProvider
+final readonly class SectorWithSectorDataProvider implements SectorWithSectorDataProviderInterface
 {
 	public function __construct(
-		private readonly PortfolioDataProvider $portfolioDataProvider,
-		private readonly SectorProvider $sectorProvider,
-		private readonly SectorDataProvider $sectorDataProvider,
+		private PortfolioDataProviderInterface $portfolioDataProvider,
+		private SectorProviderInterface $sectorProvider,
+		private SectorDataProviderInterface $sectorDataProvider,
 	) {
 	}
 

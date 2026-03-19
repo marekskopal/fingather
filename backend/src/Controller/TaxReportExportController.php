@@ -10,7 +10,7 @@ use FinGather\Route\Routes;
 use FinGather\Service\DataCalculator\TaxReportCalculator;
 use FinGather\Service\Export\PdfConverter;
 use FinGather\Service\Export\TaxReportExcelExporter;
-use FinGather\Service\Provider\PortfolioProvider;
+use FinGather\Service\Provider\PortfolioProviderInterface;
 use FinGather\Service\Request\RequestService;
 use MarekSkopal\Router\Attribute\RouteGet;
 use Psr\Http\Message\ResponseInterface;
@@ -22,7 +22,7 @@ final readonly class TaxReportExportController
 		private TaxReportCalculator $taxReportCalculator,
 		private TaxReportExcelExporter $taxReportExcelExporter,
 		private PdfConverter $pdfConverter,
-		private PortfolioProvider $portfolioProvider,
+		private PortfolioProviderInterface $portfolioProvider,
 		private RequestService $requestService,
 	) {
 	}

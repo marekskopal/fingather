@@ -6,8 +6,8 @@ namespace FinGather\Command;
 
 use FinGather\App\ApplicationFactory;
 use FinGather\Model\Entity\Enum\ApiImportStatusEnum;
-use FinGather\Service\Provider\ApiImportProcessCheckProvider;
-use FinGather\Service\Provider\ApiImportProvider;
+use FinGather\Service\Provider\ApiImportProcessCheckProviderInterface;
+use FinGather\Service\Provider\ApiImportProviderInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -22,11 +22,11 @@ final class ApiImportProcessCheckCommand extends AbstractCommand
 	{
 		$application = ApplicationFactory::create();
 
-		$apiImportProvider = $application->container->get(ApiImportProvider::class);
-		assert($apiImportProvider instanceof ApiImportProvider);
+		$apiImportProvider = $application->container->get(ApiImportProviderInterface::class);
+		assert($apiImportProvider instanceof ApiImportProviderInterface);
 
-		$apiImportProcessCheckProvider = $application->container->get(ApiImportProcessCheckProvider::class);
-		assert($apiImportProcessCheckProvider instanceof ApiImportProcessCheckProvider);
+		$apiImportProcessCheckProvider = $application->container->get(ApiImportProcessCheckProviderInterface::class);
+		assert($apiImportProcessCheckProvider instanceof ApiImportProcessCheckProviderInterface);
 
 		foreach ($apiImportProvider->getApiImports(apiImportStatus: ApiImportStatusEnum::Waiting) as $apiImport) {
 			$apiImportProcessCheckProvider->createApiImportProcessCheck($apiImport);

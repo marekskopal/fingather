@@ -7,7 +7,7 @@ namespace FinGather\Controller;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Route\Routes;
 use FinGather\Service\DataCalculator\OverviewDataCalculator;
-use FinGather\Service\Provider\PortfolioProvider;
+use FinGather\Service\Provider\PortfolioProviderInterface;
 use FinGather\Service\Request\RequestService;
 use Laminas\Diactoros\Response\JsonResponse;
 use MarekSkopal\Router\Attribute\RouteGet;
@@ -18,7 +18,7 @@ final readonly class OverviewController
 {
 	public function __construct(
 		private OverviewDataCalculator $overviewDataCalculator,
-		private PortfolioProvider $portfolioProvider,
+		private PortfolioProviderInterface $portfolioProvider,
 		private RequestService $requestService,
 	) {
 	}

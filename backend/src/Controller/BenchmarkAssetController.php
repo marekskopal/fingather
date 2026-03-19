@@ -6,14 +6,14 @@ namespace FinGather\Controller;
 
 use FinGather\Dto\BenchmarkAssetDto;
 use FinGather\Route\Routes;
-use FinGather\Service\Provider\BenchmarkAssetProvider;
+use FinGather\Service\Provider\BenchmarkAssetProviderInterface;
 use Laminas\Diactoros\Response\JsonResponse;
 use MarekSkopal\Router\Attribute\RouteGet;
 use Psr\Http\Message\ResponseInterface;
 
 final readonly class BenchmarkAssetController
 {
-	public function __construct(private BenchmarkAssetProvider $benchmarkAssetProvider)
+	public function __construct(private BenchmarkAssetProviderInterface $benchmarkAssetProvider)
 	{
 	}
 

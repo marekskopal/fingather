@@ -25,9 +25,9 @@ use FinGather\Service\Authentication\AuthenticationServiceInterface;
 use FinGather\Service\Authentication\Exceptions\AuthenticationException;
 use FinGather\Service\Authentication\Exceptions\GoogleAuthException;
 use FinGather\Service\Authentication\GoogleAuthServiceInterface;
-use FinGather\Service\Provider\CurrencyProvider;
-use FinGather\Service\Provider\PasswordResetProvider;
-use FinGather\Service\Provider\UserProvider;
+use FinGather\Service\Provider\CurrencyProviderInterface;
+use FinGather\Service\Provider\PasswordResetProviderInterface;
+use FinGather\Service\Provider\UserProviderInterface;
 use FinGather\Service\Request\RequestServiceInterface;
 use FinGather\Validator\PasswordValidator;
 use Firebase\JWT\ExpiredException;
@@ -45,9 +45,9 @@ final readonly class AuthenticationController
 	public function __construct(
 		private AuthenticationServiceInterface $authenticationService,
 		private GoogleAuthServiceInterface $googleAuthService,
-		private CurrencyProvider $currencyProvider,
-		private UserProvider $userProvider,
-		private PasswordResetProvider $passwordResetProvider,
+		private CurrencyProviderInterface $currencyProvider,
+		private UserProviderInterface $userProvider,
+		private PasswordResetProviderInterface $passwordResetProvider,
 		private RequestServiceInterface $requestService,
 		private LoggerInterface $logger,
 	) {

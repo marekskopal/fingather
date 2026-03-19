@@ -12,12 +12,12 @@ use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Transaction;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Route\Routes;
-use FinGather\Service\Provider\AssetProvider;
-use FinGather\Service\Provider\BenchmarkDataProvider;
-use FinGather\Service\Provider\CurrentTransactionProvider;
-use FinGather\Service\Provider\PortfolioDataProvider;
-use FinGather\Service\Provider\PortfolioProvider;
-use FinGather\Service\Provider\TickerProvider;
+use FinGather\Service\Provider\AssetProviderInterface;
+use FinGather\Service\Provider\BenchmarkDataProviderInterface;
+use FinGather\Service\Provider\CurrentTransactionProviderInterface;
+use FinGather\Service\Provider\PortfolioDataProviderInterface;
+use FinGather\Service\Provider\PortfolioProviderInterface;
+use FinGather\Service\Provider\TickerProviderInterface;
 use FinGather\Service\Request\RequestService;
 use FinGather\Utils\DateTimeUtils;
 use Laminas\Diactoros\Response\JsonResponse;
@@ -28,12 +28,12 @@ use Psr\Http\Message\ServerRequestInterface;
 final readonly class PortfolioDataController
 {
 	public function __construct(
-		private PortfolioDataProvider $portfolioDataProvider,
-		private CurrentTransactionProvider $currentTransactionProvider,
-		private BenchmarkDataProvider $benchmarkDataProvider,
-		private AssetProvider $assetProvider,
-		private PortfolioProvider $portfolioProvider,
-		private TickerProvider $tickerProvider,
+		private PortfolioDataProviderInterface $portfolioDataProvider,
+		private CurrentTransactionProviderInterface $currentTransactionProvider,
+		private BenchmarkDataProviderInterface $benchmarkDataProvider,
+		private AssetProviderInterface $assetProvider,
+		private PortfolioProviderInterface $portfolioProvider,
+		private TickerProviderInterface $tickerProvider,
 		private RequestService $requestService,
 	) {
 	}

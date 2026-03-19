@@ -14,16 +14,16 @@ use FinGather\Model\Entity\User;
 use FinGather\Service\DataCalculator\Dto\TaxReportRealizedGainsDto;
 use FinGather\Service\DataCalculator\Dto\TaxReportRealizedGainTransactionDto;
 use FinGather\Service\DataCalculator\Dto\TransactionBuyDto;
-use FinGather\Service\Provider\CurrentTransactionProvider;
+use FinGather\Service\Provider\CurrentTransactionProviderInterface;
 use FinGather\Service\Provider\Dto\SplitDto;
-use FinGather\Service\Provider\SplitProvider;
+use FinGather\Service\Provider\SplitProviderInterface;
 use FinGather\Utils\CalculatorUtils;
 
 final class TaxReportRealizedGainsCalculator implements TaxReportRealizedGainsCalculatorInterface
 {
 	public function __construct(
-		private readonly CurrentTransactionProvider $currentTransactionProvider,
-		private readonly SplitProvider $splitProvider,
+		private readonly CurrentTransactionProviderInterface $currentTransactionProvider,
+		private readonly SplitProviderInterface $splitProvider,
 	) {
 	}
 

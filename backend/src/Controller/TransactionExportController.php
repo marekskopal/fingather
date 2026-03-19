@@ -11,9 +11,9 @@ use FinGather\Response\NotFoundResponse;
 use FinGather\Route\Routes;
 use FinGather\Service\Export\TransactionCsvExporter;
 use FinGather\Service\Export\TransactionExcelExporter;
-use FinGather\Service\Provider\AssetProvider;
-use FinGather\Service\Provider\PortfolioProvider;
-use FinGather\Service\Provider\TransactionProvider;
+use FinGather\Service\Provider\AssetProviderInterface;
+use FinGather\Service\Provider\PortfolioProviderInterface;
+use FinGather\Service\Provider\TransactionProviderInterface;
 use FinGather\Service\Request\RequestService;
 use MarekSkopal\Router\Attribute\RouteGet;
 use Psr\Http\Message\ResponseInterface;
@@ -22,11 +22,11 @@ use Psr\Http\Message\ServerRequestInterface;
 final readonly class TransactionExportController
 {
 	public function __construct(
-		private TransactionProvider $transactionProvider,
+		private TransactionProviderInterface $transactionProvider,
 		private TransactionCsvExporter $transactionCsvExporter,
 		private TransactionExcelExporter $transactionExcelExporter,
-		private AssetProvider $assetProvider,
-		private PortfolioProvider $portfolioProvider,
+		private AssetProviderInterface $assetProvider,
+		private PortfolioProviderInterface $portfolioProvider,
 		private RequestService $requestService,
 	) {
 	}

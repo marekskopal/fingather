@@ -11,8 +11,8 @@ use FinGather\Model\Entity\Portfolio;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Response\OkResponse;
 use FinGather\Route\Routes;
-use FinGather\Service\Provider\CurrencyProvider;
-use FinGather\Service\Provider\PortfolioProvider;
+use FinGather\Service\Provider\CurrencyProviderInterface;
+use FinGather\Service\Provider\PortfolioProviderInterface;
 use FinGather\Service\Request\RequestServiceInterface;
 use Laminas\Diactoros\Response\JsonResponse;
 use MarekSkopal\Router\Attribute\RouteDelete;
@@ -25,8 +25,8 @@ use Psr\Http\Message\ServerRequestInterface;
 final readonly class PortfolioController
 {
 	public function __construct(
-		private PortfolioProvider $portfolioProvider,
-		private CurrencyProvider $currencyProvider,
+		private PortfolioProviderInterface $portfolioProvider,
+		private CurrencyProviderInterface $currencyProvider,
 		private RequestServiceInterface $requestService,
 	) {
 	}

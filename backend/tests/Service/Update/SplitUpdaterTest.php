@@ -7,7 +7,7 @@ namespace FinGather\Tests\Service\Update;
 use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Model\Entity\Split;
-use FinGather\Service\Provider\SplitProvider;
+use FinGather\Service\Provider\SplitProviderInterface;
 use FinGather\Service\Update\SplitUpdater;
 use FinGather\Tests\Fixtures\Model\Entity\TickerFixture;
 use MarekSkopal\TwelveData\Api\Fundamentals;
@@ -56,7 +56,7 @@ final class SplitUpdaterTest extends TestCase
 		return new Splits(meta: $this->makeMeta(), splits: $splits);
 	}
 
-	private function makeUpdater(SplitProvider $splitProvider, TwelveData $twelveData): SplitUpdater
+	private function makeUpdater(SplitProviderInterface $splitProvider, TwelveData $twelveData): SplitUpdater
 	{
 		return new SplitUpdater($splitProvider, $twelveData);
 	}
@@ -82,7 +82,7 @@ final class SplitUpdaterTest extends TestCase
 		$split = $this->makeSplitsSplit(date: '2021-06-01', fromFactor: 4.0, toFactor: 1.0);
 		$splitsDto = $this->makeSplitsDto($split);
 
-		$splitProvider = $this->createMock(SplitProvider::class);
+		$splitProvider = $this->createMock(SplitProviderInterface::class);
 		// not a duplicate
 		$splitProvider->method('getSplit')->willReturn(null);
 		$splitProvider->expects(self::once())->method('createSplit')->with(
@@ -108,7 +108,7 @@ final class SplitUpdaterTest extends TestCase
 			factor: new Decimal(4),
 		);
 
-		$splitProvider = $this->createMock(SplitProvider::class);
+		$splitProvider = $this->createMock(SplitProviderInterface::class);
 		// already exists
 		$splitProvider->method('getSplit')->willReturn($existingSplit);
 		$splitProvider->expects(self::never())->method('createSplit');
@@ -129,7 +129,7 @@ final class SplitUpdaterTest extends TestCase
 		$prop = new ReflectionProperty(TwelveData::class, 'fundamentals');
 		$prop->setValue($twelveDataStub, $fundamentalsStub);
 
-		$splitProvider = $this->createMock(SplitProvider::class);
+		$splitProvider = $this->createMock(SplitProviderInterface::class);
 		$splitProvider->expects(self::never())->method('createSplit');
 
 		$updater = $this->makeUpdater($splitProvider, $twelveDataStub);
@@ -143,7 +143,7 @@ final class SplitUpdaterTest extends TestCase
 		$split = $this->makeSplitsSplit(fromFactor: 3.0, toFactor: 1.0);
 		$splitsDto = $this->makeSplitsDto($split);
 
-		$splitProvider = $this->createMock(SplitProvider::class);
+		$splitProvider = $this->createMock(SplitProviderInterface::class);
 		$splitProvider->method('getSplit')->willReturn(null);
 
 		$capturedFactor = null;
@@ -168,7 +168,7 @@ final class SplitUpdaterTest extends TestCase
 		// empty splits
 		$splitsDto = $this->makeSplitsDto();
 
-		$splitProvider = $this->createMock(SplitProvider::class);
+		$splitProvider = $this->createMock(SplitProviderInterface::class);
 		$splitProvider->expects(self::never())->method('cleanCache');
 
 		$updater = $this->makeUpdater($splitProvider, $this->makeTwelveDataStub($splitsDto));

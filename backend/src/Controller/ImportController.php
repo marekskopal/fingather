@@ -15,11 +15,11 @@ use FinGather\Response\OkResponse;
 use FinGather\Route\Routes;
 use FinGather\Service\Import\ImportPrepareService;
 use FinGather\Service\Import\ImportService;
-use FinGather\Service\Provider\ImportFileProvider;
-use FinGather\Service\Provider\ImportMappingProvider;
-use FinGather\Service\Provider\ImportProvider;
-use FinGather\Service\Provider\PortfolioProvider;
-use FinGather\Service\Provider\TickerProvider;
+use FinGather\Service\Provider\ImportFileProviderInterface;
+use FinGather\Service\Provider\ImportMappingProviderInterface;
+use FinGather\Service\Provider\ImportProviderInterface;
+use FinGather\Service\Provider\PortfolioProviderInterface;
+use FinGather\Service\Provider\TickerProviderInterface;
 use FinGather\Service\Request\RequestService;
 use Laminas\Diactoros\Response\JsonResponse;
 use MarekSkopal\Router\Attribute\RouteDelete;
@@ -34,11 +34,11 @@ final readonly class ImportController
 	public function __construct(
 		private ImportService $importService,
 		private ImportPrepareService $importPrepareService,
-		private ImportProvider $importProvider,
-		private ImportFileProvider $importFileProvider,
-		private ImportMappingProvider $importMappingProvider,
-		private PortfolioProvider $portfolioProvider,
-		private TickerProvider $tickerProvider,
+		private ImportProviderInterface $importProvider,
+		private ImportFileProviderInterface $importFileProvider,
+		private ImportMappingProviderInterface $importMappingProvider,
+		private PortfolioProviderInterface $portfolioProvider,
+		private TickerProviderInterface $tickerProvider,
 		private RequestService $requestService,
 	) {
 	}

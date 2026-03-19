@@ -21,35 +21,35 @@ use FinGather\Service\Import\Entity\TransactionRecord;
 use FinGather\Service\Import\Factory\ImportMapperFactoryInterface;
 use FinGather\Service\Import\Factory\TransactionRecordFactoryInterface;
 use FinGather\Service\Import\Mapper\MapperInterface;
-use FinGather\Service\Provider\AssetProvider;
-use FinGather\Service\Provider\BrokerProvider;
-use FinGather\Service\Provider\CurrencyProvider;
-use FinGather\Service\Provider\DataProvider;
-use FinGather\Service\Provider\GroupProvider;
-use FinGather\Service\Provider\ImportFileProvider;
-use FinGather\Service\Provider\ImportMappingProvider;
-use FinGather\Service\Provider\ImportProvider;
-use FinGather\Service\Provider\SplitProvider;
-use FinGather\Service\Provider\TickerProvider;
-use FinGather\Service\Provider\TransactionProvider;
+use FinGather\Service\Provider\AssetProviderInterface;
+use FinGather\Service\Provider\BrokerProviderInterface;
+use FinGather\Service\Provider\CurrencyProviderInterface;
+use FinGather\Service\Provider\DataProviderInterface;
+use FinGather\Service\Provider\GroupProviderInterface;
+use FinGather\Service\Provider\ImportFileProviderInterface;
+use FinGather\Service\Provider\ImportMappingProviderInterface;
+use FinGather\Service\Provider\ImportProviderInterface;
+use FinGather\Service\Provider\SplitProviderInterface;
+use FinGather\Service\Provider\TickerProviderInterface;
+use FinGather\Service\Provider\TransactionProviderInterface;
 use Psr\Log\LoggerInterface;
 
 final readonly class ImportService
 {
 	public function __construct(
-		private TransactionProvider $transactionProvider,
-		private TickerProvider $tickerProvider,
-		private AssetProvider $assetProvider,
-		private CurrencyProvider $currencyProvider,
-		private GroupProvider $groupProvider,
-		private DataProvider $dataProvider,
-		private ImportProvider $importProvider,
-		private ImportFileProvider $importFileProvider,
-		private ImportMappingProvider $importMappingProvider,
-		private BrokerProvider $brokerProvider,
+		private TransactionProviderInterface $transactionProvider,
+		private TickerProviderInterface $tickerProvider,
+		private AssetProviderInterface $assetProvider,
+		private CurrencyProviderInterface $currencyProvider,
+		private GroupProviderInterface $groupProvider,
+		private DataProviderInterface $dataProvider,
+		private ImportProviderInterface $importProvider,
+		private ImportFileProviderInterface $importFileProvider,
+		private ImportMappingProviderInterface $importMappingProvider,
+		private BrokerProviderInterface $brokerProvider,
 		private ImportMapperFactoryInterface $importMapperFactory,
 		private TransactionRecordFactoryInterface $transactionRecordFactory,
-		private SplitProvider $splitProvider,
+		private SplitProviderInterface $splitProvider,
 		private LoggerInterface $logger,
 	) {
 	}

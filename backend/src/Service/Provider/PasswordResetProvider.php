@@ -13,12 +13,10 @@ use FinGather\Service\Queue\Enum\QueueEnum;
 use FinGather\Service\Queue\QueuePublisher;
 use Ramsey\Uuid\Uuid;
 
-class PasswordResetProvider
+final readonly class PasswordResetProvider implements PasswordResetProviderInterface
 {
-	public function __construct(
-		private readonly PasswordResetRepository $passwordResetRepository,
-		private readonly QueuePublisher $queuePublisher,
-	) {
+	public function __construct(private PasswordResetRepository $passwordResetRepository, private QueuePublisher $queuePublisher,)
+	{
 	}
 
 	public function getPasswordReset(string $token): ?PasswordReset

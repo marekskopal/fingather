@@ -13,11 +13,11 @@ use FinGather\Service\Cache\Cache;
 use FinGather\Service\Cache\CacheFactoryInterface;
 use FinGather\Service\Provider\Dto\SplitDto;
 
-class SplitProvider
+final readonly class SplitProvider implements SplitProviderInterface
 {
-	private readonly Cache $cache;
+	private Cache $cache;
 
-	public function __construct(private readonly SplitRepository $splitRepository, CacheFactoryInterface $cacheFactory,)
+	public function __construct(private SplitRepository $splitRepository, CacheFactoryInterface $cacheFactory,)
 	{
 		$this->cache = $cacheFactory->create(namespace: self::class);
 	}

@@ -26,17 +26,17 @@ use FinGather\Service\Import\Factory\ImportMapperFactoryInterface;
 use FinGather\Service\Import\Factory\TransactionRecordFactoryInterface;
 use FinGather\Service\Import\ImportService;
 use FinGather\Service\Import\Mapper\MapperInterface;
-use FinGather\Service\Provider\AssetProvider;
-use FinGather\Service\Provider\BrokerProvider;
-use FinGather\Service\Provider\CurrencyProvider;
-use FinGather\Service\Provider\DataProvider;
-use FinGather\Service\Provider\GroupProvider;
-use FinGather\Service\Provider\ImportFileProvider;
-use FinGather\Service\Provider\ImportMappingProvider;
-use FinGather\Service\Provider\ImportProvider;
-use FinGather\Service\Provider\SplitProvider;
-use FinGather\Service\Provider\TickerProvider;
-use FinGather\Service\Provider\TransactionProvider;
+use FinGather\Service\Provider\AssetProviderInterface;
+use FinGather\Service\Provider\BrokerProviderInterface;
+use FinGather\Service\Provider\CurrencyProviderInterface;
+use FinGather\Service\Provider\DataProviderInterface;
+use FinGather\Service\Provider\GroupProviderInterface;
+use FinGather\Service\Provider\ImportFileProviderInterface;
+use FinGather\Service\Provider\ImportMappingProviderInterface;
+use FinGather\Service\Provider\ImportProviderInterface;
+use FinGather\Service\Provider\SplitProviderInterface;
+use FinGather\Service\Provider\TickerProviderInterface;
+use FinGather\Service\Provider\TransactionProviderInterface;
 use FinGather\Tests\Fixtures\Model\Entity\AssetFixture;
 use FinGather\Tests\Fixtures\Model\Entity\BrokerFixture;
 use FinGather\Tests\Fixtures\Model\Entity\CurrencyFixture;
@@ -110,7 +110,7 @@ final class ImportServiceTest extends TestCase
 			actionCreated: new DateTimeImmutable('2024-01-01'),
 		);
 
-		$transactionProvider = $this->createMock(TransactionProvider::class);
+		$transactionProvider = $this->createMock(TransactionProviderInterface::class);
 		$transactionProvider->expects($this->once())
 			->method('createTransaction')
 			->willReturn($transaction);
@@ -129,7 +129,7 @@ final class ImportServiceTest extends TestCase
 	{
 		$record = $this->makeTransactionRecord(actionType: 'sell', units: new Decimal('10'));
 
-		$transactionProvider = $this->createMock(TransactionProvider::class);
+		$transactionProvider = $this->createMock(TransactionProviderInterface::class);
 		$transactionProvider->method('getTransactionByIdentifier')->willReturn(null);
 		$transactionProvider->expects($this->once())
 			->method('createTransaction')
@@ -162,13 +162,13 @@ final class ImportServiceTest extends TestCase
 		$transactionEarlier = TransactionFixture::getTransaction(actionCreated: $earlierDate);
 		$transactionLater = TransactionFixture::getTransaction(actionCreated: $laterDate);
 
-		$transactionProvider = $this->createMock(TransactionProvider::class);
+		$transactionProvider = $this->createMock(TransactionProviderInterface::class);
 		$transactionProvider->method('getTransactionByIdentifier')->willReturn(null);
 		$transactionProvider->expects($this->exactly(2))
 			->method('createTransaction')
 			->willReturnOnConsecutiveCalls($transactionLater, $transactionEarlier);
 
-		$dataProvider = $this->createMock(DataProvider::class);
+		$dataProvider = $this->createMock(DataProviderInterface::class);
 		$dataProvider->expects($this->once())
 			->method('deleteUserData')
 			->with(
@@ -190,13 +190,13 @@ final class ImportServiceTest extends TestCase
 
 	public function testEmptyImportFilesDoesNotCreateTransactionsOrDeleteData(): void
 	{
-		$transactionProvider = $this->createMock(TransactionProvider::class);
+		$transactionProvider = $this->createMock(TransactionProviderInterface::class);
 		$transactionProvider->expects($this->never())->method('createTransaction');
 
-		$dataProvider = $this->createMock(DataProvider::class);
+		$dataProvider = $this->createMock(DataProviderInterface::class);
 		$dataProvider->expects($this->never())->method('deleteUserData');
 
-		$importProvider = $this->createMock(ImportProvider::class);
+		$importProvider = $this->createMock(ImportProviderInterface::class);
 		$importProvider->expects($this->once())->method('deleteImport');
 
 		$importService = $this->createImportService(
@@ -217,7 +217,7 @@ final class ImportServiceTest extends TestCase
 	{
 		$record = $this->makeTransactionRecord();
 
-		$transactionProvider = $this->createMock(TransactionProvider::class);
+		$transactionProvider = $this->createMock(TransactionProviderInterface::class);
 		$transactionProvider->method('getTransactionByIdentifier')->willReturn(null);
 		$transactionProvider->expects($this->once())->method('createTransaction')
 			->willReturn(TransactionFixture::getTransaction());
@@ -246,10 +246,10 @@ final class ImportServiceTest extends TestCase
 
 	public function testAllFilesFailMapperDetectionNoTransactionsOrDeleteData(): void
 	{
-		$transactionProvider = $this->createMock(TransactionProvider::class);
+		$transactionProvider = $this->createMock(TransactionProviderInterface::class);
 		$transactionProvider->expects($this->never())->method('createTransaction');
 
-		$dataProvider = $this->createMock(DataProvider::class);
+		$dataProvider = $this->createMock(DataProviderInterface::class);
 		$dataProvider->expects($this->never())->method('deleteUserData');
 
 		$failingFactory = self::createStub(ImportMapperFactoryInterface::class);
@@ -275,11 +275,11 @@ final class ImportServiceTest extends TestCase
 		$eur = CurrencyFixture::getCurrency(id: 2, code: 'EUR');
 		$record = $this->makeTransactionRecord(currency: 'EUR', taxCurrency: null, feeCurrency: null);
 
-		$currencyProvider = self::createStub(CurrencyProvider::class);
+		$currencyProvider = self::createStub(CurrencyProviderInterface::class);
 		$currencyProvider->method('getCurrencyByCode')
 			->willReturnMap([['EUR', $eur]]);
 
-		$transactionProvider = $this->createMock(TransactionProvider::class);
+		$transactionProvider = $this->createMock(TransactionProviderInterface::class);
 		$transactionProvider->method('getTransactionByIdentifier')->willReturn(null);
 		$transactionProvider->expects($this->once())
 			->method('createTransaction')
@@ -312,10 +312,10 @@ final class ImportServiceTest extends TestCase
 		// taxCurrency/feeCurrency also null so getCurrencyByCode is never called at all
 		$record = $this->makeTransactionRecord(currency: null, taxCurrency: null, feeCurrency: null);
 
-		$currencyProvider = $this->createMock(CurrencyProvider::class);
+		$currencyProvider = $this->createMock(CurrencyProviderInterface::class);
 		$currencyProvider->expects($this->never())->method('getCurrencyByCode');
 
-		$transactionProvider = $this->createMock(TransactionProvider::class);
+		$transactionProvider = $this->createMock(TransactionProviderInterface::class);
 		$transactionProvider->method('getTransactionByIdentifier')->willReturn(null);
 		$transactionProvider->expects($this->once())
 			->method('createTransaction')
@@ -347,10 +347,10 @@ final class ImportServiceTest extends TestCase
 	{
 		$record = $this->makeTransactionRecord(currency: 'XYZ');
 
-		$currencyProvider = self::createStub(CurrencyProvider::class);
+		$currencyProvider = self::createStub(CurrencyProviderInterface::class);
 		$currencyProvider->method('getCurrencyByCode')->willReturn(null);
 
-		$transactionProvider = $this->createMock(TransactionProvider::class);
+		$transactionProvider = $this->createMock(TransactionProviderInterface::class);
 		$transactionProvider->expects($this->never())->method('createTransaction');
 
 		$importService = $this->createImportService(
@@ -371,14 +371,14 @@ final class ImportServiceTest extends TestCase
 		// currency: null so it falls back to default without calling getCurrencyByCode for it
 		$record = $this->makeTransactionRecord(currency: null, taxCurrency: 'GBP', feeCurrency: 'EUR');
 
-		$currencyProvider = self::createStub(CurrencyProvider::class);
+		$currencyProvider = self::createStub(CurrencyProviderInterface::class);
 		$currencyProvider->method('getCurrencyByCode')
 			->willReturnMap([
 				['GBP', $gbp],
 				['EUR', $eur],
 			]);
 
-		$transactionProvider = $this->createMock(TransactionProvider::class);
+		$transactionProvider = $this->createMock(TransactionProviderInterface::class);
 		$transactionProvider->method('getTransactionByIdentifier')->willReturn(null);
 		$transactionProvider->expects($this->once())
 			->method('createTransaction')
@@ -416,7 +416,7 @@ final class ImportServiceTest extends TestCase
 	{
 		$record = $this->makeTransactionRecord(taxCurrency: null, feeCurrency: null);
 
-		$transactionProvider = $this->createMock(TransactionProvider::class);
+		$transactionProvider = $this->createMock(TransactionProviderInterface::class);
 		$transactionProvider->method('getTransactionByIdentifier')->willReturn(null);
 		$transactionProvider->expects($this->once())
 			->method('createTransaction')
@@ -466,14 +466,14 @@ final class ImportServiceTest extends TestCase
 		);
 		$mappingKey = $this->broker->id . '-AAPL';
 
-		$tickerProvider = $this->createMock(TickerProvider::class);
+		$tickerProvider = $this->createMock(TickerProviderInterface::class);
 		$tickerProvider->expects($this->never())->method('getTickerByTicker');
 		$tickerProvider->expects($this->never())->method('getTickerByIsin');
 
-		$assetProvider = self::createStub(AssetProvider::class);
+		$assetProvider = self::createStub(AssetProviderInterface::class);
 		$assetProvider->method('getOrCreateAsset')->willReturn($this->asset);
 
-		$transactionProvider = $this->createMock(TransactionProvider::class);
+		$transactionProvider = $this->createMock(TransactionProviderInterface::class);
 		$transactionProvider->method('getTransactionByIdentifier')->willReturn(null);
 		$transactionProvider->expects($this->once())
 			->method('createTransaction')
@@ -495,14 +495,14 @@ final class ImportServiceTest extends TestCase
 	{
 		$record = $this->makeTransactionRecord(ticker: null, isin: 'US0378331005');
 
-		$tickerProvider = $this->createMock(TickerProvider::class);
+		$tickerProvider = $this->createMock(TickerProviderInterface::class);
 		$tickerProvider->expects($this->never())->method('getTickerByTicker');
 		$tickerProvider->expects($this->once())
 			->method('getTickerByIsin')
 			->with('US0378331005', null)
 			->willReturn($this->ticker);
 
-		$transactionProvider = $this->createMock(TransactionProvider::class);
+		$transactionProvider = $this->createMock(TransactionProviderInterface::class);
 		$transactionProvider->method('getTransactionByIdentifier')->willReturn(null);
 		$transactionProvider->expects($this->once())
 			->method('createTransaction')
@@ -522,10 +522,10 @@ final class ImportServiceTest extends TestCase
 	{
 		$record = $this->makeTransactionRecord(ticker: null, isin: 'XXINVALID');
 
-		$tickerProvider = self::createStub(TickerProvider::class);
+		$tickerProvider = self::createStub(TickerProviderInterface::class);
 		$tickerProvider->method('getTickerByIsin')->willReturn(null);
 
-		$transactionProvider = $this->createMock(TransactionProvider::class);
+		$transactionProvider = $this->createMock(TransactionProviderInterface::class);
 		$transactionProvider->expects($this->never())->method('createTransaction');
 
 		$importService = $this->createImportService(
@@ -542,13 +542,13 @@ final class ImportServiceTest extends TestCase
 	{
 		$record = $this->makeTransactionRecord(ticker: 'AAPL', isin: 'US0378331005');
 
-		$tickerProvider = $this->createMock(TickerProvider::class);
+		$tickerProvider = $this->createMock(TickerProviderInterface::class);
 		$tickerProvider->expects($this->once())
 			->method('getTickerByTicker')
 			->with('AAPL', null, 'US0378331005')
 			->willReturn($this->ticker);
 
-		$transactionProvider = $this->createMock(TransactionProvider::class);
+		$transactionProvider = $this->createMock(TransactionProviderInterface::class);
 		$transactionProvider->method('getTransactionByIdentifier')->willReturn(null);
 		$transactionProvider->expects($this->once())
 			->method('createTransaction')
@@ -568,12 +568,12 @@ final class ImportServiceTest extends TestCase
 	{
 		$record = $this->makeTransactionRecord(ticker: 'AAPL', isin: 'US0378331005');
 
-		$tickerProvider = $this->createMock(TickerProvider::class);
+		$tickerProvider = $this->createMock(TickerProviderInterface::class);
 		$tickerProvider->expects($this->exactly(2))
 			->method('getTickerByTicker')
 			->willReturnOnConsecutiveCalls(null, $this->ticker);
 
-		$transactionProvider = $this->createMock(TransactionProvider::class);
+		$transactionProvider = $this->createMock(TransactionProviderInterface::class);
 		$transactionProvider->method('getTransactionByIdentifier')->willReturn(null);
 		$transactionProvider->expects($this->once())
 			->method('createTransaction')
@@ -593,10 +593,10 @@ final class ImportServiceTest extends TestCase
 	{
 		$record = $this->makeTransactionRecord(ticker: 'UNKNOWN');
 
-		$tickerProvider = self::createStub(TickerProvider::class);
+		$tickerProvider = self::createStub(TickerProviderInterface::class);
 		$tickerProvider->method('getTickerByTicker')->willReturn(null);
 
-		$transactionProvider = $this->createMock(TransactionProvider::class);
+		$transactionProvider = $this->createMock(TransactionProviderInterface::class);
 		$transactionProvider->expects($this->never())->method('createTransaction');
 
 		$importService = $this->createImportService(
@@ -613,7 +613,7 @@ final class ImportServiceTest extends TestCase
 	{
 		$record = $this->makeTransactionRecord(ticker: null, isin: null);
 
-		$transactionProvider = $this->createMock(TransactionProvider::class);
+		$transactionProvider = $this->createMock(TransactionProviderInterface::class);
 		$transactionProvider->expects($this->never())->method('createTransaction');
 
 		$importService = $this->createImportService(
@@ -633,7 +633,7 @@ final class ImportServiceTest extends TestCase
 	{
 		$record = $this->makeTransactionRecord(price: new Decimal('150.00'), total: null);
 
-		$transactionProvider = $this->createMock(TransactionProvider::class);
+		$transactionProvider = $this->createMock(TransactionProviderInterface::class);
 		$transactionProvider->method('getTransactionByIdentifier')->willReturn(null);
 		$transactionProvider->expects($this->once())
 			->method('createTransaction')
@@ -663,7 +663,7 @@ final class ImportServiceTest extends TestCase
 	{
 		$record = $this->makeTransactionRecord(price: null, total: new Decimal('300'), units: new Decimal('2'));
 
-		$transactionProvider = $this->createMock(TransactionProvider::class);
+		$transactionProvider = $this->createMock(TransactionProviderInterface::class);
 		$transactionProvider->method('getTransactionByIdentifier')->willReturn(null);
 		$transactionProvider->expects($this->once())
 			->method('createTransaction')
@@ -698,7 +698,7 @@ final class ImportServiceTest extends TestCase
 			units: null,
 		);
 
-		$transactionProvider = $this->createMock(TransactionProvider::class);
+		$transactionProvider = $this->createMock(TransactionProviderInterface::class);
 		$transactionProvider->method('getTransactionByIdentifier')->willReturn(null);
 		$transactionProvider->expects($this->once())
 			->method('createTransaction')
@@ -728,7 +728,7 @@ final class ImportServiceTest extends TestCase
 	{
 		$record = $this->makeTransactionRecord(price: null, total: null);
 
-		$transactionProvider = $this->createMock(TransactionProvider::class);
+		$transactionProvider = $this->createMock(TransactionProviderInterface::class);
 		$transactionProvider->method('getTransactionByIdentifier')->willReturn(null);
 		$transactionProvider->expects($this->once())
 			->method('createTransaction')
@@ -762,10 +762,10 @@ final class ImportServiceTest extends TestCase
 	{
 		$record = $this->makeTransactionRecord(isAdjusted: false);
 
-		$splitProvider = $this->createMock(SplitProvider::class);
+		$splitProvider = $this->createMock(SplitProviderInterface::class);
 		$splitProvider->expects($this->never())->method('getSplits');
 
-		$transactionProvider = $this->createMock(TransactionProvider::class);
+		$transactionProvider = $this->createMock(TransactionProviderInterface::class);
 		$transactionProvider->method('getTransactionByIdentifier')->willReturn(null);
 		$transactionProvider->expects($this->once())
 			->method('createTransaction')
@@ -789,10 +789,10 @@ final class ImportServiceTest extends TestCase
 			price: new Decimal('100'),
 		);
 
-		$splitProvider = self::createStub(SplitProvider::class);
+		$splitProvider = self::createStub(SplitProviderInterface::class);
 		$splitProvider->method('getSplits')->willReturn([]);
 
-		$transactionProvider = $this->createMock(TransactionProvider::class);
+		$transactionProvider = $this->createMock(TransactionProviderInterface::class);
 		$transactionProvider->method('getTransactionByIdentifier')->willReturn(null);
 		$transactionProvider->expects($this->once())
 			->method('createTransaction')
@@ -834,10 +834,10 @@ final class ImportServiceTest extends TestCase
 			factor: new Decimal(4),
 		);
 
-		$splitProvider = self::createStub(SplitProvider::class);
+		$splitProvider = self::createStub(SplitProviderInterface::class);
 		$splitProvider->method('getSplits')->willReturn([$split]);
 
-		$transactionProvider = $this->createMock(TransactionProvider::class);
+		$transactionProvider = $this->createMock(TransactionProviderInterface::class);
 		$transactionProvider->method('getTransactionByIdentifier')->willReturn(null);
 		$transactionProvider->expects($this->once())
 			->method('createTransaction')
@@ -879,10 +879,10 @@ final class ImportServiceTest extends TestCase
 			factor: new Decimal(4),
 		);
 
-		$splitProvider = self::createStub(SplitProvider::class);
+		$splitProvider = self::createStub(SplitProviderInterface::class);
 		$splitProvider->method('getSplits')->willReturn([$split]);
 
-		$transactionProvider = $this->createMock(TransactionProvider::class);
+		$transactionProvider = $this->createMock(TransactionProviderInterface::class);
 		$transactionProvider->method('getTransactionByIdentifier')->willReturn(null);
 		$transactionProvider->expects($this->once())
 			->method('createTransaction')
@@ -928,10 +928,10 @@ final class ImportServiceTest extends TestCase
 			SplitDtoFixture::getSplitDto(date: new DateTimeImmutable('2024-09-01'), factor: new Decimal(3)),
 		];
 
-		$splitProvider = self::createStub(SplitProvider::class);
+		$splitProvider = self::createStub(SplitProviderInterface::class);
 		$splitProvider->method('getSplits')->willReturn($splits);
 
-		$transactionProvider = $this->createMock(TransactionProvider::class);
+		$transactionProvider = $this->createMock(TransactionProviderInterface::class);
 		$transactionProvider->method('getTransactionByIdentifier')->willReturn(null);
 		$transactionProvider->expects($this->once())
 			->method('createTransaction')
@@ -976,10 +976,10 @@ final class ImportServiceTest extends TestCase
 			factor: new Decimal(2),
 		);
 
-		$splitProvider = self::createStub(SplitProvider::class);
+		$splitProvider = self::createStub(SplitProviderInterface::class);
 		$splitProvider->method('getSplits')->willReturn([$split]);
 
-		$transactionProvider = $this->createMock(TransactionProvider::class);
+		$transactionProvider = $this->createMock(TransactionProviderInterface::class);
 		$transactionProvider->method('getTransactionByIdentifier')->willReturn(null);
 		$transactionProvider->expects($this->once())
 			->method('createTransaction')
@@ -1016,7 +1016,7 @@ final class ImportServiceTest extends TestCase
 	{
 		$record = $this->makeTransactionRecord(importIdentifier: 'TXN-001');
 
-		$transactionProvider = $this->createMock(TransactionProvider::class);
+		$transactionProvider = $this->createMock(TransactionProviderInterface::class);
 		$transactionProvider->expects($this->once())->method('getTransactionByIdentifier')
 			->with($this->broker->id, 'TXN-001')
 			->willReturn(TransactionFixture::getTransaction());
@@ -1035,7 +1035,7 @@ final class ImportServiceTest extends TestCase
 	{
 		$record = $this->makeTransactionRecord(importIdentifier: null);
 
-		$transactionProvider = $this->createMock(TransactionProvider::class);
+		$transactionProvider = $this->createMock(TransactionProviderInterface::class);
 		$transactionProvider->expects($this->never())->method('getTransactionByIdentifier');
 		$transactionProvider->expects($this->once())
 			->method('createTransaction')
@@ -1058,7 +1058,7 @@ final class ImportServiceTest extends TestCase
 	{
 		$record = $this->makeTransactionRecord(actionType: '', units: new Decimal('5'));
 
-		$transactionProvider = $this->createMock(TransactionProvider::class);
+		$transactionProvider = $this->createMock(TransactionProviderInterface::class);
 		$transactionProvider->method('getTransactionByIdentifier')->willReturn(null);
 		$transactionProvider->expects($this->once())
 			->method('createTransaction')
@@ -1087,7 +1087,7 @@ final class ImportServiceTest extends TestCase
 	{
 		$record = $this->makeTransactionRecord(actionType: 'dividend', units: new Decimal('5'));
 
-		$transactionProvider = $this->createMock(TransactionProvider::class);
+		$transactionProvider = $this->createMock(TransactionProviderInterface::class);
 		$transactionProvider->method('getTransactionByIdentifier')->willReturn(null);
 		$transactionProvider->expects($this->once())
 			->method('createTransaction')
@@ -1116,7 +1116,7 @@ final class ImportServiceTest extends TestCase
 	{
 		$record = $this->makeTransactionRecord(actionType: 'dividend tax');
 
-		$transactionProvider = $this->createMock(TransactionProvider::class);
+		$transactionProvider = $this->createMock(TransactionProviderInterface::class);
 		$transactionProvider->method('getTransactionByIdentifier')->willReturn(null);
 		$transactionProvider->expects($this->once())
 			->method('createTransaction')
@@ -1148,14 +1148,14 @@ final class ImportServiceTest extends TestCase
 		$unknownCurrencyRecord = $this->makeTransactionRecord(importIdentifier: null, currency: 'XYZ');
 		$duplicateRecord = $this->makeTransactionRecord(importIdentifier: 'DUP-001');
 
-		$currencyProvider = self::createStub(CurrencyProvider::class);
+		$currencyProvider = self::createStub(CurrencyProviderInterface::class);
 		$currencyProvider->method('getCurrencyByCode')
 			->willReturnMap([
 				['USD', $this->defaultCurrency],
 				['XYZ', null],
 			]);
 
-		$transactionProvider = $this->createMock(TransactionProvider::class);
+		$transactionProvider = $this->createMock(TransactionProviderInterface::class);
 		$transactionProvider->method('getTransactionByIdentifier')
 			->willReturnCallback(
 				static fn (?int $brokerId, string $id): ?Transaction => $id === 'DUP-001' ? TransactionFixture::getTransaction() : null,
@@ -1193,7 +1193,7 @@ final class ImportServiceTest extends TestCase
 		$date2 = new DateTimeImmutable('2024-01-05');
 		$date3 = new DateTimeImmutable('2024-02-20');
 
-		$transactionProvider = $this->createMock(TransactionProvider::class);
+		$transactionProvider = $this->createMock(TransactionProviderInterface::class);
 		$transactionProvider->method('getTransactionByIdentifier')->willReturn(null);
 		$transactionProvider->expects($this->exactly(3))
 			->method('createTransaction')
@@ -1203,7 +1203,7 @@ final class ImportServiceTest extends TestCase
 				TransactionFixture::getTransaction(actionCreated: $date3),
 			);
 
-		$dataProvider = $this->createMock(DataProvider::class);
+		$dataProvider = $this->createMock(DataProviderInterface::class);
 		$dataProvider->expects($this->once())
 			->method('deleteUserData')
 			->with(
@@ -1249,15 +1249,15 @@ final class ImportServiceTest extends TestCase
 	 * @param array<string, ImportMapping> $importMappings
 	 */
 	private function createImportService(
-		?TransactionProvider $transactionProvider = null,
-		?TickerProvider $tickerProvider = null,
-		?AssetProvider $assetProvider = null,
-		?CurrencyProvider $currencyProvider = null,
-		?DataProvider $dataProvider = null,
-		?ImportProvider $importProvider = null,
+		?TransactionProviderInterface $transactionProvider = null,
+		?TickerProviderInterface $tickerProvider = null,
+		?AssetProviderInterface $assetProvider = null,
+		?CurrencyProviderInterface $currencyProvider = null,
+		?DataProviderInterface $dataProvider = null,
+		?ImportProviderInterface $importProvider = null,
 		?ImportMapperFactoryInterface $importMapperFactory = null,
 		?TransactionRecordFactoryInterface $transactionRecordFactory = null,
-		?SplitProvider $splitProvider = null,
+		?SplitProviderInterface $splitProvider = null,
 		array $importFiles = [],
 		?TransactionRecord $transactionRecord = null,
 		array $importMappings = [],
@@ -1275,35 +1275,35 @@ final class ImportServiceTest extends TestCase
 		$defaultTransactionRecordFactory = self::createStub(TransactionRecordFactoryInterface::class);
 		$defaultTransactionRecordFactory->method('createFromCsvRecord')->willReturn($defaultRecord);
 
-		$defaultTickerProvider = self::createStub(TickerProvider::class);
+		$defaultTickerProvider = self::createStub(TickerProviderInterface::class);
 		$defaultTickerProvider->method('getTickerByTicker')->willReturn($this->ticker);
 		$defaultTickerProvider->method('getTickerByIsin')->willReturn($this->ticker);
 
-		$defaultAssetProvider = self::createStub(AssetProvider::class);
+		$defaultAssetProvider = self::createStub(AssetProviderInterface::class);
 		$defaultAssetProvider->method('getOrCreateAsset')->willReturn($this->asset);
 
-		$defaultCurrencyProvider = self::createStub(CurrencyProvider::class);
+		$defaultCurrencyProvider = self::createStub(CurrencyProviderInterface::class);
 		$defaultCurrencyProvider->method('getCurrencyByCode')->willReturn($this->defaultCurrency);
 
-		$defaultGroupProvider = self::createStub(GroupProvider::class);
+		$defaultGroupProvider = self::createStub(GroupProviderInterface::class);
 		$defaultGroupProvider->method('getOthersGroup')->willReturn(GroupFixture::getGroup());
 
-		$defaultBrokerProvider = self::createStub(BrokerProvider::class);
+		$defaultBrokerProvider = self::createStub(BrokerProviderInterface::class);
 		$defaultBrokerProvider->method('getBrokerByImportType')->willReturn($this->broker);
 
-		$defaultImportMappingProvider = self::createStub(ImportMappingProvider::class);
+		$defaultImportMappingProvider = self::createStub(ImportMappingProviderInterface::class);
 		$defaultImportMappingProvider->method('getImportMappings')->willReturn($importMappings);
 
-		$defaultImportFileProvider = self::createStub(ImportFileProvider::class);
+		$defaultImportFileProvider = self::createStub(ImportFileProviderInterface::class);
 		$defaultImportFileProvider->method('getImportFiles')
 			->willReturn(new ArrayIterator($importFiles));
 
-		$defaultImportProvider = self::createStub(ImportProvider::class);
-		$defaultDataProvider = self::createStub(DataProvider::class);
-		$defaultSplitProvider = self::createStub(SplitProvider::class);
+		$defaultImportProvider = self::createStub(ImportProviderInterface::class);
+		$defaultDataProvider = self::createStub(DataProviderInterface::class);
+		$defaultSplitProvider = self::createStub(SplitProviderInterface::class);
 		$defaultSplitProvider->method('getSplits')->willReturn([]);
 
-		$defaultTransactionProvider = self::createStub(TransactionProvider::class);
+		$defaultTransactionProvider = self::createStub(TransactionProviderInterface::class);
 		$defaultTransactionProvider->method('getTransactionByIdentifier')->willReturn(null);
 		$defaultTransactionProvider->method('createTransaction')->willReturn(TransactionFixture::getTransaction());
 

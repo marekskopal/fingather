@@ -11,12 +11,12 @@ use FinGather\Model\Entity\DcaPlan;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Response\OkResponse;
 use FinGather\Route\Routes;
-use FinGather\Service\Provider\AssetProvider;
-use FinGather\Service\Provider\CurrencyProvider;
+use FinGather\Service\Provider\AssetProviderInterface;
+use FinGather\Service\Provider\CurrencyProviderInterface;
 use FinGather\Service\Provider\DcaPlanProviderInterface;
-use FinGather\Service\Provider\GroupProvider;
-use FinGather\Service\Provider\PortfolioProvider;
-use FinGather\Service\Provider\StrategyProvider;
+use FinGather\Service\Provider\GroupProviderInterface;
+use FinGather\Service\Provider\PortfolioProviderInterface;
+use FinGather\Service\Provider\StrategyProviderInterface;
 use FinGather\Service\Request\RequestServiceInterface;
 use Laminas\Diactoros\Response\JsonResponse;
 use MarekSkopal\Router\Attribute\RouteDelete;
@@ -30,11 +30,11 @@ final readonly class DcaPlanController
 {
 	public function __construct(
 		private DcaPlanProviderInterface $dcaPlanProvider,
-		private PortfolioProvider $portfolioProvider,
-		private AssetProvider $assetProvider,
-		private GroupProvider $groupProvider,
-		private StrategyProvider $strategyProvider,
-		private CurrencyProvider $currencyProvider,
+		private PortfolioProviderInterface $portfolioProvider,
+		private AssetProviderInterface $assetProvider,
+		private GroupProviderInterface $groupProvider,
+		private StrategyProviderInterface $strategyProvider,
+		private CurrencyProviderInterface $currencyProvider,
 		private RequestServiceInterface $requestService,
 	) {
 	}

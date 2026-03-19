@@ -23,9 +23,9 @@ use FinGather\Service\DataCalculator\Dto\TaxReportUnrealizedDto;
 use FinGather\Service\DataCalculator\Dto\TaxReportUnrealizedPositionDto;
 use FinGather\Service\DataCalculator\TaxReportCalculator;
 use FinGather\Service\DataCalculator\TaxReportRealizedGainsCalculatorInterface;
-use FinGather\Service\Provider\AssetDataProvider;
-use FinGather\Service\Provider\AssetProvider;
-use FinGather\Service\Provider\CurrentTransactionProvider;
+use FinGather\Service\Provider\AssetDataProviderInterface;
+use FinGather\Service\Provider\AssetProviderInterface;
+use FinGather\Service\Provider\CurrentTransactionProviderInterface;
 use FinGather\Tests\Fixtures\Model\Entity\AssetFixture;
 use FinGather\Tests\Fixtures\Model\Entity\CountryFixture;
 use FinGather\Tests\Fixtures\Model\Entity\PortfolioFixture;
@@ -504,15 +504,15 @@ final class TaxReportCalculatorTest extends TestCase
 		array $assetData = [],
 		?TaxReportRealizedGainsDto $realizedGains = null,
 	): TaxReportDto {
-		$currentTransactionProvider = self::createStub(CurrentTransactionProvider::class);
+		$currentTransactionProvider = self::createStub(CurrentTransactionProviderInterface::class);
 		$currentTransactionProvider->method('loadTransactions')
 			->willReturn($transactionsByAsset);
 
-		$assetProvider = self::createStub(AssetProvider::class);
+		$assetProvider = self::createStub(AssetProviderInterface::class);
 		$assetProvider->method('getAssets')
 			->willReturn(new ArrayIterator($assets));
 
-		$assetDataProvider = self::createStub(AssetDataProvider::class);
+		$assetDataProvider = self::createStub(AssetDataProviderInterface::class);
 		$assetDataProvider->method('getAssetData')
 			->willReturnCallback(static fn (mixed $user, mixed $portfolio, Asset $asset) => $assetData[$asset->id] ?? null);
 

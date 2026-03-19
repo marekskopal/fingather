@@ -11,7 +11,7 @@ use FinGather\Response\ConflictResponse;
 use FinGather\Response\ErrorResponse;
 use FinGather\Response\OkResponse;
 use FinGather\Route\Routes;
-use FinGather\Service\Provider\UserProvider;
+use FinGather\Service\Provider\UserProviderInterface;
 use FinGather\Service\Request\RequestService;
 use FinGather\Validator\PasswordValidator;
 use Laminas\Diactoros\Response\JsonResponse;
@@ -23,8 +23,10 @@ use Psr\Http\Message\ServerRequestInterface;
 
 final readonly class CurrentUserController
 {
-	public function __construct(private RequestService $requestService, private UserProvider $userProvider)
-	{
+	public function __construct(
+		private RequestService $requestService,
+		private UserProviderInterface $userProvider,
+	) {
 	}
 
 	#[RouteGet(Routes::CurrentUser->value)]

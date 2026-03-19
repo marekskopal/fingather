@@ -8,8 +8,8 @@ use DateTimeImmutable;
 use FinGather\Dto\StrategyRebalancingRequestDto;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Route\Routes;
-use FinGather\Service\Provider\StrategyProvider;
-use FinGather\Service\Provider\StrategyRebalancingProvider;
+use FinGather\Service\Provider\StrategyProviderInterface;
+use FinGather\Service\Provider\StrategyRebalancingProviderInterface;
 use FinGather\Service\Request\RequestService;
 use Laminas\Diactoros\Response\JsonResponse;
 use MarekSkopal\Router\Attribute\RoutePost;
@@ -19,8 +19,8 @@ use Psr\Http\Message\ServerRequestInterface;
 final readonly class StrategyRebalancingController
 {
 	public function __construct(
-		private StrategyRebalancingProvider $strategyRebalancingProvider,
-		private StrategyProvider $strategyProvider,
+		private StrategyRebalancingProviderInterface $strategyRebalancingProvider,
+		private StrategyProviderInterface $strategyProvider,
 		private RequestService $requestService,
 	) {
 	}

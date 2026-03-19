@@ -8,18 +8,18 @@ use FinGather\Dto\ApiImportPrepareCheckDto;
 use FinGather\Dto\ApiImportProcessCheckDto;
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Service\Import\ApiImport\Factory\ProcessorFactory;
-use FinGather\Service\Provider\ApiImportProvider;
-use FinGather\Service\Provider\ApiKeyProvider;
-use FinGather\Service\Provider\BrokerProvider;
+use FinGather\Service\Provider\ApiImportProviderInterface;
+use FinGather\Service\Provider\ApiKeyProviderInterface;
+use FinGather\Service\Provider\BrokerProviderInterface;
 use Psr\Log\LoggerInterface;
 
 readonly class ApiImportService
 {
 	public function __construct(
 		private ProcessorFactory $processorFactory,
-		private ApiKeyProvider $apiKeyProvider,
-		private ApiImportProvider $apiImportProvider,
-		private BrokerProvider $brokerProvider,
+		private ApiKeyProviderInterface $apiKeyProvider,
+		private ApiImportProviderInterface $apiImportProvider,
+		private BrokerProviderInterface $brokerProvider,
 		private LoggerInterface $logger,
 	) {
 	}

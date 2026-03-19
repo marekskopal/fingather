@@ -15,14 +15,15 @@ use FinGather\Model\Entity\StrategyItem;
 use FinGather\Model\Entity\User;
 use FinGather\Service\DataCalculator\Dto\AssetDataDto;
 use FinGather\Service\DataCalculator\Dto\CalculatedDataDto;
-use FinGather\Service\Provider\AssetDataProvider;
-use FinGather\Service\Provider\AssetProvider;
-use FinGather\Service\Provider\CurrencyProvider;
-use FinGather\Service\Provider\ExchangeRateProvider;
-use FinGather\Service\Provider\GroupDataProvider;
-use FinGather\Service\Provider\GroupProvider;
-use FinGather\Service\Provider\PortfolioDataProvider;
+use FinGather\Service\Provider\AssetDataProviderInterface;
+use FinGather\Service\Provider\AssetProviderInterface;
+use FinGather\Service\Provider\CurrencyProviderInterface;
+use FinGather\Service\Provider\ExchangeRateProviderInterface;
+use FinGather\Service\Provider\GroupDataProviderInterface;
+use FinGather\Service\Provider\GroupProviderInterface;
+use FinGather\Service\Provider\PortfolioDataProviderInterface;
 use FinGather\Service\Provider\StrategyRebalancingProvider;
+use FinGather\Service\Provider\StrategyRebalancingProviderInterface;
 use FinGather\Tests\Fixtures\Model\Entity\AssetFixture;
 use FinGather\Tests\Fixtures\Model\Entity\CurrencyFixture;
 use FinGather\Tests\Fixtures\Model\Entity\GroupFixture;
@@ -31,7 +32,7 @@ use FinGather\Tests\Fixtures\Model\Entity\UserFixture;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(StrategyRebalancingProvider::class)]
+#[CoversClass(StrategyRebalancingProviderInterface::class)]
 final class StrategyRebalancingProviderTest extends TestCase
 {
 	private User $user;
@@ -238,10 +239,10 @@ final class StrategyRebalancingProviderTest extends TestCase
 		$usdCurrency = CurrencyFixture::getCurrency(id: 1, code: 'USD');
 		$portfolio = PortfolioFixture::getPortfolio(currency: $usdCurrency);
 
-		$currencyProvider = self::createStub(CurrencyProvider::class);
+		$currencyProvider = self::createStub(CurrencyProviderInterface::class);
 		$currencyProvider->method('getCurrency')->willReturn($eurCurrency);
 
-		$exchangeRateProvider = self::createStub(ExchangeRateProvider::class);
+		$exchangeRateProvider = self::createStub(ExchangeRateProviderInterface::class);
 		$exchangeRateProvider->method('getExchangeRate')->willReturn(new Decimal('1.1'));
 
 		$provider = $this->makeProvider(
@@ -392,25 +393,25 @@ final class StrategyRebalancingProviderTest extends TestCase
 		array $assets,
 		Decimal $assetDataValue,
 		Decimal $assetDataPrice,
-		?CurrencyProvider $currencyProvider = null,
-		?ExchangeRateProvider $exchangeRateProvider = null,
+		?CurrencyProviderInterface $currencyProvider = null,
+		?ExchangeRateProviderInterface $exchangeRateProvider = null,
 	): StrategyRebalancingProvider {
-		$portfolioDataProvider = self::createStub(PortfolioDataProvider::class);
+		$portfolioDataProvider = self::createStub(PortfolioDataProviderInterface::class);
 		$portfolioDataProvider->method('getPortfolioData')
 			->willReturn($this->makeCalculatedDataDto($portfolioValue));
 
-		$assetProvider = self::createStub(AssetProvider::class);
+		$assetProvider = self::createStub(AssetProviderInterface::class);
 		$assetProvider->method('getAssets')->willReturn(new ArrayIterator($assets));
 
-		$assetDataProvider = self::createStub(AssetDataProvider::class);
+		$assetDataProvider = self::createStub(AssetDataProviderInterface::class);
 		$assetDataProvider->method('getAssetData')
 			->willReturn($this->makeAssetDataDto($assetDataValue, $assetDataPrice));
 
-		$groupDataProvider = self::createStub(GroupDataProvider::class);
+		$groupDataProvider = self::createStub(GroupDataProviderInterface::class);
 		$groupDataProvider->method('getGroupData')
 			->willReturn($this->makeCalculatedDataDto(new Decimal('0')));
 
-		$groupProvider = self::createStub(GroupProvider::class);
+		$groupProvider = self::createStub(GroupProviderInterface::class);
 		$groupProvider->method('getGroups')->willReturn(new ArrayIterator([]));
 
 		return new StrategyRebalancingProvider(
@@ -419,27 +420,27 @@ final class StrategyRebalancingProviderTest extends TestCase
 			assetDataProvider: $assetDataProvider,
 			groupDataProvider: $groupDataProvider,
 			groupProvider: $groupProvider,
-			currencyProvider: $currencyProvider ?? self::createStub(CurrencyProvider::class),
-			exchangeRateProvider: $exchangeRateProvider ?? self::createStub(ExchangeRateProvider::class),
+			currencyProvider: $currencyProvider ?? self::createStub(CurrencyProviderInterface::class),
+			exchangeRateProvider: $exchangeRateProvider ?? self::createStub(ExchangeRateProviderInterface::class),
 		);
 	}
 
 	private function makeProviderWithGroup(Decimal $portfolioValue, Group $group, Decimal $groupDataValue,): StrategyRebalancingProvider
 	{
-		$portfolioDataProvider = self::createStub(PortfolioDataProvider::class);
+		$portfolioDataProvider = self::createStub(PortfolioDataProviderInterface::class);
 		$portfolioDataProvider->method('getPortfolioData')
 			->willReturn($this->makeCalculatedDataDto($portfolioValue));
 
-		$assetProvider = self::createStub(AssetProvider::class);
+		$assetProvider = self::createStub(AssetProviderInterface::class);
 		$assetProvider->method('getAssets')->willReturn(new ArrayIterator([]));
 
-		$assetDataProvider = self::createStub(AssetDataProvider::class);
+		$assetDataProvider = self::createStub(AssetDataProviderInterface::class);
 
-		$groupDataProvider = self::createStub(GroupDataProvider::class);
+		$groupDataProvider = self::createStub(GroupDataProviderInterface::class);
 		$groupDataProvider->method('getGroupData')
 			->willReturn($this->makeCalculatedDataDto($groupDataValue));
 
-		$groupProvider = self::createStub(GroupProvider::class);
+		$groupProvider = self::createStub(GroupProviderInterface::class);
 		$groupProvider->method('getGroups')->willReturn(new ArrayIterator([$group]));
 
 		return new StrategyRebalancingProvider(
@@ -448,8 +449,8 @@ final class StrategyRebalancingProviderTest extends TestCase
 			assetDataProvider: $assetDataProvider,
 			groupDataProvider: $groupDataProvider,
 			groupProvider: $groupProvider,
-			currencyProvider: self::createStub(CurrencyProvider::class),
-			exchangeRateProvider: self::createStub(ExchangeRateProvider::class),
+			currencyProvider: self::createStub(CurrencyProviderInterface::class),
+			exchangeRateProvider: self::createStub(ExchangeRateProviderInterface::class),
 		);
 	}
 }

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace FinGather\Command;
 
 use FinGather\App\ApplicationFactory;
-use FinGather\Service\Provider\DividendCalendarProvider;
-use FinGather\Service\Provider\PortfolioProvider;
-use FinGather\Service\Provider\UserProvider;
+use FinGather\Service\Provider\DividendCalendarProviderInterface;
+use FinGather\Service\Provider\PortfolioProviderInterface;
+use FinGather\Service\Provider\UserProviderInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -23,14 +23,14 @@ final class DividendCalendarWarmupCommand extends AbstractCommand
 	{
 		$application = ApplicationFactory::create();
 
-		$userProvider = $application->container->get(UserProvider::class);
-		assert($userProvider instanceof UserProvider);
+		$userProvider = $application->container->get(UserProviderInterface::class);
+		assert($userProvider instanceof UserProviderInterface);
 
-		$portfolioProvider = $application->container->get(PortfolioProvider::class);
-		assert($portfolioProvider instanceof PortfolioProvider);
+		$portfolioProvider = $application->container->get(PortfolioProviderInterface::class);
+		assert($portfolioProvider instanceof PortfolioProviderInterface);
 
-		$dividendCalendarProvider = $application->container->get(DividendCalendarProvider::class);
-		assert($dividendCalendarProvider instanceof DividendCalendarProvider);
+		$dividendCalendarProvider = $application->container->get(DividendCalendarProviderInterface::class);
+		assert($dividendCalendarProvider instanceof DividendCalendarProviderInterface);
 
 		$logger = $application->container->get(LoggerInterface::class);
 		assert($logger instanceof LoggerInterface);

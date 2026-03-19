@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Jobs\Handler;
 
 use FinGather\Jobs\Message\ReceivedMessageInterface;
-use FinGather\Service\Provider\UserProvider;
+use FinGather\Service\Provider\UserProviderInterface;
 use FinGather\Service\Task\TaskServiceInterface;
 use FinGather\Service\Warmup\Dto\UserWarmupDto;
 use FinGather\Service\Warmup\UserWarmup;
@@ -16,7 +16,7 @@ class UserWarmupHandler implements JobHandler
 {
 	public function __construct(
 		private readonly UserWarmup $userWarmup,
-		private readonly UserProvider $userProvider,
+		private readonly UserProviderInterface $userProvider,
 		private readonly LoggerInterface $logger,
 		private readonly TaskServiceInterface $taskService,
 	)

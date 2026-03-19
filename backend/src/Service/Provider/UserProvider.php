@@ -17,13 +17,13 @@ use Iterator;
 use SensitiveParameter;
 use const PASSWORD_BCRYPT;
 
-class UserProvider
+final readonly class UserProvider implements UserProviderInterface
 {
 	public function __construct(
-		private readonly UserRepository $userRepository,
-		private readonly EmailVerifyProvider $emailVerifyProvider,
-		private readonly GroupProvider $groupProvider,
-		private readonly PortfolioProvider $portfolioProvider,
+		private UserRepository $userRepository,
+		private EmailVerifyProviderInterface $emailVerifyProvider,
+		private GroupProviderInterface $groupProvider,
+		private PortfolioProviderInterface $portfolioProvider,
 	) {
 	}
 

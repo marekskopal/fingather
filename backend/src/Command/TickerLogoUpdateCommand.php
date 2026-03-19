@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Command;
 
 use FinGather\App\ApplicationFactory;
-use FinGather\Service\Provider\TickerProvider;
+use FinGather\Service\Provider\TickerProviderInterface;
 use FinGather\Service\Update\TickerLogoUpdater;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputInterface;
@@ -22,8 +22,8 @@ final class TickerLogoUpdateCommand extends AbstractCommand
 	{
 		$application = ApplicationFactory::create();
 
-		$tickerProvider = $application->container->get(TickerProvider::class);
-		assert($tickerProvider instanceof TickerProvider);
+		$tickerProvider = $application->container->get(TickerProviderInterface::class);
+		assert($tickerProvider instanceof TickerProviderInterface);
 
 		$tickerLogoUpdater = $application->container->get(TickerLogoUpdater::class);
 		assert($tickerLogoUpdater instanceof TickerLogoUpdater);

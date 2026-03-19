@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace FinGather\Command;
 
 use FinGather\App\ApplicationFactory;
-use FinGather\Service\Provider\ApiImportPrepareCheckProvider;
-use FinGather\Service\Provider\ApiKeyProvider;
+use FinGather\Service\Provider\ApiImportPrepareCheckProviderInterface;
+use FinGather\Service\Provider\ApiKeyProviderInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -25,11 +25,11 @@ final class ApiImportPrepareCheckCommand extends AbstractCommand
 	{
 		$application = ApplicationFactory::create();
 
-		$apiKeyProvider = $application->container->get(ApiKeyProvider::class);
-		assert($apiKeyProvider instanceof ApiKeyProvider);
+		$apiKeyProvider = $application->container->get(ApiKeyProviderInterface::class);
+		assert($apiKeyProvider instanceof ApiKeyProviderInterface);
 
-		$apiImportCheckProvider = $application->container->get(ApiImportPrepareCheckProvider::class);
-		assert($apiImportCheckProvider instanceof ApiImportPrepareCheckProvider);
+		$apiImportCheckProvider = $application->container->get(ApiImportPrepareCheckProviderInterface::class);
+		assert($apiImportCheckProvider instanceof ApiImportPrepareCheckProviderInterface);
 
 		$apiKeyId = $input->getArgument(self::ApiKeyId);
 		if (is_numeric($apiKeyId)) {

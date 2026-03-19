@@ -57,6 +57,7 @@ use FinGather\Model\Repository\SectorRepository;
 use FinGather\Model\Repository\SplitRepository;
 use FinGather\Model\Repository\StrategyItemRepository;
 use FinGather\Model\Repository\StrategyRepository;
+use FinGather\Model\Repository\SubscriptionRepository;
 use FinGather\Model\Repository\TickerDataRepository;
 use FinGather\Model\Repository\TickerFundamentalRepository;
 use FinGather\Model\Repository\TickerRepository;
