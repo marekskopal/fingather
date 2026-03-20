@@ -127,13 +127,12 @@ final class OverviewDataCalculatorTest extends TestCase
 		// Current year: interannual = currentYear - previousYear
 		self::assertSame(1500.0, $result[$currentYear]->value->toFloat());
 		self::assertSame(500.0, $result[$currentYear]->valueInterannually?->toFloat());
-		self::assertSame(100.0, $result[$currentYear]->gainInterannually?->toFloat()); // 200 - 100
+		// 200 - 100
+		self::assertSame(100.0, $result[$currentYear]->gainInterannually?->toFloat());
 	}
 
-	private function makeCalculatedData(
-		Decimal $value = new Decimal('0'),
-		Decimal $gain = new Decimal('0'),
-	): CalculatedDataDto {
+	private function makeCalculatedData(Decimal $value = new Decimal('0'), Decimal $gain = new Decimal('0'),): CalculatedDataDto
+	{
 		$zero = new Decimal(0);
 
 		return new CalculatedDataDto(

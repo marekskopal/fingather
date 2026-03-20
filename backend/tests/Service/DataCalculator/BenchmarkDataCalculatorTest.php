@@ -22,6 +22,7 @@ use PHPUnit\Framework\TestCase;
 final class BenchmarkDataCalculatorTest extends TestCase
 {
 	private DateTimeImmutable $dateTime;
+
 	private DateTimeImmutable $benchmarkFrom;
 
 	protected function setUp(): void
@@ -58,7 +59,8 @@ final class BenchmarkDataCalculatorTest extends TestCase
 	{
 		$transaction = TransactionFixture::getTransaction(
 			id: 1,
-			actionCreated: new DateTimeImmutable('2023-12-31'), // before benchmarkFrom
+			// before benchmarkFrom
+			actionCreated: new DateTimeImmutable('2023-12-31'),
 			units: new Decimal(10),
 			priceDefaultCurrency: new Decimal(100),
 		);
@@ -69,10 +71,7 @@ final class BenchmarkDataCalculatorTest extends TestCase
 		$exchangeRateProvider = self::createStub(ExchangeRateProviderInterface::class);
 		$exchangeRateProvider->method('getExchangeRate')->willReturn(new Decimal('1'));
 
-		$calculator = new BenchmarkDataCalculator(
-			exchangeRateProvider: $exchangeRateProvider,
-			tickerDataProvider: $tickerDataProvider,
-		);
+		$calculator = new BenchmarkDataCalculator(exchangeRateProvider: $exchangeRateProvider, tickerDataProvider: $tickerDataProvider);
 
 		$result = $calculator->calculate(
 			portfolio: PortfolioFixture::getPortfolio(),
@@ -85,14 +84,16 @@ final class BenchmarkDataCalculatorTest extends TestCase
 
 		// Transaction is excluded; only benchmarkFromDateUnits=5 contribute
 		self::assertSame(5.0, $result->units->toFloat());
-		self::assertSame(750.0, $result->value->toFloat()); // 5 * 150 * 1
+		// 5 * 150 * 1
+		self::assertSame(750.0, $result->value->toFloat());
 	}
 
 	public function testExcludesTransactionsAfterDateTime(): void
 	{
 		$transaction = TransactionFixture::getTransaction(
 			id: 1,
-			actionCreated: new DateTimeImmutable('2024-01-15'), // after dateTime
+			// after dateTime
+			actionCreated: new DateTimeImmutable('2024-01-15'),
 			units: new Decimal(10),
 			priceDefaultCurrency: new Decimal(100),
 		);
@@ -103,10 +104,7 @@ final class BenchmarkDataCalculatorTest extends TestCase
 		$exchangeRateProvider = self::createStub(ExchangeRateProviderInterface::class);
 		$exchangeRateProvider->method('getExchangeRate')->willReturn(new Decimal('1'));
 
-		$calculator = new BenchmarkDataCalculator(
-			exchangeRateProvider: $exchangeRateProvider,
-			tickerDataProvider: $tickerDataProvider,
-		);
+		$calculator = new BenchmarkDataCalculator(exchangeRateProvider: $exchangeRateProvider, tickerDataProvider: $tickerDataProvider);
 
 		$result = $calculator->calculate(
 			portfolio: PortfolioFixture::getPortfolio(),
@@ -119,7 +117,8 @@ final class BenchmarkDataCalculatorTest extends TestCase
 
 		// Loop breaks; only benchmarkFromDateUnits=2 contribute
 		self::assertSame(2.0, $result->units->toFloat());
-		self::assertSame(300.0, $result->value->toFloat()); // 2 * 150 * 1
+		// 2 * 150 * 1
+		self::assertSame(300.0, $result->value->toFloat());
 	}
 
 	public function testCalculatesUnitsAndValueForSingleTransaction(): void
@@ -141,17 +140,16 @@ final class BenchmarkDataCalculatorTest extends TestCase
 		$tickerDataProvider->method('getLastTickerDataClose')
 			->willReturnCallback(static function (mixed $ticker, DateTimeImmutable $date): Decimal {
 				return $date->format('Y-m-d') === '2024-01-05'
-					? new Decimal('50')   // benchmark price at transaction date
-					: new Decimal('60');  // benchmark price at main dateTime
+					// benchmark price at transaction date
+					? new Decimal('50')
+					// benchmark price at main dateTime
+					: new Decimal('60');
 			});
 
 		$exchangeRateProvider = self::createStub(ExchangeRateProviderInterface::class);
 		$exchangeRateProvider->method('getExchangeRate')->willReturn(new Decimal('1'));
 
-		$calculator = new BenchmarkDataCalculator(
-			exchangeRateProvider: $exchangeRateProvider,
-			tickerDataProvider: $tickerDataProvider,
-		);
+		$calculator = new BenchmarkDataCalculator(exchangeRateProvider: $exchangeRateProvider, tickerDataProvider: $tickerDataProvider);
 
 		$result = $calculator->calculate(
 			portfolio: PortfolioFixture::getPortfolio(),
@@ -174,10 +172,7 @@ final class BenchmarkDataCalculatorTest extends TestCase
 		$exchangeRateProvider = self::createStub(ExchangeRateProviderInterface::class);
 		$exchangeRateProvider->method('getExchangeRate')->willReturn(new Decimal('1'));
 
-		$calculator = new BenchmarkDataCalculator(
-			exchangeRateProvider: $exchangeRateProvider,
-			tickerDataProvider: $tickerDataProvider,
-		);
+		$calculator = new BenchmarkDataCalculator(exchangeRateProvider: $exchangeRateProvider, tickerDataProvider: $tickerDataProvider);
 
 		$result = $calculator->calculate(
 			portfolio: PortfolioFixture::getPortfolio(),
@@ -189,7 +184,8 @@ final class BenchmarkDataCalculatorTest extends TestCase
 		);
 
 		self::assertSame(7.0, $result->units->toFloat());
-		self::assertSame(700.0, $result->value->toFloat()); // 7 * 100 * 1
+		// 7 * 100 * 1
+		self::assertSame(700.0, $result->value->toFloat());
 	}
 
 	public function testTransactionWithNoTickerDataContributesZeroUnits(): void
@@ -213,10 +209,7 @@ final class BenchmarkDataCalculatorTest extends TestCase
 		$exchangeRateProvider = self::createStub(ExchangeRateProviderInterface::class);
 		$exchangeRateProvider->method('getExchangeRate')->willReturn(new Decimal('1'));
 
-		$calculator = new BenchmarkDataCalculator(
-			exchangeRateProvider: $exchangeRateProvider,
-			tickerDataProvider: $tickerDataProvider,
-		);
+		$calculator = new BenchmarkDataCalculator(exchangeRateProvider: $exchangeRateProvider, tickerDataProvider: $tickerDataProvider);
 
 		$result = $calculator->calculate(
 			portfolio: PortfolioFixture::getPortfolio(),
@@ -242,10 +235,7 @@ final class BenchmarkDataCalculatorTest extends TestCase
 		$exchangeRateProvider = self::createStub(ExchangeRateProviderInterface::class);
 		$exchangeRateProvider->method('getExchangeRate')->willReturn(new Decimal('2'));
 
-		$calculator = new BenchmarkDataCalculator(
-			exchangeRateProvider: $exchangeRateProvider,
-			tickerDataProvider: $tickerDataProvider,
-		);
+		$calculator = new BenchmarkDataCalculator(exchangeRateProvider: $exchangeRateProvider, tickerDataProvider: $tickerDataProvider);
 
 		$result = $calculator->calculate(
 			portfolio: PortfolioFixture::getPortfolio(),

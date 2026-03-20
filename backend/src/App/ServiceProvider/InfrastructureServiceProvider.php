@@ -20,6 +20,8 @@ use Stripe\StripeClient;
 
 final class InfrastructureServiceProvider extends AbstractServiceProvider
 {
+	private const int TwelveDataTooManyRequestsRepeat = 20;
+
 	public function provides(string $id): bool
 	{
 		$services = [
@@ -63,7 +65,9 @@ final class InfrastructureServiceProvider extends AbstractServiceProvider
 
 		$container->add(
 			TwelveData::class,
-			fn (): TwelveData => new TwelveData(new Config((string) getenv('TWELVEDATA_API_KEY'))),
+			fn (): TwelveData => new TwelveData(
+				new Config((string) getenv('TWELVEDATA_API_KEY'), tooManyRequestsRepeat: self::TwelveDataTooManyRequestsRepeat),
+			),
 		);
 
 		$openfigiApiKey = (string) getenv('OPENFIGI_API_KEY');
