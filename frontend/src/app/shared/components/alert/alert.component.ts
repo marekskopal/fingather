@@ -1,11 +1,11 @@
 import {
     ChangeDetectionStrategy,
-    Component, inject, input, OnDestroy, OnInit, signal,
+    Component, DestroyRef, inject, input, OnInit, signal,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationStart, Router } from '@angular/router';
 import { Alert, AlertType } from '@app/models';
 import { AlertService } from '@app/services';
-import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'fingather-alert',
@@ -13,20 +13,19 @@ import { Subscription } from 'rxjs';
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AlertComponent implements OnInit, OnDestroy {
+export class AlertComponent implements OnInit {
     private router = inject(Router);
     private alertService = inject(AlertService);
+    private destroyRef = inject(DestroyRef);
 
     public id = input<string>('default-alert');
     public fade = input<boolean>(true);
 
     public readonly alerts = signal<Alert[]>([]);
-    public alertSubscription: Subscription;
-    public routeSubscription: Subscription;
 
     public ngOnInit(): void {
-        // subscribe to new alert notifications
-        this.alertSubscription = this.alertService.onAlert(this.id())
+        this.alertService.onAlert(this.id())
+            .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe((alert) => {
                 // clear alerts when an empty alert is received
                 if (!alert.message) {
@@ -48,18 +47,13 @@ export class AlertComponent implements OnInit, OnDestroy {
                 }
             });
 
-        // clear alerts on location change
-        this.routeSubscription = this.router.events.subscribe((event) => {
-            if (event instanceof NavigationStart) {
-                this.alertService.clear(this.id());
-            }
-        });
-    }
-
-    public ngOnDestroy(): void {
-        // unsubscribe to avoid memory leaks
-        this.alertSubscription.unsubscribe();
-        this.routeSubscription.unsubscribe();
+        this.router.events
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe((event) => {
+                if (event instanceof NavigationStart) {
+                    this.alertService.clear(this.id());
+                }
+            });
     }
 
     public removeAlert(alert: Alert): void {

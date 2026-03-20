@@ -3,8 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { TransactionActionType, TransactionCreateType } from '@app/models';
 import { OrderDirection } from '@app/models/enums/order-direction';
-import { TransactionOrderBy } from '@app/models/enums/transaction-order-by';
 import { TickerTypeEnum } from '@app/models/enums/ticker-type-enum';
+import { TransactionOrderBy } from '@app/models/enums/transaction-order-by';
 import { Market } from '@app/models/market';
 import { Ticker } from '@app/models/ticker';
 import { Transaction } from '@app/models/transaction';
@@ -53,7 +53,12 @@ const mockPortfolio = { id: 1, name: 'Test Portfolio', currencyId: 1, isDefault:
 describe('TransactionListComponent', () => {
     let fixture: ComponentFixture<TransactionListComponent>;
     let component: TransactionListComponent;
-    let transactionService: { getTransactions: ReturnType<typeof vi.fn>; deleteTransaction: ReturnType<typeof vi.fn>; subscribe: ReturnType<typeof vi.fn>; notify: ReturnType<typeof vi.fn> };
+    let transactionService: {
+        getTransactions: ReturnType<typeof vi.fn>;
+        deleteTransaction: ReturnType<typeof vi.fn>;
+        subscribe: ReturnType<typeof vi.fn>;
+        notify: ReturnType<typeof vi.fn>
+    };
     let portfolioService: { getCurrentPortfolio: ReturnType<typeof vi.fn>; subscribe: ReturnType<typeof vi.fn> };
 
     beforeEach(async () => {

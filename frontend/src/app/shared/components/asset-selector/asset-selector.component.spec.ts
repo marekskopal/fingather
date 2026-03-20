@@ -1,12 +1,12 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Asset } from '@app/models';
+import {Asset, Ticker} from '@app/models';
 import { TickerTypeEnum } from '@app/models/enums/ticker-type-enum';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { AssetSelectorComponent } from './asset-selector.component';
 
-function makeTicker(id: number, name: string) {
+function makeTicker(id: number, name: string): Ticker {
     return {
         id,
         ticker: name,
