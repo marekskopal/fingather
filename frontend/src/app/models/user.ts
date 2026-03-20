@@ -12,4 +12,5 @@ export interface User extends AbstractEntity {
     lastLoggedIn: string | null;
     lastRefreshTokenGenerated: string | null;
     isEmailNotificationsEnabled: boolean;
+    locale: string;
 }
