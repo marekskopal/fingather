@@ -5,12 +5,14 @@ import { inject } from '@angular/core';
 import { Authentication } from '@app/models/authentication';
 import { AuthenticationService } from '@app/services/authentication.service';
 import { environment } from '@environments/environment';
-import { BehaviorSubject, catchError, filter, from, Observable, switchMap, take, throwError } from 'rxjs';
+import { catchError, from, Observable, shareReplay, switchMap, tap, throwError } from 'rxjs';
 
 const refreshTokenUrl = `${environment.apiUrl}/authentication/refresh-token` as const;
 
-let isRefreshing = false;
-const refreshTokenSubject = new BehaviorSubject<string | null>(null);
+// Shared in-flight refresh observable. All concurrent 401s subscribe to the same
+// request so only one token refresh is made. Errors propagate to all callers and
+// the reference is cleared on completion or error.
+let refreshTokenObservable: Observable<Authentication> | null = null;
 
 export function jwtInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
     const authService = inject(AuthenticationService);
@@ -53,27 +55,21 @@ function handleTokenRefresh(
     next: HttpHandlerFn,
     authService: AuthenticationService,
 ): Observable<HttpEvent<unknown>> {
-    if (!isRefreshing) {
-        isRefreshing = true;
-        refreshTokenSubject.next(null);
-
-        return from(authService.refreshToken()).pipe(
-            switchMap((auth: Authentication) => {
-                isRefreshing = false;
-                refreshTokenSubject.next(auth.accessToken);
-                return next(addAuthHeader(req, authService));
+    if (refreshTokenObservable === null) {
+        refreshTokenObservable = from(authService.refreshToken()).pipe(
+            tap({
+                next: () => { refreshTokenObservable = null; },
+                error: () => { refreshTokenObservable = null; },
             }),
-            catchError((err) => {
-                isRefreshing = false;
-                authService.logout();
-                return throwError(() => err);
-            }),
+            shareReplay(1),
         );
     }
 
-    return refreshTokenSubject.pipe(
-        filter((token): token is string => token !== null),
-        take(1),
+    return refreshTokenObservable.pipe(
         switchMap(() => next(addAuthHeader(req, authService))),
+        catchError((err) => {
+            authService.logout();
+            return throwError(() => err);
+        }),
     );
 }
