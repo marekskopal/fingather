@@ -1,6 +1,7 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
 import { Ticker } from '@app/models';
+import { buildHttpParams } from '@app/utils/http-params-builder';
 import { environment } from '@environments/environment';
 import {firstValueFrom} from 'rxjs';
 
@@ -17,37 +18,17 @@ export class TickerService {
         limit: number | null = null,
         offset: number | null = null,
     ): Promise<Ticker[]> {
-        let params = new HttpParams();
-
-        if (search !== null) {
-            params = params.set('search', search);
-        }
-
-        if (limit !== null) {
-            params = params.set('limit', limit);
-        }
-
-        if (offset !== null) {
-            params = params.set('offset', offset);
-        }
-
-        return firstValueFrom(this.http.get<Ticker[]>(`${environment.apiUrl}/tickers`, { params }));
+        return firstValueFrom(this.http.get<Ticker[]>(`${environment.apiUrl}/tickers`, {
+            params: buildHttpParams({ search, limit, offset }),
+        }));
     }
 
     public getTickersMostUsed(
         limit: number | null = null,
         offset: number | null = null,
     ): Promise<Ticker[]> {
-        let params = new HttpParams();
-
-        if (limit !== null) {
-            params = params.set('limit', limit);
-        }
-
-        if (offset !== null) {
-            params = params.set('offset', offset);
-        }
-
-        return firstValueFrom(this.http.get<Ticker[]>(`${environment.apiUrl}/tickers/most-used`, { params }));
+        return firstValueFrom(this.http.get<Ticker[]>(`${environment.apiUrl}/tickers/most-used`, {
+            params: buildHttpParams({ limit, offset }),
+        }));
     }
 }

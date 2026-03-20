@@ -1,9 +1,10 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Asset, AssetsWithProperties, AssetWithProperties } from '@app/models';
 import { AssetCreate } from '@app/models/asset-create';
 import { AssetsOrder } from '@app/models/enums/assets-order';
 import { NotifyService } from '@app/services/notify-service';
+import { buildHttpParams } from '@app/utils/http-params-builder';
 import { environment } from '@environments/environment';
 import { firstValueFrom } from 'rxjs';
 
@@ -20,13 +21,9 @@ export class AssetService extends NotifyService {
     }
 
     public getAssetsWithProperties(portfolioId: number, orderBy: AssetsOrder): Promise<AssetsWithProperties> {
-        let params = new HttpParams();
-
-        params = params.set('orderBy', orderBy.toString());
-
         return firstValueFrom<AssetsWithProperties>(this.http.get<AssetsWithProperties>(
             `${environment.apiUrl}/assets/with-properties/${portfolioId}`,
-            { params },
+            { params: buildHttpParams({ orderBy }) },
         ));
     }
 

@@ -1,8 +1,9 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { DcaPlan, DcaPlanProjection } from '@app/models';
 import { OkResponse } from '@app/models/ok-response';
 import { NotifyService } from '@app/services/notify-service';
+import { buildHttpParams } from '@app/utils/http-params-builder';
 import { environment } from '@environments/environment';
 import { firstValueFrom } from 'rxjs';
 
@@ -31,13 +32,10 @@ export class DcaPlanService extends NotifyService {
     }
 
     public getProjection(id: number, horizonYears?: number, withCurrentValue: boolean = true): Promise<DcaPlanProjection> {
-        let params = new HttpParams();
-        if (horizonYears !== undefined) {
-            params = params.set('horizonYears', horizonYears.toString());
-        }
-        params = params.set('withCurrentValue', withCurrentValue.toString());
         return firstValueFrom<DcaPlanProjection>(
-            this.http.get<DcaPlanProjection>(`${environment.apiUrl}/dca-plan/${id}/projection`, { params }),
+            this.http.get<DcaPlanProjection>(`${environment.apiUrl}/dca-plan/${id}/projection`, {
+                params: buildHttpParams({ horizonYears, withCurrentValue }),
+            }),
         );
     }
 }

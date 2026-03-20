@@ -1,8 +1,9 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
 import { GroupWithGroupData } from '@app/models';
 import { AssetsOrder } from '@app/models/enums/assets-order';
 import {GroupAllocationService} from "@app/services/group-allocation-service";
+import { buildHttpParams } from '@app/utils/http-params-builder';
 import { environment } from '@environments/environment';
 import { firstValueFrom } from 'rxjs';
 
@@ -18,16 +19,10 @@ export class GroupWithGroupDataService implements GroupAllocationService {
         portfolioId: number,
         orderBy: AssetsOrder | null = null,
     ): Promise<GroupWithGroupData[]> {
-        let params = new HttpParams();
-
-        if (orderBy !== null) {
-            params = params.set('orderBy', orderBy.toString());
-        }
-
         return firstValueFrom<GroupWithGroupData[]>(
             this.http.get<GroupWithGroupData[]>(
                 `${environment.apiUrl}/groups-with-group-data/${portfolioId}`,
-                { params },
+                { params: buildHttpParams({ orderBy }) },
             ),
         );
     }

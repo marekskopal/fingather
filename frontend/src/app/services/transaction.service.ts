@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
 import { Transaction, TransactionActionType } from '@app/models';
 import { OrderDirection } from '@app/models/enums/order-direction';
@@ -7,6 +7,7 @@ import { OkResponse } from '@app/models/ok-response';
 import { TransactionList } from '@app/models/transaction-list';
 import { NotifyService } from '@app/services/notify-service';
 import {DownloadUtils} from "@app/utils/download-utils";
+import { buildHttpParams } from '@app/utils/http-params-builder';
 import { environment } from '@environments/environment';
 import { firstValueFrom } from 'rxjs';
 
@@ -31,42 +32,19 @@ export class TransactionService extends NotifyService {
         orderBy: TransactionOrderBy | null = null,
         orderDirection: OrderDirection | null = null,
     ): Promise<TransactionList> {
-        let params = new HttpParams();
-
-        if (assetId !== null) {
-            params = params.set('assetId', assetId);
-        }
-
-        if (actionTypes !== null) {
-            params = params.set('actionTypes', actionTypes.join('|'));
-        }
-
-        if (search !== null) {
-            params = params.set('search', search);
-        }
-
-        if (created !== null) {
-            params = params.set('created', created);
-        }
-
-        if (limit !== null) {
-            params = params.set('limit', limit);
-        }
-
-        if (offset !== null) {
-            params = params.set('offset', offset);
-        }
-
-        if (orderBy !== null) {
-            params = params.set('orderBy', orderBy);
-        }
-
-        if (orderDirection !== null) {
-            params = params.set('orderDirection', orderDirection);
-        }
-
         return firstValueFrom<TransactionList>(
-            this.http.get<TransactionList>(`${environment.apiUrl}/transactions/${portfolioId}`, { params }),
+            this.http.get<TransactionList>(`${environment.apiUrl}/transactions/${portfolioId}`, {
+                params: buildHttpParams({
+                    assetId,
+                    actionTypes: actionTypes !== null ? actionTypes.join('|') : null,
+                    search,
+                    created,
+                    limit,
+                    offset,
+                    orderBy,
+                    orderDirection,
+                }),
+            }),
         );
     }
 
@@ -93,26 +71,16 @@ export class TransactionService extends NotifyService {
         search: string | null = null,
         created: string | null = null,
     ): Promise<void> {
-        let params = new HttpParams();
-
-        if (assetId !== null) {
-            params = params.set('assetId', assetId);
-        }
-
-        if (actionTypes !== null) {
-            params = params.set('actionTypes', actionTypes.join('|'));
-        }
-
-        if (search !== null) {
-            params = params.set('search', search);
-        }
-
-        if (created !== null) {
-            params = params.set('created', created);
-        }
-
         const blob = await firstValueFrom(
-            this.http.get(`${environment.apiUrl}/transactions/${portfolioId}/export-csv`, { params, responseType: 'blob' }),
+            this.http.get(`${environment.apiUrl}/transactions/${portfolioId}/export-csv`, {
+                params: buildHttpParams({
+                    assetId,
+                    actionTypes: actionTypes !== null ? actionTypes.join('|') : null,
+                    search,
+                    created,
+                }),
+                responseType: 'blob',
+            }),
         );
         DownloadUtils.downloadBlob(blob, 'transactions.csv');
     }
@@ -124,26 +92,16 @@ export class TransactionService extends NotifyService {
         search: string | null = null,
         created: string | null = null,
     ): Promise<void> {
-        let params = new HttpParams();
-
-        if (assetId !== null) {
-            params = params.set('assetId', assetId);
-        }
-
-        if (actionTypes !== null) {
-            params = params.set('actionTypes', actionTypes.join('|'));
-        }
-
-        if (search !== null) {
-            params = params.set('search', search);
-        }
-
-        if (created !== null) {
-            params = params.set('created', created);
-        }
-
         const blob = await firstValueFrom(
-            this.http.get(`${environment.apiUrl}/transactions/${portfolioId}/export-xlsx`, { params, responseType: 'blob' }),
+            this.http.get(`${environment.apiUrl}/transactions/${portfolioId}/export-xlsx`, {
+                params: buildHttpParams({
+                    assetId,
+                    actionTypes: actionTypes !== null ? actionTypes.join('|') : null,
+                    search,
+                    created,
+                }),
+                responseType: 'blob',
+            }),
         );
         DownloadUtils.downloadBlob(blob, 'transactions.xlsx');
     }

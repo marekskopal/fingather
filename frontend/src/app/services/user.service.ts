@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
 import { User } from '@app/models';
 import { OrderDirection } from '@app/models/enums/order-direction';
@@ -6,6 +6,7 @@ import { UserOrderBy } from '@app/models/enums/user-order-by';
 import { OkResponse } from '@app/models/ok-response';
 import { UserList } from '@app/models/user-list';
 import { NotifyService } from '@app/services/notify-service';
+import { buildHttpParams } from '@app/utils/http-params-builder';
 import { environment } from '@environments/environment';
 import { firstValueFrom } from 'rxjs';
 
@@ -23,21 +24,10 @@ export class UserService extends NotifyService {
         orderBy: UserOrderBy | null = null,
         orderDirection: OrderDirection | null = null,
     ): Promise<UserList> {
-        let params = new HttpParams();
-        if (limit !== null) {
-            params = params.set('limit', limit);
-        }
-        if (offset !== null) {
-            params = params.set('offset', offset);
-        }
-        if (orderBy !== null) {
-            params = params.set('orderBy', orderBy);
-        }
-        if (orderDirection !== null) {
-            params = params.set('orderDirection', orderDirection);
-        }
         return firstValueFrom<UserList>(
-            this.http.get<UserList>(`${environment.apiUrl}/admin/user`, { params }),
+            this.http.get<UserList>(`${environment.apiUrl}/admin/user`, {
+                params: buildHttpParams({ limit, offset, orderBy, orderDirection }),
+            }),
         );
     }
 
