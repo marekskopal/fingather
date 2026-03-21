@@ -11,18 +11,22 @@ final class FileResponse extends Response
 {
 	public function __construct(string $filePath, string $fileName, string $contentType)
 	{
-		$contents = (string) file_get_contents($filePath);
-		$fileSize = strlen($contents);
+		$fileSize = filesize($filePath);
 
-		$body = fopen('php://temp', 'r+');
-		assert($body !== false);
-		fwrite($body, $contents);
-		rewind($body);
+		$body = fopen($filePath, 'r');
+		if ($body === false) {
+			throw new \RuntimeException(sprintf('Cannot open file for reading: %s', $filePath));
+		}
 
-		parent::__construct(new Stream($body), 200, [
+		$headers = [
 			'Content-Type' => $contentType,
 			'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
-			'Content-Length' => (string) $fileSize,
-		]);
+		];
+
+		if ($fileSize !== false) {
+			$headers['Content-Length'] = (string) $fileSize;
+		}
+
+		parent::__construct(new Stream($body), 200, $headers);
 	}
 }
