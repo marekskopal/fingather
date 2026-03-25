@@ -32,6 +32,7 @@ final class GoalFixture
 			isActive: $isActive,
 			achievedAt: null,
 			createdAt: new DateTimeImmutable('2024-01-01'),
+			dcaPlan: null,
 		);
 
 		$goal->id = $id ?? 1;

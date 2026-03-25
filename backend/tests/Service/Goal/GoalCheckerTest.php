@@ -37,6 +37,7 @@ final class GoalCheckerTest extends TestCase
 			isActive: true,
 			achievedAt: null,
 			createdAt: new DateTimeImmutable(),
+			dcaPlan: null,
 		);
 	}
 
@@ -98,6 +99,7 @@ final class GoalCheckerTest extends TestCase
 			isActive: true,
 			achievedAt: null,
 			createdAt: new DateTimeImmutable(),
+			dcaPlan: null,
 		);
 
 		$checker = $this->makeChecker();
@@ -120,6 +122,7 @@ final class GoalCheckerTest extends TestCase
 			isActive: true,
 			achievedAt: null,
 			createdAt: new DateTimeImmutable(),
+			dcaPlan: null,
 		);
 
 		$checker = $this->makeChecker($portfolioData);
@@ -141,6 +144,7 @@ final class GoalCheckerTest extends TestCase
 			isActive: true,
 			achievedAt: null,
 			createdAt: new DateTimeImmutable(),
+			dcaPlan: null,
 		);
 
 		$checker = $this->makeChecker($portfolioData);
@@ -162,6 +166,7 @@ final class GoalCheckerTest extends TestCase
 			isActive: true,
 			achievedAt: null,
 			createdAt: new DateTimeImmutable(),
+			dcaPlan: null,
 		);
 
 		$checker = $this->makeChecker($portfolioData);

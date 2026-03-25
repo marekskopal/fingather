@@ -6,7 +6,6 @@ namespace FinGather\Service\Provider;
 
 use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\Enum\LocaleEnum;
-use FinGather\Model\Entity\Enum\UserPlanEnum;
 use FinGather\Model\Entity\Enum\UserRoleEnum;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\Enum\OrderDirectionEnum;
@@ -40,7 +39,6 @@ interface UserProviderInterface
 		string $name,
 		Currency $defaultCurrency,
 		UserRoleEnum $role,
-		UserPlanEnum $plan,
 		bool $isEmailVerified,
 		LocaleEnum $locale,
 	): User;
@@ -55,14 +53,7 @@ interface UserProviderInterface
 
 	public function linkGoogleAccount(User $user, string $googleId): User;
 
-	public function updateUser(
-		User $user,
-		string $email,
-		#[SensitiveParameter] string $password,
-		string $name,
-		UserRoleEnum $role,
-		UserPlanEnum $plan,
-	): User;
+	public function updateUser(User $user, string $email, #[SensitiveParameter] string $password, string $name, UserRoleEnum $role,): User;
 
 	public function resetPassword(User $user, #[SensitiveParameter] string $password): User;
 
@@ -73,10 +64,6 @@ interface UserProviderInterface
 	public function updateEmailNotifications(User $user, bool $isEmailNotificationsEnabled): User;
 
 	public function updateLocale(User $user, LocaleEnum $locale): User;
-
-	public function updateUserStripeCustomerId(User $user, string $stripeCustomerId): User;
-
-	public function updateUserPlan(User $user, UserPlanEnum $plan): User;
 
 	public function deleteUser(User $user): void;
 

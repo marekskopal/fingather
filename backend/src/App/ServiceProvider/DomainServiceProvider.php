@@ -92,8 +92,6 @@ use FinGather\Service\Provider\StrategyProvider;
 use FinGather\Service\Provider\StrategyProviderInterface;
 use FinGather\Service\Provider\StrategyRebalancingProvider;
 use FinGather\Service\Provider\StrategyRebalancingProviderInterface;
-use FinGather\Service\Provider\SubscriptionProvider;
-use FinGather\Service\Provider\SubscriptionProviderInterface;
 use FinGather\Service\Provider\TickerDataProvider;
 use FinGather\Service\Provider\TickerDataProviderInterface;
 use FinGather\Service\Provider\TickerFundamentalProvider;
@@ -160,7 +158,6 @@ final class DomainServiceProvider extends AbstractServiceProvider
 			StrategyComparisonProviderInterface::class,
 			StrategyProviderInterface::class,
 			StrategyRebalancingProviderInterface::class,
-			SubscriptionProviderInterface::class,
 			TickerDataProviderInterface::class,
 			TickerFundamentalProviderInterface::class,
 			TickerProviderInterface::class,
@@ -220,7 +217,6 @@ final class DomainServiceProvider extends AbstractServiceProvider
 		$container->add(StrategyComparisonProviderInterface::class, StrategyComparisonProvider::class);
 		$container->add(StrategyProviderInterface::class, StrategyProvider::class);
 		$container->add(StrategyRebalancingProviderInterface::class, StrategyRebalancingProvider::class);
-		$container->add(SubscriptionProviderInterface::class, SubscriptionProvider::class);
 		$container->add(TickerDataProviderInterface::class, TickerDataProvider::class);
 		$container->add(TickerFundamentalProviderInterface::class, TickerFundamentalProvider::class);
 		$container->add(TickerProviderInterface::class, TickerProvider::class);
