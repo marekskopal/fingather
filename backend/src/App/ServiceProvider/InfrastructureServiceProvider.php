@@ -16,7 +16,6 @@ use Predis\Client;
 use Predis\ClientInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Log\LoggerInterface;
-use Stripe\StripeClient;
 
 final class InfrastructureServiceProvider extends AbstractServiceProvider
 {
@@ -31,7 +30,6 @@ final class InfrastructureServiceProvider extends AbstractServiceProvider
 			ClientInterface::class,
 			TwelveData::class,
 			OpenFigi::class,
-			StripeClient::class,
 		];
 
 		if ((bool) getenv('PROFILER_ENABLE') === true) {
@@ -75,8 +73,6 @@ final class InfrastructureServiceProvider extends AbstractServiceProvider
 			OpenFigi::class,
 			fn (): OpenFigi => new OpenFigi(new \MarekSkopal\OpenFigi\Config\Config($openfigiApiKey !== '' ? $openfigiApiKey : null)),
 		);
-
-		$container->add(StripeClient::class, fn () => new StripeClient((string) getenv('STRIPE_SECRET_KEY')));
 
 		if ((bool) getenv('PROFILER_ENABLE') !== true) {
 			return;
