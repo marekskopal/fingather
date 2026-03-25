@@ -45,9 +45,15 @@
     color: $black;
 
     &:hover {
-        background-color: $primary;
-        border: 1px solid $primary;
+        background-color: $color-green-darker;
+        border: 1px solid $color-green-darker;
         color: $white;
+    }
+
+    &.disabled, &[disabled] {
+        background-color: $color-green-dark;
+        border: 1px solid $color-green-dark;
+        color: $black;
     }
 
     --mat-app-primary: #{$black};
@@ -62,6 +68,12 @@
         background-color: $color-gray;
         border: 1px solid $color-gray-light;
         color: $color-gray-lightest;
+    }
+
+    &.disabled, &[disabled] {
+        background-color: $color-gray-darker;
+        border: 1px solid $color-gray-darker;
+        color: $color-gray-7;
     }
 
     --mat-app-primary: #{$color-gray-lightest};
