@@ -234,12 +234,12 @@
         "colorRequired": "Farbe ist erforderlich",
         "assets": "Vermögenswerte",
         "assetsRequired": "Vermögenswerte sind erforderlich",
-        “assetDisabled”: “Vermögenswert ist der Gruppe “{{groupName}}” zugeordnet”,
-        “addedSuccessfully”: “Gruppe erfolgreich hinzugefügt”,
-        “updatedSuccessfully”: “Aktualisierung erfolgreich”
+        "assetDisabled": "Vermögenswert ist der Gruppe “{{groupName}}” zugeordnet",
+        "addedSuccessfully": "Gruppe erfolgreich hinzugefügt",
+        "updatedSuccessfully": "Aktualisierung erfolgreich"
       },
-      “list”: {
-        “title”: “Gruppen”,
+      "list": {
+        "title": "Gruppen",
         "addGroup": "Gruppe hinzufügen",
         "name": "Name"
       }

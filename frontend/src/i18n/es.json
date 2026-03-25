@@ -234,12 +234,12 @@
         "colorRequired": "El color es obligatorio",
         "assets": "Activos",
         "assetsRequired": "Los activos son obligatorios",
-        “assetDisabled”: “El activo está asignado al grupo “{{groupName}}””,
-        “addedSuccessfully”: “Grupo agregado exitosamente”,
-        “updatedSuccessfully”: “Actualización exitosa”
+        "assetDisabled": "El activo está asignado al grupo “{{groupName}}”",
+        "addedSuccessfully": "Grupo agregado exitosamente",
+        "updatedSuccessfully": "Actualización exitosa"
       },
-      “list”: {
-        “title”: “Grupos”,
+      "list": {
+        "title": "Grupos",
         "addGroup": "Agregar Grupo",
         "name": "Nombre"
       }

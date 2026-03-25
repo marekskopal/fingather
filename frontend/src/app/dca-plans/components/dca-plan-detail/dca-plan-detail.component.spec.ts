@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DcaPlan } from '@app/models';
 import { DcaPlanTargetTypeEnum } from '@app/models/enums/dca-plan-target-type-enum';
 import { DcaPlanService } from '@app/services';
+import { GoalService } from '@app/services/goal.service';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { DcaPlanDetailComponent } from './dca-plan-detail.component';
@@ -30,15 +31,19 @@ describe('DcaPlanDetailComponent', () => {
     describe('when route has a valid id', () => {
         let fixture: ComponentFixture<DcaPlanDetailComponent>;
         let component: DcaPlanDetailComponent;
-        let dcaPlanServiceSpy: { getDcaPlan: ReturnType<typeof vi.fn> };
+        let dcaPlanServiceSpy: { getDcaPlan: ReturnType<typeof vi.fn>; getProjection: ReturnType<typeof vi.fn> };
 
         beforeEach(async () => {
-            dcaPlanServiceSpy = { getDcaPlan: vi.fn().mockResolvedValue(mockDcaPlan) };
+            dcaPlanServiceSpy = {
+                getDcaPlan: vi.fn().mockResolvedValue(mockDcaPlan),
+                getProjection: vi.fn().mockResolvedValue({ dataPoints: [] }),
+            };
 
             await TestBed.configureTestingModule({
                 imports: [DcaPlanDetailComponent, TranslateModule.forRoot()],
                 providers: [
                     { provide: DcaPlanService, useValue: dcaPlanServiceSpy },
+                    { provide: GoalService, useValue: { getGoals: vi.fn().mockResolvedValue([]) } },
                     { provide: ActivatedRoute, useValue: { snapshot: { params: { id: '1' } } } },
                 ],
                 schemas: [NO_ERRORS_SCHEMA],
@@ -66,15 +71,19 @@ describe('DcaPlanDetailComponent', () => {
     describe('when route has no id', () => {
         let fixture: ComponentFixture<DcaPlanDetailComponent>;
         let component: DcaPlanDetailComponent;
-        let dcaPlanServiceSpy: { getDcaPlan: ReturnType<typeof vi.fn> };
+        let dcaPlanServiceSpy: { getDcaPlan: ReturnType<typeof vi.fn>; getProjection: ReturnType<typeof vi.fn> };
 
         beforeEach(async () => {
-            dcaPlanServiceSpy = { getDcaPlan: vi.fn() };
+            dcaPlanServiceSpy = {
+                getDcaPlan: vi.fn(),
+                getProjection: vi.fn().mockResolvedValue({ dataPoints: [] }),
+            };
 
             await TestBed.configureTestingModule({
                 imports: [DcaPlanDetailComponent, TranslateModule.forRoot()],
                 providers: [
                     { provide: DcaPlanService, useValue: dcaPlanServiceSpy },
+                    { provide: GoalService, useValue: { getGoals: vi.fn().mockResolvedValue([]) } },
                     { provide: ActivatedRoute, useValue: { snapshot: { params: {} } } },
                 ],
                 schemas: [NO_ERRORS_SCHEMA],

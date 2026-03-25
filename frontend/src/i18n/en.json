@@ -234,12 +234,12 @@
         "colorRequired": "Color is required",
         "assets": "Assets",
         "assetsRequired": "Assets is required",
-        “assetDisabled”: “Asset is assigned to group „{{groupName}}””,
-        “addedSuccessfully”: “Group added successfully”,
-        “updatedSuccessfully”: “Update successful”
+        "assetDisabled": "Asset is assigned to group „{{groupName}}”",
+        "addedSuccessfully": "Group added successfully",
+        "updatedSuccessfully": "Update successful"
       },
-      “list”: {
-        “title”: “Groups”,
+      "list": {
+        "title": "Groups",
         "addGroup": "Add Group",
         "name": "Name"
       }

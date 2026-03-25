@@ -234,12 +234,12 @@
         "colorRequired": "Barva je povinná",
         "assets": "Aktiva",
         "assetsRequired": "Aktiva jsou povinná",
-        “assetDisabled”: “Aktivum je přiřazené do skupiny „{{groupName}}””,
-        “addedSuccessfully”: “Skupina přidána úspěšně”,
-        “updatedSuccessfully”: “Aktualizace provedena úspěšně”
+        "assetDisabled": "Aktivum je přiřazené do skupiny „{{groupName}}”",
+        "addedSuccessfully": "Skupina přidána úspěšně",
+        "updatedSuccessfully": "Aktualizace provedena úspěšně"
       },
-      “list”: {
-        “title”: “Skupiny”,
+      "list": {
+        "title": "Skupiny",
         "addGroup": "Přidat skupinu",
         "name": "Jméno"
       }
