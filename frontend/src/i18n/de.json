@@ -43,7 +43,8 @@
         "selectAsset": "Vermögenswert auswählen",
         "searching": "Suche läuft...",
         "searchFailed": "Ticker konnten leider nicht geladen werden.",
-        "required": "Vermögenswert ist erforderlich"
+        "required": "Vermögenswert ist erforderlich",
+        "addedSuccessfully": "Vermögenswert erfolgreich hinzugefügt"
       },
       "dividends": {
         "title": "Dividenden",
@@ -233,10 +234,12 @@
         "colorRequired": "Farbe ist erforderlich",
         "assets": "Vermögenswerte",
         "assetsRequired": "Vermögenswerte sind erforderlich",
-        "assetDisabled": "Vermögenswert ist der Gruppe “{{groupName}}” zugeordnet"
+        “assetDisabled”: “Vermögenswert ist der Gruppe “{{groupName}}” zugeordnet”,
+        “addedSuccessfully”: “Gruppe erfolgreich hinzugefügt”,
+        “updatedSuccessfully”: “Aktualisierung erfolgreich”
       },
-      "list": {
-        "title": "Gruppen",
+      “list”: {
+        “title”: “Gruppen”,
         "addGroup": "Gruppe hinzufügen",
         "name": "Name"
       }
@@ -258,7 +261,9 @@
         "group": "Gruppe",
         "percentage": "Prozentsatz",
         "totalPercentage": "Gesamtprozentsatz",
-        "totalMustNotExceed100": "Der Gesamtprozentsatz darf 100% nicht überschreiten"
+        "totalMustNotExceed100": "Der Gesamtprozentsatz darf 100% nicht überschreiten",
+        "addedSuccessfully": "Strategie erfolgreich hinzugefügt",
+        "updatedSuccessfully": "Aktualisierung erfolgreich"
       },
       "list": {
         "title": "Strategien",
@@ -371,7 +376,9 @@
         "nameRequired": "Name ist erforderlich",
         "currency": "Währung",
         "currencyRequired": "Währung ist erforderlich",
-        "default": "Standard"
+        "default": "Standard",
+        "addedSuccessfully": "Portfolio erfolgreich hinzugefügt",
+        "updatedSuccessfully": "Aktualisierung erfolgreich"
       },
       "list": {
         "title": "Portfolios",
@@ -434,7 +441,9 @@
         "role": "Rolle",
         "roleRequired": "Rolle ist erforderlich",
         "plan": "Tarif",
-        "planRequired": "Tarif ist erforderlich"
+        "planRequired": "Tarif ist erforderlich",
+        "addedSuccessfully": "Benutzer erfolgreich hinzugefügt",
+        "updatedSuccessfully": "Aktualisierung erfolgreich"
       },
       "list": {
         "title": "Benutzer",
@@ -508,7 +517,9 @@
         "typeRequired": "Typ ist erforderlich",
         "apiKey": "API-Schlüssel",
         "apiKeyRequired": "API-Schlüssel ist erforderlich",
-        "userKey": "Benutzerschlüssel"
+        "userKey": "Benutzerschlüssel",
+        "addedSuccessfully": "API-Schlüssel erfolgreich hinzugefügt",
+        "updatedSuccessfully": "Aktualisierung erfolgreich"
       }
     },
     "goals": {
@@ -541,7 +552,9 @@
         "targetValueRequired": "Zielwert ist erforderlich",
         "deadline": "Frist (optional)",
         "dcaPlan": "DCA-Plan (optional)",
-        "noDcaPlan": "— Keiner —"
+        "noDcaPlan": "— Keiner —",
+        "addedSuccessfully": "Ziel erfolgreich hinzugefügt",
+        "updatedSuccessfully": "Aktualisierung erfolgreich"
       },
       "type": {
         "portfolioValue": "Portfoliowert",
@@ -590,7 +603,9 @@
         "expectedAnnualReturnRate": "Erwartete jährliche Rendite (%)",
         "expectedAnnualReturnRateRequired": "Erwartete jährliche Rendite ist erforderlich",
         "expectedAnnualReturnRateMin": "Erwartete jährliche Rendite muss 0 oder größer sein",
-        "isActive": "Aktiv"
+        "isActive": "Aktiv",
+        "addedSuccessfully": "DCA-Plan erfolgreich hinzugefügt",
+        "updatedSuccessfully": "DCA-Plan erfolgreich aktualisiert"
       },
       "targetType": {
         "portfolio": "Portfolio",
@@ -647,7 +662,9 @@
         "recurrence": "Wiederholung",
         "recurrenceOneTime": "Einmalig",
         "recurrenceRecurring": "Wiederkehrend",
-        "cooldownHours": "Abklingzeit (Stunden)"
+        "cooldownHours": "Abklingzeit (Stunden)",
+        "addedSuccessfully": "Kursalarm erfolgreich hinzugefügt",
+        "updatedSuccessfully": "Aktualisierung erfolgreich"
       }
     },
     "account": {
@@ -695,7 +712,8 @@
         "mappedTicker": "Zugeordneter Ticker",
         "deleteTitle": "Import-Zuordnung löschen",
         "deleteMessage": "Sind Sie sicher, dass Sie diese Import-Zuordnung löschen möchten?",
-        "editTitle": "Import-Zuordnung bearbeiten"
+        "editTitle": "Import-Zuordnung bearbeiten",
+        "updatedSuccessfully": "Aktualisierung erfolgreich"
       }
     },
     "shared": {

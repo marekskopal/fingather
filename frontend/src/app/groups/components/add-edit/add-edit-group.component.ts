@@ -14,7 +14,7 @@ import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selec
 import {SaveButtonComponent} from "@app/shared/components/save-button/save-button.component";
 import {SelectMultiComponent} from "@app/shared/components/select-multi/select-multi.component";
 import {SelectItem} from "@app/shared/types/select-item";
-import { TranslatePipe} from "@ngx-translate/core";
+import { TranslatePipe, TranslateService} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'add-edit-group.component.html',
@@ -36,6 +36,7 @@ export class AddEditGroupComponent extends BaseAddEditForm implements OnInit {
     private readonly groupService = inject(GroupService);
     private readonly portfolioService = inject(PortfolioService);
     private readonly router = inject(Router);
+    private readonly translateService = inject(TranslateService);
 
     protected assets: SelectItem<number, string>[] = [];
 
@@ -111,7 +112,7 @@ export class AddEditGroupComponent extends BaseAddEditForm implements OnInit {
     private async createGroup(portfolioId: number): Promise<void> {
         await this.groupService.createGroup(this.form.value, portfolioId);
 
-        this.alertService.success('Group added successfully', { keepAfterRouteChange: true });
+        this.alertService.success(this.translateService.instant('app.groups.addEdit.addedSuccessfully'), { keepAfterRouteChange: true });
         this.groupService.notify();
         this.router.navigate([this.routerBackLink()], { relativeTo: this.route });
     }
@@ -124,7 +125,7 @@ export class AddEditGroupComponent extends BaseAddEditForm implements OnInit {
 
         await this.groupService.updateGroup(id, this.form.value);
 
-        this.alertService.success('Update successful', { keepAfterRouteChange: true });
+        this.alertService.success(this.translateService.instant('app.groups.addEdit.updatedSuccessfully'), { keepAfterRouteChange: true });
         this.groupService.notify();
         this.router.navigate([this.routerBackLink()], { relativeTo: this.route });
     }

@@ -43,7 +43,8 @@
         "selectAsset": "Seleccionar Activo",
         "searching": "Buscando...",
         "searchFailed": "Lo sentimos, no se pudieron cargar los Tickers.",
-        "required": "El activo es obligatorio"
+        "required": "El activo es obligatorio",
+        "addedSuccessfully": "Activo agregado exitosamente"
       },
       "dividends": {
         "title": "Dividendos",
@@ -233,10 +234,12 @@
         "colorRequired": "El color es obligatorio",
         "assets": "Activos",
         "assetsRequired": "Los activos son obligatorios",
-        "assetDisabled": "El activo está asignado al grupo “{{groupName}}”"
+        “assetDisabled”: “El activo está asignado al grupo “{{groupName}}””,
+        “addedSuccessfully”: “Grupo agregado exitosamente”,
+        “updatedSuccessfully”: “Actualización exitosa”
       },
-      "list": {
-        "title": "Grupos",
+      “list”: {
+        “title”: “Grupos”,
         "addGroup": "Agregar Grupo",
         "name": "Nombre"
       }
@@ -258,7 +261,9 @@
         "group": "Grupo",
         "percentage": "Porcentaje",
         "totalPercentage": "Porcentaje total",
-        "totalMustNotExceed100": "El porcentaje total no debe superar el 100%"
+        "totalMustNotExceed100": "El porcentaje total no debe superar el 100%",
+        "addedSuccessfully": "Estrategia agregada exitosamente",
+        "updatedSuccessfully": "Actualización exitosa"
       },
       "list": {
         "title": "Estrategias",
@@ -371,7 +376,9 @@
         "nameRequired": "El nombre es obligatorio",
         "currency": "Moneda",
         "currencyRequired": "La moneda es obligatoria",
-        "default": "Predeterminado"
+        "default": "Predeterminado",
+        "addedSuccessfully": "Portafolio agregado exitosamente",
+        "updatedSuccessfully": "Actualización exitosa"
       },
       "list": {
         "title": "Portafolios",
@@ -434,7 +441,9 @@
         "role": "Rol",
         "roleRequired": "El rol es obligatorio",
         "plan": "Plan",
-        "planRequired": "El plan es obligatorio"
+        "planRequired": "El plan es obligatorio",
+        "addedSuccessfully": "Usuario agregado exitosamente",
+        "updatedSuccessfully": "Actualización exitosa"
       },
       "list": {
         "title": "Usuarios",
@@ -508,7 +517,9 @@
         "typeRequired": "El tipo es obligatorio",
         "apiKey": "Clave API",
         "apiKeyRequired": "La clave API es obligatoria",
-        "userKey": "Clave de Usuario"
+        "userKey": "Clave de Usuario",
+        "addedSuccessfully": "Clave API agregada exitosamente",
+        "updatedSuccessfully": "Actualización exitosa"
       }
     },
     "goals": {
@@ -541,7 +552,9 @@
         "targetValueRequired": "El valor objetivo es obligatorio",
         "deadline": "Fecha límite (opcional)",
         "dcaPlan": "Plan DCA (opcional)",
-        "noDcaPlan": "— Ninguno —"
+        "noDcaPlan": "— Ninguno —",
+        "addedSuccessfully": "Meta agregada exitosamente",
+        "updatedSuccessfully": "Actualización exitosa"
       },
       "type": {
         "portfolioValue": "Valor de cartera",
@@ -590,7 +603,9 @@
         "expectedAnnualReturnRate": "Tasa de rendimiento anual esperada (%)",
         "expectedAnnualReturnRateRequired": "La tasa de rendimiento anual esperada es obligatoria",
         "expectedAnnualReturnRateMin": "La tasa de rendimiento anual esperada debe ser 0 o mayor",
-        "isActive": "Activo"
+        "isActive": "Activo",
+        "addedSuccessfully": "Plan DCA agregado exitosamente",
+        "updatedSuccessfully": "Plan DCA actualizado exitosamente"
       },
       "targetType": {
         "portfolio": "Cartera",
@@ -647,7 +662,9 @@
         "recurrence": "Recurrencia",
         "recurrenceOneTime": "Una vez",
         "recurrenceRecurring": "Recurrente",
-        "cooldownHours": "Tiempo de espera (horas)"
+        "cooldownHours": "Tiempo de espera (horas)",
+        "addedSuccessfully": "Alerta de precio agregada exitosamente",
+        "updatedSuccessfully": "Actualización exitosa"
       }
     },
     "account": {
@@ -695,7 +712,8 @@
         "mappedTicker": "Ticker asignado",
         "deleteTitle": "Eliminar asignación de importación",
         "deleteMessage": "¿Estás seguro de que quieres eliminar esta asignación de importación?",
-        "editTitle": "Editar asignación de importación"
+        "editTitle": "Editar asignación de importación",
+        "updatedSuccessfully": "Actualización exitosa"
       }
     },
     "shared": {

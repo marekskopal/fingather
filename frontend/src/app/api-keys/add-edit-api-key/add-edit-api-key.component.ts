@@ -13,7 +13,7 @@ import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selec
 import {SaveButtonComponent} from "@app/shared/components/save-button/save-button.component";
 import {SelectComponent} from "@app/shared/components/select/select.component";
 import {SelectItem} from "@app/shared/types/select-item";
-import {TranslatePipe} from "@ngx-translate/core";
+import {TranslatePipe, TranslateService} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'add-edit-api-key.component.html',
@@ -33,6 +33,7 @@ export class AddEditApiKeyComponent extends BaseAddEditForm implements OnInit {
     private readonly apiKeyService = inject(ApiKeyService);
     private readonly portfolioService = inject(PortfolioService);
     private readonly router = inject(Router);
+    private readonly translateService = inject(TranslateService);
 
     protected readonly ApiKeyTypeEnum = ApiKeyTypeEnum;
 
@@ -92,7 +93,7 @@ export class AddEditApiKeyComponent extends BaseAddEditForm implements OnInit {
         const portfolio = await this.portfolioService.getCurrentPortfolio();
         await this.apiKeyService.createApiKey(this.form.value, portfolio.id);
 
-        this.alertService.success('API key added successfully', { keepAfterRouteChange: true });
+        this.alertService.success(this.translateService.instant('app.apiKeys.addEdit.addedSuccessfully'), { keepAfterRouteChange: true });
         this.apiKeyService.notify();
         this.router.navigate([this.routerBackLink()], { relativeTo: this.route });
     }
@@ -105,7 +106,7 @@ export class AddEditApiKeyComponent extends BaseAddEditForm implements OnInit {
 
         await this.apiKeyService.updateApiKey(id, this.form.value);
 
-        this.alertService.success('Update successful', { keepAfterRouteChange: true });
+        this.alertService.success(this.translateService.instant('app.apiKeys.addEdit.updatedSuccessfully'), { keepAfterRouteChange: true });
         this.apiKeyService.notify();
         this.router.navigate([this.routerBackLink()], { relativeTo: this.route });
     }

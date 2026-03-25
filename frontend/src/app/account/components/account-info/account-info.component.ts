@@ -11,7 +11,7 @@ import {InputValidatorComponent} from '@app/shared/components/input-validator/in
 import {PasswordRequirementsComponent} from '@app/shared/components/password-requirements/password-requirements.component';
 import {PortfolioSelectorComponent} from '@app/shared/components/portfolio-selector/portfolio-selector.component';
 import {SaveButtonComponent} from '@app/shared/components/save-button/save-button.component';
-import {TranslateModule} from '@ngx-translate/core';
+import {TranslateModule, TranslateService} from '@ngx-translate/core';
 
 @Component({
     templateUrl: 'account-info.component.html',
@@ -31,6 +31,7 @@ export class AccountInfoComponent extends BaseForm implements OnInit {
     private readonly currentUserService = inject(CurrentUserService);
     private readonly authenticationService = inject(AuthenticationService);
     private readonly uniqueEmailValidator = inject(UniqueEmailValidator);
+    private readonly translateService = inject(TranslateService);
 
     protected readonly editing = signal<boolean>(false);
     protected readonly user = signal<User | null>(null);
@@ -110,7 +111,7 @@ export class AccountInfoComponent extends BaseForm implements OnInit {
             this.originalEmail = updatedUser.email;
             this.editing.set(false);
             this.submitted.set(false);
-            this.alertService.success('Update successful', {keepAfterRouteChange: true});
+            this.alertService.success(this.translateService.instant('app.account.accountInfo.updateSuccess'), {keepAfterRouteChange: true});
         } catch (error) {
             if (error instanceof Error) {
                 this.alertService.error(error.message);

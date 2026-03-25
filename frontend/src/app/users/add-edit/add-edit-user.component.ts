@@ -14,7 +14,7 @@ import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selec
 import {SaveButtonComponent} from "@app/shared/components/save-button/save-button.component";
 import {SelectComponent} from "@app/shared/components/select/select.component";
 import {SelectItem} from "@app/shared/types/select-item";
-import { TranslatePipe} from "@ngx-translate/core";
+import { TranslatePipe, TranslateService} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'add-edit-user.component.html',
@@ -35,6 +35,7 @@ export class AddEditUserComponent extends BaseAddEditForm implements OnInit {
     private readonly currencyService = inject(CurrencyService);
     private readonly currentUserService = inject(CurrentUserService);
     private readonly router = inject(Router);
+    private readonly translateService = inject(TranslateService);
 
     protected currencies: SelectItem<number, string>[] = [];
     protected roles: SelectItem<UserRoleEnum, UserRoleEnum>[] = [
@@ -115,7 +116,7 @@ export class AddEditUserComponent extends BaseAddEditForm implements OnInit {
     private async createUser(): Promise<void> {
         await this.userService.createUser(this.form.value);
 
-        this.alertService.success('User added successfully', { keepAfterRouteChange: true });
+        this.alertService.success(this.translateService.instant('app.users.addEdit.addedSuccessfully'), { keepAfterRouteChange: true });
         this.userService.notify();
         this.router.navigate(['../'], { relativeTo: this.route });
     }
@@ -128,7 +129,7 @@ export class AddEditUserComponent extends BaseAddEditForm implements OnInit {
 
         await this.userService.updateUser(id, this.form.value);
 
-        this.alertService.success('Update successful', { keepAfterRouteChange: true });
+        this.alertService.success(this.translateService.instant('app.users.addEdit.updatedSuccessfully'), { keepAfterRouteChange: true });
         this.userService.notify();
         this.router.navigate(['../'], { relativeTo: this.route });
     }

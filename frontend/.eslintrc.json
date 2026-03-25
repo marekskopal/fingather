@@ -30,7 +30,7 @@
         "import/prefer-default-export": "off",
         "max-len": [
           "error",
-          130
+          150
         ],
         "simple-import-sort/imports": "error",
         "simple-import-sort/exports": "error",

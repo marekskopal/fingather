@@ -43,7 +43,8 @@
         "selectAsset": "Sélectionner un actif",
         "searching": "Recherche en cours...",
         "searchFailed": "Désolé, les tickers n'ont pas pu être chargés.",
-        "required": "L'actif est requis"
+        "required": "L'actif est requis",
+        "addedSuccessfully": "Actif ajouté avec succès"
       },
       "dividends": {
         "title": "Dividendes",
@@ -233,10 +234,12 @@
         "colorRequired": "La couleur est requise",
         "assets": "Actifs",
         "assetsRequired": "Les actifs sont requis",
-        "assetDisabled": "L'actif est assigné au groupe “{{groupName}}”"
+        “assetDisabled”: “L'actif est assigné au groupe “{{groupName}}””,
+        “addedSuccessfully”: “Groupe ajouté avec succès”,
+        “updatedSuccessfully”: “Mise à jour réussie”
       },
-      "list": {
-        "title": "Groupes",
+      “list”: {
+        “title”: “Groupes”,
         "addGroup": "Ajouter un groupe",
         "name": "Nom"
       }
@@ -258,7 +261,9 @@
         "group": "Groupe",
         "percentage": "Pourcentage",
         "totalPercentage": "Pourcentage total",
-        "totalMustNotExceed100": "Le pourcentage total ne doit pas dépasser 100 %"
+        "totalMustNotExceed100": "Le pourcentage total ne doit pas dépasser 100 %",
+        "addedSuccessfully": "Stratégie ajoutée avec succès",
+        "updatedSuccessfully": "Mise à jour réussie"
       },
       "list": {
         "title": "Stratégies",
@@ -371,7 +376,9 @@
         "nameRequired": "Le nom est requis",
         "currency": "Devise",
         "currencyRequired": "La devise est requise",
-        "default": "Par défaut"
+        "default": "Par défaut",
+        "addedSuccessfully": "Portefeuille ajouté avec succès",
+        "updatedSuccessfully": "Mise à jour réussie"
       },
       "list": {
         "title": "Portefeuilles",
@@ -434,7 +441,9 @@
         "role": "Rôle",
         "roleRequired": "Le rôle est requis",
         "plan": "Abonnement",
-        "planRequired": "L'abonnement est requis"
+        "planRequired": "L'abonnement est requis",
+        "addedSuccessfully": "Utilisateur ajouté avec succès",
+        "updatedSuccessfully": "Mise à jour réussie"
       },
       "list": {
         "title": "Utilisateurs",
@@ -508,7 +517,9 @@
         "typeRequired": "Le type est requis",
         "apiKey": "Clé API",
         "apiKeyRequired": "La clé API est requise",
-        "userKey": "Clé utilisateur"
+        "userKey": "Clé utilisateur",
+        "addedSuccessfully": "Clé API ajoutée avec succès",
+        "updatedSuccessfully": "Mise à jour réussie"
       }
     },
     "goals": {
@@ -541,7 +552,9 @@
         "targetValueRequired": "La valeur cible est obligatoire",
         "deadline": "Échéance (optionnel)",
         "dcaPlan": "Plan DCA (optionnel)",
-        "noDcaPlan": "— Aucun —"
+        "noDcaPlan": "— Aucun —",
+        "addedSuccessfully": "Objectif ajouté avec succès",
+        "updatedSuccessfully": "Mise à jour réussie"
       },
       "type": {
         "portfolioValue": "Valeur du portefeuille",
@@ -590,7 +603,9 @@
         "expectedAnnualReturnRate": "Taux de rendement annuel attendu (%)",
         "expectedAnnualReturnRateRequired": "Le taux de rendement annuel attendu est requis",
         "expectedAnnualReturnRateMin": "Le taux de rendement annuel attendu doit être 0 ou plus",
-        "isActive": "Actif"
+        "isActive": "Actif",
+        "addedSuccessfully": "Plan DCA ajouté avec succès",
+        "updatedSuccessfully": "Plan DCA mis à jour avec succès"
       },
       "targetType": {
         "portfolio": "Portefeuille",
@@ -647,7 +662,9 @@
         "recurrence": "Récurrence",
         "recurrenceOneTime": "Une fois",
         "recurrenceRecurring": "Récurrent",
-        "cooldownHours": "Délai de refroidissement (heures)"
+        "cooldownHours": "Délai de refroidissement (heures)",
+        "addedSuccessfully": "Alerte de prix ajoutée avec succès",
+        "updatedSuccessfully": "Mise à jour réussie"
       }
     },
     "account": {
@@ -695,7 +712,8 @@
         "mappedTicker": "Ticker associé",
         "deleteTitle": "Supprimer la correspondance d'importation",
         "deleteMessage": "Êtes-vous sûr de vouloir supprimer cette correspondance d'importation ?",
-        "editTitle": "Modifier la correspondance d'importation"
+        "editTitle": "Modifier la correspondance d'importation",
+        "updatedSuccessfully": "Mise à jour réussie"
       }
     },
     "shared": {

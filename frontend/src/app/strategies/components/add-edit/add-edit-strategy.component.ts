@@ -162,10 +162,12 @@ export class AddEditStrategyComponent extends BaseAddEditForm implements OnInit 
 
             if (this.id() === null) {
                 await this.strategyService.createStrategy(strategyData, portfolio.id);
-                this.alertService.success('Strategy added successfully', { keepAfterRouteChange: true });
+                this.alertService.success(this.translateService.instant('app.strategies.addEdit.addedSuccessfully'), { keepAfterRouteChange: true });
             } else {
                 await this.strategyService.updateStrategy(this.id()!, strategyData);
-                this.alertService.success('Update successful', { keepAfterRouteChange: true });
+                this.alertService.success(
+                    this.translateService.instant('app.strategies.addEdit.updatedSuccessfully'), { keepAfterRouteChange: true },
+                );
             }
 
             this.strategyService.notify();

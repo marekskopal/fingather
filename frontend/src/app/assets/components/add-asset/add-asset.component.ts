@@ -11,7 +11,7 @@ import {SaveButtonComponent} from "@app/shared/components/save-button/save-butto
 import {
     TickerSearchSelectorComponent,
 } from "@app/shared/components/ticker-search-selector/ticker-search-selector.component";
-import { TranslatePipe} from "@ngx-translate/core";
+import { TranslatePipe, TranslateService} from "@ngx-translate/core";
 
 
 @Component({
@@ -33,6 +33,7 @@ export class AddAssetComponent extends BaseForm implements OnInit {
     private readonly portfolioService = inject(PortfolioService);
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
+    private readonly translateService = inject(TranslateService);
 
     public ngOnInit(): void {
         this.form = this.formBuilder.group({
@@ -65,7 +66,7 @@ export class AddAssetComponent extends BaseForm implements OnInit {
     private async createAsset(portfolioId: number): Promise<void> {
         await this.assetService.createAsset(this.form.value, portfolioId);
 
-        this.alertService.success('Asset added successfully', { keepAfterRouteChange: true });
+        this.alertService.success(this.translateService.instant('app.assets.addAsset.addedSuccessfully'), { keepAfterRouteChange: true });
         this.assetService.notify();
         this.router.navigate(['../'], { relativeTo: this.route });
     }

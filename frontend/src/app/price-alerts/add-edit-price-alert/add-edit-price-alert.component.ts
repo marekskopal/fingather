@@ -137,7 +137,7 @@ export class AddEditPriceAlertComponent extends BaseAddEditForm implements OnIni
     private async createPriceAlert(): Promise<void> {
         await this.priceAlertService.createPriceAlert(this.priceAlertFormValue());
 
-        this.alertService.success('Price alert added successfully', { keepAfterRouteChange: true });
+        this.alertService.success(this.translateService.instant('app.priceAlerts.addEdit.addedSuccessfully'), { keepAfterRouteChange: true });
         this.priceAlertService.notify();
         this.router.navigate([this.routerBackLink()], { relativeTo: this.route });
     }
@@ -150,7 +150,7 @@ export class AddEditPriceAlertComponent extends BaseAddEditForm implements OnIni
 
         await this.priceAlertService.updatePriceAlert(id, this.priceAlertFormValue());
 
-        this.alertService.success('Update successful', { keepAfterRouteChange: true });
+        this.alertService.success(this.translateService.instant('app.priceAlerts.addEdit.updatedSuccessfully'), { keepAfterRouteChange: true });
         this.priceAlertService.notify();
         this.router.navigate([this.routerBackLink()], { relativeTo: this.route });
     }

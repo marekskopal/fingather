@@ -155,7 +155,7 @@ export class AddEditDcaPlanComponent extends BaseAddEditForm implements OnInit {
 
         await this.dcaPlanService.createDcaPlan(this.currentPortfolioId, this.form.value);
 
-        this.alertService.success('DCA plan added successfully', { keepAfterRouteChange: true });
+        this.alertService.success(this.translateService.instant('app.dcaPlans.addEdit.addedSuccessfully'), { keepAfterRouteChange: true });
         this.dcaPlanService.notify();
         this.router.navigate([this.routerBackLink()], { relativeTo: this.route });
     }
@@ -168,7 +168,7 @@ export class AddEditDcaPlanComponent extends BaseAddEditForm implements OnInit {
 
         await this.dcaPlanService.updateDcaPlan(id, this.form.value);
 
-        this.alertService.success('DCA plan updated successfully', { keepAfterRouteChange: true });
+        this.alertService.success(this.translateService.instant('app.dcaPlans.addEdit.updatedSuccessfully'), { keepAfterRouteChange: true });
         this.dcaPlanService.notify();
         this.router.navigate([this.routerBackLink()], { relativeTo: this.route });
     }

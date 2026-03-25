@@ -12,7 +12,7 @@ import {BaseAddEditForm} from '@app/shared/components/form/base-add-edit-form';
 import {InputValidatorComponent} from '@app/shared/components/input-validator/input-validator.component';
 import {SaveButtonComponent} from '@app/shared/components/save-button/save-button.component';
 import {TickerSearchSelectorComponent} from '@app/shared/components/ticker-search-selector/ticker-search-selector.component';
-import {TranslatePipe} from '@ngx-translate/core';
+import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 
 @Component({
     templateUrl: 'edit-import-mapping.component.html',
@@ -31,6 +31,7 @@ export class EditImportMappingComponent extends BaseAddEditForm implements OnIni
     private readonly importMappingService = inject(ImportMappingService);
     private readonly tickerService = inject(TickerService);
     private readonly router = inject(Router);
+    private readonly translateService = inject(TranslateService);
 
     public async ngOnInit(): Promise<void> {
         this.loading.set(true);
@@ -70,7 +71,7 @@ export class EditImportMappingComponent extends BaseAddEditForm implements OnIni
             const ticker = this.form.value.tickerId as Ticker;
             await this.importMappingService.updateImportMapping(id, ticker.id);
 
-            this.alertService.success('Update successful', {keepAfterRouteChange: true});
+            this.alertService.success(this.translateService.instant('app.settings.importMappings.updatedSuccessfully'), {keepAfterRouteChange: true});
             this.importMappingService.notify();
             this.router.navigate([this.routerBackLink()], {relativeTo: this.route});
         } catch (error) {

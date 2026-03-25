@@ -150,7 +150,7 @@ export class AddEditGoalComponent extends BaseAddEditForm implements OnInit {
     private async createGoal(): Promise<void> {
         await this.goalService.createGoal(this.form.value.portfolioId, this.buildFormPayload());
 
-        this.alertService.success('Goal added successfully', { keepAfterRouteChange: true });
+        this.alertService.success(this.translateService.instant('app.goals.addEdit.addedSuccessfully'), { keepAfterRouteChange: true });
         this.goalService.notify();
         this.router.navigate([this.routerBackLink()], { relativeTo: this.route });
     }
@@ -163,7 +163,7 @@ export class AddEditGoalComponent extends BaseAddEditForm implements OnInit {
 
         await this.goalService.updateGoal(id, this.buildFormPayload());
 
-        this.alertService.success('Update successful', { keepAfterRouteChange: true });
+        this.alertService.success(this.translateService.instant('app.goals.addEdit.updatedSuccessfully'), { keepAfterRouteChange: true });
         this.goalService.notify();
         this.router.navigate([this.routerBackLink()], { relativeTo: this.route });
     }

@@ -12,7 +12,7 @@ import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selec
 import {SaveButtonComponent} from "@app/shared/components/save-button/save-button.component";
 import {SelectComponent} from "@app/shared/components/select/select.component";
 import {SelectItem} from "@app/shared/types/select-item";
-import { TranslatePipe} from "@ngx-translate/core";
+import { TranslatePipe, TranslateService} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'add-edit-portfolio.component.html',
@@ -32,6 +32,7 @@ export class AddEditPortfolioComponent extends BaseAddEditForm implements OnInit
     private readonly portfolioService = inject(PortfolioService);
     private readonly currencyService = inject(CurrencyService);
     private readonly router = inject(Router);
+    private readonly translateService = inject(TranslateService);
 
     protected currencies: SelectItem<number, string>[] = [];
 
@@ -96,7 +97,7 @@ export class AddEditPortfolioComponent extends BaseAddEditForm implements OnInit
         this.portfolioService.setCurrentPortfolio(portfolio);
         await this.portfolioService.getDefaultPortfolio();
 
-        this.alertService.success('Group added successfully', { keepAfterRouteChange: true });
+        this.alertService.success(this.translateService.instant('app.portfolios.addEdit.addedSuccessfully'), { keepAfterRouteChange: true });
         this.portfolioService.notify();
         this.router.navigate(['../'], { relativeTo: this.route });
     }
@@ -109,7 +110,7 @@ export class AddEditPortfolioComponent extends BaseAddEditForm implements OnInit
 
         await this.portfolioService.updatePortfolio(id, this.form.value);
 
-        this.alertService.success('Update successful', { keepAfterRouteChange: true });
+        this.alertService.success(this.translateService.instant('app.portfolios.addEdit.updatedSuccessfully'), { keepAfterRouteChange: true });
         this.portfolioService.notify();
         this.router.navigate(['../../'], { relativeTo: this.route });
     }

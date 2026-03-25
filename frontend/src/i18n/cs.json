@@ -43,7 +43,8 @@
         "selectAsset": "Vybrat aktivum",
         "searching": "Vyhledávám...",
         "searchFailed": "Omlouváme se, značka nebyla nalezena.",
-        "required": "Aktivum je povinné"
+        "required": "Aktivum je povinné",
+        "addedSuccessfully": "Aktivum přidáno úspěšně"
       },
       "dividends": {
         "title": "Dividendy",
@@ -233,10 +234,12 @@
         "colorRequired": "Barva je povinná",
         "assets": "Aktiva",
         "assetsRequired": "Aktiva jsou povinná",
-        "assetDisabled": "Aktivum je přiřazené do skupiny „{{groupName}}“"
+        “assetDisabled”: “Aktivum je přiřazené do skupiny „{{groupName}}””,
+        “addedSuccessfully”: “Skupina přidána úspěšně”,
+        “updatedSuccessfully”: “Aktualizace provedena úspěšně”
       },
-      "list": {
-        "title": "Skupiny",
+      “list”: {
+        “title”: “Skupiny”,
         "addGroup": "Přidat skupinu",
         "name": "Jméno"
       }
@@ -258,7 +261,9 @@
         "group": "Skupina",
         "percentage": "Procento",
         "totalPercentage": "Celkové procento",
-        "totalMustNotExceed100": "Celkové procento nesmí překročit 100%"
+        "totalMustNotExceed100": "Celkové procento nesmí překročit 100%",
+        "addedSuccessfully": "Strategie přidána úspěšně",
+        "updatedSuccessfully": "Aktualizace provedena úspěšně"
       },
       "list": {
         "title": "Strategie",
@@ -371,7 +376,9 @@
         "nameRequired": "Jméno je povinné",
         "currency": "Měna",
         "currencyRequired": "Měna je povinná",
-        "default": "Výchozí"
+        "default": "Výchozí",
+        "addedSuccessfully": "Portfolio přidáno úspěšně",
+        "updatedSuccessfully": "Aktualizace provedena úspěšně"
       },
       "list": {
         "title": "Portfólia",
@@ -433,6 +440,9 @@
         "defaultCurrencyRequired": "Výchozí měna je povinná",
         "role": "Role",
         "roleRequired": "Role je povinná"
+        "roleRequired": "Role je povinná",
+        "addedSuccessfully": "Uživatel přidán úspěšně",
+        "updatedSuccessfully": "Aktualizace provedena úspěšně"
       },
       "list": {
         "title": "Uživatelé",
@@ -504,7 +514,9 @@
         "typeRequired": "Typ je povinný",
         "apiKey": "API klíč",
         "apiKeyRequired": "API klíč je povinný",
-        "userKey": "Uživatelský klíč"
+        "userKey": "Uživatelský klíč",
+        "addedSuccessfully": "API klíč přidán úspěšně",
+        "updatedSuccessfully": "Aktualizace provedena úspěšně"
       }
     },
     "goals": {
@@ -537,7 +549,9 @@
         "targetValueRequired": "Cílová hodnota je povinná",
         "deadline": "Termín (volitelné)",
         "dcaPlan": "DCA plán (volitelné)",
-        "noDcaPlan": "— Žádný —"
+        "noDcaPlan": "— Žádný —",
+        "addedSuccessfully": "Cíl přidán úspěšně",
+        "updatedSuccessfully": "Aktualizace provedena úspěšně"
       },
       "type": {
         "portfolioValue": "Hodnota portfolia",
@@ -586,7 +600,9 @@
         "expectedAnnualReturnRate": "Očekávaný roční výnos (%)",
         "expectedAnnualReturnRateRequired": "Očekávaný roční výnos je povinný",
         "expectedAnnualReturnRateMin": "Očekávaný roční výnos musí být 0 nebo větší",
-        "isActive": "Aktivní"
+        "isActive": "Aktivní",
+        "addedSuccessfully": "DCA plán přidán úspěšně",
+        "updatedSuccessfully": "DCA plán byl úspěšně aktualizován"
       },
       "targetType": {
         "portfolio": "Portfólio",
@@ -643,7 +659,9 @@
         "recurrence": "Opakování",
         "recurrenceOneTime": "Jednorázově",
         "recurrenceRecurring": "Opakovaně",
-        "cooldownHours": "Čekací doba (hodiny)"
+        "cooldownHours": "Čekací doba (hodiny)",
+        "addedSuccessfully": "Cenový alarm přidán úspěšně",
+        "updatedSuccessfully": "Aktualizace provedena úspěšně"
       }
     },
     "account": {
@@ -682,7 +700,8 @@
         "mappedTicker": "Namapovaný ticker",
         "deleteTitle": "Smazat mapování importu",
         "deleteMessage": "Opravdu chcete smazat toto mapování importu?",
-        "editTitle": "Upravit mapování importu"
+        "editTitle": "Upravit mapování importu",
+        "updatedSuccessfully": "Aktualizace provedena úspěšně"
       }
     },
     "shared": {
