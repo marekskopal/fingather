@@ -25,6 +25,7 @@
                             <th class="w-10">{{ 'app.goals.goals.currentValue' | translate }}</th>
                             <th class="w-15">{{ 'app.goals.goals.progress' | translate }}</th>
                             <th class="w-10">{{ 'app.goals.goals.deadline' | translate }}</th>
+                            <th class="w-15">{{ 'app.goals.goals.reachability' | translate }}</th>
                             <th class="w-10">{{ 'app.goals.goals.achievedAt' | translate }}</th>
                             <th class="w-10">{{ 'app.goals.goals.active' | translate }}</th>
                             <th class="w-15"></th>
@@ -43,6 +44,20 @@
                                     />
                                 </td>
                                 <td>{{goal.deadline ? (goal.deadline | date: 'y-MM-dd') : '—'}}</td>
+                                <td>
+                                    @if (goal.dcaPlanId !== null) {
+                                        @if (goal.isReachable === true) {
+                                            <span class="tag tag-buy">{{ 'app.goals.goals.reachable' | translate }}</span>
+                                            @if (goal.projectedAchievementDate) {
+                                                <div class="small text-muted mt-1">{{ goal.projectedAchievementDate }}</div>
+                                            }
+                                        } @else if (goal.isReachable === false) {
+                                            <span class="tag tag-sell">{{ 'app.goals.goals.notReachable' | translate }}</span>
+                                        }
+                                    } @else {
+                                        <span class="text-muted">—</span>
+                                    }
+                                </td>
                                 <td>{{goal.achievedAt ? (goal.achievedAt | date: 'y-MM-dd') : '—'}}</td>
                                 <td>
                                     <div class="form-check form-switch">

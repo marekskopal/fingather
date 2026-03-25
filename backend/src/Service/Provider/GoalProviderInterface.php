@@ -6,6 +6,7 @@ namespace FinGather\Service\Provider;
 
 use DateTimeImmutable;
 use Decimal\Decimal;
+use FinGather\Model\Entity\DcaPlan;
 use FinGather\Model\Entity\Enum\GoalTypeEnum;
 use FinGather\Model\Entity\Goal;
 use FinGather\Model\Entity\Portfolio;
@@ -28,6 +29,7 @@ interface GoalProviderInterface
 		GoalTypeEnum $type,
 		Decimal $targetValue,
 		?DateTimeImmutable $deadline,
+		?DcaPlan $dcaPlan = null,
 	): Goal;
 
 	public function updateGoal(
@@ -37,6 +39,7 @@ interface GoalProviderInterface
 		Decimal $targetValue,
 		?DateTimeImmutable $deadline,
 		bool $isActive,
+		?DcaPlan $dcaPlan = null,
 	): Goal;
 
 	public function markAchieved(Goal $goal): void;

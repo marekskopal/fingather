@@ -66,6 +66,16 @@
                             formControlName="deadline"
                         />
                     </div>
+                    @if (dcaPlans().length > 0) {
+                        <div class="mb-3">
+                            <label for="dcaPlanId" class="form-label">{{ 'app.goals.addEdit.dcaPlan' | translate }}</label>
+                            <fingather-select
+                                id="dcaPlanId"
+                                formControlName="dcaPlanId"
+                                [items]="dcaPlans()"
+                            />
+                        </div>
+                    }
                     <div class="form-group buttons">
                         <a [routerLink]="routerBackLink()" class="btn btn-secondary" tabindex="0">{{ 'app.common.cancel' | translate }}</a>
 

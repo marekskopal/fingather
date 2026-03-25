@@ -523,6 +523,9 @@
         "achievedAt": "Logrado",
         "achieved": "Logrado",
         "active": "Activo",
+        "reachability": "Alcanzabilidad",
+        "reachable": "Alcanzable",
+        "notReachable": "No alcanzable",
         "addGoal": "Añadir objetivo",
         "deleteTitle": "Eliminar objetivo",
         "deleteMessage": "¿Está seguro de que desea eliminar este objetivo?"
@@ -536,7 +539,9 @@
         "typeRequired": "El tipo es obligatorio",
         "targetValue": "Valor objetivo",
         "targetValueRequired": "El valor objetivo es obligatorio",
-        "deadline": "Fecha límite (opcional)"
+        "deadline": "Fecha límite (opcional)",
+        "dcaPlan": "Plan DCA (opcional)",
+        "noDcaPlan": "— Ninguno —"
       },
       "type": {
         "portfolioValue": "Valor de cartera",

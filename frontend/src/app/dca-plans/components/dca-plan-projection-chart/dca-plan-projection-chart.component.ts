@@ -3,12 +3,13 @@ import {
     Component, CSP_NONCE, effect, inject, input, signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { DcaPlanProjection } from '@app/models';
+import { DcaPlanProjection, Goal } from '@app/models';
+import { GoalTypeEnum } from '@app/models/enums/goal-type-enum';
 import { DcaPlanService } from '@app/services';
 import { ChartUtils } from '@app/utils/chart-utils';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import {
-    ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill,
+    ApexAnnotations, ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill,
     ApexGrid, ApexLegend, ApexStroke, ApexTheme, ApexXAxis, ApexYAxis, NgApexchartsModule,
 } from 'ng-apexcharts';
 
@@ -24,6 +25,7 @@ export type ChartOptions = {
     theme: ApexTheme;
     fill: ApexFill;
     colors: string[];
+    annotations: ApexAnnotations;
 };
 
 @Component({
@@ -42,6 +44,7 @@ export class DcaPlanProjectionChartComponent {
     private readonly translateService = inject(TranslateService);
 
     public readonly dcaPlanId = input.required<number>();
+    public readonly goals = input<Goal[]>([]);
 
     protected readonly horizonYears = signal<number>(10);
     protected readonly withCurrentValue = signal<boolean>(true);
@@ -58,6 +61,10 @@ export class DcaPlanProjectionChartComponent {
             if (planId > 0) {
                 this.refreshChart(planId, this.horizonYears(), this.withCurrentValue());
             }
+        });
+
+        effect(() => {
+            this.chartOptions.annotations = this.buildGoalAnnotations(this.goals());
         });
     }
 
@@ -81,6 +88,28 @@ export class DcaPlanProjectionChartComponent {
         this.chartOptions.series[1].data = projection.dataPoints.map((p) => parseFloat(p.investedCapital));
 
         this.loading.set(false);
+    }
+
+    private buildGoalAnnotations(goals: Goal[]): ApexAnnotations {
+        const reachableGoals = goals.filter((g) => g.type !== GoalTypeEnum.ReturnPercentage);
+        if (reachableGoals.length === 0) {
+            return {};
+        }
+
+        return {
+            yaxis: reachableGoals.map((goal) => ({
+                y: parseFloat(goal.targetValue),
+                borderColor: goal.isReachable === true ? '#28a745' : '#dc3545',
+                strokeDashArray: 4,
+                label: {
+                    text: `${this.translateService.instant('app.goals.goals.reachability')}: ${parseFloat(goal.targetValue).toLocaleString()}`,
+                    style: {
+                        color: '#fff',
+                        background: goal.isReachable === true ? '#28a745' : '#dc3545',
+                    },
+                },
+            })),
+        };
     }
 
     private initializeChartOptions(): void {
@@ -129,6 +158,7 @@ export class DcaPlanProjectionChartComponent {
             theme: ChartUtils.theme(),
             fill: ChartUtils.gradientFill(),
             colors: ChartUtils.colors(2),
+            annotations: {},
         };
     }
 }

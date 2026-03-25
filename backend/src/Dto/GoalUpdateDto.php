@@ -15,6 +15,7 @@ use FinGather\Model\Entity\Enum\GoalTypeEnum;
  *     targetValue: float,
  *     deadline: string|null,
  *     isActive: bool,
+ *     dcaPlanId: int|null,
  * }>
  */
 final readonly class GoalUpdateDto implements ArrayFactoryInterface
@@ -25,6 +26,7 @@ final readonly class GoalUpdateDto implements ArrayFactoryInterface
 		public Decimal $targetValue,
 		public ?DateTimeImmutable $deadline,
 		public bool $isActive,
+		public ?int $dcaPlanId,
 	) {
 	}
 
@@ -36,6 +38,7 @@ final readonly class GoalUpdateDto implements ArrayFactoryInterface
 			targetValue: new Decimal((string) $data['targetValue']),
 			deadline: $data['deadline'] !== null ? new DateTimeImmutable($data['deadline']) : null,
 			isActive: $data['isActive'],
+			dcaPlanId: $data['dcaPlanId'] ?? null,
 		);
 	}
 }

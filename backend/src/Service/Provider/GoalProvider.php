@@ -6,6 +6,7 @@ namespace FinGather\Service\Provider;
 
 use DateTimeImmutable;
 use Decimal\Decimal;
+use FinGather\Model\Entity\DcaPlan;
 use FinGather\Model\Entity\Enum\GoalTypeEnum;
 use FinGather\Model\Entity\Goal;
 use FinGather\Model\Entity\Portfolio;
@@ -42,6 +43,7 @@ final readonly class GoalProvider implements GoalProviderInterface
 		GoalTypeEnum $type,
 		Decimal $targetValue,
 		?DateTimeImmutable $deadline,
+		?DcaPlan $dcaPlan = null,
 	): Goal {
 		$goal = new Goal(
 			user: $user,
@@ -52,6 +54,7 @@ final readonly class GoalProvider implements GoalProviderInterface
 			isActive: true,
 			achievedAt: null,
 			createdAt: new DateTimeImmutable(),
+			dcaPlan: $dcaPlan,
 		);
 		$this->goalRepository->persist($goal);
 
@@ -65,12 +68,14 @@ final readonly class GoalProvider implements GoalProviderInterface
 		Decimal $targetValue,
 		?DateTimeImmutable $deadline,
 		bool $isActive,
+		?DcaPlan $dcaPlan = null,
 	): Goal {
 		$goal->portfolio = $portfolio;
 		$goal->type = $type;
 		$goal->targetValue = $targetValue;
 		$goal->deadline = $deadline;
 		$goal->isActive = $isActive;
+		$goal->dcaPlan = $dcaPlan;
 		$this->goalRepository->persist($goal);
 
 		return $goal;

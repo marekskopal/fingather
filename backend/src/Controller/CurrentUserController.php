@@ -23,10 +23,8 @@ use Psr\Http\Message\ServerRequestInterface;
 
 final readonly class CurrentUserController
 {
-	public function __construct(
-		private RequestService $requestService,
-		private UserProviderInterface $userProvider,
-	) {
+	public function __construct(private RequestService $requestService, private UserProviderInterface $userProvider,)
+	{
 	}
 
 	#[RouteGet(Routes::CurrentUser->value)]

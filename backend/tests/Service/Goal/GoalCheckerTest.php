@@ -8,6 +8,7 @@ use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Model\Entity\Enum\GoalTypeEnum;
 use FinGather\Model\Entity\Goal;
+use FinGather\Service\DataCalculator\DcaPlanDataCalculator;
 use FinGather\Service\DataCalculator\Dto\CalculatedDataDto;
 use FinGather\Service\Goal\GoalChecker;
 use FinGather\Service\Provider\PortfolioDataProviderInterface;
@@ -16,6 +17,7 @@ use FinGather\Tests\Fixtures\Model\Entity\UserFixture;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
 
 #[CoversClass(GoalChecker::class)]
 #[UsesClass(Goal::class)]
@@ -177,7 +179,9 @@ final class GoalCheckerTest extends TestCase
 				->willReturn($portfolioData);
 		}
 
-		return new GoalChecker($portfolioDataProvider);
+		$dcaPlanDataCalculator = (new ReflectionClass(DcaPlanDataCalculator::class))->newInstanceWithoutConstructor();
+
+		return new GoalChecker($portfolioDataProvider, $dcaPlanDataCalculator);
 	}
 
 	private function makePortfolioData(

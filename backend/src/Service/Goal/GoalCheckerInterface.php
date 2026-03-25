@@ -6,6 +6,7 @@ namespace FinGather\Service\Goal;
 
 use DateTimeImmutable;
 use Decimal\Decimal;
+use FinGather\Dto\GoalReachabilityDto;
 use FinGather\Model\Entity\Goal;
 
 interface GoalCheckerInterface
@@ -15,4 +16,6 @@ interface GoalCheckerInterface
 	public function isAchieved(Goal $goal, Decimal $currentValue): bool;
 
 	public function getProgressPercentage(Goal $goal, Decimal $currentValue): float;
+
+	public function getReachability(Goal $goal): GoalReachabilityDto;
 }

@@ -12,4 +12,7 @@ export interface Goal extends AbstractEntity {
     currentValue: string;
     progressPercentage: number;
     createdAt: string;
+    dcaPlanId: number | null;
+    isReachable: boolean | null;
+    projectedAchievementDate: string | null;
 }

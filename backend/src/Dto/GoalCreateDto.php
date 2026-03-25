@@ -14,6 +14,7 @@ use FinGather\Model\Entity\Enum\GoalTypeEnum;
  *     type: value-of<GoalTypeEnum>,
  *     targetValue: float,
  *     deadline: string|null,
+ *     dcaPlanId: int|null,
  * }>
  */
 final readonly class GoalCreateDto implements ArrayFactoryInterface
@@ -23,6 +24,7 @@ final readonly class GoalCreateDto implements ArrayFactoryInterface
 		public GoalTypeEnum $type,
 		public Decimal $targetValue,
 		public ?DateTimeImmutable $deadline,
+		public ?int $dcaPlanId,
 	) {
 	}
 
@@ -33,6 +35,7 @@ final readonly class GoalCreateDto implements ArrayFactoryInterface
 			type: GoalTypeEnum::from($data['type']),
 			targetValue: new Decimal((string) $data['targetValue']),
 			deadline: $data['deadline'] !== null ? new DateTimeImmutable($data['deadline']) : null,
+			dcaPlanId: $data['dcaPlanId'] ?? null,
 		);
 	}
 }

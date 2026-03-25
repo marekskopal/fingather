@@ -5,9 +5,9 @@ import {
 import { ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIcon } from '@angular/material/icon';
 import { Router, RouterLink } from '@angular/router';
-import { Portfolio } from '@app/models';
+import { DcaPlan, Portfolio } from '@app/models';
 import { GoalTypeEnum } from '@app/models/enums/goal-type-enum';
-import { PortfolioService } from '@app/services';
+import { DcaPlanService, PortfolioService } from '@app/services';
 import { GoalService } from '@app/services/goal.service';
 import { DateInputComponent } from '@app/shared/components/date-input/date-input.component';
 import { BaseAddEditForm } from '@app/shared/components/form/base-add-edit-form';
@@ -17,6 +17,8 @@ import { SelectComponent } from '@app/shared/components/select/select.component'
 import { SelectItem } from '@app/shared/types/select-item';
 import { TranslateService } from '@ngx-translate/core';
 import { TranslatePipe } from '@ngx-translate/core';
+
+const NO_DCA_PLAN_KEY = 0;
 
 @Component({
     templateUrl: 'add-edit-goal.component.html',
@@ -35,10 +37,12 @@ import { TranslatePipe } from '@ngx-translate/core';
 export class AddEditGoalComponent extends BaseAddEditForm implements OnInit {
     private readonly goalService = inject(GoalService);
     private readonly portfolioService = inject(PortfolioService);
+    private readonly dcaPlanService = inject(DcaPlanService);
     private readonly translateService = inject(TranslateService);
     private readonly router = inject(Router);
 
     protected readonly portfolios = signal<SelectItem<number, string>[]>([]);
+    protected readonly dcaPlans = signal<SelectItem<number, string>[]>([]);
 
     protected types: SelectItem<GoalTypeEnum, string>[] = [];
 
@@ -68,6 +72,15 @@ export class AddEditGoalComponent extends BaseAddEditForm implements OnInit {
             targetValue: ['', Validators.required],
             deadline: [null],
             isActive: [true],
+            dcaPlanId: [NO_DCA_PLAN_KEY],
+        });
+
+        this.form.get('portfolioId')!.valueChanges.subscribe(async (portfolioId: number | null) => {
+            if (portfolioId !== null) {
+                await this.loadDcaPlans(portfolioId);
+            } else {
+                this.dcaPlans.set([]);
+            }
         });
 
         await this.loadPortfolios();
@@ -75,7 +88,14 @@ export class AddEditGoalComponent extends BaseAddEditForm implements OnInit {
         const id = this.id();
         if (id !== null) {
             const goal = await this.goalService.getGoal(id);
-            this.form.patchValue(goal);
+            this.form.patchValue({
+                ...goal,
+                dcaPlanId: goal.dcaPlanId ?? NO_DCA_PLAN_KEY,
+            });
+
+            if (goal.portfolioId) {
+                await this.loadDcaPlans(goal.portfolioId);
+            }
         }
 
         this.loading.set(false);
@@ -84,6 +104,14 @@ export class AddEditGoalComponent extends BaseAddEditForm implements OnInit {
     private async loadPortfolios(): Promise<void> {
         const portfolios = await this.portfolioService.getPortfolios();
         this.portfolios.set(portfolios.map((p: Portfolio) => ({ key: p.id, label: p.name })));
+    }
+
+    private async loadDcaPlans(portfolioId: number): Promise<void> {
+        const plans = await this.dcaPlanService.getDcaPlans(portfolioId);
+        this.dcaPlans.set([
+            { key: NO_DCA_PLAN_KEY, label: this.translateService.instant('app.goals.addEdit.noDcaPlan') },
+            ...plans.map((p: DcaPlan) => ({ key: p.id, label: p.targetName })),
+        ]);
     }
 
     public onSubmit(): void {
@@ -111,8 +139,16 @@ export class AddEditGoalComponent extends BaseAddEditForm implements OnInit {
         }
     }
 
+    private buildFormPayload(): object {
+        const value = this.form.value;
+        return {
+            ...value,
+            dcaPlanId: value.dcaPlanId !== NO_DCA_PLAN_KEY ? value.dcaPlanId : null,
+        };
+    }
+
     private async createGoal(): Promise<void> {
-        await this.goalService.createGoal(this.form.value.portfolioId, this.form.value);
+        await this.goalService.createGoal(this.form.value.portfolioId, this.buildFormPayload());
 
         this.alertService.success('Goal added successfully', { keepAfterRouteChange: true });
         this.goalService.notify();
@@ -125,7 +161,7 @@ export class AddEditGoalComponent extends BaseAddEditForm implements OnInit {
             return;
         }
 
-        await this.goalService.updateGoal(id, this.form.value);
+        await this.goalService.updateGoal(id, this.buildFormPayload());
 
         this.alertService.success('Update successful', { keepAfterRouteChange: true });
         this.goalService.notify();

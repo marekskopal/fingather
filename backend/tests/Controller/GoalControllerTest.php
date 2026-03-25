@@ -7,12 +7,14 @@ namespace FinGather\Tests\Controller;
 use ArrayIterator;
 use Decimal\Decimal;
 use FinGather\Controller\GoalController;
+use FinGather\Dto\GoalReachabilityDto;
 use FinGather\Model\Entity\Goal;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Response\OkResponse;
 use FinGather\Service\Goal\GoalCheckerInterface;
+use FinGather\Service\Provider\DcaPlanProviderInterface;
 use FinGather\Service\Provider\GoalProviderInterface;
 use FinGather\Service\Provider\PortfolioProviderInterface;
 use FinGather\Service\Request\RequestServiceInterface;
@@ -39,6 +41,8 @@ final class GoalControllerTest extends TestCase
 
 	private PortfolioProviderInterface&Stub $portfolioProvider;
 
+	private DcaPlanProviderInterface&Stub $dcaPlanProvider;
+
 	private GoalCheckerInterface&Stub $goalChecker;
 
 	private RequestServiceInterface&Stub $requestService;
@@ -49,15 +53,20 @@ final class GoalControllerTest extends TestCase
 	{
 		$this->goalProvider = $this::createStub(GoalProviderInterface::class);
 		$this->portfolioProvider = $this::createStub(PortfolioProviderInterface::class);
+		$this->dcaPlanProvider = $this::createStub(DcaPlanProviderInterface::class);
 		$this->goalChecker = $this::createStub(GoalCheckerInterface::class);
 		$this->requestService = $this::createStub(RequestServiceInterface::class);
 		$this->requestService->method('getUser')->willReturn(UserFixture::getUser());
 		$this->goalChecker->method('getCurrentValue')->willReturn(new Decimal('5000'));
 		$this->goalChecker->method('getProgressPercentage')->willReturn(50.0);
+		$this->goalChecker->method('getReachability')->willReturn(
+			new GoalReachabilityDto(isReachable: null, projectedAchievementDate: null),
+		);
 
 		$this->goalController = new GoalController(
 			$this->goalProvider,
 			$this->portfolioProvider,
+			$this->dcaPlanProvider,
 			$this->goalChecker,
 			$this->requestService,
 		);

@@ -6,8 +6,9 @@ import { MatIcon } from '@angular/material/icon';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { DcaPlanProjectionChartComponent } from
     '@app/dca-plans/components/dca-plan-projection-chart/dca-plan-projection-chart.component';
-import { DcaPlan } from '@app/models';
-import { DcaPlanService } from '@app/services';
+import { DcaPlan, Goal } from '@app/models';
+import { DcaPlanService, PortfolioService } from '@app/services';
+import { GoalService } from '@app/services/goal.service';
 import {MoneyPipe} from "@app/shared/pipes/money.pipe";
 import { TranslatePipe } from '@ngx-translate/core';
 
@@ -27,14 +28,21 @@ import { TranslatePipe } from '@ngx-translate/core';
 })
 export class DcaPlanDetailComponent implements OnInit {
     private readonly dcaPlanService = inject(DcaPlanService);
+    private readonly goalService = inject(GoalService);
+    private readonly portfolioService = inject(PortfolioService);
     private readonly route = inject(ActivatedRoute);
 
     protected readonly plan = signal<DcaPlan | null>(null);
+    protected readonly linkedGoals = signal<Goal[]>([]);
 
     public async ngOnInit(): Promise<void> {
         const id = parseInt(this.route.snapshot.params['id'], 10);
         if (!isNaN(id)) {
-            this.plan.set(await this.dcaPlanService.getDcaPlan(id));
+            const plan = await this.dcaPlanService.getDcaPlan(id);
+            this.plan.set(plan);
+
+            const allGoals = await this.goalService.getGoals(plan.portfolioId);
+            this.linkedGoals.set(allGoals.filter((g) => g.dcaPlanId === id));
         }
     }
 }

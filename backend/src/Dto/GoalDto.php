@@ -23,11 +23,18 @@ final readonly class GoalDto
 		public Decimal $currentValue,
 		public float $progressPercentage,
 		public string $createdAt,
+		public ?int $dcaPlanId,
+		public ?bool $isReachable,
+		public ?string $projectedAchievementDate,
 	) {
 	}
 
-	public static function fromEntity(Goal $entity, Decimal $currentValue, float $progressPercentage): self
-	{
+	public static function fromEntity(
+		Goal $entity,
+		Decimal $currentValue,
+		float $progressPercentage,
+		GoalReachabilityDto $reachability,
+	): self {
 		return new self(
 			id: $entity->id,
 			portfolioId: $entity->portfolio->id,
@@ -40,6 +47,9 @@ final readonly class GoalDto
 			currentValue: $currentValue,
 			progressPercentage: $progressPercentage,
 			createdAt: DateTimeUtils::formatZulu($entity->createdAt),
+			dcaPlanId: $entity->dcaPlan?->id,
+			isReachable: $reachability->isReachable,
+			projectedAchievementDate: $reachability->projectedAchievementDate,
 		);
 	}
 }

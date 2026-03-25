@@ -523,6 +523,9 @@
         "achievedAt": "Erreicht",
         "achieved": "Erreicht",
         "active": "Aktiv",
+        "reachability": "Erreichbarkeit",
+        "reachable": "Erreichbar",
+        "notReachable": "Nicht erreichbar",
         "addGoal": "Ziel hinzufügen",
         "deleteTitle": "Ziel löschen",
         "deleteMessage": "Möchten Sie dieses Ziel wirklich löschen?"
@@ -536,7 +539,9 @@
         "typeRequired": "Typ ist erforderlich",
         "targetValue": "Zielwert",
         "targetValueRequired": "Zielwert ist erforderlich",
-        "deadline": "Frist (optional)"
+        "deadline": "Frist (optional)",
+        "dcaPlan": "DCA-Plan (optional)",
+        "noDcaPlan": "— Keiner —"
       },
       "type": {
         "portfolioValue": "Portfoliowert",

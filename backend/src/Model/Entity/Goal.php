@@ -35,6 +35,8 @@ class Goal extends AEntity
 		public ?DateTimeImmutable $achievedAt,
 		#[Column(type: Type::Timestamp)]
 		public readonly DateTimeImmutable $createdAt,
+		#[ManyToOne(entityClass: DcaPlan::class, nullable: true)]
+		public ?DcaPlan $dcaPlan,
 	) {
 	}
 }

@@ -519,6 +519,9 @@
         "achievedAt": "Dosaženo",
         "achieved": "Dosaženo",
         "active": "Aktivní",
+        "reachability": "Dosažitelnost",
+        "reachable": "Dosažitelný",
+        "notReachable": "Nedosažitelný",
         "addGoal": "Přidat cíl",
         "deleteTitle": "Smazat cíl",
         "deleteMessage": "Opravdu chcete smazat tento cíl?"
@@ -532,7 +535,9 @@
         "typeRequired": "Typ je povinný",
         "targetValue": "Cílová hodnota",
         "targetValueRequired": "Cílová hodnota je povinná",
-        "deadline": "Termín (volitelné)"
+        "deadline": "Termín (volitelné)",
+        "dcaPlan": "DCA plán (volitelné)",
+        "noDcaPlan": "— Žádný —"
       },
       "type": {
         "portfolioValue": "Hodnota portfolia",

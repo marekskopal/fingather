@@ -523,6 +523,9 @@
         "achievedAt": "Atteint le",
         "achieved": "Atteint",
         "active": "Actif",
+        "reachability": "Atteignabilité",
+        "reachable": "Atteignable",
+        "notReachable": "Non atteignable",
         "addGoal": "Ajouter un objectif",
         "deleteTitle": "Supprimer l'objectif",
         "deleteMessage": "Êtes-vous sûr de vouloir supprimer cet objectif ?"
@@ -536,7 +539,9 @@
         "typeRequired": "Le type est obligatoire",
         "targetValue": "Valeur cible",
         "targetValueRequired": "La valeur cible est obligatoire",
-        "deadline": "Échéance (optionnel)"
+        "deadline": "Échéance (optionnel)",
+        "dcaPlan": "Plan DCA (optionnel)",
+        "noDcaPlan": "— Aucun —"
       },
       "type": {
         "portfolioValue": "Valeur du portefeuille",

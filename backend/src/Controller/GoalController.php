@@ -13,6 +13,7 @@ use FinGather\Response\NotFoundResponse;
 use FinGather\Response\OkResponse;
 use FinGather\Route\Routes;
 use FinGather\Service\Goal\GoalCheckerInterface;
+use FinGather\Service\Provider\DcaPlanProviderInterface;
 use FinGather\Service\Provider\GoalProviderInterface;
 use FinGather\Service\Provider\PortfolioProviderInterface;
 use FinGather\Service\Request\RequestServiceInterface;
@@ -29,6 +30,7 @@ final readonly class GoalController
 	public function __construct(
 		private GoalProviderInterface $goalProvider,
 		private PortfolioProviderInterface $portfolioProvider,
+		private DcaPlanProviderInterface $dcaPlanProvider,
 		private GoalCheckerInterface $goalChecker,
 		private RequestServiceInterface $requestService,
 	) {
@@ -50,7 +52,8 @@ final readonly class GoalController
 			function (Goal $goal) use ($now): GoalDto {
 				$currentValue = $this->goalChecker->getCurrentValue($goal, $now);
 				$progressPercentage = $this->goalChecker->getProgressPercentage($goal, $currentValue);
-				return GoalDto::fromEntity($goal, $currentValue, $progressPercentage);
+				$reachability = $this->goalChecker->getReachability($goal);
+				return GoalDto::fromEntity($goal, $currentValue, $progressPercentage, $reachability);
 			},
 			iterator_to_array($this->goalProvider->getGoals($user, $portfolio), false),
 		);
@@ -75,8 +78,9 @@ final readonly class GoalController
 		$now = new DateTimeImmutable();
 		$currentValue = $this->goalChecker->getCurrentValue($goal, $now);
 		$progressPercentage = $this->goalChecker->getProgressPercentage($goal, $currentValue);
+		$reachability = $this->goalChecker->getReachability($goal);
 
-		return new JsonResponse(GoalDto::fromEntity($goal, $currentValue, $progressPercentage));
+		return new JsonResponse(GoalDto::fromEntity($goal, $currentValue, $progressPercentage, $reachability));
 	}
 
 	#[RoutePost(Routes::Goals->value)]
@@ -94,19 +98,25 @@ final readonly class GoalController
 			return new NotFoundResponse('Portfolio with id "' . $dto->portfolioId . '" was not found.');
 		}
 
+		$dcaPlan = $dto->dcaPlanId !== null
+			? $this->dcaPlanProvider->getDcaPlan($dto->dcaPlanId, $user)
+			: null;
+
 		$goal = $this->goalProvider->createGoal(
 			user: $user,
 			portfolio: $portfolio,
 			type: $dto->type,
 			targetValue: $dto->targetValue,
 			deadline: $dto->deadline,
+			dcaPlan: $dcaPlan,
 		);
 
 		$now = new DateTimeImmutable();
 		$currentValue = $this->goalChecker->getCurrentValue($goal, $now);
 		$progressPercentage = $this->goalChecker->getProgressPercentage($goal, $currentValue);
+		$reachability = $this->goalChecker->getReachability($goal);
 
-		return new JsonResponse(GoalDto::fromEntity($goal, $currentValue, $progressPercentage));
+		return new JsonResponse(GoalDto::fromEntity($goal, $currentValue, $progressPercentage, $reachability));
 	}
 
 	#[RoutePut(Routes::Goal->value)]
@@ -130,6 +140,10 @@ final readonly class GoalController
 			return new NotFoundResponse('Portfolio with id "' . $dto->portfolioId . '" was not found.');
 		}
 
+		$dcaPlan = $dto->dcaPlanId !== null
+			? $this->dcaPlanProvider->getDcaPlan($dto->dcaPlanId, $user)
+			: null;
+
 		$goal = $this->goalProvider->updateGoal(
 			goal: $goal,
 			portfolio: $portfolio,
@@ -137,13 +151,15 @@ final readonly class GoalController
 			targetValue: $dto->targetValue,
 			deadline: $dto->deadline,
 			isActive: $dto->isActive,
+			dcaPlan: $dcaPlan,
 		);
 
 		$now = new DateTimeImmutable();
 		$currentValue = $this->goalChecker->getCurrentValue($goal, $now);
 		$progressPercentage = $this->goalChecker->getProgressPercentage($goal, $currentValue);
+		$reachability = $this->goalChecker->getReachability($goal);
 
-		return new JsonResponse(GoalDto::fromEntity($goal, $currentValue, $progressPercentage));
+		return new JsonResponse(GoalDto::fromEntity($goal, $currentValue, $progressPercentage, $reachability));
 	}
 
 	#[RouteDelete(Routes::Goal->value)]
