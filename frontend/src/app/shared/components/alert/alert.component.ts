@@ -6,12 +6,17 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationStart, Router } from '@angular/router';
 import { Alert, AlertType } from '@app/models';
 import { AlertService } from '@app/services';
+import { Subscription } from 'rxjs';
+import {MatIcon} from "@angular/material/icon";
 
 @Component({
     selector: 'fingather-alert',
     templateUrl: 'alert.component.html',
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        MatIcon
+    ]
 })
 export class AlertComponent implements OnInit {
     private router = inject(Router);
@@ -75,13 +80,13 @@ export class AlertComponent implements OnInit {
     }
 
     public cssClass(alert: Alert): string {
-        const classes = ['alert', 'alert-dismissible', 'mt-4', 'container'];
+        const classes = ['alert'];
 
         const alertTypeClass = {
-            [AlertType.Success]: 'alert alert-success',
-            [AlertType.Error]: 'alert alert-danger',
-            [AlertType.Info]: 'alert alert-info',
-            [AlertType.Warning]: 'alert alert-warning',
+            [AlertType.Success]: 'alert-success',
+            [AlertType.Error]: 'alert-danger',
+            [AlertType.Info]: 'alert-info',
+            [AlertType.Warning]: 'alert-warning',
         };
 
         classes.push(alertTypeClass[alert.type]);
