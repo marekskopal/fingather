@@ -3,11 +3,10 @@ import {
     Component, DestroyRef, inject, input, OnInit, signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import {MatIcon} from "@angular/material/icon";
 import { NavigationStart, Router } from '@angular/router';
 import { Alert, AlertType } from '@app/models';
 import { AlertService } from '@app/services';
-import { Subscription } from 'rxjs';
-import {MatIcon} from "@angular/material/icon";
 
 @Component({
     selector: 'fingather-alert',
@@ -15,8 +14,8 @@ import {MatIcon} from "@angular/material/icon";
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
-        MatIcon
-    ]
+        MatIcon,
+    ],
 })
 export class AlertComponent implements OnInit {
     private router = inject(Router);
