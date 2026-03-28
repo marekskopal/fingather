@@ -440,6 +440,8 @@
         "defaultCurrencyRequired": "Default Currency is required",
         "role": "Role",
         "roleRequired": "Role is required",
+        "plan": "Plan",
+        "planRequired": "Plan is required",
         "addedSuccessfully": "User added successfully",
         "updatedSuccessfully": "Update successful"
       },
@@ -449,6 +451,8 @@
         "id": "ID",
         "email": "Email",
         "name": "Name",
+        "plan": "Plan",
+        "planExpires": "Expires",
         "assets": "Assets",
         "transactions": "Transactions",
         "lastLoggedIn": "Last Logged In",
@@ -677,8 +681,17 @@
         "passwordRequirements": "Password does not meet requirements",
         "emailNotifications": "Email notifications",
         "updateSuccess": "Account updated successfully",
+        "plan": "Plan",
+        "planExpires": "Expires",
+        "upgradeTo": "Upgrade to",
+        "cancelPlan": "Cancel Plan",
+        "cancelPlanMessage": "Are you sure you want to cancel your plan?",
         "deleteAccount": "Delete Account",
         "deleteAccountMessage": "This will permanently delete your account and all data. This action cannot be undone."
+      },
+      "planUpgrade": {
+        "title": "Plan Upgrade",
+        "pay": "Pay"
       }
     },
     "settings": {
