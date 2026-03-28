@@ -53,6 +53,6 @@ final class PortuMapperTest extends AbstractMapperTestCase
 	public function testGetCsvDelimiter(): void
 	{
 		$mapper = new PortuMapper();
-		self::assertSame(',', $mapper->getCsvDelimiter());
+		self::assertSame(';', $mapper->getCsvDelimiter());
 	}
 }

@@ -22,10 +22,17 @@ final class PortuMapper extends CsvMapper
 			created: 'Datum',
 			ticker: fn (array $record): string =>
 				explode(' ', $record['Symbol'])[0],
+			isin: 'ISIN',
 			units: fn (array $record): string => str_replace(',', '.', $record['Kusy / Pozice']),
-			price: 'Cena',
+			price: fn (array $record): string => str_replace(',', '.', $record['Cena']),
 			currency: 'Měna',
 		);
+	}
+
+	#[Override]
+	public function getCsvDelimiter(): string
+	{
+		return ';';
 	}
 
 	#[Override]
