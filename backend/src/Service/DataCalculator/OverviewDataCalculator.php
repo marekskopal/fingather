@@ -43,6 +43,7 @@ final class OverviewDataCalculator
 			$yearToDate = $i === $toDateYear ? $toDate : (new DateTimeImmutable('last day of december ' . $i))->setTime(0, 0);
 
 			$portfolioDataFromDate = null;
+			$previousYearEndDate = $yearFromDate;
 			if ($yearFromDate !== null) {
 				$portfolioDataFromDate = PortfolioDataDto::fromCalculatedDataDto(
 					$this->portfolioDataProvider->getPortfolioData($user, $portfolio, $yearFromDate),
@@ -110,17 +111,19 @@ final class OverviewDataCalculator
 			$tax = $portfolioDataToDate->tax->sub($portfolioDataFromDate->tax);
 			$fee = $portfolioDataToDate->fee->sub($portfolioDataFromDate->fee);
 
+			$interannualDays = (int) $yearToDate->diff($previousYearEndDate)->days;
+
 			$gainPercentage = CalculatorUtils::diffToPercentage($portfolioDataFromDate->gain, $portfolioDataToDate->gain);
-			$gainPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($gainPercentage, $fromFirstTransactionDays);
+			$gainPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($gainPercentage, $interannualDays);
 			$dividendYieldPercentage = CalculatorUtils::diffToPercentage(
 				$portfolioDataFromDate->dividendYield,
 				$portfolioDataToDate->dividendYield,
 			);
-			$dividendYieldPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($dividendYieldPercentage, $fromFirstTransactionDays);
+			$dividendYieldPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($dividendYieldPercentage, $interannualDays);
 			$fxImpactPercentage = CalculatorUtils::diffToPercentage($portfolioDataFromDate->fxImpact, $portfolioDataToDate->fxImpact);
-			$fxImpactPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($fxImpactPercentage, $fromFirstTransactionDays);
+			$fxImpactPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($fxImpactPercentage, $interannualDays);
 			$returnPercentage = CalculatorUtils::diffToPercentage($portfolioDataFromDate->return, $portfolioDataToDate->return);
-			$returnPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($returnPercentage, $fromFirstTransactionDays);
+			$returnPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($returnPercentage, $interannualDays);
 
 			$yearCalculatedData[$i] = new YearCalculatedDataDto(
 				year: $i,
