@@ -9,7 +9,6 @@ use FinGather\Dto\Enum\RangeEnum;
 use FinGather\Dto\PortfolioDataDto;
 use FinGather\Dto\PortfolioDataWithBenchmarkDataDto;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
-use FinGather\Model\Entity\Transaction;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Route\Routes;
 use FinGather\Service\Provider\AssetProviderInterface;
@@ -105,7 +104,6 @@ final readonly class PortfolioDataController
 			portfolio: $portfolio,
 			actionTypes: [TransactionActionTypeEnum::Buy, TransactionActionTypeEnum::Sell],
 		);
-		usort($transactions, fn(Transaction $a, Transaction $b): int => $a->actionCreated <=> $b->actionCreated);
 
 		if (count($transactions) === 0) {
 			return new JsonResponse([]);

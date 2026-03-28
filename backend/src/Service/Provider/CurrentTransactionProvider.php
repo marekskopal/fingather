@@ -18,8 +18,10 @@ final class CurrentTransactionProvider implements CurrentTransactionProviderInte
 	/** @var array<string, array<int, list<Transaction>>> */
 	private array $transactions = [];
 
-	public function __construct(private readonly TransactionProviderInterface $transactionProvider)
-	{
+	public function __construct(
+		private readonly TransactionProviderInterface $transactionProvider,
+		private readonly TransactionCutoffFinder $transactionCutoffFinder,
+	) {
 	}
 
 	/**
@@ -38,10 +40,9 @@ final class CurrentTransactionProvider implements CurrentTransactionProviderInte
 		$transactions = $asset !== null ? $loadedTransactions[$asset->id] ?? [] : array_merge(...array_values($loadedTransactions));
 
 		if ($actionCreatedBefore !== null) {
-			$transactions = array_values(array_filter(
-				$transactions,
-				fn(Transaction $transaction) => $transaction->actionCreated <= $actionCreatedBefore,
-			));
+			// Transactions are sorted by actionCreated ASC — use binary search for O(log n) cutoff
+			$cutoffIndex = $this->transactionCutoffFinder->findCutoffIndex($transactions, $actionCreatedBefore);
+			$transactions = array_slice($transactions, 0, $cutoffIndex);
 		}
 
 		if ($actionTypes !== null) {
@@ -75,7 +76,6 @@ final class CurrentTransactionProvider implements CurrentTransactionProviderInte
 				TransactionActionTypeEnum::DividendTax,
 			],
 			orderBy: [
-				TransactionOrderByEnum::BrokerId->value => OrderDirectionEnum::ASC,
 				TransactionOrderByEnum::ActionCreated->value => OrderDirectionEnum::ASC,
 			],
 		);
