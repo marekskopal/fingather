@@ -18,7 +18,6 @@ use FinGather\Service\DataCalculator\Dto\TransactionBuyDto;
 use FinGather\Service\DataCalculator\Dto\TransactionValueDto;
 use FinGather\Service\DataCalculator\Dto\ValueDto;
 use FinGather\Service\Provider\CurrentTransactionProviderInterface;
-use FinGather\Service\Provider\Dto\SplitDto;
 use FinGather\Service\Provider\ExchangeRateProviderInterface;
 use FinGather\Service\Provider\SplitProviderInterface;
 use FinGather\Service\Provider\TickerDataProviderInterface;
@@ -223,10 +222,7 @@ final readonly class AssetDataCalculator implements AssetDataCalculatorInterface
 		);
 	}
 
-	/**
-	 * @param array<int, TransactionBuyDto> $buys
-	 * @param list<SplitDto> $splits
-	 */
+	/** @param array<int, TransactionBuyDto> $buys */
 	private function countTransactionRealizedGain(
 		array &$buys,
 		Transaction $transaction,
@@ -237,44 +233,25 @@ final readonly class AssetDataCalculator implements AssetDataCalculatorInterface
 		$transactionRealizedGain = new Decimal(0);
 		$transactionRealizedGainDefaultCurrency = new Decimal(0);
 
-		$sumBuyUnits = new Decimal(0, 18);
+		$matches = FifoLotMatcher::consumeLots(
+			$buys,
+			$transaction->brokerId,
+			$transaction->actionCreated,
+			$transactionUnitsWithSplit->abs(),
+			$splits,
+		);
 
-		$transactionUnitsAbs = $transactionUnitsWithSplit->abs();
+		foreach ($matches as $match) {
+			$sellValue = $match->usedUnitsWithSplits->mul($transaction->priceTickerCurrency);
+			$sellValueDefaultCurrency = $match->usedUnitsWithSplits->mul($transaction->priceDefaultCurrency);
 
-		$buysForBroker = array_filter($buys, fn(TransactionBuyDto $buy) => $buy->brokerId === $transaction->brokerId);
-
-		foreach ($buysForBroker as $buyKey => $buy) {
-			$buySplitFactor = CalculatorUtils::countSplitFactor($buy->actionCreated, $transaction->actionCreated, $splits);
-
-			$buyUnitsWithSplits = $buy->units->mul($buySplitFactor);
-
-			$remainingSellUnits = $transactionUnitsAbs->sub($sumBuyUnits);
-			$usedUnitsWithSplits = $buyUnitsWithSplits <= $remainingSellUnits ? $buyUnitsWithSplits : $remainingSellUnits;
-			$usedOriginalUnits = $usedUnitsWithSplits->div($buySplitFactor);
-
-			$sellValue = $usedUnitsWithSplits->mul($transaction->priceTickerCurrency);
-			$sellValueDefaultCurrency = $usedUnitsWithSplits->mul($transaction->priceDefaultCurrency);
-
-			$buyValue = $usedOriginalUnits->mul($buy->priceTickerCurrency);
-			$buyValueDefaultCurrency = $usedOriginalUnits->mul($buy->priceDefaultCurrency);
+			$buyValue = $match->usedOriginalUnits->mul($match->buy->priceTickerCurrency);
+			$buyValueDefaultCurrency = $match->usedOriginalUnits->mul($match->buy->priceDefaultCurrency);
 
 			$transactionRealizedGain = $transactionRealizedGain->add($sellValue->sub($buyValue));
 			$transactionRealizedGainDefaultCurrency = $transactionRealizedGainDefaultCurrency->add(
 				$sellValueDefaultCurrency->sub($buyValueDefaultCurrency),
 			);
-
-			$sumBuyUnits = $sumBuyUnits->add($buyUnitsWithSplits);
-
-			if ($sumBuyUnits <= $transactionUnitsAbs) {
-				unset($buys[$buyKey]);
-			} else {
-				$unitsDiffWithSplit = $sumBuyUnits->sub($transactionUnitsAbs);
-
-				$buys[$buyKey]->units = $unitsDiffWithSplit->div($buySplitFactor);
-			}
-			if ($sumBuyUnits >= $transactionUnitsAbs) {
-				break;
-			}
 		}
 
 		return new ValueDto(value: $transactionRealizedGain, valueDefaultCurrency: $transactionRealizedGainDefaultCurrency);

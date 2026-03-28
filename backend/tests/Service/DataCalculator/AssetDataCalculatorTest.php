@@ -22,9 +22,11 @@ use FinGather\Model\Entity\Transaction;
 use FinGather\Model\Entity\User;
 use FinGather\Service\DataCalculator\AssetDataCalculator;
 use FinGather\Service\DataCalculator\Dto\AssetDataDto;
+use FinGather\Service\DataCalculator\Dto\FifoMatchDto;
 use FinGather\Service\DataCalculator\Dto\TransactionBuyDto;
 use FinGather\Service\DataCalculator\Dto\TransactionValueDto;
 use FinGather\Service\DataCalculator\Dto\ValueDto;
+use FinGather\Service\DataCalculator\FifoLotMatcher;
 use FinGather\Service\Provider\CurrentTransactionProviderInterface;
 use FinGather\Service\Provider\Dto\SplitDto;
 use FinGather\Service\Provider\ExchangeRateProviderInterface;
@@ -57,6 +59,8 @@ use PHPUnit\Framework\TestCase;
 #[UsesClass(User::class)]
 #[UsesClass(AssetDataDto::class)]
 #[UsesClass(TransactionBuyDto::class)]
+#[UsesClass(FifoMatchDto::class)]
+#[UsesClass(FifoLotMatcher::class)]
 #[UsesClass(ValueDto::class)]
 #[UsesClass(CalculatorUtils::class)]
 #[UsesClass(TransactionValueDto::class)]

@@ -15,7 +15,6 @@ use FinGather\Service\DataCalculator\Dto\TaxReportRealizedGainsDto;
 use FinGather\Service\DataCalculator\Dto\TaxReportRealizedGainTransactionDto;
 use FinGather\Service\DataCalculator\Dto\TransactionBuyDto;
 use FinGather\Service\Provider\CurrentTransactionProviderInterface;
-use FinGather\Service\Provider\Dto\SplitDto;
 use FinGather\Service\Provider\SplitProviderInterface;
 use FinGather\Utils\CalculatorUtils;
 
@@ -143,11 +142,7 @@ final class TaxReportRealizedGainsCalculator implements TaxReportRealizedGainsCa
 		);
 	}
 
-	/**
-	 * @param array<int, TransactionBuyDto> $buys
-	 * @param list<SplitDto> $splits
-	 * @param list<TaxReportRealizedGainTransactionDto> $transactions
-	 */
+	/** @param list<TaxReportRealizedGainTransactionDto> $transactions */
 	private function processSellTransaction(
 		array &$buys,
 		Transaction $transaction,
@@ -160,33 +155,30 @@ final class TaxReportRealizedGainsCalculator implements TaxReportRealizedGainsCa
 		Decimal &$totalGains,
 		Decimal &$totalLosses,
 	): void {
-		$buysForBroker = array_filter($buys, fn(TransactionBuyDto $buy) => $buy->brokerId === $transaction->brokerId);
-
 		$sellSplitFactor = CalculatorUtils::countSplitFactor($transaction->actionCreated, $yearEnd, $splits);
-		$transactionUnitsAbs = $transaction->units->abs()->mul($sellSplitFactor);
-		$sumBuyUnits = new Decimal(0, 18);
 		$sellFee = $transaction->feeDefaultCurrency;
 
-		foreach ($buysForBroker as $buyKey => $buy) {
-			$buySplitFactor = CalculatorUtils::countSplitFactor($buy->actionCreated, $transaction->actionCreated, $splits);
-			$buyUnitsWithSplits = $buy->units->mul($buySplitFactor);
+		$matches = FifoLotMatcher::consumeLots(
+			$buys,
+			$transaction->brokerId,
+			$transaction->actionCreated,
+			$transaction->units->abs()->mul($sellSplitFactor),
+			$splits,
+		);
 
-			$remainingSellUnits = $transactionUnitsAbs->sub($sumBuyUnits);
-			$usedUnitsWithSplits = $buyUnitsWithSplits <= $remainingSellUnits ? $buyUnitsWithSplits : $remainingSellUnits;
-			$usedOriginalUnits = $usedUnitsWithSplits->div($buySplitFactor);
-
-			$sellProceeds = $usedUnitsWithSplits->mul($transaction->priceDefaultCurrency);
-			$costBasis = $usedOriginalUnits->mul($buy->priceDefaultCurrency);
+		foreach ($matches as $match) {
+			$sellProceeds = $match->usedUnitsWithSplits->mul($transaction->priceDefaultCurrency);
+			$costBasis = $match->usedOriginalUnits->mul($match->buy->priceDefaultCurrency);
 			$gainLoss = $sellProceeds->sub($costBasis);
 
 			$transactions[] = new TaxReportRealizedGainTransactionDto(
 				tickerTicker: $ticker->ticker,
 				tickerName: $ticker->name,
-				buyDate: $buy->actionCreated->format('Y-m-d'),
+				buyDate: $match->buy->actionCreated->format('Y-m-d'),
 				sellDate: $transaction->actionCreated->format('Y-m-d'),
-				holdingPeriodDays: (int) $transaction->actionCreated->diff($buy->actionCreated)->days,
-				units: $usedUnitsWithSplits,
-				buyPrice: $buy->priceDefaultCurrency,
+				holdingPeriodDays: (int) $transaction->actionCreated->diff($match->buy->actionCreated)->days,
+				units: $match->usedUnitsWithSplits,
+				buyPrice: $match->buy->priceDefaultCurrency,
 				sellPrice: $transaction->priceDefaultCurrency,
 				costBasis: $costBasis,
 				salesProceeds: $sellProceeds,
@@ -204,47 +196,19 @@ final class TaxReportRealizedGainsCalculator implements TaxReportRealizedGainsCa
 			}
 
 			$sellFee = new Decimal(0);
-			$sumBuyUnits = $sumBuyUnits->add($buyUnitsWithSplits);
-
-			if ($sumBuyUnits <= $transactionUnitsAbs) {
-				unset($buys[$buyKey]);
-			} else {
-				$buys[$buyKey]->units = $sumBuyUnits->sub($transactionUnitsAbs)->div($buySplitFactor);
-			}
-
-			if ($sumBuyUnits >= $transactionUnitsAbs) {
-				break;
-			}
 		}
 	}
 
-	/**
-	 * @param array<int, TransactionBuyDto> $buys
-	 * @param list<SplitDto> $splits
-	 */
 	private function consumeBuyLots(array &$buys, Transaction $transaction, array $splits, DateTimeImmutable $yearEnd): void
 	{
-		$buysForBroker = array_filter($buys, fn(TransactionBuyDto $buy) => $buy->brokerId === $transaction->brokerId);
-
 		$sellSplitFactor = CalculatorUtils::countSplitFactor($transaction->actionCreated, $yearEnd, $splits);
-		$transactionUnitsAbs = $transaction->units->abs()->mul($sellSplitFactor);
-		$sumBuyUnits = new Decimal(0, 18);
 
-		foreach ($buysForBroker as $buyKey => $buy) {
-			$buySplitFactor = CalculatorUtils::countSplitFactor($buy->actionCreated, $transaction->actionCreated, $splits);
-			$buyUnitsWithSplits = $buy->units->mul($buySplitFactor);
-
-			$sumBuyUnits = $sumBuyUnits->add($buyUnitsWithSplits);
-
-			if ($sumBuyUnits <= $transactionUnitsAbs) {
-				unset($buys[$buyKey]);
-			} else {
-				$buys[$buyKey]->units = $sumBuyUnits->sub($transactionUnitsAbs)->div($buySplitFactor);
-			}
-
-			if ($sumBuyUnits >= $transactionUnitsAbs) {
-				break;
-			}
-		}
+		FifoLotMatcher::consumeLots(
+			$buys,
+			$transaction->brokerId,
+			$transaction->actionCreated,
+			$transaction->units->abs()->mul($sellSplitFactor),
+			$splits,
+		);
 	}
 }

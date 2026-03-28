@@ -14,7 +14,9 @@ use FinGather\Model\Entity\Transaction;
 use FinGather\Model\Entity\User;
 use FinGather\Service\DataCalculator\Dto\TaxReportRealizedGainsDto;
 use FinGather\Service\DataCalculator\Dto\TaxReportRealizedGainTransactionDto;
+use FinGather\Service\DataCalculator\Dto\FifoMatchDto;
 use FinGather\Service\DataCalculator\Dto\TransactionBuyDto;
+use FinGather\Service\DataCalculator\FifoLotMatcher;
 use FinGather\Service\DataCalculator\TaxReportRealizedGainsCalculator;
 use FinGather\Service\Provider\CurrentTransactionProviderInterface;
 use FinGather\Service\Provider\Dto\SplitDto;
@@ -36,6 +38,8 @@ use PHPUnit\Framework\TestCase;
 #[UsesClass(TaxReportRealizedGainsDto::class)]
 #[UsesClass(TaxReportRealizedGainTransactionDto::class)]
 #[UsesClass(TransactionBuyDto::class)]
+#[UsesClass(FifoMatchDto::class)]
+#[UsesClass(FifoLotMatcher::class)]
 final class TaxReportRealizedGainsCalculatorTest extends TestCase
 {
 	private readonly User $user;
