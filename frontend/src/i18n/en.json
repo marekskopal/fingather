@@ -762,8 +762,13 @@
           "gain": "Difference between invested value and current value of the portfolio",
           "gainRealized": "Realized gain from selling assets.",
           "investedValue": "Total invested value of the portfolio without taxes and fees.",
-          "fxImpact": "The impact of exchange rates on the value of the portfolio."
-        }
+          "fxImpact": "The impact of exchange rates on the value of the portfolio.",
+          "returnRate": "TWR (Time-Weighted Return) measures portfolio performance independently of cash flow timing — ideal for comparing portfolios. MWR (Money-Weighted Return / XIRR) measures your actual investor return, accounting for the timing of your deposits and withdrawals."
+        },
+        "returnRate": "Return Rate",
+        "togglePerformanceView": "Toggle view",
+        "twr": "TWR",
+        "mwr": "MWR"
       },
       "dividendDialog": {
         "headerAdd": "Add Dividend",

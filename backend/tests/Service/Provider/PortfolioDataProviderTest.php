@@ -24,6 +24,8 @@ use FinGather\Service\Cache\CacheTag;
 use FinGather\Service\DataCalculator\DataCalculatorInterface;
 use FinGather\Service\DataCalculator\Dto\AssetDataDto;
 use FinGather\Service\DataCalculator\Dto\CalculatedDataDto;
+use FinGather\Service\DataCalculator\MwrCalculatorInterface;
+use FinGather\Service\DataCalculator\TwrCalculatorInterface;
 use FinGather\Service\Provider\AssetDataProviderInterface;
 use FinGather\Service\Provider\AssetProviderInterface;
 use FinGather\Service\Provider\PortfolioDataProvider;
@@ -76,6 +78,8 @@ final class PortfolioDataProviderTest extends TestCase
 		$this->assetProvider = $this::createStub(AssetProviderInterface::class);
 		$this->assetDataProvider = $this::createStub(AssetDataProviderInterface::class);
 		$this->transactionProvider = $this::createStub(TransactionProviderInterface::class);
+		// Return empty iterator by default so buildCashFlows produces no cash flows.
+		$this->transactionProvider->method('getTransactions')->willReturn(new ArrayIterator([]));
 
 		$storage = $this::createStub(Storage::class);
 		$cache = new Cache($storage, 'test-portfolio-data');
@@ -88,6 +92,8 @@ final class PortfolioDataProviderTest extends TestCase
 			assetProvider: $this->assetProvider,
 			assetDataProvider: $this->assetDataProvider,
 			transactionProvider: $this->transactionProvider,
+			twrCalculator: $this::createStub(TwrCalculatorInterface::class),
+			mwrCalculator: $this::createStub(MwrCalculatorInterface::class),
 			logger: $this::createStub(LoggerInterface::class),
 			cacheFactory: $cacheFactory,
 		);

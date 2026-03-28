@@ -29,6 +29,9 @@ final readonly class PortfolioDataDto
 		public Decimal $tax,
 		public Decimal $fee,
 		public Decimal $realizedGain,
+		public float $twrPercentage,
+		public float $twrPercentagePerAnnum,
+		public float $mwrPercentage,
 	) {
 	}
 
@@ -53,6 +56,9 @@ final readonly class PortfolioDataDto
 			returnPercentagePerAnnum: $calculatedData->returnPercentagePerAnnum,
 			tax: $calculatedData->tax,
 			fee: $calculatedData->fee,
+			twrPercentage: $calculatedData->twrPercentage,
+			twrPercentagePerAnnum: $calculatedData->twrPercentagePerAnnum,
+			mwrPercentage: $calculatedData->mwrPercentage,
 		);
 	}
 }

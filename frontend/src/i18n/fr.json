@@ -775,8 +775,13 @@
           "gain": "Différence entre la valeur investie et la valeur actuelle du portefeuille",
           "gainRealized": "Plus-value réalisée lors de la vente d'actifs.",
           "investedValue": "Valeur totale investie dans le portefeuille, hors impôts et frais.",
-          "fxImpact": "L'impact des taux de change sur la valeur du portefeuille."
-        }
+          "fxImpact": "L'impact des taux de change sur la valeur du portefeuille.",
+          "returnRate": "Le TWR (Rendement pondéré par le temps) mesure la performance du portefeuille indépendamment du timing des flux de trésorerie — idéal pour comparer des portefeuilles. Le MWR (Rendement pondéré par l'argent / XIRR) mesure votre rendement réel en tant qu'investisseur, en tenant compte du timing de vos dépôts et retraits."
+        },
+        "returnRate": "Taux de rendement",
+        "togglePerformanceView": "Changer la vue",
+        "twr": "TWR",
+        "mwr": "MWR"
       },
       "dividendDialog": {
         "headerAdd": "Ajouter un dividende",

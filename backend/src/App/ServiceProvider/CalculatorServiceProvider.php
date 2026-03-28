@@ -10,8 +10,12 @@ use FinGather\Service\DataCalculator\DataCalculator;
 use FinGather\Service\DataCalculator\DataCalculatorInterface;
 use FinGather\Service\DataCalculator\Dcf\DcfCalculator;
 use FinGather\Service\DataCalculator\Dcf\DcfCalculatorInterface;
+use FinGather\Service\DataCalculator\MwrCalculator;
+use FinGather\Service\DataCalculator\MwrCalculatorInterface;
 use FinGather\Service\DataCalculator\TaxReportRealizedGainsCalculator;
 use FinGather\Service\DataCalculator\TaxReportRealizedGainsCalculatorInterface;
+use FinGather\Service\DataCalculator\TwrCalculator;
+use FinGather\Service\DataCalculator\TwrCalculatorInterface;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 
 final class CalculatorServiceProvider extends AbstractServiceProvider
@@ -23,6 +27,8 @@ final class CalculatorServiceProvider extends AbstractServiceProvider
 			DataCalculatorInterface::class,
 			DcfCalculatorInterface::class,
 			TaxReportRealizedGainsCalculatorInterface::class,
+			TwrCalculatorInterface::class,
+			MwrCalculatorInterface::class,
 		], true);
 	}
 
@@ -37,5 +43,9 @@ final class CalculatorServiceProvider extends AbstractServiceProvider
 		$container->add(DcfCalculatorInterface::class, DcfCalculator::class);
 
 		$container->add(TaxReportRealizedGainsCalculatorInterface::class, TaxReportRealizedGainsCalculator::class);
+
+		$container->add(TwrCalculatorInterface::class, TwrCalculator::class);
+
+		$container->add(MwrCalculatorInterface::class, MwrCalculator::class);
 	}
 }

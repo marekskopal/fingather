@@ -86,6 +86,77 @@
                 }
             }
         }
+
+        .return-rate {
+            tr {
+                td {
+                    vertical-align: top;
+                    padding-top: 4px;
+                    padding-bottom: 4px;
+                }
+            }
+
+            tr + tr {
+                td {
+                    padding-top: 8px;
+                    border-top: 1px solid $color-gray-lighter;
+                }
+            }
+        }
+
+        .performance-views {
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .performance-views-track {
+            display: flex;
+            width: 200%;
+            transition: transform 250ms ease;
+
+            &.show-return-rate {
+                transform: translateX(-50%);
+            }
+        }
+
+        .performance-view {
+            flex: 0 0 50%;
+            width: 50%;
+            min-width: 0;
+        }
+    }
+
+    .performance-card {
+        min-width: 0;
+
+        .performance-toggle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            margin-top: 4px;
+            margin-left: auto;
+            padding: 0;
+            border: 0;
+            border-radius: 50%;
+            background: transparent;
+            color: $color-gray-lightest;
+            cursor: pointer;
+            transition: background-color 150ms ease, color 150ms ease;
+
+            .mat-icon {
+                width: 18px;
+                height: 18px;
+                font-size: 18px;
+                line-height: 18px;
+            }
+
+            &:hover {
+                background-color: $color-gray-lighter;
+                color: $color-white;
+            }
+        }
     }
 
     .portfolio-value {

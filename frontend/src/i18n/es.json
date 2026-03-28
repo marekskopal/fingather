@@ -775,8 +775,13 @@
           "gain": "Diferencia entre el valor invertido y el valor actual del portafolio",
           "gainRealized": "Ganancia realizada por la venta de activos.",
           "investedValue": "Valor total invertido del portafolio sin impuestos ni comisiones.",
-          "fxImpact": "El impacto de los tipos de cambio en el valor del portafolio."
-        }
+          "fxImpact": "El impacto de los tipos de cambio en el valor del portafolio.",
+          "returnRate": "El TWR (Rentabilidad ponderada por tiempo) mide el rendimiento de la cartera independientemente del momento de los flujos de efectivo — ideal para comparar carteras. El MWR (Rentabilidad ponderada por dinero / XIRR) mide su rentabilidad real como inversor, teniendo en cuenta el momento de sus depósitos y retiros."
+        },
+        "returnRate": "Tasa de rentabilidad",
+        "togglePerformanceView": "Cambiar vista",
+        "twr": "TWR",
+        "mwr": "MWR"
       },
       "dividendDialog": {
         "headerAdd": "Agregar Dividendo",

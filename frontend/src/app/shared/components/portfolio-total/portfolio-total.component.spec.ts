@@ -40,6 +40,9 @@ const mockPortfolioData: PortfolioData = {
     returnPercentagePerAnnum: 12.5,
     tax: '0.00',
     fee: '0.00',
+    twrPercentage: 22.5,
+    twrPercentagePerAnnum: 11.25,
+    mwrPercentage: 18.3,
 };
 
 describe('PortfolioTotalComponent', () => {

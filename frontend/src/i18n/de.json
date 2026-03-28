@@ -775,8 +775,13 @@
           "gain": "Differenz zwischen investiertem Wert und aktuellem Wert des Portfolios",
           "gainRealized": "Realisierter Gewinn aus dem Verkauf von Vermögenswerten.",
           "investedValue": "Gesamter investierter Wert des Portfolios ohne Steuern und Gebühren.",
-          "fxImpact": "Der Einfluss von Wechselkursen auf den Wert des Portfolios."
-        }
+          "fxImpact": "Der Einfluss von Wechselkursen auf den Wert des Portfolios.",
+          "returnRate": "TWR (Zeitgewichtete Rendite) misst die Portfolioperformance unabhängig vom Zeitpunkt der Cashflows — ideal zum Vergleich von Portfolios. MWR (Geldgewichtete Rendite / XIRR) misst Ihre tatsächliche Anlegerrendite unter Berücksichtigung des Zeitpunkts Ihrer Ein- und Auszahlungen."
+        },
+        "returnRate": "Renditerate",
+        "togglePerformanceView": "Ansicht wechseln",
+        "twr": "TWR",
+        "mwr": "MWR"
       },
       "dividendDialog": {
         "headerAdd": "Dividende hinzufügen",

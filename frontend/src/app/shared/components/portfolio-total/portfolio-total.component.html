@@ -26,25 +26,66 @@
         }
     </div>
 
-    <div class="card">
+    <div class="card performance-card">
         <div class="card-header">
             <span class="icon-circle icon-circle-small">
                 <mat-icon>candlestick_chart</mat-icon>
             </span>
-            <h3 class="h6">{{ 'app.shared.portfolioTotal.gain' | translate }}</h3>
-            <fingather-help [text]="'app.shared.portfolioTotal.help.gain' | translate" />
+            <h3 class="h6">
+                {{ (performanceView() === 'gain' ? 'app.shared.portfolioTotal.gain' : 'app.shared.portfolioTotal.returnRate') | translate }}
+            </h3>
+            <fingather-help [text]="(performanceView() === 'gain' ? 'app.shared.portfolioTotal.help.gain' : 'app.shared.portfolioTotal.help.returnRate') | translate" />
+            <button
+                type="button"
+                class="performance-toggle"
+                [attr.aria-label]="'app.shared.portfolioTotal.togglePerformanceView' | translate"
+                (click)="performanceView.set(performanceView() === 'gain' ? 'returnRate' : 'gain')"
+            >
+                <mat-icon>swap_horiz</mat-icon>
+            </button>
         </div>
         @if (portfolioData(); as portfolioData) {
             <div class="card-body">
-                <div class="value h3">
-                    <fingather-value-icon [value]="portfolioData.gain" />
-                    {{portfolioData.gain | number:'1.2-2' | money: defaultCurrency.id | async}}
-                </div>
-                <div [coloredValue]="portfolioData.gain">
-                    {{portfolioData.gainPercentage | number:'1.2-2'}}%
-                </div>
-                <div [coloredValue]="portfolioData.gain">
-                    {{portfolioData.gainPercentagePerAnnum | number:'1.2-2'}}%&nbsp;p.a.
+                <div class="performance-views">
+                    <div class="performance-views-track" [class.show-return-rate]="performanceView() === 'returnRate'">
+                        <div class="performance-view">
+                            <div class="value h3">
+                                <fingather-value-icon [value]="portfolioData.gain" />
+                                {{portfolioData.gain | number:'1.2-2' | money: defaultCurrency.id | async}}
+                            </div>
+                            <div [coloredValue]="portfolioData.gain">
+                                {{portfolioData.gainPercentage | number:'1.2-2'}}%
+                            </div>
+                            <div [coloredValue]="portfolioData.gain">
+                                {{portfolioData.gainPercentagePerAnnum | number:'1.2-2'}}%&nbsp;p.a.
+                            </div>
+                        </div>
+                        <div class="performance-view">
+                            <table class="return-rate w-100">
+                                <tbody>
+                                    <tr>
+                                        <td>{{ 'app.shared.portfolioTotal.twr' | translate }}</td>
+                                        <td class="text-end">
+                                            <div [coloredValue]="portfolioData.twrPercentage">
+                                                {{portfolioData.twrPercentage | number:'1.2-2'}}%
+                                            </div>
+                                            <div [coloredValue]="portfolioData.twrPercentage">
+                                                {{portfolioData.twrPercentagePerAnnum | number:'1.2-2'}}%&nbsp;p.a.
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{ 'app.shared.portfolioTotal.mwr' | translate }}</td>
+                                        <td class="text-end">
+                                            <div [coloredValue]="portfolioData.mwrPercentage">
+                                                {{portfolioData.mwrPercentage | number:'1.2-2'}}%&nbsp;p.a.
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         } @else {

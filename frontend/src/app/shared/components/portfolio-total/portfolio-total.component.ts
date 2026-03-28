@@ -40,6 +40,7 @@ export class PortfolioTotalComponent implements OnInit {
     public readonly portfolio = input<Portfolio | null>(null);
 
     protected readonly portfolioData = signal<PortfolioData | null>(null);
+    protected readonly performanceView = signal<'gain' | 'returnRate'>('gain');
     protected defaultCurrency: Currency;
 
     public async ngOnInit(): Promise<void> {

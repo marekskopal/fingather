@@ -762,8 +762,13 @@
           "gain": "Rozdíl mezi investovanou částkou a aktuální hodnotou portfolia.",
           "gainRealized": "Zisk nebo ztráta realizovaný z prodeje aktiv.",
           "investedValue": "Celková investovaná částka do všech aktiv v portfoliu bez daní a poplatků.",
-          "fxImpact": "Dopad směnných kurzů na hodnotu portfolia."
-        }
+          "fxImpact": "Dopad směnných kurzů na hodnotu portfolia.",
+          "returnRate": "TWR (Časově vážený výnos) měří výkonnost portfolia nezávisle na načasování vkladů a výběrů — vhodné pro srovnání portfolií. MWR (Peněžně vážený výnos / XIRR) měří váš skutečný výnos jako investora, zohledňující načasování vkladů a výběrů."
+        },
+        "returnRate": "Míra výnosu",
+        "togglePerformanceView": "Přepnout zobrazení",
+        "twr": "TWR",
+        "mwr": "MWR"
       },
       "dividendDialog": {
         "headerAdd": "Přidat dividendu",
