@@ -66,7 +66,7 @@ final readonly class AssetDataCalculator implements AssetDataCalculatorInterface
 			$accumulator->units = new Decimal(0);
 		}
 
-		$transactionValue = $this->countTransactionValue($accumulator->buys);
+		$transactionValue = $this->countTransactionValue($accumulator->buys, $accumulator->units);
 
 		$lastTickerDataClose = $this->tickerDataProvider->getLastTickerDataClose($asset->ticker, $dateTime);
 		$price = $lastTickerDataClose ?? new Decimal(0);
@@ -195,30 +195,24 @@ final readonly class AssetDataCalculator implements AssetDataCalculatorInterface
 	}
 
 	/** @param array<int, TransactionBuyDto> $buys */
-	private function countTransactionValue(array $buys): TransactionValueDto
+	private function countTransactionValue(array $buys, Decimal $totalUnits): TransactionValueDto
 	{
 		$transactionValue = new Decimal(0);
 		$transactionValueDefaultCurrency = new Decimal(0);
 		$averagePrice = new Decimal(0);
 		$averagePriceDefaultCurrency = new Decimal(0);
-		$priceSum = new Decimal(0);
-		$priceSumDefaultCurrency = new Decimal(0);
 
 		foreach ($buys as $buy) {
 			$transactionSum = $buy->units->mul($buy->priceTickerCurrency);
 			$transactionSumDefaultCurrency = $buy->units->mul($buy->priceDefaultCurrency);
 
-			$priceSum = $priceSum->add($buy->priceWithSplitTickerCurrency);
-			$priceSumDefaultCurrency = $priceSumDefaultCurrency->add($buy->priceWithSplitDefaultCurrency);
-
 			$transactionValue = $transactionValue->add($transactionSum);
 			$transactionValueDefaultCurrency = $transactionValueDefaultCurrency->add($transactionSumDefaultCurrency);
 		}
 
-		$buysCount = count($buys);
-		if ($buysCount > 0) {
-			$averagePrice = $priceSum->div($buysCount);
-			$averagePriceDefaultCurrency = $priceSumDefaultCurrency->div($buysCount);
+		if (!$totalUnits->isZero()) {
+			$averagePrice = $transactionValue->div($totalUnits);
+			$averagePriceDefaultCurrency = $transactionValueDefaultCurrency->div($totalUnits);
 		}
 
 		return new TransactionValueDto(

@@ -645,8 +645,8 @@ final class AssetDataCalculatorTest extends TestCase
 				'value' => 26713.355065880736,
 				'transactionValue' => 1178.896286177,
 				'transactionValueDefaultCurrency' => 26448.651147783,
-				'averagePrice' => 189.39363636363638,
-				'averagePriceDefaultCurrency' => 4291.666969696969,
+				'averagePrice' => 179.1162695664136,
+				'averagePriceDefaultCurrency' => 4018.4906714881795,
 				'gain' => -53.090069697,
 				'gainDefaultCurrency' => -1259.7317917843554,
 				'gainPercentage' => -4.5,
@@ -714,6 +714,45 @@ final class AssetDataCalculatorTest extends TestCase
 		self::assertSame($realizedGainDefaultCurrency, $assetData->realizedGainDefaultCurrency->toFloat());
 		self::assertSame($dividendYield, $assetData->dividendYield->toFloat());
 		self::assertSame($dividendYieldDefaultCurrency, $assetData->dividendYieldDefaultCurrency->toFloat());
+	}
+
+	public function testCalculateAveragePriceIsVolumeWeighted(): void
+	{
+		// 100 units @ 10, 1 unit @ 100 → simple avg = 55, VWAP = 1100/101 ≈ 10.89
+		$assetDataCalculator = $this->createAssetDataCalculator(
+			transactions: [
+				TransactionFixture::getTransaction(
+					actionType: TransactionActionTypeEnum::Buy,
+					units: new Decimal(100),
+					price: new Decimal(10),
+					priceTickerCurrency: new Decimal(10),
+					priceDefaultCurrency: new Decimal(10),
+				),
+				TransactionFixture::getTransaction(
+					actionType: TransactionActionTypeEnum::Buy,
+					units: new Decimal(1),
+					price: new Decimal(100),
+					priceTickerCurrency: new Decimal(100),
+					priceDefaultCurrency: new Decimal(100),
+				),
+			],
+			splits: [],
+			lastTickerDataClose: new Decimal(10),
+			exchangeRate: new Decimal(1),
+		);
+
+		$assetData = $assetDataCalculator->calculate(
+			UserFixture::getUser(),
+			PortfolioFixture::getPortfolio(),
+			AssetFixture::getAsset(),
+			new DateTimeImmutable(),
+		);
+
+		self::assertInstanceOf(AssetDataDto::class, $assetData);
+		self::assertSame(101.0, $assetData->units->toFloat());
+		// VWAP: (100*10 + 1*100) / 101 = 1100/101
+		self::assertEqualsWithDelta(10.891089, $assetData->averagePrice->toFloat(), 0.001);
+		self::assertEqualsWithDelta(10.891089, $assetData->averagePriceDefaultCurrency->toFloat(), 0.001);
 	}
 
 	public function testCalculateDividend(): void
