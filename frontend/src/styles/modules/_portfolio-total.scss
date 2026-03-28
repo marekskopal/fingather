@@ -1,3 +1,15 @@
+@keyframes skeleton-shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+.skeleton {
+    background: linear-gradient(90deg, $color-gray 25%, $color-gray-light 50%, $color-gray 75%);
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 2.0s infinite linear;
+    border-radius: $border-radius;
+}
+
 .portfolio-total {
     display: grid;
     grid-template-columns: 1fr;
@@ -14,6 +26,46 @@
     }
 
     .card-body {
+        .skeleton-chart {
+            height: 100px;
+            width: 100%;
+        }
+
+        .skeleton-value {
+            height: 40px;
+            width: 65%;
+        }
+
+        .skeleton-text {
+            height: 20px;
+            width: 45%;
+            margin-top: 18px;
+        }
+
+        .skeleton-text-wide {
+            height: 20px;
+            width: 65%;
+            margin-top: 18px;
+        }
+
+        .skeleton-row {
+            display: flex;
+            justify-content: space-between;
+            gap: $spacing-sm;
+            padding-top: 2px;
+            padding-bottom: 3px;
+
+            .skeleton-cell-label {
+                height: 20px;
+                width: 30%;
+            }
+
+            .skeleton-cell-value {
+                height: 20px;
+                width: 35%;
+            }
+        }
+
         .value + div {
             margin-top: 18px;
         }

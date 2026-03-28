@@ -19,8 +19,9 @@
                 <span class="value h3">{{portfolioData.value | number:'1.2-2' | money: defaultCurrency.id | async}}</span>
             </div>
         } @else {
-            <div class="card-body text-center">
-                <span class="spinner-border spinner-border-lg"></span>
+            <div class="card-body">
+                <div class="skeleton skeleton-chart"></div>
+                <div class="skeleton skeleton-value"></div>
             </div>
         }
     </div>
@@ -47,8 +48,10 @@
                 </div>
             </div>
         } @else {
-            <div class="card-body text-center">
-                <span class="spinner-border spinner-border-lg"></span>
+            <div class="card-body">
+                <div class="skeleton skeleton-value"></div>
+                <div class="skeleton skeleton-text"></div>
+                <div class="skeleton skeleton-text-wide"></div>
             </div>
         }
     </div>
@@ -69,8 +72,8 @@
                 </div>
             </div>
         } @else {
-            <div class="card-body text-center">
-                <span class="spinner-border spinner-border-lg"></span>
+            <div class="card-body">
+                <div class="skeleton skeleton-value"></div>
             </div>
         }
     </div>
@@ -90,8 +93,8 @@
                 </div>
             </div>
         } @else {
-            <div class="card-body text-center">
-                <span class="spinner-border spinner-border-lg"></span>
+            <div class="card-body">
+                <div class="skeleton skeleton-value"></div>
             </div>
         }
     </div>
@@ -118,8 +121,10 @@
                 </div>
             </div>
         } @else {
-            <div class="card-body text-center">
-                <span class="spinner-border spinner-border-lg"></span>
+            <div class="card-body">
+                <div class="skeleton skeleton-value"></div>
+                <div class="skeleton skeleton-text"></div>
+                <div class="skeleton skeleton-text-wide"></div>
             </div>
         }
     </div>
@@ -144,8 +149,10 @@
                 </div>
             </div>
         } @else {
-            <div class="card-body text-center">
-                <span class="spinner-border spinner-border-lg"></span>
+            <div class="card-body">
+                <div class="skeleton skeleton-value"></div>
+                <div class="skeleton skeleton-text"></div>
+                <div class="skeleton skeleton-text-wide"></div>
             </div>
         }
     </div>
@@ -177,8 +184,19 @@
                 </table>
             </div>
         } @else {
-            <div class="card-body text-center">
-                <span class="spinner-border spinner-border-lg"></span>
+            <div class="card-body">
+                <div class="skeleton-row">
+                    <div class="skeleton skeleton-cell-label"></div>
+                    <div class="skeleton skeleton-cell-value"></div>
+                </div>
+                <div class="skeleton-row">
+                    <div class="skeleton skeleton-cell-label"></div>
+                    <div class="skeleton skeleton-cell-value"></div>
+                </div>
+                <div class="skeleton-row">
+                    <div class="skeleton skeleton-cell-label"></div>
+                    <div class="skeleton skeleton-cell-value"></div>
+                </div>
             </div>
         }
     </div>
