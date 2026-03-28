@@ -245,6 +245,8 @@ final readonly class AssetDataCalculator implements AssetDataCalculatorInterface
 
 		$sumBuyUnits = new Decimal(0, 18);
 
+		$transactionUnitsAbs = $transactionUnitsWithSplit->abs();
+
 		$buysForBroker = array_filter($buys, fn(TransactionBuyDto $buy) => $buy->brokerId === $transaction->brokerId);
 
 		foreach ($buysForBroker as $buyKey => $buy) {
@@ -252,11 +254,15 @@ final readonly class AssetDataCalculator implements AssetDataCalculatorInterface
 
 			$buyUnitsWithSplits = $buy->units->mul($buySplitFactor);
 
-			$sellValue = $buyUnitsWithSplits->mul($transaction->priceTickerCurrency);
-			$sellValueDefaultCurrency = $buyUnitsWithSplits->mul($transaction->priceDefaultCurrency);
+			$remainingSellUnits = $transactionUnitsAbs->sub($sumBuyUnits);
+			$usedUnitsWithSplits = $buyUnitsWithSplits <= $remainingSellUnits ? $buyUnitsWithSplits : $remainingSellUnits;
+			$usedOriginalUnits = $usedUnitsWithSplits->div($buySplitFactor);
 
-			$buyValue = $buy->units->mul($buy->priceTickerCurrency);
-			$buyValueDefaultCurrency = $buy->units->mul($buy->priceDefaultCurrency);
+			$sellValue = $usedUnitsWithSplits->mul($transaction->priceTickerCurrency);
+			$sellValueDefaultCurrency = $usedUnitsWithSplits->mul($transaction->priceDefaultCurrency);
+
+			$buyValue = $usedOriginalUnits->mul($buy->priceTickerCurrency);
+			$buyValueDefaultCurrency = $usedOriginalUnits->mul($buy->priceDefaultCurrency);
 
 			$transactionRealizedGain = $transactionRealizedGain->add($sellValue->sub($buyValue));
 			$transactionRealizedGainDefaultCurrency = $transactionRealizedGainDefaultCurrency->add(
@@ -264,7 +270,6 @@ final readonly class AssetDataCalculator implements AssetDataCalculatorInterface
 			);
 
 			$sumBuyUnits = $sumBuyUnits->add($buyUnitsWithSplits);
-			$transactionUnitsAbs = $transactionUnitsWithSplit->abs();
 
 			if ($sumBuyUnits <= $transactionUnitsAbs) {
 				unset($buys[$buyKey]);

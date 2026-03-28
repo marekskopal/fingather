@@ -383,6 +383,50 @@ final class AssetDataCalculatorTest extends TestCase
 				'dividendYield' => 0.0,
 				'dividendYieldDefaultCurrency' => 0.0,
 			],
+			'partial sell from second lot' => [
+				'transactions' => [
+					TransactionFixture::getTransaction(
+						actionType: TransactionActionTypeEnum::Buy,
+						units: new Decimal(10),
+						price: new Decimal(50),
+						priceTickerCurrency: new Decimal(50),
+						priceDefaultCurrency: new Decimal(50),
+					),
+					TransactionFixture::getTransaction(
+						actionType: TransactionActionTypeEnum::Buy,
+						units: new Decimal(10),
+						price: new Decimal(60),
+						priceTickerCurrency: new Decimal(60),
+						priceDefaultCurrency: new Decimal(60),
+					),
+					TransactionFixture::getTransaction(
+						actionType: TransactionActionTypeEnum::Sell,
+						units: new Decimal(-15),
+						price: new Decimal(70),
+						priceTickerCurrency: new Decimal(70),
+						priceDefaultCurrency: new Decimal(70),
+					),
+				],
+				'splits' => [],
+				'lastTickerDataClose' => 70.0,
+				'exchangeRate' => 1.0,
+				'price' => 70.0,
+				'units' => 5.0,
+				'value' => 350.0,
+				// remaining: 5 units * 60
+				'transactionValue' => 300.0,
+				'transactionValueDefaultCurrency' => 300.0,
+				'averagePrice' => 60.0,
+				'averagePriceDefaultCurrency' => 60.0,
+				'gain' => 50.0,
+				'gainDefaultCurrency' => 50.0,
+				'gainPercentage' => 16.67,
+				// 10*(70-50) + 5*(70-60) = 200 + 50
+				'realizedGain' => 250.0,
+				'realizedGainDefaultCurrency' => 250.0,
+				'dividendYield' => 0.0,
+				'dividendYieldDefaultCurrency' => 0.0,
+			],
 			'multi-broker interleaved buys and sells' => [
 				'transactions' => [
 					TransactionFixture::getTransaction(

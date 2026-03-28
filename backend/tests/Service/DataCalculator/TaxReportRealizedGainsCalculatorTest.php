@@ -246,6 +246,53 @@ final class TaxReportRealizedGainsCalculatorTest extends TestCase
 		self::assertCount(1, $result->transactions);
 	}
 
+	public function testCalculatePartialSellFromSecondLot(): void
+	{
+		// Buy 10 units @ 50, Buy 10 units @ 60, Sell 15 units @ 70
+		// FIFO: lot 1 fully consumed (10 units), lot 2 partially consumed (5 units)
+		$transactions = [
+			TransactionFixture::getTransaction(
+				actionType: TransactionActionTypeEnum::Buy,
+				actionCreated: new DateTimeImmutable('2024-01-01'),
+				units: new Decimal(10),
+				priceDefaultCurrency: new Decimal(50),
+				feeDefaultCurrency: new Decimal(0),
+			),
+			TransactionFixture::getTransaction(
+				actionType: TransactionActionTypeEnum::Buy,
+				actionCreated: new DateTimeImmutable('2024-02-01'),
+				units: new Decimal(10),
+				priceDefaultCurrency: new Decimal(60),
+				feeDefaultCurrency: new Decimal(0),
+			),
+			TransactionFixture::getTransaction(
+				actionType: TransactionActionTypeEnum::Sell,
+				actionCreated: new DateTimeImmutable('2024-06-15'),
+				units: new Decimal(-15),
+				priceDefaultCurrency: new Decimal(70),
+				feeDefaultCurrency: new Decimal(0),
+			),
+		];
+
+		$result = $this->calculate([$transactions]);
+
+		// Lot 1: proceeds = 10*70=700, costBasis = 10*50=500, gain = 200
+		// Lot 2 (partial): proceeds = 5*70=350, costBasis = 5*60=300, gain = 50
+		self::assertSame(1050.0, $result->totalSalesProceeds->toFloat());
+		self::assertSame(800.0, $result->totalCostBasis->toFloat());
+		self::assertSame(250.0, $result->totalGains->toFloat());
+		self::assertSame(0.0, $result->totalLosses->toFloat());
+		self::assertSame(250.0, $result->netRealizedGainLoss->toFloat());
+		self::assertCount(2, $result->transactions);
+
+		// Verify partial lot transaction details
+		$partialLotTx = $result->transactions[1];
+		self::assertSame(5.0, $partialLotTx->units->toFloat());
+		self::assertSame(350.0, $partialLotTx->salesProceeds->toFloat());
+		self::assertSame(300.0, $partialLotTx->costBasis->toFloat());
+		self::assertSame(50.0, $partialLotTx->gainLoss->toFloat());
+	}
+
 	public function testCalculateNoTransactionsReturnsZeros(): void
 	{
 		$result = $this->calculate([]);

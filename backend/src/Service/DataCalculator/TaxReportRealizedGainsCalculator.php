@@ -171,8 +171,12 @@ final class TaxReportRealizedGainsCalculator implements TaxReportRealizedGainsCa
 			$buySplitFactor = CalculatorUtils::countSplitFactor($buy->actionCreated, $transaction->actionCreated, $splits);
 			$buyUnitsWithSplits = $buy->units->mul($buySplitFactor);
 
-			$sellProceeds = $buyUnitsWithSplits->mul($transaction->priceDefaultCurrency);
-			$costBasis = $buy->units->mul($buy->priceDefaultCurrency);
+			$remainingSellUnits = $transactionUnitsAbs->sub($sumBuyUnits);
+			$usedUnitsWithSplits = $buyUnitsWithSplits <= $remainingSellUnits ? $buyUnitsWithSplits : $remainingSellUnits;
+			$usedOriginalUnits = $usedUnitsWithSplits->div($buySplitFactor);
+
+			$sellProceeds = $usedUnitsWithSplits->mul($transaction->priceDefaultCurrency);
+			$costBasis = $usedOriginalUnits->mul($buy->priceDefaultCurrency);
 			$gainLoss = $sellProceeds->sub($costBasis);
 
 			$transactions[] = new TaxReportRealizedGainTransactionDto(
@@ -181,7 +185,7 @@ final class TaxReportRealizedGainsCalculator implements TaxReportRealizedGainsCa
 				buyDate: $buy->actionCreated->format('Y-m-d'),
 				sellDate: $transaction->actionCreated->format('Y-m-d'),
 				holdingPeriodDays: (int) $transaction->actionCreated->diff($buy->actionCreated)->days,
-				units: $buyUnitsWithSplits,
+				units: $usedUnitsWithSplits,
 				buyPrice: $buy->priceDefaultCurrency,
 				sellPrice: $transaction->priceDefaultCurrency,
 				costBasis: $costBasis,
