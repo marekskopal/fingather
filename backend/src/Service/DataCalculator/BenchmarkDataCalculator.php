@@ -14,14 +14,11 @@ use FinGather\Service\DataCalculator\Dto\BenchmarkDataDto;
 use FinGather\Service\Provider\ExchangeRateProviderInterface;
 use FinGather\Service\Provider\TickerDataProviderInterface;
 
-final class BenchmarkDataCalculator
+final readonly class BenchmarkDataCalculator
 {
-	/** @var array<string, Decimal> */
-	private array $transactionBenchmarkUnits = [];
-
 	public function __construct(
-		private readonly ExchangeRateProviderInterface $exchangeRateProvider,
-		private readonly TickerDataProviderInterface $tickerDataProvider,
+		private ExchangeRateProviderInterface $exchangeRateProvider,
+		private TickerDataProviderInterface $tickerDataProvider,
 	) {
 	}
 
@@ -82,11 +79,6 @@ final class BenchmarkDataCalculator
 		Currency $benchmarkTickerCurrency,
 		Currency $defaultCurrency,
 	): Decimal {
-		$key = $transaction->id . '-' . $benchmarkAssetTicker->id . '-' . $defaultCurrency->id;
-		if (isset($this->transactionBenchmarkUnits[$key])) {
-			return $this->transactionBenchmarkUnits[$key];
-		}
-
 		$transactionActionCreated = $transaction->actionCreated;
 
 		$benchmarkTransactionAssetTickerDataClose = $this->tickerDataProvider->getLastTickerDataClose(
@@ -97,23 +89,16 @@ final class BenchmarkDataCalculator
 			return new Decimal(0);
 		}
 
-		$transactionUnits = $transaction->units;
-
-		$transactionPriceUnitDefaultCurrency = $transaction->priceDefaultCurrency;
-
 		$benchmarkTransactionExchangeRateDefaultCurrency = $this->exchangeRateProvider->getExchangeRate(
 			$transactionActionCreated,
 			$benchmarkTickerCurrency,
 			$defaultCurrency,
 		);
 
-		$benchmarkPrice = $benchmarkTransactionAssetTickerDataClose;
-		$benchmarkPriceUnitDefaultCurrency = $benchmarkPrice->mul($benchmarkTransactionExchangeRateDefaultCurrency);
-
-		$this->transactionBenchmarkUnits[$key] = $transactionUnits->mul($transactionPriceUnitDefaultCurrency)->div(
-			$benchmarkPriceUnitDefaultCurrency,
+		$benchmarkPriceUnitDefaultCurrency = $benchmarkTransactionAssetTickerDataClose->mul(
+			$benchmarkTransactionExchangeRateDefaultCurrency,
 		);
 
-		return $this->transactionBenchmarkUnits[$key];
+		return $transaction->units->mul($transaction->priceDefaultCurrency)->div($benchmarkPriceUnitDefaultCurrency);
 	}
 }
