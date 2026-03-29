@@ -83,14 +83,9 @@ final class DividendDataCalculator
 	private function getDateRangeKey(DateTimeImmutable $date, RangeEnum $range): string
 	{
 		return match ($range) {
-			RangeEnum::SevenDays => $date->format('Y-m-d'),
-			RangeEnum::OneMonth => $date->format('Y-m-d'),
-			RangeEnum::ThreeMonths => $date->format('Y-m') . '-01',
-			RangeEnum::SixMonths => $date->format('Y-m') . '-01',
-			RangeEnum::YTD => $date->format('Y-m') . '-01',
-			RangeEnum::OneYear => $date->format('Y-m') . '-01',
-			RangeEnum::All => $date->format('Y-m') . '-01',
-			RangeEnum::Custom => $date->format('Y-m') . '-01',
+			RangeEnum::SevenDays, RangeEnum::OneMonth => $date->format('Y-m-d'),
+			RangeEnum::ThreeMonths, RangeEnum::SixMonths, RangeEnum::YTD,
+			RangeEnum::OneYear, RangeEnum::All, RangeEnum::Custom => $date->format('Y-m') . '-01',
 		};
 	}
 }
