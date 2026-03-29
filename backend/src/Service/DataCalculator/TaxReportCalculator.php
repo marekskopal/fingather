@@ -164,6 +164,8 @@ final class TaxReportCalculator
 		Decimal &$totalTax,
 		Decimal &$totalNet,
 	): void {
+		$dividendTotalsPerDate = $this->collectDividendTotalsPerDate($assetTransactions, $yearStart, $yearEnd);
+
 		foreach ($assetTransactions as $transaction) {
 			if ($transaction->actionType !== TransactionActionTypeEnum::Dividend) {
 				continue;
@@ -176,7 +178,12 @@ final class TaxReportCalculator
 			$ticker = $transaction->asset->ticker;
 			$grossAmount = $transaction->priceDefaultCurrency;
 			$dateKey = $transaction->actionCreated->format('Y-m-d');
-			$tax = ($dividendTaxes[$dateKey] ?? new Decimal(0))->abs();
+
+			$totalTaxForDate = ($dividendTaxes[$dateKey] ?? new Decimal(0))->abs();
+			$totalDividendsForDate = $dividendTotalsPerDate[$dateKey] ?? new Decimal(0);
+			$tax = $totalDividendsForDate->isZero()
+				? new Decimal(0)
+				: $totalTaxForDate->mul($grossAmount)->div($totalDividendsForDate);
 			$netAmount = $grossAmount->sub($tax);
 
 			$transactions[] = new TaxReportDividendTransactionDto(
@@ -193,9 +200,34 @@ final class TaxReportCalculator
 			$totalGross = $totalGross->add($grossAmount);
 			$totalTax = $totalTax->add($tax);
 			$totalNet = $totalNet->add($netAmount);
-
-			unset($dividendTaxes[$dateKey]);
 		}
+	}
+
+	/**
+	 * @param list<Transaction> $assetTransactions
+	 * @return array<string, Decimal>
+	 */
+	private function collectDividendTotalsPerDate(
+		array $assetTransactions,
+		DateTimeImmutable $yearStart,
+		DateTimeImmutable $yearEnd,
+	): array {
+		$totals = [];
+
+		foreach ($assetTransactions as $transaction) {
+			if ($transaction->actionType !== TransactionActionTypeEnum::Dividend) {
+				continue;
+			}
+
+			if ($transaction->actionCreated < $yearStart || $transaction->actionCreated > $yearEnd) {
+				continue;
+			}
+
+			$dateKey = $transaction->actionCreated->format('Y-m-d');
+			$totals[$dateKey] = ($totals[$dateKey] ?? new Decimal(0))->add($transaction->priceDefaultCurrency);
+		}
+
+		return $totals;
 	}
 
 	/**

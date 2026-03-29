@@ -394,6 +394,54 @@ final class TaxReportCalculatorTest extends TestCase
 		self::assertSame(102.0, $tx->netAmount->toFloat());
 	}
 
+	public function testCalculateMultipleDividendsSameDateDistributesTaxProportionally(): void
+	{
+		// Two dividends on the same date: 200 and 100, with total tax of 30
+		// Tax should be split proportionally: 200/(200+100)*30=20, 100/(200+100)*30=10
+		$transactionsByAsset = [
+			[
+				TransactionFixture::getTransaction(
+					actionType: TransactionActionTypeEnum::Dividend,
+					actionCreated: new DateTimeImmutable('2024-05-01'),
+					priceDefaultCurrency: new Decimal(200),
+					feeDefaultCurrency: new Decimal(0),
+					taxDefaultCurrency: new Decimal(0),
+				),
+				TransactionFixture::getTransaction(
+					actionType: TransactionActionTypeEnum::Dividend,
+					actionCreated: new DateTimeImmutable('2024-05-01'),
+					priceDefaultCurrency: new Decimal(100),
+					feeDefaultCurrency: new Decimal(0),
+					taxDefaultCurrency: new Decimal(0),
+				),
+				TransactionFixture::getTransaction(
+					actionType: TransactionActionTypeEnum::DividendTax,
+					actionCreated: new DateTimeImmutable('2024-05-01'),
+					priceDefaultCurrency: new Decimal(-30),
+					feeDefaultCurrency: new Decimal(0),
+					taxDefaultCurrency: new Decimal(0),
+				),
+			],
+		];
+
+		$result = $this->calculate(year: 2024, transactionsByAsset: $transactionsByAsset);
+
+		self::assertSame(300.0, $result->dividends->totalGross->toFloat());
+		self::assertSame(30.0, $result->dividends->totalTax->toFloat());
+		self::assertSame(270.0, $result->dividends->totalNet->toFloat());
+		self::assertCount(2, $result->dividends->transactions);
+
+		// First dividend: tax = 30 * 200/300 = 20
+		self::assertSame(200.0, $result->dividends->transactions[0]->grossAmount->toFloat());
+		self::assertSame(20.0, $result->dividends->transactions[0]->tax->toFloat());
+		self::assertSame(180.0, $result->dividends->transactions[0]->netAmount->toFloat());
+
+		// Second dividend: tax = 30 * 100/300 = 10
+		self::assertSame(100.0, $result->dividends->transactions[1]->grossAmount->toFloat());
+		self::assertSame(10.0, $result->dividends->transactions[1]->tax->toFloat());
+		self::assertSame(90.0, $result->dividends->transactions[1]->netAmount->toFloat());
+	}
+
 	public function testCalculateUnrealizedPositionsIncludesOpenAssets(): void
 	{
 		$asset = AssetFixture::getAsset();
