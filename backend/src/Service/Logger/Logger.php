@@ -9,7 +9,7 @@ use Tracy\Bridges\Psr\TracyToPsrLoggerAdapter;
 use Tracy\Debugger;
 use const E_ALL;
 
-final class Logger
+final readonly class Logger
 {
 	public static function initLogger(?string $directory): LoggerInterface
 	{

@@ -10,7 +10,7 @@ use DateTimeImmutable;
 use FinGather\Dto\Enum\RangeEnum;
 use FinGather\Helper\DatePeriod;
 
-final class DateTimeUtils
+final readonly class DateTimeUtils
 {
 	public const FirstDate = '2000-01-01';
 

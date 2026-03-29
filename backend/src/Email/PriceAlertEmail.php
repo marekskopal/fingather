@@ -8,7 +8,7 @@ use FinGather\Model\Entity\Enum\AlertConditionEnum;
 use FinGather\Model\Entity\Enum\PriceAlertTypeEnum;
 use FinGather\Model\Entity\PriceAlert;
 
-final class PriceAlertEmail
+final readonly class PriceAlertEmail
 {
 	/** @param array<string, string> $t */
 	public static function getHtml(PriceAlert $alert, string $currentValue, array $t): string

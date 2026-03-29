@@ -7,7 +7,7 @@ namespace FinGather\Service\Export;
 use Nette\Utils\FileSystem;
 use RuntimeException;
 
-final class PdfConverter
+final readonly class PdfConverter
 {
 	public function convert(string $xlsxPath): string
 	{

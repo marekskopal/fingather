@@ -14,13 +14,13 @@ use FinGather\Service\Provider\PortfolioDataProviderInterface;
 use FinGather\Service\Provider\PortfolioProviderInterface;
 use FinGather\Service\Provider\TransactionProviderInterface;
 
-final class UserWarmup
+final readonly class UserWarmup
 {
 	public function __construct(
-		private readonly PortfolioProviderInterface $portfolioProvider,
-		private readonly PortfolioDataProviderInterface $portfolioDataProvider,
-		private readonly TransactionProviderInterface $transactionProvider,
-		private readonly DataProviderInterface $dataProvider,
+		private PortfolioProviderInterface $portfolioProvider,
+		private PortfolioDataProviderInterface $portfolioDataProvider,
+		private TransactionProviderInterface $transactionProvider,
+		private DataProviderInterface $dataProvider,
 	) {
 	}
 

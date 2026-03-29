@@ -13,13 +13,13 @@ use FinGather\Service\Provider\ApiImportProviderInterface;
 use FinGather\Service\Provider\ImportFileProviderInterface;
 use FinGather\Service\Provider\ImportProviderInterface;
 
-class ProcessorFactory
+final readonly class ProcessorFactory
 {
 	public function __construct(
-		private readonly ApiImportProviderInterface $apiImportProvider,
-		private readonly ImportService $importService,
-		private readonly ImportProviderInterface $importProvider,
-		private readonly ImportFileProviderInterface $importFileProvider,
+		private ApiImportProviderInterface $apiImportProvider,
+		private ImportService $importService,
+		private ImportProviderInterface $importProvider,
+		private ImportFileProviderInterface $importFileProvider,
 	) {
 	}
 

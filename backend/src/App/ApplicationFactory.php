@@ -22,7 +22,7 @@ use MarekSkopal\Router\Builder\RouterBuilder;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-final class ApplicationFactory
+final readonly class ApplicationFactory
 {
 	public static function create(): Application
 	{

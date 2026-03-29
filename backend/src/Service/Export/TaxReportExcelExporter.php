@@ -13,7 +13,7 @@ use PhpOffice\PhpSpreadsheet\Worksheet\PageSetup;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx as XlsxWriter;
 
-final class TaxReportExcelExporter
+final readonly class TaxReportExcelExporter
 {
 	private const string NumberFormat = '#,##0.00';
 

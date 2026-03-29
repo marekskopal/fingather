@@ -15,9 +15,9 @@ use FinGather\Service\DataCalculator\Dto\DividendDataIntervalDto;
 use FinGather\Service\Provider\TransactionProviderInterface;
 use FinGather\Utils\DateTimeUtils;
 
-final class DividendDataCalculator
+final readonly class DividendDataCalculator
 {
-	public function __construct(private readonly TransactionProviderInterface $transactionProvider,)
+	public function __construct(private TransactionProviderInterface $transactionProvider,)
 	{
 	}
 

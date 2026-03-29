@@ -6,7 +6,7 @@ namespace FinGather\Utils;
 
 use Nette\Utils\Strings;
 
-final class StringUtils
+final readonly class StringUtils
 {
 	public static function sanitizeName(string $name): string
 	{

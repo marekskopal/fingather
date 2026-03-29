@@ -15,14 +15,15 @@ use FinGather\Service\DataCalculator\Dto\TaxReportRealizedGainsDto;
 use FinGather\Service\DataCalculator\Dto\TaxReportRealizedGainTransactionDto;
 use FinGather\Service\DataCalculator\Dto\TransactionBuyDto;
 use FinGather\Service\Provider\CurrentTransactionProviderInterface;
+use FinGather\Service\Provider\Dto\SplitDto;
 use FinGather\Service\Provider\SplitProviderInterface;
 use FinGather\Utils\CalculatorUtils;
 
-final class TaxReportRealizedGainsCalculator implements TaxReportRealizedGainsCalculatorInterface
+final readonly class TaxReportRealizedGainsCalculator implements TaxReportRealizedGainsCalculatorInterface
 {
 	public function __construct(
-		private readonly CurrentTransactionProviderInterface $currentTransactionProvider,
-		private readonly SplitProviderInterface $splitProvider,
+		private CurrentTransactionProviderInterface $currentTransactionProvider,
+		private SplitProviderInterface $splitProvider,
 	) {
 	}
 
@@ -142,7 +143,11 @@ final class TaxReportRealizedGainsCalculator implements TaxReportRealizedGainsCa
 		);
 	}
 
-	/** @param list<TaxReportRealizedGainTransactionDto> $transactions */
+	/**
+	 * @param array<int, TransactionBuyDto> $buys
+	 * @param list<SplitDto> $splits
+	 * @param list<TaxReportRealizedGainTransactionDto> $transactions
+	 */
 	private function processSellTransaction(
 		array &$buys,
 		Transaction $transaction,
@@ -199,6 +204,10 @@ final class TaxReportRealizedGainsCalculator implements TaxReportRealizedGainsCa
 		}
 	}
 
+	/**
+	 * @param array<int, TransactionBuyDto> $buys
+	 * @param list<SplitDto> $splits
+	 */
 	private function consumeBuyLots(array &$buys, Transaction $transaction, array $splits, DateTimeImmutable $yearEnd): void
 	{
 		$sellSplitFactor = CalculatorUtils::countSplitFactor($transaction->actionCreated, $yearEnd, $splits);

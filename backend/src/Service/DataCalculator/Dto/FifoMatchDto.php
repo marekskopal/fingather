@@ -8,10 +8,7 @@ use Decimal\Decimal;
 
 final readonly class FifoMatchDto
 {
-	public function __construct(
-		public TransactionBuyDto $buy,
-		public Decimal $usedUnitsWithSplits,
-		public Decimal $usedOriginalUnits,
-	) {
+	public function __construct(public TransactionBuyDto $buy, public Decimal $usedUnitsWithSplits, public Decimal $usedOriginalUnits,)
+	{
 	}
 }

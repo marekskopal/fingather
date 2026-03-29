@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace FinGather\Service;
+namespace FinGather\Service\PriceAlert;
 
 use DateTimeImmutable;
 use FinGather\Model\Entity\Enum\AlertConditionEnum;
@@ -14,13 +14,13 @@ use FinGather\Service\Provider\PortfolioProviderInterface;
 use FinGather\Service\Provider\PriceAlertProviderInterface;
 use FinGather\Service\Provider\TickerDataProviderInterface;
 
-class PriceAlertChecker
+final readonly class PriceAlertChecker
 {
 	public function __construct(
-		private readonly PriceAlertProviderInterface $priceAlertProvider,
-		private readonly TickerDataProviderInterface $tickerDataProvider,
-		private readonly PortfolioDataProviderInterface $portfolioDataProvider,
-		private readonly PortfolioProviderInterface $portfolioProvider,
+		private PriceAlertProviderInterface $priceAlertProvider,
+		private TickerDataProviderInterface $tickerDataProvider,
+		private PortfolioDataProviderInterface $portfolioDataProvider,
+		private PortfolioProviderInterface $portfolioProvider,
 	) {
 	}
 

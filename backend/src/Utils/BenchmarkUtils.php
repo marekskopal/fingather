@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Utils;
 
-final class BenchmarkUtils
+final readonly class BenchmarkUtils
 {
 	/** @param callable(): mixed $callback */
 	public static function benchmark(callable $callback): int

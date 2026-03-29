@@ -11,13 +11,13 @@ use FinGather\Service\Email\MailerFactory;
 use FinGather\Service\Task\TaskServiceInterface;
 use Psr\Log\LoggerInterface;
 
-final class PasswordResetHandler implements JobHandler
+final readonly class PasswordResetHandler implements JobHandler
 {
 	public function __construct(
-		private readonly LoggerInterface $logger,
-		private readonly TaskServiceInterface $taskService,
-		private readonly MailerFactory $mailerFactory,
-		private readonly EmailFactory $emailFactory,
+		private LoggerInterface $logger,
+		private TaskServiceInterface $taskService,
+		private MailerFactory $mailerFactory,
+		private EmailFactory $emailFactory,
 	) {
 	}
 

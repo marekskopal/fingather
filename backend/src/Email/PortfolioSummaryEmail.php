@@ -11,7 +11,7 @@ use FinGather\Model\Entity\Enum\GoalTypeEnum;
 use FinGather\Model\Entity\Goal;
 use FinGather\Service\DataCalculator\Dto\CalculatedDataDto;
 
-final class PortfolioSummaryEmail
+final readonly class PortfolioSummaryEmail
 {
 	/**
 	 * @param list<DividendCalendarItemDto> $upcomingDividends

@@ -8,7 +8,7 @@ use FinGather\App\ApplicationFactory;
 use FinGather\Model\Repository\PriceAlertRepository;
 use FinGather\Service\Email\EmailFactory;
 use FinGather\Service\Email\MailerFactory;
-use FinGather\Service\PriceAlertChecker;
+use FinGather\Service\PriceAlert\PriceAlertChecker;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

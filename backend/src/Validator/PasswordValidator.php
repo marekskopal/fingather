@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Validator;
 
-final class PasswordValidator
+final readonly class PasswordValidator
 {
 	public static function isValid(string $password): bool
 	{

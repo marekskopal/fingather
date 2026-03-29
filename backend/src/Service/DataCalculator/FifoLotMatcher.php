@@ -11,7 +11,7 @@ use FinGather\Service\DataCalculator\Dto\TransactionBuyDto;
 use FinGather\Service\Provider\Dto\SplitDto;
 use FinGather\Utils\CalculatorUtils;
 
-final class FifoLotMatcher
+final readonly class FifoLotMatcher
 {
 	/**
 	 * Consumes buy lots in FIFO order for a given broker, adjusting the $buys array in place.
@@ -41,11 +41,7 @@ final class FifoLotMatcher
 			$usedUnitsWithSplits = $buyUnitsWithSplits <= $remainingSellUnits ? $buyUnitsWithSplits : $remainingSellUnits;
 			$usedOriginalUnits = $usedUnitsWithSplits->div($buySplitFactor);
 
-			$matches[] = new FifoMatchDto(
-				buy: $buy,
-				usedUnitsWithSplits: $usedUnitsWithSplits,
-				usedOriginalUnits: $usedOriginalUnits,
-			);
+			$matches[] = new FifoMatchDto(buy: $buy, usedUnitsWithSplits: $usedUnitsWithSplits, usedOriginalUnits: $usedOriginalUnits);
 
 			$sumBuyUnits = $sumBuyUnits->add($buyUnitsWithSplits);
 

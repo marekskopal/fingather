@@ -7,12 +7,12 @@ namespace FinGather\Service\Update;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Repository\AssetRepository;
 
-final class TickerRelationsUpdater
+final readonly class TickerRelationsUpdater
 {
 	public function __construct(
-		private readonly TickerUpdater $tickerUpdater,
-		private readonly SplitUpdater $splitUpdater,
-		private readonly AssetRepository $assetRepository,
+		private TickerUpdater $tickerUpdater,
+		private SplitUpdater $splitUpdater,
+		private AssetRepository $assetRepository,
 	) {
 	}
 

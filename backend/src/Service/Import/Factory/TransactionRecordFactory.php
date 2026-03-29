@@ -9,7 +9,7 @@ use Decimal\Decimal;
 use FinGather\Service\Import\Entity\TransactionRecord;
 use FinGather\Service\Import\Mapper\MapperInterface;
 
-final class TransactionRecordFactory implements TransactionRecordFactoryInterface
+final readonly class TransactionRecordFactory implements TransactionRecordFactoryInterface
 {
 	/** @param array<string, string> $csvRecord */
 	public function createFromCsvRecord(MapperInterface $mapper, array $csvRecord): TransactionRecord

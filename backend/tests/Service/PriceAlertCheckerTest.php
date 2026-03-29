@@ -12,7 +12,7 @@ use FinGather\Model\Entity\Enum\AlertRecurrenceEnum;
 use FinGather\Model\Entity\Enum\PriceAlertTypeEnum;
 use FinGather\Model\Entity\PriceAlert;
 use FinGather\Service\DataCalculator\Dto\CalculatedDataDto;
-use FinGather\Service\PriceAlertChecker;
+use FinGather\Service\PriceAlert\PriceAlertChecker;
 use FinGather\Service\Provider\PortfolioDataProviderInterface;
 use FinGather\Service\Provider\PortfolioProviderInterface;
 use FinGather\Service\Provider\PriceAlertProviderInterface;

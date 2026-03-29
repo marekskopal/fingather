@@ -6,7 +6,7 @@ namespace FinGather\Email;
 
 use FinGather\Dto\EmailVerifyDto;
 
-final class VerifyEmail
+final readonly class VerifyEmail
 {
 	/** @param array<string, string> $t */
 	public static function getHtml(EmailVerifyDto $emailVerify, array $t): string

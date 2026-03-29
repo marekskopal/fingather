@@ -13,11 +13,11 @@ use FinGather\Service\Provider\PortfolioDataProviderInterface;
 use FinGather\Service\Provider\TransactionProviderInterface;
 use FinGather\Utils\CalculatorUtils;
 
-final class OverviewDataCalculator
+final readonly class OverviewDataCalculator
 {
 	public function __construct(
-		private readonly TransactionProviderInterface $transactionProvider,
-		private readonly PortfolioDataProviderInterface $portfolioDataProvider,
+		private TransactionProviderInterface $transactionProvider,
+		private PortfolioDataProviderInterface $portfolioDataProvider,
 	) {
 	}
 
@@ -111,6 +111,7 @@ final class OverviewDataCalculator
 			$tax = $portfolioDataToDate->tax->sub($portfolioDataFromDate->tax);
 			$fee = $portfolioDataToDate->fee->sub($portfolioDataFromDate->fee);
 
+			assert($previousYearEndDate !== null);
 			$interannualDays = (int) $yearToDate->diff($previousYearEndDate)->days;
 
 			$gainPercentage = CalculatorUtils::diffToPercentage($portfolioDataFromDate->gain, $portfolioDataToDate->gain);

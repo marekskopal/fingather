@@ -9,12 +9,12 @@ use FinGather\Service\Queue\Enum\QueueEnum;
 use FinGather\Service\Queue\QueuePublisher;
 use FinGather\Service\Warmup\Dto\UserWarmupDto;
 
-final class DatabaseWarmup
+final readonly class DatabaseWarmup
 {
 	public function __construct(
-		private readonly UserProviderInterface $userProvider,
-		private readonly QueuePublisher $queuePublisher,
-		private readonly UserWarmup $userWarmup,
+		private UserProviderInterface $userProvider,
+		private QueuePublisher $queuePublisher,
+		private UserWarmup $userWarmup,
 	) {
 	}
 

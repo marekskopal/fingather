@@ -11,12 +11,12 @@ use MarekSkopal\TwelveData\Dto\Fundamentals\Logo;
 use MarekSkopal\TwelveData\Exception\NotFoundException;
 use MarekSkopal\TwelveData\TwelveData;
 
-final class TickerLogoUpdater
+final readonly class TickerLogoUpdater
 {
 	private const string LOGOS_PATH = '/app/public/images/logos/';
 	private const string LOGOS_API_DIR = 'api/';
 
-	public function __construct(private readonly TickerRepository $tickerRepository, private readonly TwelveData $twelveData,)
+	public function __construct(private TickerRepository $tickerRepository, private TwelveData $twelveData,)
 	{
 	}
 

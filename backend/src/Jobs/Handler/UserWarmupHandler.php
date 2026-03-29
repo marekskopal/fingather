@@ -12,15 +12,14 @@ use FinGather\Service\Warmup\UserWarmup;
 use FinGather\Utils\BenchmarkUtils;
 use Psr\Log\LoggerInterface;
 
-class UserWarmupHandler implements JobHandler
+final readonly class UserWarmupHandler implements JobHandler
 {
 	public function __construct(
-		private readonly UserWarmup $userWarmup,
-		private readonly UserProviderInterface $userProvider,
-		private readonly LoggerInterface $logger,
-		private readonly TaskServiceInterface $taskService,
-	)
-	{
+		private UserWarmup $userWarmup,
+		private UserProviderInterface $userProvider,
+		private LoggerInterface $logger,
+		private TaskServiceInterface $taskService,
+	) {
 	}
 
 	public function handle(ReceivedMessageInterface $message): void

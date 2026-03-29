@@ -10,7 +10,7 @@ use FinGather\Model\Entity\User;
 use Nette\Utils\Json;
 use Psr\Http\Message\ServerRequestInterface;
 
-final class RequestService implements RequestServiceInterface
+final readonly class RequestService implements RequestServiceInterface
 {
 	public function getUser(ServerRequestInterface $request): User
 	{

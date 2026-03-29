@@ -23,7 +23,7 @@ use FinGather\Service\Import\Mapper\SchwabMapper;
 use FinGather\Service\Import\Mapper\Trading212Mapper;
 use FinGather\Service\Import\Mapper\XtbMapper;
 
-final class ImportMapperFactory implements ImportMapperFactoryInterface
+final readonly class ImportMapperFactory implements ImportMapperFactoryInterface
 {
 	private const ImportMappers = [
 		BrokerImportTypeEnum::Trading212->value => Trading212Mapper::class,

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Utils;
 
-final class Base64Utils
+final readonly class Base64Utils
 {
 	public static function encode(string $string): string
 	{

@@ -7,7 +7,7 @@ namespace FinGather\Email;
 use FinGather\Model\Entity\Enum\GoalTypeEnum;
 use FinGather\Model\Entity\Goal;
 
-final class GoalEmail
+final readonly class GoalEmail
 {
 	/** @param array<string, string> $t */
 	public static function getHtml(Goal $goal, string $currentValue, array $t): string

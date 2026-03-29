@@ -26,18 +26,18 @@ use FinGather\Service\Update\TickerIsinUpdater;
 use MarekSkopal\ORM\Exception\ConstrainException;
 use Psr\Log\LoggerInterface;
 
-final class ImportPrepareService
+final readonly class ImportPrepareService
 {
 	public function __construct(
-		private readonly TickerProviderInterface $tickerProvider,
-		private readonly TickerIsinUpdater $tickerIsinUpdater,
-		private readonly ImportProviderInterface $importProvider,
-		private readonly ImportFileProviderInterface $importFileProvider,
-		private readonly ImportMappingProviderInterface $importMappingProvider,
-		private readonly BrokerProviderInterface $brokerProvider,
-		private readonly ImportMapperFactory $importMapperFactory,
-		private readonly TransactionRecordFactory $transactionRecordFactory,
-		private readonly LoggerInterface $logger,
+		private TickerProviderInterface $tickerProvider,
+		private TickerIsinUpdater $tickerIsinUpdater,
+		private ImportProviderInterface $importProvider,
+		private ImportFileProviderInterface $importFileProvider,
+		private ImportMappingProviderInterface $importMappingProvider,
+		private BrokerProviderInterface $brokerProvider,
+		private ImportMapperFactory $importMapperFactory,
+		private TransactionRecordFactory $transactionRecordFactory,
+		private LoggerInterface $logger,
 	) {
 	}
 

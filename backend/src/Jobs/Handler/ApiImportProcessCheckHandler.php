@@ -9,9 +9,9 @@ use FinGather\Jobs\Message\ReceivedMessageInterface;
 use FinGather\Service\Import\ApiImport\ApiImportService;
 use FinGather\Service\Task\TaskServiceInterface;
 
-final class ApiImportProcessCheckHandler implements JobHandler
+final readonly class ApiImportProcessCheckHandler implements JobHandler
 {
-	public function __construct(private readonly ApiImportService $apiImportService, private readonly TaskServiceInterface $taskService)
+	public function __construct(private ApiImportService $apiImportService, private TaskServiceInterface $taskService)
 	{
 	}
 

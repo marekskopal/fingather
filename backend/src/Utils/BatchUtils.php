@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Utils;
 
-final class BatchUtils
+final readonly class BatchUtils
 {
 	/**
 	 * @param list<T> $items

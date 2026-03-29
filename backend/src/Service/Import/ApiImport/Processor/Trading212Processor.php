@@ -20,13 +20,13 @@ use MarekSkopal\Trading212\Dto\HistoricalItems\ExportCsv;
 use MarekSkopal\Trading212\Trading212;
 use Ramsey\Uuid\Uuid;
 
-class Trading212Processor implements ProcessorInterface
+final readonly class Trading212Processor implements ProcessorInterface
 {
 	public function __construct(
-		private readonly ApiImportProviderInterface $apiImportProvider,
-		private readonly ImportService $importService,
-		private readonly ImportProviderInterface $importProvider,
-		private readonly ImportFileProviderInterface $importFileProvider,
+		private ApiImportProviderInterface $apiImportProvider,
+		private ImportService $importService,
+		private ImportProviderInterface $importProvider,
+		private ImportFileProviderInterface $importFileProvider,
 	) {
 	}
 

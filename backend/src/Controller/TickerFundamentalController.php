@@ -19,8 +19,7 @@ final readonly class TickerFundamentalController
 	public function __construct(
 		private TickerFundamentalProviderInterface $tickerFundamentalProvider,
 		private TickerProviderInterface $tickerProvider,
-	)
-	{
+	) {
 	}
 
 	#[RouteGet(Routes::TickerFundamental->value)]

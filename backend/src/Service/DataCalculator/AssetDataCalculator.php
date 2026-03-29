@@ -18,6 +18,7 @@ use FinGather\Service\DataCalculator\Dto\TransactionBuyDto;
 use FinGather\Service\DataCalculator\Dto\TransactionValueDto;
 use FinGather\Service\DataCalculator\Dto\ValueDto;
 use FinGather\Service\Provider\CurrentTransactionProviderInterface;
+use FinGather\Service\Provider\Dto\SplitDto;
 use FinGather\Service\Provider\ExchangeRateProviderInterface;
 use FinGather\Service\Provider\SplitProviderInterface;
 use FinGather\Service\Provider\TickerDataProviderInterface;
@@ -222,7 +223,10 @@ final readonly class AssetDataCalculator implements AssetDataCalculatorInterface
 		);
 	}
 
-	/** @param array<int, TransactionBuyDto> $buys */
+	/**
+	 * @param array<int, TransactionBuyDto> $buys
+	 * @param list<SplitDto> $splits
+	 */
 	private function countTransactionRealizedGain(
 		array &$buys,
 		Transaction $transaction,

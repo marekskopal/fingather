@@ -8,7 +8,7 @@ use FinGather\Dto\ArrayFactoryInterface;
 use FinGather\Jobs\Message\ReceivedMessageInterface;
 use Nette\Utils\Json;
 
-class TaskService implements TaskServiceInterface
+final readonly class TaskService implements TaskServiceInterface
 {
 	/**
 	 * @param class-string<T> $dtoClass

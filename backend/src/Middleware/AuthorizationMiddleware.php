@@ -18,7 +18,7 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use stdClass;
 
-final class AuthorizationMiddleware implements MiddlewareInterface
+final readonly class AuthorizationMiddleware implements MiddlewareInterface
 {
 	/** @api */
 	public const string AttributeToken = 'token';
@@ -27,7 +27,7 @@ final class AuthorizationMiddleware implements MiddlewareInterface
 	public const string AuthHeader = 'Authorization';
 	public const string AuthHeaderType = 'Bearer ';
 
-	public function __construct(private readonly UserProviderInterface $userProvider)
+	public function __construct(private UserProviderInterface $userProvider)
 	{
 	}
 

@@ -6,7 +6,7 @@ namespace FinGather\Email;
 
 use FinGather\Dto\PasswordResetQueueDto;
 
-final class PasswordResetEmail
+final readonly class PasswordResetEmail
 {
 	/** @param array<string, string> $t */
 	public static function getHtml(PasswordResetQueueDto $passwordReset, array $t): string

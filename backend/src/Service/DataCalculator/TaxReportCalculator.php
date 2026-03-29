@@ -20,13 +20,13 @@ use FinGather\Service\Provider\AssetDataProviderInterface;
 use FinGather\Service\Provider\AssetProviderInterface;
 use FinGather\Service\Provider\CurrentTransactionProviderInterface;
 
-final class TaxReportCalculator
+final readonly class TaxReportCalculator
 {
 	public function __construct(
-		private readonly CurrentTransactionProviderInterface $currentTransactionProvider,
-		private readonly AssetProviderInterface $assetProvider,
-		private readonly AssetDataProviderInterface $assetDataProvider,
-		private readonly TaxReportRealizedGainsCalculatorInterface $realizedGainsCalculator,
+		private CurrentTransactionProviderInterface $currentTransactionProvider,
+		private AssetProviderInterface $assetProvider,
+		private AssetDataProviderInterface $assetDataProvider,
+		private TaxReportRealizedGainsCalculatorInterface $realizedGainsCalculator,
 	) {
 	}
 

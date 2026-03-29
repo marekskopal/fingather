@@ -8,7 +8,7 @@ use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Service\Provider\Dto\SplitDto;
 
-final class CalculatorUtils
+final readonly class CalculatorUtils
 {
 	private const int DaysInYear = 365;
 
