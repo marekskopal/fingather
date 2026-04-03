@@ -9,7 +9,7 @@ import {Portfolio, Ticker} from '@app/models';
 import {AlertConditionEnum} from "@app/models/enums/alert-condition-enum";
 import {AlertRecurrenceEnum} from "@app/models/enums/alert-recurrence-enum";
 import {PriceAlertTypeEnum} from "@app/models/enums/price-alert-type-enum";
-import {PortfolioService, PriceAlertService} from '@app/services';
+import {PortfolioService, PriceAlertService, TickerService} from '@app/services';
 import {BaseAddEditForm} from "@app/shared/components/form/base-add-edit-form";
 import {InputValidatorComponent} from "@app/shared/components/input-validator/input-validator.component";
 import {SaveButtonComponent} from "@app/shared/components/save-button/save-button.component";
@@ -36,6 +36,7 @@ import {TranslatePipe} from "@ngx-translate/core";
 export class AddEditPriceAlertComponent extends BaseAddEditForm implements OnInit {
     private readonly priceAlertService = inject(PriceAlertService);
     private readonly portfolioService = inject(PortfolioService);
+    private readonly tickerService = inject(TickerService);
     private readonly translateService = inject(TranslateService);
     private readonly router = inject(Router);
 
@@ -91,6 +92,11 @@ export class AddEditPriceAlertComponent extends BaseAddEditForm implements OnIni
         if (id !== null) {
             const priceAlert = await this.priceAlertService.getPriceAlert(id);
             this.form.patchValue(priceAlert);
+
+            if (priceAlert.tickerId !== null) {
+                const ticker = await this.tickerService.getTicker(priceAlert.tickerId);
+                this.form.patchValue({ tickerId: ticker });
+            }
         }
 
         this.loading.set(false);

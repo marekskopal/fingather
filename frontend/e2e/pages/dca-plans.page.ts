@@ -66,6 +66,10 @@ export class DcaPlansPage {
         await this.page.locator('input#amount').fill(amount);
     }
 
+    async expectAmount(value: string): Promise<void> {
+        await expect(this.page.locator('input#amount')).toHaveValue(value, { timeout: 10000 });
+    }
+
     async fillIntervalMonths(months: string): Promise<void> {
         await this.page.locator('input#intervalMonths').fill(months);
     }

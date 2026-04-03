@@ -72,7 +72,7 @@ test.describe('Edit goal', () => {
         await expect(page.locator('input#targetValue')).toBeVisible();
     });
 
-    test('edit goal saves and returns to list', async ({ page }) => {
+    test('edit goal form loads with created values', async ({ page }) => {
         const goals = new GoalsPage(page);
 
         // Create
@@ -84,9 +84,10 @@ test.describe('Edit goal', () => {
         await goals.submitForm();
         await goals.expectRedirectedToList();
 
-        // Edit
+        // Edit — verify values are loaded
         await goals.clickEditFirst();
-        await page.waitForSelector('input#targetValue', { timeout: 10000 });
+        await goals.expectTargetValue('50000');
+
         await page.locator('input#targetValue').fill('75000');
         await goals.submitForm();
         await goals.expectRedirectedToList();

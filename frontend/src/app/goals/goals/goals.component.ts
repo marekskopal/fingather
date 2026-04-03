@@ -1,4 +1,4 @@
-import { DatePipe } from '@angular/common';
+import { AsyncPipe, DatePipe, DecimalPipe } from '@angular/common';
 import {
     ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal,
 } from '@angular/core';
@@ -6,12 +6,13 @@ import { FormsModule } from '@angular/forms';
 import { MatIcon } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { GoalProgressBarComponent } from '@app/goals/goal-progress-bar/goal-progress-bar.component';
-import { Goal } from '@app/models';
+import { Currency, Goal } from '@app/models';
 import { GoalTypeEnum } from '@app/models/enums/goal-type-enum';
-import { PortfolioService } from '@app/services';
+import { CurrencyService, PortfolioService } from '@app/services';
 import { GoalService } from '@app/services/goal.service';
 import { DeleteButtonComponent } from '@app/shared/components/delete-button/delete-button.component';
 import { PortfolioSelectorComponent } from '@app/shared/components/portfolio-selector/portfolio-selector.component';
+import { MoneyPipe } from '@app/shared/pipes/money.pipe';
 import { ScrollShadowDirective } from '@marekskopal/ng-scroll-shadow';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
@@ -25,6 +26,9 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core';
         ScrollShadowDirective,
         FormsModule,
         DatePipe,
+        DecimalPipe,
+        MoneyPipe,
+        AsyncPipe,
         GoalProgressBarComponent,
         PortfolioSelectorComponent,
     ],
@@ -33,12 +37,20 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 export class GoalsComponent implements OnInit {
     private readonly goalService = inject(GoalService);
     private readonly portfolioService = inject(PortfolioService);
+    private readonly currencyService = inject(CurrencyService);
     private readonly translateService = inject(TranslateService);
     private readonly destroyRef = inject(DestroyRef);
 
     public readonly goals = signal<Goal[] | null>(null);
+    protected readonly loading = signal<boolean>(true);
+    protected defaultCurrency: Currency;
 
-    public ngOnInit(): void {
+    protected readonly GoalTypeEnum = GoalTypeEnum;
+
+    public async ngOnInit(): Promise<void> {
+        this.defaultCurrency = await this.currencyService.getDefaultCurrency();
+        this.loading.set(false);
+
         this.refreshGoals();
 
         this.goalService.subscribe(() => {
@@ -96,7 +108,4 @@ export class GoalsComponent implements OnInit {
         }
     }
 
-    protected formatValue(value: string): string {
-        return parseFloat(value).toFixed(2);
-    }
 }

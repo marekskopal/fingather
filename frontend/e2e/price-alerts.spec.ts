@@ -108,7 +108,7 @@ test.describe('Edit price alert', () => {
         await expect(page.locator('input#targetValue')).toBeVisible();
     });
 
-    test('edit price alert saves and returns to list', async ({ page }) => {
+    test('edit price alert form loads with created values', async ({ page }) => {
         const priceAlerts = new PriceAlertsPage(page);
 
         // Create
@@ -121,10 +121,12 @@ test.describe('Edit price alert', () => {
         await priceAlerts.submitForm();
         await priceAlerts.expectRedirectedToList();
 
-        // Edit first alert
+        // Edit first alert — verify values are loaded
         await priceAlerts.clickEditFirst();
-        await page.waitForSelector('input#targetValue', { timeout: 10000 });
-        await page.locator('input#targetValue').fill('6000');
+        await priceAlerts.expectTypeSelected('Portfolio');
+        await priceAlerts.expectTargetValue('5000');
+
+        await priceAlerts.fillTargetValue('6000');
         await priceAlerts.submitForm();
         await priceAlerts.expectRedirectedToList();
 

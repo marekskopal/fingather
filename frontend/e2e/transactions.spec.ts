@@ -84,6 +84,7 @@ test.describe('Edit transaction', () => {
 
         await page.waitForSelector('input#units', { timeout: 10000 });
         const currentUnits = await page.locator('input#units').inputValue();
+        expect(currentUnits).toBeTruthy();
         await page.locator('input#units').fill(String(Number(currentUnits) + 1));
 
         const transactions = new TransactionsPage(page);

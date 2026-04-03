@@ -63,6 +63,14 @@ export class PriceAlertsPage {
         await this.page.locator('input#targetValue').fill(value);
     }
 
+    async expectTargetValue(value: string): Promise<void> {
+        await expect(this.page.locator('input#targetValue')).toHaveValue(value, { timeout: 10000 });
+    }
+
+    async expectTypeSelected(labelText: string): Promise<void> {
+        await expect(this.page.locator('fingather-select#type button').first()).toContainText(labelText, { timeout: 10000 });
+    }
+
     async selectFirstRecurrence(): Promise<void> {
         await this.selectFirstInDropdown('recurrence');
     }

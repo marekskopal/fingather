@@ -1,13 +1,15 @@
+import {AsyncPipe, DecimalPipe} from "@angular/common";
 import {
     ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal,
 } from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import {MatIcon} from "@angular/material/icon";
 import {RouterLink} from "@angular/router";
-import {PriceAlert} from '@app/models';
+import {Currency, PriceAlert} from '@app/models';
 import {AlertRecurrenceEnum} from "@app/models/enums/alert-recurrence-enum";
-import {PriceAlertService} from "@app/services/price-alert.service";
+import {CurrencyService, PriceAlertService} from "@app/services";
 import {DeleteButtonComponent} from "@app/shared/components/delete-button/delete-button.component";
+import {MoneyPipe} from "@app/shared/pipes/money.pipe";
 import {ScrollShadowDirective} from "@marekskopal/ng-scroll-shadow";
 import {TranslatePipe, TranslateService} from "@ngx-translate/core";
 
@@ -20,17 +22,26 @@ import {TranslatePipe, TranslateService} from "@ngx-translate/core";
         DeleteButtonComponent,
         ScrollShadowDirective,
         FormsModule,
+        DecimalPipe,
+        MoneyPipe,
+        AsyncPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PriceAlertsComponent implements OnInit {
     private readonly priceAlertService = inject(PriceAlertService);
+    private readonly currencyService = inject(CurrencyService);
     private readonly translateService = inject(TranslateService);
     private readonly destroyRef = inject(DestroyRef);
 
     public readonly priceAlerts = signal<PriceAlert[] | null>(null);
+    protected readonly loading = signal<boolean>(true);
+    protected defaultCurrency: Currency;
 
-    public ngOnInit(): void {
+    public async ngOnInit(): Promise<void> {
+        this.defaultCurrency = await this.currencyService.getDefaultCurrency();
+        this.loading.set(false);
+
         this.refreshPriceAlerts();
 
         this.priceAlertService.subscribe(() => {
@@ -74,10 +85,6 @@ export class PriceAlertsComponent implements OnInit {
             return priceAlert.tickerTicker;
         }
         return 'Portfolio';
-    }
-
-    protected formatTargetValue(targetValue: string): string {
-        return parseFloat(targetValue).toFixed(2);
     }
 
     protected getRecurrenceLabel(recurrence: AlertRecurrenceEnum): string {

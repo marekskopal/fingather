@@ -30,7 +30,12 @@
                             <tr>
                                 <td>{{priceAlert.type}}</td>
                                 <td>{{getSubjectName(priceAlert)}}</td>
-                                <td>{{priceAlert.condition}} {{formatTargetValue(priceAlert.targetValue)}}</td>
+                                <td>
+                                    {{priceAlert.condition}}
+                                    @if (!loading()) {
+                                        {{priceAlert.targetValue | number:'1.2-2' | money: defaultCurrency.id | async}}
+                                    }
+                                </td>
                                 <td>{{getRecurrenceLabel(priceAlert.recurrence)}}</td>
                                 <td>
                                     <div class="form-check form-switch">

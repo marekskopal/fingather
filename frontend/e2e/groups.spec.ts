@@ -95,9 +95,10 @@ test.describe('Edit group', () => {
         await groups.submitForm();
         await groups.expectRedirectedToList();
 
-        // Edit
+        // Edit — verify values are loaded
         await groups.clickEditGroup('Edit Test Group E2E');
-        await page.waitForSelector('input#name', { timeout: 10000 });
+        await groups.expectName('Edit Test Group E2E');
+
         await page.locator('input#name').fill('Edit Test Group E2E Updated');
         await groups.submitForm();
         await groups.expectRedirectedToList();

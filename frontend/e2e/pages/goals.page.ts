@@ -45,6 +45,10 @@ export class GoalsPage {
         await this.page.locator('input#targetValue').fill(value);
     }
 
+    async expectTargetValue(value: string): Promise<void> {
+        await expect(this.page.locator('input#targetValue')).toHaveValue(value, { timeout: 10000 });
+    }
+
     async fillDeadline(date: string): Promise<void> {
         const input = this.page.locator('fingather-date-input#deadline input');
         await input.click();

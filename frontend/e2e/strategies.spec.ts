@@ -95,7 +95,7 @@ test.describe('Edit strategy', () => {
         await expect(page.locator('input#name')).toBeVisible({ timeout: 10000 });
     });
 
-    test('edit strategy name and save', async ({ page }) => {
+    test('edit strategy form loads with created values', async ({ page }) => {
         const strategies = new StrategiesPage(page);
 
         // Create
@@ -104,9 +104,10 @@ test.describe('Edit strategy', () => {
         await strategies.submitForm();
         await strategies.expectRedirectedToList();
 
-        // Edit
+        // Edit — verify values are loaded
         await strategies.clickEditStrategy('Edit Strategy E2E');
-        await page.waitForSelector('input#name', { timeout: 10000 });
+        await strategies.expectName('Edit Strategy E2E');
+
         await page.locator('input#name').fill('Edit Strategy E2E Updated');
         await strategies.submitForm();
         await strategies.expectRedirectedToList();

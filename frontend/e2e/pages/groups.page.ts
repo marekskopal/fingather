@@ -27,6 +27,10 @@ export class GroupsPage {
         await this.page.locator('input#name').fill(name);
     }
 
+    async expectName(value: string): Promise<void> {
+        await expect(this.page.locator('input#name')).toHaveValue(value, { timeout: 10000 });
+    }
+
     async selectFirstColor(): Promise<void> {
         const component = this.page.locator('fingather-color-picker#color');
         await component.locator('button').first().click();

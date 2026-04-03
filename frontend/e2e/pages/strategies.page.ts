@@ -27,6 +27,10 @@ export class StrategiesPage {
         await this.page.locator('input#name').fill(name);
     }
 
+    async expectName(value: string): Promise<void> {
+        await expect(this.page.locator('input#name')).toHaveValue(value, { timeout: 10000 });
+    }
+
     async clickAddItem(): Promise<void> {
         await this.page.locator('button.btn-outline-primary').click();
         // Wait for the new item row to appear

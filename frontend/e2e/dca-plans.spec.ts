@@ -105,7 +105,7 @@ test.describe('Edit DCA plan', () => {
         await expect(page.locator('input#amount')).toBeVisible();
     });
 
-    test('edit dca plan and save', async ({ page }) => {
+    test('edit dca plan form loads with created values', async ({ page }) => {
         const dcaPlans = new DcaPlansPage(page);
 
         // Create
@@ -118,9 +118,10 @@ test.describe('Edit DCA plan', () => {
         await dcaPlans.submitForm();
         await dcaPlans.expectRedirectedToList();
 
-        // Edit
+        // Edit — verify values are loaded
         await dcaPlans.clickEditFirst();
-        await page.waitForSelector('input#amount', { timeout: 10000 });
+        await dcaPlans.expectAmount('200');
+
         await page.locator('input#amount').fill('300');
         await dcaPlans.submitForm();
         await dcaPlans.expectRedirectedToList();

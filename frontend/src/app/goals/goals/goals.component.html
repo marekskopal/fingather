@@ -35,8 +35,24 @@
                         @for(goal of goals; track goal.id) {
                             <tr>
                                 <td>{{getTypeLabel(goal.type)}}</td>
-                                <td>{{formatValue(goal.targetValue)}}</td>
-                                <td>{{formatValue(goal.currentValue)}}</td>
+                                <td>
+                                    @if (!loading()) {
+                                        @if (goal.type === GoalTypeEnum.ReturnPercentage) {
+                                            {{goal.targetValue | number:'1.2-2'}}%
+                                        } @else {
+                                            {{goal.targetValue | number:'1.2-2' | money: defaultCurrency.id | async}}
+                                        }
+                                    }
+                                </td>
+                                <td>
+                                    @if (!loading()) {
+                                        @if (goal.type === GoalTypeEnum.ReturnPercentage) {
+                                            {{goal.currentValue | number:'1.2-2'}}%
+                                        } @else {
+                                            {{goal.currentValue | number:'1.2-2' | money: defaultCurrency.id | async}}
+                                        }
+                                    }
+                                </td>
                                 <td>
                                     <fingather-goal-progress-bar
                                         [goal]="goal"
