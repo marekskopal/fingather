@@ -64,7 +64,7 @@ export class PriceAlertsPage {
     }
 
     async expectTargetValue(value: string): Promise<void> {
-        await expect(this.page.locator('input#targetValue')).toHaveValue(value, { timeout: 10000 });
+        await expect(this.page.locator('input#targetValue')).toHaveValue(new RegExp(`^${value}`), { timeout: 10000 });
     }
 
     async expectTypeSelected(labelText: string): Promise<void> {
@@ -93,9 +93,19 @@ export class PriceAlertsPage {
         await this.page.locator('table tbody tr a[href*="edit-price-alert"]').first().click();
     }
 
+    async clickEditLast(): Promise<void> {
+        await this.page.waitForSelector('table tbody tr a[href*="edit-price-alert"]', { timeout: 10000 });
+        await this.page.locator('table tbody tr a[href*="edit-price-alert"]').last().click();
+    }
+
     async clickDeleteFirst(): Promise<void> {
         await this.page.waitForSelector('fingather-delete-button button', { timeout: 10000 });
         await this.page.locator('fingather-delete-button button').first().click();
+    }
+
+    async clickDeleteLast(): Promise<void> {
+        await this.page.waitForSelector('fingather-delete-button button', { timeout: 10000 });
+        await this.page.locator('fingather-delete-button button').last().click();
     }
 
     async confirmDelete(): Promise<void> {

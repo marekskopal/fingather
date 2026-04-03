@@ -119,7 +119,7 @@ test.describe('Edit DCA plan', () => {
         await dcaPlans.expectRedirectedToList();
 
         // Edit — verify values are loaded
-        await dcaPlans.clickEditFirst();
+        await dcaPlans.clickEditLast();
         await dcaPlans.expectAmount('200');
 
         await page.locator('input#amount').fill('300');
@@ -127,7 +127,7 @@ test.describe('Edit DCA plan', () => {
         await dcaPlans.expectRedirectedToList();
 
         // Cleanup
-        await dcaPlans.clickDeleteFirst();
+        await dcaPlans.clickDeleteLast();
         await dcaPlans.confirmDelete();
     });
 });

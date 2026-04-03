@@ -121,8 +121,8 @@ test.describe('Edit price alert', () => {
         await priceAlerts.submitForm();
         await priceAlerts.expectRedirectedToList();
 
-        // Edit first alert — verify values are loaded
-        await priceAlerts.clickEditFirst();
+        // Edit last alert (our newly created one) — verify values are loaded
+        await priceAlerts.clickEditLast();
         await priceAlerts.expectTypeSelected('Portfolio');
         await priceAlerts.expectTargetValue('5000');
 
@@ -131,7 +131,7 @@ test.describe('Edit price alert', () => {
         await priceAlerts.expectRedirectedToList();
 
         // Cleanup
-        await priceAlerts.clickDeleteFirst();
+        await priceAlerts.clickDeleteLast();
         await priceAlerts.confirmDelete();
     });
 });

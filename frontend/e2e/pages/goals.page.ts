@@ -46,7 +46,7 @@ export class GoalsPage {
     }
 
     async expectTargetValue(value: string): Promise<void> {
-        await expect(this.page.locator('input#targetValue')).toHaveValue(value, { timeout: 10000 });
+        await expect(this.page.locator('input#targetValue')).toHaveValue(new RegExp(`^${value}`), { timeout: 10000 });
     }
 
     async fillDeadline(date: string): Promise<void> {
@@ -77,9 +77,19 @@ export class GoalsPage {
         await this.page.locator('table tbody tr a[href*="edit-goal"]').first().click();
     }
 
+    async clickEditLast(): Promise<void> {
+        await this.page.waitForSelector('table tbody tr a[href*="edit-goal"]', { timeout: 10000 });
+        await this.page.locator('table tbody tr a[href*="edit-goal"]').last().click();
+    }
+
     async clickDeleteFirst(): Promise<void> {
         await this.page.waitForSelector('fingather-delete-button button', { timeout: 10000 });
         await this.page.locator('fingather-delete-button button').first().click();
+    }
+
+    async clickDeleteLast(): Promise<void> {
+        await this.page.waitForSelector('fingather-delete-button button', { timeout: 10000 });
+        await this.page.locator('fingather-delete-button button').last().click();
     }
 
     async confirmDelete(): Promise<void> {

@@ -7,11 +7,12 @@ import { SignUpPage } from './pages/sign-up.page';
 test.use({ storageState: { cookies: [], origins: [] } });
 
 const TEST_PASSWORD = 'Test1234!';
+const RUN_ID = Date.now();
 
 async function signUpNewUser(page: Page, emailTag: string): Promise<void> {
     const signUp = new SignUpPage(page);
     await signUp.goto();
-    await signUp.signUp('Test User', `onboarding-${emailTag}@fingather.test`, TEST_PASSWORD);
+    await signUp.signUp('Test User', `onboarding-${emailTag}-${RUN_ID}@fingather.test`, TEST_PASSWORD);
 }
 
 test.describe('Sign up', () => {

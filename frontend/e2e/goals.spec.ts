@@ -85,7 +85,7 @@ test.describe('Edit goal', () => {
         await goals.expectRedirectedToList();
 
         // Edit — verify values are loaded
-        await goals.clickEditFirst();
+        await goals.clickEditLast();
         await goals.expectTargetValue('50000');
 
         await page.locator('input#targetValue').fill('75000');
@@ -93,7 +93,7 @@ test.describe('Edit goal', () => {
         await goals.expectRedirectedToList();
 
         // Cleanup
-        await goals.clickDeleteFirst();
+        await goals.clickDeleteLast();
         await goals.confirmDelete();
     });
 });
