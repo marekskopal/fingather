@@ -91,6 +91,19 @@
           "seriesPrice": "Preis",
           "seriesAverageBuyPrice": "Durchschn. Kaufpreis"
         },
+        "dcfValuation": {
+          "header": "DCF-Bewertung",
+          "intrinsicValue": "Innerer Wert (DCF)",
+          "currentPrice": "Aktueller Kurs",
+          "valuation": "Bewertung",
+          "overvalued": "Überbewertet",
+          "undervalued": "Unterbewertet",
+          "fairlyValued": "Fair bewertet",
+          "wacc": "Abzinsungssatz (WACC)",
+          "terminalGrowthRate": "Terminale Wachstumsrate",
+          "growthRate": "Wachstumsrate",
+          "projectionYears": "Projektionsjahre"
+        },
         "fundamentals": {
           "header": "Fundamentaldaten",
           "valuationsMetrics": "Bewertungskennzahlen",

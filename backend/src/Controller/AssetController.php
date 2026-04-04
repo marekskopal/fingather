@@ -64,7 +64,7 @@ final readonly class AssetController
 				continue;
 			}
 
-			$assetDtos[] = AssetDto::fromEntity($asset, $lastTickerDataClose);
+			$assetDtos[] = AssetDto::fromEntity($asset, $lastTickerDataClose, null);
 		}
 
 		return new JsonResponse($assetDtos);
@@ -123,10 +123,10 @@ final readonly class AssetController
 				return new NotFoundResponse('Asset with id "' . $assetId . '" was not found.');
 			}
 
-			return new JsonResponse(AssetDto::fromEntity($asset, $lastTickerDataClose));
+			return new JsonResponse(AssetDto::fromEntity($asset, $lastTickerDataClose, null));
 		}
 
-		return new JsonResponse(AssetWithPropertiesDto::fromEntity($asset, $assetData, 0));
+		return new JsonResponse(AssetWithPropertiesDto::fromEntity($asset, $assetData, 0, null));
 	}
 
 	#[RoutePost(Routes::Assets->value)]
@@ -161,6 +161,6 @@ final readonly class AssetController
 			portfolio: $portfolio,
 			ticker: $ticker,
 			othersGroup: $this->groupProvider->getOthersGroup($user, $portfolio),
-		), $lastTickerDataClose));
+		), $lastTickerDataClose, null));
 	}
 }

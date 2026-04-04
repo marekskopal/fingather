@@ -1,0 +1,26 @@
+.dcf-chip {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    line-height: 1;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-left: $spacing-xs;
+    vertical-align: middle;
+    white-space: nowrap;
+
+    &.dcf-chip-overvalued {
+        background-color: rgba($color-red, 0.15);
+        color: $color-red;
+    }
+
+    &.dcf-chip-undervalued {
+        background-color: rgba($color-green, 0.15);
+        color: $color-green;
+    }
+
+    &.dcf-chip-fair {
+        background-color: rgba($color-gray-lightest, 0.15);
+        color: $color-gray-lightest;
+    }
+}

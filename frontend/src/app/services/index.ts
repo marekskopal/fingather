@@ -25,5 +25,6 @@ export * from './strategy-rebalancing.service';
 export * from './tax-report.service';
 export * from './ticker.service';
 export * from './ticker-data.service';
+export * from './ticker-dcf-valuation.service';
 export * from './transaction.service';
 export * from './user.service';

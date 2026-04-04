@@ -34,6 +34,7 @@ use FinGather\Model\Entity\Strategy;
 use FinGather\Model\Entity\StrategyItem;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\TickerData;
+use FinGather\Model\Entity\TickerDcfHistoryPoint;
 use FinGather\Model\Entity\TickerFundamental;
 use FinGather\Model\Entity\Transaction;
 use FinGather\Model\Entity\User;
@@ -66,6 +67,7 @@ use FinGather\Model\Repository\SplitRepository;
 use FinGather\Model\Repository\StrategyItemRepository;
 use FinGather\Model\Repository\StrategyRepository;
 use FinGather\Model\Repository\TickerDataRepository;
+use FinGather\Model\Repository\TickerDcfHistoryPointRepository;
 use FinGather\Model\Repository\TickerFundamentalRepository;
 use FinGather\Model\Repository\TickerRepository;
 use FinGather\Model\Repository\TransactionRepository;
@@ -117,6 +119,7 @@ final class OrmServiceProvider extends AbstractServiceProvider
 			StrategyItemRepository::class,
 			StrategyRepository::class,
 			TickerDataRepository::class,
+			TickerDcfHistoryPointRepository::class,
 			TickerFundamentalRepository::class,
 			TickerRepository::class,
 			TransactionRepository::class,
@@ -163,6 +166,7 @@ final class OrmServiceProvider extends AbstractServiceProvider
 		$this->addRepository($container, $orm, StrategyItemRepository::class, StrategyItem::class);
 		$this->addRepository($container, $orm, StrategyRepository::class, Strategy::class);
 		$this->addRepository($container, $orm, TickerDataRepository::class, TickerData::class);
+		$this->addRepository($container, $orm, TickerDcfHistoryPointRepository::class, TickerDcfHistoryPoint::class);
 		$this->addRepository($container, $orm, TickerFundamentalRepository::class, TickerFundamental::class);
 		$this->addRepository($container, $orm, TickerRepository::class, Ticker::class);
 		$this->addRepository($container, $orm, TransactionRepository::class, Transaction::class);

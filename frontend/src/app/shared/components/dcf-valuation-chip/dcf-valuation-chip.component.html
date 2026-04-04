@@ -1,0 +1,9 @@
+@if (status() !== null && magnitudePercent() !== null) {
+    <span class="dcf-chip" [class]="chipClass()" title="DCF">
+        @if (status() === 'fairlyValued') {
+            ≈
+        } @else {
+            {{ sign() }}{{ magnitudePercent() | number: '1.0-0' }}%
+        }
+    </span>
+}

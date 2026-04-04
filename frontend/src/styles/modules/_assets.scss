@@ -86,6 +86,86 @@
         }
     }
 
+    .asset-detail-about-dcf {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-gap: $spacing-lg;
+        margin-bottom: $spacing-xl;
+
+        @include media-breakpoint-up(lg) {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        > .card {
+            margin-bottom: 0;
+        }
+    }
+
+    .dcf-card {
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-lg;
+
+        .dcf-card-header {
+            display: flex;
+            align-items: center;
+            gap: $spacing-md;
+
+            h3 {
+                margin: 0;
+            }
+        }
+
+        .dcf-card-prices {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: $spacing-md;
+        }
+
+        .dcf-card-price {
+            display: flex;
+            flex-direction: column;
+
+            .dcf-card-price-label {
+                color: $color-gray-lightest;
+                font-size: 0.85rem;
+                margin-bottom: $spacing-xs;
+            }
+
+            .dcf-card-price-value {
+                margin: 0;
+            }
+        }
+
+        .dcf-card-status {
+            font-weight: 500;
+        }
+
+        .dcf-card-sliders {
+            display: flex;
+            flex-direction: column;
+            gap: $spacing-md;
+        }
+
+        .dcf-card-slider {
+            display: flex;
+            flex-direction: column;
+            gap: $spacing-xs;
+        }
+
+        .dcf-card-slider-label {
+            display: flex;
+            justify-content: space-between;
+            color: $color-gray-lightest;
+            font-size: 0.85rem;
+        }
+
+        .dcf-card-slider-value {
+            color: $color-gray-lightest;
+            font-weight: 500;
+        }
+    }
+
     .asset-detail-fundamentals {
         display: flex;
         gap: $spacing-lg;

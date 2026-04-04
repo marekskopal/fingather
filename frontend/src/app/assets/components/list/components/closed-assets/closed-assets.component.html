@@ -35,7 +35,12 @@
                             </td>
                             <td class="text-end">
                                 <div>
-                                    <div class="smaller color-gray">{{asset.price | number:'1.2-2' | money: asset.ticker.currencyId | async}}</div>
+                                    <div class="smaller color-gray">
+                                        {{asset.price | number:'1.2-2' | money: asset.ticker.currencyId | async}}
+                                        <fingather-dcf-valuation-chip
+                                            [status]="asset.dcfValuationStatus"
+                                            [diffPercent]="asset.dcfValuationDiffPercent" />
+                                    </div>
                                 </div>
                             </td>
                             <td class="text-end" [coloredValue]="asset.realizedGainDefaultCurrency">

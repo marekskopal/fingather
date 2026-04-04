@@ -41,6 +41,7 @@ export * from './strategy-with-comparison';
 export * from './tax-report';
 export * from './ticker';
 export * from './ticker-data';
+export * from './ticker-dcf-valuation';
 export * from './transaction';
 export * from './user';
 export * from './user-list';

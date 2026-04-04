@@ -1,4 +1,5 @@
 import { Ticker } from '@app/models/ticker';
+import { TickerDcfValuationStatus } from '@app/models/ticker-dcf-valuation';
 
 export interface AssetWithProperties {
     id: number;
@@ -32,6 +33,8 @@ export interface AssetWithProperties {
     fee: number;
     feeDefaultCurrency: number;
     percentage: number;
+    dcfValuationDiffPercent: number | null;
+    dcfValuationStatus: TickerDcfValuationStatus | null;
 
     ticker: Ticker;
 }

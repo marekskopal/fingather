@@ -5,6 +5,7 @@ import {
 import {MatIcon} from "@angular/material/icon";
 import {RouterLink} from "@angular/router";
 import { AssetsWithProperties } from '@app/models';
+import {DcfValuationChipComponent} from "@app/shared/components/dcf-valuation-chip/dcf-valuation-chip.component";
 import {TickerLogoComponent} from "@app/shared/components/ticker-logo/ticker-logo.component";
 import {TableGridDirective} from "@app/shared/directives/table-grid.directive";
 import {MoneyPipe} from "@app/shared/pipes/money.pipe";
@@ -26,6 +27,7 @@ import { TranslatePipe} from "@ngx-translate/core";
         AsyncPipe,
         ScrollShadowDirective,
         TableGridDirective,
+        DcfValuationChipComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

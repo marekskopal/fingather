@@ -107,6 +107,8 @@ enum Routes: string
 
 	case TickerFundamental = '/api/ticker-fundamental/{tickerId:number}';
 
+	case TickerDcfValuation = '/api/ticker-dcf-valuation/{tickerId:number}';
+
 	case TickerData = '/api/ticker-data/{tickerId:number}';
 
 	case TaxReport = '/api/tax-report/{portfolioId:number}/{year:number}';

@@ -6,6 +6,7 @@ import {MatIcon} from "@angular/material/icon";
 import {RouterLink} from "@angular/router";
 import { AssetsWithProperties, Currency } from '@app/models';
 import { AssetsOrder } from '@app/models/enums/assets-order';
+import {DcfValuationChipComponent} from "@app/shared/components/dcf-valuation-chip/dcf-valuation-chip.component";
 import {TickerLogoComponent} from "@app/shared/components/ticker-logo/ticker-logo.component";
 import {ColoredValueDirective} from "@app/shared/directives/colored-value.directive";
 import {TableGridDirective} from "@app/shared/directives/table-grid.directive";
@@ -31,6 +32,7 @@ import { TranslatePipe} from "@ngx-translate/core";
         RouterLink,
         TableGridDirective,
         ScrollShadowDirective,
+        DcfValuationChipComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -6,6 +6,7 @@ import {MatIcon} from "@angular/material/icon";
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {AssetChartsComponent} from "@app/assets/components/detail/components/asset-charts/asset-charts.component";
 import {AssetValueComponent} from "@app/assets/components/detail/components/asset-value/asset-value.component";
+import {DcfValuationComponent} from "@app/assets/components/detail/components/dcf-valuation/dcf-valuation.component";
 import {FundamentalsComponent} from "@app/assets/components/detail/components/funtamentals/fundamentals.component";
 import {AssetWithProperties, Currency, TransactionActionType} from '@app/models';
 import { AssetService, CurrencyService } from '@app/services';
@@ -28,6 +29,7 @@ import { TranslatePipe} from "@ngx-translate/core";
         TickerLogoComponent,
         AssetChartsComponent,
         AssetValueComponent,
+        DcfValuationComponent,
         FundamentalsComponent,
         CurrencyCodePipe,
         AsyncPipe,

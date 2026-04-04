@@ -19,6 +19,7 @@ final readonly class AssetWithPropertiesProvider implements AssetWithPropertiesP
 		private AssetProviderInterface $assetProvider,
 		private AssetDataProviderInterface $assetDataProvider,
 		private TickerDataProviderInterface $tickerDataProvider,
+		private TickerDcfValuationProviderInterface $tickerDcfValuationProvider,
 		private PortfolioDataProviderInterface $portfolioDataProvider,
 	) {
 	}
@@ -37,11 +38,13 @@ final readonly class AssetWithPropertiesProvider implements AssetWithPropertiesP
 		$watchedAssets = [];
 
 		foreach ($assets as $asset) {
+			$dcfChip = $this->tickerDcfValuationProvider->getDcfValuationChip($asset->ticker);
+
 			$assetData = $this->assetDataProvider->getAssetData($user, $portfolio, $asset, $dateTime);
 			if ($assetData === null) {
 				$lastTickerDataClose = $this->tickerDataProvider->getLastTickerDataClose($asset->ticker, $dateTime);
 				assert($lastTickerDataClose !== null);
-				$watchedAssets[] = AssetDto::fromEntity($asset, $lastTickerDataClose);
+				$watchedAssets[] = AssetDto::fromEntity($asset, $lastTickerDataClose, $dcfChip);
 
 				continue;
 			}
@@ -50,6 +53,7 @@ final readonly class AssetWithPropertiesProvider implements AssetWithPropertiesP
 				$asset,
 				$assetData,
 				CalculatorUtils::toPercentage($assetData->value, $portfolioData->value),
+				$dcfChip,
 			);
 
 			if ($assetData->isClosed()) {

@@ -47,6 +47,8 @@ use FinGather\Service\Provider\CurrentTransactionProvider;
 use FinGather\Service\Provider\CurrentTransactionProviderInterface;
 use FinGather\Service\Provider\DataProvider;
 use FinGather\Service\Provider\DataProviderInterface;
+use FinGather\Service\Provider\TickerDcfValuationProvider;
+use FinGather\Service\Provider\TickerDcfValuationProviderInterface;
 use FinGather\Service\Provider\DcaPlanProvider;
 use FinGather\Service\Provider\DcaPlanProviderInterface;
 use FinGather\Service\Provider\DividendCalendarProvider;
@@ -172,6 +174,7 @@ final class DomainServiceProvider extends AbstractServiceProvider
 			StrategyProviderInterface::class,
 			StrategyRebalancingProviderInterface::class,
 			TickerDataProviderInterface::class,
+			TickerDcfValuationProviderInterface::class,
 			TickerFundamentalProviderInterface::class,
 			TickerProviderInterface::class,
 			TransactionProviderInterface::class,
@@ -239,6 +242,7 @@ final class DomainServiceProvider extends AbstractServiceProvider
 		$container->add(StrategyProviderInterface::class, StrategyProvider::class);
 		$container->add(StrategyRebalancingProviderInterface::class, StrategyRebalancingProvider::class);
 		$container->add(TickerDataProviderInterface::class, TickerDataProvider::class);
+		$container->add(TickerDcfValuationProviderInterface::class, TickerDcfValuationProvider::class);
 		$container->add(TickerFundamentalProviderInterface::class, TickerFundamentalProvider::class);
 		$container->add(TickerProviderInterface::class, TickerProvider::class);
 		$container->add(TransactionProviderInterface::class, TransactionProvider::class);

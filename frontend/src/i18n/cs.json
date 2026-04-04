@@ -91,6 +91,19 @@
           "seriesPrice": "Cena",
           "seriesAverageBuyPrice": "Průměrná nák. cena"
         },
+        "dcfValuation": {
+          "header": "DCF ocenění",
+          "intrinsicValue": "Vnitřní hodnota (DCF)",
+          "currentPrice": "Aktuální cena",
+          "valuation": "Ocenění",
+          "overvalued": "Nadhodnoceno",
+          "undervalued": "Podhodnoceno",
+          "fairlyValued": "Férově oceněno",
+          "wacc": "Diskontní sazba (WACC)",
+          "terminalGrowthRate": "Terminální růstová míra",
+          "growthRate": "Růstová míra",
+          "projectionYears": "Roky projekce"
+        },
         "fundamentals": {
           "header": "Fundamentální data",
           "valuationsMetrics": "Valuations Metrics",

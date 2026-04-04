@@ -29,9 +29,11 @@ use FinGather\Service\DataCalculator\Dto\AssetDataDto;
 use FinGather\Service\DataCalculator\Dto\CalculatedDataDto;
 use FinGather\Service\Provider\AssetDataProviderInterface;
 use FinGather\Service\Provider\AssetProviderInterface;
+use FinGather\Service\Provider\Dto\DcfValuationChipDto;
 use FinGather\Service\Provider\AssetWithPropertiesProvider;
 use FinGather\Service\Provider\PortfolioDataProviderInterface;
 use FinGather\Service\Provider\TickerDataProviderInterface;
+use FinGather\Service\Provider\TickerDcfValuationProviderInterface;
 use FinGather\Tests\Fixtures\Model\Entity\AssetFixture;
 use FinGather\Tests\Fixtures\Model\Entity\GroupFixture;
 use FinGather\Tests\Fixtures\Model\Entity\PortfolioFixture;
@@ -213,10 +215,14 @@ final class AssetWithPropertiesProviderTest extends TestCase
 			static fn (Ticker $ticker): ?Decimal => $watchedTickerCloseMap[$ticker->id] ?? null,
 		);
 
+		$tickerDcfValuationProvider = self::createStub(TickerDcfValuationProviderInterface::class);
+		$tickerDcfValuationProvider->method('getDcfValuationChip')->willReturn(DcfValuationChipDto::empty());
+
 		return new AssetWithPropertiesProvider(
 			assetProvider: $assetProvider,
 			assetDataProvider: $assetDataProvider,
 			tickerDataProvider: $tickerDataProvider,
+			tickerDcfValuationProvider: $tickerDcfValuationProvider,
 			portfolioDataProvider: $portfolioDataProvider,
 		);
 	}

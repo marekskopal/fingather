@@ -44,17 +44,28 @@
             [defaultCurrency]="defaultCurrency"
         />
 
+        <div class="asset-detail-about-dcf">
+            <div class="card">
+                <div class="body">
+                    <div class="asset-detail-about">
+                        @if(asset.ticker.description !== null) {
+                            <h3>
+                                {{ 'app.assets.detail.about' | translate }}
+                            </h3>
+                            <p>{{asset.ticker.description}}</p>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="body">
+                    <fingather-dcf-valuation [tickerId]="asset.ticker.id" />
+                </div>
+            </div>
+        </div>
+
         <div class="card asset-detail-info">
             <div class="body">
-                <div class="asset-detail-about">
-                    @if(asset.ticker.description !== null) {
-                        <h3>
-                            {{ 'app.assets.detail.about' | translate }}
-                        </h3>
-                        <p>{{asset.ticker.description}}</p>
-                    }
-                </div>
-
                 <fingather-ticker-fundamentals [tickerId]="asset.ticker.id" />
             </div>
         </div>

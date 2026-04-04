@@ -6,7 +6,9 @@ namespace FinGather\Dto;
 
 use Decimal\Decimal;
 use FinGather\Model\Entity\Asset;
+use FinGather\Service\DataCalculator\Dcf\Dto\DcfValuationStatusEnum;
 use FinGather\Service\DataCalculator\Dto\AssetDataDto;
+use FinGather\Service\Provider\Dto\DcfValuationChipDto;
 
 final readonly class AssetWithPropertiesDto
 {
@@ -44,11 +46,17 @@ final readonly class AssetWithPropertiesDto
 		public Decimal $fee,
 		public Decimal $feeDefaultCurrency,
 		public float $percentage,
+		public ?float $dcfValuationDiffPercent,
+		public ?DcfValuationStatusEnum $dcfValuationStatus,
 	) {
 	}
 
-	public static function fromEntity(Asset $asset, AssetDataDto $assetData, float $percentage): self
-	{
+	public static function fromEntity(
+		Asset $asset,
+		AssetDataDto $assetData,
+		float $percentage,
+		?DcfValuationChipDto $dcfValuationChip,
+	): self {
 		return new self(
 			id: $asset->id,
 			tickerId: $asset->ticker->id,
@@ -83,6 +91,8 @@ final readonly class AssetWithPropertiesDto
 			fee: $assetData->fee,
 			feeDefaultCurrency: $assetData->feeDefaultCurrency,
 			percentage: $percentage,
+			dcfValuationDiffPercent: $dcfValuationChip?->diffPercent,
+			dcfValuationStatus: $dcfValuationChip?->status,
 		);
 	}
 }

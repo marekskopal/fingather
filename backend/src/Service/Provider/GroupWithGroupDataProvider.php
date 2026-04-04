@@ -41,6 +41,7 @@ final readonly class GroupWithGroupDataProvider implements GroupWithGroupDataPro
 				$asset,
 				$assetData,
 				CalculatorUtils::toPercentage($assetData->value, $portfolioData->value),
+				null,
 			);
 
 			$group = $asset->group;

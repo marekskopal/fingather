@@ -919,6 +919,8 @@ final class DcaPlanDataCalculatorTest extends TestCase
 			fee: $zero,
 			feeDefaultCurrency: $zero,
 			percentage: $percentage,
+			dcfValuationDiffPercent: null,
+			dcfValuationStatus: null,
 		);
 	}
 }

@@ -110,7 +110,12 @@
                             <div>
                                 <div>{{asset.value | number:'1.2-2' | money: defaultCurrency().id | async}}</div>
                                 <div class="small color-gray-lightest">{{asset.units | number:'1.0-8'}}</div>
-                                <div class="smaller color-gray">{{asset.price | number:'1.2-2' | money: asset.ticker.currencyId | async}}</div>
+                                <div class="smaller color-gray">
+                                    {{asset.price | number:'1.2-2' | money: asset.ticker.currencyId | async}}
+                                    <fingather-dcf-valuation-chip
+                                        [status]="asset.dcfValuationStatus"
+                                        [diffPercent]="asset.dcfValuationDiffPercent" />
+                                </div>
                             </div>
                         </td>
                         <td class="text-end" [coloredValue]="asset.gain">
