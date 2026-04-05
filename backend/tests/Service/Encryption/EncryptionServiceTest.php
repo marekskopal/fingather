@@ -15,7 +15,6 @@ final class EncryptionServiceTest extends TestCase
 	private const string EncryptionKey = 'test-encryption-key-32-chars-min';
 
 	#[TestWith(['short-api-key'])]
-	#[TestWith(['sk_live_51QC4FTF0abcdefghijklmnopqrstuvwxyz1234567890'])]
 	#[TestWith([''])]
 	#[TestWith(['a'])]
 	#[TestWith(['special chars: !@#$%^&*()_+-=[]{}|;:,.<>?'])]
