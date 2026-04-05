@@ -1,8 +1,11 @@
 services:
     proxy:
-        build: 
+        build:
             context: ./proxy
             dockerfile: Dockerfile
+            args:
+                ADMINER_USER: ${ADMINER_USER}
+                ADMINER_PASSWORD: ${ADMINER_PASSWORD}
         environment:
             PROXY_HOST: ${PROXY_HOST}
         ports:
