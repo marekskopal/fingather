@@ -42,6 +42,9 @@ use Psr\Log\LoggerInterface;
 
 final readonly class AuthenticationController
 {
+	private const string RefreshTokenCookieName = 'refresh_token';
+	private const int RefreshTokenCookieMaxAge = 604800;
+
 	public function __construct(
 		private AuthenticationServiceInterface $authenticationService,
 		private GoogleAuthServiceInterface $googleAuthService,
@@ -59,16 +62,33 @@ final readonly class AuthenticationController
 		$credentials = $this->requestService->getRequestBodyDto($request, CredentialsDto::class);
 
 		try {
-			return new JsonResponse($this->authenticationService->authenticate($credentials));
+			$authDto = $this->authenticationService->authenticate($credentials);
+			return $this->withRefreshTokenCookie(new JsonResponse($authDto), $authDto->refreshToken);
 		} catch (AuthenticationException) {
 			return new JsonResponse('Email or password id invalid.', 401);
 		}
 	}
 
+	#[RoutePost(Routes::AuthenticationLogout->value)]
+	public function actionPostLogout(ServerRequestInterface $request): ResponseInterface
+	{
+		return $this->withClearedRefreshTokenCookie(new OkResponse());
+	}
+
 	#[RoutePost(Routes::AuthenticationRefreshToken->value)]
 	public function actionPostRefreshToken(ServerRequestInterface $request): ResponseInterface
 	{
-		$refreshToken = $this->requestService->getRequestBodyDto($request, RefreshTokenDto::class);
+		$cookieValue = $request->getCookieParams()[self::RefreshTokenCookieName] ?? null;
+		$refreshTokenValue = is_string($cookieValue) ? $cookieValue : null;
+
+		if ($refreshTokenValue === null) {
+			$refreshTokenDto = $this->requestService->getRequestBodyDto($request, RefreshTokenDto::class);
+			$refreshTokenValue = $refreshTokenDto->refreshToken;
+		}
+
+		if ($refreshTokenValue === null) {
+			return new NotAuthorizedResponse('RefreshToken not found.');
+		}
 
 		$tokenKey = getenv('AUTHORIZATION_TOKEN_KEY');
 		if ($tokenKey === false || $tokenKey === '') {
@@ -77,7 +97,7 @@ final readonly class AuthenticationController
 
 		try {
 			$decodedRefreshToken = JWT::decode(
-				$refreshToken->refreshToken,
+				$refreshTokenValue,
 				new Key($tokenKey, AuthenticationServiceInterface::TokenAlgorithm),
 			);
 		} catch (ExpiredException) {
@@ -92,7 +112,8 @@ final readonly class AuthenticationController
 			return new NotAuthorizedResponse('Invalid RefreshToken.');
 		}
 
-		return new JsonResponse($this->authenticationService->createAuthentication($user));
+		$authDto = $this->authenticationService->createAuthentication($user);
+		return $this->withRefreshTokenCookie(new JsonResponse($authDto), $authDto->refreshToken);
 	}
 
 	#[RoutePost(Routes::AuthenticationSignUp->value)]
@@ -124,10 +145,8 @@ final readonly class AuthenticationController
 			locale: $signUp->locale,
 		);
 
-		return new JsonResponse($this->authenticationService->authenticate(new CredentialsDto(
-			$signUp->email,
-			$signUp->password,
-		)));
+		$authDto = $this->authenticationService->authenticate(new CredentialsDto($signUp->email, $signUp->password));
+		return $this->withRefreshTokenCookie(new JsonResponse($authDto), $authDto->refreshToken);
 	}
 
 	#[RoutePost(Routes::PasswordResetRequest->value)]
@@ -204,7 +223,8 @@ final readonly class AuthenticationController
 		if ($user !== null) {
 			$this->userProvider->updateLastLoggedIn($user);
 
-			return new JsonResponse($this->authenticationService->createAuthentication($user));
+			$authDto = $this->authenticationService->createAuthentication($user);
+			return $this->withRefreshTokenCookie(new JsonResponse($authDto), $authDto->refreshToken);
 		}
 
 		// Check if user exists by email
@@ -239,6 +259,33 @@ final readonly class AuthenticationController
 
 		$this->userProvider->updateLastLoggedIn($user);
 
-		return new JsonResponse($this->authenticationService->createAuthentication($user));
+		$authDto = $this->authenticationService->createAuthentication($user);
+		return $this->withRefreshTokenCookie(new JsonResponse($authDto), $authDto->refreshToken);
+	}
+
+	private function withRefreshTokenCookie(ResponseInterface $response, string $refreshToken): ResponseInterface
+	{
+		return $response->withAddedHeader(
+			'Set-Cookie',
+			sprintf(
+				'%s=%s; Max-Age=%d; Path=%s; HttpOnly; Secure; SameSite=Strict',
+				self::RefreshTokenCookieName,
+				$refreshToken,
+				self::RefreshTokenCookieMaxAge,
+				Routes::AuthenticationRefreshToken->value,
+			),
+		);
+	}
+
+	private function withClearedRefreshTokenCookie(ResponseInterface $response): ResponseInterface
+	{
+		return $response->withAddedHeader(
+			'Set-Cookie',
+			sprintf(
+				'%s=; Max-Age=0; Path=%s; HttpOnly; Secure; SameSite=Strict',
+				self::RefreshTokenCookieName,
+				Routes::AuthenticationRefreshToken->value,
+			),
+		);
 	}
 }

@@ -17,6 +17,8 @@ const mockAuth: Authentication = {
     userId: 1,
 };
 
+const storedAuth = { accessToken: mockAuth.accessToken, userId: mockAuth.userId };
+
 describe('AuthenticationService', () => {
     let service: AuthenticationService;
     let httpMock: HttpTestingController;
@@ -71,26 +73,32 @@ describe('AuthenticationService', () => {
     });
 
     describe('login', () => {
-        it('POSTs credentials, stores via StorageService, and sets signal', async () => {
+        it('POSTs credentials, stores accessToken+userId only, and sets signal', async () => {
             const promise = service.login('user@example.com', 'secret');
 
             const req = httpMock.expectOne(`${environment.apiUrl}/authentication/login`);
             expect(req.request.method).toBe('POST');
             expect(req.request.body).toEqual({ email: 'user@example.com', password: 'secret' });
+            expect(req.request.withCredentials).toBe(true);
             req.flush(mockAuth);
 
             const result = await promise;
             expect(result).toEqual(mockAuth);
             expect(service.authentication()).toEqual(mockAuth);
-            expect(storageServiceSpy.set).toHaveBeenCalledWith('authentication', mockAuth);
+            expect(storageServiceSpy.set).toHaveBeenCalledWith('authentication', storedAuth);
         });
     });
 
     describe('logout', () => {
-        it('removes from StorageService, nulls signal, and navigates to login', () => {
+        it('calls backend logout, removes from StorageService, nulls signal, and navigates to login', () => {
             service.authentication.set(mockAuth);
 
             service.logout();
+
+            const req = httpMock.expectOne(`${environment.apiUrl}/authentication/logout`);
+            expect(req.request.method).toBe('POST');
+            expect(req.request.withCredentials).toBe(true);
+            req.flush(null);
 
             expect(storageServiceSpy.remove).toHaveBeenCalledWith('authentication');
             expect(service.authentication()).toBeNull();
@@ -98,10 +106,18 @@ describe('AuthenticationService', () => {
             expect(currentUserServiceSpy.cleanCurrentUser).toHaveBeenCalled();
             expect(routerSpy.navigate).toHaveBeenCalledWith(['/authentication/login']);
         });
+
+        it('skips backend logout call when not logged in', () => {
+            service.authentication.set(null);
+
+            service.logout();
+
+            httpMock.expectNone(`${environment.apiUrl}/authentication/logout`);
+        });
     });
 
     describe('refreshToken', () => {
-        it('POSTs the refresh token, updates StorageService and signal', async () => {
+        it('POSTs empty body with credentials, stores accessToken+userId only, and updates signal', async () => {
             const newAuth: Authentication = { accessToken: 'new-access', refreshToken: 'new-refresh', userId: 1 };
             service.authentication.set(mockAuth);
 
@@ -109,13 +125,14 @@ describe('AuthenticationService', () => {
 
             const req = httpMock.expectOne(`${environment.apiUrl}/authentication/refresh-token`);
             expect(req.request.method).toBe('POST');
-            expect(req.request.body).toEqual({ refreshToken: mockAuth.refreshToken });
+            expect(req.request.body).toEqual({});
+            expect(req.request.withCredentials).toBe(true);
             req.flush(newAuth);
 
             const result = await promise;
             expect(result).toEqual(newAuth);
             expect(service.authentication()).toEqual(newAuth);
-            expect(storageServiceSpy.set).toHaveBeenCalledWith('authentication', newAuth);
+            expect(storageServiceSpy.set).toHaveBeenCalledWith('authentication', { accessToken: 'new-access', userId: 1 });
         });
     });
 });

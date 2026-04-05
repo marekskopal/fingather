@@ -8,17 +8,17 @@ use SensitiveParameter;
 
 /**
  * @implements ArrayFactoryInterface<array{
- *      refreshToken: string,
+ *      refreshToken?: string,
  * }>
  */
 final readonly class RefreshTokenDto implements ArrayFactoryInterface
 {
-	public function __construct(#[SensitiveParameter] public string $refreshToken,)
+	public function __construct(#[SensitiveParameter] public ?string $refreshToken = null,)
 	{
 	}
 
 	public static function fromArray(array $data): static
 	{
-		return new self(refreshToken: $data['refreshToken']);
+		return new self(refreshToken: $data['refreshToken'] ?? null);
 	}
 }

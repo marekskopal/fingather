@@ -44,7 +44,7 @@ services:
             BACKEND_FRANKENPHP_WORKERS: 4
             BACKEND_AMQP_CONSUMER_PREFETCH: 4
             BACKEND_CORS_ALLOWED_ORIGIN: "http://localhost:4200"
-            BACKEND_CORS_ALLOWED_HEADERS: "*"
+            BACKEND_CORS_ALLOWED_HEADERS: "Content-Type, Authorization"
             BACKEND_CORS_ALLOWED_METHODS: GET,POST,PUT,DELETE,OPTIONS
             BACKEND_CORS_ALLOWED_CREDENTIALS: "true"
             BACKEND_LOG_LEVEL: error
