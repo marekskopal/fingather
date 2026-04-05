@@ -64,6 +64,7 @@ services:
             PROFILER_ENABLE: "0"
             PROFILER_ENDPOINT: ""
             AUTHORIZATION_TOKEN_KEY: test-token-key-32-chars-minimum!!
+            ENCRYPTION_KEY: test-encryption-key-32-chars-min!
             TWELVEDATA_API_KEY: ""
             TWELVEDATA_CALENDAR_MAX_API_CALLS_PER_MINUTE: "0"
             EMAIL_FROM: "FinGather Test<noreply@fingather.test>"

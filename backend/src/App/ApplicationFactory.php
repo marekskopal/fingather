@@ -39,6 +39,7 @@ final readonly class ApplicationFactory
 	{
 		$required = [
 			'AUTHORIZATION_TOKEN_KEY',
+			'ENCRYPTION_KEY',
 			'MYSQL_HOST',
 			'MYSQL_DATABASE',
 			'MYSQL_USER',

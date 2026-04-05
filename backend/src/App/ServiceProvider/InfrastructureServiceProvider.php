@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace FinGather\App\ServiceProvider;
 
+use FinGather\Service\Encryption\EncryptionService;
+use FinGather\Service\Encryption\EncryptionServiceInterface;
 use FinGather\Service\Logger\Logger;
 use GuzzleHttp\Client as GuzzleClient;
 use Http\Discovery\Psr17FactoryDiscovery;
@@ -24,6 +26,7 @@ final class InfrastructureServiceProvider extends AbstractServiceProvider
 	public function provides(string $id): bool
 	{
 		$services = [
+			EncryptionServiceInterface::class,
 			LoggerInterface::class,
 			ResponseFactoryInterface::class,
 			GuzzleClient::class,
@@ -42,6 +45,11 @@ final class InfrastructureServiceProvider extends AbstractServiceProvider
 	public function register(): void
 	{
 		$container = $this->getContainer();
+
+		$container->add(
+			EncryptionServiceInterface::class,
+			fn (): EncryptionServiceInterface => new EncryptionService((string) getenv('ENCRYPTION_KEY')),
+		);
 
 		$container->add(LoggerInterface::class, fn () => Logger::initLogger(__DIR__ . '/../../../log'));
 
