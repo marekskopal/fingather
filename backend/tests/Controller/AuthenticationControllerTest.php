@@ -117,7 +117,7 @@ final class AuthenticationControllerTest extends TestCase
 
 	// --- actionPostLogin ---
 
-	public function testPostLoginReturnsJsonResponseWithRefreshTokenCookie(): void
+	public function testPostLoginReturnsJsonResponse(): void
 	{
 		$this->requestService->method('getRequestBodyDto')->willReturn(
 			new CredentialsDto('test@example.com', 'Password1!'),
@@ -128,10 +128,6 @@ final class AuthenticationControllerTest extends TestCase
 		);
 
 		self::assertInstanceOf(JsonResponse::class, $response);
-		self::assertStringContainsString('refresh_token=', $response->getHeaderLine('Set-Cookie'));
-		self::assertStringContainsString('HttpOnly', $response->getHeaderLine('Set-Cookie'));
-		self::assertStringContainsString('Secure', $response->getHeaderLine('Set-Cookie'));
-		self::assertStringContainsString('SameSite=Strict', $response->getHeaderLine('Set-Cookie'));
 	}
 
 	public function testPostLoginAuthExceptionReturnsJsonResponse401(): void
@@ -149,38 +145,7 @@ final class AuthenticationControllerTest extends TestCase
 		self::assertSame(401, $response->getStatusCode());
 	}
 
-	// --- actionPostLogout ---
-
-	public function testPostLogoutReturnsClearedCookie(): void
-	{
-		$response = $this->authenticationController->actionPostLogout(
-			$this::createStub(ServerRequestInterface::class),
-		);
-
-		self::assertInstanceOf(OkResponse::class, $response);
-		self::assertStringContainsString('refresh_token=;', $response->getHeaderLine('Set-Cookie'));
-		self::assertStringContainsString('Max-Age=0', $response->getHeaderLine('Set-Cookie'));
-	}
-
 	// --- actionPostRefreshToken ---
-
-	public function testPostRefreshTokenFromCookieReturnsJsonResponse(): void
-	{
-		putenv('AUTHORIZATION_TOKEN_KEY=' . self::TokenKey);
-
-		$token = JWT::encode(['id' => 1, 'exp' => time() + 3600], self::TokenKey, AuthenticationServiceInterface::TokenAlgorithm);
-
-		$request = $this::createStub(ServerRequestInterface::class);
-		$request->method('getCookieParams')->willReturn(['refresh_token' => $token]);
-
-		$user = UserFixture::getUser(id: 1);
-		$this->requestService->method('getUser')->willReturn($user);
-
-		$response = $this->authenticationController->actionPostRefreshToken($request);
-
-		self::assertInstanceOf(JsonResponse::class, $response);
-		self::assertStringContainsString('refresh_token=', $response->getHeaderLine('Set-Cookie'));
-	}
 
 	public function testPostRefreshTokenValidReturnsJsonResponse(): void
 	{
@@ -197,7 +162,6 @@ final class AuthenticationControllerTest extends TestCase
 		);
 
 		self::assertInstanceOf(JsonResponse::class, $response);
-		self::assertStringContainsString('refresh_token=', $response->getHeaderLine('Set-Cookie'));
 	}
 
 	public function testPostRefreshTokenExpiredReturnsNotAuthorized(): void

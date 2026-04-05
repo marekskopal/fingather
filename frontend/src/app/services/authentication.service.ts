@@ -31,24 +31,17 @@ export class AuthenticationService {
 
     public async login(email: string, password: string): Promise<Authentication> {
         const authentication = await firstValueFrom<Authentication>(
-            this.http.post<Authentication>(
-                `${environment.apiUrl}/authentication/login`,
-                { email, password },
-                { withCredentials: true },
-            ),
+            this.http.post<Authentication>(`${environment.apiUrl}/authentication/login`, {
+                email,
+                password,
+            }),
         );
 
         return this.setAuthentication(authentication);
     }
 
     public logout(): void {
-        if (this.isLoggedIn()) {
-            this.http.post(
-                `${environment.apiUrl}/authentication/logout`,
-                {},
-                { withCredentials: true },
-            ).subscribe({ error: () => {} });
-        }
+        // remove authentication from local storage and set current authentication to null
         this.storageService.remove('authentication');
         this.authentication.set(null);
         this.portfolioService.cleanCurrentPortfolio();
@@ -58,11 +51,10 @@ export class AuthenticationService {
 
     public async signUp(signUp: SignUp): Promise<Authentication> {
         const authentication = await firstValueFrom<Authentication>(
-            this.http.post<Authentication>(
-                `${environment.apiUrl}/authentication/sign-up`,
-                { ...signUp, locale: this.translateService.currentLang ?? 'en' },
-                { withCredentials: true },
-            ),
+            this.http.post<Authentication>(`${environment.apiUrl}/authentication/sign-up`, {
+                ...signUp,
+                locale: this.translateService.currentLang ?? 'en',
+            }),
         );
 
         return this.setAuthentication(authentication);
@@ -88,11 +80,11 @@ export class AuthenticationService {
 
     public async googleLogin(idToken: string, defaultCurrencyId?: number): Promise<GoogleLoginResponse> {
         const response = await firstValueFrom<GoogleLoginResponse>(
-            this.http.post<GoogleLoginResponse>(
-                `${environment.apiUrl}/authentication/google-login`,
-                { idToken, defaultCurrencyId, locale: this.translateService.currentLang ?? 'en' },
-                { withCredentials: true },
-            ),
+            this.http.post<GoogleLoginResponse>(`${environment.apiUrl}/authentication/google-login`, {
+                idToken,
+                defaultCurrencyId,
+                locale: this.translateService.currentLang ?? 'en',
+            }),
         );
 
         if (!isGoogleLoginRequiresCurrency(response)) {
@@ -118,19 +110,21 @@ export class AuthenticationService {
         const authentication = await firstValueFrom<Authentication>(
             this.http.post<Authentication>(
                 `${environment.apiUrl}/authentication/refresh-token`,
-                {},
+                {
+                    refreshToken: this.authentication()?.refreshToken,
+                },
                 { withCredentials: true },
             ),
         );
 
-        this.storageService.set('authentication', { accessToken: authentication.accessToken, userId: authentication.userId });
+        this.storageService.set('authentication', authentication);
         this.authentication.set(authentication);
 
         return authentication;
     }
 
     private setAuthentication(authentication: Authentication): Authentication {
-        this.storageService.set('authentication', { accessToken: authentication.accessToken, userId: authentication.userId });
+        this.storageService.set('authentication', authentication);
         this.authentication.set(authentication);
         this.portfolioService.cleanCurrentPortfolio();
         this.currentUserService.cleanCurrentUser();

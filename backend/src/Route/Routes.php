@@ -24,7 +24,6 @@ enum Routes: string
 	case AssetDataRange = '/api/asset-data-range/{assetId:number}';
 
 	case AuthenticationLogin = '/api/authentication/login';
-	case AuthenticationLogout = '/api/authentication/logout';
 	case AuthenticationRefreshToken = '/api/authentication/refresh-token';
 	case AuthenticationSignUp = '/api/authentication/sign-up';
 	case AuthenticationEmailExists = '/api/authentication/email-exists';
