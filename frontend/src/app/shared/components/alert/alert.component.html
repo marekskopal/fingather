@@ -1,7 +1,7 @@
 ﻿<div class="alert-container">
     @for (alert of alerts(); track alert.id) {
         <div class="{{cssClass(alert)}}">
-            <span [innerHTML]="alert.message"></span>
+            <span>{{ alert.message }}</span>
             <button type="button" class="btn-icon-close" (click)="removeAlert(alert)" aria-label="Close">
                 <mat-icon>close</mat-icon>
             </button>
