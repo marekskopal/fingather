@@ -13,7 +13,7 @@ final readonly class PdfConverter
 	{
 		$outDir = dirname($xlsxPath);
 
-		$userInstallationDir = sys_get_temp_dir() . '/libreoffice_' . uniqid();
+		$userInstallationDir = sys_get_temp_dir() . '/libreoffice_' . bin2hex(random_bytes(16));
 		mkdir($userInstallationDir);
 
 		$command = sprintf(

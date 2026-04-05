@@ -25,6 +25,11 @@ class ErrorResponse extends JsonResponse
 	public static function fromException(\Throwable $exception): self
 	{
 		$code = $exception->getCode() >= 100 && $exception->getCode() <= 999 ? (int) $exception->getCode() : 500;
+
+		if ($code >= 500) {
+			return new self('Internal Server Error', $code);
+		}
+
 		$message = $exception->getMessage();
 		if ($message === '') {
 			$message = 'Internal Server Error';

@@ -16,6 +16,8 @@ use Psr\Http\Message\ServerRequestInterface;
 
 final readonly class TickerController
 {
+	private const int MaxTickersLimit = 100;
+
 	public function __construct(private TickerProviderInterface $tickerProvider)
 	{
 	}
@@ -39,8 +41,8 @@ final readonly class TickerController
 
 		$search = $queryParams['search'] ?? null;
 
-		$limit = ($queryParams['limit'] ?? null) !== null ? (int) $queryParams['limit'] : null;
-		$offset = ($queryParams['offset'] ?? null) !== null ? (int) $queryParams['offset'] : null;
+		$limit = ($queryParams['limit'] ?? null) !== null ? min((int) $queryParams['limit'], self::MaxTickersLimit) : null;
+		$offset = ($queryParams['offset'] ?? null) !== null ? max((int) $queryParams['offset'], 0) : null;
 
 		$tickers = array_map(
 			fn (Ticker $ticker): TickerDto => TickerDto::fromEntity($ticker),
@@ -56,8 +58,8 @@ final readonly class TickerController
 		/** @var array{limit?: string, offset?: string, actionTypes?: string} $queryParams */
 		$queryParams = $request->getQueryParams();
 
-		$limit = ($queryParams['limit'] ?? null) !== null ? (int) $queryParams['limit'] : null;
-		$offset = ($queryParams['offset'] ?? null) !== null ? (int) $queryParams['offset'] : null;
+		$limit = ($queryParams['limit'] ?? null) !== null ? min((int) $queryParams['limit'], self::MaxTickersLimit) : null;
+		$offset = ($queryParams['offset'] ?? null) !== null ? max((int) $queryParams['offset'], 0) : null;
 
 		$tickers = array_map(
 			fn (Ticker $ticker): TickerDto => TickerDto::fromEntity($ticker),

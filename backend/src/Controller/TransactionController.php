@@ -33,6 +33,8 @@ use Psr\Http\Message\ServerRequestInterface;
 
 final readonly class TransactionController
 {
+	private const int MaxTransactionsLimit = 200;
+
 	public function __construct(
 		private TransactionProviderInterface $transactionProvider,
 		private AssetProviderInterface $assetProvider,
@@ -76,8 +78,8 @@ final readonly class TransactionController
 			$this->assetProvider->getAsset($user, $assetId) :
 			null;
 
-		$limit = ($queryParams['limit'] ?? null) !== null ? (int) $queryParams['limit'] : null;
-		$offset = ($queryParams['offset'] ?? null) !== null ? (int) $queryParams['offset'] : null;
+		$limit = ($queryParams['limit'] ?? null) !== null ? min((int) $queryParams['limit'], self::MaxTransactionsLimit) : null;
+		$offset = ($queryParams['offset'] ?? null) !== null ? max((int) $queryParams['offset'], 0) : null;
 
 		$actionTypes = ($queryParams['actionTypes'] ?? null) !== null ?
 			array_map(fn (string $item) => TransactionActionTypeEnum::from($item), explode('|', $queryParams['actionTypes'])) :

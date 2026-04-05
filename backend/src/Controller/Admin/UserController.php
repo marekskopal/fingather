@@ -34,6 +34,8 @@ use Psr\Http\Message\ServerRequestInterface;
 
 final readonly class UserController extends AdminController
 {
+	private const int MaxUsersLimit = 200;
+
 	public function __construct(
 		RequestService $requestService,
 		private UserProviderInterface $userProvider,
@@ -50,8 +52,8 @@ final readonly class UserController extends AdminController
 		/** @var array{limit?: string, offset?: string, orderBy?: string, orderDirection?: string} $queryParams */
 		$queryParams = $request->getQueryParams();
 
-		$limit = ($queryParams['limit'] ?? null) !== null ? (int) $queryParams['limit'] : null;
-		$offset = ($queryParams['offset'] ?? null) !== null ? (int) $queryParams['offset'] : null;
+		$limit = ($queryParams['limit'] ?? null) !== null ? min((int) $queryParams['limit'], self::MaxUsersLimit) : null;
+		$offset = ($queryParams['offset'] ?? null) !== null ? max((int) $queryParams['offset'], 0) : null;
 
 		$orderByColumn = ($queryParams['orderBy'] ?? null) !== null ? UserOrderByEnum::tryFrom($queryParams['orderBy']) : null;
 		$orderDirection = ($queryParams['orderDirection'] ?? null) !== null
