@@ -1776,16 +1776,16 @@
         },
         {
             "name": "marekskopal/twelvedata",
-            "version": "v0.9.8",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/marekskopal/twelvedata.git",
-                "reference": "e4ad4121eacfb4a50e155f7258b0a22038ff9eb7"
+                "reference": "62ea08f1d20222d6451d65c1a53cd6c86eba70e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/marekskopal/twelvedata/zipball/e4ad4121eacfb4a50e155f7258b0a22038ff9eb7",
-                "reference": "e4ad4121eacfb4a50e155f7258b0a22038ff9eb7",
+                "url": "https://api.github.com/repos/marekskopal/twelvedata/zipball/62ea08f1d20222d6451d65c1a53cd6c86eba70e8",
+                "reference": "62ea08f1d20222d6451d65c1a53cd6c86eba70e8",
                 "shasum": ""
             },
             "require": {
@@ -1802,12 +1802,13 @@
                 "phpstan/phpstan-phpunit": "^2.0",
                 "phpstan/phpstan-strict-rules": "^2.0",
                 "phpunit/phpunit": "^12.3",
+                "phrity/websocket": "^3.6",
                 "shipmonk/phpstan-rules": "^4.3",
-                "slevomat/coding-standard": "^8.14",
-                "spatie/ray": "^1.39"
+                "slevomat/coding-standard": "^8.14"
             },
             "suggest": {
                 "nyholm/psr7": "PSR-7 message implementation",
+                "phrity/websocket": "WebSocket client for real-time price streaming",
                 "symfony/http-client": "HTTP client"
             },
             "type": "library",
@@ -1828,11 +1829,21 @@
             ],
             "description": "TwelveData API client library",
             "homepage": "https://www.fingather.com",
+            "keywords": [
+                "api",
+                "finance",
+                "market-data",
+                "php-client",
+                "stock",
+                "trading",
+                "twelve-data",
+                "twelvedata"
+            ],
             "support": {
                 "issues": "https://github.com/marekskopal/twelvedata/issues",
-                "source": "https://github.com/marekskopal/twelvedata/tree/v0.9.8"
+                "source": "https://github.com/marekskopal/twelvedata"
             },
-            "time": "2026-03-09T09:55:46+00:00"
+            "time": "2026-04-06T15:03:20+00:00"
         },
         {
             "name": "markbaker/complex",
