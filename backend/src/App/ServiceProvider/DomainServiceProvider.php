@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace FinGather\App\ServiceProvider;
 
+use FinGather\Mcp\McpUserContext;
+use FinGather\Mcp\McpUserContextInterface;
+use FinGather\Mcp\Server\FinGatherServer;
 use FinGather\Service\Goal\GoalChecker;
 use FinGather\Service\Goal\GoalCheckerInterface;
 use FinGather\Service\Provider\ApiImportPrepareCheckProvider;
@@ -70,6 +73,8 @@ use FinGather\Service\Provider\IndustryProvider;
 use FinGather\Service\Provider\IndustryProviderInterface;
 use FinGather\Service\Provider\IndustryWithIndustryDataProvider;
 use FinGather\Service\Provider\IndustryWithIndustryDataProviderInterface;
+use FinGather\Service\Provider\McpApiKeyProvider;
+use FinGather\Service\Provider\McpApiKeyProviderInterface;
 use FinGather\Service\Provider\PasswordResetProvider;
 use FinGather\Service\Provider\PasswordResetProviderInterface;
 use FinGather\Service\Provider\PortfolioDataProvider;
@@ -164,6 +169,9 @@ final class DomainServiceProvider extends AbstractServiceProvider
 			TransactionProviderInterface::class,
 			UserProviderInterface::class,
 			GoalCheckerInterface::class,
+			McpApiKeyProviderInterface::class,
+			McpUserContextInterface::class,
+			FinGatherServer::class,
 		], true);
 	}
 
@@ -206,6 +214,7 @@ final class DomainServiceProvider extends AbstractServiceProvider
 		$container->add(IndustryDataProviderInterface::class, IndustryDataProvider::class);
 		$container->add(IndustryProviderInterface::class, IndustryProvider::class);
 		$container->add(IndustryWithIndustryDataProviderInterface::class, IndustryWithIndustryDataProvider::class);
+		$container->add(McpApiKeyProviderInterface::class, McpApiKeyProvider::class);
 		$container->add(PasswordResetProviderInterface::class, PasswordResetProvider::class);
 		$container->add(PortfolioDataProviderInterface::class, PortfolioDataProvider::class);
 		$container->add(PortfolioProviderInterface::class, PortfolioProvider::class);
@@ -224,5 +233,9 @@ final class DomainServiceProvider extends AbstractServiceProvider
 		$container->add(UserProviderInterface::class, UserProvider::class);
 
 		$container->add(GoalCheckerInterface::class, GoalChecker::class);
+
+		$container->add(McpUserContextInterface::class, McpUserContext::class);
+
+		$container->add(FinGatherServer::class, fn () => new FinGatherServer($container));
 	}
 }

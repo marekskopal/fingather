@@ -823,6 +823,21 @@
       "delete": "Supprimer",
       "choose": "Choisir",
       "ok": "OK"
+    },
+    "mcpApiKeys": {
+      "mcpApiKeys": {
+        "title": "Clés API MCP",
+        "name": "Nom",
+        "apiKey": "Clé API",
+        "addMcpApiKey": "Ajouter une clé API MCP",
+        "deleteTitle": "Supprimer la clé API MCP",
+        "deleteMessage": "Êtes-vous sûr de vouloir supprimer cette clé API MCP ?"
+      },
+      "addMcpApiKey": {
+        "header": "Ajouter une clé API MCP",
+        "name": "Nom",
+        "nameRequired": "Le nom est obligatoire"
+      }
     }
   },
   "transaction": {

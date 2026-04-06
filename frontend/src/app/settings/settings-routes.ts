@@ -3,6 +3,8 @@ import {AddEditApiKeyComponent} from '@app/api-keys/add-edit-api-key/add-edit-ap
 import {ApiKeysComponent} from '@app/api-keys/api-keys/api-keys.component';
 import {AddEditGroupComponent} from '@app/groups/components/add-edit/add-edit-group.component';
 import {GroupListComponent} from '@app/groups/components/group-list/group-list.component';
+import {AddMcpApiKeyComponent} from '@app/mcp-api-keys/add-mcp-api-key/add-mcp-api-key.component';
+import {McpApiKeysComponent} from '@app/mcp-api-keys/mcp-api-keys/mcp-api-keys.component';
 import {BenchmarkAssetsComponent} from '@app/settings/components/benchmark-assets/benchmark-assets.component';
 // eslint-disable-next-line max-len
 import {EditImportMappingComponent} from '@app/settings/components/import-mappings/edit-import-mapping/edit-import-mapping.component';
@@ -54,6 +56,19 @@ export default [
                             {
                                 path: 'edit-api-key/:id',
                                 component: AddEditApiKeyComponent,
+                            },
+                        ],
+                    },
+                    {
+                        path: 'mcp-api-keys',
+                        children: [
+                            {
+                                path: '',
+                                component: McpApiKeysComponent,
+                            },
+                            {
+                                path: 'add-mcp-api-key',
+                                component: AddMcpApiKeyComponent,
                             },
                         ],
                     },

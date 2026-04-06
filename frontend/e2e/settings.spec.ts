@@ -44,6 +44,43 @@ test.describe('Settings - Import mappings', () => {
     });
 });
 
+test.describe('Settings - MCP API keys', () => {
+    test('mcp api keys page loads', async ({ page }) => {
+        const settings = new SettingsPage(page);
+        await settings.gotoMcpApiKeys();
+        await settings.expectMcpApiKeysLoaded();
+    });
+
+    test('add mcp api key form loads', async ({ page }) => {
+        const settings = new SettingsPage(page);
+        await settings.gotoAddMcpApiKey();
+        await settings.expectAddMcpApiKeyFormLoaded();
+    });
+
+    test('cancel on add mcp api key form returns to list', async ({ page }) => {
+        await page.goto('/settings/mcp-api-keys/add-mcp-api-key');
+        await page.waitForSelector('input#name', { timeout: 10000 });
+        await page.locator('a.btn-secondary').click();
+        await expect(page).toHaveURL(/\/settings\/mcp-api-keys$/, { timeout: 10000 });
+    });
+
+    test('create and delete mcp api key', async ({ page }) => {
+        const settings = new SettingsPage(page);
+        await settings.gotoAddMcpApiKey();
+
+        await settings.fillMcpApiKeyName('e2e-test-key');
+        await settings.submitForm();
+        await settings.expectRedirectedToMcpApiKeyList();
+
+        const rowCountBefore = await settings.getMcpApiKeyRowCount();
+
+        await settings.clickDeleteFirstMcpApiKey();
+        await settings.confirmDelete();
+
+        await expect(page.locator('table tbody tr')).toHaveCount(rowCountBefore - 1, { timeout: 10000 });
+    });
+});
+
 test.describe('Settings - API keys', () => {
     test('api keys page loads', async ({ page }) => {
         const settings = new SettingsPage(page);

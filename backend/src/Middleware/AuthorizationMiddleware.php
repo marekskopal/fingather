@@ -46,6 +46,7 @@ final readonly class AuthorizationMiddleware implements MiddlewareInterface
 				Routes::AuthenticationGoogleLogin->value,
 				Routes::EmailVerify->value,
 				Routes::Currencies->value,
+				Routes::Mcp->value,
 			],
 			strict: true,
 		)) {

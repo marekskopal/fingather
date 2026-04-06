@@ -91,4 +91,49 @@ export class SettingsPage {
         await expect(this.page.locator('.modal-footer button.btn-danger')).toBeVisible({ timeout: 5000 });
         await this.page.locator('.modal-footer button.btn-danger').click();
     }
+
+    // MCP API Keys
+
+    async gotoMcpApiKeys(): Promise<void> {
+        await this.page.goto('/settings/mcp-api-keys');
+    }
+
+    async expectMcpApiKeysLoaded(): Promise<void> {
+        await expect(this.page).toHaveURL(/\/settings\/mcp-api-keys/);
+        await expect(this.page.locator('.card')).toBeVisible({ timeout: 10000 });
+    }
+
+    async gotoAddMcpApiKey(): Promise<void> {
+        await this.page.goto('/settings/mcp-api-keys/add-mcp-api-key');
+        await this.page.waitForSelector('input#name', { timeout: 10000 });
+    }
+
+    async expectAddMcpApiKeyFormLoaded(): Promise<void> {
+        await expect(this.page).toHaveURL(/\/settings\/mcp-api-keys\/add-mcp-api-key/);
+        await expect(this.page.locator('form')).toBeVisible({ timeout: 10000 });
+        await expect(this.page.locator('input#name')).toBeVisible();
+    }
+
+    async fillMcpApiKeyName(name: string): Promise<void> {
+        await this.page.locator('input#name').fill(name);
+    }
+
+    async expectRedirectedToMcpApiKeyList(): Promise<void> {
+        await expect(this.page).toHaveURL(/\/settings\/mcp-api-keys$/, { timeout: 10000 });
+    }
+
+    async getMcpApiKeyRowCount(): Promise<number> {
+        await this.page.waitForSelector('table', { timeout: 10000 });
+        return this.page.locator('table tbody tr').count();
+    }
+
+    async clickCopyFirstMcpApiKey(): Promise<void> {
+        await this.page.waitForSelector('table tbody tr', { timeout: 10000 });
+        await this.page.locator('table tbody tr').first().locator('button:has(mat-icon)').first().click();
+    }
+
+    async clickDeleteFirstMcpApiKey(): Promise<void> {
+        await this.page.waitForSelector('fingather-delete-button button', { timeout: 10000 });
+        await this.page.locator('fingather-delete-button button').first().click();
+    }
 }

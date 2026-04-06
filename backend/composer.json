@@ -35,6 +35,7 @@
         "marekskopal/router": "^1.1",
         "marekskopal/trading212": "^1.0",
         "marekskopal/twelvedata": "^1.0",
+        "mcp/sdk": "^0.4.0",
         "nette/caching": "^3.3",
         "nette/utils": "^4.0",
         "nyholm/psr7": "^1.8",

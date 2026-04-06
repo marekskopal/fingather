@@ -112,4 +112,9 @@ enum Routes: string
 
 	case TransactionExportCsv = '/api/transactions/{portfolioId:number}/export-csv';
 	case TransactionExportXlsx = '/api/transactions/{portfolioId:number}/export-xlsx';
+
+	case McpApiKeys = '/api/mcp-api-keys';
+	case McpApiKey = '/api/mcp-api-key/{mcpApiKeyId:number}';
+
+	case Mcp = '/api/mcp';
 }

@@ -151,6 +151,38 @@ fingather/
 └── docker-compose.yml
 ```
 
+## MCP Server (AI Integration)
+
+FinGather includes a built-in [Model Context Protocol](https://modelcontextprotocol.io/) server that lets AI assistants like Claude access your portfolio data.
+
+### Setup
+
+1. **Create an MCP API key** in the app at **Settings → MCP API Keys → Add MCP API key**. Use the copy button to copy the full key.
+
+2. **Add the server to Claude Code**
+   ```bash
+   claude mcp add fingather \
+     --transport http \
+     --url https://your-fingather-domain/api/mcp \
+     --header "Authorization: Bearer YOUR_MCP_API_KEY"
+   ```
+
+### Available Tools
+
+| Tool | Description |
+|------|-------------|
+| `list_portfolios` | List all portfolios |
+| `get_portfolio_summary` | Portfolio value, returns, and performance metrics |
+| `list_assets` | Open holdings with performance data |
+| `get_asset_detail` | Detailed performance for a single holding |
+| `list_transactions` | Transactions with filters (type, date, search) |
+| `add_transaction` | Record a buy, sell, dividend, or fee |
+| `get_tax_report` | Realized gains, dividends, fees for a given year |
+| `list_strategies` | Allocation strategies with target percentages |
+| `get_rebalancing` | Suggested trades to reach target allocations |
+| `list_goals` | Financial goals with progress |
+| `search_tickers` | Search stocks, ETFs, crypto by symbol or name |
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.

@@ -811,6 +811,21 @@
       "delete": "Smazat",
       "choose": "Vybrat",
       "ok": "OK"
+    },
+    "mcpApiKeys": {
+      "mcpApiKeys": {
+        "title": "MCP API klíče",
+        "name": "Název",
+        "apiKey": "API klíč",
+        "addMcpApiKey": "Přidat MCP API klíč",
+        "deleteTitle": "Smazat MCP API klíč",
+        "deleteMessage": "Opravdu chcete smazat tento MCP API klíč?"
+      },
+      "addMcpApiKey": {
+        "header": "Přidat MCP API klíč",
+        "name": "Název",
+        "nameRequired": "Název je povinný"
+      }
     }
   },
   "transaction": {
