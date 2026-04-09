@@ -48,6 +48,12 @@
                             }"
                         />
                     </div>
+                    @if (f['type'].value === ApiKeyTypeEnum.Trading212) {
+                        <div class="mb-3">
+                            <label for="userKey" class="form-label">{{ 'app.apiKeys.addEdit.apiSecret' | translate }}</label>
+                            <input id="userKey" type="text" formControlName="userKey" class="form-control" />
+                        </div>
+                    }
                     @if (f['type'].value === ApiKeyTypeEnum.Etoro) {
                         <div class="mb-3">
                             <label for="userKey" class="form-label">{{ 'app.apiKeys.addEdit.userKey' | translate }}</label>
