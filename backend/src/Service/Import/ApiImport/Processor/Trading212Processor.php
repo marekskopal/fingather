@@ -32,7 +32,7 @@ final readonly class Trading212Processor implements ProcessorInterface
 
 	public function prepare(ApiKey $apiKey): void
 	{
-		$trading212 = new Trading212(new Config(apiKey: $apiKey->apiKey, apiSecret: $apiKey->userKey ?? ''));
+		$trading212 = new Trading212(new Config($apiKey->apiKey));
 
 		$lastApiImport = $this->apiImportProvider->getLastApiImport($apiKey);
 
@@ -48,7 +48,7 @@ final readonly class Trading212Processor implements ProcessorInterface
 			}
 
 			$firstTransaction = array_last($transactions);
-			$dateFrom = $firstTransaction->order->createdAt;
+			$dateFrom = $firstTransaction->dateCreated;
 		}
 
 		$dateTo = $dateFrom->add(new DateInterval('P354D'));
@@ -91,7 +91,7 @@ final readonly class Trading212Processor implements ProcessorInterface
 	{
 		$this->apiImportProvider->updateApiImport($apiImport, ApiImportStatusEnum::InProgress);
 
-		$trading212 = new Trading212(new Config(apiKey: $apiImport->apiKey->apiKey, apiSecret: $apiImport->apiKey->userKey ?? ''));
+		$trading212 = new Trading212(new Config($apiImport->apiKey->apiKey));
 
 		$exports = $trading212->getHistoricalItems()->exports();
 		$export = array_values(array_filter($exports, fn(Export $item): bool => $item->reportId === $apiImport->reportId))[0] ?? null;

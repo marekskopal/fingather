@@ -518,7 +518,6 @@
         "apiKey": "Clave API",
         "apiKeyRequired": "La clave API es obligatoria",
         "userKey": "Clave de Usuario",
-        "apiSecret": "Secreto API",
         "addedSuccessfully": "Clave API agregada exitosamente",
         "updatedSuccessfully": "Actualización exitosa"
       }

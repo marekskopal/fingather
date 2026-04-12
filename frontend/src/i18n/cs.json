@@ -515,7 +515,6 @@
         "apiKey": "API klíč",
         "apiKeyRequired": "API klíč je povinný",
         "userKey": "Uživatelský klíč",
-        "apiSecret": "API Secret",
         "addedSuccessfully": "API klíč přidán úspěšně",
         "updatedSuccessfully": "Aktualizace provedena úspěšně"
       }

@@ -518,7 +518,6 @@
         "apiKey": "API-Schlüssel",
         "apiKeyRequired": "API-Schlüssel ist erforderlich",
         "userKey": "Benutzerschlüssel",
-        "apiSecret": "API-Geheimnis",
         "addedSuccessfully": "API-Schlüssel erfolgreich hinzugefügt",
         "updatedSuccessfully": "Aktualisierung erfolgreich"
       }
