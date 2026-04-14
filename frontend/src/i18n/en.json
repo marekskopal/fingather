@@ -514,6 +514,7 @@
         "apiKey": "API Key",
         "apiKeyRequired": "API Key is required",
         "userKey": "User Key",
+        "apiSecret": "API Secret",
         "addedSuccessfully": "API key added successfully",
         "updatedSuccessfully": "Update successful"
       }
