@@ -54,7 +54,7 @@ final readonly class AssetController
 		}
 
 		$dateTime = new DateTimeImmutable();
-		$assets = $this->assetProvider->getAssets($user, $portfolio);
+		$assets = $this->assetProvider->getAssetsWithTickerRelations($user, $portfolio);
 
 		$assetDtos = [];
 

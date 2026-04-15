@@ -45,6 +45,28 @@ final readonly class AssetProvider implements AssetProviderInterface
 		);
 	}
 
+	/** @return list<Asset> */
+	public function getAssetsWithTickerRelations(
+		User $user,
+		Portfolio $portfolio,
+		?DateTimeImmutable $dateTime = null,
+		?Group $group = null,
+		?Country $country = null,
+		?Sector $sector = null,
+		?Industry $industry = null,
+	): array
+	{
+		return $this->assetRepository->findAssetsWithTickerRelations(
+			$user->id,
+			$portfolio->id,
+			$dateTime,
+			$group?->id,
+			$country?->id,
+			$sector?->id,
+			$industry?->id,
+		);
+	}
+
 	public function countAssets(
 		User $user,
 		?Portfolio $portfolio = null,

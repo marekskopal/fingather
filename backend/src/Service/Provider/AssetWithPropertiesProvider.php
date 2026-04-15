@@ -30,7 +30,7 @@ final readonly class AssetWithPropertiesProvider implements AssetWithPropertiesP
 		AssetOrderEnum $orderBy,
 	): AssetsWithPropertiesDto {
 		$portfolioData = $this->portfolioDataProvider->getPortfolioData($user, $portfolio, $dateTime);
-		$assets = $this->assetProvider->getAssets(user: $user, portfolio: $portfolio);
+		$assets = $this->assetProvider->getAssetsWithTickerRelations(user: $user, portfolio: $portfolio);
 
 		$openAssets = [];
 		$closedAssets = [];

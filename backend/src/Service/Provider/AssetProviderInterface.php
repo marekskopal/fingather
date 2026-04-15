@@ -28,6 +28,22 @@ interface AssetProviderInterface
 		?Industry $industry = null,
 	): Iterator;
 
+	/**
+	 * Returns assets with ticker, group and ticker's ManyToOne relations preloaded.
+	 * Use only when full ticker DTOs will be built for every asset.
+	 *
+	 * @return list<Asset>
+	 */
+	public function getAssetsWithTickerRelations(
+		User $user,
+		Portfolio $portfolio,
+		?DateTimeImmutable $dateTime = null,
+		?Group $group = null,
+		?Country $country = null,
+		?Sector $sector = null,
+		?Industry $industry = null,
+	): array;
+
 	public function countAssets(
 		User $user,
 		?Portfolio $portfolio = null,
