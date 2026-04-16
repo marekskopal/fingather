@@ -59,7 +59,13 @@ final readonly class ApiImportService
 
 		$this->logger->info('Processing API import - apiImportId:' . $apiImport->id);
 
-		$processor = $this->processorFactory->create($apiImport->apiKey->type);
+		$apiKey = $this->apiKeyProvider->getApiKey(apiKeyId: $apiImport->apiKey->id);
+		if ($apiKey === null) {
+			$this->logger->error('Processing API import - ApiKey not found - apiImportId:' . $apiImport->id);
+			return;
+		}
+
+		$processor = $this->processorFactory->create($apiKey->type);
 		$processor->process($apiImport);
 	}
 }
