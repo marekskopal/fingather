@@ -24,7 +24,6 @@ export * from './import-prepare-data';
 export * from './import-start';
 export * from './industry-with-industry-data';
 export * from './market';
-export * from './mcp-api-key';
 export * from './portfolio';
 export * from './portfolio-data';
 export * from './portfolio-data-with-benchmark-data';

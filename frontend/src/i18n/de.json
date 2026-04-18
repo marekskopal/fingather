@@ -825,19 +825,13 @@
       "choose": "Auswählen",
       "ok": "OK"
     },
-    "mcpApiKeys": {
-      "mcpApiKeys": {
-        "title": "MCP-API-Schlüssel",
-        "name": "Name",
-        "apiKey": "API-Schlüssel",
-        "addMcpApiKey": "MCP-API-Schlüssel hinzufügen",
-        "deleteTitle": "MCP-API-Schlüssel löschen",
-        "deleteMessage": "Möchten Sie diesen MCP-API-Schlüssel wirklich löschen?"
-      },
-      "addMcpApiKey": {
-        "header": "MCP-API-Schlüssel hinzufügen",
-        "name": "Name",
-        "nameRequired": "Name ist erforderlich"
+    "oauth": {
+      "authorize": {
+        "header": "Anwendung autorisieren",
+        "loginHeader": "Anmelden, um {{clientName}} zu autorisieren",
+        "consentMessage": "{{clientName}} fordert Zugriff auf Ihr FinGather-Konto an.",
+        "authorize": "Autorisieren",
+        "loginAndAuthorize": "Anmelden & Autorisieren"
       }
     }
   },

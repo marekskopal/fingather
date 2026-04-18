@@ -47,6 +47,11 @@ final readonly class AuthorizationMiddleware implements MiddlewareInterface
 				Routes::EmailVerify->value,
 				Routes::Currencies->value,
 				Routes::Mcp->value,
+				Routes::OAuthMetadata->value,
+				Routes::OAuthResourceMetadata->value,
+				Routes::OAuthToken->value,
+				Routes::OAuthRegister->value,
+				Routes::OAuthClientInfo->value,
 			],
 			strict: true,
 		)) {

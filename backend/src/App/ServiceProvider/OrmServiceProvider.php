@@ -21,7 +21,8 @@ use FinGather\Model\Entity\ImportFile;
 use FinGather\Model\Entity\ImportMapping;
 use FinGather\Model\Entity\Industry;
 use FinGather\Model\Entity\Market;
-use FinGather\Model\Entity\McpApiKey;
+use FinGather\Model\Entity\OAuthAuthorization;
+use FinGather\Model\Entity\OAuthClient;
 use FinGather\Model\Entity\PasswordReset;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\PriceAlert;
@@ -51,7 +52,8 @@ use FinGather\Model\Repository\ImportMappingRepository;
 use FinGather\Model\Repository\ImportRepository;
 use FinGather\Model\Repository\IndustryRepository;
 use FinGather\Model\Repository\MarketRepository;
-use FinGather\Model\Repository\McpApiKeyRepository;
+use FinGather\Model\Repository\OAuthAuthorizationRepository;
+use FinGather\Model\Repository\OAuthClientRepository;
 use FinGather\Model\Repository\PasswordResetRepository;
 use FinGather\Model\Repository\PortfolioRepository;
 use FinGather\Model\Repository\PriceAlertRepository;
@@ -99,6 +101,8 @@ final class OrmServiceProvider extends AbstractServiceProvider
 			ImportMappingRepository::class,
 			IndustryRepository::class,
 			MarketRepository::class,
+			OAuthAuthorizationRepository::class,
+			OAuthClientRepository::class,
 			PasswordResetRepository::class,
 			PortfolioRepository::class,
 			PriceAlertRepository::class,
@@ -141,7 +145,8 @@ final class OrmServiceProvider extends AbstractServiceProvider
 		$this->addRepository($container, $orm, ImportFileRepository::class, ImportFile::class);
 		$this->addRepository($container, $orm, ImportMappingRepository::class, ImportMapping::class);
 		$this->addRepository($container, $orm, MarketRepository::class, Market::class);
-		$this->addRepository($container, $orm, McpApiKeyRepository::class, McpApiKey::class);
+		$this->addRepository($container, $orm, OAuthAuthorizationRepository::class, OAuthAuthorization::class);
+		$this->addRepository($container, $orm, OAuthClientRepository::class, OAuthClient::class);
 		$this->addRepository($container, $orm, PasswordResetRepository::class, PasswordReset::class);
 		$this->addRepository($container, $orm, PortfolioRepository::class, Portfolio::class);
 		$this->addRepository($container, $orm, PriceAlertRepository::class, PriceAlert::class);

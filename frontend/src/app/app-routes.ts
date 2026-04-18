@@ -90,6 +90,10 @@ export const appRoutes: Routes = [
         loadChildren: () => import('./email-verify/email-verify-routes'),
     },
     {
+        path: 'oauth',
+        loadChildren: () => import('./oauth/oauth-routes'),
+    },
+    {
         path: 'authentication',
         loadChildren: () => import('./authentication/authentication-routes'),
     },
