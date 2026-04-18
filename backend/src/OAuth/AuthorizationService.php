@@ -163,10 +163,6 @@ final readonly class AuthorizationService implements AuthorizationServiceInterfa
 
 		$this->oAuthAuthorizationRepository->persist($authorization);
 
-		return new OAuthTokenPair(
-			accessToken: $accessToken,
-			refreshToken: $refreshToken,
-			expiresIn: self::AccessTokenLifetime,
-		);
+		return new OAuthTokenPair(accessToken: $accessToken, refreshToken: $refreshToken, expiresIn: self::AccessTokenLifetime);
 	}
 }

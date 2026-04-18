@@ -7,7 +7,6 @@ namespace FinGather\OAuth;
 use DateTimeImmutable;
 use FinGather\Model\Entity\OAuthClient;
 use FinGather\Model\Repository\OAuthClientRepository;
-
 use const JSON_THROW_ON_ERROR;
 
 final readonly class ClientService implements ClientServiceInterface

@@ -11,6 +11,7 @@ use FinGather\Model\Entity\ApiKey;
 use FinGather\Model\Entity\Enum\ApiImportStatusEnum;
 use FinGather\Service\Import\ImportService;
 use FinGather\Service\Provider\ApiImportProviderInterface;
+use FinGather\Service\Provider\ApiKeyProviderInterface;
 use FinGather\Service\Provider\ImportFileProviderInterface;
 use FinGather\Service\Provider\ImportProviderInterface;
 use League\Csv\Writer;
@@ -24,6 +25,7 @@ use Ramsey\Uuid\Uuid;
 final readonly class EtoroProcessor implements ProcessorInterface
 {
 	public function __construct(
+		private ApiKeyProviderInterface $apiKeyProvider,
 		private ApiImportProviderInterface $apiImportProvider,
 		private ImportService $importService,
 		private ImportProviderInterface $importProvider,
@@ -57,9 +59,13 @@ final readonly class EtoroProcessor implements ProcessorInterface
 
 		try {
 			$apiKey = $apiImport->apiKey;
-			assert($apiKey->userKey !== null);
+			$decryptedUserKey = $this->apiKeyProvider->decryptUserKeyValue($apiKey);
+			assert($decryptedUserKey !== null);
 
-			$etoro = new Etoro(new Config(apiKey: $apiKey->apiKey, userKey: $apiKey->userKey));
+			$etoro = new Etoro(new Config(
+				apiKey: $this->apiKeyProvider->decryptApiKeyValue($apiKey),
+				userKey: $decryptedUserKey,
+			));
 
 			$tradeHistory = $etoro->tradingReal->history($apiImport->dateFrom);
 			$portfolio = $etoro->tradingReal->portfolio();

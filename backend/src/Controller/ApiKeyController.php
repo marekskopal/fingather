@@ -46,7 +46,11 @@ final readonly class ApiKeyController
 		}
 
 		$apiKeys = array_map(
-			fn (ApiKey $apiKey): ApiKeyDto => ApiKeyDto::fromEntity($apiKey),
+			fn (ApiKey $apiKey): ApiKeyDto => ApiKeyDto::fromEntity(
+				$apiKey,
+				$this->apiKeyProvider->decryptApiKeyValue($apiKey),
+				$this->apiKeyProvider->decryptUserKeyValue($apiKey),
+			),
 			iterator_to_array($this->apiKeyProvider->getApiKeys($user, $portfolio), false),
 		);
 
@@ -68,7 +72,11 @@ final readonly class ApiKeyController
 			return new NotFoundResponse('API key with id "' . $apiKeyId . '" was not found.');
 		}
 
-		return new JsonResponse(ApiKeyDto::fromEntity($apiKey));
+		return new JsonResponse(ApiKeyDto::fromEntity(
+			$apiKey,
+			$this->apiKeyProvider->decryptApiKeyValue($apiKey),
+			$this->apiKeyProvider->decryptUserKeyValue($apiKey),
+		));
 	}
 
 	#[RoutePost(Routes::ApiKeys->value)]
@@ -87,13 +95,15 @@ final readonly class ApiKeyController
 
 		$apiKeyCreateDto = $this->requestService->getRequestBodyDto($request, ApiKeyCreateDto::class);
 
-		return new JsonResponse(ApiKeyDto::fromEntity($this->apiKeyProvider->createApiKey(
+		$createdApiKey = $this->apiKeyProvider->createApiKey(
 			user: $user,
 			portfolio: $portfolio,
 			type: $apiKeyCreateDto->type,
 			apiKey: $apiKeyCreateDto->apiKey,
 			userKey: $apiKeyCreateDto->userKey,
-		)));
+		);
+
+		return new JsonResponse(ApiKeyDto::fromEntity($createdApiKey, $apiKeyCreateDto->apiKey, $apiKeyCreateDto->userKey));
 	}
 
 	#[RoutePut(Routes::ApiKey->value)]
@@ -113,11 +123,13 @@ final readonly class ApiKeyController
 
 		$apiKeyUpdateDto = $this->requestService->getRequestBodyDto($request, ApiKeyUpdateDto::class);
 
-		return new JsonResponse(ApiKeyDto::fromEntity($this->apiKeyProvider->updateApiKey(
+		$updatedApiKey = $this->apiKeyProvider->updateApiKey(
 			apiKeyEntity: $apiKey,
 			apiKey: $apiKeyUpdateDto->apiKey,
 			userKey: $apiKeyUpdateDto->userKey,
-		)));
+		);
+
+		return new JsonResponse(ApiKeyDto::fromEntity($updatedApiKey, $apiKeyUpdateDto->apiKey, $apiKeyUpdateDto->userKey));
 	}
 
 	#[RouteDelete(Routes::ApiKey->value)]

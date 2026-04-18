@@ -13,13 +13,13 @@ final readonly class ApiKeyDto
 	{
 	}
 
-	public static function fromEntity(ApiKey $entity): self
+	public static function fromEntity(ApiKey $entity, string $decryptedApiKey, ?string $decryptedUserKey): self
 	{
 		return new self(
 			id: $entity->id,
 			type: $entity->type,
-			apiKey: self::mask($entity->apiKey),
-			userKey: $entity->userKey !== null ? self::mask($entity->userKey) : null,
+			apiKey: self::mask($decryptedApiKey),
+			userKey: $decryptedUserKey !== null ? self::mask($decryptedUserKey) : null,
 		);
 	}
 

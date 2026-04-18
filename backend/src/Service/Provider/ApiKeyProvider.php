@@ -21,22 +21,12 @@ final readonly class ApiKeyProvider implements ApiKeyProviderInterface
 	/** @return Iterator<ApiKey> */
 	public function getApiKeys(?User $user = null, ?Portfolio $portfolio = null): Iterator
 	{
-		$apiKeys = $this->apiKeyRepository->findApiKeys(userId: $user?->id, portfolioId: $portfolio?->id);
-		foreach ($apiKeys as $apiKey) {
-			$this->decryptApiKey($apiKey);
-
-			yield $apiKey;
-		}
+		return $this->apiKeyRepository->findApiKeys(userId: $user?->id, portfolioId: $portfolio?->id);
 	}
 
 	public function getApiKey(int $apiKeyId, ?User $user = null): ?ApiKey
 	{
-		$apiKey = $this->apiKeyRepository->findApiKey($apiKeyId, $user?->id);
-		if ($apiKey !== null) {
-			$this->decryptApiKey($apiKey);
-		}
-
-		return $apiKey;
+		return $this->apiKeyRepository->findApiKey($apiKeyId, $user?->id);
 	}
 
 	public function createApiKey(User $user, Portfolio $portfolio, ApiKeyTypeEnum $type, string $apiKey, ?string $userKey = null): ApiKey
@@ -50,22 +40,22 @@ final readonly class ApiKeyProvider implements ApiKeyProviderInterface
 		);
 		$this->apiKeyRepository->persist($createdApiKey);
 
-		$createdApiKey->apiKey = $apiKey;
-		$createdApiKey->userKey = $userKey;
-
 		return $createdApiKey;
 	}
 
 	public function updateApiKey(ApiKey $apiKeyEntity, string $apiKey, ?string $userKey = null): ApiKey
 	{
-		$apiKeyEntity->apiKey = $this->encryptionService->encrypt($apiKey);
-		$apiKeyEntity->userKey = $userKey !== null ? $this->encryptionService->encrypt($userKey) : null;
-		$this->apiKeyRepository->persist($apiKeyEntity);
+		$updatedApiKey = new ApiKey(
+			user: $apiKeyEntity->user,
+			portfolio: $apiKeyEntity->portfolio,
+			type: $apiKeyEntity->type,
+			apiKey: $this->encryptionService->encrypt($apiKey),
+			userKey: $userKey !== null ? $this->encryptionService->encrypt($userKey) : null,
+		);
+		$updatedApiKey->id = $apiKeyEntity->id;
+		$this->apiKeyRepository->persist($updatedApiKey);
 
-		$apiKeyEntity->apiKey = $apiKey;
-		$apiKeyEntity->userKey = $userKey;
-
-		return $apiKeyEntity;
+		return $updatedApiKey;
 	}
 
 	public function deleteApiKey(ApiKey $apiKey): void
@@ -73,11 +63,17 @@ final readonly class ApiKeyProvider implements ApiKeyProviderInterface
 		$this->apiKeyRepository->delete($apiKey);
 	}
 
-	private function decryptApiKey(ApiKey $apiKey): void
+	public function decryptApiKeyValue(ApiKey $apiKey): string
 	{
-		$apiKey->apiKey = $this->encryptionService->decrypt($apiKey->apiKey);
-		if ($apiKey->userKey !== null) {
-			$apiKey->userKey = $this->encryptionService->decrypt($apiKey->userKey);
+		return $this->encryptionService->decrypt($apiKey->apiKey);
+	}
+
+	public function decryptUserKeyValue(ApiKey $apiKey): ?string
+	{
+		if ($apiKey->userKey === null) {
+			return null;
 		}
+
+		return $this->encryptionService->decrypt($apiKey->userKey);
 	}
 }

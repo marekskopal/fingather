@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Tests\Controller;
 
+use DateTimeImmutable;
 use FinGather\Controller\OAuthController;
 use FinGather\Model\Entity\OAuthClient;
 use FinGather\Model\Entity\User;
@@ -15,6 +16,7 @@ use FinGather\Service\Request\RequestServiceInterface;
 use FinGather\Tests\Fixtures\Model\Entity\UserFixture;
 use Laminas\Diactoros\Response\JsonResponse;
 use Laminas\Diactoros\ServerRequest;
+use Laminas\Diactoros\Stream;
 use Laminas\Diactoros\Uri;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
@@ -29,8 +31,11 @@ use PHPUnit\Framework\TestCase;
 final class OAuthControllerTest extends TestCase
 {
 	private AuthorizationServiceInterface&Stub $authorizationService;
+
 	private ClientServiceInterface&Stub $clientService;
+
 	private RequestServiceInterface&Stub $requestService;
+
 	private OAuthController $controller;
 
 	protected function setUp(): void
@@ -39,11 +44,7 @@ final class OAuthControllerTest extends TestCase
 		$this->clientService = $this->createStub(ClientServiceInterface::class);
 		$this->requestService = $this->createStub(RequestServiceInterface::class);
 
-		$this->controller = new OAuthController(
-			$this->authorizationService,
-			$this->clientService,
-			$this->requestService,
-		);
+		$this->controller = new OAuthController($this->authorizationService, $this->clientService, $this->requestService);
 	}
 
 	public function testGetMetadataReturnsCorrectStructure(): void
@@ -86,7 +87,7 @@ final class OAuthControllerTest extends TestCase
 			clientName: 'Test Client',
 			redirectUris: '["http://localhost:3000/callback"]',
 			user: null,
-			createdAt: new \DateTimeImmutable(),
+			createdAt: new DateTimeImmutable(),
 		);
 
 		$this->clientService->method('registerClient')->willReturn($client);
@@ -94,7 +95,7 @@ final class OAuthControllerTest extends TestCase
 		$request = (new ServerRequest())
 			->withUri(new Uri('https://example.com/api/mcp/oauth/register'))
 			->withHeader('Content-Type', 'application/json')
-			->withBody(new \Laminas\Diactoros\Stream('php://temp', 'r+'));
+			->withBody(new Stream('php://temp', 'r+'));
 
 		$request->getBody()->write(json_encode([
 			'client_name' => 'Test Client',
@@ -128,11 +129,7 @@ final class OAuthControllerTest extends TestCase
 
 	public function testPostTokenReturnsTokenPair(): void
 	{
-		$tokenPair = new OAuthTokenPair(
-			accessToken: 'access-token-123',
-			refreshToken: 'refresh-token-456',
-			expiresIn: 3600,
-		);
+		$tokenPair = new OAuthTokenPair(accessToken: 'access-token-123', refreshToken: 'refresh-token-456', expiresIn: 3600);
 
 		$this->authorizationService->method('exchangeCode')->willReturn($tokenPair);
 		$this->requestService->method('getRequestBody')->willReturn([
@@ -194,7 +191,7 @@ final class OAuthControllerTest extends TestCase
 			clientName: 'Test',
 			redirectUris: '["http://localhost/callback"]',
 			user: null,
-			createdAt: new \DateTimeImmutable(),
+			createdAt: new DateTimeImmutable(),
 		);
 
 		$this->clientService->method('findByClientId')->willReturn($client);
@@ -243,7 +240,7 @@ final class OAuthControllerTest extends TestCase
 			clientName: 'My App',
 			redirectUris: '["http://localhost/callback"]',
 			user: null,
-			createdAt: new \DateTimeImmutable(),
+			createdAt: new DateTimeImmutable(),
 		);
 
 		$this->clientService->method('findByClientId')->willReturn($client);

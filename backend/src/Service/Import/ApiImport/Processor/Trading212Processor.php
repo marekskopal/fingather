@@ -11,6 +11,7 @@ use FinGather\Model\Entity\ApiKey;
 use FinGather\Model\Entity\Enum\ApiImportStatusEnum;
 use FinGather\Service\Import\ImportService;
 use FinGather\Service\Provider\ApiImportProviderInterface;
+use FinGather\Service\Provider\ApiKeyProviderInterface;
 use FinGather\Service\Provider\ImportFileProviderInterface;
 use FinGather\Service\Provider\ImportProviderInterface;
 use MarekSkopal\Trading212\Config\Config;
@@ -23,6 +24,7 @@ use Ramsey\Uuid\Uuid;
 final readonly class Trading212Processor implements ProcessorInterface
 {
 	public function __construct(
+		private ApiKeyProviderInterface $apiKeyProvider,
 		private ApiImportProviderInterface $apiImportProvider,
 		private ImportService $importService,
 		private ImportProviderInterface $importProvider,
@@ -32,7 +34,10 @@ final readonly class Trading212Processor implements ProcessorInterface
 
 	public function prepare(ApiKey $apiKey): void
 	{
-		$trading212 = new Trading212(new Config(apiKey: $apiKey->apiKey, apiSecret: $apiKey->userKey ?? ''));
+		$trading212 = new Trading212(new Config(
+			apiKey: $this->apiKeyProvider->decryptApiKeyValue($apiKey),
+			apiSecret: $this->apiKeyProvider->decryptUserKeyValue($apiKey) ?? '',
+		));
 
 		$lastApiImport = $this->apiImportProvider->getLastApiImport($apiKey);
 
@@ -91,7 +96,10 @@ final readonly class Trading212Processor implements ProcessorInterface
 	{
 		$this->apiImportProvider->updateApiImport($apiImport, ApiImportStatusEnum::InProgress);
 
-		$trading212 = new Trading212(new Config(apiKey: $apiImport->apiKey->apiKey, apiSecret: $apiImport->apiKey->userKey ?? ''));
+		$trading212 = new Trading212(new Config(
+			apiKey: $this->apiKeyProvider->decryptApiKeyValue($apiImport->apiKey),
+			apiSecret: $this->apiKeyProvider->decryptUserKeyValue($apiImport->apiKey) ?? '',
+		));
 
 		$exports = $trading212->getHistoricalItems()->exports();
 		$export = array_values(array_filter($exports, fn(Export $item): bool => $item->reportId === $apiImport->reportId))[0] ?? null;
