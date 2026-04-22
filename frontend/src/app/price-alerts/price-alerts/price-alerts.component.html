@@ -48,7 +48,14 @@
                                         >
                                     </div>
                                 </td>
-                                <td>{{priceAlert.lastTriggeredAt ?? '—'}}</td>
+                                <td>
+                                    @if (priceAlert.lastTriggeredAt) {
+                                        <div class="text-nowrap">{{priceAlert.lastTriggeredAt | date: 'y-MM-dd'}}</div>
+                                        <div class="small">{{priceAlert.lastTriggeredAt | date: 'HH:mm'}}</div>
+                                    } @else {
+                                        —
+                                    }
+                                </td>
                                 <td class="actions">
                                     <a routerLink="edit-price-alert/{{priceAlert.id}}" class="btn btn-secondary" tabindex="0">
                                         <mat-icon>edit</mat-icon>

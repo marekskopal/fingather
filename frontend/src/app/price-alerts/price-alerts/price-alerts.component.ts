@@ -1,4 +1,4 @@
-import {AsyncPipe, DecimalPipe} from "@angular/common";
+import {AsyncPipe, DatePipe, DecimalPipe} from "@angular/common";
 import {
     ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal,
 } from '@angular/core';
@@ -22,6 +22,7 @@ import {TranslatePipe, TranslateService} from "@ngx-translate/core";
         DeleteButtonComponent,
         ScrollShadowDirective,
         FormsModule,
+        DatePipe,
         DecimalPipe,
         MoneyPipe,
         AsyncPipe,
