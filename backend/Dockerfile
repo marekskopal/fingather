@@ -12,7 +12,7 @@ RUN install-php-extensions \
     sockets \
     mbstring \
     zip \
-    decimal \
+    decimal-^1 \
     simplexml \
     gd \
     protobuf \
