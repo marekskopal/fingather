@@ -40,7 +40,7 @@
         "nette/utils": "^4.0",
         "nyholm/psr7": "^1.8",
         "php-amqplib/php-amqplib": "^3.7",
-        "php-decimal/php-decimal": "^1.1",
+        "php-decimal/stubs": "^1.1",
         "php-http/discovery": "^1.19",
         "phpoffice/phpspreadsheet": "^5.0",
         "predis/predis": "^2.3",

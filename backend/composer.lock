@@ -1594,23 +1594,23 @@
         },
         {
             "name": "marekskopal/orm-decimal",
-            "version": "v1.1.0",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/marekskopal/orm-decimal.git",
-                "reference": "92726ed833ccccfb0281a71b4269bc2b2b783d54"
+                "reference": "2901d9b272d0e135f6cfec4e0a966ecc2dd3678e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/marekskopal/orm-decimal/zipball/92726ed833ccccfb0281a71b4269bc2b2b783d54",
-                "reference": "92726ed833ccccfb0281a71b4269bc2b2b783d54",
+                "url": "https://api.github.com/repos/marekskopal/orm-decimal/zipball/2901d9b272d0e135f6cfec4e0a966ecc2dd3678e",
+                "reference": "2901d9b272d0e135f6cfec4e0a966ecc2dd3678e",
                 "shasum": ""
             },
             "require": {
                 "ext-decimal": "*",
                 "marekskopal/orm": "^1.0",
                 "php": ">=8.4",
-                "php-decimal/php-decimal": "^1.1.0"
+                "php-decimal/stubs": "^1.1.0"
             },
             "require-dev": {
                 "phpstan/extension-installer": "^1.4",
@@ -1644,9 +1644,9 @@
             ],
             "support": {
                 "issues": "https://github.com/marekskopal/orm-decimal/issues",
-                "source": "https://github.com/marekskopal/orm-decimal/tree/v1.1.0"
+                "source": "https://github.com/marekskopal/orm-decimal/tree/v1.1.1"
             },
-            "time": "2026-03-09T23:31:50+00:00"
+            "time": "2026-04-23T16:31:23+00:00"
         },
         {
             "name": "marekskopal/orm-migrations",
@@ -3122,54 +3122,6 @@
                 "source": "https://github.com/php-amqplib/php-amqplib/tree/v3.7.4"
             },
             "time": "2025-11-23T17:00:56+00:00"
-        },
-        {
-            "name": "php-decimal/php-decimal",
-            "version": "v1.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-decimal/php-decimal.git",
-                "reference": "ee8d92648fd06e82f9bfe0406d3670ebcddd946a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-decimal/php-decimal/zipball/ee8d92648fd06e82f9bfe0406d3670ebcddd946a",
-                "reference": "ee8d92648fd06e82f9bfe0406d3670ebcddd946a",
-                "shasum": ""
-            },
-            "require": {
-                "ext-decimal": "^1.1",
-                "php": ">=7.0.0",
-                "php-decimal/stubs": "^1.1"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Decimal\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Rudi Theunissen",
-                    "email": "rtheunissen@php.net"
-                }
-            ],
-            "description": "Correctly-rounded arbitrary precision decimal floating point",
-            "keywords": [
-                "decimal",
-                "math",
-                "number",
-                "precision"
-            ],
-            "support": {
-                "issues": "https://github.com/php-decimal/php-decimal/issues",
-                "source": "https://github.com/php-decimal/php-decimal/tree/v1.1.0"
-            },
-            "time": "2018-11-20T20:49:48+00:00"
         },
         {
             "name": "php-decimal/stubs",
