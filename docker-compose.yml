@@ -141,7 +141,7 @@ services:
             - backend
 
     buggregator:
-        image: butschster/buggregator:1.16.0
+        image: butschster/buggregator:2.2.1
         ports:
             - 127.0.0.1:8000:8000
             - 127.0.0.1:1025:1025
