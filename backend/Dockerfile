@@ -15,7 +15,6 @@ RUN install-php-extensions \
     decimal-^1 \
     simplexml \
     gd \
-    protobuf \
     igbinary \
     memcached \
     redis \
