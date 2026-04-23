@@ -5,13 +5,18 @@ declare(strict_types=1);
 namespace FinGather\Mcp\Tool;
 
 use DateTimeImmutable;
+use FinGather\Dto\Enum\RangeEnum;
 use FinGather\Mcp\Dto\McpAssetDetailDto;
 use FinGather\Mcp\Dto\McpAssetDto;
+use FinGather\Mcp\Dto\McpAssetHistoryDto;
+use FinGather\Mcp\Dto\McpAssetHistoryPointDto;
 use FinGather\Mcp\Dto\McpAssetListDto;
 use FinGather\Mcp\McpUserContextInterface;
 use FinGather\Service\Provider\AssetDataProviderInterface;
 use FinGather\Service\Provider\AssetProviderInterface;
 use FinGather\Service\Provider\PortfolioProviderInterface;
+use FinGather\Service\Provider\TransactionProviderInterface;
+use FinGather\Utils\DateTimeUtils;
 use Mcp\Capability\Attribute\McpTool;
 
 final readonly class AssetTools
@@ -21,6 +26,7 @@ final readonly class AssetTools
 		private PortfolioProviderInterface $portfolioProvider,
 		private AssetProviderInterface $assetProvider,
 		private AssetDataProviderInterface $assetDataProvider,
+		private TransactionProviderInterface $transactionProvider,
 	) {
 	}
 
@@ -77,5 +83,65 @@ final readonly class AssetTools
 		}
 
 		return McpAssetDetailDto::fromAssetData($asset, $data);
+	}
+
+	/**
+	 * Get historical performance data for a single asset over a time range.
+	 * Returns data points with price, value, gain, and return over time.
+	 * All monetary values are in the portfolio's default currency.
+	 *
+	 * @param int $assetId Asset ID (from list_assets)
+	 * @param string $range Time range: SevenDays, OneMonth, ThreeMonths, SixMonths, YTD, OneYear, All
+	 */
+	#[McpTool(name: 'get_asset_history', description: 'Get historical performance data for a single asset over a time range')]
+	public function getAssetHistory(int $assetId, string $range): McpAssetHistoryDto
+	{
+		$user = $this->userContext->getUser();
+
+		$asset = $this->assetProvider->getAsset($user, $assetId);
+		if ($asset === null) {
+			throw new \RuntimeException(sprintf('Asset %d not found.', $assetId));
+		}
+
+		$portfolio = $asset->portfolio;
+		$rangeEnum = RangeEnum::from($range);
+
+		$firstTransaction = $this->transactionProvider->getFirstTransaction($user, $portfolio, $asset);
+		if ($firstTransaction === null) {
+			return new McpAssetHistoryDto(
+				assetId: $asset->id,
+				ticker: $asset->ticker->ticker,
+				name: $asset->ticker->name,
+				currency: $portfolio->currency->code,
+				range: $range,
+				dataPoints: [],
+			);
+		}
+
+		$datePeriod = DateTimeUtils::getDatePeriod(
+			range: $rangeEnum,
+			firstDate: $firstTransaction->actionCreated,
+			shiftStartDate: $rangeEnum === RangeEnum::All,
+		);
+
+		$dataPoints = [];
+		foreach ($datePeriod as $dateTime) {
+			/** @var DateTimeImmutable $dateTime */
+			$assetData = $this->assetDataProvider->getAssetData(user: $user, portfolio: $portfolio, asset: $asset, dateTime: $dateTime);
+			if ($assetData === null) {
+				continue;
+			}
+
+			$dataPoints[] = McpAssetHistoryPointDto::fromAssetData($assetData);
+		}
+
+		return new McpAssetHistoryDto(
+			assetId: $asset->id,
+			ticker: $asset->ticker->ticker,
+			name: $asset->ticker->name,
+			currency: $portfolio->currency->code,
+			range: $range,
+			dataPoints: $dataPoints,
+		);
 	}
 }

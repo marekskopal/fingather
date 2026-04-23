@@ -5,14 +5,18 @@ declare(strict_types=1);
 namespace FinGather\Mcp\Tool;
 
 use FinGather\Mcp\Dto\McpTickerDto;
+use FinGather\Mcp\Dto\McpTickerFundamentalsDto;
 use FinGather\Mcp\Dto\McpTickerListDto;
+use FinGather\Service\Provider\TickerFundamentalProviderInterface;
 use FinGather\Service\Provider\TickerProviderInterface;
 use Mcp\Capability\Attribute\McpTool;
 
 final readonly class TickerTools
 {
-	public function __construct(private TickerProviderInterface $tickerProvider)
-	{
+	public function __construct(
+		private TickerProviderInterface $tickerProvider,
+		private TickerFundamentalProviderInterface $tickerFundamentalProvider,
+	) {
 	}
 
 	/**
@@ -33,5 +37,29 @@ final readonly class TickerTools
 		}
 
 		return new McpTickerListDto($tickers);
+	}
+
+	/**
+	 * Get fundamental financial data for a ticker.
+	 * Includes valuation (PE, PEG, P/B, EV/EBITDA), profitability (margins, ROE, ROA),
+	 * growth (revenue/earnings growth), balance sheet (cash, debt), cash flow, dividend info,
+	 * trading data (52-week range, beta, moving averages), and share statistics.
+	 *
+	 * @param int $tickerId Ticker ID (from search_tickers or list_assets)
+	 */
+	#[McpTool(name: 'get_ticker_fundamentals', description: 'Get fundamental financial data for a ticker (PE ratio, market cap, margins, dividends, etc.)')]
+	public function getTickerFundamentals(int $tickerId): McpTickerFundamentalsDto
+	{
+		$ticker = $this->tickerProvider->getTicker($tickerId);
+		if ($ticker === null) {
+			throw new \RuntimeException(sprintf('Ticker %d not found.', $tickerId));
+		}
+
+		$fundamental = $this->tickerFundamentalProvider->getTickerFundamental($ticker);
+		if ($fundamental === null) {
+			throw new \RuntimeException(sprintf('No fundamental data available for ticker %d.', $tickerId));
+		}
+
+		return McpTickerFundamentalsDto::fromEntity($ticker, $fundamental);
 	}
 }
