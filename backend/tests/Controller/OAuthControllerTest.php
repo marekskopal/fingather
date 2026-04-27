@@ -40,9 +40,9 @@ final class OAuthControllerTest extends TestCase
 
 	protected function setUp(): void
 	{
-		$this->authorizationService = $this->createStub(AuthorizationServiceInterface::class);
-		$this->clientService = $this->createStub(ClientServiceInterface::class);
-		$this->requestService = $this->createStub(RequestServiceInterface::class);
+		$this->authorizationService = self::createStub(AuthorizationServiceInterface::class);
+		$this->clientService = self::createStub(ClientServiceInterface::class);
+		$this->requestService = self::createStub(RequestServiceInterface::class);
 
 		$this->controller = new OAuthController($this->authorizationService, $this->clientService, $this->requestService);
 	}
@@ -97,7 +97,7 @@ final class OAuthControllerTest extends TestCase
 			->withHeader('Content-Type', 'application/json')
 			->withBody(new Stream('php://temp', 'r+'));
 
-		$request->getBody()->write(json_encode([
+		$request->getBody()->write((string) json_encode([
 			'client_name' => 'Test Client',
 			'redirect_uris' => ['http://localhost:3000/callback'],
 		]));
