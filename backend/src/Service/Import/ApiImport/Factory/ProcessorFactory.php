@@ -10,12 +10,14 @@ use FinGather\Service\Import\ApiImport\Processor\ProcessorInterface;
 use FinGather\Service\Import\ApiImport\Processor\Trading212Processor;
 use FinGather\Service\Import\ImportService;
 use FinGather\Service\Provider\ApiImportProviderInterface;
+use FinGather\Service\Provider\ApiKeyProviderInterface;
 use FinGather\Service\Provider\ImportFileProviderInterface;
 use FinGather\Service\Provider\ImportProviderInterface;
 
 final readonly class ProcessorFactory
 {
 	public function __construct(
+		private ApiKeyProviderInterface $apiKeyProvider,
 		private ApiImportProviderInterface $apiImportProvider,
 		private ImportService $importService,
 		private ImportProviderInterface $importProvider,
@@ -27,12 +29,14 @@ final readonly class ProcessorFactory
 	{
 		return match ($type) {
 			ApiKeyTypeEnum::Trading212 => new Trading212Processor(
+				apiKeyProvider: $this->apiKeyProvider,
 				apiImportProvider: $this->apiImportProvider,
 				importService: $this->importService,
 				importProvider: $this->importProvider,
 				importFileProvider: $this->importFileProvider,
 			),
 			ApiKeyTypeEnum::Etoro => new EtoroProcessor(
+				apiKeyProvider: $this->apiKeyProvider,
 				apiImportProvider: $this->apiImportProvider,
 				importService: $this->importService,
 				importProvider: $this->importProvider,
