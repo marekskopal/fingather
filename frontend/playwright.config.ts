@@ -40,7 +40,7 @@ export default defineConfig({
         url: process.env['E2E_BASE_URL'] ?? 'https://localhost:4200',
         reuseExistingServer: true,
         ignoreHTTPSErrors: true,
-        timeout: 120000,
+        timeout: 300000,
     },
 
     projects: [
