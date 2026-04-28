@@ -81,11 +81,14 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "sslKey": "/Users/marek/web/www/legito/public_html/dev_ssl/server.key",
-            "sslCert": "/Users/marek/web/www/legito/public_html/dev_ssl/server.crt",
             "buildTarget": "fingather:build"
           },
           "configurations": {
+            "ssl": {
+              "ssl": true,
+              "sslKey": "/Users/marek/web/www/legito/public_html/dev_ssl/server.key",
+              "sslCert": "/Users/marek/web/www/legito/public_html/dev_ssl/server.crt"
+            },
             "e2e": {
               "buildTarget": "fingather:build:e2e"
             },
