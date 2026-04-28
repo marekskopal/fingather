@@ -129,6 +129,9 @@
   },
   "cli": {
     "analytics": false,
+    "cache": {
+      "environment": "all"
+    },
     "schematicCollections": [
       "@angular-eslint/schematics"
     ],
