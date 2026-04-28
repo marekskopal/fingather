@@ -10,8 +10,12 @@ use FinGather\Service\Translator\TranslatorService;
 use Nette\Caching\Storages\MemoryStorage;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
+use FinGather\Service\Cache\CacheTag;
+use PHPUnit\Framework\Attributes\UsesClass;
 
 #[CoversClass(TranslatorService::class)]
+#[UsesClass(CacheTag::class)]
+#[UsesClass(Cache::class)]
 final class TranslatorServiceTest extends TestCase
 {
 	private string $translationsDir;

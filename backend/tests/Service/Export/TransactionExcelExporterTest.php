@@ -11,8 +11,31 @@ use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx as XlsxReader;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
+use FinGather\Model\Entity\Country;
+use FinGather\Model\Entity\Currency;
+use FinGather\Model\Entity\Group;
+use FinGather\Model\Entity\Industry;
+use FinGather\Model\Entity\Market;
+use FinGather\Model\Entity\Portfolio;
+use FinGather\Model\Entity\Sector;
+use FinGather\Model\Entity\Ticker;
+use FinGather\Model\Entity\Transaction;
+use FinGather\Model\Entity\User;
+use PHPUnit\Framework\Attributes\UsesClass;
+use FinGather\Model\Entity\Asset;
 
 #[CoversClass(TransactionExcelExporter::class)]
+#[UsesClass(Country::class)]
+#[UsesClass(Currency::class)]
+#[UsesClass(Group::class)]
+#[UsesClass(Industry::class)]
+#[UsesClass(Market::class)]
+#[UsesClass(Portfolio::class)]
+#[UsesClass(Sector::class)]
+#[UsesClass(Ticker::class)]
+#[UsesClass(Transaction::class)]
+#[UsesClass(User::class)]
+#[UsesClass(Asset::class)]
 final class TransactionExcelExporterTest extends TestCase
 {
 	public function testExportCreatesValidXlsxFile(): void

@@ -17,8 +17,21 @@ use MarekSkopal\TwelveData\TwelveData;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
+use FinGather\Model\Entity\Currency;
+use FinGather\Model\Entity\Industry;
+use FinGather\Model\Entity\Market;
+use FinGather\Model\Entity\Sector;
+use FinGather\Model\Entity\Ticker;
+use PHPUnit\Framework\Attributes\UsesClass;
+use FinGather\Model\Entity\Country;
 
 #[CoversClass(TickerLogoUpdater::class)]
+#[UsesClass(Currency::class)]
+#[UsesClass(Industry::class)]
+#[UsesClass(Market::class)]
+#[UsesClass(Sector::class)]
+#[UsesClass(Ticker::class)]
+#[UsesClass(Country::class)]
 final class TickerLogoUpdaterTest extends TestCase
 {
 	/**

@@ -30,6 +30,8 @@ use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
+use FinGather\Utils\DateTimeUtils;
+use FinGather\Dto\DcaPlanDto;
 
 #[CoversClass(DcaPlanController::class)]
 #[UsesClass(Currency::class)]
@@ -38,6 +40,9 @@ use Psr\Http\Message\ServerRequestInterface;
 #[UsesClass(User::class)]
 #[UsesClass(NotFoundResponse::class)]
 #[UsesClass(OkResponse::class)]
+#[UsesClass(ReturnRateDto::class)]
+#[UsesClass(DateTimeUtils::class)]
+#[UsesClass(DcaPlanDto::class)]
 final class DcaPlanControllerTest extends TestCase
 {
 	private DcaPlanProviderInterface&Stub $dcaPlanProvider;

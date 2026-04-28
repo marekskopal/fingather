@@ -17,10 +17,43 @@ use Nette\Caching\Storages\DevNullStorage;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
+use FinGather\Email\PasswordResetEmail;
+use FinGather\Email\VerifyEmail;
+use FinGather\Model\Entity\Country;
+use FinGather\Model\Entity\Currency;
+use FinGather\Model\Entity\Goal;
+use FinGather\Model\Entity\Industry;
+use FinGather\Model\Entity\Market;
+use FinGather\Model\Entity\Portfolio;
+use FinGather\Model\Entity\PriceAlert;
+use FinGather\Model\Entity\Sector;
+use FinGather\Model\Entity\Ticker;
+use FinGather\Model\Entity\User;
+use FinGather\Service\Cache\CacheTag;
+use FinGather\Email\GoalEmail;
+use FinGather\Email\PriceAlertEmail;
 
 #[CoversClass(EmailFactory::class)]
 #[UsesClass(TranslatorService::class)]
 #[UsesClass(Cache::class)]
+#[UsesClass(UserDto::class)]
+#[UsesClass(PasswordResetEmail::class)]
+#[UsesClass(VerifyEmail::class)]
+#[UsesClass(Country::class)]
+#[UsesClass(Currency::class)]
+#[UsesClass(Goal::class)]
+#[UsesClass(Industry::class)]
+#[UsesClass(Market::class)]
+#[UsesClass(Portfolio::class)]
+#[UsesClass(PriceAlert::class)]
+#[UsesClass(Sector::class)]
+#[UsesClass(Ticker::class)]
+#[UsesClass(User::class)]
+#[UsesClass(CacheTag::class)]
+#[UsesClass(EmailVerifyDto::class)]
+#[UsesClass(PasswordResetQueueDto::class)]
+#[UsesClass(GoalEmail::class)]
+#[UsesClass(PriceAlertEmail::class)]
 final class EmailFactoryTest extends TestCase
 {
 	private function makeFactory(string $from = 'noreply@fingather.com'): EmailFactory

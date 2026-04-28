@@ -25,6 +25,7 @@ use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
+use FinGather\Dto\PortfolioDto;
 
 #[CoversClass(PortfolioController::class)]
 #[UsesClass(Currency::class)]
@@ -32,6 +33,8 @@ use Psr\Http\Message\ServerRequestInterface;
 #[UsesClass(User::class)]
 #[UsesClass(NotFoundResponse::class)]
 #[UsesClass(OkResponse::class)]
+#[UsesClass(PortfolioDto::class)]
+#[UsesClass(PortfolioCreateDto::class)]
 final class PortfolioControllerTest extends TestCase
 {
 	private PortfolioProviderInterface&Stub $portfolioProvider;

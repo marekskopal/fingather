@@ -22,10 +22,26 @@ use FinGather\Tests\Fixtures\Model\Entity\PriceAlertFixture;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
+use FinGather\Model\Entity\Currency;
+use FinGather\Model\Entity\Industry;
+use FinGather\Model\Entity\Market;
+use FinGather\Model\Entity\Portfolio;
+use FinGather\Model\Entity\Sector;
+use FinGather\Model\Entity\Ticker;
+use FinGather\Model\Entity\User;
+use FinGather\Model\Entity\Country;
 
 #[CoversClass(PriceAlertChecker::class)]
 #[UsesClass(PriceAlert::class)]
 #[UsesClass(CalculatedDataDto::class)]
+#[UsesClass(Currency::class)]
+#[UsesClass(Industry::class)]
+#[UsesClass(Market::class)]
+#[UsesClass(Portfolio::class)]
+#[UsesClass(Sector::class)]
+#[UsesClass(Ticker::class)]
+#[UsesClass(User::class)]
+#[UsesClass(Country::class)]
 final class PriceAlertCheckerTest extends TestCase
 {
 	// --- checkAlerts ---

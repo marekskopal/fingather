@@ -14,6 +14,8 @@ use MarekSkopal\OpenFigi\OpenFigi;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
+use FinGather\Utils\BatchUtils;
+use PHPUnit\Framework\Attributes\UsesClass;
 
 /**
  * Note: TickerRepository and MarketRepository are declared `final` and cannot be mocked via
@@ -23,6 +25,7 @@ use ReflectionClass;
  * Tests that require the repositories to return specific values are covered by integration tests.
  */
 #[CoversClass(TickerIsinUpdater::class)]
+#[UsesClass(BatchUtils::class)]
 final class TickerIsinUpdaterTest extends TestCase
 {
 	private function makeTickerRepository(): TickerRepository

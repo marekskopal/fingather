@@ -20,10 +20,34 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
+use FinGather\Model\Entity\Country;
+use FinGather\Model\Entity\Currency;
+use FinGather\Model\Entity\Group;
+use FinGather\Model\Entity\Industry;
+use FinGather\Model\Entity\Market;
+use FinGather\Model\Entity\Portfolio;
+use FinGather\Model\Entity\Sector;
+use FinGather\Model\Entity\Ticker;
+use FinGather\Model\Entity\User;
+use FinGather\Service\Cache\CacheTag;
+use FinGather\Utils\DateTimeUtils;
+use FinGather\Model\Entity\Asset;
 
-#[CoversClass(AssetDataProviderInterface::class)]
+#[CoversClass(AssetDataProvider::class)]
 #[UsesClass(Cache::class)]
 #[UsesClass(AssetDataDto::class)]
+#[UsesClass(Country::class)]
+#[UsesClass(Currency::class)]
+#[UsesClass(Group::class)]
+#[UsesClass(Industry::class)]
+#[UsesClass(Market::class)]
+#[UsesClass(Portfolio::class)]
+#[UsesClass(Sector::class)]
+#[UsesClass(Ticker::class)]
+#[UsesClass(User::class)]
+#[UsesClass(CacheTag::class)]
+#[UsesClass(DateTimeUtils::class)]
+#[UsesClass(Asset::class)]
 final class AssetDataProviderTest extends TestCase
 {
 	private AssetDataCalculatorInterface&Stub $assetDataCalculator;

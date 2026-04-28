@@ -18,10 +18,16 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
+use FinGather\Model\Entity\Portfolio;
+use FinGather\Model\Entity\User;
+use FinGather\Model\Entity\Currency;
 
 #[CoversClass(GoalChecker::class)]
 #[UsesClass(Goal::class)]
 #[UsesClass(CalculatedDataDto::class)]
+#[UsesClass(Portfolio::class)]
+#[UsesClass(User::class)]
+#[UsesClass(Currency::class)]
 final class GoalCheckerTest extends TestCase
 {
 	private readonly Goal $baseGoal;

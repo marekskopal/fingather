@@ -43,6 +43,7 @@ use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
+use FinGather\Model\Entity\Currency;
 
 #[CoversClass(AuthenticationController::class)]
 #[UsesClass(User::class)]
@@ -65,6 +66,7 @@ use Psr\Log\LoggerInterface;
 #[UsesClass(GoogleLoginDto::class)]
 #[UsesClass(TokenInfoDto::class)]
 #[UsesClass(AuthenticationDto::class)]
+#[UsesClass(Currency::class)]
 final class AuthenticationControllerTest extends TestCase
 {
 	private AuthenticationServiceInterface&Stub $authenticationService;

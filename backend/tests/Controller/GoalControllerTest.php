@@ -28,6 +28,9 @@ use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
+use FinGather\Model\Entity\Currency;
+use FinGather\Utils\DateTimeUtils;
+use FinGather\Dto\GoalDto;
 
 #[CoversClass(GoalController::class)]
 #[UsesClass(Goal::class)]
@@ -35,6 +38,10 @@ use Psr\Http\Message\ServerRequestInterface;
 #[UsesClass(User::class)]
 #[UsesClass(NotFoundResponse::class)]
 #[UsesClass(OkResponse::class)]
+#[UsesClass(GoalReachabilityDto::class)]
+#[UsesClass(Currency::class)]
+#[UsesClass(DateTimeUtils::class)]
+#[UsesClass(GoalDto::class)]
 final class GoalControllerTest extends TestCase
 {
 	private GoalProviderInterface&Stub $goalProvider;

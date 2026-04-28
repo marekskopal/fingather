@@ -42,6 +42,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
+use FinGather\Service\DataCalculator\Dto\TransactionAccumulatorDto;
 
 #[CoversClass(AssetDataCalculator::class)]
 #[UsesClass(Asset::class)]
@@ -64,6 +65,7 @@ use PHPUnit\Framework\TestCase;
 #[UsesClass(ValueDto::class)]
 #[UsesClass(CalculatorUtils::class)]
 #[UsesClass(TransactionValueDto::class)]
+#[UsesClass(TransactionAccumulatorDto::class)]
 final class AssetDataCalculatorTest extends TestCase
 {
 	public function testCalculateNull(): void

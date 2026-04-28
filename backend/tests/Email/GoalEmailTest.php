@@ -13,8 +13,17 @@ use FinGather\Tests\Fixtures\Model\Entity\PortfolioFixture;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use FinGather\Model\Entity\Goal;
+use FinGather\Model\Entity\Portfolio;
+use FinGather\Model\Entity\User;
+use PHPUnit\Framework\Attributes\UsesClass;
+use FinGather\Model\Entity\Currency;
 
 #[CoversClass(GoalEmail::class)]
+#[UsesClass(Goal::class)]
+#[UsesClass(Portfolio::class)]
+#[UsesClass(User::class)]
+#[UsesClass(Currency::class)]
 final class GoalEmailTest extends TestCase
 {
 	/** @return array<string, string> */

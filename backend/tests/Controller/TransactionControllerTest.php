@@ -30,6 +30,20 @@ use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
+use FinGather\Dto\IndustryDto;
+use FinGather\Dto\MarketDto;
+use FinGather\Dto\SectorDto;
+use FinGather\Dto\TickerDto;
+use FinGather\Dto\TransactionDto;
+use FinGather\Model\Entity\Country;
+use FinGather\Model\Entity\Group;
+use FinGather\Model\Entity\Industry;
+use FinGather\Model\Entity\Market;
+use FinGather\Model\Entity\Sector;
+use FinGather\Model\Entity\Ticker;
+use FinGather\Utils\DateTimeUtils;
+use FinGather\Dto\CountryDto;
+use FinGather\Dto\TransactionListDto;
 
 #[CoversClass(TransactionController::class)]
 #[UsesClass(Asset::class)]
@@ -39,6 +53,20 @@ use Psr\Http\Message\ServerRequestInterface;
 #[UsesClass(User::class)]
 #[UsesClass(NotFoundResponse::class)]
 #[UsesClass(OkResponse::class)]
+#[UsesClass(IndustryDto::class)]
+#[UsesClass(MarketDto::class)]
+#[UsesClass(SectorDto::class)]
+#[UsesClass(TickerDto::class)]
+#[UsesClass(TransactionDto::class)]
+#[UsesClass(Country::class)]
+#[UsesClass(Group::class)]
+#[UsesClass(Industry::class)]
+#[UsesClass(Market::class)]
+#[UsesClass(Sector::class)]
+#[UsesClass(Ticker::class)]
+#[UsesClass(DateTimeUtils::class)]
+#[UsesClass(CountryDto::class)]
+#[UsesClass(TransactionListDto::class)]
 final class TransactionControllerTest extends TestCase
 {
 	private TransactionProviderInterface&Stub $transactionProvider;

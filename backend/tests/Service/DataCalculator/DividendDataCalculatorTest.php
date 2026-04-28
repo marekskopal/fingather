@@ -21,10 +21,34 @@ use FinGather\Tests\Fixtures\Model\Entity\UserFixture;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
+use FinGather\Model\Entity\Country;
+use FinGather\Model\Entity\Currency;
+use FinGather\Model\Entity\Group;
+use FinGather\Model\Entity\Industry;
+use FinGather\Model\Entity\Market;
+use FinGather\Model\Entity\Portfolio;
+use FinGather\Model\Entity\Sector;
+use FinGather\Model\Entity\Ticker;
+use FinGather\Model\Entity\Transaction;
+use FinGather\Model\Entity\User;
+use FinGather\Utils\DateTimeUtils;
+use FinGather\Model\Entity\Asset;
 
 #[CoversClass(DividendDataCalculator::class)]
 #[UsesClass(DividendDataIntervalDto::class)]
 #[UsesClass(DividendDataAssetDto::class)]
+#[UsesClass(Country::class)]
+#[UsesClass(Currency::class)]
+#[UsesClass(Group::class)]
+#[UsesClass(Industry::class)]
+#[UsesClass(Market::class)]
+#[UsesClass(Portfolio::class)]
+#[UsesClass(Sector::class)]
+#[UsesClass(Ticker::class)]
+#[UsesClass(Transaction::class)]
+#[UsesClass(User::class)]
+#[UsesClass(DateTimeUtils::class)]
+#[UsesClass(Asset::class)]
 final class DividendDataCalculatorTest extends TestCase
 {
 	public function testReturnsEmptyWhenNoFirstTransaction(): void

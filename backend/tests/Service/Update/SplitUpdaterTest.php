@@ -21,12 +21,20 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use ReflectionProperty;
+use FinGather\Model\Entity\Currency;
+use FinGather\Model\Entity\Industry;
+use FinGather\Model\Entity\Market;
+use FinGather\Model\Entity\Sector;
+use FinGather\Model\Entity\Country;
 
 #[CoversClass(SplitUpdater::class)]
-#[UsesClass(Splits::class)]
-#[UsesClass(SplitsSplit::class)]
 #[UsesClass(Split::class)]
-#[UsesClass(Decimal::class)]
+#[UsesClass(Currency::class)]
+#[UsesClass(Industry::class)]
+#[UsesClass(Market::class)]
+#[UsesClass(Sector::class)]
+#[UsesClass(Ticker::class)]
+#[UsesClass(Country::class)]
 final class SplitUpdaterTest extends TestCase
 {
 	private function makeMeta(): Meta

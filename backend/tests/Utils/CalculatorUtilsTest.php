@@ -11,8 +11,10 @@ use FinGather\Utils\CalculatorUtils;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\UsesClass;
 
 #[CoversClass(CalculatorUtils::class)]
+#[UsesClass(SplitDto::class)]
 final class CalculatorUtilsTest extends TestCase
 {
 	#[TestWith([0.0, 0.0, 0.0])]

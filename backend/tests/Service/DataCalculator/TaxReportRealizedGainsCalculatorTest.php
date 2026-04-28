@@ -28,6 +28,13 @@ use FinGather\Tests\Fixtures\Model\Entity\UserFixture;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
+use FinGather\Model\Entity\Currency;
+use FinGather\Model\Entity\Group;
+use FinGather\Model\Entity\Industry;
+use FinGather\Model\Entity\Market;
+use FinGather\Model\Entity\Sector;
+use FinGather\Utils\CalculatorUtils;
+use FinGather\Model\Entity\Country;
 
 #[CoversClass(TaxReportRealizedGainsCalculator::class)]
 #[UsesClass(Asset::class)]
@@ -40,6 +47,14 @@ use PHPUnit\Framework\TestCase;
 #[UsesClass(TransactionBuyDto::class)]
 #[UsesClass(FifoMatchDto::class)]
 #[UsesClass(FifoLotMatcher::class)]
+#[UsesClass(Currency::class)]
+#[UsesClass(Group::class)]
+#[UsesClass(Industry::class)]
+#[UsesClass(Market::class)]
+#[UsesClass(Sector::class)]
+#[UsesClass(SplitDto::class)]
+#[UsesClass(CalculatorUtils::class)]
+#[UsesClass(Country::class)]
 final class TaxReportRealizedGainsCalculatorTest extends TestCase
 {
 	private readonly User $user;

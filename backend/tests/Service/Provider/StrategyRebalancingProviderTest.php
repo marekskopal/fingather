@@ -31,8 +31,35 @@ use FinGather\Tests\Fixtures\Model\Entity\PortfolioFixture;
 use FinGather\Tests\Fixtures\Model\Entity\UserFixture;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
+use FinGather\Dto\StrategyRebalancingItemDto;
+use FinGather\Model\Entity\Country;
+use FinGather\Model\Entity\Currency;
+use FinGather\Model\Entity\Industry;
+use FinGather\Model\Entity\Market;
+use FinGather\Model\Entity\Sector;
+use FinGather\Model\Entity\Ticker;
+use FinGather\Utils\CalculatorUtils;
+use PHPUnit\Framework\Attributes\UsesClass;
+use FinGather\Dto\StrategyRebalancingDto;
 
-#[CoversClass(StrategyRebalancingProviderInterface::class)]
+#[CoversClass(StrategyRebalancingProvider::class)]
+#[UsesClass(StrategyRebalancingItemDto::class)]
+#[UsesClass(Asset::class)]
+#[UsesClass(Country::class)]
+#[UsesClass(Currency::class)]
+#[UsesClass(Group::class)]
+#[UsesClass(Industry::class)]
+#[UsesClass(Market::class)]
+#[UsesClass(Portfolio::class)]
+#[UsesClass(Sector::class)]
+#[UsesClass(Strategy::class)]
+#[UsesClass(StrategyItem::class)]
+#[UsesClass(Ticker::class)]
+#[UsesClass(User::class)]
+#[UsesClass(AssetDataDto::class)]
+#[UsesClass(CalculatedDataDto::class)]
+#[UsesClass(CalculatorUtils::class)]
+#[UsesClass(StrategyRebalancingDto::class)]
 final class StrategyRebalancingProviderTest extends TestCase
 {
 	private User $user;

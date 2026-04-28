@@ -42,6 +42,12 @@ use FinGather\Tests\Fixtures\Model\Entity\UserFixture;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
+use FinGather\Model\Entity\Country;
+use FinGather\Model\Entity\Industry;
+use FinGather\Model\Entity\Market;
+use FinGather\Model\Entity\Sector;
+use FinGather\Service\DataCalculator\Dto\ReturnRateDto;
+use FinGather\Utils\CalculatorUtils;
 
 #[CoversClass(DcaPlanDataCalculator::class)]
 #[UsesClass(TickerWeightDto::class)]
@@ -59,6 +65,17 @@ use PHPUnit\Framework\TestCase;
 #[UsesClass(AssetsWithPropertiesDto::class)]
 #[UsesClass(DcaPlanProjectionDto::class)]
 #[UsesClass(DcaPlanProjectionPointDto::class)]
+#[UsesClass(IndustryDto::class)]
+#[UsesClass(MarketDto::class)]
+#[UsesClass(SectorDto::class)]
+#[UsesClass(TickerDto::class)]
+#[UsesClass(Country::class)]
+#[UsesClass(Industry::class)]
+#[UsesClass(Market::class)]
+#[UsesClass(Sector::class)]
+#[UsesClass(ReturnRateDto::class)]
+#[UsesClass(CalculatorUtils::class)]
+#[UsesClass(CountryDto::class)]
 final class DcaPlanDataCalculatorTest extends TestCase
 {
 	// ── calculateReturnRate tests ──────────────────────────────────────────────

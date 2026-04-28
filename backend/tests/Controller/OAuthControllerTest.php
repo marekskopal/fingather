@@ -40,11 +40,20 @@ final class OAuthControllerTest extends TestCase
 
 	protected function setUp(): void
 	{
+		putenv('PROXY_HOST=example.com');
+		putenv('PROXY_PORT_SSL=443');
+
 		$this->authorizationService = self::createStub(AuthorizationServiceInterface::class);
 		$this->clientService = self::createStub(ClientServiceInterface::class);
 		$this->requestService = self::createStub(RequestServiceInterface::class);
 
 		$this->controller = new OAuthController($this->authorizationService, $this->clientService, $this->requestService);
+	}
+
+	protected function tearDown(): void
+	{
+		putenv('PROXY_HOST');
+		putenv('PROXY_PORT_SSL');
 	}
 
 	public function testGetMetadataReturnsCorrectStructure(): void
@@ -132,15 +141,14 @@ final class OAuthControllerTest extends TestCase
 		$tokenPair = new OAuthTokenPair(accessToken: 'access-token-123', refreshToken: 'refresh-token-456', expiresIn: 3600);
 
 		$this->authorizationService->method('exchangeCode')->willReturn($tokenPair);
-		$this->requestService->method('getRequestBody')->willReturn([
+
+		$request = (new ServerRequest())->withParsedBody([
 			'grant_type' => 'authorization_code',
 			'code' => 'auth-code',
 			'code_verifier' => 'verifier',
 			'client_id' => 'client-123',
 			'redirect_uri' => 'http://localhost/callback',
 		]);
-
-		$request = new ServerRequest();
 
 		$response = $this->controller->actionPostToken($request);
 
@@ -157,11 +165,9 @@ final class OAuthControllerTest extends TestCase
 
 	public function testPostTokenReturnsErrorForUnsupportedGrantType(): void
 	{
-		$this->requestService->method('getRequestBody')->willReturn([
+		$request = (new ServerRequest())->withParsedBody([
 			'grant_type' => 'unsupported',
 		]);
-
-		$request = new ServerRequest();
 
 		$response = $this->controller->actionPostToken($request);
 

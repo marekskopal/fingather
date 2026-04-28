@@ -14,8 +14,13 @@ use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx as XlsxReader;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\UsesClass;
 
 #[CoversClass(TaxReportExcelExporter::class)]
+#[UsesClass(TaxReportDto::class)]
+#[UsesClass(TaxReportRealizedGainsDto::class)]
+#[UsesClass(TaxReportUnrealizedDto::class)]
+#[UsesClass(TaxReportDividendsDto::class)]
 final class TaxReportExcelExporterTest extends TestCase
 {
 	private function makeEmptyTaxReport(int $year = 2024): TaxReportDto

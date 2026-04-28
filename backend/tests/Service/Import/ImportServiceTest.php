@@ -51,6 +51,11 @@ use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Ramsey\Uuid\Uuid;
+use FinGather\Model\Entity\Industry;
+use FinGather\Model\Entity\Market;
+use FinGather\Model\Entity\Sector;
+use FinGather\Service\Provider\Dto\SplitDto;
+use FinGather\Model\Entity\Country;
 
 #[CoversClass(ImportService::class)]
 #[UsesClass(Import::class)]
@@ -67,6 +72,11 @@ use Ramsey\Uuid\Uuid;
 #[UsesClass(TransactionRecord::class)]
 #[UsesClass(TransactionActionTypeEnum::class)]
 #[UsesClass(TransactionCreateTypeEnum::class)]
+#[UsesClass(Industry::class)]
+#[UsesClass(Market::class)]
+#[UsesClass(Sector::class)]
+#[UsesClass(SplitDto::class)]
+#[UsesClass(Country::class)]
 final class ImportServiceTest extends TestCase
 {
 	private User $user;
