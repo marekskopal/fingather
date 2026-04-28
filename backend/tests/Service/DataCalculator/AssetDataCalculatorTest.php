@@ -23,6 +23,7 @@ use FinGather\Model\Entity\User;
 use FinGather\Service\DataCalculator\AssetDataCalculator;
 use FinGather\Service\DataCalculator\Dto\AssetDataDto;
 use FinGather\Service\DataCalculator\Dto\FifoMatchDto;
+use FinGather\Service\DataCalculator\Dto\TransactionAccumulatorDto;
 use FinGather\Service\DataCalculator\Dto\TransactionBuyDto;
 use FinGather\Service\DataCalculator\Dto\TransactionValueDto;
 use FinGather\Service\DataCalculator\Dto\ValueDto;
@@ -42,7 +43,6 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
-use FinGather\Service\DataCalculator\Dto\TransactionAccumulatorDto;
 
 #[CoversClass(AssetDataCalculator::class)]
 #[UsesClass(Asset::class)]

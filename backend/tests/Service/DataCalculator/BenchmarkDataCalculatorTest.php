@@ -6,16 +6,7 @@ namespace FinGather\Tests\Service\DataCalculator;
 
 use DateTimeImmutable;
 use Decimal\Decimal;
-use FinGather\Service\DataCalculator\BenchmarkDataCalculator;
-use FinGather\Service\DataCalculator\Dto\BenchmarkDataDto;
-use FinGather\Service\Provider\ExchangeRateProviderInterface;
-use FinGather\Service\Provider\TickerDataProviderInterface;
-use FinGather\Tests\Fixtures\Model\Entity\PortfolioFixture;
-use FinGather\Tests\Fixtures\Model\Entity\TickerFixture;
-use FinGather\Tests\Fixtures\Model\Entity\TransactionFixture;
-use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\UsesClass;
-use PHPUnit\Framework\TestCase;
+use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Country;
 use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\Group;
@@ -26,7 +17,16 @@ use FinGather\Model\Entity\Sector;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\Transaction;
 use FinGather\Model\Entity\User;
-use FinGather\Model\Entity\Asset;
+use FinGather\Service\DataCalculator\BenchmarkDataCalculator;
+use FinGather\Service\DataCalculator\Dto\BenchmarkDataDto;
+use FinGather\Service\Provider\ExchangeRateProviderInterface;
+use FinGather\Service\Provider\TickerDataProviderInterface;
+use FinGather\Tests\Fixtures\Model\Entity\PortfolioFixture;
+use FinGather\Tests\Fixtures\Model\Entity\TickerFixture;
+use FinGather\Tests\Fixtures\Model\Entity\TransactionFixture;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\UsesClass;
+use PHPUnit\Framework\TestCase;
 
 #[CoversClass(BenchmarkDataCalculator::class)]
 #[UsesClass(BenchmarkDataDto::class)]

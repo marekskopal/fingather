@@ -6,7 +6,6 @@ namespace FinGather\Mcp\Dto;
 
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\TickerFundamental;
-use FinGather\Utils\DateTimeUtils;
 
 final readonly class McpTickerFundamentalsDto
 {

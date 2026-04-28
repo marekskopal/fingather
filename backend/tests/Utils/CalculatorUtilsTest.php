@@ -10,8 +10,8 @@ use FinGather\Service\Provider\Dto\SplitDto;
 use FinGather\Utils\CalculatorUtils;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\TestWith;
-use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\UsesClass;
+use PHPUnit\Framework\TestCase;
 
 #[CoversClass(CalculatorUtils::class)]
 #[UsesClass(SplitDto::class)]

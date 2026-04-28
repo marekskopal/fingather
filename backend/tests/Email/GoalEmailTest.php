@@ -7,17 +7,17 @@ namespace FinGather\Tests\Email;
 use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Email\GoalEmail;
+use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\Enum\GoalTypeEnum;
+use FinGather\Model\Entity\Goal;
+use FinGather\Model\Entity\Portfolio;
+use FinGather\Model\Entity\User;
 use FinGather\Tests\Fixtures\Model\Entity\GoalFixture;
 use FinGather\Tests\Fixtures\Model\Entity\PortfolioFixture;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\TestCase;
-use FinGather\Model\Entity\Goal;
-use FinGather\Model\Entity\Portfolio;
-use FinGather\Model\Entity\User;
 use PHPUnit\Framework\Attributes\UsesClass;
-use FinGather\Model\Entity\Currency;
+use PHPUnit\Framework\TestCase;
 
 #[CoversClass(GoalEmail::class)]
 #[UsesClass(Goal::class)]

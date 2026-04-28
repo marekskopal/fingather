@@ -54,8 +54,6 @@ final readonly class OverviewDataCalculator
 			);
 			$yearFromDate = $yearToDate;
 
-			$fromFirstTransactionDays = (int) $yearToDate->diff($firstTransaction->actionCreated)->days;
-
 			if ($i === $fromDateYear) {
 				$yearCalculatedData[$i] = new YearCalculatedDataDto(
 					year: $i,

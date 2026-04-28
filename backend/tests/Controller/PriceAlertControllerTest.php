@@ -6,8 +6,14 @@ namespace FinGather\Tests\Controller;
 
 use ArrayIterator;
 use FinGather\Controller\PriceAlertController;
+use FinGather\Dto\PriceAlertDto;
+use FinGather\Model\Entity\Country;
+use FinGather\Model\Entity\Currency;
+use FinGather\Model\Entity\Industry;
+use FinGather\Model\Entity\Market;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\PriceAlert;
+use FinGather\Model\Entity\Sector;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\User;
 use FinGather\Response\NotFoundResponse;
@@ -25,12 +31,6 @@ use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
-use FinGather\Model\Entity\Country;
-use FinGather\Model\Entity\Currency;
-use FinGather\Model\Entity\Industry;
-use FinGather\Model\Entity\Market;
-use FinGather\Model\Entity\Sector;
-use FinGather\Dto\PriceAlertDto;
 
 #[CoversClass(PriceAlertController::class)]
 #[UsesClass(Portfolio::class)]

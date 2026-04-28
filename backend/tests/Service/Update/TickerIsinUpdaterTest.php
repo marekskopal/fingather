@@ -7,15 +7,15 @@ namespace FinGather\Tests\Service\Update;
 use FinGather\Model\Repository\MarketRepository;
 use FinGather\Model\Repository\TickerRepository;
 use FinGather\Service\Update\TickerIsinUpdater;
+use FinGather\Utils\BatchUtils;
 use MarekSkopal\OpenFigi\Dto\FigiResult;
 use MarekSkopal\OpenFigi\Dto\MappingJob;
 use MarekSkopal\OpenFigi\Dto\MappingJobResult;
 use MarekSkopal\OpenFigi\OpenFigi;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
-use FinGather\Utils\BatchUtils;
-use PHPUnit\Framework\Attributes\UsesClass;
 
 /**
  * Note: TickerRepository and MarketRepository are declared `final` and cannot be mocked via

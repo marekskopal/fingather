@@ -54,10 +54,6 @@ final readonly class DcaTools
 			$plans[] = McpDcaPlanDto::fromDcaPlan($plan, $returnRate, $projectionPoints);
 		}
 
-		return new McpDcaProjectionsDto(
-			portfolioId: $portfolio->id,
-			currency: $portfolio->currency->code,
-			plans: $plans,
-		);
+		return new McpDcaProjectionsDto(portfolioId: $portfolio->id, currency: $portfolio->currency->code, plans: $plans);
 	}
 }

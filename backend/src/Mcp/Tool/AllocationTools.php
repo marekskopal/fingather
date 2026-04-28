@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace FinGather\Mcp\Tool;
 
 use DateTimeImmutable;
-use FinGather\Dto\AbstractGroupWithGroupDataDto;
 use FinGather\Mcp\Dto\McpAllocationDto;
 use FinGather\Mcp\Dto\McpAllocationItemDto;
 use FinGather\Mcp\McpUserContextInterface;
@@ -36,7 +35,10 @@ final readonly class AllocationTools
 	 * @param int $portfolioId Portfolio ID
 	 * @param string $type Allocation type: sector, industry, country, group
 	 */
-	#[McpTool(name: 'get_portfolio_allocation', description: 'Get portfolio allocation breakdown by sector, industry, country, or custom group')]
+	#[McpTool(
+		name: 'get_portfolio_allocation',
+		description: 'Get portfolio allocation breakdown by sector, industry, country, or custom group',
+	)]
 	public function getPortfolioAllocation(int $portfolioId, string $type): McpAllocationDto
 	{
 		$user = $this->userContext->getUser();

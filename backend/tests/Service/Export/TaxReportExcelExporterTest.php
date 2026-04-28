@@ -13,8 +13,8 @@ use FinGather\Service\Export\TaxReportExcelExporter;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx as XlsxReader;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\UsesClass;
+use PHPUnit\Framework\TestCase;
 
 #[CoversClass(TaxReportExcelExporter::class)]
 #[UsesClass(TaxReportDto::class)]
@@ -103,7 +103,7 @@ final class TaxReportExcelExporterTest extends TestCase
 			$cell = $sheet->getCell($colLetter . '1');
 			self::assertTrue(
 				$cell->getStyle()->getFont()->getBold(),
-				"Realized Gains header column {$colLetter} should be bold",
+				sprintf('Realized Gains header column %s should be bold', $colLetter),
 			);
 		}
 

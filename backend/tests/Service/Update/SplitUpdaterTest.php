@@ -6,6 +6,11 @@ namespace FinGather\Tests\Service\Update;
 
 use DateTimeImmutable;
 use Decimal\Decimal;
+use FinGather\Model\Entity\Country;
+use FinGather\Model\Entity\Currency;
+use FinGather\Model\Entity\Industry;
+use FinGather\Model\Entity\Market;
+use FinGather\Model\Entity\Sector;
 use FinGather\Model\Entity\Split;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Service\Provider\SplitProviderInterface;
@@ -21,11 +26,6 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use ReflectionProperty;
-use FinGather\Model\Entity\Currency;
-use FinGather\Model\Entity\Industry;
-use FinGather\Model\Entity\Market;
-use FinGather\Model\Entity\Sector;
-use FinGather\Model\Entity\Country;
 
 #[CoversClass(SplitUpdater::class)]
 #[UsesClass(Split::class)]

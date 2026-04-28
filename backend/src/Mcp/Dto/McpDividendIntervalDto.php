@@ -9,10 +9,8 @@ use FinGather\Service\DataCalculator\Dto\DividendDataIntervalDto;
 final readonly class McpDividendIntervalDto
 {
 	/** @param list<McpDividendAssetDto> $assets */
-	public function __construct(
-		public string $interval,
-		public array $assets,
-	) {
+	public function __construct(public string $interval, public array $assets,)
+	{
 	}
 
 	public static function fromDividendDataInterval(DividendDataIntervalDto $dto): self
@@ -22,9 +20,6 @@ final readonly class McpDividendIntervalDto
 			$assets[] = McpDividendAssetDto::fromDividendDataAsset($asset);
 		}
 
-		return new self(
-			interval: $dto->interval,
-			assets: $assets,
-		);
+		return new self(interval: $dto->interval, assets: $assets);
 	}
 }

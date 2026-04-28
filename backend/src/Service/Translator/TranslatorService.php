@@ -9,7 +9,7 @@ use FinGather\Service\Cache\Cache;
 
 final readonly class TranslatorService implements TranslatorServiceInterface
 {
-	public function __construct(private readonly string $translationsDir, private readonly Cache $cache)
+	public function __construct(private string $translationsDir, private Cache $cache)
 	{
 	}
 
@@ -35,8 +35,9 @@ final readonly class TranslatorService implements TranslatorServiceInterface
 			$value = $this->traverse($data, $key);
 		}
 
-		/** @var array<string, string> */
-		return is_array($value) ? $value : [];
+		/** @var array<string, string> $result */
+		$result = is_array($value) ? $value : [];
+		return $result;
 	}
 
 	private function lookup(string $key, LocaleEnum $locale): mixed

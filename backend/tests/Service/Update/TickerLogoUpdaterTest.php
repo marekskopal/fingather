@@ -4,7 +4,13 @@ declare(strict_types=1);
 
 namespace FinGather\Tests\Service\Update;
 
+use FinGather\Model\Entity\Country;
+use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\Enum\MarketTypeEnum;
+use FinGather\Model\Entity\Industry;
+use FinGather\Model\Entity\Market;
+use FinGather\Model\Entity\Sector;
+use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Repository\TickerRepository;
 use FinGather\Service\Update\TickerLogoUpdater;
 use FinGather\Tests\Fixtures\Model\Entity\MarketFixture;
@@ -15,15 +21,9 @@ use MarekSkopal\TwelveData\Dto\Fundamentals\LogoMeta;
 use MarekSkopal\TwelveData\Exception\NotFoundException;
 use MarekSkopal\TwelveData\TwelveData;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
-use FinGather\Model\Entity\Currency;
-use FinGather\Model\Entity\Industry;
-use FinGather\Model\Entity\Market;
-use FinGather\Model\Entity\Sector;
-use FinGather\Model\Entity\Ticker;
-use PHPUnit\Framework\Attributes\UsesClass;
-use FinGather\Model\Entity\Country;
 
 #[CoversClass(TickerLogoUpdater::class)]
 #[UsesClass(Currency::class)]

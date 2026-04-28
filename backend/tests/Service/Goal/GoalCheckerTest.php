@@ -6,8 +6,11 @@ namespace FinGather\Tests\Service\Goal;
 
 use DateTimeImmutable;
 use Decimal\Decimal;
+use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\Enum\GoalTypeEnum;
 use FinGather\Model\Entity\Goal;
+use FinGather\Model\Entity\Portfolio;
+use FinGather\Model\Entity\User;
 use FinGather\Service\DataCalculator\DcaPlanDataCalculator;
 use FinGather\Service\DataCalculator\Dto\CalculatedDataDto;
 use FinGather\Service\Goal\GoalChecker;
@@ -18,9 +21,6 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
-use FinGather\Model\Entity\Portfolio;
-use FinGather\Model\Entity\User;
-use FinGather\Model\Entity\Currency;
 
 #[CoversClass(GoalChecker::class)]
 #[UsesClass(Goal::class)]

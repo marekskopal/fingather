@@ -7,10 +7,18 @@ namespace FinGather\Tests\Service;
 use ArrayIterator;
 use DateTimeImmutable;
 use Decimal\Decimal;
+use FinGather\Model\Entity\Country;
+use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\Enum\AlertConditionEnum;
 use FinGather\Model\Entity\Enum\AlertRecurrenceEnum;
 use FinGather\Model\Entity\Enum\PriceAlertTypeEnum;
+use FinGather\Model\Entity\Industry;
+use FinGather\Model\Entity\Market;
+use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\PriceAlert;
+use FinGather\Model\Entity\Sector;
+use FinGather\Model\Entity\Ticker;
+use FinGather\Model\Entity\User;
 use FinGather\Service\DataCalculator\Dto\CalculatedDataDto;
 use FinGather\Service\PriceAlert\PriceAlertChecker;
 use FinGather\Service\Provider\PortfolioDataProviderInterface;
@@ -22,14 +30,6 @@ use FinGather\Tests\Fixtures\Model\Entity\PriceAlertFixture;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
-use FinGather\Model\Entity\Currency;
-use FinGather\Model\Entity\Industry;
-use FinGather\Model\Entity\Market;
-use FinGather\Model\Entity\Portfolio;
-use FinGather\Model\Entity\Sector;
-use FinGather\Model\Entity\Ticker;
-use FinGather\Model\Entity\User;
-use FinGather\Model\Entity\Country;
 
 #[CoversClass(PriceAlertChecker::class)]
 #[UsesClass(PriceAlert::class)]

@@ -14,6 +14,7 @@ use FinGather\Dto\PasswordResetConfirmDto;
 use FinGather\Dto\PasswordResetRequestDto;
 use FinGather\Dto\RefreshTokenDto;
 use FinGather\Dto\SignUpDto;
+use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\Enum\LocaleEnum;
 use FinGather\Model\Entity\PasswordReset;
 use FinGather\Model\Entity\User;
@@ -43,7 +44,6 @@ use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
-use FinGather\Model\Entity\Currency;
 
 #[CoversClass(AuthenticationController::class)]
 #[UsesClass(User::class)]

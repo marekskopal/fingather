@@ -42,10 +42,6 @@ final readonly class OverviewTools
 			$years[] = McpYearDataDto::fromYearCalculatedData($data);
 		}
 
-		return new McpYearOverviewDto(
-			portfolioId: $portfolio->id,
-			currency: $portfolio->currency->code,
-			years: $years,
-		);
+		return new McpYearOverviewDto(portfolioId: $portfolio->id, currency: $portfolio->currency->code, years: $years);
 	}
 }

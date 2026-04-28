@@ -8,8 +8,14 @@ use ArrayIterator;
 use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Model\Entity\Asset;
+use FinGather\Model\Entity\Country;
+use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
+use FinGather\Model\Entity\Group;
+use FinGather\Model\Entity\Industry;
+use FinGather\Model\Entity\Market;
 use FinGather\Model\Entity\Portfolio;
+use FinGather\Model\Entity\Sector;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\Transaction;
 use FinGather\Model\Entity\User;
@@ -35,12 +41,6 @@ use FinGather\Tests\Fixtures\Model\Entity\UserFixture;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
-use FinGather\Model\Entity\Currency;
-use FinGather\Model\Entity\Group;
-use FinGather\Model\Entity\Industry;
-use FinGather\Model\Entity\Market;
-use FinGather\Model\Entity\Sector;
-use FinGather\Model\Entity\Country;
 
 #[CoversClass(TaxReportCalculator::class)]
 #[UsesClass(Asset::class)]

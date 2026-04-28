@@ -5,12 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Tests\Service\Export;
 
 use ArrayIterator;
-use FinGather\Service\Export\TransactionExcelExporter;
-use FinGather\Tests\Fixtures\Model\Entity\TransactionFixture;
-use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
-use PhpOffice\PhpSpreadsheet\Reader\Xlsx as XlsxReader;
-use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\TestCase;
+use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Country;
 use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\Group;
@@ -21,8 +16,13 @@ use FinGather\Model\Entity\Sector;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\Transaction;
 use FinGather\Model\Entity\User;
+use FinGather\Service\Export\TransactionExcelExporter;
+use FinGather\Tests\Fixtures\Model\Entity\TransactionFixture;
+use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx as XlsxReader;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
-use FinGather\Model\Entity\Asset;
+use PHPUnit\Framework\TestCase;
 
 #[CoversClass(TransactionExcelExporter::class)]
 #[UsesClass(Country::class)]
@@ -67,7 +67,7 @@ final class TransactionExcelExporterTest extends TestCase
 			$cell = $sheet->getCell($colLetter . '1');
 			self::assertTrue(
 				$cell->getStyle()->getFont()->getBold(),
-				"Header column {$colLetter} should be bold",
+				sprintf('Header column %s should be bold', $colLetter),
 			);
 		}
 

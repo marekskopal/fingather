@@ -9,6 +9,7 @@ use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Broker;
+use FinGather\Model\Entity\Country;
 use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
@@ -17,7 +18,10 @@ use FinGather\Model\Entity\Group;
 use FinGather\Model\Entity\Import;
 use FinGather\Model\Entity\ImportFile;
 use FinGather\Model\Entity\ImportMapping;
+use FinGather\Model\Entity\Industry;
+use FinGather\Model\Entity\Market;
 use FinGather\Model\Entity\Portfolio;
+use FinGather\Model\Entity\Sector;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\Transaction;
 use FinGather\Model\Entity\User;
@@ -30,6 +34,7 @@ use FinGather\Service\Provider\AssetProviderInterface;
 use FinGather\Service\Provider\BrokerProviderInterface;
 use FinGather\Service\Provider\CurrencyProviderInterface;
 use FinGather\Service\Provider\DataProviderInterface;
+use FinGather\Service\Provider\Dto\SplitDto;
 use FinGather\Service\Provider\GroupProviderInterface;
 use FinGather\Service\Provider\ImportFileProviderInterface;
 use FinGather\Service\Provider\ImportMappingProviderInterface;
@@ -51,11 +56,6 @@ use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Ramsey\Uuid\Uuid;
-use FinGather\Model\Entity\Industry;
-use FinGather\Model\Entity\Market;
-use FinGather\Model\Entity\Sector;
-use FinGather\Service\Provider\Dto\SplitDto;
-use FinGather\Model\Entity\Country;
 
 #[CoversClass(ImportService::class)]
 #[UsesClass(Import::class)]

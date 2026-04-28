@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace FinGather\Controller;
 
 use DateTimeImmutable;
-use FinGather\Dto\AppleLoginDto;
 use FinGather\Dto\CredentialsDto;
 use FinGather\Dto\EmailExistsDto;
 use FinGather\Dto\GoogleClientIdDto;

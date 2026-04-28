@@ -7,7 +7,9 @@ namespace FinGather\Tests\Controller;
 use ArrayIterator;
 use Decimal\Decimal;
 use FinGather\Controller\GoalController;
+use FinGather\Dto\GoalDto;
 use FinGather\Dto\GoalReachabilityDto;
+use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\Goal;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
@@ -21,6 +23,7 @@ use FinGather\Service\Request\RequestServiceInterface;
 use FinGather\Tests\Fixtures\Model\Entity\GoalFixture;
 use FinGather\Tests\Fixtures\Model\Entity\PortfolioFixture;
 use FinGather\Tests\Fixtures\Model\Entity\UserFixture;
+use FinGather\Utils\DateTimeUtils;
 use Laminas\Diactoros\Response\JsonResponse;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\TestWith;
@@ -28,9 +31,6 @@ use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
-use FinGather\Model\Entity\Currency;
-use FinGather\Utils\DateTimeUtils;
-use FinGather\Dto\GoalDto;
 
 #[CoversClass(GoalController::class)]
 #[UsesClass(Goal::class)]

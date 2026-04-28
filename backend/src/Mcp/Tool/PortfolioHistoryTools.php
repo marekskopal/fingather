@@ -34,7 +34,10 @@ final readonly class PortfolioHistoryTools
 	 * @param int $portfolioId Portfolio ID
 	 * @param string $range Time range: SevenDays, OneMonth, ThreeMonths, SixMonths, YTD, OneYear, All
 	 */
-	#[McpTool(name: 'get_portfolio_history', description: 'Get portfolio performance history over a time range (value, gain, return over time)')]
+	#[McpTool(
+		name: 'get_portfolio_history',
+		description: 'Get portfolio performance history over a time range (value, gain, return over time)',
+	)]
 	public function getPortfolioHistory(int $portfolioId, string $range): McpPortfolioHistoryDto
 	{
 		$user = $this->userContext->getUser();

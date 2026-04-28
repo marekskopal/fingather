@@ -6,12 +6,12 @@ namespace FinGather\Tests\Service\Translator;
 
 use FinGather\Model\Entity\Enum\LocaleEnum;
 use FinGather\Service\Cache\Cache;
+use FinGather\Service\Cache\CacheTag;
 use FinGather\Service\Translator\TranslatorService;
 use Nette\Caching\Storages\MemoryStorage;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\TestCase;
-use FinGather\Service\Cache\CacheTag;
 use PHPUnit\Framework\Attributes\UsesClass;
+use PHPUnit\Framework\TestCase;
 
 #[CoversClass(TranslatorService::class)]
 #[UsesClass(CacheTag::class)]

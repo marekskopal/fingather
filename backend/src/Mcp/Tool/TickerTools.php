@@ -47,7 +47,10 @@ final readonly class TickerTools
 	 *
 	 * @param int $tickerId Ticker ID (from search_tickers or list_assets)
 	 */
-	#[McpTool(name: 'get_ticker_fundamentals', description: 'Get fundamental financial data for a ticker (PE ratio, market cap, margins, dividends, etc.)')]
+	#[McpTool(
+		name: 'get_ticker_fundamentals',
+		description: 'Get fundamental financial data for a ticker (PE ratio, market cap, margins, dividends, etc.)',
+	)]
 	public function getTickerFundamentals(int $tickerId): McpTickerFundamentalsDto
 	{
 		$ticker = $this->tickerProvider->getTicker($tickerId);

@@ -7,17 +7,9 @@ namespace FinGather\Tests\Service\Email;
 use FinGather\Dto\EmailVerifyDto;
 use FinGather\Dto\PasswordResetQueueDto;
 use FinGather\Dto\UserDto;
-use FinGather\Service\Cache\Cache;
-use FinGather\Service\Email\EmailFactory;
-use FinGather\Service\Translator\TranslatorService;
-use FinGather\Tests\Fixtures\Model\Entity\GoalFixture;
-use FinGather\Tests\Fixtures\Model\Entity\PriceAlertFixture;
-use FinGather\Tests\Fixtures\Model\Entity\UserFixture;
-use Nette\Caching\Storages\DevNullStorage;
-use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\UsesClass;
-use PHPUnit\Framework\TestCase;
+use FinGather\Email\GoalEmail;
 use FinGather\Email\PasswordResetEmail;
+use FinGather\Email\PriceAlertEmail;
 use FinGather\Email\VerifyEmail;
 use FinGather\Model\Entity\Country;
 use FinGather\Model\Entity\Currency;
@@ -29,9 +21,17 @@ use FinGather\Model\Entity\PriceAlert;
 use FinGather\Model\Entity\Sector;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\User;
+use FinGather\Service\Cache\Cache;
 use FinGather\Service\Cache\CacheTag;
-use FinGather\Email\GoalEmail;
-use FinGather\Email\PriceAlertEmail;
+use FinGather\Service\Email\EmailFactory;
+use FinGather\Service\Translator\TranslatorService;
+use FinGather\Tests\Fixtures\Model\Entity\GoalFixture;
+use FinGather\Tests\Fixtures\Model\Entity\PriceAlertFixture;
+use FinGather\Tests\Fixtures\Model\Entity\UserFixture;
+use Nette\Caching\Storages\DevNullStorage;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\UsesClass;
+use PHPUnit\Framework\TestCase;
 
 #[CoversClass(EmailFactory::class)]
 #[UsesClass(TranslatorService::class)]
@@ -64,7 +64,7 @@ final class EmailFactoryTest extends TestCase
 			cache: $cache,
 		);
 
-		putenv("EMAIL_FROM={$from}");
+		putenv(sprintf('EMAIL_FROM=%s', $from));
 
 		return new EmailFactory($translator);
 	}

@@ -6,6 +6,7 @@ namespace FinGather\Tests\Controller;
 
 use ArrayIterator;
 use FinGather\Controller\DcaPlanController;
+use FinGather\Dto\DcaPlanDto;
 use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\DcaPlan;
 use FinGather\Model\Entity\Portfolio;
@@ -23,6 +24,7 @@ use FinGather\Service\Request\RequestServiceInterface;
 use FinGather\Tests\Fixtures\Model\Entity\DcaPlanFixture;
 use FinGather\Tests\Fixtures\Model\Entity\PortfolioFixture;
 use FinGather\Tests\Fixtures\Model\Entity\UserFixture;
+use FinGather\Utils\DateTimeUtils;
 use Laminas\Diactoros\Response\JsonResponse;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\TestWith;
@@ -30,8 +32,6 @@ use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
-use FinGather\Utils\DateTimeUtils;
-use FinGather\Dto\DcaPlanDto;
 
 #[CoversClass(DcaPlanController::class)]
 #[UsesClass(Currency::class)]

@@ -6,20 +6,7 @@ namespace FinGather\Tests\Service\Provider;
 
 use DateTimeImmutable;
 use Decimal\Decimal;
-use FinGather\Service\Cache\Cache;
-use FinGather\Service\Cache\CacheFactoryInterface;
-use FinGather\Service\DataCalculator\AssetDataCalculatorInterface;
-use FinGather\Service\DataCalculator\Dto\AssetDataDto;
-use FinGather\Service\Provider\AssetDataProvider;
-use FinGather\Service\Provider\AssetDataProviderInterface;
-use FinGather\Tests\Fixtures\Model\Entity\AssetFixture;
-use FinGather\Tests\Fixtures\Model\Entity\PortfolioFixture;
-use FinGather\Tests\Fixtures\Model\Entity\UserFixture;
-use Nette\Caching\Storage;
-use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\UsesClass;
-use PHPUnit\Framework\MockObject\Stub;
-use PHPUnit\Framework\TestCase;
+use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Country;
 use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\Group;
@@ -29,9 +16,22 @@ use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\Sector;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\User;
+use FinGather\Service\Cache\Cache;
+use FinGather\Service\Cache\CacheFactoryInterface;
 use FinGather\Service\Cache\CacheTag;
+use FinGather\Service\DataCalculator\AssetDataCalculatorInterface;
+use FinGather\Service\DataCalculator\Dto\AssetDataDto;
+use FinGather\Service\Provider\AssetDataProvider;
+use FinGather\Service\Provider\AssetDataProviderInterface;
+use FinGather\Tests\Fixtures\Model\Entity\AssetFixture;
+use FinGather\Tests\Fixtures\Model\Entity\PortfolioFixture;
+use FinGather\Tests\Fixtures\Model\Entity\UserFixture;
 use FinGather\Utils\DateTimeUtils;
-use FinGather\Model\Entity\Asset;
+use Nette\Caching\Storage;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\UsesClass;
+use PHPUnit\Framework\MockObject\Stub;
+use PHPUnit\Framework\TestCase;
 
 #[CoversClass(AssetDataProvider::class)]
 #[UsesClass(Cache::class)]

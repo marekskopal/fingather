@@ -5,10 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Tests\Service\Export;
 
 use ArrayIterator;
-use FinGather\Service\Export\TransactionCsvExporter;
-use FinGather\Tests\Fixtures\Model\Entity\TransactionFixture;
-use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\TestCase;
+use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Country;
 use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\Group;
@@ -19,8 +16,11 @@ use FinGather\Model\Entity\Sector;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\Transaction;
 use FinGather\Model\Entity\User;
+use FinGather\Service\Export\TransactionCsvExporter;
+use FinGather\Tests\Fixtures\Model\Entity\TransactionFixture;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
-use FinGather\Model\Entity\Asset;
+use PHPUnit\Framework\TestCase;
 
 #[CoversClass(TransactionCsvExporter::class)]
 #[UsesClass(Country::class)]

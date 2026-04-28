@@ -7,6 +7,17 @@ namespace FinGather\Tests\Service\DataCalculator;
 use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Dto\PortfolioDataDto;
+use FinGather\Model\Entity\Asset;
+use FinGather\Model\Entity\Country;
+use FinGather\Model\Entity\Currency;
+use FinGather\Model\Entity\Group;
+use FinGather\Model\Entity\Industry;
+use FinGather\Model\Entity\Market;
+use FinGather\Model\Entity\Portfolio;
+use FinGather\Model\Entity\Sector;
+use FinGather\Model\Entity\Ticker;
+use FinGather\Model\Entity\Transaction;
+use FinGather\Model\Entity\User;
 use FinGather\Service\DataCalculator\Dto\CalculatedDataDto;
 use FinGather\Service\DataCalculator\Dto\YearCalculatedDataDto;
 use FinGather\Service\DataCalculator\OverviewDataCalculator;
@@ -20,17 +31,6 @@ use FinGather\Utils\DateTimeUtils;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
-use FinGather\Model\Entity\Country;
-use FinGather\Model\Entity\Currency;
-use FinGather\Model\Entity\Group;
-use FinGather\Model\Entity\Industry;
-use FinGather\Model\Entity\Market;
-use FinGather\Model\Entity\Portfolio;
-use FinGather\Model\Entity\Sector;
-use FinGather\Model\Entity\Ticker;
-use FinGather\Model\Entity\Transaction;
-use FinGather\Model\Entity\User;
-use FinGather\Model\Entity\Asset;
 
 #[CoversClass(OverviewDataCalculator::class)]
 #[UsesClass(YearCalculatedDataDto::class)]

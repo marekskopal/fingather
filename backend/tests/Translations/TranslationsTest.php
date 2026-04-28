@@ -87,10 +87,11 @@ final class TranslationsTest extends TestCase
 			if (!array_key_exists($key, $actual)) {
 				$missing[] = $fullKey;
 			} elseif (is_array($value) && is_array($actual[$key])) {
-				/** @var array<string, mixed> $value */
+				/** @var array<string, mixed> $nestedExpected */
+				$nestedExpected = $value;
 				/** @var array<string, mixed> $nestedActual */
 				$nestedActual = $actual[$key];
-				$missing = array_merge($missing, $this->findMissingKeys($value, $nestedActual, $fullKey));
+				$missing = array_merge($missing, $this->findMissingKeys($nestedExpected, $nestedActual, $fullKey));
 			}
 		}
 		return $missing;

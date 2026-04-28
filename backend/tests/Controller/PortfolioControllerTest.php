@@ -7,6 +7,7 @@ namespace FinGather\Tests\Controller;
 use ArrayIterator;
 use FinGather\Controller\PortfolioController;
 use FinGather\Dto\PortfolioCreateDto;
+use FinGather\Dto\PortfolioDto;
 use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
@@ -25,7 +26,6 @@ use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
-use FinGather\Dto\PortfolioDto;
 
 #[CoversClass(PortfolioController::class)]
 #[UsesClass(Currency::class)]
