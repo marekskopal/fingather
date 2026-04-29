@@ -36,8 +36,8 @@ export default defineConfig({
     },
 
     webServer: {
-        command: process.env['CI'] ? 'pnpm run serve:e2e:static' : 'pnpm run start:e2e',
-        url: process.env['E2E_BASE_URL'] ?? 'https://localhost:4200',
+        command: 'pnpm run start:e2e',
+        port: 4200,
         reuseExistingServer: true,
         ignoreHTTPSErrors: true,
         timeout: 300000,
