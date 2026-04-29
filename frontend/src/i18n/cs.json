@@ -439,7 +439,6 @@
         "defaultCurrency": "Výchozí měna",
         "defaultCurrencyRequired": "Výchozí měna je povinná",
         "role": "Role",
-        "roleRequired": "Role je povinná"
         "roleRequired": "Role je povinná",
         "addedSuccessfully": "Uživatel přidán úspěšně",
         "updatedSuccessfully": "Aktualizace provedena úspěšně"
