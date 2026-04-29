@@ -6,17 +6,28 @@ namespace FinGather\Tests\Service\Goal;
 
 use DateTimeImmutable;
 use Decimal\Decimal;
+use FinGather\Dto\AssetsWithPropertiesDto;
+use FinGather\Dto\DcaPlanProjectionDto;
+use FinGather\Dto\DcaPlanProjectionPointDto;
+use FinGather\Dto\GoalReachabilityDto;
 use FinGather\Model\Entity\Currency;
+use FinGather\Model\Entity\DcaPlan;
+use FinGather\Model\Entity\Enum\DcaPlanTargetTypeEnum;
 use FinGather\Model\Entity\Enum\GoalTypeEnum;
 use FinGather\Model\Entity\Goal;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Service\DataCalculator\DcaPlanDataCalculator;
 use FinGather\Service\DataCalculator\Dto\CalculatedDataDto;
+use FinGather\Service\DataCalculator\Dto\ReturnRateDto;
 use FinGather\Service\Goal\GoalChecker;
+use FinGather\Service\Provider\AssetWithPropertiesProviderInterface;
 use FinGather\Service\Provider\PortfolioDataProviderInterface;
+use FinGather\Service\Provider\TickerDataProviderInterface;
+use FinGather\Tests\Fixtures\Model\Entity\DcaPlanFixture;
 use FinGather\Tests\Fixtures\Model\Entity\PortfolioFixture;
 use FinGather\Tests\Fixtures\Model\Entity\UserFixture;
+use FinGather\Utils\CalculatorUtils;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
@@ -24,10 +35,18 @@ use ReflectionClass;
 
 #[CoversClass(GoalChecker::class)]
 #[UsesClass(Goal::class)]
+#[UsesClass(DcaPlan::class)]
+#[UsesClass(DcaPlanProjectionDto::class)]
+#[UsesClass(DcaPlanProjectionPointDto::class)]
+#[UsesClass(GoalReachabilityDto::class)]
+#[UsesClass(DcaPlanDataCalculator::class)]
+#[UsesClass(AssetsWithPropertiesDto::class)]
+#[UsesClass(ReturnRateDto::class)]
 #[UsesClass(CalculatedDataDto::class)]
 #[UsesClass(Portfolio::class)]
 #[UsesClass(User::class)]
 #[UsesClass(Currency::class)]
+#[UsesClass(CalculatorUtils::class)]
 final class GoalCheckerTest extends TestCase
 {
 	private readonly Goal $baseGoal;
@@ -181,6 +200,103 @@ final class GoalCheckerTest extends TestCase
 		self::assertSame(15.5, $value->toFloat());
 	}
 
+	// --- getReachability ---
+
+	public function testReachabilityNullWhenNoDcaPlan(): void
+	{
+		$goal = $this->makeGoal(GoalTypeEnum::PortfolioValue, new Decimal(10000), dcaPlan: null);
+
+		$result = $this->makeChecker()->getReachability($goal);
+
+		self::assertNull($result->isReachable);
+		self::assertNull($result->projectedAchievementDate);
+	}
+
+	public function testReachabilityNullWhenGoalTypeIsReturnPercentage(): void
+	{
+		// Even with a DCA plan, ReturnPercentage goals can't be projected from contributions.
+		$dcaPlan = DcaPlanFixture::getDcaPlan();
+		$goal = $this->makeGoal(GoalTypeEnum::ReturnPercentage, new Decimal(15), dcaPlan: $dcaPlan);
+
+		$result = $this->makeReachabilityChecker()->getReachability($goal);
+
+		self::assertNull($result->isReachable);
+		self::assertNull($result->projectedAchievementDate);
+	}
+
+	public function testReachabilityTrueReturnsFirstMonthAtOrAboveTarget(): void
+	{
+		// Linear projection (no growth, contribution 500/month from 2024-01) → target 1500 hit at month 3.
+		$dcaPlan = DcaPlanFixture::getDcaPlan(amount: new Decimal('500'), startDate: new DateTimeImmutable('2024-01-01'));
+		$goal = $this->makeGoal(GoalTypeEnum::PortfolioValue, new Decimal(1500), dcaPlan: $dcaPlan);
+
+		$result = $this->makeReachabilityChecker()->getReachability($goal);
+
+		self::assertTrue($result->isReachable);
+		self::assertSame('2024-03', $result->projectedAchievementDate);
+	}
+
+	public function testReachabilityFalseWhenTargetExceedsHorizon(): void
+	{
+		// 50-year horizon × 500/month = 300_000 — target 1_000_000 unreachable.
+		$dcaPlan = DcaPlanFixture::getDcaPlan(amount: new Decimal('500'), startDate: new DateTimeImmutable('2024-01-01'));
+		$goal = $this->makeGoal(GoalTypeEnum::PortfolioValue, new Decimal(1_000_000), dcaPlan: $dcaPlan);
+
+		$result = $this->makeReachabilityChecker()->getReachability($goal);
+
+		self::assertFalse($result->isReachable);
+		self::assertNull($result->projectedAchievementDate);
+	}
+
+	public function testReachabilityFalseWhenDeadlineCutsOffBeforeTargetReached(): void
+	{
+		// Target 1500 needs month 3 (2024-03), but deadline is 2024-02-15 → break before reach.
+		$dcaPlan = DcaPlanFixture::getDcaPlan(amount: new Decimal('500'), startDate: new DateTimeImmutable('2024-01-01'));
+		$goal = $this->makeGoal(
+			GoalTypeEnum::PortfolioValue,
+			new Decimal(1500),
+			dcaPlan: $dcaPlan,
+			deadline: new DateTimeImmutable('2024-02-15'),
+		);
+
+		$result = $this->makeReachabilityChecker()->getReachability($goal);
+
+		self::assertFalse($result->isReachable);
+		self::assertNull($result->projectedAchievementDate);
+	}
+
+	public function testReachabilityChecksInvestedCapitalForInvestedAmountGoal(): void
+	{
+		// InvestedAmount path uses point->investedCapital which equals projectedValue here.
+		$dcaPlan = DcaPlanFixture::getDcaPlan(amount: new Decimal('500'), startDate: new DateTimeImmutable('2024-01-01'));
+		$goal = $this->makeGoal(GoalTypeEnum::InvestedAmount, new Decimal(2000), dcaPlan: $dcaPlan);
+
+		$result = $this->makeReachabilityChecker()->getReachability($goal);
+
+		self::assertTrue($result->isReachable);
+		// 2000 / 500 = 4 months → month 4 = 2024-04
+		self::assertSame('2024-04', $result->projectedAchievementDate);
+	}
+
+	private function makeGoal(
+		GoalTypeEnum $type,
+		Decimal $targetValue,
+		?DcaPlan $dcaPlan,
+		?DateTimeImmutable $deadline = null,
+	): Goal {
+		return new Goal(
+			user: UserFixture::getUser(),
+			portfolio: PortfolioFixture::getPortfolio(),
+			type: $type,
+			targetValue: $targetValue,
+			deadline: $deadline,
+			isActive: true,
+			achievedAt: null,
+			createdAt: new DateTimeImmutable(),
+			dcaPlan: $dcaPlan,
+		);
+	}
+
 	private function makeChecker(?CalculatedDataDto $portfolioData = null): GoalChecker
 	{
 		$portfolioDataProvider = self::createStub(PortfolioDataProviderInterface::class);
@@ -191,6 +307,28 @@ final class GoalCheckerTest extends TestCase
 		}
 
 		$dcaPlanDataCalculator = (new ReflectionClass(DcaPlanDataCalculator::class))->newInstanceWithoutConstructor();
+
+		return new GoalChecker($portfolioDataProvider, $dcaPlanDataCalculator);
+	}
+
+	/**
+	 * Builds a checker with a real DcaPlanDataCalculator wired against stubbed dependencies that
+	 * yield empty asset sets. This produces a deterministic "no growth" projection where each
+	 * monthly point's investedCapital and projectedValue equal `amount * monthIndex`, letting
+	 * tests assert exact reach months.
+	 */
+	private function makeReachabilityChecker(): GoalChecker
+	{
+		$portfolioDataProvider = self::createStub(PortfolioDataProviderInterface::class);
+
+		$assetWithPropertiesProvider = self::createStub(AssetWithPropertiesProviderInterface::class);
+		$assetWithPropertiesProvider->method('getAssetsWithAssetData')->willReturn(
+			new AssetsWithPropertiesDto(openAssets: [], closedAssets: [], watchedAssets: []),
+		);
+
+		$tickerDataProvider = self::createStub(TickerDataProviderInterface::class);
+
+		$dcaPlanDataCalculator = new DcaPlanDataCalculator($tickerDataProvider, $assetWithPropertiesProvider);
 
 		return new GoalChecker($portfolioDataProvider, $dcaPlanDataCalculator);
 	}

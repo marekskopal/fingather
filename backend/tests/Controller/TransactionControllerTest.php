@@ -5,17 +5,21 @@ declare(strict_types=1);
 namespace FinGather\Tests\Controller;
 
 use ArrayIterator;
+use DateTimeImmutable;
+use Decimal\Decimal;
 use FinGather\Controller\TransactionController;
 use FinGather\Dto\CountryDto;
 use FinGather\Dto\IndustryDto;
 use FinGather\Dto\MarketDto;
 use FinGather\Dto\SectorDto;
 use FinGather\Dto\TickerDto;
+use FinGather\Dto\TransactionCreateDto;
 use FinGather\Dto\TransactionDto;
 use FinGather\Dto\TransactionListDto;
 use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Country;
 use FinGather\Model\Entity\Currency;
+use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Group;
 use FinGather\Model\Entity\Industry;
 use FinGather\Model\Entity\Market;
@@ -33,6 +37,8 @@ use FinGather\Service\Provider\DataProviderInterface;
 use FinGather\Service\Provider\PortfolioProviderInterface;
 use FinGather\Service\Provider\TransactionProviderInterface;
 use FinGather\Service\Request\RequestServiceInterface;
+use FinGather\Tests\Fixtures\Model\Entity\AssetFixture;
+use FinGather\Tests\Fixtures\Model\Entity\CurrencyFixture;
 use FinGather\Tests\Fixtures\Model\Entity\PortfolioFixture;
 use FinGather\Tests\Fixtures\Model\Entity\TransactionFixture;
 use FinGather\Tests\Fixtures\Model\Entity\UserFixture;
@@ -50,6 +56,7 @@ use Psr\Http\Message\ServerRequestInterface;
 #[UsesClass(Currency::class)]
 #[UsesClass(Portfolio::class)]
 #[UsesClass(Transaction::class)]
+#[UsesClass(TransactionCreateDto::class)]
 #[UsesClass(User::class)]
 #[UsesClass(NotFoundResponse::class)]
 #[UsesClass(OkResponse::class)]
@@ -73,6 +80,12 @@ final class TransactionControllerTest extends TestCase
 
 	private AssetProviderInterface&Stub $assetProvider;
 
+	private BrokerProviderInterface&Stub $brokerProvider;
+
+	private CurrencyProviderInterface&Stub $currencyProvider;
+
+	private DataProviderInterface&Stub $dataProvider;
+
 	private PortfolioProviderInterface&Stub $portfolioProvider;
 
 	private RequestServiceInterface&Stub $requestService;
@@ -83,6 +96,9 @@ final class TransactionControllerTest extends TestCase
 	{
 		$this->transactionProvider = $this::createStub(TransactionProviderInterface::class);
 		$this->assetProvider = $this::createStub(AssetProviderInterface::class);
+		$this->brokerProvider = $this::createStub(BrokerProviderInterface::class);
+		$this->currencyProvider = $this::createStub(CurrencyProviderInterface::class);
+		$this->dataProvider = $this::createStub(DataProviderInterface::class);
 		$this->portfolioProvider = $this::createStub(PortfolioProviderInterface::class);
 		$this->requestService = $this::createStub(RequestServiceInterface::class);
 		$this->requestService->method('getUser')->willReturn(UserFixture::getUser());
@@ -90,9 +106,9 @@ final class TransactionControllerTest extends TestCase
 		$this->transactionController = new TransactionController(
 			$this->transactionProvider,
 			$this->assetProvider,
-			$this::createStub(BrokerProviderInterface::class),
-			$this::createStub(CurrencyProviderInterface::class),
-			$this::createStub(DataProviderInterface::class),
+			$this->brokerProvider,
+			$this->currencyProvider,
+			$this->dataProvider,
 			$this->portfolioProvider,
 			$this->requestService,
 		);
@@ -228,5 +244,144 @@ final class TransactionControllerTest extends TestCase
 		);
 
 		self::assertInstanceOf(OkResponse::class, $response);
+	}
+
+	// --- actionCreateTransaction ---
+
+	public function testCreateTransactionInvalidPortfolioIdReturnsNotFound(): void
+	{
+		$this->requestService->method('getRequestBodyDto')->willReturn($this->makeCreateDto());
+
+		$response = $this->transactionController->actionCreateTransaction(
+			$this::createStub(ServerRequestInterface::class),
+			0,
+		);
+
+		self::assertInstanceOf(NotFoundResponse::class, $response);
+	}
+
+	public function testCreateTransactionPortfolioNotFoundReturnsNotFound(): void
+	{
+		$this->requestService->method('getRequestBodyDto')->willReturn($this->makeCreateDto());
+		$this->portfolioProvider->method('getPortfolio')->willReturn(null);
+
+		$response = $this->transactionController->actionCreateTransaction(
+			$this::createStub(ServerRequestInterface::class),
+			1,
+		);
+
+		self::assertInstanceOf(NotFoundResponse::class, $response);
+	}
+
+	public function testCreateTransactionAssetNotFoundReturnsNotFound(): void
+	{
+		$this->requestService->method('getRequestBodyDto')->willReturn($this->makeCreateDto());
+		$this->portfolioProvider->method('getPortfolio')->willReturn(PortfolioFixture::getPortfolio());
+		$this->assetProvider->method('getAsset')->willReturn(null);
+
+		$response = $this->transactionController->actionCreateTransaction(
+			$this::createStub(ServerRequestInterface::class),
+			1,
+		);
+
+		self::assertInstanceOf(NotFoundResponse::class, $response);
+	}
+
+	public function testCreateTransactionCurrencyNotFoundReturnsNotFound(): void
+	{
+		$this->requestService->method('getRequestBodyDto')->willReturn($this->makeCreateDto());
+		$this->portfolioProvider->method('getPortfolio')->willReturn(PortfolioFixture::getPortfolio());
+		$this->assetProvider->method('getAsset')->willReturn(AssetFixture::getAsset());
+		$this->currencyProvider->method('getCurrency')->willReturn(null);
+
+		$response = $this->transactionController->actionCreateTransaction(
+			$this::createStub(ServerRequestInterface::class),
+			1,
+		);
+
+		self::assertInstanceOf(NotFoundResponse::class, $response);
+	}
+
+	public function testCreateTransactionReturnsJsonResponseOnSuccess(): void
+	{
+		$this->requestService->method('getRequestBodyDto')->willReturn($this->makeCreateDto());
+		$this->portfolioProvider->method('getPortfolio')->willReturn(PortfolioFixture::getPortfolio());
+		$this->assetProvider->method('getAsset')->willReturn(AssetFixture::getAsset());
+		$this->currencyProvider->method('getCurrency')->willReturn(CurrencyFixture::getCurrency());
+		$this->transactionProvider->method('createTransaction')->willReturn(TransactionFixture::getTransaction());
+
+		$response = $this->transactionController->actionCreateTransaction(
+			$this::createStub(ServerRequestInterface::class),
+			1,
+		);
+
+		self::assertInstanceOf(JsonResponse::class, $response);
+	}
+
+	// --- actionUpdateTransaction ---
+
+	public function testUpdateTransactionAssetNotFoundReturnsNotFound(): void
+	{
+		$this->transactionProvider->method('getTransaction')->willReturn(TransactionFixture::getTransaction());
+		$this->requestService->method('getRequestBodyDto')->willReturn($this->makeCreateDto());
+		$this->assetProvider->method('getAsset')->willReturn(null);
+
+		$response = $this->transactionController->actionUpdateTransaction(
+			$this::createStub(ServerRequestInterface::class),
+			1,
+		);
+
+		self::assertInstanceOf(NotFoundResponse::class, $response);
+	}
+
+	public function testUpdateTransactionCurrencyNotFoundReturnsNotFound(): void
+	{
+		$this->transactionProvider->method('getTransaction')->willReturn(TransactionFixture::getTransaction());
+		$this->requestService->method('getRequestBodyDto')->willReturn($this->makeCreateDto());
+		$this->assetProvider->method('getAsset')->willReturn(AssetFixture::getAsset());
+		$this->currencyProvider->method('getCurrency')->willReturn(null);
+
+		$response = $this->transactionController->actionUpdateTransaction(
+			$this::createStub(ServerRequestInterface::class),
+			1,
+		);
+
+		self::assertInstanceOf(NotFoundResponse::class, $response);
+	}
+
+	public function testUpdateTransactionReturnsJsonResponseOnSuccess(): void
+	{
+		$transaction = TransactionFixture::getTransaction();
+		$this->transactionProvider->method('getTransaction')->willReturn($transaction);
+		$this->requestService->method('getRequestBodyDto')->willReturn($this->makeCreateDto());
+		$this->assetProvider->method('getAsset')->willReturn(AssetFixture::getAsset());
+		$this->currencyProvider->method('getCurrency')->willReturn(CurrencyFixture::getCurrency());
+		$this->transactionProvider->method('updateTransaction')->willReturn($transaction);
+
+		$response = $this->transactionController->actionUpdateTransaction(
+			$this::createStub(ServerRequestInterface::class),
+			1,
+		);
+
+		self::assertInstanceOf(JsonResponse::class, $response);
+	}
+
+	private function makeCreateDto(): TransactionCreateDto
+	{
+		return new TransactionCreateDto(
+			assetId: 1,
+			brokerId: null,
+			actionType: TransactionActionTypeEnum::Buy,
+			actionCreated: new DateTimeImmutable('2024-01-01'),
+			units: new Decimal('5'),
+			price: new Decimal('100'),
+			currencyId: 1,
+			tax: new Decimal('0'),
+			taxCurrencyId: 1,
+			fee: new Decimal('0'),
+			feeCurrencyId: 1,
+			notes: null,
+			importIdentifier: null,
+		);
 	}
 }

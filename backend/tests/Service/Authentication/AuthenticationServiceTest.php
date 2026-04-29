@@ -1,0 +1,149 @@
+<?php
+
+declare(strict_types=1);
+
+namespace FinGather\Tests\Service\Authentication;
+
+use FinGather\Dto\AuthenticationDto;
+use FinGather\Dto\CredentialsDto;
+use FinGather\Middleware\AuthorizationMiddleware;
+use FinGather\Model\Entity\Currency;
+use FinGather\Model\Entity\User;
+use FinGather\Service\Authentication\AuthenticationService;
+use FinGather\Service\Authentication\AuthenticationServiceInterface;
+use FinGather\Service\Authentication\Exceptions\AuthenticationException;
+use FinGather\Service\Provider\UserProviderInterface;
+use FinGather\Tests\Fixtures\Model\Entity\UserFixture;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\UsesClass;
+use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ServerRequestInterface;
+
+#[CoversClass(AuthenticationService::class)]
+#[UsesClass(AuthenticationDto::class)]
+#[UsesClass(CredentialsDto::class)]
+#[UsesClass(Currency::class)]
+#[UsesClass(User::class)]
+final class AuthenticationServiceTest extends TestCase
+{
+	private const string TokenKey = 'test-secret-key-long-enough-for-hs256-algorithm';
+
+	protected function setUp(): void
+	{
+		putenv('AUTHORIZATION_TOKEN_KEY=' . self::TokenKey);
+	}
+
+	protected function tearDown(): void
+	{
+		putenv('AUTHORIZATION_TOKEN_KEY');
+	}
+
+	public function testAuthenticateThrowsWhenUserNotFound(): void
+	{
+		$userProvider = self::createStub(UserProviderInterface::class);
+		$userProvider->method('getUserByEmail')->willReturn(null);
+
+		$service = new AuthenticationService($userProvider);
+
+		$this->expectException(AuthenticationException::class);
+		$this->expectExceptionMessage('User with email missing@example.com was not found.');
+		$service->authenticate(new CredentialsDto('missing@example.com', 'whatever'));
+	}
+
+	public function testAuthenticateThrowsWhenPasswordMissing(): void
+	{
+		$user = UserFixture::getUser(password: null);
+
+		$userProvider = self::createStub(UserProviderInterface::class);
+		$userProvider->method('getUserByEmail')->willReturn($user);
+
+		$service = new AuthenticationService($userProvider);
+
+		$this->expectException(AuthenticationException::class);
+		$this->expectExceptionMessage('Password is incorrect.');
+		$service->authenticate(new CredentialsDto($user->email, 'anything'));
+	}
+
+	public function testAuthenticateThrowsWhenPasswordIncorrect(): void
+	{
+		$user = UserFixture::getUser(password: password_hash('correct', PASSWORD_BCRYPT));
+
+		$userProvider = self::createStub(UserProviderInterface::class);
+		$userProvider->method('getUserByEmail')->willReturn($user);
+
+		$service = new AuthenticationService($userProvider);
+
+		$this->expectException(AuthenticationException::class);
+		$this->expectExceptionMessage('Password is incorrect.');
+		$service->authenticate(new CredentialsDto($user->email, 'wrong'));
+	}
+
+	public function testAuthenticateReturnsTokensOnSuccess(): void
+	{
+		$user = UserFixture::getUser(id: 42, password: password_hash('correct', PASSWORD_BCRYPT));
+
+		$userProvider = self::createStub(UserProviderInterface::class);
+		$userProvider->method('getUserByEmail')->willReturn($user);
+
+		$service = new AuthenticationService($userProvider);
+		$result = $service->authenticate(new CredentialsDto($user->email, 'correct'));
+
+		self::assertSame(42, $result->userId);
+		self::assertNotSame('', $result->accessToken);
+		self::assertNotSame('', $result->refreshToken);
+
+		// Tokens are valid JWTs signed with the configured key.
+		$decoded = JWT::decode($result->accessToken, new Key(self::TokenKey, AuthenticationServiceInterface::TokenAlgorithm));
+		self::assertSame(42, $decoded->id);
+		self::assertGreaterThan(time(), $decoded->exp);
+	}
+
+	public function testCreateAuthenticationIssuesAccessAndRefreshTokensWithDifferentExpirations(): void
+	{
+		$user = UserFixture::getUser(id: 7);
+
+		$userProvider = self::createStub(UserProviderInterface::class);
+		$service = new AuthenticationService($userProvider);
+
+		$result = $service->createAuthentication($user);
+
+		$accessClaims = JWT::decode($result->accessToken, new Key(self::TokenKey, AuthenticationServiceInterface::TokenAlgorithm));
+		$refreshClaims = JWT::decode($result->refreshToken, new Key(self::TokenKey, AuthenticationServiceInterface::TokenAlgorithm));
+
+		self::assertSame(7, $accessClaims->id);
+		self::assertSame(7, $refreshClaims->id);
+		// Refresh token must outlive the access token (604800s vs 3600s).
+		self::assertGreaterThan($accessClaims->exp, $refreshClaims->exp);
+	}
+
+	public function testAddAuthenticationHeaderWritesBearerHeaderOnRequest(): void
+	{
+		$user = UserFixture::getUser(id: 5);
+
+		$userProvider = self::createStub(UserProviderInterface::class);
+		$service = new AuthenticationService($userProvider);
+
+		$capturedHeaderName = null;
+		$capturedHeaderValue = null;
+		$request = self::createStub(ServerRequestInterface::class);
+		$request->method('withHeader')->willReturnCallback(
+			function (string $name, mixed $value) use (&$capturedHeaderName, &$capturedHeaderValue, $request): ServerRequestInterface {
+				$capturedHeaderName = $name;
+				$capturedHeaderValue = $value;
+				return $request;
+			},
+		);
+
+		$service->addAuthenticationHeader($request, $user);
+
+		self::assertSame(AuthorizationMiddleware::AuthHeader, $capturedHeaderName);
+		self::assertIsString($capturedHeaderValue);
+		self::assertStringStartsWith(AuthorizationMiddleware::AuthHeaderType, $capturedHeaderValue);
+
+		$token = substr($capturedHeaderValue, strlen(AuthorizationMiddleware::AuthHeaderType));
+		$decoded = JWT::decode($token, new Key(self::TokenKey, AuthenticationServiceInterface::TokenAlgorithm));
+		self::assertSame(5, $decoded->id);
+	}
+}
