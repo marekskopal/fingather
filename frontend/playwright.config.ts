@@ -28,7 +28,7 @@ export default defineConfig({
     reporter: process.env['CI'] ? 'github' : 'list',
 
     use: {
-        baseURL: process.env['E2E_BASE_URL'] ?? 'https://localhost:4200',
+        baseURL: process.env['E2E_BASE_URL'] ?? 'http://localhost:4200',
         ignoreHTTPSErrors: true,
         trace: 'on-first-retry',
         screenshot: 'only-on-failure',
