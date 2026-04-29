@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve --configuration ssl --open",
     "start:e2e": "ng serve --configuration e2e",
+    "serve:e2e:static": "ng build --configuration e2e && node scripts/serve-e2e.cjs",
     "build": "ng build",
     "build-prod": "ng build --configuration production",
     "test": "vitest run",
