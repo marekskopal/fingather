@@ -117,7 +117,7 @@ final class DataProviderTest extends TestCase
 
 	/**
 	 * @param array<string, int> &$counts
-	 * @param list<Transaction>  $transactions
+	 * @param list<Transaction> $transactions
 	 */
 	private function makeProvider(array &$counts, array $transactions): DataProvider
 	{

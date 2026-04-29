@@ -20,6 +20,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
+use const PASSWORD_BCRYPT;
 
 #[CoversClass(AuthenticationService::class)]
 #[UsesClass(AuthenticationDto::class)]

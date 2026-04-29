@@ -27,7 +27,7 @@ jobs:
               uses: shivammathur/setup-php@v2
               with:
                   php-version: '8.5'
-                  extensions: decimal, filter, iconv, mbstring, pdo, pdo_mysql, bcmath, sockets, zip, simplexml, gd, igbinary, redis
+                  extensions: decimal-1.5.0, filter, iconv, mbstring, pdo, pdo_mysql, bcmath, sockets, zip, simplexml, gd, igbinary, redis
                   coverage: none
                   tools: composer:v2
 
@@ -58,7 +58,7 @@ jobs:
               uses: shivammathur/setup-php@v2
               with:
                   php-version: '8.5'
-                  extensions: decimal, filter, iconv, mbstring, pdo, bcmath, sockets, zip, simplexml, gd, igbinary
+                  extensions: decimal-1.5.0, filter, iconv, mbstring, pdo, bcmath, sockets, zip, simplexml, gd, igbinary
                   coverage: none
                   tools: composer:v2
 
@@ -89,7 +89,7 @@ jobs:
               uses: shivammathur/setup-php@v2
               with:
                   php-version: '8.5'
-                  extensions: decimal, filter, iconv, mbstring, pdo, pdo_mysql, bcmath, sockets, zip, simplexml, gd, igbinary, redis
+                  extensions: decimal-1.5.0, filter, iconv, mbstring, pdo, pdo_mysql, bcmath, sockets, zip, simplexml, gd, igbinary, redis
                   coverage: none
                   tools: composer:v2
 

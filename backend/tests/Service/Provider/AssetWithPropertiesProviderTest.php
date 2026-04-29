@@ -7,8 +7,8 @@ namespace FinGather\Tests\Service\Provider;
 use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Dto\AssetDto;
-use FinGather\Dto\AssetWithPropertiesDto;
 use FinGather\Dto\AssetsWithPropertiesDto;
+use FinGather\Dto\AssetWithPropertiesDto;
 use FinGather\Dto\CountryDto;
 use FinGather\Dto\Enum\AssetOrderEnum;
 use FinGather\Dto\IndustryDto;
@@ -132,7 +132,10 @@ final class AssetWithPropertiesProviderTest extends TestCase
 
 		$result = $provider->getAssetsWithAssetData($this->user, $this->portfolio, new DateTimeImmutable(), AssetOrderEnum::TickerName);
 
-		self::assertSame(['AAPL', 'GOOG', 'MSFT'], array_map(static fn (AssetWithPropertiesDto $a): string => $a->ticker->ticker, $result->openAssets));
+		self::assertSame(
+			['AAPL', 'GOOG', 'MSFT'],
+			array_map(static fn (AssetWithPropertiesDto $a): string => $a->ticker->ticker, $result->openAssets),
+		);
 	}
 
 	public function testValueOrderSortsDescending(): void
@@ -184,9 +187,9 @@ final class AssetWithPropertiesProviderTest extends TestCase
 	}
 
 	/**
-	 * @param list<Asset>             $assets
-	 * @param array<int, AssetDataDto> $assetDataMap          Asset id → data; missing → null (watched).
-	 * @param array<int, Decimal>      $watchedTickerCloseMap Ticker id → close price for watched assets.
+	 * @param list<Asset> $assets
+	 * @param array<int, AssetDataDto> $assetDataMap Asset id → data; missing → null (watched).
+	 * @param array<int, Decimal> $watchedTickerCloseMap Ticker id → close price for watched assets.
 	 */
 	private function makeProvider(
 		Decimal $portfolioValue,
@@ -218,11 +221,8 @@ final class AssetWithPropertiesProviderTest extends TestCase
 		);
 	}
 
-	private function makeAssetDataDto(
-		Decimal $units,
-		Decimal $value,
-		Decimal $gainDefaultCurrency = new Decimal('0'),
-	): AssetDataDto {
+	private function makeAssetDataDto(Decimal $units, Decimal $value, Decimal $gainDefaultCurrency = new Decimal('0'),): AssetDataDto
+	{
 		$zero = new Decimal('0');
 		return new AssetDataDto(
 			date: new DateTimeImmutable(),

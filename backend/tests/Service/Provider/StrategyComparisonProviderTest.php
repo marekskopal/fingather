@@ -224,12 +224,8 @@ final class StrategyComparisonProviderTest extends TestCase
 	// --- helpers ---
 
 	/** @param list<StrategyItem> $strategyItems */
-	private function makeStrategy(
-		array $strategyItems,
-		int $id = 1,
-		string $name = 'Test Strategy',
-		bool $isDefault = false,
-	): Strategy {
+	private function makeStrategy(array $strategyItems, int $id = 1, string $name = 'Test Strategy', bool $isDefault = false,): Strategy
+	{
 		$strategy = new Strategy(
 			user: $this->user,
 			portfolio: $this->portfolio,
@@ -345,11 +341,11 @@ final class StrategyComparisonProviderTest extends TestCase
 	}
 
 	/**
-	 * @param list<Asset>          $assets
-	 * @param array<int, Decimal>  $assetDataValueMap   Asset id → value (closed assets in $closedAssetIds skip the percentage but still return data).
-	 * @param list<int>            $closedAssetIds
-	 * @param list<Group>          $groups              Non-Others groups.
-	 * @param array<int, Decimal>  $groupDataValueMap   Group id → value. Missing entries default to zero.
+	 * @param list<Asset> $assets
+	 * @param array<int, Decimal> $assetDataValueMap Asset id → value (closed assets in $closedAssetIds skip the percentage but still return data).
+	 * @param list<int> $closedAssetIds
+	 * @param list<Group> $groups Non-Others groups.
+	 * @param array<int, Decimal> $groupDataValueMap Group id → value. Missing entries default to zero.
 	 */
 	private function makeProvider(
 		Decimal $portfolioValue,

@@ -43,10 +43,10 @@ use FinGather\Service\Provider\SectorProviderInterface;
 use FinGather\Service\Provider\SectorWithSectorDataProvider;
 use FinGather\Tests\Fixtures\Model\Entity\AssetFixture;
 use FinGather\Tests\Fixtures\Model\Entity\GroupFixture;
+use FinGather\Tests\Fixtures\Model\Entity\PortfolioFixture;
 use FinGather\Tests\Fixtures\Model\Entity\TickerFixture;
 use FinGather\Tests\Fixtures\Model\Entity\TickerIndustryFixture;
 use FinGather\Tests\Fixtures\Model\Entity\TickerSectorFixture;
-use FinGather\Tests\Fixtures\Model\Entity\PortfolioFixture;
 use FinGather\Tests\Fixtures\Model\Entity\UserFixture;
 use FinGather\Utils\CalculatorUtils;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -93,7 +93,9 @@ final class AssetGroupingWithDataProvidersTest extends TestCase
 		// Tech has 600 of 1000 → 60%; Healthcare has 0 → skipped.
 		$sectorDataProvider = self::createStub(SectorDataProviderInterface::class);
 		$sectorDataProvider->method('getSectorData')->willReturnCallback(
-			fn (Sector $sector): CalculatedDataDto => $this->makeCalculatedDataDto($sector->id === 1 ? new Decimal('600') : new Decimal('0')),
+			fn (Sector $sector): CalculatedDataDto => $this->makeCalculatedDataDto(
+				$sector->id === 1 ? new Decimal('600') : new Decimal('0'),
+			),
 		);
 
 		$portfolioDataProvider = self::createStub(PortfolioDataProviderInterface::class);
@@ -131,7 +133,11 @@ final class AssetGroupingWithDataProvidersTest extends TestCase
 			industryDataProvider: $industryDataProvider,
 		);
 
-		$result = $provider->getIndustriesWithIndustryData(UserFixture::getUser(), PortfolioFixture::getPortfolio(), new DateTimeImmutable());
+		$result = $provider->getIndustriesWithIndustryData(
+			UserFixture::getUser(),
+			PortfolioFixture::getPortfolio(),
+			new DateTimeImmutable(),
+		);
 
 		self::assertCount(1, $result);
 		self::assertSame('Semiconductors', $result[0]->name);

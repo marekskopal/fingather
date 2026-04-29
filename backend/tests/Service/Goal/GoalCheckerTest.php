@@ -12,7 +12,6 @@ use FinGather\Dto\DcaPlanProjectionPointDto;
 use FinGather\Dto\GoalReachabilityDto;
 use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\DcaPlan;
-use FinGather\Model\Entity\Enum\DcaPlanTargetTypeEnum;
 use FinGather\Model\Entity\Enum\GoalTypeEnum;
 use FinGather\Model\Entity\Goal;
 use FinGather\Model\Entity\Portfolio;
@@ -240,7 +239,7 @@ final class GoalCheckerTest extends TestCase
 	{
 		// 50-year horizon × 500/month = 300_000 — target 1_000_000 unreachable.
 		$dcaPlan = DcaPlanFixture::getDcaPlan(amount: new Decimal('500'), startDate: new DateTimeImmutable('2024-01-01'));
-		$goal = $this->makeGoal(GoalTypeEnum::PortfolioValue, new Decimal(1_000_000), dcaPlan: $dcaPlan);
+		$goal = $this->makeGoal(GoalTypeEnum::PortfolioValue, new Decimal(1000000), dcaPlan: $dcaPlan);
 
 		$result = $this->makeReachabilityChecker()->getReachability($goal);
 
@@ -278,12 +277,8 @@ final class GoalCheckerTest extends TestCase
 		self::assertSame('2024-04', $result->projectedAchievementDate);
 	}
 
-	private function makeGoal(
-		GoalTypeEnum $type,
-		Decimal $targetValue,
-		?DcaPlan $dcaPlan,
-		?DateTimeImmutable $deadline = null,
-	): Goal {
+	private function makeGoal(GoalTypeEnum $type, Decimal $targetValue, ?DcaPlan $dcaPlan, ?DateTimeImmutable $deadline = null,): Goal
+	{
 		return new Goal(
 			user: UserFixture::getUser(),
 			portfolio: PortfolioFixture::getPortfolio(),
