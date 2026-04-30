@@ -57,6 +57,8 @@ final class XtbMapper extends XlsxMapper
 
 		$currency = $sheetData[6]['F'] ?? '';
 
+		$closeTradeAmountById = $this->indexCloseTradeAmounts($sheetData);
+
 		$records = [];
 		$dividendRecordsByIndex = [];
 
@@ -65,61 +67,122 @@ final class XtbMapper extends XlsxMapper
 				continue;
 			}
 
-			$comment = $row['E'];
 			$type = $row['C'];
-			$amount = abs((float) $row['G']);
 
 			if ($type === 'Stock purchase' || $type === 'Stock sale') {
-				$operationDetails = $this->parseOperationDetails($comment);
-				if ($operationDetails === null) {
-					continue;
+				$record = $this->buildTradeRecord($row, $currency, $closeTradeAmountById);
+				if ($record !== null) {
+					$records[] = $record;
 				}
-
-				$records[] = [
-					self::Id => $row['B'],
-					self::Symbol => $row['F'],
-					self::Type => $operationDetails['action'],
-					self::Volume => $operationDetails['volume'],
-					self::Created => $row['D'],
-					self::Price => '',
-					self::Total => (string) $amount,
-					self::Currency => $currency,
-					self::Tax => '',
-				];
 			} elseif ($type === 'DIVIDENT') {
-				$pricePerShare = $this->parseDividendPricePerShare($comment);
-				if ($pricePerShare === null) {
-					continue;
+				$record = $this->buildDividendRecord($row, $currency);
+				if ($record !== null) {
+					$records[] = $record;
+					$dividendRecordsByIndex[$index] = count($records) - 1;
 				}
-
-				$volume = (string) ($amount / (float) $pricePerShare);
-
-				$record = [
-					self::Id => $row['B'],
-					self::Symbol => $row['F'],
-					self::Type => 'DIVIDEND',
-					self::Volume => $volume,
-					self::Created => $row['D'],
-					self::Price => (string) $amount,
-					self::Total => '',
-					self::Currency => $currency,
-					self::Tax => '',
-				];
-
-				$records[] = $record;
-				$dividendRecordsByIndex[$index] = count($records) - 1;
 			} elseif ($type === 'Withholding Tax') {
-				$taxAmount = abs((float) $row['G']);
 				$previousIndex = $index - 1;
-
 				if (isset($dividendRecordsByIndex[$previousIndex])) {
-					$recordIndex = $dividendRecordsByIndex[$previousIndex];
-					$records[$recordIndex][self::Tax] = (string) $taxAmount;
+					$records[$dividendRecordsByIndex[$previousIndex]][self::Tax] = (string) abs((float) $row['G']);
 				}
 			}
 		}
 
 		return $records;
+	}
+
+	/**
+	 * @param array<string, string> $row
+	 * @param array<string, float> $closeTradeAmountById
+	 * @return array<string, string>|null
+	 */
+	private function buildTradeRecord(array $row, string $currency, array $closeTradeAmountById): ?array
+	{
+		$operationDetails = $this->parseOperationDetails($row['E']);
+		if ($operationDetails === null) {
+			return null;
+		}
+
+		$amount = $row['C'] === 'Stock sale'
+			? $this->resolveSellAmount($row, $closeTradeAmountById)
+			: abs((float) $row['G']);
+
+		return [
+			self::Id => $row['B'],
+			self::Symbol => $row['F'],
+			self::Type => $operationDetails['action'],
+			self::Volume => $operationDetails['volume'],
+			self::Created => $row['D'],
+			self::Price => '',
+			self::Total => (string) $amount,
+			self::Currency => $currency,
+			self::Tax => '',
+		];
+	}
+
+	/**
+	 * @param array<string, string> $row
+	 * @return array<string, string>|null
+	 */
+	private function buildDividendRecord(array $row, string $currency): ?array
+	{
+		$pricePerShare = $this->parseDividendPricePerShare($row['E']);
+		if ($pricePerShare === null) {
+			return null;
+		}
+
+		$amount = abs((float) $row['G']);
+
+		return [
+			self::Id => $row['B'],
+			self::Symbol => $row['F'],
+			self::Type => 'DIVIDEND',
+			self::Volume => (string) ($amount / (float) $pricePerShare),
+			self::Created => $row['D'],
+			self::Price => (string) $amount,
+			self::Total => '',
+			self::Currency => $currency,
+			self::Tax => '',
+		];
+	}
+
+	/**
+	 * XTB splits each sell into two rows: a "close trade" carrying the realised
+	 * P/L and a "Stock sale" whose amount is only the released cost basis. Index
+	 * the close-trade amounts by id so we can add them to the matching sale
+	 * (close_trade.id == stock_sale.id - 1) and recover the true gross proceeds.
+	 *
+	 * @param array<int, array<string, string>> $sheetData
+	 * @return array<string, float>
+	 */
+	private function indexCloseTradeAmounts(array $sheetData): array
+	{
+		$closeTradeAmountById = [];
+		foreach ($sheetData as $index => $row) {
+			if ($index <= 11) {
+				continue;
+			}
+			if ($row['C'] === 'close trade') {
+				$closeTradeAmountById[$row['B']] = (float) $row['G'];
+			}
+		}
+
+		return $closeTradeAmountById;
+	}
+
+	/**
+	 * @param array<string, string> $row
+	 * @param array<string, float> $closeTradeAmountById
+	 */
+	private function resolveSellAmount(array $row, array $closeTradeAmountById): float
+	{
+		$rawAmount = (float) $row['G'];
+		$closeTradeId = (string) ((int) $row['B'] - 1);
+		if (isset($closeTradeAmountById[$closeTradeId])) {
+			$rawAmount += $closeTradeAmountById[$closeTradeId];
+		}
+
+		return abs($rawAmount);
 	}
 
 	/** @return array{action: string, volume: string}|null */

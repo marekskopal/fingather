@@ -82,6 +82,32 @@ final class XtbMapperTest extends AbstractMapperTestCase
 		self::assertSame('RHM.DE', $partialSell['Symbol']);
 	}
 
+	public function testGetRecordsAddsCloseTradeAmountToSellTotal(): void
+	{
+		// XTB splits sells across two rows: a "close trade" with the realised P/L
+		// and a "Stock sale" whose amount is just the released cost basis. The
+		// gross proceeds — what we want to import as Total — is the sum of the two.
+		$records = $this->getXtbRecords();
+
+		// Stock sale id=1089480050 amount=982.94, paired with close trade id=1089480049 amount=-10.14.
+		// Without the fix Total would be 982.94 (cost basis), giving a sell price equal to the buy price.
+		$simpleSell = $this->findRecordById($records, '1089480050');
+		self::assertSame('972.8', $simpleSell['Total']);
+
+		// Stock sale id=1100000003 amount=239.99, paired with close trade id=1100000002 amount=13.75.
+		$partialSell = $this->findRecordById($records, '1100000003');
+		self::assertSame('253.74', $partialSell['Total']);
+	}
+
+	public function testGetRecordsKeepsBuyTotalUnchanged(): void
+	{
+		// Buys must not be touched by the close-trade pairing logic.
+		$records = $this->getXtbRecords();
+
+		$simpleBuy = $this->findRecordById($records, '1089479372');
+		self::assertSame('982.94', $simpleBuy['Total']);
+	}
+
 	public function testGetRecordsParsesDividendWithWithholdingTax(): void
 	{
 		$records = $this->getXtbRecords();
