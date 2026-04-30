@@ -80,6 +80,11 @@ export class TransactionListComponent implements OnInit {
         created: null,
     });
 
+    protected readonly editQueryParams = computed<Record<string, string> | null>(() => {
+        const assetId = this.assetId();
+        return assetId !== null ? { backUrl: `/assets/${assetId}` } : null;
+    });
+
     protected readonly tableGridColumns = computed<TableGridColumn[]>(() => {
         const columns: TableGridColumn[] = [];
 

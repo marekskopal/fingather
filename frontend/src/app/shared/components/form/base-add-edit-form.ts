@@ -8,6 +8,10 @@ export abstract class BaseAddEditForm extends BaseForm {
     protected readonly id = signal<number | null>(null);
 
     protected readonly routerBackLink = computed<string>(() => {
+        const backUrl = this.route.snapshot.queryParams['backUrl'];
+        if (typeof backUrl === 'string' && backUrl.length > 0) {
+            return backUrl;
+        }
         return this.id() !== null ? '../..' : '..';
     });
 

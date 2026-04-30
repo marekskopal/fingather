@@ -139,7 +139,7 @@ export abstract class AddEditBaseFormComponent extends BaseAddEditForm implement
 
         this.alertService.success(this.translateService.instant('transaction.addedSuccessfully'));
         this.transactionService.notify();
-        this.router.navigate(['../'], { relativeTo: this.route });
+        this.router.navigate([this.routerBackLink()], { relativeTo: this.route });
     }
 
     private async updateTransaction(id: number): Promise<void> {
@@ -149,6 +149,6 @@ export abstract class AddEditBaseFormComponent extends BaseAddEditForm implement
 
         this.alertService.success(this.translateService.instant('transaction.updatedSuccessfully'));
         this.transactionService.notify();
-        this.router.navigate(['../../'], { relativeTo: this.route });
+        this.router.navigate([this.routerBackLink()], { relativeTo: this.route });
     }
 }

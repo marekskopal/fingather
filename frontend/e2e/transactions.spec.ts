@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test';
 
+import { AssetsPage } from './pages/assets.page';
 import { TransactionsPage } from './pages/transactions.page';
 
 test.describe('Transactions list', () => {
@@ -85,6 +86,121 @@ test.describe('Edit transaction', () => {
         await page.waitForSelector('input#units', { timeout: 10000 });
         const currentUnits = await page.locator('input#units').inputValue();
         expect(currentUnits).toBeTruthy();
+        await page.locator('input#units').fill(String(Number(currentUnits) + 1));
+
+        const transactions = new TransactionsPage(page);
+        await transactions.submitForm();
+        await transactions.expectRedirectedToList();
+    });
+});
+
+test.describe('Edit transaction from asset detail', () => {
+    test('edit link from asset detail carries backUrl query param', async ({ page }) => {
+        const assets = new AssetsPage(page);
+        await assets.goto();
+        await assets.expectLoaded();
+
+        if (!(await assets.hasAssets())) {
+            test.skip(true, 'No assets available');
+            return;
+        }
+
+        await assets.clickFirstAsset();
+        await expect(page).toHaveURL(/\/assets\/\d+/, { timeout: 10000 });
+        const assetUrl = new URL(page.url()).pathname;
+
+        const editLink = page
+            .locator('.asset-detail-transactions a[href*="edit-transaction"]')
+            .first();
+        if (!(await editLink.isVisible().catch(() => false))) {
+            test.skip(true, 'Asset has no buy/sell transactions');
+            return;
+        }
+
+        await editLink.click();
+        await expect(page).toHaveURL(/\/transactions\/edit-transaction\/\d+\?/, { timeout: 10000 });
+        const url = new URL(page.url());
+        expect(url.searchParams.get('backUrl')).toBe(assetUrl);
+    });
+
+    test('back link from edit returns to asset detail', async ({ page }) => {
+        const assets = new AssetsPage(page);
+        await assets.goto();
+        await assets.expectLoaded();
+
+        if (!(await assets.hasAssets())) {
+            test.skip(true, 'No assets available');
+            return;
+        }
+
+        await assets.clickFirstAsset();
+        await expect(page).toHaveURL(/\/assets\/\d+/, { timeout: 10000 });
+        const assetUrl = new URL(page.url()).pathname;
+
+        const editLink = page
+            .locator('.asset-detail-transactions a[href*="edit-transaction"]')
+            .first();
+        if (!(await editLink.isVisible().catch(() => false))) {
+            test.skip(true, 'Asset has no buy/sell transactions');
+            return;
+        }
+
+        await editLink.click();
+        await page.waitForSelector('input#units', { timeout: 10000 });
+
+        // Header back link is the first .btn-link in the form header
+        await page.locator('.header a.btn-link').click();
+        await expect(page).toHaveURL(assetUrl, { timeout: 10000 });
+    });
+
+    test('saving edit returns to asset detail', async ({ page }) => {
+        const assets = new AssetsPage(page);
+        await assets.goto();
+        await assets.expectLoaded();
+
+        if (!(await assets.hasAssets())) {
+            test.skip(true, 'No assets available');
+            return;
+        }
+
+        await assets.clickFirstAsset();
+        await expect(page).toHaveURL(/\/assets\/\d+/, { timeout: 10000 });
+        const assetUrl = new URL(page.url()).pathname;
+
+        const editLink = page
+            .locator('.asset-detail-transactions a[href*="edit-transaction"]')
+            .first();
+        if (!(await editLink.isVisible().catch(() => false))) {
+            test.skip(true, 'Asset has no buy/sell transactions');
+            return;
+        }
+
+        await editLink.click();
+        await page.waitForSelector('input#units', { timeout: 10000 });
+
+        const currentUnits = await page.locator('input#units').inputValue();
+        await page.locator('input#units').fill(String(Number(currentUnits) + 1));
+
+        const transactions = new TransactionsPage(page);
+        await transactions.submitForm();
+        await expect(page).toHaveURL(assetUrl, { timeout: 10000 });
+    });
+
+    test('edit from /transactions list still returns to list (no backUrl)', async ({ page }) => {
+        await page.goto('/transactions');
+        await page.waitForSelector(
+            'fingather-transaction-list table tbody tr a[href*="edit-transaction"]',
+            { timeout: 15000 },
+        );
+
+        const editLink = page.locator('table tbody tr a[href*="edit-transaction"]').first();
+        await editLink.click();
+
+        // No backUrl query param when coming from /transactions
+        await expect(page).toHaveURL(/\/transactions\/edit-transaction\/\d+$/, { timeout: 10000 });
+        await page.waitForSelector('input#units', { timeout: 10000 });
+
+        const currentUnits = await page.locator('input#units').inputValue();
         await page.locator('input#units').fill(String(Number(currentUnits) + 1));
 
         const transactions = new TransactionsPage(page);
