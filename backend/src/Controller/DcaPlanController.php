@@ -233,12 +233,13 @@ final readonly class DcaPlanController
 			return new NotFoundResponse('DCA plan with id "' . $dcaPlanId . '" was not found.');
 		}
 
-		/** @var array{horizonYears?: string, withCurrentValue?: string} $queryParams */
+		/** @var array{horizonYears?: string, withCurrentValue?: string, simulations?: string} $queryParams */
 		$queryParams = $request->getQueryParams();
 		$horizonYears = isset($queryParams['horizonYears']) ? (int) $queryParams['horizonYears'] : 10;
 		$withCurrentValue = !isset($queryParams['withCurrentValue']) || $queryParams['withCurrentValue'] !== 'false';
+		$simulations = max(0, isset($queryParams['simulations']) ? (int) $queryParams['simulations'] : 0);
 
-		$projection = $this->dcaPlanProvider->getProjection($dcaPlan, $horizonYears, $withCurrentValue);
+		$projection = $this->dcaPlanProvider->getProjection($dcaPlan, $horizonYears, $withCurrentValue, $simulations);
 
 		return new JsonResponse($projection);
 	}

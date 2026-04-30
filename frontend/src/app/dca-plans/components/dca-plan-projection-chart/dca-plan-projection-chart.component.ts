@@ -48,10 +48,13 @@ export class DcaPlanProjectionChartComponent {
 
     protected readonly horizonYears = signal<number>(10);
     protected readonly withCurrentValue = signal<boolean>(true);
+    protected readonly showSimulationBand = signal<boolean>(false);
     protected readonly loading = signal<boolean>(true);
     protected chartOptions: ChartOptions;
 
     protected readonly horizonOptions = [5, 10, 20, 30];
+
+    private static readonly SimulationPaths = 10000;
 
     public constructor() {
         this.initializeChartOptions();
@@ -59,7 +62,7 @@ export class DcaPlanProjectionChartComponent {
         effect(() => {
             const planId = this.dcaPlanId();
             if (planId > 0) {
-                this.refreshChart(planId, this.horizonYears(), this.withCurrentValue());
+                this.refreshChart(planId, this.horizonYears(), this.withCurrentValue(), this.showSimulationBand());
             }
         });
 
@@ -70,24 +73,72 @@ export class DcaPlanProjectionChartComponent {
 
     protected setHorizon(years: number): void {
         this.horizonYears.set(years);
-        this.refreshChart(this.dcaPlanId(), years, this.withCurrentValue());
+        this.refreshChart(this.dcaPlanId(), years, this.withCurrentValue(), this.showSimulationBand());
     }
 
     protected toggleWithCurrentValue(value: boolean): void {
         this.withCurrentValue.set(value);
-        this.refreshChart(this.dcaPlanId(), this.horizonYears(), value);
+        this.refreshChart(this.dcaPlanId(), this.horizonYears(), value, this.showSimulationBand());
     }
 
-    private async refreshChart(planId: number, horizonYears: number, withCurrentValue: boolean): Promise<void> {
+    protected toggleShowSimulationBand(value: boolean): void {
+        this.showSimulationBand.set(value);
+        this.refreshChart(this.dcaPlanId(), this.horizonYears(), this.withCurrentValue(), value);
+    }
+
+    private async refreshChart(
+        planId: number,
+        horizonYears: number,
+        withCurrentValue: boolean,
+        showSimulationBand: boolean,
+    ): Promise<void> {
         this.loading.set(true);
 
-        const projection: DcaPlanProjection = await this.dcaPlanService.getProjection(planId, horizonYears, withCurrentValue);
+        const simulations = showSimulationBand ? DcaPlanProjectionChartComponent.SimulationPaths : 0;
+        const projection: DcaPlanProjection = await this.dcaPlanService.getProjection(
+            planId,
+            horizonYears,
+            withCurrentValue,
+            simulations,
+        );
+
+        const hasBands = showSimulationBand
+            && projection.dataPoints.length > 0
+            && projection.dataPoints[0].p10 != null
+            && projection.dataPoints[0].p90 != null;
 
         this.chartOptions.xaxis.categories = projection.dataPoints.map((p) => p.date);
-        this.chartOptions.series[0].data = projection.dataPoints.map((p) => parseFloat(p.projectedValue));
-        this.chartOptions.series[1].data = projection.dataPoints.map((p) => parseFloat(p.investedCapital));
+        this.chartOptions.series = this.buildSeries(projection, hasBands);
+        this.chartOptions.colors = hasBands ? ChartUtils.colors(3) : ChartUtils.colors(2);
 
         this.loading.set(false);
+    }
+
+    private buildSeries(projection: DcaPlanProjection, hasBands: boolean): ApexAxisChartSeries {
+        const projected = projection.dataPoints.map((p) => parseFloat(p.projectedValue));
+        const invested = projection.dataPoints.map((p) => parseFloat(p.investedCapital));
+
+        if (!hasBands) {
+            return [
+                { name: this.translateService.instant('app.dcaPlans.projection.seriesProjectedValue'), data: projected },
+                { name: this.translateService.instant('app.dcaPlans.projection.seriesInvestedCapital'), data: invested },
+            ];
+        }
+
+        const band = projection.dataPoints.map((p) => ({
+            x: p.date,
+            y: [parseFloat(p.p10 ?? p.investedCapital), parseFloat(p.p90 ?? p.projectedValue)],
+        }));
+
+        return [
+            {
+                name: this.translateService.instant('app.dcaPlans.projection.seriesSimulationBand'),
+                type: 'rangeArea',
+                data: band,
+            },
+            { name: this.translateService.instant('app.dcaPlans.projection.seriesProjectedValue'), type: 'line', data: projected },
+            { name: this.translateService.instant('app.dcaPlans.projection.seriesInvestedCapital'), type: 'line', data: invested },
+        ];
     }
 
     private buildGoalAnnotations(goals: Goal[]): ApexAnnotations {

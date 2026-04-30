@@ -17,6 +17,7 @@ use FinGather\Model\Entity\Goal;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Service\DataCalculator\DcaPlanDataCalculator;
+use FinGather\Service\DataCalculator\DcaPlanMonteCarloSimulator;
 use FinGather\Service\DataCalculator\Dto\CalculatedDataDto;
 use FinGather\Service\DataCalculator\Dto\ReturnRateDto;
 use FinGather\Service\Goal\GoalChecker;
@@ -39,6 +40,7 @@ use ReflectionClass;
 #[UsesClass(DcaPlanProjectionPointDto::class)]
 #[UsesClass(GoalReachabilityDto::class)]
 #[UsesClass(DcaPlanDataCalculator::class)]
+#[UsesClass(DcaPlanMonteCarloSimulator::class)]
 #[UsesClass(AssetsWithPropertiesDto::class)]
 #[UsesClass(ReturnRateDto::class)]
 #[UsesClass(CalculatedDataDto::class)]
@@ -323,7 +325,11 @@ final class GoalCheckerTest extends TestCase
 
 		$tickerDataProvider = self::createStub(TickerDataProviderInterface::class);
 
-		$dcaPlanDataCalculator = new DcaPlanDataCalculator($tickerDataProvider, $assetWithPropertiesProvider);
+		$dcaPlanDataCalculator = new DcaPlanDataCalculator(
+			$tickerDataProvider,
+			$assetWithPropertiesProvider,
+			new DcaPlanMonteCarloSimulator($tickerDataProvider),
+		);
 
 		return new GoalChecker($portfolioDataProvider, $dcaPlanDataCalculator);
 	}

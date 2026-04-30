@@ -623,8 +623,10 @@
         "title": "Projected Growth",
         "years": "Y",
         "withCurrentValue": "Include current value",
+        "showSimulationBand": "Show range (P10–P90)",
         "seriesProjectedValue": "Projected Value",
-        "seriesInvestedCapital": "Invested Capital"
+        "seriesInvestedCapital": "Invested Capital",
+        "seriesSimulationBand": "Range (P10–P90)"
       },
       "detail": {
         "title": "DCA Plan Detail",

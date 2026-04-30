@@ -16,6 +16,9 @@ interface TickerDataProviderInterface
 	/** @return Iterator<TickerData> */
 	public function getTickerDatas(Ticker $ticker, DateTimeImmutable $fromDate, DateTimeImmutable $toDate): Iterator;
 
+	/** @return Iterator<TickerData> */
+	public function getTickerDatasByTickerId(int $tickerId, DateTimeImmutable $fromDate, DateTimeImmutable $toDate): Iterator;
+
 	/** @return list<TickerDataAdjustedDto> */
 	public function getAdjustedTickerDatas(Ticker $ticker, DateTimeImmutable $fromDate, DateTimeImmutable $toDate): array;
 

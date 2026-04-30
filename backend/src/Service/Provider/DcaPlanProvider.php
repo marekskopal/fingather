@@ -107,8 +107,17 @@ final readonly class DcaPlanProvider implements DcaPlanProviderInterface
 		return $this->dcaPlanDataCalculator->calculateReturnRate($dcaPlan);
 	}
 
-	public function getProjection(DcaPlan $dcaPlan, int $horizonYears = 10, bool $withCurrentValue = true): DcaPlanProjectionDto
+	public function getProjection(
+		DcaPlan $dcaPlan,
+		int $horizonYears = 10,
+		bool $withCurrentValue = true,
+		int $simulations = 0,
+	): DcaPlanProjectionDto
 	{
+		if ($simulations > 0) {
+			return $this->dcaPlanDataCalculator->getProjectionWithSimulation($dcaPlan, $horizonYears, $withCurrentValue, $simulations);
+		}
+
 		return $this->dcaPlanDataCalculator->getProjection($dcaPlan, $horizonYears, $withCurrentValue);
 	}
 }

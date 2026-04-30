@@ -623,8 +623,10 @@
         "title": "Předpokládaný růst",
         "years": "R",
         "withCurrentValue": "Zahrnout aktuální hodnotu",
+        "showSimulationBand": "Zobrazit rozsah (P10–P90)",
         "seriesProjectedValue": "Předpokládaná hodnota",
-        "seriesInvestedCapital": "Investovaný kapitál"
+        "seriesInvestedCapital": "Investovaný kapitál",
+        "seriesSimulationBand": "Rozsah (P10–P90)"
       },
       "detail": {
         "title": "Detail DCA Plánu",

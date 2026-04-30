@@ -627,8 +627,10 @@
         "title": "Crecimiento proyectado",
         "years": "A",
         "withCurrentValue": "Incluir valor actual",
+        "showSimulationBand": "Mostrar rango (P10–P90)",
         "seriesProjectedValue": "Valor proyectado",
-        "seriesInvestedCapital": "Capital invertido"
+        "seriesInvestedCapital": "Capital invertido",
+        "seriesSimulationBand": "Rango (P10–P90)"
       },
       "detail": {
         "title": "Detalle del plan DCA",

@@ -23,6 +23,9 @@ export interface DcaPlanProjectionPoint {
     date: string;
     investedCapital: string;
     projectedValue: string;
+    p10?: string | null;
+    p50?: string | null;
+    p90?: string | null;
 }
 
 export interface DcaPlanProjection {

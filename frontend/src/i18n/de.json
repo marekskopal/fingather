@@ -627,8 +627,10 @@
         "title": "Prognostiziertes Wachstum",
         "years": "J",
         "withCurrentValue": "Aktuellen Wert einbeziehen",
+        "showSimulationBand": "Bereich anzeigen (P10–P90)",
         "seriesProjectedValue": "Prognostizierter Wert",
-        "seriesInvestedCapital": "Investiertes Kapital"
+        "seriesInvestedCapital": "Investiertes Kapital",
+        "seriesSimulationBand": "Bereich (P10–P90)"
       },
       "detail": {
         "title": "DCA-Plan Details",

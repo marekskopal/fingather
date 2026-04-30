@@ -33,6 +33,7 @@ use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\TickerData;
 use FinGather\Model\Entity\User;
 use FinGather\Service\DataCalculator\DcaPlanDataCalculator;
+use FinGather\Service\DataCalculator\DcaPlanMonteCarloSimulator;
 use FinGather\Service\DataCalculator\Dto\ReturnRateDto;
 use FinGather\Service\DataCalculator\Dto\TickerWeightDto;
 use FinGather\Service\Provider\AssetWithPropertiesProviderInterface;
@@ -50,6 +51,7 @@ use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(DcaPlanDataCalculator::class)]
+#[UsesClass(DcaPlanMonteCarloSimulator::class)]
 #[UsesClass(TickerWeightDto::class)]
 #[UsesClass(DcaPlan::class)]
 #[UsesClass(Asset::class)]
@@ -150,7 +152,11 @@ final class DcaPlanDataCalculatorTest extends TestCase
 
 		$dcaPlan = $this->createDcaPlan(DcaPlanTargetTypeEnum::Portfolio);
 
-		$calculator = new DcaPlanDataCalculator($tickerDataProvider, $assetWithPropertiesProvider);
+		$calculator = new DcaPlanDataCalculator(
+			$tickerDataProvider,
+			$assetWithPropertiesProvider,
+			new DcaPlanMonteCarloSimulator($tickerDataProvider),
+		);
 
 		$returnRate = $calculator->calculateReturnRate($dcaPlan);
 		self::assertSame(14.0, $returnRate->annual);
@@ -266,7 +272,11 @@ final class DcaPlanDataCalculatorTest extends TestCase
 
 		$dcaPlan = $this->createDcaPlan(DcaPlanTargetTypeEnum::Portfolio);
 
-		$calculator = new DcaPlanDataCalculator($tickerDataProvider, $assetWithPropertiesProvider);
+		$calculator = new DcaPlanDataCalculator(
+			$tickerDataProvider,
+			$assetWithPropertiesProvider,
+			new DcaPlanMonteCarloSimulator($tickerDataProvider),
+		);
 
 		$returnRate = $calculator->calculateReturnRate($dcaPlan);
 		self::assertSame(-5.0, $returnRate->annual);
@@ -333,7 +343,11 @@ final class DcaPlanDataCalculatorTest extends TestCase
 		$dcaPlan = $this->createDcaPlan(DcaPlanTargetTypeEnum::Strategy, strategy: $strategy);
 
 		$assetWithPropertiesProvider = self::createStub(AssetWithPropertiesProviderInterface::class);
-		$calculator = new DcaPlanDataCalculator($tickerDataProvider, $assetWithPropertiesProvider);
+		$calculator = new DcaPlanDataCalculator(
+			$tickerDataProvider,
+			$assetWithPropertiesProvider,
+			new DcaPlanMonteCarloSimulator($tickerDataProvider),
+		);
 
 		$returnRate = $calculator->calculateReturnRate($dcaPlan);
 		self::assertSame(29.0, $returnRate->annual);
@@ -400,7 +414,11 @@ final class DcaPlanDataCalculatorTest extends TestCase
 		$dcaPlan = $this->createDcaPlan(DcaPlanTargetTypeEnum::Strategy, strategy: $strategy);
 
 		$assetWithPropertiesProvider = self::createStub(AssetWithPropertiesProviderInterface::class);
-		$calculator = new DcaPlanDataCalculator($tickerDataProvider, $assetWithPropertiesProvider);
+		$calculator = new DcaPlanDataCalculator(
+			$tickerDataProvider,
+			$assetWithPropertiesProvider,
+			new DcaPlanMonteCarloSimulator($tickerDataProvider),
+		);
 
 		$returnRate = $calculator->calculateReturnRate($dcaPlan);
 		self::assertSame(0.0, $returnRate->annual);
@@ -558,7 +576,11 @@ final class DcaPlanDataCalculatorTest extends TestCase
 		$tickerDataProvider->method('getFirstTickerData')->willReturn(null);
 		$tickerDataProvider->method('getLastTickerData')->willReturn(null);
 
-		$calculator = new DcaPlanDataCalculator($tickerDataProvider, $assetWithPropertiesProvider);
+		$calculator = new DcaPlanDataCalculator(
+			$tickerDataProvider,
+			$assetWithPropertiesProvider,
+			new DcaPlanMonteCarloSimulator($tickerDataProvider),
+		);
 
 		$dcaPlan = $this->createDcaPlan(DcaPlanTargetTypeEnum::Portfolio);
 		$projection = $calculator->getProjection($dcaPlan, horizonYears: 1, withCurrentValue: true);
@@ -589,7 +611,11 @@ final class DcaPlanDataCalculatorTest extends TestCase
 		$tickerDataProvider->method('getFirstTickerData')->willReturn(null);
 		$tickerDataProvider->method('getLastTickerData')->willReturn(null);
 
-		$calculator = new DcaPlanDataCalculator($tickerDataProvider, $assetWithPropertiesProvider);
+		$calculator = new DcaPlanDataCalculator(
+			$tickerDataProvider,
+			$assetWithPropertiesProvider,
+			new DcaPlanMonteCarloSimulator($tickerDataProvider),
+		);
 
 		$dcaPlan = $this->createDcaPlan(DcaPlanTargetTypeEnum::Asset, asset: $asset);
 		$projection = $calculator->getProjection($dcaPlan, horizonYears: 1, withCurrentValue: true);
@@ -623,7 +649,11 @@ final class DcaPlanDataCalculatorTest extends TestCase
 		$tickerDataProvider->method('getFirstTickerData')->willReturn(null);
 		$tickerDataProvider->method('getLastTickerData')->willReturn(null);
 
-		$calculator = new DcaPlanDataCalculator($tickerDataProvider, $assetWithPropertiesProvider);
+		$calculator = new DcaPlanDataCalculator(
+			$tickerDataProvider,
+			$assetWithPropertiesProvider,
+			new DcaPlanMonteCarloSimulator($tickerDataProvider),
+		);
 
 		$dcaPlan = $this->createDcaPlan(DcaPlanTargetTypeEnum::Group, group: $group);
 		$projection = $calculator->getProjection($dcaPlan, horizonYears: 1, withCurrentValue: true);
@@ -647,7 +677,11 @@ final class DcaPlanDataCalculatorTest extends TestCase
 		$tickerDataProvider->method('getFirstTickerData')->willReturn(null);
 		$tickerDataProvider->method('getLastTickerData')->willReturn(null);
 
-		$calculator = new DcaPlanDataCalculator($tickerDataProvider, $assetWithPropertiesProvider);
+		$calculator = new DcaPlanDataCalculator(
+			$tickerDataProvider,
+			$assetWithPropertiesProvider,
+			new DcaPlanMonteCarloSimulator($tickerDataProvider),
+		);
 
 		$dcaPlan = $this->createDcaPlan(DcaPlanTargetTypeEnum::Portfolio);
 		$projection = $calculator->getProjection($dcaPlan, horizonYears: 1, withCurrentValue: false);
@@ -697,7 +731,11 @@ final class DcaPlanDataCalculatorTest extends TestCase
 		$assetWithPropertiesProvider->method('getAssetsWithAssetData')
 			->willReturn(new AssetsWithPropertiesDto(openAssets: [], closedAssets: [], watchedAssets: []));
 
-		return new DcaPlanDataCalculator($tickerDataProvider, $assetWithPropertiesProvider);
+		return new DcaPlanDataCalculator(
+			$tickerDataProvider,
+			$assetWithPropertiesProvider,
+			new DcaPlanMonteCarloSimulator($tickerDataProvider),
+		);
 	}
 
 	private function createAssetWithPropertiesDto(

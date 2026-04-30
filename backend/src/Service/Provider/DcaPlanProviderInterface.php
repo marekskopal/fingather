@@ -57,5 +57,10 @@ interface DcaPlanProviderInterface
 
 	public function getReturnRate(DcaPlan $dcaPlan): ReturnRateDto;
 
-	public function getProjection(DcaPlan $dcaPlan, int $horizonYears = 10, bool $withCurrentValue = true): DcaPlanProjectionDto;
+	public function getProjection(
+		DcaPlan $dcaPlan,
+		int $horizonYears = 10,
+		bool $withCurrentValue = true,
+		int $simulations = 0,
+	): DcaPlanProjectionDto;
 }

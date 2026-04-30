@@ -31,10 +31,15 @@ export class DcaPlanService extends NotifyService {
         return firstValueFrom<OkResponse>(this.http.delete<OkResponse>(`${environment.apiUrl}/dca-plan/${id}`));
     }
 
-    public getProjection(id: number, horizonYears?: number, withCurrentValue: boolean = true): Promise<DcaPlanProjection> {
+    public getProjection(
+        id: number,
+        horizonYears?: number,
+        withCurrentValue: boolean = true,
+        simulations: number = 0,
+    ): Promise<DcaPlanProjection> {
         return firstValueFrom<DcaPlanProjection>(
             this.http.get<DcaPlanProjection>(`${environment.apiUrl}/dca-plan/${id}/projection`, {
-                params: buildHttpParams({ horizonYears, withCurrentValue }),
+                params: buildHttpParams({ horizonYears, withCurrentValue, simulations }),
             }),
         );
     }

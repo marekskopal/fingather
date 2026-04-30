@@ -18,18 +18,33 @@
                     </li>
                 }
             </ul>
-            <div class="form-check form-switch mb-0">
-                <input
-                    class="form-check-input"
-                    type="checkbox"
-                    role="switch"
-                    id="withCurrentValue"
-                    [ngModel]="withCurrentValue()"
-                    (ngModelChange)="toggleWithCurrentValue($event)"
-                />
-                <label class="form-check-label" for="withCurrentValue">
-                    {{ 'app.dcaPlans.projection.withCurrentValue' | translate }}
-                </label>
+            <div class="d-flex gap-3 align-items-center">
+                <div class="form-check form-switch mb-0">
+                    <input
+                        class="form-check-input"
+                        type="checkbox"
+                        role="switch"
+                        id="showSimulationBand"
+                        [ngModel]="showSimulationBand()"
+                        (ngModelChange)="toggleShowSimulationBand($event)"
+                    />
+                    <label class="form-check-label" for="showSimulationBand">
+                        {{ 'app.dcaPlans.projection.showSimulationBand' | translate }}
+                    </label>
+                </div>
+                <div class="form-check form-switch mb-0">
+                    <input
+                        class="form-check-input"
+                        type="checkbox"
+                        role="switch"
+                        id="withCurrentValue"
+                        [ngModel]="withCurrentValue()"
+                        (ngModelChange)="toggleWithCurrentValue($event)"
+                    />
+                    <label class="form-check-label" for="withCurrentValue">
+                        {{ 'app.dcaPlans.projection.withCurrentValue' | translate }}
+                    </label>
+                </div>
             </div>
         </div>
         @if (!loading()) {

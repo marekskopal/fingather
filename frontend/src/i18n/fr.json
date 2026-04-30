@@ -627,8 +627,10 @@
         "title": "Croissance projetée",
         "years": "A",
         "withCurrentValue": "Inclure la valeur actuelle",
+        "showSimulationBand": "Afficher la plage (P10–P90)",
         "seriesProjectedValue": "Valeur projetée",
-        "seriesInvestedCapital": "Capital investi"
+        "seriesInvestedCapital": "Capital investi",
+        "seriesSimulationBand": "Plage (P10–P90)"
       },
       "detail": {
         "title": "Détail du plan DCA",

@@ -45,6 +45,12 @@ final readonly class TickerDataProvider implements TickerDataProviderInterface
 		return $this->tickerDataRepository->findTickerDatas($ticker->id, $fromDate, $toDate);
 	}
 
+	/** @return Iterator<TickerData> */
+	public function getTickerDatasByTickerId(int $tickerId, DateTimeImmutable $fromDate, DateTimeImmutable $toDate): Iterator
+	{
+		return $this->tickerDataRepository->findTickerDatas($tickerId, $fromDate, $toDate);
+	}
+
 	/** @return list<TickerDataAdjustedDto> */
 	public function getAdjustedTickerDatas(Ticker $ticker, DateTimeImmutable $fromDate, DateTimeImmutable $toDate): array
 	{

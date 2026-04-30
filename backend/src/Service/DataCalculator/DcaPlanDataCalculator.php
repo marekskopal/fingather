@@ -29,10 +29,13 @@ final readonly class DcaPlanDataCalculator
 	private const int MonthsPerYear = 12;
 	private const float AvgSecondsPerMonth = 30.4375 * 24 * 3600;
 	private const int DecimalPrecision = 8;
+	private const int MaxSimulations = 50000;
+	private const int MinHistoryMonthsForSimulation = 24;
 
 	public function __construct(
 		private TickerDataProviderInterface $tickerDataProvider,
 		private AssetWithPropertiesProviderInterface $assetWithPropertiesProvider,
+		private DcaPlanMonteCarloSimulator $monteCarloSimulator,
 	) {
 	}
 
@@ -96,6 +99,60 @@ final readonly class DcaPlanDataCalculator
 		}
 
 		return new DcaPlanProjectionDto(dataPoints: $dataPoints);
+	}
+
+	public function getProjectionWithSimulation(
+		DcaPlan $dcaPlan,
+		int $horizonYears,
+		bool $withCurrentValue,
+		int $simulations,
+	): DcaPlanProjectionDto {
+		$deterministic = $this->getProjection($dcaPlan, $horizonYears, $withCurrentValue);
+		if ($simulations <= 0) {
+			return $deterministic;
+		}
+
+		$tickerWeights = $this->getTickerWeights($dcaPlan);
+		if (count($tickerWeights) === 0) {
+			return $deterministic;
+		}
+
+		$monthlyReturns = $this->monteCarloSimulator->buildMonthlyCompositeReturns(
+			$tickerWeights,
+			new DateTimeImmutable('today'),
+			self::HistoryYears,
+		);
+		if (count($monthlyReturns) < self::MinHistoryMonthsForSimulation) {
+			return $deterministic;
+		}
+
+		$months = count($deterministic->dataPoints);
+		if ($months === 0) {
+			return $deterministic;
+		}
+
+		$result = $this->monteCarloSimulator->simulate(
+			monthlyReturns: $monthlyReturns,
+			startValue: $withCurrentValue ? $this->getCurrentValue($dcaPlan) : 0.0,
+			amount: $dcaPlan->amount->toFloat(),
+			months: $months,
+			simulations: min($simulations, self::MaxSimulations),
+		);
+
+		$enriched = [];
+		foreach ($deterministic->dataPoints as $i => $point) {
+			$enriched[] = new DcaPlanProjectionPointDto(
+				id: $point->id,
+				date: $point->date,
+				investedCapital: $point->investedCapital,
+				projectedValue: $point->projectedValue,
+				p10: CalculatorUtils::floatToDecimal($result->p10[$i], self::DecimalPrecision),
+				p50: CalculatorUtils::floatToDecimal($result->p50[$i], self::DecimalPrecision),
+				p90: CalculatorUtils::floatToDecimal($result->p90[$i], self::DecimalPrecision),
+			);
+		}
+
+		return new DcaPlanProjectionDto(dataPoints: $enriched);
 	}
 
 	private function getCurrentValue(DcaPlan $dcaPlan): float
