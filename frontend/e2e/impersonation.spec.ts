@@ -117,6 +117,7 @@ test.describe('Admin impersonation', () => {
     });
 
     test('admin cannot impersonate self or other admins', async ({ page, request }) => {
+        await page.goto('/');
         const access = await readAccessToken(page);
         const ownId = await page.evaluate(() => {
             const raw = localStorage.getItem('authentication') ?? '{}';

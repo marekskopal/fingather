@@ -94,7 +94,8 @@
               "sslCert": "/Users/marek/web/www/legito/public_html/dev_ssl/server.crt"
             },
             "e2e": {
-              "buildTarget": "fingather:build:e2e"
+              "buildTarget": "fingather:build:e2e",
+              "proxyConfig": "proxy.e2e.conf.json"
             },
             "production": {
               "buildTarget": "fingather:build:production"
