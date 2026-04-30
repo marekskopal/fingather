@@ -19,7 +19,8 @@ final readonly class TransactionRecordFactory implements TransactionRecordFactor
 		return new TransactionRecord(
 			ticker: $this->mapCsvRecordColumn($mapping->ticker, $csvRecord),
 			isin: $this->mapCsvRecordColumn($mapping->isin, $csvRecord),
-			marketMic: $this->mapCsvRecordColumnToUpper($mapping->actionType, $csvRecord),
+			marketMic: $this->mapCsvRecordColumnToUpper($mapping->marketMic, $csvRecord),
+			country: $this->mapCsvRecordColumnToUpper($mapping->country, $csvRecord),
 			actionType: $this->mapCsvRecordColumnToLower($mapping->actionType, $csvRecord),
 			created: $this->mapCsvRecordColumnToDate($mapping->created, $csvRecord),
 			units: $this->mapCsvRecordColumnToDecimal($mapping->units, $csvRecord),

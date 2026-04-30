@@ -1268,6 +1268,7 @@ final class ImportServiceTest extends TestCase
 		?ImportMapperFactoryInterface $importMapperFactory = null,
 		?TransactionRecordFactoryInterface $transactionRecordFactory = null,
 		?SplitProviderInterface $splitProvider = null,
+		?\FinGather\Model\Repository\MarketRepository $marketRepository = null,
 		array $importFiles = [],
 		?TransactionRecord $transactionRecord = null,
 		array $importMappings = [],
@@ -1331,6 +1332,7 @@ final class ImportServiceTest extends TestCase
 			importMapperFactory: $importMapperFactory ?? $defaultMapperFactory,
 			transactionRecordFactory: $transactionRecordFactory ?? $defaultTransactionRecordFactory,
 			splitProvider: $splitProvider ?? $defaultSplitProvider,
+			marketRepository: $marketRepository ?? (new \ReflectionClass(\FinGather\Model\Repository\MarketRepository::class))->newInstanceWithoutConstructor(),
 			logger: self::createStub(LoggerInterface::class),
 		);
 	}
@@ -1361,6 +1363,7 @@ final class ImportServiceTest extends TestCase
 	private function makeTransactionRecord(
 		?string $ticker = 'AAPL',
 		?string $isin = null,
+		?string $country = null,
 		?string $actionType = 'buy',
 		?DateTimeImmutable $created = null,
 		Decimal|null|false $units = false,
@@ -1378,6 +1381,7 @@ final class ImportServiceTest extends TestCase
 		return new TransactionRecord(
 			ticker: $ticker,
 			isin: $isin,
+			country: $country,
 			actionType: $actionType,
 			created: $created ?? new DateTimeImmutable('2024-01-01'),
 			units: $units === false ? new Decimal('5') : $units,

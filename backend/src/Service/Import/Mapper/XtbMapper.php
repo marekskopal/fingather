@@ -34,6 +34,7 @@ final class XtbMapper extends XlsxMapper
 	{
 		$mappingDto = new MappingDto(
 			actionType: self::Type,
+			country: fn (array $record): ?string => $this->countryFromSymbol($record[self::Symbol]),
 			created: fn (array $record): string => Date::excelToDateTimeObject((float) $record[self::Created])->format('Y-m-d H:i:s'),
 			ticker: fn (array $record): string => substr($record[self::Symbol], 0, (int) strrpos($record[self::Symbol], '.')),
 			units: self::Volume,
@@ -44,6 +45,31 @@ final class XtbMapper extends XlsxMapper
 			importIdentifier: self::Id,
 		);
 		return $mappingDto;
+	}
+
+	private function countryFromSymbol(string $symbol): ?string
+	{
+		$dotPos = strrpos($symbol, '.');
+		if ($dotPos === false) {
+			return null;
+		}
+
+		// XTB suffixes are exchange/country tags (".DE", ".UK", etc.). Map them to the
+		// markets.country code so the resolver can scope ticker lookups to the right
+		// country and avoid colliding with same-named tickers on other exchanges
+		// (e.g. MC.FR is LVMH on Paris, not Moelis on NYSE).
+		return match (substr($symbol, $dotPos + 1)) {
+			'DE' => 'DE',
+			'NL' => 'NL',
+			'US' => 'US',
+			'FR' => 'FR',
+			'UK' => 'GB',
+			'IT' => 'IT',
+			'CH' => 'CH',
+			'ES' => 'ES',
+			'PL' => 'PL',
+			default => null,
+		};
 	}
 
 	/** @return list<array<string, string>> */

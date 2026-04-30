@@ -35,6 +35,31 @@ final class XtbMapperTest extends AbstractMapperTestCase
 		self::assertNotNull($mapping->units);
 		self::assertNotNull($mapping->price);
 		self::assertNotNull($mapping->importIdentifier);
+		self::assertNotNull($mapping->country);
+	}
+
+	/**
+	 * @return iterable<string, array{string, string|null}>
+	 */
+	public static function symbolCountryProvider(): iterable
+	{
+		yield 'german' => ['BRYN.DE', 'DE'];
+		yield 'french' => ['MC.FR', 'FR'];
+		yield 'uk uses ISO GB' => ['CBU0.UK', 'GB'];
+		yield 'us' => ['AAPL.US', 'US'];
+		yield 'dutch' => ['ASML.NL', 'NL'];
+		yield 'unknown suffix' => ['FOO.XX', null];
+		yield 'no suffix' => ['FOO', null];
+	}
+
+	#[DataProvider('symbolCountryProvider')]
+	public function testCountryClosureMapsSuffixToIsoCountry(string $symbol, ?string $expected): void
+	{
+		$mapper = new XtbMapper();
+		$mapping = $mapper->getMapping();
+
+		self::assertInstanceOf(\Closure::class, $mapping->country);
+		self::assertSame($expected, ($mapping->country)(['Symbol' => $symbol]));
 	}
 
 	#[DataProvider('mapperDataProvider')]

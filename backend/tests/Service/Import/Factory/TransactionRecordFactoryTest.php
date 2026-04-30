@@ -117,14 +117,23 @@ final class TransactionRecordFactoryTest extends TestCase
 
 	public function testActionTypeIsLowercasedAndMarketMicIsUppercased(): void
 	{
-		// actionType column is mapped to BOTH marketMic (uppercased) and actionType (lowercased)
 		$factory = new TransactionRecordFactory();
-		$mapper = $this->makeMapper(new MappingDto(actionType: 'action'));
+		$mapper = $this->makeMapper(new MappingDto(marketMic: 'mic', actionType: 'action'));
 
-		$record = $factory->createFromCsvRecord($mapper, ['action' => 'Buy']);
+		$record = $factory->createFromCsvRecord($mapper, ['action' => 'Buy', 'mic' => 'xnys']);
 
 		self::assertSame('buy', $record->actionType);
-		self::assertSame('BUY', $record->marketMic);
+		self::assertSame('XNYS', $record->marketMic);
+	}
+
+	public function testCountryIsUppercased(): void
+	{
+		$factory = new TransactionRecordFactory();
+		$mapper = $this->makeMapper(new MappingDto(country: 'country'));
+
+		$record = $factory->createFromCsvRecord($mapper, ['country' => 'de']);
+
+		self::assertSame('DE', $record->country);
 	}
 
 	public function testBooleanFieldIsCoercedFromTruthyString(): void

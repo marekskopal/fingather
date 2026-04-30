@@ -15,6 +15,9 @@ final class MarketRepository extends AbstractRepository
 	/** @var array<string,Market|null> */
 	private array $marketsByExchangeCode = [];
 
+	/** @var array<string,list<int>> */
+	private array $marketIdsByCountry = [];
+
 	/** @return Iterator<Market> */
 	public function findMarkets(?MarketTypeEnum $type = null): Iterator
 	{
@@ -45,5 +48,20 @@ final class MarketRepository extends AbstractRepository
 		]);
 
 		return $this->marketsByExchangeCode[$exchangeCode];
+	}
+
+	/** @return list<int> */
+	public function findMarketIdsByCountry(string $country): array
+	{
+		if (isset($this->marketIdsByCountry[$country])) {
+			return $this->marketIdsByCountry[$country];
+		}
+
+		$ids = [];
+		foreach ($this->findAll(['country' => $country]) as $market) {
+			$ids[] = $market->id;
+		}
+
+		return $this->marketIdsByCountry[$country] = $ids;
 	}
 }

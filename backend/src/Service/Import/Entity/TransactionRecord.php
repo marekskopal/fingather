@@ -13,6 +13,7 @@ final readonly class TransactionRecord
 		public ?string $ticker = null,
 		public ?string $isin = null,
 		public ?string $marketMic = null,
+		public ?string $country = null,
 		public ?string $actionType = null,
 		public ?DateTimeImmutable $created = null,
 		public ?Decimal $units = null,

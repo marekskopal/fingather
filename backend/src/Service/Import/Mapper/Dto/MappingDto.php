@@ -16,6 +16,8 @@ final readonly class MappingDto
 		/** @var string|Closure(array<string> $record): (string|null)|null */
 		public string|Closure|null $marketMic = null,
 		/** @var string|Closure(array<string> $record): (string|null)|null */
+		public string|Closure|null $country = null,
+		/** @var string|Closure(array<string> $record): (string|null)|null */
 		public string|Closure|null $actionType = null,
 		/** @var string|Closure(array<string> $record): (string|null)|null */
 		public string|Closure|null $created = null,

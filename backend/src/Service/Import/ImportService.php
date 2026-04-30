@@ -17,6 +17,7 @@ use FinGather\Model\Entity\ImportMapping;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\User;
+use FinGather\Model\Repository\MarketRepository;
 use FinGather\Service\Import\Entity\TransactionRecord;
 use FinGather\Service\Import\Factory\ImportMapperFactoryInterface;
 use FinGather\Service\Import\Factory\TransactionRecordFactoryInterface;
@@ -50,6 +51,7 @@ final readonly class ImportService
 		private ImportMapperFactoryInterface $importMapperFactory,
 		private TransactionRecordFactoryInterface $transactionRecordFactory,
 		private SplitProviderInterface $splitProvider,
+		private MarketRepository $marketRepository,
 		private LoggerInterface $logger,
 	) {
 	}
@@ -216,12 +218,22 @@ final readonly class ImportService
 			return null;
 		}
 
+		$marketIds = $this->resolveMarketIds($transactionRecord, $importMapper);
+
 		$ticker = $this->tickerProvider->getTickerByTicker(
 			ticker: $transactionRecord->ticker,
 			isin: $transactionRecord->isin,
-			marketIds: $importMapper->getAllowedMarketIds(),
+			marketIds: $marketIds,
 		);
 		if ($ticker === null) {
+			$ticker = $this->tickerProvider->getTickerByTicker(
+				ticker: $transactionRecord->ticker,
+				marketIds: $marketIds,
+			);
+		}
+		// Country scoping is a hint, not a hard filter — fall back to the mapper-level
+		// allowed markets if the country-restricted lookup found nothing.
+		if ($ticker === null && $marketIds !== $importMapper->getAllowedMarketIds()) {
 			$ticker = $this->tickerProvider->getTickerByTicker(
 				ticker: $transactionRecord->ticker,
 				marketIds: $importMapper->getAllowedMarketIds(),
@@ -229,6 +241,27 @@ final readonly class ImportService
 		}
 
 		return $ticker;
+	}
+
+	/** @return list<int>|null */
+	private function resolveMarketIds(TransactionRecord $transactionRecord, MapperInterface $importMapper): ?array
+	{
+		$mapperAllowed = $importMapper->getAllowedMarketIds();
+		if ($transactionRecord->country === null) {
+			return $mapperAllowed;
+		}
+
+		$countryIds = $this->marketRepository->findMarketIdsByCountry($transactionRecord->country);
+		if (count($countryIds) === 0) {
+			return $mapperAllowed;
+		}
+
+		if ($mapperAllowed === null) {
+			return $countryIds;
+		}
+
+		$intersect = array_values(array_intersect($mapperAllowed, $countryIds));
+		return count($intersect) > 0 ? $intersect : $mapperAllowed;
 	}
 
 	private function getTickerKey(TransactionRecord $transactionRecord, Broker $broker): ?string
