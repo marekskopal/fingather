@@ -49,7 +49,7 @@ function buildProviders(
             { provide: CurrencyService, useValue: currencyServiceSpy },
             { provide: AlertService, useValue: alertServiceSpy },
             { provide: Router, useValue: routerSpy },
-            { provide: ActivatedRoute, useValue: { snapshot: { params: routeParams } } },
+            { provide: ActivatedRoute, useValue: { snapshot: { params: routeParams, queryParams: {} } } },
         ],
         schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
