@@ -125,7 +125,9 @@ final class XtbMapper extends XlsxMapper
 	/** @return array{action: string, volume: string}|null */
 	private function parseOperationDetails(string $comment): ?array
 	{
-		if (preg_match('/^(OPEN|CLOSE)\s+(BUY|SELL)\s+([\d.]+)\s+@\s+([\d.]+)$/', $comment, $matches) !== 1) {
+		// Volume can be either a single number (e.g. "OPEN BUY 3 @ 7.69") or
+		// a partial-trade pair "this_volume/total_position_volume" (e.g. "CLOSE BUY 0.4511/0.5846 @ 1094.50").
+		if (preg_match('/^(OPEN|CLOSE)\s+(BUY|SELL)\s+([\d.]+)(?:\s*\/\s*[\d.]+)?\s+@\s+([\d.]+)$/', $comment, $matches) !== 1) {
 			return null;
 		}
 

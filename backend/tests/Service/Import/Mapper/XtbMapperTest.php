@@ -49,4 +49,74 @@ final class XtbMapperTest extends AbstractMapperTestCase
 
 		self::assertSame($expected, $mapper->check($fileContent, $fileName));
 	}
+
+	public function testGetRecordsParsesSimpleAndPartialOperations(): void
+	{
+		$records = $this->getXtbRecords();
+
+		// Simple format: "OPEN BUY 0.1823 @ 257.80"
+		$simpleBuy = $this->findRecordById($records, '1089479372');
+		self::assertSame('BUY', $simpleBuy['Type']);
+		self::assertSame('0.1823', $simpleBuy['Volume']);
+		self::assertSame('AAPL.US', $simpleBuy['Symbol']);
+		self::assertSame('982.94', $simpleBuy['Total']);
+		self::assertSame('CZK', $simpleBuy['Currency']);
+
+		// Simple format: "CLOSE BUY 0.1823 @ 257.89"
+		$simpleSell = $this->findRecordById($records, '1089480050');
+		self::assertSame('SELL', $simpleSell['Type']);
+		self::assertSame('0.1823', $simpleSell['Volume']);
+
+		// Partial open: "OPEN BUY 2/2.5119 @ 12.85" — only the first number is the trade volume.
+		$partialBuy = $this->findRecordById($records, '1100000001');
+		self::assertSame('BUY', $partialBuy['Type']);
+		self::assertSame('2', $partialBuy['Volume']);
+		self::assertSame('ABC.US', $partialBuy['Symbol']);
+
+		// Partial close: "CLOSE BUY 0.4511/0.5846 @ 1094.50".
+		// Without partial-close support these rows were dropped, leaving the position
+		// open even though it had been (partially) sold.
+		$partialSell = $this->findRecordById($records, '1100000003');
+		self::assertSame('SELL', $partialSell['Type']);
+		self::assertSame('0.4511', $partialSell['Volume']);
+		self::assertSame('RHM.DE', $partialSell['Symbol']);
+	}
+
+	public function testGetRecordsParsesDividendWithWithholdingTax(): void
+	{
+		$records = $this->getXtbRecords();
+
+		$dividendRecord = $this->findRecordById($records, '764987766');
+		self::assertSame('DIVIDEND', $dividendRecord['Type']);
+		self::assertSame('NVDA.US', $dividendRecord['Symbol']);
+		self::assertSame('0.04', $dividendRecord['Tax']);
+	}
+
+	/**
+	 * @param list<array<string, string>> $records
+	 * @return array<string, string>
+	 */
+	private function findRecordById(array $records, string $id): array
+	{
+		foreach ($records as $record) {
+			if ($record['Id'] === $id) {
+				return $record;
+			}
+		}
+
+		self::fail('Record with Id ' . $id . ' not found');
+	}
+
+	/** @return list<array<string, string>> */
+	private function getXtbRecords(): array
+	{
+		$mapper = new XtbMapper();
+
+		$fileContent = file_get_contents(__DIR__ . '/../../../Fixtures/Import/File/xtb_export.xlsx');
+		if ($fileContent === false) {
+			self::fail('Fixture file not found');
+		}
+
+		return $mapper->getRecords($fileContent);
+	}
 }
