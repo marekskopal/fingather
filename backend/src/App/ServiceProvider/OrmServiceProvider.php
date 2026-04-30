@@ -16,6 +16,7 @@ use FinGather\Model\Entity\EmailVerify;
 use FinGather\Model\Entity\ExchangeRate;
 use FinGather\Model\Entity\Goal;
 use FinGather\Model\Entity\Group;
+use FinGather\Model\Entity\ImpersonationSession;
 use FinGather\Model\Entity\Import;
 use FinGather\Model\Entity\ImportFile;
 use FinGather\Model\Entity\ImportMapping;
@@ -47,6 +48,7 @@ use FinGather\Model\Repository\EmailVerifyRepository;
 use FinGather\Model\Repository\ExchangeRateRepository;
 use FinGather\Model\Repository\GoalRepository;
 use FinGather\Model\Repository\GroupRepository;
+use FinGather\Model\Repository\ImpersonationSessionRepository;
 use FinGather\Model\Repository\ImportFileRepository;
 use FinGather\Model\Repository\ImportMappingRepository;
 use FinGather\Model\Repository\ImportRepository;
@@ -96,6 +98,7 @@ final class OrmServiceProvider extends AbstractServiceProvider
 			ExchangeRateRepository::class,
 			GoalRepository::class,
 			GroupRepository::class,
+			ImpersonationSessionRepository::class,
 			ImportRepository::class,
 			ImportFileRepository::class,
 			ImportMappingRepository::class,
@@ -140,6 +143,7 @@ final class OrmServiceProvider extends AbstractServiceProvider
 		$this->addRepository($container, $orm, ExchangeRateRepository::class, ExchangeRate::class);
 		$this->addRepository($container, $orm, GoalRepository::class, Goal::class);
 		$this->addRepository($container, $orm, GroupRepository::class, Group::class);
+		$this->addRepository($container, $orm, ImpersonationSessionRepository::class, ImpersonationSession::class);
 		$this->addRepository($container, $orm, IndustryRepository::class, Industry::class);
 		$this->addRepository($container, $orm, ImportRepository::class, Import::class);
 		$this->addRepository($container, $orm, ImportFileRepository::class, ImportFile::class);
