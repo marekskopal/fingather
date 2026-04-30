@@ -8,10 +8,8 @@ import { environment } from '@environments/environment';
 import { catchError, from, Observable, shareReplay, switchMap, tap, throwError } from 'rxjs';
 
 const refreshTokenUrl = `${environment.apiUrl}/authentication/refresh-token` as const;
+const stopImpersonationUrl = `${environment.apiUrl}/authentication/stop-impersonation` as const;
 
-// Shared in-flight refresh observable. All concurrent 401s subscribe to the same
-// request so only one token refresh is made. Errors propagate to all callers and
-// the reference is cleared on completion or error.
 let refreshTokenObservable: Observable<Authentication> | null = null;
 
 export function jwtInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
@@ -25,7 +23,11 @@ export function jwtInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): 
                 [401, 403].includes(err.status)
                 && authService.isLoggedIn()
                 && req.url !== refreshTokenUrl
+                && req.url !== stopImpersonationUrl
             ) {
+                if (authService.isImpersonating()) {
+                    return handleImpersonationFailure(req, next, authService, err);
+                }
                 return handleTokenRefresh(req, next, authService);
             }
 
@@ -71,5 +73,17 @@ function handleTokenRefresh(
             authService.logout();
             return throwError(() => err);
         }),
+    );
+}
+
+function handleImpersonationFailure(
+    req: HttpRequest<unknown>,
+    next: HttpHandlerFn,
+    authService: AuthenticationService,
+    originalError: HttpErrorResponse,
+): Observable<HttpEvent<unknown>> {
+    return from(authService.stopImpersonation()).pipe(
+        switchMap(() => next(addAuthHeader(req, authService))),
+        catchError(() => throwError(() => originalError)),
     );
 }

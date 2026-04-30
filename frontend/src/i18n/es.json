@@ -457,7 +457,16 @@
         "transactions": "Transacciones",
         "lastLoggedIn": "Último Inicio de Sesión",
         "lastRefreshTokenGenerated": "Última Actualización de Token",
-        "never": "nunca"
+        "never": "nunca",
+        "switchTo": "Cambiar a usuario",
+        "switchToConfirm": "¿Cambiar al usuario {{ email }}? Navegarás como esa persona hasta que pulses «Volver»."
+      }
+    },
+    "impersonation": {
+      "banner": {
+        "actingAs": "Actuando como {{ email }}",
+        "expiresIn": "Expira en",
+        "switchBack": "Volver"
       }
     },
     "dividends": {

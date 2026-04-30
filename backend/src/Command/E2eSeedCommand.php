@@ -37,6 +37,10 @@ final class E2eSeedCommand extends AbstractCommand
 	private const string TestPassword = 'Test1234!';
 	private const string TestName = 'E2E Test User';
 
+	private const string TargetEmail = 'target@fingather.test';
+	private const string TargetPassword = 'Target1234!';
+	private const string TargetName = 'E2E Target User';
+
 	private const int TickerAapl = 1679;
 	private const int TickerMsft = 2664;
 	private const int TickerNvda = 2722;
@@ -85,11 +89,17 @@ final class E2eSeedCommand extends AbstractCommand
 		$transactionProvider = $application->container->get(TransactionProviderInterface::class);
 		assert($transactionProvider instanceof TransactionProviderInterface);
 
-		// 4. Delete existing test user (cascades to all owned data)
+		// 4. Delete existing test users (cascades to all owned data)
 		$existing = $userProvider->getUserByEmail(self::TestEmail);
 		if ($existing !== null) {
 			$this->writeln('Deleting existing test user...', $output);
 			$userProvider->deleteUser($existing);
+		}
+
+		$existingTarget = $userProvider->getUserByEmail(self::TargetEmail);
+		if ($existingTarget !== null) {
+			$this->writeln('Deleting existing target user...', $output);
+			$userProvider->deleteUser($existingTarget);
 		}
 
 		// 5. Resolve USD currency
@@ -119,6 +129,19 @@ final class E2eSeedCommand extends AbstractCommand
 		);
 
 		$userProvider->onboardingCompleteUser($user);
+
+		// 6b. Create target user (non-admin) for impersonation tests.
+		$this->writeln('Creating target user ' . self::TargetEmail . '...', $output);
+		$targetUser = $userProvider->createUser(
+			email: self::TargetEmail,
+			password: self::TargetPassword,
+			name: self::TargetName,
+			defaultCurrency: $usd,
+			role: UserRoleEnum::User,
+			isEmailVerified: true,
+			locale: LocaleEnum::En,
+		);
+		$userProvider->onboardingCompleteUser($targetUser);
 
 		$portfolio = $portfolioProvider->getDefaultPortfolio($user);
 

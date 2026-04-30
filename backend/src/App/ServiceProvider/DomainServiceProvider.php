@@ -65,6 +65,8 @@ use FinGather\Service\Provider\GroupProvider;
 use FinGather\Service\Provider\GroupProviderInterface;
 use FinGather\Service\Provider\GroupWithGroupDataProvider;
 use FinGather\Service\Provider\GroupWithGroupDataProviderInterface;
+use FinGather\Service\Provider\ImpersonationSessionProvider;
+use FinGather\Service\Provider\ImpersonationSessionProviderInterface;
 use FinGather\Service\Provider\ImportFileProvider;
 use FinGather\Service\Provider\ImportFileProviderInterface;
 use FinGather\Service\Provider\ImportMappingProvider;
@@ -148,6 +150,7 @@ final class DomainServiceProvider extends AbstractServiceProvider
 			GroupDataProviderInterface::class,
 			GroupProviderInterface::class,
 			GroupWithGroupDataProviderInterface::class,
+			ImpersonationSessionProviderInterface::class,
 			ImportFileProviderInterface::class,
 			ImportMappingProviderInterface::class,
 			ImportProviderInterface::class,
@@ -211,6 +214,7 @@ final class DomainServiceProvider extends AbstractServiceProvider
 		$container->add(GroupDataProviderInterface::class, GroupDataProvider::class);
 		$container->add(GroupProviderInterface::class, GroupProvider::class);
 		$container->add(GroupWithGroupDataProviderInterface::class, GroupWithGroupDataProvider::class);
+		$container->add(ImpersonationSessionProviderInterface::class, ImpersonationSessionProvider::class);
 		$container->add(ImportFileProviderInterface::class, ImportFileProvider::class);
 		$container->add(ImportMappingProviderInterface::class, ImportMappingProvider::class);
 		$container->add(ImportProviderInterface::class, ImportProvider::class);

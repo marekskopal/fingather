@@ -1,0 +1,22 @@
+.impersonation-banner {
+    position: sticky;
+    top: 0;
+    z-index: 1050;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 16px;
+    background-color: #f59f00;
+    color: #1d1d1d;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    font-weight: 500;
+
+    &__text {
+        flex: 1 1 auto;
+    }
+
+    &__expiry {
+        font-variant-numeric: tabular-nums;
+        opacity: 0.9;
+    }
+}

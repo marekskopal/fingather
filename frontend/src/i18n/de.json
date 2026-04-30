@@ -457,7 +457,16 @@
         "transactions": "Transaktionen",
         "lastLoggedIn": "Letzte Anmeldung",
         "lastRefreshTokenGenerated": "Letzte Token-Aktualisierung",
-        "never": "nie"
+        "never": "nie",
+        "switchTo": "Zu Benutzer wechseln",
+        "switchToConfirm": "Zu Benutzer {{ email }} wechseln? Sie verwenden die App als diese Person, bis Sie auf „Zurück wechseln“ klicken."
+      }
+    },
+    "impersonation": {
+      "banner": {
+        "actingAs": "Aktiv als {{ email }}",
+        "expiresIn": "Läuft ab in",
+        "switchBack": "Zurück wechseln"
       }
     },
     "dividends": {

@@ -1,0 +1,19 @@
+@if (isImpersonating()) {
+    <div class="impersonation-banner" data-testid="impersonation-banner" role="status">
+        <mat-icon>switch_account</mat-icon>
+        <span class="impersonation-banner__text">
+            {{ 'app.impersonation.banner.actingAs' | translate: { email: impersonation()?.targetUserEmail } }}
+        </span>
+        <span class="impersonation-banner__expiry">
+            {{ 'app.impersonation.banner.expiresIn' | translate }} {{ remainingDisplay() }}
+        </span>
+        <button
+            type="button"
+            class="btn btn-light btn-sm"
+            data-testid="switch-back-button"
+            (click)="stopImpersonation()"
+        >
+            {{ 'app.impersonation.banner.switchBack' | translate }}
+        </button>
+    </div>
+}

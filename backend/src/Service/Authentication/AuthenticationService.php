@@ -6,6 +6,7 @@ namespace FinGather\Service\Authentication;
 
 use FinGather\Dto\AuthenticationDto;
 use FinGather\Dto\CredentialsDto;
+use FinGather\Dto\ImpersonationAuthenticationDto;
 use FinGather\Middleware\AuthorizationMiddleware;
 use FinGather\Model\Entity\User;
 use FinGather\Service\Authentication\Exceptions\AuthenticationException;
@@ -17,6 +18,7 @@ final readonly class AuthenticationService implements AuthenticationServiceInter
 {
 	private const AccessTokenExpiration = 3600;
 	private const RefreshTokenExpiration = 604800;
+	private const DefaultImpersonationTokenExpiration = 1800;
 
 	public function __construct(private UserProviderInterface $userProvider)
 	{
@@ -46,10 +48,42 @@ final readonly class AuthenticationService implements AuthenticationServiceInter
 		$this->userProvider->updateLastRefreshTokenGenerated($user);
 
 		return new AuthenticationDto(
-			accessToken: $this->createToken($user->id, $accessTokenExpiration),
-			refreshToken: $this->createToken($user->id, $refreshTokenExpiration),
+			accessToken: $this->createToken(['id' => $user->id, 'exp' => $accessTokenExpiration]),
+			refreshToken: $this->createToken(['id' => $user->id, 'exp' => $refreshTokenExpiration]),
 			userId: $user->id,
 		);
+	}
+
+	public function createImpersonationAuthentication(User $admin, User $target, int $sessionId,): ImpersonationAuthenticationDto
+	{
+		$expiration = time() + $this->getImpersonationTokenExpiration();
+
+		$accessToken = $this->createToken([
+			'id' => $target->id,
+			'exp' => $expiration,
+			self::ClaimImpersonator => $admin->id,
+			self::ClaimSessionId => $sessionId,
+			self::ClaimType => self::TokenTypeImpersonation,
+		]);
+
+		return new ImpersonationAuthenticationDto(
+			accessToken: $accessToken,
+			expiresAt: $expiration,
+			sessionId: $sessionId,
+			targetUserId: $target->id,
+			targetUserEmail: $target->email,
+			targetUserName: $target->name,
+		);
+	}
+
+	public function getImpersonationTokenExpiration(): int
+	{
+		$override = getenv('IMPERSONATION_TOKEN_EXPIRATION');
+		if ($override === false || $override === '' || !ctype_digit($override)) {
+			return self::DefaultImpersonationTokenExpiration;
+		}
+
+		return (int) $override;
 	}
 
 	public function addAuthenticationHeader(ServerRequestInterface $request, User $user): ServerRequestInterface
@@ -60,13 +94,11 @@ final readonly class AuthenticationService implements AuthenticationServiceInter
 		);
 	}
 
-	private function createToken(int $userId, int $exp): string
+	/** @param array<string,mixed> $claims */
+	private function createToken(array $claims): string
 	{
 		$key = (string) getenv('AUTHORIZATION_TOKEN_KEY');
 
-		return JWT::encode([
-			'id' => $userId,
-			'exp' => $exp,
-		], $key, self::TokenAlgorithm);
+		return JWT::encode($claims, $key, self::TokenAlgorithm);
 	}
 }

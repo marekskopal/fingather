@@ -105,6 +105,18 @@
                                     <a routerLink="edit-user/{{user.id}}" class="btn btn-secondary" tabindex="0">
                                         <mat-icon>edit</mat-icon>
                                     </a>
+                                    @if (canImpersonate(user)) {
+                                        <button
+                                            type="button"
+                                            class="btn btn-secondary"
+                                            data-testid="switch-to-button"
+                                            [attr.data-user-email]="user.email"
+                                            [title]="'app.users.list.switchTo' | translate"
+                                            (click)="impersonateUser(user)"
+                                        >
+                                            <mat-icon>switch_account</mat-icon>
+                                        </button>
+                                    }
                                     @if (user.id !== currentUser.id) {
                                         <fingather-delete-button
                                             (confirm)="deleteUser(user.id)"

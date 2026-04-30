@@ -453,7 +453,16 @@
         "transactions": "Transactions",
         "lastLoggedIn": "Last Logged In",
         "lastRefreshTokenGenerated": "Last Token Refresh",
-        "never": "never"
+        "never": "never",
+        "switchTo": "Switch to user",
+        "switchToConfirm": "Switch to user {{ email }}? You will browse the app as them until you click \"Switch back\"."
+      }
+    },
+    "impersonation": {
+      "banner": {
+        "actingAs": "Acting as {{ email }}",
+        "expiresIn": "Expires in",
+        "switchBack": "Switch back"
       }
     },
     "dividends": {

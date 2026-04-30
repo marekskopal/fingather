@@ -6,6 +6,7 @@ import {ContentLayoutService} from "@app/services/content-layout.service";
 import {CurrentUserService} from "@app/services/current-user.service";
 import {StorageService} from "@app/services/storage.service";
 import {AlertComponent} from "@app/shared/components/alert/alert.component";
+import {ImpersonationBannerComponent} from "@app/shared/components/impersonation-banner/impersonation-banner.component";
 import {NavigationComponent} from "@app/shared/components/navigation/navigation.component";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import { TranslateService} from "@ngx-translate/core";
@@ -17,6 +18,7 @@ import { TranslateService} from "@ngx-translate/core";
     NgbModule,
     NavigationComponent,
     AlertComponent,
+    ImpersonationBannerComponent,
     RouterOutlet,
 ],
     changeDetection: ChangeDetectionStrategy.OnPush,

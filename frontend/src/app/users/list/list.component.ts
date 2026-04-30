@@ -7,12 +7,14 @@ import {OrderDirection} from "@app/models/enums/order-direction";
 import {UserOrderBy} from "@app/models/enums/user-order-by";
 import {UserRoleEnum} from "@app/models/enums/user-role-enum";
 import {UserList} from '@app/models/user-list';
+import {UserWithStatistic} from '@app/models/user-with-statistic';
 import {CurrentUserService, UserService} from '@app/services';
+import {AuthenticationService} from '@app/services/authentication.service';
 import {DeleteButtonComponent} from "@app/shared/components/delete-button/delete-button.component";
 import {PaginationComponent} from "@app/shared/components/pagination/pagination.component";
 import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selector/portfolio-selector.component";
 import {ScrollShadowDirective} from "@marekskopal/ng-scroll-shadow";
-import { TranslatePipe} from "@ngx-translate/core";
+import { TranslatePipe, TranslateService} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'list.component.html',
@@ -31,6 +33,8 @@ import { TranslatePipe} from "@ngx-translate/core";
 export class ListComponent implements OnInit {
     private readonly userService = inject(UserService);
     private readonly currentUserService = inject(CurrentUserService);
+    private readonly authenticationService = inject(AuthenticationService);
+    private readonly translateService = inject(TranslateService);
     private readonly destroyRef = inject(DestroyRef);
     private readonly router = inject(Router);
 
@@ -43,6 +47,7 @@ export class ListComponent implements OnInit {
 
     protected readonly UserOrderBy = UserOrderBy;
     protected readonly OrderDirection = OrderDirection;
+    protected readonly UserRoleEnum = UserRoleEnum;
 
     public async ngOnInit(): Promise<void> {
         this.currentUser = await this.currentUserService.getCurrentUser();
@@ -89,6 +94,22 @@ export class ListComponent implements OnInit {
         }
         this.page = 1;
         await this.refreshUsers();
+    }
+
+    protected canImpersonate(user: UserWithStatistic): boolean {
+        return user.id !== this.currentUser.id && user.role !== UserRoleEnum.Admin;
+    }
+
+    protected async impersonateUser(user: UserWithStatistic): Promise<void> {
+        const confirmMessage = this.translateService.instant(
+            'app.users.list.switchToConfirm',
+            { email: user.email },
+        );
+        if (!confirm(confirmMessage)) {
+            return;
+        }
+
+        await this.authenticationService.impersonate(user.id);
     }
 
     protected async deleteUser(id: number): Promise<void> {

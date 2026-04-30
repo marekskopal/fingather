@@ -13,7 +13,10 @@ use FinGather\Dto\PasswordResetConfirmDto;
 use FinGather\Dto\PasswordResetRequestDto;
 use FinGather\Dto\RefreshTokenDto;
 use FinGather\Dto\SignUpDto;
+use FinGather\Middleware\AuthorizationMiddleware;
+use FinGather\Model\Entity\Enum\ImpersonationTerminationReasonEnum;
 use FinGather\Model\Entity\Enum\UserRoleEnum;
+use FinGather\Model\Entity\User;
 use FinGather\Response\BoolResponse;
 use FinGather\Response\ConflictResponse;
 use FinGather\Response\ErrorResponse;
@@ -26,6 +29,7 @@ use FinGather\Service\Authentication\Exceptions\AuthenticationException;
 use FinGather\Service\Authentication\Exceptions\GoogleAuthException;
 use FinGather\Service\Authentication\GoogleAuthServiceInterface;
 use FinGather\Service\Provider\CurrencyProviderInterface;
+use FinGather\Service\Provider\ImpersonationSessionProviderInterface;
 use FinGather\Service\Provider\PasswordResetProviderInterface;
 use FinGather\Service\Provider\UserProviderInterface;
 use FinGather\Service\Request\RequestServiceInterface;
@@ -48,6 +52,7 @@ final readonly class AuthenticationController
 		private CurrencyProviderInterface $currencyProvider,
 		private UserProviderInterface $userProvider,
 		private PasswordResetProviderInterface $passwordResetProvider,
+		private ImpersonationSessionProviderInterface $impersonationSessionProvider,
 		private RequestServiceInterface $requestService,
 		private LoggerInterface $logger,
 	) {
@@ -93,6 +98,48 @@ final readonly class AuthenticationController
 		}
 
 		return new JsonResponse($this->authenticationService->createAuthentication($user));
+	}
+
+	#[RoutePost(Routes::AuthenticationStopImpersonation->value)]
+	public function actionPostStopImpersonation(ServerRequestInterface $request): ResponseInterface
+	{
+		$impersonator = $request->getAttribute(AuthorizationMiddleware::AttributeImpersonator);
+		if (!$impersonator instanceof User) {
+			return new NotAuthorizedResponse('Not currently impersonating.');
+		}
+
+		if ($impersonator->role !== UserRoleEnum::Admin) {
+			return new NotAuthorizedResponse('Impersonator is no longer authorised.');
+		}
+
+		$tokenKey = getenv('AUTHORIZATION_TOKEN_KEY');
+		if ($tokenKey === false || $tokenKey === '') {
+			throw new \RuntimeException('AUTHORIZATION_TOKEN_KEY environment variable is not configured.');
+		}
+
+		$authorizationHeader = $request->getHeader(AuthorizationMiddleware::AuthHeader)[0] ?? '';
+		$accessToken = substr($authorizationHeader, strlen(AuthorizationMiddleware::AuthHeaderType));
+
+		try {
+			$decoded = JWT::decode(
+				$accessToken,
+				new Key($tokenKey, AuthenticationServiceInterface::TokenAlgorithm),
+			);
+		} catch (\Throwable) {
+			return new NotAuthorizedResponse('Invalid impersonation token.');
+		}
+
+		$sid = $decoded->{AuthenticationServiceInterface::ClaimSessionId} ?? null;
+		if (!is_int($sid)) {
+			return new NotAuthorizedResponse('Invalid impersonation token.');
+		}
+
+		$session = $this->impersonationSessionProvider->getActiveSession($sid);
+		if ($session !== null) {
+			$this->impersonationSessionProvider->endSession($session, ImpersonationTerminationReasonEnum::StoppedByAdmin);
+		}
+
+		return new JsonResponse($this->authenticationService->createAuthentication($impersonator));
 	}
 
 	#[RoutePost(Routes::AuthenticationSignUp->value)]

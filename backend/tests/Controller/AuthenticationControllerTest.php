@@ -14,8 +14,11 @@ use FinGather\Dto\PasswordResetConfirmDto;
 use FinGather\Dto\PasswordResetRequestDto;
 use FinGather\Dto\RefreshTokenDto;
 use FinGather\Dto\SignUpDto;
+use FinGather\Middleware\AuthorizationMiddleware;
 use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\Enum\LocaleEnum;
+use FinGather\Model\Entity\Enum\UserRoleEnum;
+use FinGather\Model\Entity\ImpersonationSession;
 use FinGather\Model\Entity\PasswordReset;
 use FinGather\Model\Entity\User;
 use FinGather\Response\BoolResponse;
@@ -30,6 +33,7 @@ use FinGather\Service\Authentication\Exceptions\AuthenticationException;
 use FinGather\Service\Authentication\Exceptions\GoogleAuthException;
 use FinGather\Service\Authentication\GoogleAuthServiceInterface;
 use FinGather\Service\Provider\CurrencyProviderInterface;
+use FinGather\Service\Provider\ImpersonationSessionProviderInterface;
 use FinGather\Service\Provider\PasswordResetProviderInterface;
 use FinGather\Service\Provider\UserProviderInterface;
 use FinGather\Service\Request\RequestServiceInterface;
@@ -47,6 +51,7 @@ use Psr\Log\LoggerInterface;
 
 #[CoversClass(AuthenticationController::class)]
 #[UsesClass(User::class)]
+#[UsesClass(ImpersonationSession::class)]
 #[UsesClass(PasswordReset::class)]
 #[UsesClass(NotAuthorizedResponse::class)]
 #[UsesClass(ConflictResponse::class)]
@@ -79,6 +84,8 @@ final class AuthenticationControllerTest extends TestCase
 
 	private PasswordResetProviderInterface&Stub $passwordResetProvider;
 
+	private ImpersonationSessionProviderInterface&Stub $impersonationSessionProvider;
+
 	private RequestServiceInterface&Stub $requestService;
 
 	private LoggerInterface&Stub $logger;
@@ -98,6 +105,7 @@ final class AuthenticationControllerTest extends TestCase
 		$this->currencyProvider = $this::createStub(CurrencyProviderInterface::class);
 		$this->userProvider = $this::createStub(UserProviderInterface::class);
 		$this->passwordResetProvider = $this::createStub(PasswordResetProviderInterface::class);
+		$this->impersonationSessionProvider = $this::createStub(ImpersonationSessionProviderInterface::class);
 		$this->requestService = $this::createStub(RequestServiceInterface::class);
 		$this->logger = $this::createStub(LoggerInterface::class);
 
@@ -107,6 +115,7 @@ final class AuthenticationControllerTest extends TestCase
 			$this->currencyProvider,
 			$this->userProvider,
 			$this->passwordResetProvider,
+			$this->impersonationSessionProvider,
 			$this->requestService,
 			$this->logger,
 		);
@@ -499,6 +508,88 @@ final class AuthenticationControllerTest extends TestCase
 		$response = $this->authenticationController->actionPostGoogleLogin(
 			$this::createStub(ServerRequestInterface::class),
 		);
+
+		self::assertInstanceOf(JsonResponse::class, $response);
+	}
+
+	// --- actionPostStopImpersonation ---
+
+	public function testPostStopImpersonationWithoutAttributeReturnsNotAuthorized(): void
+	{
+		$request = $this::createStub(ServerRequestInterface::class);
+		$request->method('getAttribute')->willReturn(null);
+
+		$response = $this->authenticationController->actionPostStopImpersonation($request);
+
+		self::assertInstanceOf(NotAuthorizedResponse::class, $response);
+	}
+
+	public function testPostStopImpersonationWithRevokedAdminRoleReturnsNotAuthorized(): void
+	{
+		$nonAdmin = UserFixture::getUser(id: 5, role: UserRoleEnum::User);
+
+		$request = $this::createStub(ServerRequestInterface::class);
+		$request->method('getAttribute')->willReturnCallback(
+			static fn (string $name) => $name === AuthorizationMiddleware::AttributeImpersonator ? $nonAdmin : null,
+		);
+
+		$response = $this->authenticationController->actionPostStopImpersonation($request);
+
+		self::assertInstanceOf(NotAuthorizedResponse::class, $response);
+	}
+
+	public function testPostStopImpersonationSuccessReturnsJsonAndEndsSession(): void
+	{
+		putenv('AUTHORIZATION_TOKEN_KEY=' . self::TokenKey);
+
+		$admin = UserFixture::getUser(id: 1, role: UserRoleEnum::Admin);
+		$target = UserFixture::getUser(id: 2, role: UserRoleEnum::User);
+
+		$accessToken = JWT::encode(
+			[
+				'id' => $target->id,
+				'exp' => time() + 600,
+				AuthenticationServiceInterface::ClaimImpersonator => $admin->id,
+				AuthenticationServiceInterface::ClaimSessionId => 42,
+				AuthenticationServiceInterface::ClaimType => AuthenticationServiceInterface::TokenTypeImpersonation,
+			],
+			self::TokenKey,
+			AuthenticationServiceInterface::TokenAlgorithm,
+		);
+
+		$request = $this::createStub(ServerRequestInterface::class);
+		$request->method('getAttribute')->willReturnCallback(
+			static fn (string $name) => $name === AuthorizationMiddleware::AttributeImpersonator ? $admin : null,
+		);
+		$request->method('getHeader')->willReturn(
+			[AuthorizationMiddleware::AuthHeaderType . $accessToken],
+		);
+
+		$session = new ImpersonationSession(
+			adminUser: $admin,
+			targetUser: $target,
+			startedAt: new DateTimeImmutable(),
+			endedAt: null,
+			ipAddress: '',
+			userAgent: '',
+			terminationReason: null,
+		);
+		$session->id = 42;
+		$this->impersonationSessionProvider = $this::createStub(ImpersonationSessionProviderInterface::class);
+		$this->impersonationSessionProvider->method('getActiveSession')->willReturn($session);
+
+		$controller = new AuthenticationController(
+			$this->authenticationService,
+			$this->googleAuthService,
+			$this->currencyProvider,
+			$this->userProvider,
+			$this->passwordResetProvider,
+			$this->impersonationSessionProvider,
+			$this->requestService,
+			$this->logger,
+		);
+
+		$response = $controller->actionPostStopImpersonation($request);
 
 		self::assertInstanceOf(JsonResponse::class, $response);
 	}

@@ -8,6 +8,7 @@ use FinGather\Service\Authentication\AuthenticationService;
 use FinGather\Service\Authentication\AuthenticationServiceInterface;
 use FinGather\Service\Authentication\GoogleAuthService;
 use FinGather\Service\Authentication\GoogleAuthServiceInterface;
+use FinGather\Service\Authentication\ImpersonationContext;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 
 final class AuthenticationServiceProvider extends AbstractServiceProvider
@@ -17,6 +18,7 @@ final class AuthenticationServiceProvider extends AbstractServiceProvider
 		return in_array($id, [
 			AuthenticationServiceInterface::class,
 			GoogleAuthServiceInterface::class,
+			ImpersonationContext::class,
 		], true);
 	}
 
@@ -27,5 +29,7 @@ final class AuthenticationServiceProvider extends AbstractServiceProvider
 		$container->add(AuthenticationServiceInterface::class, AuthenticationService::class);
 
 		$container->add(GoogleAuthServiceInterface::class, GoogleAuthService::class);
+
+		$container->addShared(ImpersonationContext::class, ImpersonationContext::class);
 	}
 }

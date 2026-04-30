@@ -457,7 +457,16 @@
         "transactions": "Transactions",
         "lastLoggedIn": "Dernière connexion",
         "lastRefreshTokenGenerated": "Dernier rafraîchissement de jeton",
-        "never": "jamais"
+        "never": "jamais",
+        "switchTo": "Basculer vers l'utilisateur",
+        "switchToConfirm": "Basculer vers l'utilisateur {{ email }} ? Vous utiliserez l'application en son nom jusqu'à ce que vous cliquiez sur « Revenir »."
+      }
+    },
+    "impersonation": {
+      "banner": {
+        "actingAs": "Connecté en tant que {{ email }}",
+        "expiresIn": "Expire dans",
+        "switchBack": "Revenir"
       }
     },
     "dividends": {

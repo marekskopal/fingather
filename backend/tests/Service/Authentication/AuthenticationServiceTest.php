@@ -6,8 +6,10 @@ namespace FinGather\Tests\Service\Authentication;
 
 use FinGather\Dto\AuthenticationDto;
 use FinGather\Dto\CredentialsDto;
+use FinGather\Dto\ImpersonationAuthenticationDto;
 use FinGather\Middleware\AuthorizationMiddleware;
 use FinGather\Model\Entity\Currency;
+use FinGather\Model\Entity\Enum\UserRoleEnum;
 use FinGather\Model\Entity\User;
 use FinGather\Service\Authentication\AuthenticationService;
 use FinGather\Service\Authentication\AuthenticationServiceInterface;
@@ -25,6 +27,7 @@ use const PASSWORD_BCRYPT;
 #[CoversClass(AuthenticationService::class)]
 #[UsesClass(AuthenticationDto::class)]
 #[UsesClass(CredentialsDto::class)]
+#[UsesClass(ImpersonationAuthenticationDto::class)]
 #[UsesClass(Currency::class)]
 #[UsesClass(User::class)]
 final class AuthenticationServiceTest extends TestCase
@@ -39,6 +42,7 @@ final class AuthenticationServiceTest extends TestCase
 	protected function tearDown(): void
 	{
 		putenv('AUTHORIZATION_TOKEN_KEY');
+		putenv('IMPERSONATION_TOKEN_EXPIRATION');
 	}
 
 	public function testAuthenticateThrowsWhenUserNotFound(): void
@@ -146,5 +150,45 @@ final class AuthenticationServiceTest extends TestCase
 		$token = substr($capturedHeaderValue, strlen(AuthorizationMiddleware::AuthHeaderType));
 		$decoded = JWT::decode($token, new Key(self::TokenKey, AuthenticationServiceInterface::TokenAlgorithm));
 		self::assertSame(5, $decoded->id);
+	}
+
+	public function testCreateImpersonationAuthenticationEncodesImpAndSidClaims(): void
+	{
+		$admin = UserFixture::getUser(id: 1, role: UserRoleEnum::Admin);
+		$target = UserFixture::getUser(id: 5, email: 'target@example.com', role: UserRoleEnum::User);
+
+		$userProvider = self::createStub(UserProviderInterface::class);
+		$service = new AuthenticationService($userProvider);
+
+		$dto = $service->createImpersonationAuthentication($admin, $target, sessionId: 99);
+
+		self::assertSame(99, $dto->sessionId);
+		self::assertSame($target->id, $dto->targetUserId);
+		self::assertSame('target@example.com', $dto->targetUserEmail);
+
+		$decoded = JWT::decode($dto->accessToken, new Key(self::TokenKey, AuthenticationServiceInterface::TokenAlgorithm));
+		self::assertSame($target->id, $decoded->id);
+		self::assertSame($admin->id, $decoded->{AuthenticationServiceInterface::ClaimImpersonator});
+		self::assertSame(99, $decoded->{AuthenticationServiceInterface::ClaimSessionId});
+		self::assertSame(AuthenticationServiceInterface::TokenTypeImpersonation, $decoded->{AuthenticationServiceInterface::ClaimType});
+		self::assertGreaterThan(time(), $decoded->exp);
+	}
+
+	public function testGetImpersonationTokenExpirationDefaultsTo1800(): void
+	{
+		$userProvider = self::createStub(UserProviderInterface::class);
+		$service = new AuthenticationService($userProvider);
+
+		self::assertSame(1800, $service->getImpersonationTokenExpiration());
+	}
+
+	public function testGetImpersonationTokenExpirationHonorsEnvOverride(): void
+	{
+		putenv('IMPERSONATION_TOKEN_EXPIRATION=5');
+
+		$userProvider = self::createStub(UserProviderInterface::class);
+		$service = new AuthenticationService($userProvider);
+
+		self::assertSame(5, $service->getImpersonationTokenExpiration());
 	}
 }

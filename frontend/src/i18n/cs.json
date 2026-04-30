@@ -453,7 +453,16 @@
         "transactions": "Transakcí",
         "lastLoggedIn": "Naposledy přihlášen",
         "lastRefreshTokenGenerated": "Naposledy obnovený token",
-        "never": "nikdy"
+        "never": "nikdy",
+        "switchTo": "Přepnout na uživatele",
+        "switchToConfirm": "Přepnout na uživatele {{ email }}? Budete v aplikaci vystupovat jako on/ona, dokud nekliknete na „Vrátit se zpět“."
+      }
+    },
+    "impersonation": {
+      "banner": {
+        "actingAs": "Přihlášen jako {{ email }}",
+        "expiresIn": "Vyprší za",
+        "switchBack": "Vrátit se zpět"
       }
     },
     "dividends": {
