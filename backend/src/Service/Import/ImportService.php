@@ -226,10 +226,7 @@ final readonly class ImportService
 			marketIds: $marketIds,
 		);
 		if ($ticker === null) {
-			$ticker = $this->tickerProvider->getTickerByTicker(
-				ticker: $transactionRecord->ticker,
-				marketIds: $marketIds,
-			);
+			$ticker = $this->tickerProvider->getTickerByTicker(ticker: $transactionRecord->ticker, marketIds: $marketIds);
 		}
 		// Country scoping is a hint, not a hard filter — fall back to the mapper-level
 		// allowed markets if the country-restricted lookup found nothing.

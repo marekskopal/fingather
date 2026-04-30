@@ -12,6 +12,7 @@ use FinGather\Model\Entity\ImpersonationSession;
 use FinGather\Model\Entity\User;
 use FinGather\Service\Authentication\AuthenticationServiceInterface;
 use FinGather\Service\Authentication\ImpersonationContext;
+use FinGather\Service\Authentication\ImpersonationDenylist;
 use FinGather\Service\Provider\ImpersonationSessionProviderInterface;
 use FinGather\Service\Provider\UserProviderInterface;
 use FinGather\Tests\Fixtures\Model\Entity\UserFixture;
@@ -26,6 +27,8 @@ use Psr\Http\Message\ServerRequestInterface;
 #[UsesClass(User::class)]
 #[UsesClass(ImpersonationSession::class)]
 #[UsesClass(ImpersonationContext::class)]
+#[UsesClass(ImpersonationDenylist::class)]
+#[UsesClass(NotAuthorizedException::class)]
 final class AuthorizationMiddlewareTest extends TestCase
 {
 	private const string TokenKey = 'test-secret-key-long-enough-for-hs256-algorithm';

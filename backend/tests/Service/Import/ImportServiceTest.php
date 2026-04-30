@@ -25,6 +25,7 @@ use FinGather\Model\Entity\Sector;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\Transaction;
 use FinGather\Model\Entity\User;
+use FinGather\Model\Repository\MarketRepository;
 use FinGather\Service\Import\Entity\TransactionRecord;
 use FinGather\Service\Import\Factory\ImportMapperFactoryInterface;
 use FinGather\Service\Import\Factory\TransactionRecordFactoryInterface;
@@ -56,6 +57,7 @@ use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Ramsey\Uuid\Uuid;
+use ReflectionClass;
 
 #[CoversClass(ImportService::class)]
 #[UsesClass(Import::class)]
@@ -1268,7 +1270,7 @@ final class ImportServiceTest extends TestCase
 		?ImportMapperFactoryInterface $importMapperFactory = null,
 		?TransactionRecordFactoryInterface $transactionRecordFactory = null,
 		?SplitProviderInterface $splitProvider = null,
-		?\FinGather\Model\Repository\MarketRepository $marketRepository = null,
+		?MarketRepository $marketRepository = null,
 		array $importFiles = [],
 		?TransactionRecord $transactionRecord = null,
 		array $importMappings = [],
@@ -1332,7 +1334,9 @@ final class ImportServiceTest extends TestCase
 			importMapperFactory: $importMapperFactory ?? $defaultMapperFactory,
 			transactionRecordFactory: $transactionRecordFactory ?? $defaultTransactionRecordFactory,
 			splitProvider: $splitProvider ?? $defaultSplitProvider,
-			marketRepository: $marketRepository ?? (new \ReflectionClass(\FinGather\Model\Repository\MarketRepository::class))->newInstanceWithoutConstructor(),
+			marketRepository: $marketRepository ?? (new ReflectionClass(
+				MarketRepository::class,
+			))->newInstanceWithoutConstructor(),
 			logger: self::createStub(LoggerInterface::class),
 		);
 	}

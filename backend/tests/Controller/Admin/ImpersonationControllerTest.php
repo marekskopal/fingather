@@ -18,6 +18,7 @@ use FinGather\Service\Provider\ImpersonationSessionProviderInterface;
 use FinGather\Service\Provider\UserProviderInterface;
 use FinGather\Service\Request\RequestServiceInterface;
 use FinGather\Tests\Fixtures\Model\Entity\UserFixture;
+use FinGather\Utils\DateTimeUtils;
 use Laminas\Diactoros\Response\JsonResponse;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
@@ -32,6 +33,7 @@ use Psr\Http\Message\ServerRequestInterface;
 #[UsesClass(ErrorResponse::class)]
 #[UsesClass(ImpersonationAuthenticationDto::class)]
 #[UsesClass(ImpersonationSessionDto::class)]
+#[UsesClass(DateTimeUtils::class)]
 final class ImpersonationControllerTest extends TestCase
 {
 	private RequestServiceInterface&Stub $requestService;

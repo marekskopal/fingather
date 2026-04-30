@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Tests\Service\Import\Mapper;
 
+use Closure;
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Service\Import\Mapper\Dto\MappingDto;
 use FinGather\Service\Import\Mapper\XtbMapper;
@@ -38,9 +39,7 @@ final class XtbMapperTest extends AbstractMapperTestCase
 		self::assertNotNull($mapping->country);
 	}
 
-	/**
-	 * @return iterable<string, array{string, string|null}>
-	 */
+	/** @return iterable<string, array{string, string|null}> */
 	public static function symbolCountryProvider(): iterable
 	{
 		yield 'german' => ['BRYN.DE', 'DE'];
@@ -58,7 +57,7 @@ final class XtbMapperTest extends AbstractMapperTestCase
 		$mapper = new XtbMapper();
 		$mapping = $mapper->getMapping();
 
-		self::assertInstanceOf(\Closure::class, $mapping->country);
+		self::assertInstanceOf(Closure::class, $mapping->country);
 		self::assertSame($expected, ($mapping->country)(['Symbol' => $symbol]));
 	}
 
