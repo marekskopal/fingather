@@ -60,7 +60,7 @@ final class XtbMapper extends XlsxMapper
 		$closeTradeAmountById = $this->indexCloseTradeAmounts($sheetData);
 
 		$records = [];
-		$dividendRecordsByIndex = [];
+		$dividendRecordIndexById = [];
 
 		foreach ($sheetData as $index => $row) {
 			if ($index <= 11) {
@@ -78,12 +78,14 @@ final class XtbMapper extends XlsxMapper
 				$record = $this->buildDividendRecord($row, $currency);
 				if ($record !== null) {
 					$records[] = $record;
-					$dividendRecordsByIndex[$index] = count($records) - 1;
+					$dividendRecordIndexById[$row['B']] = count($records) - 1;
 				}
 			} elseif ($type === 'Withholding Tax') {
-				$previousIndex = $index - 1;
-				if (isset($dividendRecordsByIndex[$previousIndex])) {
-					$records[$dividendRecordsByIndex[$previousIndex]][self::Tax] = (string) abs((float) $row['G']);
+				// Tax row id == dividend id + 1; row order in the sheet isn't reliable,
+				// so we pair by id rather than by adjacent index.
+				$dividendId = (string) ((int) $row['B'] - 1);
+				if (isset($dividendRecordIndexById[$dividendId])) {
+					$records[$dividendRecordIndexById[$dividendId]][self::Tax] = (string) abs((float) $row['G']);
 				}
 			}
 		}

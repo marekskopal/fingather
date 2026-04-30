@@ -118,6 +118,22 @@ final class XtbMapperTest extends AbstractMapperTestCase
 		self::assertSame('0.04', $dividendRecord['Tax']);
 	}
 
+	public function testGetRecordsPairsTaxWithDividendByIdEvenWhenNotAdjacent(): void
+	{
+		// XTB exports don't always place the Withholding Tax row directly after its
+		// dividend — pairing must use tax_id == dividend_id + 1, not row adjacency.
+		// The fixture has two interleaved pairs:
+		//   row 27: DIVIDENT  id=686043413 (amt 0.15)
+		//   row 28: DIVIDENT  id=860853604 (amt 0.13)
+		//   row 29: WHT       id=686043414 (-0.05)  ← belongs to row 27
+		//   row 30: WHT       id=860853605 (-0.04)  ← belongs to row 28
+		// Index-based pairing would have attached 0.05 to the wrong dividend and dropped 0.04.
+		$records = $this->getXtbRecords();
+
+		self::assertSame('0.05', $this->findRecordById($records, '686043413')['Tax']);
+		self::assertSame('0.04', $this->findRecordById($records, '860853604')['Tax']);
+	}
+
 	/**
 	 * @param list<array<string, string>> $records
 	 * @return array<string, string>
