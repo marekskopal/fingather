@@ -107,37 +107,60 @@ export class DcaPlanProjectionChartComponent {
             && projection.dataPoints[0].p10 != null
             && projection.dataPoints[0].p90 != null;
 
-        this.chartOptions.xaxis.categories = projection.dataPoints.map((p) => p.date);
-        this.chartOptions.series = this.buildSeries(projection, hasBands);
-        this.chartOptions.colors = hasBands ? ChartUtils.colors(3) : ChartUtils.colors(2);
+        // Reassign the whole options object so ng-apexcharts re-creates the chart cleanly when
+        // switching between deterministic-only and mixed (rangeArea + line) modes.
+        this.chartOptions = {
+            ...this.chartOptions,
+            chart: {
+                ...this.chartOptions.chart,
+                type: hasBands ? 'rangeArea' : 'area',
+            },
+            xaxis: {
+                ...this.chartOptions.xaxis,
+                categories: projection.dataPoints.map((p) => p.date),
+            },
+            series: this.buildSeries(projection, hasBands),
+            colors: hasBands ? ChartUtils.colors(3) : ChartUtils.colors(2),
+        };
 
         this.loading.set(false);
     }
 
     private buildSeries(projection: DcaPlanProjection, hasBands: boolean): ApexAxisChartSeries {
-        const projected = projection.dataPoints.map((p) => parseFloat(p.projectedValue));
-        const invested = projection.dataPoints.map((p) => parseFloat(p.investedCapital));
-
         if (!hasBands) {
             return [
-                { name: this.translateService.instant('app.dcaPlans.projection.seriesProjectedValue'), data: projected },
-                { name: this.translateService.instant('app.dcaPlans.projection.seriesInvestedCapital'), data: invested },
+                {
+                    name: this.translateService.instant('app.dcaPlans.projection.seriesProjectedValue'),
+                    data: projection.dataPoints.map((p) => parseFloat(p.projectedValue)),
+                },
+                {
+                    name: this.translateService.instant('app.dcaPlans.projection.seriesInvestedCapital'),
+                    data: projection.dataPoints.map((p) => parseFloat(p.investedCapital)),
+                },
             ];
         }
 
-        const band = projection.dataPoints.map((p) => ({
-            x: p.date,
-            y: [parseFloat(p.p10 ?? p.investedCapital), parseFloat(p.p90 ?? p.projectedValue)],
-        }));
-
+        // For mixed rangeArea + line charts apex requires every series to use the {x, y} object form
+        // (otherwise it tries to align plain number arrays against the rangeArea x-keys and crashes).
         return [
             {
                 name: this.translateService.instant('app.dcaPlans.projection.seriesSimulationBand'),
                 type: 'rangeArea',
-                data: band,
+                data: projection.dataPoints.map((p) => ({
+                    x: p.date,
+                    y: [parseFloat(p.p10 ?? p.investedCapital), parseFloat(p.p90 ?? p.projectedValue)],
+                })),
             },
-            { name: this.translateService.instant('app.dcaPlans.projection.seriesProjectedValue'), type: 'line', data: projected },
-            { name: this.translateService.instant('app.dcaPlans.projection.seriesInvestedCapital'), type: 'line', data: invested },
+            {
+                name: this.translateService.instant('app.dcaPlans.projection.seriesProjectedValue'),
+                type: 'line',
+                data: projection.dataPoints.map((p) => ({ x: p.date, y: parseFloat(p.projectedValue) })),
+            },
+            {
+                name: this.translateService.instant('app.dcaPlans.projection.seriesInvestedCapital'),
+                type: 'line',
+                data: projection.dataPoints.map((p) => ({ x: p.date, y: parseFloat(p.investedCapital) })),
+            },
         ];
     }
 
