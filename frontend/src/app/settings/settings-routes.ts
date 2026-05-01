@@ -8,6 +8,7 @@ import {BenchmarkAssetsComponent} from '@app/settings/components/benchmark-asset
 import {EditImportMappingComponent} from '@app/settings/components/import-mappings/edit-import-mapping/edit-import-mapping.component';
 // eslint-disable-next-line max-len
 import {ImportMappingListComponent} from '@app/settings/components/import-mappings/import-mapping-list/import-mapping-list.component';
+import {ProxyAssetsComponent} from '@app/settings/components/proxy-assets/proxy-assets.component';
 import {SettingsLayoutComponent} from '@app/settings/components/settings-layout/settings-layout.component';
 
 export default [
@@ -60,6 +61,10 @@ export default [
                     {
                         path: 'benchmark-assets',
                         component: BenchmarkAssetsComponent,
+                    },
+                    {
+                        path: 'proxy-assets',
+                        component: ProxyAssetsComponent,
                     },
                     {
                         path: 'import-mappings',

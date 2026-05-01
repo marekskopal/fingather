@@ -19,12 +19,18 @@ use FinGather\Model\Entity\User;
 use FinGather\Service\DataCalculator\Dto\ReturnRateDto;
 use FinGather\Service\DataCalculator\Dto\TickerWeightDto;
 use FinGather\Service\Provider\AssetWithPropertiesProviderInterface;
+use FinGather\Service\Provider\ProxyAssetProviderInterface;
 use FinGather\Service\Provider\TickerDataProviderInterface;
 use FinGather\Utils\CalculatorUtils;
 
 final readonly class DcaPlanDataCalculator
 {
-	private const int HistoryYears = 10;
+	/**
+	 * Lookback for both the trailing-CAGR estimate and the Monte Carlo bootstrap. 25 years buys back
+	 * the dot-com crash and the 2008 GFC, but only when proxy splicing is active for tickers that
+	 * don't have that much of their own history (most do not).
+	 */
+	private const int HistoryYears = 25;
 	private const int MinDays = 365;
 	private const int MonthsPerYear = 12;
 	private const float AvgSecondsPerMonth = 30.4375 * 24 * 3600;
@@ -32,10 +38,31 @@ final readonly class DcaPlanDataCalculator
 	private const int MaxSimulations = 50000;
 	private const int MinHistoryMonthsForSimulation = 24;
 
+	/**
+	 * Long-run nominal equity return used as a Bayesian prior. A trailing 10y CAGR for the recent
+	 * bull market sits well above realistic forward expectations (Vanguard/AQR/BlackRock CMAs cluster
+	 * at 4–7% nominal); shrinking toward this prior pulls the projection back toward that range.
+	 */
+	private const float ExpectedReturnPriorAnnual = 7.0;
+
+	/**
+	 * Weight on the prior in the shrinkage blend (0 = pure trailing CAGR, 1 = pure prior). 0.5 is a
+	 * deliberately strong shrink — trailing 10y CAGR is a noisy and biased estimator of the next 10y.
+	 */
+	private const float ExpectedReturnShrinkageWeight = 0.5;
+
+	/**
+	 * Block size for circular block bootstrap in the Monte Carlo simulator. Preserves volatility
+	 * clustering and short autocorrelation present in monthly equity returns, so P10/P90 bands
+	 * widen to reflect sequence-of-returns risk that i.i.d. resampling hides.
+	 */
+	private const int BootstrapBlockSize = 6;
+
 	public function __construct(
 		private TickerDataProviderInterface $tickerDataProvider,
 		private AssetWithPropertiesProviderInterface $assetWithPropertiesProvider,
 		private DcaPlanMonteCarloSimulator $monteCarloSimulator,
+		private ProxyAssetProviderInterface $proxyAssetProvider,
 	) {
 	}
 
@@ -47,21 +74,27 @@ final readonly class DcaPlanDataCalculator
 			return new ReturnRateDto(annual: 0.0, monthly: 0.0);
 		}
 
-		$totalWeight = 0.0;
+		$weightedReturn = 0.0;
+		$dataWeight = 0.0;
 		foreach ($tickerWeights as $tickerWeight) {
-			$totalWeight += $tickerWeight->weight;
+			$tickerReturn = $this->calculateTickerReturnRate($tickerWeight->tickerId);
+			if ($tickerReturn === null) {
+				continue;
+			}
+			$weightedReturn += $tickerReturn * $tickerWeight->weight;
+			$dataWeight += $tickerWeight->weight;
 		}
 
-		if ($totalWeight === 0.0) {
+		// No usable history at all: don't fabricate an expected return — keep zero.
+		if ($dataWeight <= 0.0) {
 			return new ReturnRateDto(annual: 0.0, monthly: 0.0);
 		}
 
-		$weightedReturn = 0.0;
-		foreach ($tickerWeights as $tickerWeight) {
-			$weightedReturn += $this->calculateTickerReturnRate($tickerWeight->tickerId) * $tickerWeight->weight / $totalWeight;
-		}
+		$trailingCagr = $weightedReturn / $dataWeight;
+		$expectedAnnual = self::ExpectedReturnShrinkageWeight * self::ExpectedReturnPriorAnnual
+			+ (1.0 - self::ExpectedReturnShrinkageWeight) * $trailingCagr;
 
-		$annualRate = CalculatorUtils::roundPercentage($weightedReturn);
+		$annualRate = CalculatorUtils::roundPercentage($expectedAnnual);
 		$monthlyRate = ((1 + $annualRate / 100) ** (1 / self::MonthsPerYear) - 1) * 100;
 
 		return new ReturnRateDto(annual: $annualRate, monthly: $monthlyRate);
@@ -121,6 +154,7 @@ final readonly class DcaPlanDataCalculator
 			$tickerWeights,
 			new DateTimeImmutable('today'),
 			self::HistoryYears,
+			$this->buildProxyTickerIdMap($tickerWeights),
 		);
 		if (count($monthlyReturns) < self::MinHistoryMonthsForSimulation) {
 			return $deterministic;
@@ -131,12 +165,23 @@ final readonly class DcaPlanDataCalculator
 			return $deterministic;
 		}
 
+		// Anchor the bootstrap's central tendency to the (shrunk) deterministic projection. Without
+		// this, the empirical sample's mean reflects the same trailing-CAGR bias the shrinkage exists
+		// to fix — bands would float above the deterministic line.
+		$returnRate = $this->calculateReturnRate($dcaPlan);
+		$targetMonthlyMultiplier = 1.0 + $returnRate->monthly / 100.0;
+		$adjustedReturns = $this->monteCarloSimulator->scaleMonthlyReturnsToMean(
+			$monthlyReturns,
+			$targetMonthlyMultiplier,
+		);
+
 		$result = $this->monteCarloSimulator->simulate(
-			monthlyReturns: $monthlyReturns,
+			monthlyReturns: $adjustedReturns,
 			startValue: $withCurrentValue ? $this->getCurrentValue($dcaPlan) : 0.0,
 			amount: $dcaPlan->amount->toFloat(),
 			months: $months,
 			simulations: min($simulations, self::MaxSimulations),
+			blockSize: self::BootstrapBlockSize,
 		);
 
 		$enriched = [];
@@ -187,7 +232,7 @@ final readonly class DcaPlanDataCalculator
 	{
 		return match ($dcaPlan->targetType) {
 			DcaPlanTargetTypeEnum::Asset => $dcaPlan->asset !== null
-				? [new TickerWeightDto($dcaPlan->asset->ticker->id, 1.0)]
+				? [new TickerWeightDto($dcaPlan->asset->ticker->id, 1.0, $dcaPlan->asset->ticker->type)]
 				: [],
 			DcaPlanTargetTypeEnum::Group => $dcaPlan->group !== null
 				? $this->getGroupTickerWeights($dcaPlan->group)
@@ -200,6 +245,38 @@ final readonly class DcaPlanDataCalculator
 	}
 
 	/**
+	 * Resolves a per-ticker proxy ticker id by looking up the admin-configured proxy for the ticker's
+	 * type. Returns null for tickers whose type has no proxy configured (or is unknown), and never
+	 * proxies a ticker to itself.
+	 *
+	 * @param list<TickerWeightDto> $tickerWeights
+	 * @return array<int, int|null>
+	 */
+	private function buildProxyTickerIdMap(array $tickerWeights): array
+	{
+		$proxyMap = [];
+		/** @var array<string, int|null> $proxyByType */
+		$proxyByType = [];
+		foreach ($tickerWeights as $tickerWeight) {
+			if ($tickerWeight->type === null) {
+				$proxyMap[$tickerWeight->tickerId] = null;
+				continue;
+			}
+
+			$typeKey = $tickerWeight->type->value;
+			if (!array_key_exists($typeKey, $proxyByType)) {
+				$proxyAsset = $this->proxyAssetProvider->getProxyAssetByTickerType($tickerWeight->type);
+				$proxyByType[$typeKey] = $proxyAsset?->ticker->id;
+			}
+
+			$proxyTickerId = $proxyByType[$typeKey];
+			$proxyMap[$tickerWeight->tickerId] = $proxyTickerId === $tickerWeight->tickerId ? null : $proxyTickerId;
+		}
+
+		return $proxyMap;
+	}
+
+	/**
 	 * All assets in the group carry equal weight.
 	 *
 	 * @return list<TickerWeightDto>
@@ -208,7 +285,7 @@ final readonly class DcaPlanDataCalculator
 	{
 		$tickerWeights = [];
 		foreach ($group->assets as $asset) {
-			$tickerWeights[$asset->ticker->id] = new TickerWeightDto($asset->ticker->id, 1.0);
+			$tickerWeights[$asset->ticker->id] = new TickerWeightDto($asset->ticker->id, 1.0, $asset->ticker->type);
 		}
 
 		return array_values($tickerWeights);
@@ -224,12 +301,15 @@ final readonly class DcaPlanDataCalculator
 	{
 		/** @var array<int, float> $tickerWeights */
 		$tickerWeights = [];
+		/** @var array<int, \FinGather\Model\Entity\Enum\TickerTypeEnum> $tickerTypes */
+		$tickerTypes = [];
 		foreach ($strategy->strategyItems as $strategyItem) {
 			$weight = $strategyItem->percentage->toFloat();
 
 			if ($strategyItem->asset !== null) {
 				$tickerId = $strategyItem->asset->ticker->id;
 				$tickerWeights[$tickerId] = ($tickerWeights[$tickerId] ?? 0.0) + $weight;
+				$tickerTypes[$tickerId] = $strategyItem->asset->ticker->type;
 			} elseif ($strategyItem->group !== null) {
 				$groupAssets = iterator_to_array($strategyItem->group->assets, false);
 				$groupAssetCount = count($groupAssets);
@@ -241,12 +321,13 @@ final readonly class DcaPlanDataCalculator
 				foreach ($groupAssets as $asset) {
 					$tickerId = $asset->ticker->id;
 					$tickerWeights[$tickerId] = ($tickerWeights[$tickerId] ?? 0.0) + $assetWeight;
+					$tickerTypes[$tickerId] = $asset->ticker->type;
 				}
 			}
 		}
 
 		return array_map(
-			fn (int $tickerId, float $weight) => new TickerWeightDto($tickerId, $weight),
+			fn (int $tickerId, float $weight) => new TickerWeightDto($tickerId, $weight, $tickerTypes[$tickerId] ?? null),
 			array_keys($tickerWeights),
 			$tickerWeights,
 		);
@@ -268,13 +349,17 @@ final readonly class DcaPlanDataCalculator
 
 		$tickerWeights = [];
 		foreach ($assetsWithProperties->openAssets as $assetDto) {
-			$tickerWeights[$assetDto->tickerId] = new TickerWeightDto($assetDto->tickerId, $assetDto->percentage);
+			$tickerWeights[$assetDto->tickerId] = new TickerWeightDto(
+				$assetDto->tickerId,
+				$assetDto->percentage,
+				$assetDto->ticker->type,
+			);
 		}
 
 		return array_values($tickerWeights);
 	}
 
-	private function calculateTickerReturnRate(int $tickerId): float
+	private function calculateTickerReturnRate(int $tickerId): ?float
 	{
 		$toDate = new DateTimeImmutable('today');
 		$fromDate = $toDate->sub(new DateInterval('P' . self::HistoryYears . 'Y'));
@@ -283,7 +368,7 @@ final readonly class DcaPlanDataCalculator
 		$lastData = $this->tickerDataProvider->getLastTickerData($tickerId, $toDate);
 
 		if ($firstData === null || $lastData === null || $firstData->date >= $lastData->date || $firstData->close->isZero()) {
-			return 0.0;
+			return null;
 		}
 
 		$days = (int) $lastData->date->diff($firstData->date)->days;

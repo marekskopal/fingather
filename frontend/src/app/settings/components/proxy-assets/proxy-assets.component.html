@@ -1,0 +1,70 @@
+<div class="header">
+    <h1 class="h3">{{ 'app.settings.proxyAssets.title' | translate }}</h1>
+
+    <div class="header-controls d-none d-lg-block">
+        <fingather-portfolio-selector />
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="add-proxy-asset">
+            <select
+                id="tickerType"
+                class="form-select"
+                [(ngModel)]="selectedTickerType"
+            >
+                @for (tickerType of tickerTypes; track tickerType) {
+                    <option [ngValue]="tickerType">{{ tickerType }}</option>
+                }
+            </select>
+            <fingather-ticker-search-selector
+                id="ticker"
+                [(ngModel)]="selectedTicker"
+                [placeholder]="'app.settings.proxyAssets.selectAsset' | translate"
+            />
+            <button
+                type="button"
+                class="btn btn-primary"
+                [disabled]="selectedTicker === null"
+                (click)="addProxyAsset()"
+            >
+                <mat-icon>add</mat-icon>
+                <span>{{ 'app.settings.proxyAssets.add' | translate }}</span>
+            </button>
+        </div>
+
+        @if (proxyAssets().length > 0) {
+            <div class="table-responsive" scrollShadow>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>{{ 'app.settings.proxyAssets.tickerType' | translate }}</th>
+                            <th>{{ 'app.settings.proxyAssets.ticker' | translate }}</th>
+                            <th>{{ 'app.settings.proxyAssets.name' | translate }}</th>
+                            <th>{{ 'app.settings.proxyAssets.market' | translate }}</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (proxyAsset of proxyAssets(); track proxyAsset.id) {
+                            <tr>
+                                <td><span class="tag">{{ proxyAsset.tickerType }}</span></td>
+                                <td>{{ proxyAsset.ticker.ticker }}</td>
+                                <td>{{ proxyAsset.ticker.name }}</td>
+                                <td><span class="tag">{{ proxyAsset.ticker.market.mic }}</span></td>
+                                <td class="actions">
+                                    <fingather-delete-button
+                                        (confirm)="deleteProxyAsset(proxyAsset.id)"
+                                        [title]="'app.settings.proxyAssets.deleteTitle' | translate"
+                                        [message]="'app.settings.proxyAssets.deleteMessage' | translate"
+                                    />
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>

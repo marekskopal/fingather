@@ -704,6 +704,17 @@
         "deleteTitle": "Delete Benchmark Asset",
         "deleteMessage": "Are you sure you want to delete this benchmark asset?"
       },
+      "proxyAssets": {
+        "title": "Proxy Assets",
+        "add": "Add Proxy Asset",
+        "tickerType": "Ticker Type",
+        "ticker": "Ticker",
+        "name": "Name",
+        "market": "Market",
+        "selectAsset": "Select Proxy Asset",
+        "deleteTitle": "Delete Proxy Asset",
+        "deleteMessage": "Are you sure you want to delete this proxy asset?"
+      },
       "importMappings": {
         "title": "Import Mappings",
         "broker": "Broker",

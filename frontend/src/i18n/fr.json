@@ -717,6 +717,17 @@
         "deleteTitle": "Supprimer l'actif de référence",
         "deleteMessage": "Êtes-vous sûr de vouloir supprimer cet actif de référence ?"
       },
+      "proxyAssets": {
+        "title": "Actifs proxy",
+        "add": "Ajouter un actif proxy",
+        "tickerType": "Type d'actif",
+        "ticker": "Ticker",
+        "name": "Nom",
+        "market": "Marché",
+        "selectAsset": "Sélectionner un actif proxy",
+        "deleteTitle": "Supprimer l'actif proxy",
+        "deleteMessage": "Êtes-vous sûr de vouloir supprimer cet actif proxy ?"
+      },
       "importMappings": {
         "title": "Correspondances d'importation",
         "broker": "Courtier",

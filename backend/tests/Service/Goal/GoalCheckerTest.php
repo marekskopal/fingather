@@ -23,6 +23,7 @@ use FinGather\Service\DataCalculator\Dto\ReturnRateDto;
 use FinGather\Service\Goal\GoalChecker;
 use FinGather\Service\Provider\AssetWithPropertiesProviderInterface;
 use FinGather\Service\Provider\PortfolioDataProviderInterface;
+use FinGather\Service\Provider\ProxyAssetProviderInterface;
 use FinGather\Service\Provider\TickerDataProviderInterface;
 use FinGather\Tests\Fixtures\Model\Entity\DcaPlanFixture;
 use FinGather\Tests\Fixtures\Model\Entity\PortfolioFixture;
@@ -329,6 +330,7 @@ final class GoalCheckerTest extends TestCase
 			$tickerDataProvider,
 			$assetWithPropertiesProvider,
 			new DcaPlanMonteCarloSimulator($tickerDataProvider),
+			self::createStub(ProxyAssetProviderInterface::class),
 		);
 
 		return new GoalChecker($portfolioDataProvider, $dcaPlanDataCalculator);

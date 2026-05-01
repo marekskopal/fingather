@@ -22,14 +22,24 @@ final readonly class DcaPlanMonteCarloSimulator
 	/**
 	 * Builds the empirical sample of monthly composite returns (as multipliers, e.g. 1.012 for +1.2 %)
 	 * for the given weighted ticker basket. Each month's return is the weighted average of per-ticker
-	 * month-over-month closing-price returns. Tickers without a close in the given month are skipped
-	 * for that month and weights are renormalised over the available subset.
+	 * month-over-month returns. Tickers without a return for a given month (own data missing AND no
+	 * proxy fallback) are skipped for that month and weights are renormalised over the available subset.
+	 *
+	 * If `$proxyTickerIdByTickerId` maps a ticker to a proxy ticker, that proxy's monthly return is
+	 * substituted for any month the ticker itself can't cover (typically because the ticker is younger
+	 * than the lookback window, but also for gaps in its own data). This is what extends the empirical
+	 * sample back through events like 2000–2002 and 2008.
 	 *
 	 * @param list<TickerWeightDto> $tickerWeights
+	 * @param array<int, int|null> $proxyTickerIdByTickerId map of held-ticker id → proxy ticker id
 	 * @return list<float>
 	 */
-	public function buildMonthlyCompositeReturns(array $tickerWeights, DateTimeImmutable $toDate, int $historyYears,): array
-	{
+	public function buildMonthlyCompositeReturns(
+		array $tickerWeights,
+		DateTimeImmutable $toDate,
+		int $historyYears,
+		array $proxyTickerIdByTickerId = [],
+	): array {
 		if (count($tickerWeights) === 0) {
 			return [];
 		}
@@ -44,34 +54,33 @@ final readonly class DcaPlanMonteCarloSimulator
 
 		$fromDate = $toDate->sub(new DateInterval('P' . $historyYears . 'Y'));
 
-		// tickerCloses[tickerId][YYYY-MM] = float close (last close of the month).
-		/** @var array<int, array<string, float>> $tickerCloses */
-		$tickerCloses = [];
+		// Per ticker, a (monthKey → multiplier) map already incorporating proxy splice.
+		/** @var array<int, array<string, float>> $tickerMultipliers */
+		$tickerMultipliers = [];
 		foreach ($tickerWeights as $tickerWeight) {
-			$tickerCloses[$tickerWeight->tickerId] = $this->extractMonthEndCloses($tickerWeight->tickerId, $fromDate, $toDate);
+			$tickerMultipliers[$tickerWeight->tickerId] = $this->buildPerTickerMonthlyReturns(
+				$tickerWeight->tickerId,
+				$proxyTickerIdByTickerId[$tickerWeight->tickerId] ?? null,
+				$fromDate,
+				$toDate,
+			);
 		}
 
-		$months = $this->collectSortedMonths($tickerCloses);
-		if (count($months) < 2) {
+		$sortedMonths = $this->collectSortedMonths($tickerMultipliers);
+		if (count($sortedMonths) === 0) {
 			return [];
 		}
 
 		$compositeReturns = [];
-		for ($i = 1, $count = count($months); $i < $count; $i++) {
-			$prevMonth = $months[$i - 1];
-			$currMonth = $months[$i];
-
+		foreach ($sortedMonths as $monthKey) {
 			$weightSum = 0.0;
 			$weightedReturn = 0.0;
 			foreach ($tickerWeights as $tickerWeight) {
-				$prevClose = $tickerCloses[$tickerWeight->tickerId][$prevMonth] ?? null;
-				$currClose = $tickerCloses[$tickerWeight->tickerId][$currMonth] ?? null;
-				if ($prevClose === null || $currClose === null || $prevClose <= 0.0) {
+				$multiplier = $tickerMultipliers[$tickerWeight->tickerId][$monthKey] ?? null;
+				if ($multiplier === null) {
 					continue;
 				}
-
-				$tickerReturn = $currClose / $prevClose;
-				$weightedReturn += $tickerReturn * $tickerWeight->weight;
+				$weightedReturn += $multiplier * $tickerWeight->weight;
 				$weightSum += $tickerWeight->weight;
 			}
 
@@ -86,10 +95,64 @@ final readonly class DcaPlanMonteCarloSimulator
 	}
 
 	/**
-	 * Runs `simulations` independent paths over `months` periods. Each path bootstraps monthly returns
-	 * with replacement from `monthlyReturns`, applies them to the running portfolio value plus the fixed
-	 * `amount` contribution per month, and stores the resulting per-month value. The result holds the
-	 * 10th, 50th and 90th percentiles per month across all paths.
+	 * Returns a (monthKey → multiplier) map of month-over-month returns for a single ticker, with
+	 * the proxy ticker filling in for any month the held ticker can't cover (own prev or curr close
+	 * missing). Used per-ticker before composing across the basket.
+	 *
+	 * @return array<string, float>
+	 */
+	private function buildPerTickerMonthlyReturns(
+		int $tickerId,
+		?int $proxyTickerId,
+		DateTimeImmutable $fromDate,
+		DateTimeImmutable $toDate,
+	): array {
+		$tickerCloses = $this->extractMonthEndCloses($tickerId, $fromDate, $toDate);
+		$proxyCloses = $proxyTickerId !== null
+			? $this->extractMonthEndCloses($proxyTickerId, $fromDate, $toDate)
+			: [];
+
+		$allMonths = $tickerCloses + $proxyCloses;
+		if (count($allMonths) < 2) {
+			return [];
+		}
+
+		$sortedMonths = array_keys($allMonths);
+		sort($sortedMonths);
+
+		$multipliers = [];
+		for ($i = 1, $count = count($sortedMonths); $i < $count; $i++) {
+			$prevMonth = $sortedMonths[$i - 1];
+			$currMonth = $sortedMonths[$i];
+
+			$prevTickerClose = $tickerCloses[$prevMonth] ?? null;
+			$currTickerClose = $tickerCloses[$currMonth] ?? null;
+			if ($prevTickerClose !== null && $currTickerClose !== null && $prevTickerClose > 0.0) {
+				$multipliers[$currMonth] = $currTickerClose / $prevTickerClose;
+				continue;
+			}
+
+			$prevProxyClose = $proxyCloses[$prevMonth] ?? null;
+			$currProxyClose = $proxyCloses[$currMonth] ?? null;
+			if ($prevProxyClose !== null && $currProxyClose !== null && $prevProxyClose > 0.0) {
+				$multipliers[$currMonth] = $currProxyClose / $prevProxyClose;
+			}
+		}
+
+		return $multipliers;
+	}
+
+	/**
+	 * Runs `simulations` independent paths over `months` periods. Each path uses circular block
+	 * bootstrap: it picks a random start index, then walks `blockSize` consecutive monthly returns
+	 * before drawing a new start (wrapping around at the sample end). Block bootstrap preserves
+	 * volatility clustering and short autocorrelation that an i.i.d. resample would destroy, which
+	 * is the source of realistic sequence-of-returns risk in the resulting bands.
+	 *
+	 * Pass `blockSize = 1` for plain i.i.d. resampling. Effective block size is clamped to the
+	 * sample size.
+	 *
+	 * The result holds the 10th, 50th and 90th percentiles per month across all paths.
 	 *
 	 * @param list<float> $monthlyReturns empirical monthly multipliers (1.012 = +1.2 %)
 	 */
@@ -100,18 +163,28 @@ final readonly class DcaPlanMonteCarloSimulator
 		int $months,
 		int $simulations,
 		?Randomizer $randomizer = null,
+		int $blockSize = 1,
 	): SimulationResultDto {
 		$randomizer ??= new Randomizer(new Mt19937());
 		$sampleSize = count($monthlyReturns);
+		$effectiveBlock = max(1, min($blockSize, $sampleSize));
 
 		// pathValues[i] holds the value at month i+1 across all simulations.
 		$pathValues = array_fill(0, $months, []);
 
 		for ($s = 0; $s < $simulations; $s++) {
 			$value = $startValue;
+			$blockStart = 0;
+			$offsetInBlock = $effectiveBlock; // force a fresh draw on the first iteration
 			for ($m = 0; $m < $months; $m++) {
-				$value = ($value + $amount) * $monthlyReturns[$randomizer->getInt(0, $sampleSize - 1)];
+				if ($offsetInBlock >= $effectiveBlock) {
+					$blockStart = $randomizer->getInt(0, $sampleSize - 1);
+					$offsetInBlock = 0;
+				}
+				$index = ($blockStart + $offsetInBlock) % $sampleSize;
+				$value = ($value + $amount) * $monthlyReturns[$index];
 				$pathValues[$m][] = $value;
+				$offsetInBlock++;
 			}
 		}
 
@@ -126,6 +199,34 @@ final readonly class DcaPlanMonteCarloSimulator
 		}
 
 		return new SimulationResultDto(p10: $p10, p50: $p50, p90: $p90);
+	}
+
+	/**
+	 * Multiplicatively rescales the empirical monthly returns so their arithmetic mean equals
+	 * `targetMean`. Volatility shape (relative dispersion, ordering) is preserved; only the central
+	 * tendency shifts. Use this to align a bootstrap sample with a forward-looking expected return
+	 * (e.g. a shrunk CAGR) without throwing away the realised distribution.
+	 *
+	 * Returns the input unchanged if it's empty or its mean is non-positive (which would make the
+	 * scale factor undefined or sign-flipping).
+	 *
+	 * @param list<float> $monthlyReturns
+	 * @return list<float>
+	 */
+	public function scaleMonthlyReturnsToMean(array $monthlyReturns, float $targetMean): array
+	{
+		$count = count($monthlyReturns);
+		if ($count === 0) {
+			return $monthlyReturns;
+		}
+
+		$mean = array_sum($monthlyReturns) / $count;
+		if ($mean <= 0.0) {
+			return $monthlyReturns;
+		}
+
+		$factor = $targetMean / $mean;
+		return array_map(static fn (float $r): float => $r * $factor, $monthlyReturns);
 	}
 
 	/** @return array<string, float> month key 'YYYY-MM' → last close in that month */

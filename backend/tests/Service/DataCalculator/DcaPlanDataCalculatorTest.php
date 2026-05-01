@@ -26,6 +26,7 @@ use FinGather\Model\Entity\Group;
 use FinGather\Model\Entity\Industry;
 use FinGather\Model\Entity\Market;
 use FinGather\Model\Entity\Portfolio;
+use FinGather\Model\Entity\ProxyAsset;
 use FinGather\Model\Entity\Sector;
 use FinGather\Model\Entity\Strategy;
 use FinGather\Model\Entity\StrategyItem;
@@ -37,6 +38,7 @@ use FinGather\Service\DataCalculator\DcaPlanMonteCarloSimulator;
 use FinGather\Service\DataCalculator\Dto\ReturnRateDto;
 use FinGather\Service\DataCalculator\Dto\TickerWeightDto;
 use FinGather\Service\Provider\AssetWithPropertiesProviderInterface;
+use FinGather\Service\Provider\ProxyAssetProviderInterface;
 use FinGather\Service\Provider\TickerDataProviderInterface;
 use FinGather\Tests\Fixtures\Model\Entity\AssetFixture;
 use FinGather\Tests\Fixtures\Model\Entity\CurrencyFixture;
@@ -52,6 +54,7 @@ use PHPUnit\Framework\TestCase;
 
 #[CoversClass(DcaPlanDataCalculator::class)]
 #[UsesClass(DcaPlanMonteCarloSimulator::class)]
+#[UsesClass(ProxyAsset::class)]
 #[UsesClass(TickerWeightDto::class)]
 #[UsesClass(DcaPlan::class)]
 #[UsesClass(Asset::class)]
@@ -85,7 +88,7 @@ final class DcaPlanDataCalculatorTest extends TestCase
 	public function testCalculateReturnRateForAsset(): void
 	{
 		// 2025-01-01 to 2026-01-01 = 365 days (2025 is not a leap year)
-		// price 100 → 110: CAGR over exactly 1 year = 10%
+		// price 100 → 110: trailing CAGR over 1 year = 10%; shrunk to 0.5*7 + 0.5*10 = 8.5%
 		$firstData = TickerDataFixture::getTickerData(date: new DateTimeImmutable('2025-01-01'), close: new Decimal(100));
 		$lastData = TickerDataFixture::getTickerData(date: new DateTimeImmutable('2026-01-01'), close: new Decimal(110));
 		$lastData->id = 2;
@@ -98,8 +101,8 @@ final class DcaPlanDataCalculatorTest extends TestCase
 		$calculator = $this->createCalculator(firstTickerData: $firstData, lastTickerData: $lastData);
 
 		$returnRate = $calculator->calculateReturnRate($dcaPlan);
-		self::assertSame(10.0, $returnRate->annual);
-		self::assertSame(0.7974140428903764, $returnRate->monthly);
+		self::assertSame(8.5, $returnRate->annual);
+		self::assertSame(0.6821493365962272, $returnRate->monthly);
 	}
 
 	public function testCalculateReturnRateNoData(): void
@@ -120,7 +123,7 @@ final class DcaPlanDataCalculatorTest extends TestCase
 	{
 		// Ticker 1: 60% portfolio weight, 100 → 110 over 365 days = 10% CAGR
 		// Ticker 2: 40% portfolio weight, 100 → 120 over 365 days = 20% CAGR
-		// Weighted average = 60%*10% + 40%*20% = 14%
+		// Weighted trailing = 60%*10% + 40%*20% = 14%; shrunk to 0.5*7 + 0.5*14 = 10.5%
 		$firstData1 = TickerDataFixture::getTickerData(date: new DateTimeImmutable('2025-01-01'), close: new Decimal(100));
 		$lastData1 = TickerDataFixture::getTickerData(date: new DateTimeImmutable('2026-01-01'), close: new Decimal(110));
 		$lastData1->id = 2;
@@ -156,16 +159,17 @@ final class DcaPlanDataCalculatorTest extends TestCase
 			$tickerDataProvider,
 			$assetWithPropertiesProvider,
 			new DcaPlanMonteCarloSimulator($tickerDataProvider),
+			self::createStub(ProxyAssetProviderInterface::class),
 		);
 
 		$returnRate = $calculator->calculateReturnRate($dcaPlan);
-		self::assertSame(14.0, $returnRate->annual);
-		self::assertSame(1.0978851950173452, $returnRate->monthly);
+		self::assertSame(10.5, $returnRate->annual);
+		self::assertSame(0.8355155683635207, $returnRate->monthly);
 	}
 
 	public function testCalculateReturnRateForGroup(): void
 	{
-		// Group with one asset: 100 → 150 over 365 days = 50% CAGR
+		// Group with one asset: 100 → 150 over 365 days = 50% trailing CAGR; shrunk to 28.5%
 		$firstData = TickerDataFixture::getTickerData(date: new DateTimeImmutable('2025-01-01'), close: new Decimal(100));
 		$lastData = TickerDataFixture::getTickerData(date: new DateTimeImmutable('2026-01-01'), close: new Decimal(150));
 		$lastData->id = 2;
@@ -179,13 +183,13 @@ final class DcaPlanDataCalculatorTest extends TestCase
 		$calculator = $this->createCalculator(firstTickerData: $firstData, lastTickerData: $lastData);
 
 		$returnRate = $calculator->calculateReturnRate($dcaPlan);
-		self::assertSame(50.0, $returnRate->annual);
-		self::assertSame(3.436608313191658, $returnRate->monthly);
+		self::assertSame(28.5, $returnRate->annual);
+		self::assertSame(2.11164217511286, $returnRate->monthly);
 	}
 
 	public function testCalculateReturnRateForStrategy(): void
 	{
-		// Strategy with one asset item: 100 → 200 over 365 days = 100% CAGR
+		// Strategy with one asset item: 100 → 200 over 365 days = 100% trailing CAGR; shrunk to 53.5%
 		$firstData = TickerDataFixture::getTickerData(date: new DateTimeImmutable('2025-01-01'), close: new Decimal(100));
 		$lastData = TickerDataFixture::getTickerData(date: new DateTimeImmutable('2026-01-01'), close: new Decimal(200));
 		$lastData->id = 2;
@@ -213,13 +217,13 @@ final class DcaPlanDataCalculatorTest extends TestCase
 		$calculator = $this->createCalculator(firstTickerData: $firstData, lastTickerData: $lastData);
 
 		$returnRate = $calculator->calculateReturnRate($dcaPlan);
-		self::assertSame(100.0, $returnRate->annual);
-		self::assertSame(5.946309435929531, $returnRate->monthly);
+		self::assertSame(53.5, $returnRate->annual);
+		self::assertSame(3.6356156420038754, $returnRate->monthly);
 	}
 
 	public function testCalculateReturnRateForAssetNegative(): void
 	{
-		// price 100 → 80 over 365 days → CAGR over 1 year = -20%
+		// price 100 → 80 over 365 days → trailing CAGR = -20%; shrunk to 0.5*7 + 0.5*-20 = -6.5%
 		$firstData = TickerDataFixture::getTickerData(date: new DateTimeImmutable('2025-01-01'), close: new Decimal(100));
 		$lastData = TickerDataFixture::getTickerData(date: new DateTimeImmutable('2026-01-01'), close: new Decimal(80));
 		$lastData->id = 2;
@@ -232,15 +236,15 @@ final class DcaPlanDataCalculatorTest extends TestCase
 		$calculator = $this->createCalculator(firstTickerData: $firstData, lastTickerData: $lastData);
 
 		$returnRate = $calculator->calculateReturnRate($dcaPlan);
-		self::assertSame(-20.0, $returnRate->annual);
-		self::assertSame(-1.8423470126248342, $returnRate->monthly);
+		self::assertSame(-6.5, $returnRate->annual);
+		self::assertSame(-0.5585074297480008, $returnRate->monthly);
 	}
 
 	public function testCalculateReturnRateForPortfolioWithNegative(): void
 	{
 		// Ticker 1: 50% portfolio weight, 100 → 120 over 365 days = +20%
 		// Ticker 2: 50% portfolio weight, 100 → 70  over 365 days = -30%
-		// Weighted average = 50%*20% + 50%*(-30%) = -5%
+		// Weighted trailing = 50%*20% + 50%*(-30%) = -5%; shrunk to 0.5*7 + 0.5*-5 = 1%
 		$firstData1 = TickerDataFixture::getTickerData(date: new DateTimeImmutable('2025-01-01'), close: new Decimal(100));
 		$lastData1 = TickerDataFixture::getTickerData(date: new DateTimeImmutable('2026-01-01'), close: new Decimal(120));
 		$lastData1->id = 2;
@@ -276,18 +280,19 @@ final class DcaPlanDataCalculatorTest extends TestCase
 			$tickerDataProvider,
 			$assetWithPropertiesProvider,
 			new DcaPlanMonteCarloSimulator($tickerDataProvider),
+			self::createStub(ProxyAssetProviderInterface::class),
 		);
 
 		$returnRate = $calculator->calculateReturnRate($dcaPlan);
-		self::assertSame(-5.0, $returnRate->annual);
-		self::assertSame(-0.4265318777560645, $returnRate->monthly);
+		self::assertSame(1.0, $returnRate->annual);
+		self::assertSame(0.08295381143461622, $returnRate->monthly);
 	}
 
 	public function testCalculateReturnRateForStrategyWeighted(): void
 	{
 		// Item 1: 70% weight, price 100 → 120 over 365 days = +20% CAGR
 		// Item 2: 30% weight, price 100 → 150 over 365 days = +50% CAGR
-		// Weighted average = 70%*20% + 30%*50% = 14 + 15 = 29%
+		// Weighted trailing = 70%*20% + 30%*50% = 29%; shrunk to 0.5*7 + 0.5*29 = 18%
 		$ticker1 = TickerFixture::getTicker();
 		$ticker1->id = 1;
 
@@ -347,18 +352,19 @@ final class DcaPlanDataCalculatorTest extends TestCase
 			$tickerDataProvider,
 			$assetWithPropertiesProvider,
 			new DcaPlanMonteCarloSimulator($tickerDataProvider),
+			self::createStub(ProxyAssetProviderInterface::class),
 		);
 
 		$returnRate = $calculator->calculateReturnRate($dcaPlan);
-		self::assertSame(29.0, $returnRate->annual);
-		self::assertSame(2.144693403349862, $returnRate->monthly);
+		self::assertSame(18.0, $returnRate->annual);
+		self::assertSame(1.3888430348409919, $returnRate->monthly);
 	}
 
 	public function testCalculateReturnRateForStrategyWeightedWithNegative(): void
 	{
 		// Item 1: 60% weight, price 100 → 80 over 365 days = -20% CAGR
 		// Item 2: 40% weight, price 100 → 130 over 365 days = +30% CAGR
-		// Weighted average = 60%*(-20%) + 40%*30% = -12 + 12 = 0%
+		// Weighted trailing = 60%*(-20%) + 40%*30% = 0%; shrunk to 0.5*7 + 0.5*0 = 3.5%
 		$ticker1 = TickerFixture::getTicker();
 		$ticker1->id = 1;
 
@@ -418,11 +424,12 @@ final class DcaPlanDataCalculatorTest extends TestCase
 			$tickerDataProvider,
 			$assetWithPropertiesProvider,
 			new DcaPlanMonteCarloSimulator($tickerDataProvider),
+			self::createStub(ProxyAssetProviderInterface::class),
 		);
 
 		$returnRate = $calculator->calculateReturnRate($dcaPlan);
-		self::assertSame(0.0, $returnRate->annual);
-		self::assertSame(0.0, $returnRate->monthly);
+		self::assertSame(3.5, $returnRate->annual);
+		self::assertSame(0.2870898719076642, $returnRate->monthly);
 	}
 
 	public function testCalculateReturnRateNoAsset(): void
@@ -436,21 +443,121 @@ final class DcaPlanDataCalculatorTest extends TestCase
 		self::assertSame(0.0, $returnRate->monthly);
 	}
 
+	public function testGetProjectionWithSimulationResolvesProxyByTickerType(): void
+	{
+		// Stubs the held ticker's history (insufficient on its own) and a proxy for Stock tickers.
+		// The calculator must call ProxyAssetProvider::getProxyAssetByTickerType(Stock) — verified
+		// by a once() expectation — and the simulator must produce P10/P50/P90 enrichment thanks to
+		// the spliced 25y history. Without proxy splicing, simulation falls back to deterministic
+		// (no p10/p50/p90 fields).
+		$ticker = TickerFixture::getTicker(id: 1);
+		$proxyTicker = TickerFixture::getTicker(id: 2, ticker: 'SPY', name: 'S&P 500');
+
+		// Held ticker: only 4 monthly closes — well below MinHistoryMonthsForSimulation = 24.
+		$tickerRows = [];
+		foreach (['2026-04-30', '2026-03-31', '2026-02-28', '2026-01-31'] as $i => $date) {
+			$tickerRows[] = TickerDataFixture::getTickerData(
+				ticker: $ticker,
+				date: new DateTimeImmutable($date),
+				close: new Decimal((string) (100 + $i * 5)),
+			);
+		}
+
+		// Proxy ticker: 30 monthly closes spanning >24 months, so the spliced sample crosses the
+		// minimum-history bar and triggers the simulation path.
+		$proxyRows = [];
+		for ($n = 0; $n < 30; $n++) {
+			$proxyDate = (new DateTimeImmutable('2026-04-30'))->modify('-' . $n . ' months');
+			$proxyRows[] = TickerDataFixture::getTickerData(
+				ticker: $proxyTicker,
+				date: $proxyDate,
+				close: new Decimal((string) (200 - $n)),
+			);
+		}
+
+		$tickerDataProvider = self::createStub(TickerDataProviderInterface::class);
+		$tickerDataProvider->method('getFirstTickerData')->willReturn(null);
+		$tickerDataProvider->method('getLastTickerData')->willReturn(null);
+		$tickerDataProvider->method('getTickerDatasByTickerId')
+			->willReturnCallback(fn (int $tickerId) => $tickerId === 1
+				? new ArrayIterator($tickerRows)
+				: new ArrayIterator($proxyRows));
+
+		$assetWithPropertiesProvider = self::createStub(AssetWithPropertiesProviderInterface::class);
+		$assetWithPropertiesProvider->method('getAssetsWithAssetData')
+			->willReturn(new AssetsWithPropertiesDto(openAssets: [], closedAssets: [], watchedAssets: []));
+
+		$proxyAssetProvider = $this->createMock(ProxyAssetProviderInterface::class);
+		$proxyAssetProvider->expects(self::once())
+			->method('getProxyAssetByTickerType')
+			->with(TickerTypeEnum::Stock)
+			->willReturn(new ProxyAsset(tickerType: TickerTypeEnum::Stock, ticker: $proxyTicker));
+
+		$calculator = new DcaPlanDataCalculator(
+			$tickerDataProvider,
+			$assetWithPropertiesProvider,
+			new DcaPlanMonteCarloSimulator($tickerDataProvider),
+			$proxyAssetProvider,
+		);
+
+		$asset = AssetFixture::getAsset(ticker: $ticker);
+		$dcaPlan = $this->createDcaPlan(DcaPlanTargetTypeEnum::Asset, asset: $asset);
+
+		$projection = $calculator->getProjectionWithSimulation($dcaPlan, horizonYears: 1, withCurrentValue: false, simulations: 100);
+
+		// Splice produced enough history → simulation ran → percentile bands present.
+		self::assertNotEmpty($projection->dataPoints);
+		self::assertNotNull($projection->dataPoints[0]->p50);
+	}
+
+	public function testCalculateReturnRatePortfolioMixesDataAndNoData(): void
+	{
+		// Ticker 1 has data (100→120 = +20% trailing), ticker 2 has none. We must use only the
+		// ticker that has data (renormalising weights), not let the missing ticker silently pull
+		// the trailing CAGR toward 0% — that would interact badly with shrinkage and produce a
+		// fabricated middle value. Expected: trailing 20%, shrunk to 0.5*7 + 0.5*20 = 13.5%.
+		$firstData1 = TickerDataFixture::getTickerData(date: new DateTimeImmutable('2025-01-01'), close: new Decimal(100));
+		$lastData1 = TickerDataFixture::getTickerData(date: new DateTimeImmutable('2026-01-01'), close: new Decimal(120));
+		$lastData1->id = 2;
+
+		$tickerDataProvider = self::createStub(TickerDataProviderInterface::class);
+		$tickerDataProvider->method('getFirstTickerData')
+			->willReturnCallback(fn (int $tickerId) => $tickerId === 1 ? $firstData1 : null);
+		$tickerDataProvider->method('getLastTickerData')
+			->willReturnCallback(fn (int $tickerId) => $tickerId === 1 ? $lastData1 : null);
+
+		$assetDto1 = $this->createAssetWithPropertiesDto(tickerId: 1, percentage: 50.0);
+		$assetDto2 = $this->createAssetWithPropertiesDto(tickerId: 2, percentage: 50.0);
+
+		$assetWithPropertiesProvider = self::createStub(AssetWithPropertiesProviderInterface::class);
+		$assetWithPropertiesProvider->method('getAssetsWithAssetData')
+			->willReturn(new AssetsWithPropertiesDto(openAssets: [$assetDto1, $assetDto2], closedAssets: [], watchedAssets: []));
+
+		$dcaPlan = $this->createDcaPlan(DcaPlanTargetTypeEnum::Portfolio);
+
+		$calculator = new DcaPlanDataCalculator(
+			$tickerDataProvider,
+			$assetWithPropertiesProvider,
+			new DcaPlanMonteCarloSimulator($tickerDataProvider),
+			self::createStub(ProxyAssetProviderInterface::class),
+		);
+
+		$returnRate = $calculator->calculateReturnRate($dcaPlan);
+		self::assertSame(13.5, $returnRate->annual);
+	}
+
 	// ── getProjection tests ────────────────────────────────────────────────────
 
 	public function testGetProjectionZeroReturnRate(): void
 	{
-		// price unchanged → 0% CAGR → projectedValue equals investedCapital at every point
-		$firstData = TickerDataFixture::getTickerData(date: new DateTimeImmutable('2025-01-01'), close: new Decimal(100));
-		$lastData = TickerDataFixture::getTickerData(date: new DateTimeImmutable('2026-01-01'), close: new Decimal(100));
-		$lastData->id = 2;
-
+		// No ticker history → rate stays 0% (shrinkage doesn't kick in without data) → projectedValue
+		// equals investedCapital at every point.
 		$ticker = TickerFixture::getTicker();
 		$ticker->id = 1;
 		$asset = AssetFixture::getAsset(ticker: $ticker);
 		$dcaPlan = $this->createDcaPlan(DcaPlanTargetTypeEnum::Asset, asset: $asset);
 
-		$calculator = $this->createCalculator(firstTickerData: $firstData, lastTickerData: $lastData);
+		$calculator = $this->createCalculator(firstTickerData: null, lastTickerData: null);
 		$projection = $calculator->getProjection($dcaPlan, 1);
 
 		self::assertCount(12, $projection->dataPoints);
@@ -463,10 +570,10 @@ final class DcaPlanDataCalculatorTest extends TestCase
 
 	public function testGetProjectionPositiveReturnRate(): void
 	{
-		// price 100 → 110 over 365 days → 10% annual CAGR
-		// monthlyRate = (1.10)^(1/12) - 1
+		// price 100 → 110 over 365 days → trailing 10%, shrunk to 8.5%
+		// monthlyRate = (1.085)^(1/12) - 1
 		// FV[1]  = amount (first deposit, no compounding yet)
-		// FV[12] = amount * (1.10 - 1) / monthlyRate  (annuity FV after 12 months)
+		// FV[12] = amount * (1.085 - 1) / monthlyRate  (annuity FV after 12 months)
 		$firstData = TickerDataFixture::getTickerData(date: new DateTimeImmutable('2025-01-01'), close: new Decimal(100));
 		$lastData = TickerDataFixture::getTickerData(date: new DateTimeImmutable('2026-01-01'), close: new Decimal(110));
 		$lastData->id = 2;
@@ -484,7 +591,7 @@ final class DcaPlanDataCalculatorTest extends TestCase
 		// First point: one deposit, no compounding yet → projectedValue == amount
 		self::assertEqualsWithDelta(100.0, $projection->dataPoints[0]->projectedValue->toFloat(), 0.0001);
 
-		// All subsequent points: projected must exceed invested
+		// All subsequent points: projected must exceed invested (positive shrunk rate)
 		for ($i = 1; $i < 12; $i++) {
 			self::assertGreaterThan(
 				$projection->dataPoints[$i]->investedCapital->toFloat(),
@@ -492,18 +599,20 @@ final class DcaPlanDataCalculatorTest extends TestCase
 			);
 		}
 
-		// Verify last point against the annuity formula
-		$monthlyRate = (1 + 10.0 / 100) ** (1 / 12) - 1;
+		// Verify last point against the annuity formula at the shrunk rate
+		$monthlyRate = (1 + 8.5 / 100) ** (1 / 12) - 1;
 		$expectedFv12 = round(100 * ((1 + $monthlyRate) ** 12 - 1) / $monthlyRate, 8);
 		self::assertEqualsWithDelta($expectedFv12, $projection->dataPoints[11]->projectedValue->toFloat(), 0.0001);
 	}
 
 	public function testGetProjectionNegativeReturnRate(): void
 	{
-		// price 100 → 90 over 365 days → -10% annual CAGR
-		// All projected values must be less than invested capital (after the first month)
+		// price 100 → 70 over 365 days → trailing -30%, shrunk to 0.5*7 + 0.5*-30 = -11.5%
+		// All projected values must be less than invested capital (after the first month).
+		// Trailing -10% would shrink to -1.5% which is barely visible — use a stronger drop so the
+		// shrunk rate is still meaningfully negative.
 		$firstData = TickerDataFixture::getTickerData(date: new DateTimeImmutable('2025-01-01'), close: new Decimal(100));
-		$lastData = TickerDataFixture::getTickerData(date: new DateTimeImmutable('2026-01-01'), close: new Decimal(90));
+		$lastData = TickerDataFixture::getTickerData(date: new DateTimeImmutable('2026-01-01'), close: new Decimal(70));
 		$lastData->id = 2;
 
 		$ticker = TickerFixture::getTicker();
@@ -527,8 +636,8 @@ final class DcaPlanDataCalculatorTest extends TestCase
 			);
 		}
 
-		// Verify last point against the annuity formula with negative rate
-		$monthlyRate = (1 + (-10.0) / 100) ** (1 / 12) - 1;
+		// Verify last point against the annuity formula at the shrunk rate
+		$monthlyRate = (1 + (-11.5) / 100) ** (1 / 12) - 1;
 		$expectedFv12 = round(100 * ((1 + $monthlyRate) ** 12 - 1) / $monthlyRate, 8);
 		self::assertEqualsWithDelta($expectedFv12, $projection->dataPoints[11]->projectedValue->toFloat(), 0.0001);
 	}
@@ -580,6 +689,7 @@ final class DcaPlanDataCalculatorTest extends TestCase
 			$tickerDataProvider,
 			$assetWithPropertiesProvider,
 			new DcaPlanMonteCarloSimulator($tickerDataProvider),
+			self::createStub(ProxyAssetProviderInterface::class),
 		);
 
 		$dcaPlan = $this->createDcaPlan(DcaPlanTargetTypeEnum::Portfolio);
@@ -615,6 +725,7 @@ final class DcaPlanDataCalculatorTest extends TestCase
 			$tickerDataProvider,
 			$assetWithPropertiesProvider,
 			new DcaPlanMonteCarloSimulator($tickerDataProvider),
+			self::createStub(ProxyAssetProviderInterface::class),
 		);
 
 		$dcaPlan = $this->createDcaPlan(DcaPlanTargetTypeEnum::Asset, asset: $asset);
@@ -653,6 +764,7 @@ final class DcaPlanDataCalculatorTest extends TestCase
 			$tickerDataProvider,
 			$assetWithPropertiesProvider,
 			new DcaPlanMonteCarloSimulator($tickerDataProvider),
+			self::createStub(ProxyAssetProviderInterface::class),
 		);
 
 		$dcaPlan = $this->createDcaPlan(DcaPlanTargetTypeEnum::Group, group: $group);
@@ -681,6 +793,7 @@ final class DcaPlanDataCalculatorTest extends TestCase
 			$tickerDataProvider,
 			$assetWithPropertiesProvider,
 			new DcaPlanMonteCarloSimulator($tickerDataProvider),
+			self::createStub(ProxyAssetProviderInterface::class),
 		);
 
 		$dcaPlan = $this->createDcaPlan(DcaPlanTargetTypeEnum::Portfolio);
@@ -735,6 +848,7 @@ final class DcaPlanDataCalculatorTest extends TestCase
 			$tickerDataProvider,
 			$assetWithPropertiesProvider,
 			new DcaPlanMonteCarloSimulator($tickerDataProvider),
+			self::createStub(ProxyAssetProviderInterface::class),
 		);
 	}
 

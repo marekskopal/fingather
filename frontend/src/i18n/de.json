@@ -717,6 +717,17 @@
         "deleteTitle": "Benchmark-Vermögenswert löschen",
         "deleteMessage": "Sind Sie sicher, dass Sie diesen Benchmark-Vermögenswert löschen möchten?"
       },
+      "proxyAssets": {
+        "title": "Proxy-Vermögenswerte",
+        "add": "Proxy-Vermögenswert hinzufügen",
+        "tickerType": "Vermögenswerttyp",
+        "ticker": "Ticker",
+        "name": "Name",
+        "market": "Markt",
+        "selectAsset": "Proxy-Vermögenswert auswählen",
+        "deleteTitle": "Proxy-Vermögenswert löschen",
+        "deleteMessage": "Sind Sie sicher, dass Sie diesen Proxy-Vermögenswert löschen möchten?"
+      },
       "importMappings": {
         "title": "Import-Zuordnungen",
         "broker": "Broker",

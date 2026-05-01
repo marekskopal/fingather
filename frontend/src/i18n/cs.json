@@ -704,6 +704,17 @@
         "deleteTitle": "Smazat srovnávací aktivum",
         "deleteMessage": "Opravdu chcete smazat toto srovnávací aktivum?"
       },
+      "proxyAssets": {
+        "title": "Zástupná aktiva",
+        "add": "Přidat zástupné aktivum",
+        "tickerType": "Typ aktiva",
+        "ticker": "Značka",
+        "name": "Název",
+        "market": "Market",
+        "selectAsset": "Vyberte zástupné aktivum",
+        "deleteTitle": "Smazat zástupné aktivum",
+        "deleteMessage": "Opravdu chcete smazat toto zástupné aktivum?"
+      },
       "importMappings": {
         "title": "Mapování importu",
         "broker": "Broker",

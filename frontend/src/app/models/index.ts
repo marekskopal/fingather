@@ -28,6 +28,7 @@ export * from './portfolio';
 export * from './portfolio-data';
 export * from './portfolio-data-with-benchmark-data';
 export * from './price-alert';
+export * from './proxy-asset';
 export * from './sector-with-sector-data';
 export * from './sign-up';
 export * from './strategy';

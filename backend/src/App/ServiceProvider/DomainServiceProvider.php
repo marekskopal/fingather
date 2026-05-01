@@ -87,6 +87,8 @@ use FinGather\Service\Provider\PortfolioProvider;
 use FinGather\Service\Provider\PortfolioProviderInterface;
 use FinGather\Service\Provider\PriceAlertProvider;
 use FinGather\Service\Provider\PriceAlertProviderInterface;
+use FinGather\Service\Provider\ProxyAssetProvider;
+use FinGather\Service\Provider\ProxyAssetProviderInterface;
 use FinGather\Service\Provider\SectorDataProvider;
 use FinGather\Service\Provider\SectorDataProviderInterface;
 use FinGather\Service\Provider\SectorProvider;
@@ -161,6 +163,7 @@ final class DomainServiceProvider extends AbstractServiceProvider
 			PortfolioDataProviderInterface::class,
 			PortfolioProviderInterface::class,
 			PriceAlertProviderInterface::class,
+			ProxyAssetProviderInterface::class,
 			SectorDataProviderInterface::class,
 			SectorProviderInterface::class,
 			SectorWithSectorDataProviderInterface::class,
@@ -227,6 +230,7 @@ final class DomainServiceProvider extends AbstractServiceProvider
 		$container->add(PortfolioDataProviderInterface::class, PortfolioDataProvider::class);
 		$container->add(PortfolioProviderInterface::class, PortfolioProvider::class);
 		$container->add(PriceAlertProviderInterface::class, PriceAlertProvider::class);
+		$container->add(ProxyAssetProviderInterface::class, ProxyAssetProvider::class);
 		$container->add(SectorDataProviderInterface::class, SectorDataProvider::class);
 		$container->add(SectorProviderInterface::class, SectorProvider::class);
 		$container->add(SectorWithSectorDataProviderInterface::class, SectorWithSectorDataProvider::class);

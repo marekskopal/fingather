@@ -16,6 +16,9 @@ enum Routes: string
 	case AdminBenchmarkAssets = '/api/admin/benchmark-assets';
 	case AdminBenchmarkAsset = '/api/admin/benchmark-asset/{benchmarkAssetId:number}';
 
+	case AdminProxyAssets = '/api/admin/proxy-assets';
+	case AdminProxyAsset = '/api/admin/proxy-asset/{proxyAssetId:number}';
+
 	case ApiKeys = '/api/api-keys/{portfolioId:number}';
 	case ApiKey = '/api/api-key/{apiKeyId:number}';
 

@@ -717,6 +717,17 @@
         "deleteTitle": "Eliminar Activo de Referencia",
         "deleteMessage": "¿Estás seguro de que quieres eliminar este activo de referencia?"
       },
+      "proxyAssets": {
+        "title": "Activos Proxy",
+        "add": "Agregar Activo Proxy",
+        "tickerType": "Tipo de Activo",
+        "ticker": "Ticker",
+        "name": "Nombre",
+        "market": "Mercado",
+        "selectAsset": "Seleccionar Activo Proxy",
+        "deleteTitle": "Eliminar Activo Proxy",
+        "deleteMessage": "¿Estás seguro de que quieres eliminar este activo proxy?"
+      },
       "importMappings": {
         "title": "Asignaciones de importación",
         "broker": "Broker",
