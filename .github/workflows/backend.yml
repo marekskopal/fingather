@@ -37,7 +37,7 @@ jobs:
                       sockets \
                       mbstring \
                       zip \
-                      decimal-^1 \
+                      decimal-1.5.0 \
                       simplexml \
                       gd \
                       igbinary \
@@ -50,7 +50,7 @@ jobs:
 
             - name: Run PHPStan
               if: always()
-              run: docker run --rm -v "$PWD/backend:/app" -w /app fingather-backend-ci vendor/bin/phpstan analyze --no-progress
+              run: docker run --rm -v "$PWD/backend:/app" -w /app fingather-backend-ci vendor/bin/phpstan analyze --no-progress --memory-limit=1G
 
             - name: Run PHPCS
               if: always()
