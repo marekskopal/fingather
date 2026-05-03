@@ -12,100 +12,50 @@ concurrency:
     group: backend-${{ github.workflow }}-${{ github.ref }}
     cancel-in-progress: true
 
-defaults:
-    run:
-        working-directory: backend
-
 jobs:
-    phpstan:
-        name: PHPStan
+    backend:
+        name: Backend
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
 
-            - name: Setup PHP
-              uses: shivammathur/setup-php@v2
-              with:
-                  php-version: '8.5'
-                  extensions: decimal-1.5.0, filter, iconv, mbstring, pdo, pdo_mysql, bcmath, sockets, zip, simplexml, gd, igbinary, redis
-                  coverage: none
-                  tools: composer:v2
-
-            - name: Get composer cache directory
-              id: composer-cache
-              run: echo "dir=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
-
             - name: Cache composer dependencies
               uses: actions/cache@v4
               with:
-                  path: ${{ steps.composer-cache.outputs.dir }}
+                  path: backend/vendor
                   key: ${{ runner.os }}-composer-${{ hashFiles('backend/composer.lock') }}
                   restore-keys: ${{ runner.os }}-composer-
 
+            - name: Build CI image
+              run: |
+                  docker build -t fingather-backend-ci -f - backend <<'EOF'
+                  FROM dunglas/frankenphp:1.12.2-php8.5.5-alpine
+                  COPY --from=mlocati/php-extension-installer:2.10.17 /usr/bin/install-php-extensions /usr/local/bin/
+                  RUN install-php-extensions \
+                      pdo_mysql \
+                      bcmath \
+                      sockets \
+                      mbstring \
+                      zip \
+                      decimal-^1 \
+                      simplexml \
+                      gd \
+                      igbinary \
+                      redis
+                  COPY --from=composer:2.9.7 /usr/bin/composer /usr/local/bin/composer
+                  EOF
+
             - name: Install dependencies
-              run: composer install --prefer-dist --no-progress --no-interaction
+              run: docker run --rm -v "$PWD/backend:/app" -w /app fingather-backend-ci composer install --prefer-dist --no-progress --no-interaction
 
             - name: Run PHPStan
-              run: vendor/bin/phpstan analyze --no-progress
-
-    phpcs:
-        name: PHPCS
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v4
-
-            - name: Setup PHP
-              uses: shivammathur/setup-php@v2
-              with:
-                  php-version: '8.5'
-                  extensions: decimal-1.5.0, filter, iconv, mbstring, pdo, bcmath, sockets, zip, simplexml, gd, igbinary
-                  coverage: none
-                  tools: composer:v2
-
-            - name: Get composer cache directory
-              id: composer-cache
-              run: echo "dir=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
-
-            - name: Cache composer dependencies
-              uses: actions/cache@v4
-              with:
-                  path: ${{ steps.composer-cache.outputs.dir }}
-                  key: ${{ runner.os }}-composer-${{ hashFiles('backend/composer.lock') }}
-                  restore-keys: ${{ runner.os }}-composer-
-
-            - name: Install dependencies
-              run: composer install --prefer-dist --no-progress --no-interaction
+              if: always()
+              run: docker run --rm -v "$PWD/backend:/app" -w /app fingather-backend-ci vendor/bin/phpstan analyze --no-progress
 
             - name: Run PHPCS
-              run: vendor/bin/phpcs
-
-    phpunit:
-        name: PHPUnit
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v4
-
-            - name: Setup PHP
-              uses: shivammathur/setup-php@v2
-              with:
-                  php-version: '8.5'
-                  extensions: decimal-1.5.0, filter, iconv, mbstring, pdo, pdo_mysql, bcmath, sockets, zip, simplexml, gd, igbinary, redis
-                  coverage: none
-                  tools: composer:v2
-
-            - name: Get composer cache directory
-              id: composer-cache
-              run: echo "dir=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
-
-            - name: Cache composer dependencies
-              uses: actions/cache@v4
-              with:
-                  path: ${{ steps.composer-cache.outputs.dir }}
-                  key: ${{ runner.os }}-composer-${{ hashFiles('backend/composer.lock') }}
-                  restore-keys: ${{ runner.os }}-composer-
-
-            - name: Install dependencies
-              run: composer install --prefer-dist --no-progress --no-interaction
+              if: always()
+              run: docker run --rm -v "$PWD/backend:/app" -w /app fingather-backend-ci vendor/bin/phpcs
 
             - name: Run PHPUnit
-              run: vendor/bin/phpunit
+              if: always()
+              run: docker run --rm -v "$PWD/backend:/app" -w /app fingather-backend-ci vendor/bin/phpunit
