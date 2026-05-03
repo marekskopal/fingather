@@ -24,6 +24,8 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 final readonly class ApplicationFactory
 {
+	private const int AuthorizationTokenKeyMinLength = 32;
+
 	public static function create(): Application
 	{
 		self::validateEnvironment();
@@ -69,6 +71,20 @@ final readonly class ApplicationFactory
 
 		if ($missing !== []) {
 			throw new \RuntimeException('Required environment variables are not set: ' . implode(', ', $missing));
+		}
+
+		self::validateAuthorizationTokenKey();
+	}
+
+	private static function validateAuthorizationTokenKey(): void
+	{
+		$key = (string) getenv('AUTHORIZATION_TOKEN_KEY');
+
+		if (strlen($key) < self::AuthorizationTokenKeyMinLength) {
+			throw new \RuntimeException(sprintf(
+				'AUTHORIZATION_TOKEN_KEY must be at least %d characters. Generate one with `openssl rand -hex 32`.',
+				self::AuthorizationTokenKeyMinLength,
+			));
 		}
 	}
 
