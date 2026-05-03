@@ -55,9 +55,7 @@ final readonly class ProxyAssetController extends AdminController
 
 		$existingProxyAsset = $this->proxyAssetProvider->getProxyAssetByTickerType($proxyAssetCreateDto->tickerType);
 		if ($existingProxyAsset !== null) {
-			return new ConflictResponse(
-				'Proxy asset for ticker type "' . $proxyAssetCreateDto->tickerType->value . '" already exists.',
-			);
+			return new ConflictResponse('Proxy asset for ticker type "' . $proxyAssetCreateDto->tickerType->value . '" already exists.');
 		}
 
 		$proxyAsset = $this->proxyAssetProvider->createProxyAsset($proxyAssetCreateDto->tickerType, $ticker);

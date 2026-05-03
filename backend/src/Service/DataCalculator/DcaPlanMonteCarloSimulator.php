@@ -175,7 +175,8 @@ final readonly class DcaPlanMonteCarloSimulator
 		for ($s = 0; $s < $simulations; $s++) {
 			$value = $startValue;
 			$blockStart = 0;
-			$offsetInBlock = $effectiveBlock; // force a fresh draw on the first iteration
+			// force a fresh draw on the first iteration
+			$offsetInBlock = $effectiveBlock;
 			for ($m = 0; $m < $months; $m++) {
 				if ($offsetInBlock >= $effectiveBlock) {
 					$blockStart = $randomizer->getInt(0, $sampleSize - 1);

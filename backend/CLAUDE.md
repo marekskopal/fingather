@@ -32,6 +32,16 @@ bin/console cache:clear                 # Clear cache
 - Entities use `DateTimeImmutable` with `Type::Timestamp` for datetime fields
 - Financial values use php-decimal for precision (`Decimal` serialises as JSON string)
 
+## Adding a Repository
+
+When adding a new `Model/Repository/*Repository.php` you MUST also register it in `src/App/ServiceProvider/OrmServiceProvider.php`:
+
+1. Add `use` for the entity and repository classes.
+2. Add the repository class to the `provides()` array.
+3. Add `$this->addRepository($container, $orm, FooRepository::class, Foo::class);` in `register()`.
+
+Skipping any of these makes the repository unresolvable through the container.
+
 ## Database Migrations
 
 Files in `/backend/migrations/`, naming: `YYYYMMDD_HHMMSS_Description.php`

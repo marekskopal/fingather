@@ -27,6 +27,7 @@ use FinGather\Model\Entity\OAuthClient;
 use FinGather\Model\Entity\PasswordReset;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\PriceAlert;
+use FinGather\Model\Entity\ProxyAsset;
 use FinGather\Model\Entity\Sector;
 use FinGather\Model\Entity\Split;
 use FinGather\Model\Entity\Strategy;
@@ -59,6 +60,7 @@ use FinGather\Model\Repository\OAuthClientRepository;
 use FinGather\Model\Repository\PasswordResetRepository;
 use FinGather\Model\Repository\PortfolioRepository;
 use FinGather\Model\Repository\PriceAlertRepository;
+use FinGather\Model\Repository\ProxyAssetRepository;
 use FinGather\Model\Repository\SectorRepository;
 use FinGather\Model\Repository\SplitRepository;
 use FinGather\Model\Repository\StrategyItemRepository;
@@ -109,6 +111,7 @@ final class OrmServiceProvider extends AbstractServiceProvider
 			PasswordResetRepository::class,
 			PortfolioRepository::class,
 			PriceAlertRepository::class,
+			ProxyAssetRepository::class,
 			SectorRepository::class,
 			SplitRepository::class,
 			StrategyItemRepository::class,
@@ -154,6 +157,7 @@ final class OrmServiceProvider extends AbstractServiceProvider
 		$this->addRepository($container, $orm, PasswordResetRepository::class, PasswordReset::class);
 		$this->addRepository($container, $orm, PortfolioRepository::class, Portfolio::class);
 		$this->addRepository($container, $orm, PriceAlertRepository::class, PriceAlert::class);
+		$this->addRepository($container, $orm, ProxyAssetRepository::class, ProxyAsset::class);
 		$this->addRepository($container, $orm, SectorRepository::class, Sector::class);
 		$this->addRepository($container, $orm, SplitRepository::class, Split::class);
 		$this->addRepository($container, $orm, StrategyItemRepository::class, StrategyItem::class);

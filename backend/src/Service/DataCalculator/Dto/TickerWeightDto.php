@@ -8,10 +8,7 @@ use FinGather\Model\Entity\Enum\TickerTypeEnum;
 
 final readonly class TickerWeightDto
 {
-	public function __construct(
-		public int $tickerId,
-		public float $weight,
-		public ?TickerTypeEnum $type = null,
-	) {
+	public function __construct(public int $tickerId, public float $weight, public ?TickerTypeEnum $type = null,)
+	{
 	}
 }

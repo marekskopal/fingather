@@ -12,6 +12,7 @@ use FinGather\Dto\DcaPlanProjectionPointDto;
 use FinGather\Dto\Enum\AssetOrderEnum;
 use FinGather\Model\Entity\DcaPlan;
 use FinGather\Model\Entity\Enum\DcaPlanTargetTypeEnum;
+use FinGather\Model\Entity\Enum\TickerTypeEnum;
 use FinGather\Model\Entity\Group;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\Strategy;
@@ -170,10 +171,7 @@ final readonly class DcaPlanDataCalculator
 		// to fix — bands would float above the deterministic line.
 		$returnRate = $this->calculateReturnRate($dcaPlan);
 		$targetMonthlyMultiplier = 1.0 + $returnRate->monthly / 100.0;
-		$adjustedReturns = $this->monteCarloSimulator->scaleMonthlyReturnsToMean(
-			$monthlyReturns,
-			$targetMonthlyMultiplier,
-		);
+		$adjustedReturns = $this->monteCarloSimulator->scaleMonthlyReturnsToMean($monthlyReturns, $targetMonthlyMultiplier);
 
 		$result = $this->monteCarloSimulator->simulate(
 			monthlyReturns: $adjustedReturns,
@@ -301,7 +299,7 @@ final readonly class DcaPlanDataCalculator
 	{
 		/** @var array<int, float> $tickerWeights */
 		$tickerWeights = [];
-		/** @var array<int, \FinGather\Model\Entity\Enum\TickerTypeEnum> $tickerTypes */
+		/** @var array<int, TickerTypeEnum> $tickerTypes */
 		$tickerTypes = [];
 		foreach ($strategy->strategyItems as $strategyItem) {
 			$weight = $strategyItem->percentage->toFloat();
@@ -349,11 +347,7 @@ final readonly class DcaPlanDataCalculator
 
 		$tickerWeights = [];
 		foreach ($assetsWithProperties->openAssets as $assetDto) {
-			$tickerWeights[$assetDto->tickerId] = new TickerWeightDto(
-				$assetDto->tickerId,
-				$assetDto->percentage,
-				$assetDto->ticker->type,
-			);
+			$tickerWeights[$assetDto->tickerId] = new TickerWeightDto($assetDto->tickerId, $assetDto->percentage, $assetDto->ticker->type);
 		}
 
 		return array_values($tickerWeights);
