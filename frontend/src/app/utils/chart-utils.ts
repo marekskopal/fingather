@@ -101,7 +101,7 @@ export class ChartUtils {
         };
     }
 
-    public static yAxis(showLabels: boolean = true): ApexYAxis {
+    public static yAxis(showLabels: boolean = true, formatter?: (value: number) => string): ApexYAxis {
         return {
             labels: {
                 show: showLabels,
@@ -110,11 +110,22 @@ export class ChartUtils {
                     fontSize: '14px',
                     fontFamily: 'Gaist, sans-serif',
                 },
-                formatter: (value: number): string | string[] => {
-                    return value.toFixed(2);
-                },
+                formatter: formatter ?? ((value: number): string => value.toFixed(2)),
                 padding: 4,
             },
+        };
+    }
+
+    public static currencyFormatter(currencySymbol: string): (value: number) => string {
+        const numberFormat = new Intl.NumberFormat('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+        });
+        return (value: number): string => {
+            if (value === null || value === undefined || Number.isNaN(value)) {
+                return '';
+            }
+            return `${numberFormat.format(value)}${currencySymbol}`;
         };
     }
 }

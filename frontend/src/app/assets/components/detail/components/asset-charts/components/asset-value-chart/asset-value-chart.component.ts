@@ -4,6 +4,7 @@ import {
 } from '@angular/core';
 import { AssetData } from '@app/models';
 import { RangeEnum } from '@app/models/enums/range-enum';
+import { CurrencyService } from '@app/services';
 import { AssetDataService } from '@app/services/asset-data.service';
 import {ChartUtils} from "@app/utils/chart-utils";
 import { TranslateService } from '@ngx-translate/core';
@@ -16,6 +17,7 @@ import {
     ApexStroke,
     ApexTheme,
     ApexTitleSubtitle,
+    ApexTooltip,
     ApexXAxis, ApexYAxis, NgApexchartsModule,
 } from 'ng-apexcharts';
 
@@ -30,6 +32,7 @@ export type ChartOptions = {
     grid: ApexGrid;
     theme: ApexTheme,
     fill: ApexFill,
+    tooltip: ApexTooltip,
     colors: string[],
 };
 
@@ -43,6 +46,7 @@ export type ChartOptions = {
 })
 export class AssetValueChartComponent implements OnInit {
     private readonly assetDataService = inject(AssetDataService);
+    private readonly currencyService = inject(CurrencyService);
     private readonly nonce = inject(CSP_NONCE);
     private readonly translateService = inject(TranslateService);
 
@@ -61,7 +65,14 @@ export class AssetValueChartComponent implements OnInit {
     private async refreshChart(): Promise<void> {
         this.loading.set(true);
 
-        const assetDatas = await this.assetDataService.getAssetDataRange(this.assetId(), RangeEnum.All);
+        const [assetDatas, defaultCurrency] = await Promise.all([
+            this.assetDataService.getAssetDataRange(this.assetId(), RangeEnum.All),
+            this.currencyService.getDefaultCurrency(),
+        ]);
+
+        const formatter = ChartUtils.currencyFormatter(defaultCurrency.symbol);
+        this.chartOptions.yaxis = ChartUtils.yAxis(true, formatter);
+        this.chartOptions.tooltip = { y: { formatter } };
 
         const mappedAssetData = this.mapAssetData(assetDatas);
 
@@ -116,6 +127,7 @@ export class AssetValueChartComponent implements OnInit {
             yaxis: ChartUtils.yAxis(),
             theme: ChartUtils.theme(),
             fill: ChartUtils.gradientFill(),
+            tooltip: {},
             colors: ChartUtils.colors(2),
         };
     }

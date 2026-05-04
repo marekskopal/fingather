@@ -3,7 +3,7 @@ import {
     Component, CSP_NONCE, inject, input, InputSignal, OnInit, signal,
 } from '@angular/core';
 import { TickerData } from '@app/models';
-import { AssetService, TickerDataService } from '@app/services';
+import { AssetService, CurrencyService, TickerDataService } from '@app/services';
 import {ChartUtils} from "@app/utils/chart-utils";
 import { TranslateService } from '@ngx-translate/core';
 import {
@@ -12,6 +12,7 @@ import {
     ApexChart, ApexDataLabels, ApexFill, ApexGrid, ApexStroke,
     ApexTheme,
     ApexTitleSubtitle,
+    ApexTooltip,
     ApexXAxis, ApexYAxis, NgApexchartsModule,
 } from 'ng-apexcharts';
 
@@ -27,6 +28,7 @@ export type ChartOptions = {
     theme: ApexTheme,
     fill: ApexFill,
     grid: ApexGrid,
+    tooltip: ApexTooltip,
     colors: string[],
 };
 
@@ -41,6 +43,7 @@ export type ChartOptions = {
 export class AssetTickerChartComponent implements OnInit {
     private readonly tickerDataService = inject(TickerDataService);
     private readonly assetService = inject(AssetService);
+    private readonly currencyService = inject(CurrencyService);
     private readonly nonce = inject(CSP_NONCE);
     private readonly translateService = inject(TranslateService);
 
@@ -59,20 +62,27 @@ export class AssetTickerChartComponent implements OnInit {
     private async refreshChart(): Promise<void> {
         this.loading.set(true);
 
-        const assetTickerDatas = await this.tickerDataService.getTickerDatas(this.assetTickerId());
+        const [assetTickerDatas, asset, currencies] = await Promise.all([
+            this.tickerDataService.getTickerDatas(this.assetTickerId()),
+            this.assetService.getAsset(this.assetId()),
+            this.currencyService.getCurrenciesMap(),
+        ]);
+
+        const currencySymbol = currencies.get(asset.ticker.currencyId)?.symbol ?? '';
+        const formatter = ChartUtils.currencyFormatter(currencySymbol);
+        this.chartOptions.yaxis = ChartUtils.yAxis(true, formatter);
+        this.chartOptions.tooltip = { y: { formatter } };
 
         const assetTickerData = this.mapAssetTickerData(assetTickerDatas);
 
         this.chartOptions.xaxis.categories = assetTickerData.categories;
         this.chartOptions.series[0].data = assetTickerData.series;
 
-        const asset = await this.assetService.getAsset(this.assetId());
-
         // @ts-expect-error yaxis is always an array
         this.chartOptions.annotations.yaxis[0].y = asset.averagePrice;
         // @ts-expect-error yaxis is always an array
         this.chartOptions.annotations.yaxis[0].label.text =
-            `${this.translateService.instant('app.assets.detail.charts.seriesAverageBuyPrice')} - ${asset.averagePrice}`;
+            `${this.translateService.instant('app.assets.detail.charts.seriesAverageBuyPrice')} - ${formatter(Number(asset.averagePrice))}`;
 
         this.loading.set(false);
     }
@@ -131,6 +141,7 @@ export class AssetTickerChartComponent implements OnInit {
             theme: ChartUtils.theme(),
             fill: ChartUtils.gradientFill(),
             grid: ChartUtils.grid(),
+            tooltip: {},
             colors: ChartUtils.colors(1),
         };
     }

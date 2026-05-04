@@ -6,12 +6,12 @@ import {
     DividendDataDateInterval,
 } from '@app/models';
 import { RangeEnum } from '@app/models/enums/range-enum';
-import { DividendDataService, PortfolioService } from '@app/services';
+import { CurrencyService, DividendDataService, PortfolioService } from '@app/services';
 import {ChartUtils} from "@app/utils/chart-utils";
 import { TranslateService } from '@ngx-translate/core';
 import {
     ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexGrid, ApexLegend, ApexPlotOptions,
-    ApexTheme, ApexXAxis, ApexYAxis, NgApexchartsModule,
+    ApexTheme, ApexTooltip, ApexXAxis, ApexYAxis, NgApexchartsModule,
 } from 'ng-apexcharts';
 
 export type ChartOptions = {
@@ -25,6 +25,7 @@ export type ChartOptions = {
     theme: ApexTheme;
     fill: ApexFill;
     grid: ApexGrid;
+    tooltip: ApexTooltip;
     colors: string[];
 };
 
@@ -39,6 +40,7 @@ export type ChartOptions = {
 export class DividendsDataChartComponent implements OnInit, OnChanges {
     private readonly dividendDataService = inject(DividendDataService);
     private readonly portfolioService = inject(PortfolioService);
+    private readonly currencyService = inject(CurrencyService);
     private readonly nonce = inject(CSP_NONCE);
     private readonly destroyRef = inject(DestroyRef);
     private readonly translateService = inject(TranslateService);
@@ -64,17 +66,23 @@ export class DividendsDataChartComponent implements OnInit, OnChanges {
 
         const portfolio = await this.portfolioService.getCurrentPortfolio();
 
-        const dividendData = await this.dividendDataService.getDividendDataRange(portfolio.id, this.range());
+        const [dividendData, currencies] = await Promise.all([
+            this.dividendDataService.getDividendDataRange(portfolio.id, this.range()),
+            this.currencyService.getCurrenciesMap(),
+        ]);
+
+        const currencySymbol = currencies.get(portfolio.currencyId)?.symbol ?? '';
+        const formatter = ChartUtils.currencyFormatter(currencySymbol);
 
         const chartMap = this.mapChart(dividendData);
-        const chartOptions = this.initializeChartOptions();
+        const chartOptions = this.initializeChartOptions(formatter);
         chartOptions.xaxis.categories = chartMap.categories;
         chartOptions.series = chartMap.series;
         this.chartOptions = chartOptions;
         this.loading.set(false);
     }
 
-    private initializeChartOptions(): ChartOptions {
+    private initializeChartOptions(formatter?: (value: number) => string): ChartOptions {
         return {
             series: [],
             chart: {
@@ -102,7 +110,7 @@ export class DividendsDataChartComponent implements OnInit, OnChanges {
                 enabled: false,
             },
             xaxis: ChartUtils.xAxis(),
-            yaxis: ChartUtils.yAxis(),
+            yaxis: ChartUtils.yAxis(true, formatter),
             legend: {
                 show: false,
             },
@@ -111,6 +119,7 @@ export class DividendsDataChartComponent implements OnInit, OnChanges {
                 opacity: 1,
             },
             grid: ChartUtils.grid(),
+            tooltip: formatter !== undefined ? { y: { formatter } } : {},
             colors: ChartUtils.colors(),
         };
     }

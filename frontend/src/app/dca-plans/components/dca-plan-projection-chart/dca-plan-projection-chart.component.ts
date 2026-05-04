@@ -5,12 +5,12 @@ import {
 import { FormsModule } from '@angular/forms';
 import { DcaPlanProjection, Goal } from '@app/models';
 import { GoalTypeEnum } from '@app/models/enums/goal-type-enum';
-import { DcaPlanService } from '@app/services';
+import { CurrencyService, DcaPlanService } from '@app/services';
 import { ChartUtils } from '@app/utils/chart-utils';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import {
     ApexAnnotations, ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill,
-    ApexGrid, ApexLegend, ApexStroke, ApexTheme, ApexXAxis, ApexYAxis, NgApexchartsModule,
+    ApexGrid, ApexLegend, ApexStroke, ApexTheme, ApexTooltip, ApexXAxis, ApexYAxis, NgApexchartsModule,
 } from 'ng-apexcharts';
 
 export type ChartOptions = {
@@ -24,6 +24,7 @@ export type ChartOptions = {
     legend: ApexLegend;
     theme: ApexTheme;
     fill: ApexFill;
+    tooltip: ApexTooltip;
     colors: string[];
     annotations: ApexAnnotations;
 };
@@ -40,6 +41,7 @@ export type ChartOptions = {
 })
 export class DcaPlanProjectionChartComponent {
     private readonly dcaPlanService = inject(DcaPlanService);
+    private readonly currencyService = inject(CurrencyService);
     private readonly nonce = inject(CSP_NONCE);
     private readonly translateService = inject(TranslateService);
 
@@ -95,12 +97,14 @@ export class DcaPlanProjectionChartComponent {
         this.loading.set(true);
 
         const simulations = showSimulationBand ? DcaPlanProjectionChartComponent.SimulationPaths : 0;
-        const projection: DcaPlanProjection = await this.dcaPlanService.getProjection(
-            planId,
-            horizonYears,
-            withCurrentValue,
-            simulations,
-        );
+        const [projection, dcaPlan, currencies] = await Promise.all([
+            this.dcaPlanService.getProjection(planId, horizonYears, withCurrentValue, simulations),
+            this.dcaPlanService.getDcaPlan(planId),
+            this.currencyService.getCurrenciesMap(),
+        ]);
+
+        const currencySymbol = currencies.get(dcaPlan.currencyId)?.symbol ?? '';
+        const formatter = ChartUtils.currencyFormatter(currencySymbol);
 
         const hasBands = showSimulationBand
             && projection.dataPoints.length > 0
@@ -119,7 +123,10 @@ export class DcaPlanProjectionChartComponent {
                 ...this.chartOptions.xaxis,
                 categories: projection.dataPoints.map((p) => p.date),
             },
+            yaxis: ChartUtils.yAxis(true, formatter),
+            tooltip: { y: { formatter } },
             series: this.buildSeries(projection, hasBands),
+            annotations: this.buildGoalAnnotations(this.goals(), formatter),
             colors: hasBands ? ChartUtils.colors(3) : ChartUtils.colors(2),
         };
 
@@ -164,11 +171,13 @@ export class DcaPlanProjectionChartComponent {
         ];
     }
 
-    private buildGoalAnnotations(goals: Goal[]): ApexAnnotations {
+    private buildGoalAnnotations(goals: Goal[], formatter?: (value: number) => string): ApexAnnotations {
         const reachableGoals = goals.filter((g) => g.type !== GoalTypeEnum.ReturnPercentage);
         if (reachableGoals.length === 0) {
             return {};
         }
+
+        const formatValue = formatter ?? ((value: number): string => value.toLocaleString());
 
         return {
             yaxis: reachableGoals.map((goal) => ({
@@ -176,7 +185,7 @@ export class DcaPlanProjectionChartComponent {
                 borderColor: goal.isReachable === true ? '#28a745' : '#dc3545',
                 strokeDashArray: 4,
                 label: {
-                    text: `${this.translateService.instant('app.goals.goals.reachability')}: ${parseFloat(goal.targetValue).toLocaleString()}`,
+                    text: `${this.translateService.instant('app.goals.goals.reachability')}: ${formatValue(parseFloat(goal.targetValue))}`,
                     style: {
                         color: '#fff',
                         background: goal.isReachable === true ? '#28a745' : '#dc3545',
@@ -231,6 +240,7 @@ export class DcaPlanProjectionChartComponent {
             },
             theme: ChartUtils.theme(),
             fill: ChartUtils.gradientFill(),
+            tooltip: {},
             colors: ChartUtils.colors(2),
             annotations: {},
         };

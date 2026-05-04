@@ -4,12 +4,12 @@ import {
 } from '@angular/core';
 import {Portfolio, PortfolioDataWithBenchmarkData} from '@app/models';
 import { RangeEnum } from '@app/models/enums/range-enum';
-import { PortfolioDataService, PortfolioService } from '@app/services';
+import { CurrencyService, PortfolioDataService, PortfolioService } from '@app/services';
 import {ChartUtils} from "@app/utils/chart-utils";
 import { TranslateService } from '@ngx-translate/core';
 import {
     ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill,
-    ApexGrid, ApexLegend, ApexStroke, ApexTheme, ApexXAxis, ApexYAxis, NgApexchartsModule,
+    ApexGrid, ApexLegend, ApexStroke, ApexTheme, ApexTooltip, ApexXAxis, ApexYAxis, NgApexchartsModule,
 } from 'ng-apexcharts';
 
 export type ChartOptions = {
@@ -23,6 +23,7 @@ export type ChartOptions = {
     legend: ApexLegend;
     theme: ApexTheme;
     fill: ApexFill;
+    tooltip: ApexTooltip;
     colors: string[];
 };
 
@@ -37,6 +38,7 @@ export type ChartOptions = {
 export class PortfolioValueChartComponent implements OnInit, OnChanges {
     private readonly portfolioDataService = inject(PortfolioDataService);
     private readonly portfolioService = inject(PortfolioService);
+    private readonly currencyService = inject(CurrencyService);
     private readonly nonce = inject(CSP_NONCE);
     private readonly destroyRef = inject(DestroyRef);
     private readonly translateService = inject(TranslateService);
@@ -72,14 +74,22 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
 
         const portfolio = this.portfolio() ?? await this.portfolioService.getCurrentPortfolio();
 
-        const portfolioData = await this.portfolioDataService.getPortfolioDataRange(
-            portfolio.id,
-            this.range(),
-            this.benchmarkAssetId(),
-            this.benchmarkTickerId(),
-            this.customRangeFrom(),
-            this.customRangeTo(),
-        );
+        const [portfolioData, currencies] = await Promise.all([
+            this.portfolioDataService.getPortfolioDataRange(
+                portfolio.id,
+                this.range(),
+                this.benchmarkAssetId(),
+                this.benchmarkTickerId(),
+                this.customRangeFrom(),
+                this.customRangeTo(),
+            ),
+            this.currencyService.getCurrenciesMap(),
+        ]);
+
+        const currencySymbol = currencies.get(portfolio.currencyId)?.symbol ?? '';
+        const formatter = ChartUtils.currencyFormatter(currencySymbol);
+        this.chartOptions.yaxis = ChartUtils.yAxis(this.showLabels(), formatter);
+        this.chartOptions.tooltip = { y: { formatter } };
 
         const chartMap = this.mapChart(portfolioData);
         this.chartOptions.xaxis.categories = chartMap.categories;
@@ -138,6 +148,7 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
             },
             theme: ChartUtils.theme(),
             fill: ChartUtils.gradientFill(),
+            tooltip: {},
             colors: ChartUtils.colors(3),
         };
 
