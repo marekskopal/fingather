@@ -12,6 +12,7 @@ use FinGather\Jobs\Handler\ApiImportProcessCheckHandler;
 use FinGather\Jobs\Handler\EmailVerifyHandler;
 use FinGather\Jobs\Handler\JobHandler;
 use FinGather\Jobs\Handler\PasswordResetHandler;
+use FinGather\Jobs\Handler\PriceAlertNotificationHandler;
 use FinGather\Jobs\Handler\UserWarmupHandler;
 use FinGather\Jobs\Message\AmqpReceivedMessage;
 use FinGather\Service\Provider\CurrentTransactionProviderInterface;
@@ -42,6 +43,7 @@ $handlerMap = [
 	QueueEnum::ApiImportPrepareCheck->value => ApiImportPrepareCheckHandler::class,
 	QueueEnum::ApiImportProcessCheck->value => ApiImportProcessCheckHandler::class,
 	QueueEnum::UserWarmup->value => UserWarmupHandler::class,
+	QueueEnum::PriceAlertNotification->value => PriceAlertNotificationHandler::class,
 ];
 
 $prefetch = (int) getenv('BACKEND_AMQP_CONSUMER_PREFETCH');

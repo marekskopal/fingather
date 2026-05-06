@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace FinGather\Command;
 
 use FinGather\App\ApplicationFactory;
+use FinGather\Dto\PriceAlertNotificationDto;
 use FinGather\Model\Repository\PriceAlertRepository;
-use FinGather\Service\Email\EmailFactory;
-use FinGather\Service\Email\MailerFactory;
 use FinGather\Service\PriceAlert\PriceAlertChecker;
+use FinGather\Service\Queue\Enum\QueueEnum;
+use FinGather\Service\Queue\QueuePublisher;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -33,13 +34,8 @@ final class PriceAlertCheckCommand extends AbstractCommand
 		$logger = $application->container->get(LoggerInterface::class);
 		assert($logger instanceof LoggerInterface);
 
-		$mailerFactory = $application->container->get(MailerFactory::class);
-		assert($mailerFactory instanceof MailerFactory);
-
-		$emailFactory = $application->container->get(EmailFactory::class);
-		assert($emailFactory instanceof EmailFactory);
-
-		$mailer = $mailerFactory->create();
+		$queuePublisher = $application->container->get(QueuePublisher::class);
+		assert($queuePublisher instanceof QueuePublisher);
 
 		$triggeredAlerts = $priceAlertChecker->checkAlerts();
 
@@ -48,27 +44,24 @@ final class PriceAlertCheckCommand extends AbstractCommand
 			$currentValue = $triggeredAlert['currentValue'];
 			$user = $alert->user;
 
-			if (!$user->isEmailNotificationsEnabled) {
-				$this->writeln('Skipping user ' . $user->id . ' - email notifications disabled.', $output);
-				continue;
-			}
-
-			if (!$user->isEmailVerified) {
-				$this->writeln('Skipping user ' . $user->id . ' - email not verified.', $output);
-				continue;
-			}
-
 			try {
-				$email = $emailFactory->createPriceAlertEmail(user: $user, priceAlert: $alert, currentValue: $currentValue);
-				$mailer->send($email);
+				$queuePublisher->publishMessage(
+					new PriceAlertNotificationDto(
+						userId: $user->id,
+						priceAlertId: $alert->id,
+						currentValue: $currentValue,
+					),
+					QueueEnum::PriceAlertNotification,
+					delay: 1,
+				);
 
 				$priceAlertChecker->markTriggered($alert);
 				$priceAlertRepository->persist($alert);
 
-				$this->writeln('Sent price alert email to user ' . $user->id . ' for alert ' . $alert->id . '.', $output);
+				$this->writeln('Queued price alert notification for user ' . $user->id . ' alert ' . $alert->id . '.', $output);
 			} catch (\Throwable $e) {
-				$logger->error('Error sending price alert email to user ' . $user->id . ': ' . $e->getMessage());
-				$this->writeln('Error sending email to user ' . $user->id . ': ' . $e->getMessage(), $output);
+				$logger->error('Error queueing price alert notification for user ' . $user->id . ': ' . $e->getMessage());
+				$this->writeln('Error queueing for user ' . $user->id . ': ' . $e->getMessage(), $output);
 			}
 		}
 

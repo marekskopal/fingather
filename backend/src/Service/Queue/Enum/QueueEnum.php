@@ -11,4 +11,5 @@ enum QueueEnum: string
 	case ApiImportPrepareCheck = 'api-import-prepare-check';
 	case ApiImportProcessCheck = 'api-import-process-check';
 	case UserWarmup = 'user-warmup';
+	case PriceAlertNotification = 'price-alert-notification';
 }
