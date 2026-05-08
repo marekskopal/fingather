@@ -339,7 +339,7 @@ final class E2eSeedCommand extends AbstractCommand
 	/**
 	 * Seed three asset-detail card-visibility scenarios used by frontend e2e tests:
 	 *   - AAPL: description + fundamentals + DCF history → all three cards visible
-	 *   - MSFT: description only                          → only the about card visible
+	 *   - MSFT: description only → only the about card visible
 	 *   - NVDA: fundamentals + DCF history, no description → about hidden, others visible
 	 */
 	private function seedAssetDetailVariants(PDO $pdo): void
@@ -363,13 +363,13 @@ final class E2eSeedCommand extends AbstractCommand
 		// Fundamentals for AAPL and NVDA. shares_outstanding > 0 + revenue_ttm + levered_free_cash_flow_ttm
 		// + quarterly_revenue_growth satisfy the DCF calculator's required signals.
 		$pdo->exec(
-			"INSERT INTO `ticker_fundamentals`
+			'INSERT INTO `ticker_fundamentals`
 				(`ticker_id`, `market_capitalization`, `enterprise_value`, `trailing_pe`, `forward_pe`,
 				`profit_margin`, `operating_margin`, `revenue_ttm`, `quarterly_revenue_growth`,
 				`levered_free_cash_flow_ttm`, `shares_outstanding`, `beta`)
 			VALUES
 			(1679, 3500000000000, 3450000000000, 30.5, 28.0, 0.25, 0.30, 400000000000, 0.05,  110000000000, 16000000000, 1.20),
-			(2722, 2200000000000, 2180000000000, 70.0, 50.0, 0.55, 0.60, 130000000000, 0.20,   50000000000, 25000000000, 1.50)",
+			(2722, 2200000000000, 2180000000000, 70.0, 50.0, 0.55, 0.60, 130000000000, 0.20,   50000000000, 25000000000, 1.50)',
 		);
 
 		// DCF history points (≥2 rows so CAGR can be derived). Revenue + free_cash_flow per fiscal year.
