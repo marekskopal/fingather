@@ -1,106 +1,110 @@
 @if (dcfValuation(); as dcfValuation) {
-    <div class="dcf-card">
-        <div class="dcf-card-header">
-            <span class="icon-circle icon-circle-small">
-                <mat-icon>insights</mat-icon>
-            </span>
-            <h3 class="h6">{{ 'app.assets.detail.dcfValuation.header' | translate }}</h3>
-        </div>
-
-        <div class="dcf-card-prices">
-            @if (dcfValuation.currentPrice !== null) {
-                <div class="dcf-card-price">
-                    <span class="dcf-card-price-label">
-                        {{ 'app.assets.detail.dcfValuation.currentPrice' | translate }}
+    <div class="card">
+        <div class="body">
+            <div class="dcf-card">
+                <div class="dcf-card-header">
+                    <span class="icon-circle icon-circle-small">
+                        <mat-icon>insights</mat-icon>
                     </span>
-                    <span class="dcf-card-price-value h3">
-                        {{ +dcfValuation.currentPrice | number: '1.2-2' }}
-                    </span>
+                    <h3 class="h6">{{ 'app.assets.detail.dcfValuation.header' | translate }}</h3>
                 </div>
-            }
-            <div class="dcf-card-price">
-                <span class="dcf-card-price-label">
-                    {{ 'app.assets.detail.dcfValuation.intrinsicValue' | translate }}
-                </span>
-                <span class="dcf-card-price-value h3">
-                    {{ +dcfValuation.intrinsicValue | number: '1.2-2' }}
-                </span>
-            </div>
-        </div>
 
-        @if (dcfValuation.valuationStatus !== null) {
-            <div class="dcf-card-status">
-                @switch (dcfValuation.valuationStatus) {
-                    @case ('overvalued') {
-                        <span class="text-danger">
-                            {{ 'app.assets.detail.dcfValuation.overvalued' | translate }}
-                            ({{ dcfValuation.valuationDiffPercent | number: '1.1-1' }}%)
+                <div class="dcf-card-prices">
+                    @if (dcfValuation.currentPrice !== null) {
+                        <div class="dcf-card-price">
+                            <span class="dcf-card-price-label">
+                                {{ 'app.assets.detail.dcfValuation.currentPrice' | translate }}
+                            </span>
+                            <span class="dcf-card-price-value h3">
+                                {{ +dcfValuation.currentPrice | number: '1.2-2' }}
+                            </span>
+                        </div>
+                    }
+                    <div class="dcf-card-price">
+                        <span class="dcf-card-price-label">
+                            {{ 'app.assets.detail.dcfValuation.intrinsicValue' | translate }}
                         </span>
-                    }
-                    @case ('undervalued') {
-                        <span class="text-success">
-                            {{ 'app.assets.detail.dcfValuation.undervalued' | translate }}
-                            ({{ -(dcfValuation.valuationDiffPercent ?? 0) | number: '1.1-1' }}%)
+                        <span class="dcf-card-price-value h3">
+                            {{ +dcfValuation.intrinsicValue | number: '1.2-2' }}
                         </span>
-                    }
-                    @case ('fairlyValued') {
-                        <span>{{ 'app.assets.detail.dcfValuation.fairlyValued' | translate }}</span>
-                    }
+                    </div>
+                </div>
+
+                @if (dcfValuation.valuationStatus !== null) {
+                    <div class="dcf-card-status">
+                        @switch (dcfValuation.valuationStatus) {
+                            @case ('overvalued') {
+                                <span class="text-danger">
+                                    {{ 'app.assets.detail.dcfValuation.overvalued' | translate }}
+                                    ({{ dcfValuation.valuationDiffPercent | number: '1.1-1' }}%)
+                                </span>
+                            }
+                            @case ('undervalued') {
+                                <span class="text-success">
+                                    {{ 'app.assets.detail.dcfValuation.undervalued' | translate }}
+                                    ({{ -(dcfValuation.valuationDiffPercent ?? 0) | number: '1.1-1' }}%)
+                                </span>
+                            }
+                            @case ('fairlyValued') {
+                                <span>{{ 'app.assets.detail.dcfValuation.fairlyValued' | translate }}</span>
+                            }
+                        }
+                    </div>
                 }
-            </div>
-        }
 
-        <div class="dcf-card-sliders">
-            <div class="dcf-card-slider">
-                <div class="dcf-card-slider-label">
-                    <span>{{ 'app.assets.detail.dcfValuation.wacc' | translate }}</span>
-                    <span class="dcf-card-slider-value">{{ waccPercent() | number: '1.1-1' }}%</span>
-                </div>
-                <fingather-range-slider
-                    [min]="2"
-                    [max]="20"
-                    [step]="0.5"
-                    [value]="waccPercent()"
-                    (valueChange)="onWaccChange($event)" />
-            </div>
+                <div class="dcf-card-sliders">
+                    <div class="dcf-card-slider">
+                        <div class="dcf-card-slider-label">
+                            <span>{{ 'app.assets.detail.dcfValuation.wacc' | translate }}</span>
+                            <span class="dcf-card-slider-value">{{ waccPercent() | number: '1.1-1' }}%</span>
+                        </div>
+                        <fingather-range-slider
+                            [min]="2"
+                            [max]="20"
+                            [step]="0.5"
+                            [value]="waccPercent()"
+                            (valueChange)="onWaccChange($event)" />
+                    </div>
 
-            <div class="dcf-card-slider">
-                <div class="dcf-card-slider-label">
-                    <span>{{ 'app.assets.detail.dcfValuation.terminalGrowthRate' | translate }}</span>
-                    <span class="dcf-card-slider-value">{{ terminalGrowthRatePercent() | number: '1.1-1' }}%</span>
-                </div>
-                <fingather-range-slider
-                    [min]="0"
-                    [max]="5"
-                    [step]="0.25"
-                    [value]="terminalGrowthRatePercent()"
-                    (valueChange)="onTerminalGrowthChange($event)" />
-            </div>
+                    <div class="dcf-card-slider">
+                        <div class="dcf-card-slider-label">
+                            <span>{{ 'app.assets.detail.dcfValuation.terminalGrowthRate' | translate }}</span>
+                            <span class="dcf-card-slider-value">{{ terminalGrowthRatePercent() | number: '1.1-1' }}%</span>
+                        </div>
+                        <fingather-range-slider
+                            [min]="0"
+                            [max]="5"
+                            [step]="0.25"
+                            [value]="terminalGrowthRatePercent()"
+                            (valueChange)="onTerminalGrowthChange($event)" />
+                    </div>
 
-            <div class="dcf-card-slider">
-                <div class="dcf-card-slider-label">
-                    <span>{{ 'app.assets.detail.dcfValuation.growthRate' | translate }}</span>
-                    <span class="dcf-card-slider-value">{{ growthRatePercent() | number: '1.1-1' }}%</span>
-                </div>
-                <fingather-range-slider
-                    [min]="-5"
-                    [max]="30"
-                    [step]="0.5"
-                    [value]="growthRatePercent()"
-                    (valueChange)="onGrowthRateChange($event)" />
-            </div>
+                    <div class="dcf-card-slider">
+                        <div class="dcf-card-slider-label">
+                            <span>{{ 'app.assets.detail.dcfValuation.growthRate' | translate }}</span>
+                            <span class="dcf-card-slider-value">{{ growthRatePercent() | number: '1.1-1' }}%</span>
+                        </div>
+                        <fingather-range-slider
+                            [min]="-5"
+                            [max]="30"
+                            [step]="0.5"
+                            [value]="growthRatePercent()"
+                            (valueChange)="onGrowthRateChange($event)" />
+                    </div>
 
-            <div class="dcf-card-slider">
-                <div class="dcf-card-slider-label">
-                    <span>{{ 'app.assets.detail.dcfValuation.projectionYears' | translate }}</span>
-                    <span class="dcf-card-slider-value">{{ projectionYears() }}</span>
+                    <div class="dcf-card-slider">
+                        <div class="dcf-card-slider-label">
+                            <span>{{ 'app.assets.detail.dcfValuation.projectionYears' | translate }}</span>
+                            <span class="dcf-card-slider-value">{{ projectionYears() }}</span>
+                        </div>
+                        <fingather-range-slider
+                            [min]="1"
+                            [max]="15"
+                            [step]="1"
+                            [value]="projectionYears()"
+                            (valueChange)="onProjectionYearsChange($event)" />
+                    </div>
                 </div>
-                <fingather-range-slider
-                    [min]="1"
-                    [max]="15"
-                    [step]="1"
-                    [value]="projectionYears()"
-                    (valueChange)="onProjectionYearsChange($event)" />
             </div>
         </div>
     </div>

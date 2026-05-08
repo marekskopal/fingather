@@ -25,6 +25,7 @@ import { TranslatePipe} from "@ngx-translate/core";
         NgbNavOutlet,
         ScrollShadowDirective,
     ],
+    host: { style: 'display: contents' },
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FundamentalsComponent implements OnInit {
@@ -38,7 +39,11 @@ export class FundamentalsComponent implements OnInit {
     protected readonly FundamentalsTabEnum = FundamentalsTabEnum;
 
     public async ngOnInit(): Promise<void> {
-        const tickerFundamental = await this.tickerFundamentalService.getTickerFundamental(this.tickerId());
-        this.tickerFundamental.set(tickerFundamental);
+        try {
+            const tickerFundamental = await this.tickerFundamentalService.getTickerFundamental(this.tickerId());
+            this.tickerFundamental.set(tickerFundamental);
+        } catch {
+            // Fundamentals not available for this ticker
+        }
     }
 }

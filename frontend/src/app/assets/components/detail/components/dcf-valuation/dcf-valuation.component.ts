@@ -20,6 +20,7 @@ import {debounceTime, Subject} from 'rxjs';
         MatIcon,
         RangeSliderComponent,
     ],
+    host: { style: 'display: contents' },
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DcfValuationComponent implements OnInit {

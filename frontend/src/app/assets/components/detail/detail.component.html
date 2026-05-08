@@ -45,30 +45,22 @@
         />
 
         <div class="asset-detail-about-dcf">
-            <div class="card">
-                <div class="body">
-                    <div class="asset-detail-about">
-                        @if(asset.ticker.description !== null) {
+            @if(asset.ticker.description !== null) {
+                <div class="card">
+                    <div class="body">
+                        <div class="asset-detail-about">
                             <h3>
                                 {{ 'app.assets.detail.about' | translate }}
                             </h3>
                             <p>{{asset.ticker.description}}</p>
-                        }
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="card">
-                <div class="body">
-                    <fingather-dcf-valuation [tickerId]="asset.ticker.id" />
-                </div>
-            </div>
+            }
+            <fingather-dcf-valuation [tickerId]="asset.ticker.id" />
         </div>
 
-        <div class="card asset-detail-info">
-            <div class="body">
-                <fingather-ticker-fundamentals [tickerId]="asset.ticker.id" />
-            </div>
-        </div>
+        <fingather-ticker-fundamentals [tickerId]="asset.ticker.id" />
 
         <div class="card asset-detail-transactions">
             <div class="card-body">

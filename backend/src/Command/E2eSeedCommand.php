@@ -332,5 +332,57 @@ final class E2eSeedCommand extends AbstractCommand
 			(2664, CURRENT_DATE - INTERVAL 3 DAY, '415.00', '418.00', '420.00', '414.00', '20000000'),
 			(2722, CURRENT_DATE - INTERVAL 3 DAY, '875.00', '880.00', '885.00', '872.00', '40000000')",
 		);
+
+		$this->seedAssetDetailVariants($pdo);
+	}
+
+	/**
+	 * Seed three asset-detail card-visibility scenarios used by frontend e2e tests:
+	 *   - AAPL: description + fundamentals + DCF history → all three cards visible
+	 *   - MSFT: description only                          → only the about card visible
+	 *   - NVDA: fundamentals + DCF history, no description → about hidden, others visible
+	 */
+	private function seedAssetDetailVariants(PDO $pdo): void
+	{
+		// Idempotent: drop any prior fundamentals / DCF history for the test tickers.
+		// (ticker_id is indexed but not unique, so INSERT IGNORE wouldn't dedupe.)
+		$pdo->exec('DELETE FROM `ticker_fundamentals` WHERE `ticker_id` IN (1679, 2664, 2722)');
+		$pdo->exec('DELETE FROM `ticker_dcf_history_points` WHERE `ticker_id` IN (1679, 2664, 2722)');
+
+		// Descriptions: AAPL + MSFT have one, NVDA explicitly does not.
+		$pdo->exec(
+			"UPDATE `tickers` SET `description` = 'Apple Inc. designs, manufactures, and markets smartphones, "
+			. "personal computers, tablets, wearables, and accessories worldwide.' WHERE `id` = 1679",
+		);
+		$pdo->exec(
+			"UPDATE `tickers` SET `description` = 'Microsoft Corporation develops, licenses, and supports software, "
+			. "services, devices, and solutions worldwide.' WHERE `id` = 2664",
+		);
+		$pdo->exec('UPDATE `tickers` SET `description` = NULL WHERE `id` = 2722');
+
+		// Fundamentals for AAPL and NVDA. shares_outstanding > 0 + revenue_ttm + levered_free_cash_flow_ttm
+		// + quarterly_revenue_growth satisfy the DCF calculator's required signals.
+		$pdo->exec(
+			"INSERT INTO `ticker_fundamentals`
+				(`ticker_id`, `market_capitalization`, `enterprise_value`, `trailing_pe`, `forward_pe`,
+				`profit_margin`, `operating_margin`, `revenue_ttm`, `quarterly_revenue_growth`,
+				`levered_free_cash_flow_ttm`, `shares_outstanding`, `beta`)
+			VALUES
+			(1679, 3500000000000, 3450000000000, 30.5, 28.0, 0.25, 0.30, 400000000000, 0.05,  110000000000, 16000000000, 1.20),
+			(2722, 2200000000000, 2180000000000, 70.0, 50.0, 0.55, 0.60, 130000000000, 0.20,   50000000000, 25000000000, 1.50)",
+		);
+
+		// DCF history points (≥2 rows so CAGR can be derived). Revenue + free_cash_flow per fiscal year.
+		$pdo->exec(
+			"INSERT INTO `ticker_dcf_history_points`
+				(`ticker_id`, `fiscal_date`, `free_cash_flow`, `revenue`)
+			VALUES
+			(1679, '2024-09-30', 110000000000, 391000000000),
+			(1679, '2023-09-30',  99000000000, 383000000000),
+			(1679, '2022-09-30', 111000000000, 394000000000),
+			(2722, '2025-01-31',  50000000000, 130000000000),
+			(2722, '2024-01-31',  27000000000,  60000000000),
+			(2722, '2023-01-31',   3800000000,  27000000000)",
+		);
 	}
 }

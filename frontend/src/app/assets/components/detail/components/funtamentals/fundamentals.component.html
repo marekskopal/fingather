@@ -1,8 +1,10 @@
-﻿<h3>
-    {{ 'app.assets.detail.fundamentals.header' | translate }}
-</h3>
-<div class="asset-detail-fundamentals" scrollShadow>
-    @if(tickerFundamental(); as tickerFundamental) {
+﻿@if(tickerFundamental(); as tickerFundamental) {
+    <div class="card asset-detail-info">
+        <div class="body">
+            <h3>
+                {{ 'app.assets.detail.fundamentals.header' | translate }}
+            </h3>
+            <div class="asset-detail-fundamentals" scrollShadow>
         <div ngbNav #fundamentalsNav="ngbNav" [(activeId)]="activeTab" orientation="vertical">
             <ng-container [ngbNavItem]="FundamentalsTabEnum.ValuationsMetrics">
                 <button ngbNavLink>
@@ -315,7 +317,9 @@
                     </table>
                 </ng-template>
             </ng-container>
+                </div>
+                <div [ngbNavOutlet]="fundamentalsNav"></div>
+            </div>
         </div>
-        <div [ngbNavOutlet]="fundamentalsNav"></div>
-    }
-</div>
+    </div>
+}
