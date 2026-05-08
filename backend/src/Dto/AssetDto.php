@@ -22,11 +22,8 @@ final readonly class AssetDto
 	) {
 	}
 
-	public static function fromEntity(
-		Asset $asset,
-		Decimal $price,
-		?DcfValuationChipDto $dcfValuationChip,
-	): self {
+	public static function fromEntity(Asset $asset, Decimal $price, ?DcfValuationChipDto $dcfValuationChip,): self
+	{
 		return new self(
 			id: $asset->id,
 			tickerId: $asset->ticker->id,

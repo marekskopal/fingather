@@ -34,17 +34,17 @@ final class DcfCalculatorTest extends TestCase
 	public function testApplLandsNearAlphaSpread(): void
 	{
 		$inputs = new DcfInputs(
-			sharesOutstanding: 14_687_356_000,
-			latestRevenue: 416_161_000_000,
-			latestFcfe: 101_090_746_368,
+			sharesOutstanding: 14687356000,
+			latestRevenue: 416161000000,
+			latestFcfe: 101090746368,
 			quarterlyRevenueGrowth: 0.166,
 			beta: 1.27,
 			history: [
-				new DcfHistoryPointDto(new DateTimeImmutable('2025-09-30'), 98_767_000_000, 416_161_000_000),
-				new DcfHistoryPointDto(new DateTimeImmutable('2024-09-30'), 108_807_000_000, 391_035_000_000),
-				new DcfHistoryPointDto(new DateTimeImmutable('2023-09-30'), 99_584_000_000, 383_285_000_000),
-				new DcfHistoryPointDto(new DateTimeImmutable('2022-09-30'), 111_443_000_000, 394_328_000_000),
-				new DcfHistoryPointDto(new DateTimeImmutable('2021-09-30'), 92_953_000_000, 365_817_000_000),
+				new DcfHistoryPointDto(new DateTimeImmutable('2025-09-30'), 98767000000, 416161000000),
+				new DcfHistoryPointDto(new DateTimeImmutable('2024-09-30'), 108807000000, 391035000000),
+				new DcfHistoryPointDto(new DateTimeImmutable('2023-09-30'), 99584000000, 383285000000),
+				new DcfHistoryPointDto(new DateTimeImmutable('2022-09-30'), 111443000000, 394328000000),
+				new DcfHistoryPointDto(new DateTimeImmutable('2021-09-30'), 92953000000, 365817000000),
 			],
 			currentPrice: null,
 		);
@@ -64,15 +64,15 @@ final class DcfCalculatorTest extends TestCase
 	{
 		// NVDA-like blowout quarterly growth (73%) should be clamped to 30% by default.
 		$inputs = new DcfInputs(
-			sharesOutstanding: 24_304_000_000,
-			latestRevenue: 215_938_000_000,
-			latestFcfe: 58_128_998_400,
+			sharesOutstanding: 24304000000,
+			latestRevenue: 215938000000,
+			latestFcfe: 58128998400,
 			quarterlyRevenueGrowth: 0.732,
 			beta: 1.5,
 			history: [
-				new DcfHistoryPointDto(new DateTimeImmutable('2025-01-31'), 60_000_000_000, 215_000_000_000),
-				new DcfHistoryPointDto(new DateTimeImmutable('2024-01-31'), 30_000_000_000, 130_000_000_000),
-				new DcfHistoryPointDto(new DateTimeImmutable('2023-01-31'), 5_000_000_000, 60_000_000_000),
+				new DcfHistoryPointDto(new DateTimeImmutable('2025-01-31'), 60000000000, 215000000000),
+				new DcfHistoryPointDto(new DateTimeImmutable('2024-01-31'), 30000000000, 130000000000),
+				new DcfHistoryPointDto(new DateTimeImmutable('2023-01-31'), 5000000000, 60000000000),
 			],
 			currentPrice: null,
 		);
@@ -85,14 +85,14 @@ final class DcfCalculatorTest extends TestCase
 	public function testGrowthRateOverrideIsApplied(): void
 	{
 		$inputs = new DcfInputs(
-			sharesOutstanding: 1_000_000_000,
-			latestRevenue: 100_000_000_000,
-			latestFcfe: 20_000_000_000,
+			sharesOutstanding: 1000000000,
+			latestRevenue: 100000000000,
+			latestFcfe: 20000000000,
 			quarterlyRevenueGrowth: 0.05,
 			beta: 1.0,
 			history: [
-				new DcfHistoryPointDto(new DateTimeImmutable('2025-01-01'), 20_000_000_000, 100_000_000_000),
-				new DcfHistoryPointDto(new DateTimeImmutable('2024-01-01'), 18_000_000_000, 95_000_000_000),
+				new DcfHistoryPointDto(new DateTimeImmutable('2025-01-01'), 20000000000, 100000000000),
+				new DcfHistoryPointDto(new DateTimeImmutable('2024-01-01'), 18000000000, 95000000000),
 			],
 			currentPrice: null,
 		);
@@ -105,13 +105,13 @@ final class DcfCalculatorTest extends TestCase
 	public function testMissingGrowthSignalsThrows(): void
 	{
 		$inputs = new DcfInputs(
-			sharesOutstanding: 1_000_000_000,
-			latestRevenue: 100_000_000_000,
-			latestFcfe: 20_000_000_000,
+			sharesOutstanding: 1000000000,
+			latestRevenue: 100000000000,
+			latestFcfe: 20000000000,
 			quarterlyRevenueGrowth: null,
 			beta: null,
 			history: [
-				new DcfHistoryPointDto(new DateTimeImmutable('2025-01-01'), 20_000_000_000, 100_000_000_000),
+				new DcfHistoryPointDto(new DateTimeImmutable('2025-01-01'), 20000000000, 100000000000),
 			],
 			currentPrice: null,
 		);
@@ -140,14 +140,14 @@ final class DcfCalculatorTest extends TestCase
 	{
 		// History has revenue but no FCF rows; calculator should fall back to TTM ratio.
 		$inputs = new DcfInputs(
-			sharesOutstanding: 1_000_000_000,
-			latestRevenue: 100_000_000_000,
-			latestFcfe: 25_000_000_000,
+			sharesOutstanding: 1000000000,
+			latestRevenue: 100000000000,
+			latestFcfe: 25000000000,
 			quarterlyRevenueGrowth: 0.05,
 			beta: null,
 			history: [
-				new DcfHistoryPointDto(new DateTimeImmutable('2025-01-01'), null, 100_000_000_000),
-				new DcfHistoryPointDto(new DateTimeImmutable('2024-01-01'), null, 95_000_000_000),
+				new DcfHistoryPointDto(new DateTimeImmutable('2025-01-01'), null, 100000000000),
+				new DcfHistoryPointDto(new DateTimeImmutable('2024-01-01'), null, 95000000000),
 			],
 			currentPrice: null,
 		);
@@ -210,17 +210,17 @@ final class DcfCalculatorTest extends TestCase
 	private function aaplInputs(?Decimal $currentPrice): DcfInputs
 	{
 		return new DcfInputs(
-			sharesOutstanding: 14_687_356_000,
-			latestRevenue: 416_161_000_000,
-			latestFcfe: 101_090_746_368,
+			sharesOutstanding: 14687356000,
+			latestRevenue: 416161000000,
+			latestFcfe: 101090746368,
 			quarterlyRevenueGrowth: 0.166,
 			beta: 1.27,
 			history: [
-				new DcfHistoryPointDto(new DateTimeImmutable('2025-09-30'), 98_767_000_000, 416_161_000_000),
-				new DcfHistoryPointDto(new DateTimeImmutable('2024-09-30'), 108_807_000_000, 391_035_000_000),
-				new DcfHistoryPointDto(new DateTimeImmutable('2023-09-30'), 99_584_000_000, 383_285_000_000),
-				new DcfHistoryPointDto(new DateTimeImmutable('2022-09-30'), 111_443_000_000, 394_328_000_000),
-				new DcfHistoryPointDto(new DateTimeImmutable('2021-09-30'), 92_953_000_000, 365_817_000_000),
+				new DcfHistoryPointDto(new DateTimeImmutable('2025-09-30'), 98767000000, 416161000000),
+				new DcfHistoryPointDto(new DateTimeImmutable('2024-09-30'), 108807000000, 391035000000),
+				new DcfHistoryPointDto(new DateTimeImmutable('2023-09-30'), 99584000000, 383285000000),
+				new DcfHistoryPointDto(new DateTimeImmutable('2022-09-30'), 111443000000, 394328000000),
+				new DcfHistoryPointDto(new DateTimeImmutable('2021-09-30'), 92953000000, 365817000000),
 			],
 			currentPrice: $currentPrice,
 		);

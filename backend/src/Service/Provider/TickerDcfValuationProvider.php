@@ -42,7 +42,7 @@ final readonly class TickerDcfValuationProvider implements TickerDcfValuationPro
 		}
 
 		$fundamental = $this->tickerFundamentalProvider->getTickerFundamental($ticker);
-		if ($fundamental === null || $fundamental->sharesOutstanding === null || $fundamental->sharesOutstanding <= 0) {
+		if ($fundamental?->sharesOutstanding === null || $fundamental->sharesOutstanding <= 0) {
 			return null;
 		}
 
@@ -75,10 +75,7 @@ final readonly class TickerDcfValuationProvider implements TickerDcfValuationPro
 			return DcfValuationChipDto::empty();
 		}
 
-		return new DcfValuationChipDto(
-			diffPercent: $view->result->valuationDiffPercent,
-			status: $view->result->valuationStatus,
-		);
+		return new DcfValuationChipDto(diffPercent: $view->result->valuationDiffPercent, status: $view->result->valuationStatus);
 	}
 
 	public function createOrUpdateTickerDcfValuation(Ticker $ticker): void

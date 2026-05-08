@@ -8,10 +8,7 @@ use DateTimeImmutable;
 
 final readonly class DcfHistoryPointDto
 {
-	public function __construct(
-		public DateTimeImmutable $fiscalDate,
-		public ?int $freeCashFlow,
-		public ?int $revenue,
-	) {
+	public function __construct(public DateTimeImmutable $fiscalDate, public ?int $freeCashFlow, public ?int $revenue,)
+	{
 	}
 }

@@ -10,10 +10,7 @@ use FinGather\Service\DataCalculator\Dcf\Dto\DcfResult;
 
 final readonly class DcfValuationView
 {
-	public function __construct(
-		public Ticker $ticker,
-		public DcfInputs $inputs,
-		public DcfResult $result,
-	) {
+	public function __construct(public Ticker $ticker, public DcfInputs $inputs, public DcfResult $result,)
+	{
 	}
 }

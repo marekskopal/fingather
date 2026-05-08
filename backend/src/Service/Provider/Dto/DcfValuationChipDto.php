@@ -8,10 +8,8 @@ use FinGather\Service\DataCalculator\Dcf\Dto\DcfValuationStatusEnum;
 
 final readonly class DcfValuationChipDto
 {
-	public function __construct(
-		public ?float $diffPercent,
-		public ?DcfValuationStatusEnum $status,
-	) {
+	public function __construct(public ?float $diffPercent, public ?DcfValuationStatusEnum $status,)
+	{
 	}
 
 	public static function empty(): self

@@ -19,7 +19,7 @@ final readonly class DcfAssumptions
 
 	public static function default(): self
 	{
-		// TODO(WACC): derive from CAPM (rf + beta * erp) once we wire risk-free rate + ERP config.
+		// WACC default: derive from CAPM (rf + beta * erp) once risk-free rate + ERP config are wired.
 		return new self(
 			wacc: 0.085,
 			terminalGrowthRate: 0.025,

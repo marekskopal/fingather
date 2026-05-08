@@ -13,19 +13,12 @@ namespace FinGather\Dto;
  */
 final readonly class PriceAlertNotificationDto implements ArrayFactoryInterface
 {
-	public function __construct(
-		public int $userId,
-		public int $priceAlertId,
-		public string $currentValue,
-	) {
+	public function __construct(public int $userId, public int $priceAlertId, public string $currentValue,)
+	{
 	}
 
 	public static function fromArray(array $data): static
 	{
-		return new self(
-			userId: $data['userId'],
-			priceAlertId: $data['priceAlertId'],
-			currentValue: $data['currentValue'],
-		);
+		return new self(userId: $data['userId'], priceAlertId: $data['priceAlertId'], currentValue: $data['currentValue']);
 	}
 }

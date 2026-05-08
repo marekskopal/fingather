@@ -8,11 +8,8 @@ use FinGather\Service\DataCalculator\Dcf\Dto\DcfHistoryPointDto;
 
 final readonly class TickerDcfValuationHistoryPointDto
 {
-	public function __construct(
-		public string $fiscalDate,
-		public ?int $freeCashFlow,
-		public ?int $revenue,
-	) {
+	public function __construct(public string $fiscalDate, public ?int $freeCashFlow, public ?int $revenue,)
+	{
 	}
 
 	public static function fromDto(DcfHistoryPointDto $dto): self

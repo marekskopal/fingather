@@ -31,7 +31,7 @@ final readonly class DcfCalculator implements DcfCalculatorInterface
 		$revenue = (float) $latestRevenue;
 
 		for ($year = 1; $year <= $assumptions->projectionYears; $year++) {
-			$revenue *= (1.0 + $growthRate);
+			$revenue *= 1.0 + $growthRate;
 			$fcfe = $revenue * $fcfMargin;
 			$discountFactor = (1.0 + $assumptions->wacc) ** $year;
 
@@ -85,7 +85,7 @@ final readonly class DcfCalculator implements DcfCalculatorInterface
 			return [null, null];
 		}
 
-		$diffPercent = (($price - $intrinsicPerShare) / $price) * 100.0;
+		$diffPercent = ($price - $intrinsicPerShare) / $price * 100.0;
 
 		if ($diffPercent > self::FairValueThresholdPercent) {
 			$status = DcfValuationStatusEnum::Overvalued;

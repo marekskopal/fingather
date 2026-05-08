@@ -29,7 +29,9 @@ final readonly class TickerDcfValuationInputsDto
 			quarterlyRevenueGrowth: $inputs->quarterlyRevenueGrowth,
 			beta: $inputs->beta,
 			history: array_map(
-				static fn (DcfHistoryPointDto $point): TickerDcfValuationHistoryPointDto => TickerDcfValuationHistoryPointDto::fromDto($point),
+				static fn (DcfHistoryPointDto $point): TickerDcfValuationHistoryPointDto => TickerDcfValuationHistoryPointDto::fromDto(
+					$point,
+				),
 				$inputs->history,
 			),
 		);

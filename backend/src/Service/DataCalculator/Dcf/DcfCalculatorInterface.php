@@ -10,6 +10,5 @@ use FinGather\Service\DataCalculator\Dcf\Dto\DcfResult;
 
 interface DcfCalculatorInterface
 {
-	/** @throws DcfCalculationException */
 	public function calculate(DcfInputs $inputs, DcfAssumptions $assumptions): DcfResult;
 }
