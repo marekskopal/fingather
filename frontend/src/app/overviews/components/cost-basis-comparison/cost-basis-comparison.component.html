@@ -1,0 +1,97 @@
+<a [routerLink]="['..']" class="btn-link" tabindex="0">
+    <mat-icon>chevron_left</mat-icon>
+    {{ 'app.overviews.taxReport.title' | translate }} &mdash; {{year}}
+</a>
+
+<div class="header">
+    <h1 class="h3">{{ 'app.overviews.costBasisComparison.title' | translate }} &mdash; {{year}}</h1>
+
+    <div class="header-controls d-none d-lg-block">
+        <fingather-portfolio-selector />
+    </div>
+</div>
+
+@if (comparison(); as cmp) {
+    <p class="text-muted">
+        {{ 'app.overviews.costBasisComparison.configured' | translate: { method: ('app.portfolios.taxSettings.costBasisMethod.' + cmp.configuredMethod | translate) } }}
+        @if (cmp.optimalMethod !== cmp.configuredMethod) {
+            &middot;
+            {{ 'app.overviews.costBasisComparison.optimalHint' | translate: { method: ('app.portfolios.taxSettings.costBasisMethod.' + cmp.optimalMethod | translate) } }}
+        }
+    </p>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>{{ 'app.overviews.costBasisComparison.col.method' | translate }}</th>
+                            <th class="text-end">{{ 'app.overviews.costBasisComparison.col.netRealizedGain' | translate }}</th>
+                            <th class="text-end">{{ 'app.overviews.costBasisComparison.col.estimatedTax' | translate }}</th>
+                            <th class="text-end">{{ 'app.overviews.costBasisComparison.col.deltaVsConfigured' | translate }}</th>
+                            <th>{{ 'app.overviews.costBasisComparison.col.status' | translate }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (row of cmp.rows; track row.method) {
+                            <tr [class.table-active]="row.method === cmp.configuredMethod">
+                                <td>
+                                    <strong>{{ 'app.portfolios.taxSettings.costBasisMethod.' + row.method | translate }}</strong>
+                                    @if (row.method === cmp.configuredMethod) {
+                                        <span class="badge bg-secondary ms-2">
+                                            {{ 'app.overviews.costBasisComparison.badge.configured' | translate }}
+                                        </span>
+                                    }
+                                    @if (row.method === cmp.optimalMethod && row.method !== cmp.configuredMethod) {
+                                        <span class="badge bg-success ms-2">
+                                            {{ 'app.overviews.costBasisComparison.badge.optimal' | translate }}
+                                        </span>
+                                    }
+                                </td>
+                                <td class="text-end">
+                                    <fingather-table-value [value]="row.netRealizedGainLoss">
+                                        {{row.netRealizedGainLoss | number:'1.2-2' | money: defaultCurrency.id | async}}
+                                    </fingather-table-value>
+                                </td>
+                                <td class="text-end">
+                                    @if (row.estimatedTax !== null) {
+                                        {{row.estimatedTax | number:'1.2-2' | money: defaultCurrency.id | async}}
+                                    } @else {
+                                        &mdash;
+                                    }
+                                </td>
+                                <td class="text-end">
+                                    @if (row.deltaVsConfigured !== null) {
+                                        <fingather-table-value [value]="row.deltaVsConfigured">
+                                            {{row.deltaVsConfigured | number:'1.2-2' | money: defaultCurrency.id | async}}
+                                        </fingather-table-value>
+                                    } @else {
+                                        &mdash;
+                                    }
+                                </td>
+                                <td>
+                                    @if (!row.allowedInJurisdiction) {
+                                        <span class="text-warning small">
+                                            <mat-icon class="align-middle" style="font-size: 1rem; height: 1rem; width: 1rem;">warning</mat-icon>
+                                            {{ 'app.overviews.costBasisComparison.notAllowed' | translate }}
+                                        </span>
+                                    } @else {
+                                        <span class="text-muted small">
+                                            {{ 'app.overviews.costBasisComparison.allowed' | translate }}
+                                        </span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <p class="small text-muted mt-3">{{ 'app.overviews.costBasisComparison.disclaimer' | translate }}</p>
+        </div>
+    </div>
+} @else {
+    <div class="text-center my-5">
+        <span class="spinner-border spinner-border-lg align-center"></span>
+    </div>
+}

@@ -6,6 +6,7 @@ import {MatIcon} from '@angular/material/icon';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {Currency, TaxReport} from '@app/models';
 import {CurrencyService, PortfolioService, TaxReportService} from '@app/services';
+import {AssetDisplayComponent} from '@app/shared/components/asset-display/asset-display.component';
 import {PortfolioSelectorComponent} from '@app/shared/components/portfolio-selector/portfolio-selector.component';
 import {TableValueComponent} from '@app/shared/components/table-value/table-value.component';
 import {ValueIconComponent} from '@app/shared/components/value-icon/value-icon.component';
@@ -19,6 +20,7 @@ import {TranslatePipe} from '@ngx-translate/core';
     imports: [
         TranslatePipe,
         PortfolioSelectorComponent,
+        AssetDisplayComponent,
         TableValueComponent,
         ValueIconComponent,
         DecimalPipe,
@@ -39,9 +41,11 @@ export class TaxReportComponent implements OnInit {
     protected readonly taxReport = signal<TaxReport | null>(null);
     protected defaultCurrency: Currency;
     protected year: number;
+    protected isCurrentYear: boolean = false;
 
     public async ngOnInit(): Promise<void> {
         this.year = Number(this.route.snapshot.paramMap.get('year'));
+        this.isCurrentYear = this.year === new Date().getFullYear();
         this.defaultCurrency = await this.currencyService.getDefaultCurrency();
 
         this.refreshTaxReport();

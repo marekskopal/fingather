@@ -33,17 +33,7 @@
                                 @for (item of group.items; track item.assetId + item.exDate) {
                                     <tr>
                                         <td>
-                                            <div class="asset">
-                                                <fingather-ticker-logo
-                                                    [ticker]="item.ticker"
-                                                    [width]="46"
-                                                    [height]="46"
-                                                />
-                                                <div class="asset-text">
-                                                    <div class="asset-ticker">{{item.ticker.ticker}}</div>
-                                                    <div class="asset-name ellipsis">{{item.ticker.name}}</div>
-                                                </div>
-                                            </div>
+                                            <fingather-asset-display [ticker]="item.ticker" />
 
                                         </td>
                                         <td>{{ item.exDate | date: 'y-MM-dd' }}</td>

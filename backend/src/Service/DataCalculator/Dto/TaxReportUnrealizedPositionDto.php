@@ -11,6 +11,7 @@ final readonly class TaxReportUnrealizedPositionDto
 	public function __construct(
 		public string $tickerTicker,
 		public string $tickerName,
+		public ?string $tickerLogo,
 		public string $firstBuyDate,
 		public int $holdingPeriodDays,
 		public Decimal $units,

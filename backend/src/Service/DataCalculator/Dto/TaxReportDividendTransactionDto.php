@@ -11,6 +11,7 @@ final readonly class TaxReportDividendTransactionDto
 	public function __construct(
 		public string $tickerTicker,
 		public string $tickerName,
+		public ?string $tickerLogo,
 		public string $countryName,
 		public string $countryIsoCode,
 		public string $date,

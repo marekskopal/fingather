@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Provider;
 
+use Decimal\Decimal;
 use FinGather\Model\Entity\Currency;
+use FinGather\Model\Entity\Enum\CostBasisMethodEnum;
+use FinGather\Model\Entity\Enum\TaxJurisdictionEnum;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use Iterator;
@@ -26,6 +29,13 @@ interface PortfolioProviderInterface
 	public function createDefaultPortfolio(User $user, Currency $currency): Portfolio;
 
 	public function updatePortfolio(Portfolio $portfolio, Currency $currency, string $name, bool $isDefault): Portfolio;
+
+	public function updateTaxSettings(
+		Portfolio $portfolio,
+		TaxJurisdictionEnum $taxJurisdiction,
+		CostBasisMethodEnum $costBasisMethod,
+		?Decimal $estimatedTaxRate,
+	): Portfolio;
 
 	public function deletePortfolio(Portfolio $portfolio): void;
 }

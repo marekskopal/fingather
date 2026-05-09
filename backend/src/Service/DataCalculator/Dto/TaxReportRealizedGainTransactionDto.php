@@ -11,6 +11,7 @@ final readonly class TaxReportRealizedGainTransactionDto
 	public function __construct(
 		public string $tickerTicker,
 		public string $tickerName,
+		public ?string $tickerLogo,
 		public string $buyDate,
 		public string $sellDate,
 		public int $holdingPeriodDays,

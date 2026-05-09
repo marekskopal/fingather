@@ -12,7 +12,7 @@ use FinGather\Service\DataCalculator\Dto\TaxReportRealizedGainTransactionDto;
 final readonly class McpTaxReportDto
 {
 	/**
-	 * @param array{totalGains: string, totalLosses: string, netRealizedGainLoss: string, totalSalesProceeds: string, totalCostBasis: string, totalFees: string, transactions: list<McpTaxRealizedTransactionDto>} $realizedGains
+	 * @param array{costBasisMethod: string, totalGains: string, totalLosses: string, netRealizedGainLoss: string, totalSalesProceeds: string, totalCostBasis: string, totalFees: string, transactions: list<McpTaxRealizedTransactionDto>} $realizedGains
 	 * @param array{totalGross: string, totalTax: string, totalNet: string, byCountry: list<McpTaxDividendCountryDto>} $dividends
 	 */
 	public function __construct(
@@ -41,6 +41,7 @@ final readonly class McpTaxReportDto
 			year: $report->year,
 			currency: $portfolio->currency->code,
 			realizedGains: [
+				'costBasisMethod' => $report->realizedGains->method->value,
 				'totalGains' => (string) $report->realizedGains->totalGains,
 				'totalLosses' => (string) $report->realizedGains->totalLosses,
 				'netRealizedGainLoss' => (string) $report->realizedGains->netRealizedGainLoss,

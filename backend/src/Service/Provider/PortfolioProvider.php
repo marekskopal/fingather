@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Provider;
 
+use Decimal\Decimal;
 use FinGather\Model\Entity\Currency;
+use FinGather\Model\Entity\Enum\CostBasisMethodEnum;
+use FinGather\Model\Entity\Enum\TaxJurisdictionEnum;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\PortfolioRepository;
@@ -93,6 +96,21 @@ final readonly class PortfolioProvider implements PortfolioProviderInterface
 		if ($recalculateTransactions) {
 			$this->dataProvider->deleteUserData(user: $portfolio->user, portfolio: $portfolio, recalculateTransactions: true);
 		}
+
+		return $portfolio;
+	}
+
+	public function updateTaxSettings(
+		Portfolio $portfolio,
+		TaxJurisdictionEnum $taxJurisdiction,
+		CostBasisMethodEnum $costBasisMethod,
+		?Decimal $estimatedTaxRate,
+	): Portfolio {
+		$portfolio->taxJurisdiction = $taxJurisdiction;
+		$portfolio->costBasisMethod = $costBasisMethod;
+		$portfolio->estimatedTaxRate = $estimatedTaxRate;
+
+		$this->portfolioRepository->persist($portfolio);
 
 		return $portfolio;
 	}

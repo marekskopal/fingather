@@ -341,10 +341,13 @@
         "dividend": "Dividenda",
         "fxImpact": "Měnový dopad",
         "return": "Návratnost",
-        "taxReport": "Daňový přehled"
+        "taxReport": "Daňový přehled",
+        "openTaxOptimization": "Daňová optimalizace"
       },
       "taxReport": {
         "title": "Daňový přehled",
+        "currentYearNotice": "Přehled za letošní rok se počítá k dnešnímu dni; čísla se budou měnit do konce roku.",
+        "openCostBasisComparison": "Porovnat metody pořizovací ceny",
         "realizedGains": "Realizované kapitálové zisky/ztráty",
         "salesProceeds": "Příjmy z prodeje",
         "costBasis": "Nákladová cena",
@@ -379,6 +382,62 @@
         "country": "Země",
         "exportXlsx": "Exportovat Excel",
         "exportPdf": "Exportovat PDF"
+      },
+      "taxOptimization": {
+        "title": "Daňová optimalizace",
+        "asOf": "K datu {{date}}",
+        "czechRule": "Pozice držené {{days}} dní jsou ve vaší jurisdikci osvobozeny od daně.",
+        "genericRule": "Vaše jurisdikce nemá pravidlo dlouhodobého držení.",
+        "empty": "V této kategorii není co zobrazit.",
+        "holdingVariesByBroker": "Doba držení se liší podle brokera — prodeje z novějšího brokera mohou být krátkodobé.",
+        "summary": {
+          "savedByHarvesting": "Odhadovaná úspora prodejem ztrátových pozic",
+          "savedByWaiting": "Odhadovaná úspora čekáním na osvobození"
+        },
+        "bucket": {
+          "harvestNow": "Realizovat ztrátu nyní",
+          "holdForTaxFreeGain": "Počkat na osvobození",
+          "lossNoLongerDeductible": "Ztráta již není odečitatelná",
+          "alreadyTaxFree": "Již osvobozeno",
+          "winningShortTerm": "Krátkodobé ziskové pozice"
+        },
+        "col": {
+          "ticker": "Ticker",
+          "heldDays": "Drženo (dní)",
+          "daysUntilLongTerm": "Dní do dlouhodobé",
+          "units": "Jednotky",
+          "marketValue": "Tržní hodnota",
+          "unrealizedGainLoss": "Nerealizovaný zisk/ztráta",
+          "estimatedTaxImpact": "Odhad daň. dopadu",
+          "rationale": "Doporučení"
+        },
+        "rationale": {
+          "harvest_before_long_term": "Realizujte ztrátu před koncem testu času — později už nepůjde uplatnit.",
+          "harvest_generic_loss": "Realizovaná ztráta může snížit daň ze zisků v tomto roce.",
+          "hold_for_tax_free_gain": "Vyčkejte — pozice se brzy stane osvobozenou.",
+          "loss_no_longer_deductible": "Po splnění testu času: prodej už neposkytne daňový přínos.",
+          "already_tax_free": "Drženo dostatečně dlouho — zisky jsou už osvobozeny.",
+          "winning_short_term": "Krátkodobá zisková pozice; bez okamžité akce."
+        }
+      },
+      "costBasisComparison": {
+        "title": "Porovnání metod pořizovací ceny",
+        "configured": "Nastavená metoda: {{method}}",
+        "optimalHint": "Metoda {{method}} by vedla k nejnižšímu zdanitelnému zisku.",
+        "notAllowed": "Není povoleno ve vaší jurisdikci (jen náhled)",
+        "allowed": "Povoleno ve vaší jurisdikci",
+        "disclaimer": "Odhady daně používají sazbu nastavenou v portfoliu. Změna metody pořizovací ceny ovlivní budoucí přiznání; minulá zůstávají podle staré metody.",
+        "col": {
+          "method": "Metoda",
+          "netRealizedGain": "Čistý realizovaný zisk/ztráta",
+          "estimatedTax": "Odhad daně",
+          "deltaVsConfigured": "Δ vs nastavená",
+          "status": "Stav"
+        },
+        "badge": {
+          "configured": "Nastavená",
+          "optimal": "Optimální"
+        }
       }
     },
     "portfolios": {
@@ -392,6 +451,28 @@
         "default": "Výchozí",
         "addedSuccessfully": "Portfolio přidáno úspěšně",
         "updatedSuccessfully": "Aktualizace provedena úspěšně"
+      },
+      "taxSettings": {
+        "header": "Daňová nastavení",
+        "openLink": "Otevřít daňová nastavení",
+        "jurisdictionLabel": "Daňová jurisdikce",
+        "jurisdictionRequired": "Daňová jurisdikce je povinná",
+        "jurisdiction": {
+          "CzechRepublic": "Česká republika",
+          "Generic": "Obecné (bez pravidla dlouhodobého držení)"
+        },
+        "longTermHoldingHint": "Pozice držené alespoň {{days}} dnů splňují test na osvobození od daně.",
+        "costBasisMethodLabel": "Metoda pořizovací ceny (oficiální výkaz)",
+        "costBasisMethodRequired": "Metoda pořizovací ceny je povinná",
+        "costBasisMethod": {
+          "Fifo": "FIFO (první dovnitř, první ven)",
+          "Lifo": "LIFO (poslední dovnitř, první ven)",
+          "AverageCost": "Vážený průměr"
+        },
+        "estimatedTaxRateLabel": "Odhadovaná sazba daně",
+        "estimatedTaxRateHint": "Slouží pouze pro odhady daňových úspor. Desetinné číslo mezi 0 a 1, např. 0.15 pro 15 %. Ponechte prázdné, pokud odhad nechcete.",
+        "estimatedTaxRateDefault": "Výchozí pro tuto jurisdikci: {{rate}}.",
+        "updatedSuccessfully": "Daňová nastavení byla úspěšně uložena"
       },
       "list": {
         "title": "Portfólia",

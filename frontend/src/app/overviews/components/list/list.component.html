@@ -204,9 +204,17 @@
                                 }
                             </td>
                             <td>
-                                <a [routerLink]="['tax-report', yearCalculatedData.year]" class="btn btn-sm btn-secondary">
-                                    {{ 'app.overviews.list.taxReport' | translate }}
-                                </a>
+                                <div class="d-flex flex-wrap gap-2 justify-content-end">
+                                    <a [routerLink]="['tax-report', yearCalculatedData.year]" class="btn btn-sm btn-secondary">
+                                        {{ 'app.overviews.list.taxReport' | translate }}
+                                    </a>
+                                    @if (yearCalculatedData.year === currentYear) {
+                                        <a routerLink="tax-optimization" class="btn btn-sm btn-secondary">
+                                            <mat-icon class="align-middle">savings</mat-icon>
+                                            {{ 'app.overviews.list.openTaxOptimization' | translate }}
+                                        </a>
+                                    }
+                                </div>
                             </td>
                         </tr>
                     }

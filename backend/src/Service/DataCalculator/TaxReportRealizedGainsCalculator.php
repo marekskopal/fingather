@@ -6,6 +6,7 @@ namespace FinGather\Service\DataCalculator;
 
 use DateTimeImmutable;
 use Decimal\Decimal;
+use FinGather\Model\Entity\Enum\CostBasisMethodEnum;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\Ticker;
@@ -14,6 +15,8 @@ use FinGather\Model\Entity\User;
 use FinGather\Service\DataCalculator\Dto\TaxReportRealizedGainsDto;
 use FinGather\Service\DataCalculator\Dto\TaxReportRealizedGainTransactionDto;
 use FinGather\Service\DataCalculator\Dto\TransactionBuyDto;
+use FinGather\Service\DataCalculator\LotMatcher\LotMatcherFactory;
+use FinGather\Service\DataCalculator\LotMatcher\LotMatcherInterface;
 use FinGather\Service\Provider\CurrentTransactionProviderInterface;
 use FinGather\Service\Provider\Dto\SplitDto;
 use FinGather\Service\Provider\SplitProviderInterface;
@@ -24,6 +27,7 @@ final readonly class TaxReportRealizedGainsCalculator implements TaxReportRealiz
 	public function __construct(
 		private CurrentTransactionProviderInterface $currentTransactionProvider,
 		private SplitProviderInterface $splitProvider,
+		private LotMatcherFactory $lotMatcherFactory,
 	) {
 	}
 
@@ -32,8 +36,10 @@ final readonly class TaxReportRealizedGainsCalculator implements TaxReportRealiz
 		Portfolio $portfolio,
 		DateTimeImmutable $yearStart,
 		DateTimeImmutable $yearEnd,
+		CostBasisMethodEnum $method,
 	): TaxReportRealizedGainsDto {
 		$allTransactionsByAsset = $this->currentTransactionProvider->loadTransactions(user: $user, portfolio: $portfolio);
+		$lotMatcher = $this->lotMatcherFactory->forMethod($method);
 
 		$transactions = [];
 		$totalSalesProceeds = new Decimal(0);
@@ -47,6 +53,7 @@ final readonly class TaxReportRealizedGainsCalculator implements TaxReportRealiz
 				$assetTransactions,
 				$yearStart,
 				$yearEnd,
+				$lotMatcher,
 				$transactions,
 				$totalSalesProceeds,
 				$totalCostBasis,
@@ -57,6 +64,7 @@ final readonly class TaxReportRealizedGainsCalculator implements TaxReportRealiz
 		}
 
 		return new TaxReportRealizedGainsDto(
+			method: $method,
 			totalSalesProceeds: $totalSalesProceeds,
 			totalCostBasis: $totalCostBasis,
 			totalGains: $totalGains,
@@ -75,6 +83,7 @@ final readonly class TaxReportRealizedGainsCalculator implements TaxReportRealiz
 		array $assetTransactions,
 		DateTimeImmutable $yearStart,
 		DateTimeImmutable $yearEnd,
+		LotMatcherInterface $lotMatcher,
 		array &$transactions,
 		Decimal &$totalSalesProceeds,
 		Decimal &$totalCostBasis,
@@ -103,7 +112,7 @@ final readonly class TaxReportRealizedGainsCalculator implements TaxReportRealiz
 			}
 
 			if ($transaction->actionCreated < $yearStart || $transaction->actionCreated > $yearEnd) {
-				$this->consumeBuyLots($buys, $transaction, $splits, $yearEnd);
+				$this->consumeBuyLots($buys, $transaction, $splits, $yearEnd, $lotMatcher);
 				continue;
 			}
 
@@ -115,6 +124,7 @@ final readonly class TaxReportRealizedGainsCalculator implements TaxReportRealiz
 				$ticker,
 				$splits,
 				$yearEnd,
+				$lotMatcher,
 				$transactions,
 				$totalSalesProceeds,
 				$totalCostBasis,
@@ -154,6 +164,7 @@ final readonly class TaxReportRealizedGainsCalculator implements TaxReportRealiz
 		Ticker $ticker,
 		array $splits,
 		DateTimeImmutable $yearEnd,
+		LotMatcherInterface $lotMatcher,
 		array &$transactions,
 		Decimal &$totalSalesProceeds,
 		Decimal &$totalCostBasis,
@@ -163,7 +174,7 @@ final readonly class TaxReportRealizedGainsCalculator implements TaxReportRealiz
 		$sellSplitFactor = CalculatorUtils::countSplitFactor($transaction->actionCreated, $yearEnd, $splits);
 		$sellFee = $transaction->feeDefaultCurrency;
 
-		$matches = FifoLotMatcher::consumeLots(
+		$matches = $lotMatcher->consumeLots(
 			$buys,
 			$transaction->brokerId,
 			$transaction->actionCreated,
@@ -179,6 +190,7 @@ final readonly class TaxReportRealizedGainsCalculator implements TaxReportRealiz
 			$transactions[] = new TaxReportRealizedGainTransactionDto(
 				tickerTicker: $ticker->ticker,
 				tickerName: $ticker->name,
+				tickerLogo: $ticker->logo,
 				buyDate: $match->buy->actionCreated->format('Y-m-d'),
 				sellDate: $transaction->actionCreated->format('Y-m-d'),
 				holdingPeriodDays: (int) $transaction->actionCreated->diff($match->buy->actionCreated)->days,
@@ -208,11 +220,16 @@ final readonly class TaxReportRealizedGainsCalculator implements TaxReportRealiz
 	 * @param array<int, TransactionBuyDto> $buys
 	 * @param list<SplitDto> $splits
 	 */
-	private function consumeBuyLots(array &$buys, Transaction $transaction, array $splits, DateTimeImmutable $yearEnd): void
-	{
+	private function consumeBuyLots(
+		array &$buys,
+		Transaction $transaction,
+		array $splits,
+		DateTimeImmutable $yearEnd,
+		LotMatcherInterface $lotMatcher,
+	): void {
 		$sellSplitFactor = CalculatorUtils::countSplitFactor($transaction->actionCreated, $yearEnd, $splits);
 
-		FifoLotMatcher::consumeLots(
+		$lotMatcher->consumeLots(
 			$buys,
 			$transaction->brokerId,
 			$transaction->actionCreated,

@@ -341,10 +341,13 @@
         "dividend": "Dividende",
         "fxImpact": "FX-Einfluss",
         "return": "Rendite",
-        "taxReport": "Steuerbericht"
+        "taxReport": "Steuerbericht",
+        "openTaxOptimization": "Steueroptimierung"
       },
       "taxReport": {
         "title": "Steuerbericht",
+        "currentYearNotice": "Der Bericht für dieses Jahr wird zum heutigen Stand berechnet; die Zahlen ändern sich bis Jahresende.",
+        "openCostBasisComparison": "Kostenbasis-Methoden vergleichen",
         "realizedGains": "Realisierte Kapitalgewinne/-verluste",
         "salesProceeds": "Verkaufserlöse",
         "costBasis": "Anschaffungskosten",
@@ -379,6 +382,62 @@
         "country": "Land",
         "exportXlsx": "Excel exportieren",
         "exportPdf": "PDF exportieren"
+      },
+      "taxOptimization": {
+        "title": "Steueroptimierung",
+        "asOf": "Stand {{date}}",
+        "czechRule": "Lots, die {{days}} Tage gehalten werden, sind in Ihrer Jurisdiktion steuerfrei.",
+        "genericRule": "Ihre Jurisdiktion kennt keine Langzeit-Halteregel.",
+        "empty": "In dieser Kategorie nichts zu zeigen.",
+        "holdingVariesByBroker": "Haltedauer variiert nach Broker — Verkäufe aus dem neueren Broker-Lot können kurzfristig sein.",
+        "summary": {
+          "savedByHarvesting": "Geschätzte Ersparnis durch Verlustrealisierung",
+          "savedByWaiting": "Geschätzte Ersparnis durch Abwarten"
+        },
+        "bucket": {
+          "harvestNow": "Jetzt realisieren",
+          "holdForTaxFreeGain": "Für steuerfreien Gewinn halten",
+          "lossNoLongerDeductible": "Verlust nicht mehr abzugsfähig",
+          "alreadyTaxFree": "Bereits steuerfrei",
+          "winningShortTerm": "Kurzzeitig im Gewinn"
+        },
+        "col": {
+          "ticker": "Ticker",
+          "heldDays": "Gehalten (Tage)",
+          "daysUntilLongTerm": "Tage bis Langzeit",
+          "units": "Einheiten",
+          "marketValue": "Marktwert",
+          "unrealizedGainLoss": "Nicht realisierter G/V",
+          "estimatedTaxImpact": "Gesch. Steuerwirkung",
+          "rationale": "Begründung"
+        },
+        "rationale": {
+          "harvest_before_long_term": "Verlust realisieren, bevor die Langzeitfrist die Abzugsfähigkeit aufhebt.",
+          "harvest_generic_loss": "Realisierter Verlust kann Gewinne in diesem Jahr ausgleichen.",
+          "hold_for_tax_free_gain": "Warten — diese Position wird bald steuerfrei.",
+          "loss_no_longer_deductible": "Nach Langzeitfrist: Verkauf bringt keinen Steuervorteil.",
+          "already_tax_free": "Lange genug gehalten — Gewinne sind bereits steuerfrei.",
+          "winning_short_term": "Kurzzeitige Gewinnposition; keine sofortige Aktion nötig."
+        }
+      },
+      "costBasisComparison": {
+        "title": "Kostenbasis-Vergleich",
+        "configured": "Eingestellte Methode: {{method}}",
+        "optimalHint": "{{method}} hätte den niedrigsten steuerpflichtigen Gewinn ergeben.",
+        "notAllowed": "In Ihrer Jurisdiktion nicht erlaubt (nur Vorschau)",
+        "allowed": "In Ihrer Jurisdiktion erlaubt",
+        "disclaimer": "Steuerschätzungen verwenden den im Portfolio konfigurierten Satz. Eine Änderung der Kostenbasis-Methode betrifft zukünftige Erklärungen; vergangene bleiben nach der alten Methode.",
+        "col": {
+          "method": "Methode",
+          "netRealizedGain": "Netto realisierter G/V",
+          "estimatedTax": "Geschätzte Steuer",
+          "deltaVsConfigured": "Δ vs. eingestellt",
+          "status": "Status"
+        },
+        "badge": {
+          "configured": "Eingestellt",
+          "optimal": "Optimal"
+        }
       }
     },
     "portfolios": {
@@ -392,6 +451,28 @@
         "default": "Standard",
         "addedSuccessfully": "Portfolio erfolgreich hinzugefügt",
         "updatedSuccessfully": "Aktualisierung erfolgreich"
+      },
+      "taxSettings": {
+        "header": "Steuereinstellungen",
+        "openLink": "Steuereinstellungen öffnen",
+        "jurisdictionLabel": "Steuerjurisdiktion",
+        "jurisdictionRequired": "Steuerjurisdiktion ist erforderlich",
+        "jurisdiction": {
+          "CzechRepublic": "Tschechische Republik",
+          "Generic": "Allgemein (keine Langzeit-Regel)"
+        },
+        "longTermHoldingHint": "Lots, die mindestens {{days}} Tage gehalten werden, qualifizieren sich für langfristige steuerliche Behandlung.",
+        "costBasisMethodLabel": "Kostenbasis-Methode (offizieller Bericht)",
+        "costBasisMethodRequired": "Kostenbasis-Methode ist erforderlich",
+        "costBasisMethod": {
+          "Fifo": "FIFO (zuerst rein, zuerst raus)",
+          "Lifo": "LIFO (zuletzt rein, zuerst raus)",
+          "AverageCost": "Gewichteter Durchschnitt"
+        },
+        "estimatedTaxRateLabel": "Geschätzter Steuersatz",
+        "estimatedTaxRateHint": "Nur für Schätzungen der Steuerersparnis. Dezimalzahl zwischen 0 und 1, z. B. 0.15 für 15 %. Leer lassen, um keine Schätzung zu zeigen.",
+        "estimatedTaxRateDefault": "Standard für diese Jurisdiktion: {{rate}}.",
+        "updatedSuccessfully": "Steuereinstellungen erfolgreich aktualisiert"
       },
       "list": {
         "title": "Portfolios",

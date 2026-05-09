@@ -1,0 +1,77 @@
+<div class="header">
+    <div>
+        <h1 class="h3">{{ 'app.portfolios.taxSettings.header' | translate }}</h1>
+
+        <a [routerLink]="routerBackLink()" class="btn-link" tabindex="0">
+            <mat-icon>chevron_left</mat-icon>
+            {{ 'app.portfolios.list.title' | translate }}
+        </a>
+    </div>
+
+    <div class="header-controls d-none d-lg-block">
+        <fingather-portfolio-selector />
+    </div>
+</div>
+
+<div class="content-center">
+    <div class="card form">
+        <div class="card-body">
+            @if (!loading()) {
+                <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                    <div class="mb-3">
+                        <label for="taxJurisdiction" class="form-label">{{ 'app.portfolios.taxSettings.jurisdictionLabel' | translate }}</label>
+                        <fingather-select
+                            id="taxJurisdiction"
+                            formControlName="taxJurisdiction"
+                            [items]="jurisdictionItems"
+                        />
+                        <fingather-input-validator
+                            [control]="f['taxJurisdiction']"
+                            [isSubmitted]="submitted()"
+                            [errorMessages]="{
+                                required: 'app.portfolios.taxSettings.jurisdictionRequired',
+                            }"
+                        />
+                        @if (longTermHoldingDays !== null) {
+                            <small class="form-text text-muted">
+                                {{ 'app.portfolios.taxSettings.longTermHoldingHint' | translate: { days: longTermHoldingDays } }}
+                            </small>
+                        }
+                    </div>
+                    <div class="mb-3">
+                        <label for="costBasisMethod" class="form-label">{{ 'app.portfolios.taxSettings.costBasisMethodLabel' | translate }}</label>
+                        <fingather-select
+                            id="costBasisMethod"
+                            formControlName="costBasisMethod"
+                            [items]="costBasisMethodItems"
+                        />
+                        <fingather-input-validator
+                            [control]="f['costBasisMethod']"
+                            [isSubmitted]="submitted()"
+                            [errorMessages]="{
+                                required: 'app.portfolios.taxSettings.costBasisMethodRequired',
+                            }"
+                        />
+                    </div>
+                    <div class="mb-3">
+                        <label for="estimatedTaxRate" class="form-label">{{ 'app.portfolios.taxSettings.estimatedTaxRateLabel' | translate }}</label>
+                        <input id="estimatedTaxRate" type="text" formControlName="estimatedTaxRate" class="form-control" placeholder="0.15" />
+                        <small class="form-text text-muted">
+                            {{ 'app.portfolios.taxSettings.estimatedTaxRateHint' | translate }}
+                            @if (defaultEstimatedTaxRate !== null) {
+                                {{ 'app.portfolios.taxSettings.estimatedTaxRateDefault' | translate: { rate: defaultEstimatedTaxRate } }}
+                            }
+                        </small>
+                    </div>
+                    <div class="form-group buttons">
+                        <a [routerLink]="routerBackLink()" class="btn btn-secondary" tabindex="0">{{ 'app.common.cancel' | translate }}</a>
+
+                        <fingather-save-button
+                            [saving]="saving()"
+                        />
+                    </div>
+                </form>
+            }
+        </div>
+    </div>
+</div>

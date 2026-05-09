@@ -1,0 +1,23 @@
+<div class="asset">
+    <div class="ticker-logo">
+        @if (showPlaceholder()) {
+            <div class="logo-placeholder">
+                <span class="logo-placeholder-text">{{placeholderChar()}}</span>
+            </div>
+        } @else {
+            <div class="logo">
+                <img
+                    [ngSrc]="logoSrc()!"
+                    [width]="logoSize()"
+                    [height]="logoSize()"
+                    alt="{{name()}} logo"
+                    (error)="onImageError()"
+                />
+            </div>
+        }
+    </div>
+    <div class="asset-text">
+        <div class="asset-ticker">{{symbol()}}</div>
+        <div class="asset-name ellipsis">{{name()}}</div>
+    </div>
+</div>

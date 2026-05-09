@@ -89,6 +89,7 @@ enum Routes: string
 	case Portfolios = '/api/portfolios';
 	case Portfolio = '/api/portfolio/{portfolioId:number}';
 	case PortfolioDefault = '/api/portfolio/default';
+	case PortfolioTaxSettings = '/api/portfolio/{portfolioId:number}/tax-settings';
 
 	case PortfolioData = '/api/portfolio-data/{portfolioId:number}';
 	case PortfolioDataRange = '/api/portfolio-data-range/{portfolioId:number}';
@@ -114,6 +115,8 @@ enum Routes: string
 	case TaxReport = '/api/tax-report/{portfolioId:number}/{year:number}';
 	case TaxReportExportXlsx = '/api/tax-report/{portfolioId:number}/{year:number}/export-xlsx';
 	case TaxReportExportPdf = '/api/tax-report/{portfolioId:number}/{year:number}/export-pdf';
+	case TaxReportCostBasisComparison = '/api/tax-report/{portfolioId:number}/{year:number}/cost-basis-comparison';
+	case TaxOptimization = '/api/tax-optimization/{portfolioId:number}';
 
 	case Transactions = '/api/transactions/{portfolioId:number}';
 	case Transaction = '/api/transaction/{transactionId:number}';

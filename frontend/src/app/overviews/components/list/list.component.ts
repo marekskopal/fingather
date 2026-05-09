@@ -2,6 +2,7 @@ import {AsyncPipe, DecimalPipe} from "@angular/common";
 import {
     ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal,
 } from '@angular/core';
+import {MatIcon} from '@angular/material/icon';
 import {RouterLink} from '@angular/router';
 import { Currency, YearCalculatedData } from '@app/models';
 import { ModeEnum } from '@app/overviews/components/list/enum/mode-enum';
@@ -24,6 +25,7 @@ import { TranslatePipe} from "@ngx-translate/core";
         AsyncPipe,
         ScrollShadowDirective,
         RouterLink,
+        MatIcon,
     ],
 })
 export class ListComponent implements OnInit {
@@ -34,6 +36,7 @@ export class ListComponent implements OnInit {
 
     protected readonly yearCalculatedDatas = signal<YearCalculatedData[] | null>(null);
     protected defaultCurrency: Currency;
+    protected readonly currentYear = new Date().getFullYear();
 
     protected readonly ModeEnum = ModeEnum;
     protected mode: ModeEnum = ModeEnum.Interannually;

@@ -341,10 +341,13 @@
         "dividend": "Dividend",
         "fxImpact": "Forex Impact",
         "return": "Return",
-        "taxReport": "Tax Report"
+        "taxReport": "Tax Report",
+        "openTaxOptimization": "Tax optimization"
       },
       "taxReport": {
         "title": "Tax Report",
+        "currentYearNotice": "This year's report is calculated as of today; numbers will keep updating until year-end.",
+        "openCostBasisComparison": "Compare cost-basis methods",
         "realizedGains": "Realized Capital Gains/Losses",
         "salesProceeds": "Sales Proceeds",
         "costBasis": "Cost Basis",
@@ -379,6 +382,62 @@
         "country": "Country",
         "exportXlsx": "Export Excel",
         "exportPdf": "Export PDF"
+      },
+      "taxOptimization": {
+        "title": "Tax Optimization",
+        "asOf": "As of {{date}}",
+        "czechRule": "Lots held {{days}} days are tax-free in your jurisdiction.",
+        "genericRule": "No long-term holding rule for your jurisdiction.",
+        "empty": "Nothing to show in this bucket.",
+        "holdingVariesByBroker": "Holding period varies by broker — sales from the newer-broker lot may be short-term.",
+        "summary": {
+          "savedByHarvesting": "Estimated saving by harvesting now",
+          "savedByWaiting": "Estimated saving by waiting"
+        },
+        "bucket": {
+          "harvestNow": "Harvest now",
+          "holdForTaxFreeGain": "Hold for tax-free gain",
+          "lossNoLongerDeductible": "Loss no longer deductible",
+          "alreadyTaxFree": "Already tax-free",
+          "winningShortTerm": "Winning short-term"
+        },
+        "col": {
+          "ticker": "Ticker",
+          "heldDays": "Held (days)",
+          "daysUntilLongTerm": "Days to long-term",
+          "units": "Units",
+          "marketValue": "Market value",
+          "unrealizedGainLoss": "Unrealized gain/loss",
+          "estimatedTaxImpact": "Est. tax impact",
+          "rationale": "Rationale"
+        },
+        "rationale": {
+          "harvest_before_long_term": "Realize the loss before the long-term cutoff strips its deductibility.",
+          "harvest_generic_loss": "Realized loss can offset gains this year.",
+          "hold_for_tax_free_gain": "Wait — this position becomes tax-free soon.",
+          "loss_no_longer_deductible": "Past long-term cutoff: selling does not yield a tax benefit.",
+          "already_tax_free": "Held long enough — gains on this lot are already tax-free.",
+          "winning_short_term": "Short-term winning position; no immediate action."
+        }
+      },
+      "costBasisComparison": {
+        "title": "Cost-Basis Comparison",
+        "configured": "Configured method: {{method}}",
+        "optimalHint": "{{method}} would have produced the smallest taxable gain.",
+        "notAllowed": "Not allowed in your jurisdiction (preview only)",
+        "allowed": "Allowed in your jurisdiction",
+        "disclaimer": "Tax estimates use the portfolio's configured rate. Switching the legal cost-basis method affects future filings; past filings remain under the old method.",
+        "col": {
+          "method": "Method",
+          "netRealizedGain": "Net realized gain/loss",
+          "estimatedTax": "Estimated tax",
+          "deltaVsConfigured": "Δ vs configured",
+          "status": "Status"
+        },
+        "badge": {
+          "configured": "Configured",
+          "optimal": "Optimal"
+        }
       }
     },
     "portfolios": {
@@ -392,6 +451,28 @@
         "default": "Default",
         "addedSuccessfully": "Portfolio added successfully",
         "updatedSuccessfully": "Update successful"
+      },
+      "taxSettings": {
+        "header": "Tax settings",
+        "openLink": "Open tax settings",
+        "jurisdictionLabel": "Tax jurisdiction",
+        "jurisdictionRequired": "Tax jurisdiction is required",
+        "jurisdiction": {
+          "CzechRepublic": "Czech Republic",
+          "Generic": "Generic (no long-term rule)"
+        },
+        "longTermHoldingHint": "Lots held at least {{days}} days qualify for long-term tax treatment.",
+        "costBasisMethodLabel": "Cost-basis method (legal report)",
+        "costBasisMethodRequired": "Cost-basis method is required",
+        "costBasisMethod": {
+          "Fifo": "FIFO (first in, first out)",
+          "Lifo": "LIFO (last in, first out)",
+          "AverageCost": "Weighted average cost"
+        },
+        "estimatedTaxRateLabel": "Estimated tax rate",
+        "estimatedTaxRateHint": "Used for tax-saving estimates only. Decimal between 0 and 1, e.g. 0.15 for 15%. Leave empty for no estimate.",
+        "estimatedTaxRateDefault": "Default for this jurisdiction: {{rate}}.",
+        "updatedSuccessfully": "Tax settings updated successfully"
       },
       "list": {
         "title": "Portfolios",

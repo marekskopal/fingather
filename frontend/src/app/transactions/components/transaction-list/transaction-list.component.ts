@@ -9,10 +9,10 @@ import {OrderDirection} from "@app/models/enums/order-direction";
 import {TransactionOrderBy} from "@app/models/enums/transaction-order-by";
 import { TransactionList } from '@app/models/transaction-list';
 import { PortfolioService, TransactionService } from '@app/services';
+import {AssetDisplayComponent} from "@app/shared/components/asset-display/asset-display.component";
 import {DeleteButtonComponent} from "@app/shared/components/delete-button/delete-button.component";
 import {PaginationComponent} from "@app/shared/components/pagination/pagination.component";
 import {TagComponent} from "@app/shared/components/tag/tag.component";
-import {TickerLogoComponent} from "@app/shared/components/ticker-logo/ticker-logo.component";
 import {TableGridDirective} from "@app/shared/directives/table-grid.directive";
 import {TableGridColumn} from "@app/shared/types/table-grid-column";
 import {SearchComponent} from "@app/transactions/components/search/search.component";
@@ -33,7 +33,7 @@ import { TranslatePipe} from "@ngx-translate/core";
         SearchComponent,
         DatePipe,
         TagComponent,
-        TickerLogoComponent,
+        AssetDisplayComponent,
         DeleteButtonComponent,
         PaginationComponent,
         ScrollShadowDirective,

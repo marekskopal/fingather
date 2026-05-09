@@ -32,14 +32,17 @@ final readonly class TaxReportCalculator
 
 	public function calculate(User $user, Portfolio $portfolio, int $year): TaxReportDto
 	{
+		$now = new DateTimeImmutable();
 		$yearStart = new DateTimeImmutable($year . '-01-01');
-		$yearEnd = new DateTimeImmutable($year . '-12-31 23:59:59');
+		$yearEnd = $year === (int) $now->format('Y')
+			? $now
+			: new DateTimeImmutable($year . '-12-31 23:59:59');
 
 		$allTransactionsByAsset = $this->currentTransactionProvider->loadTransactions(user: $user, portfolio: $portfolio);
 
 		return new TaxReportDto(
 			year: $year,
-			realizedGains: $this->realizedGainsCalculator->calculate($user, $portfolio, $yearStart, $yearEnd),
+			realizedGains: $this->realizedGainsCalculator->calculate($user, $portfolio, $yearStart, $yearEnd, $portfolio->costBasisMethod),
 			unrealizedPositions: $this->calculateUnrealizedPositions($user, $portfolio, $yearEnd),
 			dividends: $this->calculateDividends($allTransactionsByAsset, $yearStart, $yearEnd),
 			totalFees: $this->calculateTotalFees($allTransactionsByAsset, $yearStart, $yearEnd),
@@ -66,6 +69,7 @@ final readonly class TaxReportCalculator
 			$positions[] = new TaxReportUnrealizedPositionDto(
 				tickerTicker: $asset->ticker->ticker,
 				tickerName: $asset->ticker->name,
+				tickerLogo: $asset->ticker->logo,
 				firstBuyDate: $assetData->firstTransactionActionCreated->format('Y-m-d'),
 				holdingPeriodDays: (int) $yearEnd->diff($assetData->firstTransactionActionCreated)->days,
 				units: $assetData->units,
@@ -189,6 +193,7 @@ final readonly class TaxReportCalculator
 			$transactions[] = new TaxReportDividendTransactionDto(
 				tickerTicker: $ticker->ticker,
 				tickerName: $ticker->name,
+				tickerLogo: $ticker->logo,
 				countryName: $ticker->country->name,
 				countryIsoCode: $ticker->country->isoCode,
 				date: $dateKey,

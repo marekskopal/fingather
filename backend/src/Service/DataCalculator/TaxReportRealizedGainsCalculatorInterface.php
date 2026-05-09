@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Service\DataCalculator;
 
 use DateTimeImmutable;
+use FinGather\Model\Entity\Enum\CostBasisMethodEnum;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Service\DataCalculator\Dto\TaxReportRealizedGainsDto;
@@ -16,5 +17,6 @@ interface TaxReportRealizedGainsCalculatorInterface
 		Portfolio $portfolio,
 		DateTimeImmutable $yearStart,
 		DateTimeImmutable $yearEnd,
+		CostBasisMethodEnum $method,
 	): TaxReportRealizedGainsDto;
 }

@@ -20,6 +20,7 @@ export interface TaxReportRealizedGains {
 export interface TaxReportRealizedGainTransaction {
     tickerTicker: string;
     tickerName: string;
+    tickerLogo: string | null;
     buyDate: string;
     sellDate: string;
     holdingPeriodDays: number;
@@ -42,6 +43,7 @@ export interface TaxReportUnrealized {
 export interface TaxReportUnrealizedPosition {
     tickerTicker: string;
     tickerName: string;
+    tickerLogo: string | null;
     firstBuyDate: string;
     holdingPeriodDays: number;
     units: number;
@@ -70,6 +72,7 @@ export interface TaxReportDividendsByCountry {
 export interface TaxReportDividendTransaction {
     tickerTicker: string;
     tickerName: string;
+    tickerLogo: string | null;
     countryName: string;
     countryIsoCode: string;
     date: string;

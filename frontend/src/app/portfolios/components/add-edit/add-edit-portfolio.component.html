@@ -64,6 +64,14 @@
                         />
                     </div>
                 </form>
+
+                @if (id() !== null) {
+                    <hr class="my-4" />
+                    <a [routerLink]="['tax-settings']" class="btn-link" tabindex="0">
+                        {{ 'app.portfolios.taxSettings.openLink' | translate }}
+                        <mat-icon>chevron_right</mat-icon>
+                    </a>
+                }
             }
         </div>
     </div>

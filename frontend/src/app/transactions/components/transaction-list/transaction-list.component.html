@@ -87,17 +87,7 @@
                                     </td>
                                 } @else if ($column === TransactionGridColumnEnum.Asset) {
                                     <td>
-                                        <div class="asset">
-                                            <fingather-ticker-logo
-                                                [ticker]="transaction.ticker"
-                                                [width]="46"
-                                                [height]="46"
-                                            />
-                                            <div class="asset-text">
-                                                <div class="asset-ticker">{{transaction.ticker.ticker}}</div>
-                                                <div class="asset-name ellipsis">{{transaction.ticker.name}}</div>
-                                            </div>
-                                        </div>
+                                        <fingather-asset-display [ticker]="transaction.ticker" />
                                     </td>
                                 } @else if ($column === TransactionGridColumnEnum.Actions) {
                                     <td class="actions">

@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace FinGather\Service\DataCalculator\Dto;
 
 use Decimal\Decimal;
+use FinGather\Model\Entity\Enum\CostBasisMethodEnum;
 
 final readonly class TaxReportRealizedGainsDto
 {
 	/** @param list<TaxReportRealizedGainTransactionDto> $transactions */
 	public function __construct(
+		public CostBasisMethodEnum $method,
 		public Decimal $totalSalesProceeds,
 		public Decimal $totalCostBasis,
 		public Decimal $totalGains,

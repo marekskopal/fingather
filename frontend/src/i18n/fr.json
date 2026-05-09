@@ -341,10 +341,13 @@
         "dividend": "Dividende",
         "fxImpact": "Impact Forex",
         "return": "Rendement",
-        "taxReport": "Rapport fiscal"
+        "taxReport": "Rapport fiscal",
+        "openTaxOptimization": "Optimisation fiscale"
       },
       "taxReport": {
         "title": "Rapport fiscal",
+        "currentYearNotice": "Le rapport de l'année en cours est calculé à la date du jour ; les chiffres continueront d'évoluer jusqu'à la fin de l'année.",
+        "openCostBasisComparison": "Comparer les méthodes de coût d'acquisition",
         "realizedGains": "Plus/Moins-values réalisées",
         "salesProceeds": "Produits de vente",
         "costBasis": "Coût d'acquisition",
@@ -379,6 +382,62 @@
         "country": "Pays",
         "exportXlsx": "Exporter Excel",
         "exportPdf": "Exporter PDF"
+      },
+      "taxOptimization": {
+        "title": "Optimisation fiscale",
+        "asOf": "Au {{date}}",
+        "czechRule": "Les lots détenus {{days}} jours sont exonérés d'impôt dans votre juridiction.",
+        "genericRule": "Votre juridiction n'a pas de règle de détention long terme.",
+        "empty": "Rien à afficher dans cette catégorie.",
+        "holdingVariesByBroker": "La durée de détention varie selon le courtier — les ventes du lot du courtier le plus récent peuvent être à court terme.",
+        "summary": {
+          "savedByHarvesting": "Économie estimée en réalisant les pertes",
+          "savedByWaiting": "Économie estimée en attendant"
+        },
+        "bucket": {
+          "harvestNow": "Réaliser la perte maintenant",
+          "holdForTaxFreeGain": "Attendre l'exonération",
+          "lossNoLongerDeductible": "Perte non déductible",
+          "alreadyTaxFree": "Déjà exonéré",
+          "winningShortTerm": "Gagnantes à court terme"
+        },
+        "col": {
+          "ticker": "Ticker",
+          "heldDays": "Détenu (jours)",
+          "daysUntilLongTerm": "Jours avant long terme",
+          "units": "Unités",
+          "marketValue": "Valeur de marché",
+          "unrealizedGainLoss": "Plus/moins-value latente",
+          "estimatedTaxImpact": "Impact fiscal estimé",
+          "rationale": "Justification"
+        },
+        "rationale": {
+          "harvest_before_long_term": "Réalisez la perte avant que la durée long terme ne supprime sa déductibilité.",
+          "harvest_generic_loss": "La perte réalisée peut compenser des gains cette année.",
+          "hold_for_tax_free_gain": "Attendez — cette position deviendra bientôt exonérée.",
+          "loss_no_longer_deductible": "Au-delà du seuil long terme : la vente n'apporte plus d'avantage fiscal.",
+          "already_tax_free": "Détenu assez longtemps — gains déjà exonérés.",
+          "winning_short_term": "Position gagnante à court terme ; pas d'action immédiate."
+        }
+      },
+      "costBasisComparison": {
+        "title": "Comparaison des méthodes de coût",
+        "configured": "Méthode configurée : {{method}}",
+        "optimalHint": "{{method}} aurait produit le plus petit gain imposable.",
+        "notAllowed": "Non autorisé dans votre juridiction (aperçu uniquement)",
+        "allowed": "Autorisé dans votre juridiction",
+        "disclaimer": "Les estimations d'impôt utilisent le taux configuré pour le portefeuille. Changer la méthode légale affecte les déclarations futures ; les déclarations passées restent sous l'ancienne méthode.",
+        "col": {
+          "method": "Méthode",
+          "netRealizedGain": "Plus/moins-value nette réalisée",
+          "estimatedTax": "Impôt estimé",
+          "deltaVsConfigured": "Δ vs configurée",
+          "status": "Statut"
+        },
+        "badge": {
+          "configured": "Configurée",
+          "optimal": "Optimale"
+        }
       }
     },
     "portfolios": {
@@ -392,6 +451,28 @@
         "default": "Par défaut",
         "addedSuccessfully": "Portefeuille ajouté avec succès",
         "updatedSuccessfully": "Mise à jour réussie"
+      },
+      "taxSettings": {
+        "header": "Paramètres fiscaux",
+        "openLink": "Ouvrir les paramètres fiscaux",
+        "jurisdictionLabel": "Juridiction fiscale",
+        "jurisdictionRequired": "La juridiction fiscale est requise",
+        "jurisdiction": {
+          "CzechRepublic": "République tchèque",
+          "Generic": "Générique (pas de règle long terme)"
+        },
+        "longTermHoldingHint": "Les lots détenus au moins {{days}} jours bénéficient du traitement fiscal long terme.",
+        "costBasisMethodLabel": "Méthode de coût d'acquisition (rapport officiel)",
+        "costBasisMethodRequired": "La méthode de coût d'acquisition est requise",
+        "costBasisMethod": {
+          "Fifo": "FIFO (premier entré, premier sorti)",
+          "Lifo": "LIFO (dernier entré, premier sorti)",
+          "AverageCost": "Coût moyen pondéré"
+        },
+        "estimatedTaxRateLabel": "Taux d'imposition estimé",
+        "estimatedTaxRateHint": "Utilisé uniquement pour les estimations d'économie d'impôt. Décimal entre 0 et 1, par ex. 0.15 pour 15 %. Laisser vide pour ne pas afficher d'estimation.",
+        "estimatedTaxRateDefault": "Par défaut pour cette juridiction : {{rate}}.",
+        "updatedSuccessfully": "Paramètres fiscaux mis à jour avec succès"
       },
       "list": {
         "title": "Portefeuilles",

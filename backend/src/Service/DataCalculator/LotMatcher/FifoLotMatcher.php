@@ -2,28 +2,19 @@
 
 declare(strict_types=1);
 
-namespace FinGather\Service\DataCalculator;
+namespace FinGather\Service\DataCalculator\LotMatcher;
 
 use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Service\DataCalculator\Dto\FifoMatchDto;
 use FinGather\Service\DataCalculator\Dto\TransactionBuyDto;
-use FinGather\Service\Provider\Dto\SplitDto;
 use FinGather\Utils\CalculatorUtils;
 
-final readonly class FifoLotMatcher
+final readonly class FifoLotMatcher implements LotMatcherInterface
 {
-	/**
-	 * Consumes buy lots in FIFO order for a given broker, adjusting the $buys array in place.
-	 * Returns the matched lot portions with their used units.
-	 *
-	 * @param array<int, TransactionBuyDto> $buys Modified in place: consumed lots are removed, partial lots are adjusted
-	 * @param list<SplitDto> $splits
-	 * @return list<FifoMatchDto>
-	 */
-	public static function consumeLots(
+	public function consumeLots(
 		array &$buys,
-		int|null $brokerId,
+		?int $brokerId,
 		DateTimeImmutable $sellDate,
 		Decimal $sellUnitsAbs,
 		array $splits,

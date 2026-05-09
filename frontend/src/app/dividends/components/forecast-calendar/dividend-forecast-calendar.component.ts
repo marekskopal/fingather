@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import { Currency, DividendCalendarItem } from '@app/models';
 import { CurrencyService, DividendCalendarService, PortfolioService } from '@app/services';
-import {TickerLogoComponent} from "@app/shared/components/ticker-logo/ticker-logo.component";
+import {AssetDisplayComponent} from "@app/shared/components/asset-display/asset-display.component";
 import {MoneyPipe} from "@app/shared/pipes/money.pipe";
 import {ScrollShadowDirective} from "@marekskopal/ng-scroll-shadow";
 import { TranslatePipe } from '@ngx-translate/core';
@@ -24,7 +24,7 @@ interface MonthGroup {
         DecimalPipe,
         MoneyPipe,
         TranslatePipe,
-        TickerLogoComponent,
+        AssetDisplayComponent,
         ScrollShadowDirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,

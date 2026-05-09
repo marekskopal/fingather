@@ -17,6 +17,7 @@ use FinGather\Service\DataCalculator\Dto\TransactionAccumulatorDto;
 use FinGather\Service\DataCalculator\Dto\TransactionBuyDto;
 use FinGather\Service\DataCalculator\Dto\TransactionValueDto;
 use FinGather\Service\DataCalculator\Dto\ValueDto;
+use FinGather\Service\DataCalculator\LotMatcher\FifoLotMatcher;
 use FinGather\Service\Provider\CurrentTransactionProviderInterface;
 use FinGather\Service\Provider\Dto\SplitDto;
 use FinGather\Service\Provider\ExchangeRateProviderInterface;
@@ -31,6 +32,7 @@ final readonly class AssetDataCalculator implements AssetDataCalculatorInterface
 		private SplitProviderInterface $splitProvider,
 		private TickerDataProviderInterface $tickerDataProvider,
 		private ExchangeRateProviderInterface $exchangeRateProvider,
+		private FifoLotMatcher $fifoLotMatcher,
 	) {
 	}
 
@@ -237,7 +239,7 @@ final readonly class AssetDataCalculator implements AssetDataCalculatorInterface
 		$transactionRealizedGain = new Decimal(0);
 		$transactionRealizedGainDefaultCurrency = new Decimal(0);
 
-		$matches = FifoLotMatcher::consumeLots(
+		$matches = $this->fifoLotMatcher->consumeLots(
 			$buys,
 			$transaction->brokerId,
 			$transaction->actionCreated,

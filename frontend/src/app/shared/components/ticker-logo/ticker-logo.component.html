@@ -1,17 +1,17 @@
-﻿<div class="ticker-logo">
-    @if (ticker().logo !== null) {
-        <div class="logo">
-            <img
-                [ngSrc]="logoSrc"
-                [width]="width()"
-                [height]="height()"
-                alt="{{ticker().name}} logo"
-            />
-        </div>
-    } @else {
+<div class="ticker-logo">
+    @if (showPlaceholder()) {
         <div class="logo-placeholder">
             <span class="logo-placeholder-text">{{ticker().name.charAt(0)}}</span>
         </div>
+    } @else {
+        <div class="logo">
+            <img
+                [ngSrc]="logoSrc()!"
+                [width]="width()"
+                [height]="height()"
+                alt="{{ticker().name}} logo"
+                (error)="onImageError()"
+            />
+        </div>
     }
 </div>
-

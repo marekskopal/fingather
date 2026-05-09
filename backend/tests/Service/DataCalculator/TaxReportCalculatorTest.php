@@ -24,6 +24,7 @@ use FinGather\Service\DataCalculator\Dto\TaxReportDividendsByCountryDto;
 use FinGather\Service\DataCalculator\Dto\TaxReportDividendsDto;
 use FinGather\Service\DataCalculator\Dto\TaxReportDividendTransactionDto;
 use FinGather\Service\DataCalculator\Dto\TaxReportDto;
+use FinGather\Model\Entity\Enum\CostBasisMethodEnum;
 use FinGather\Service\DataCalculator\Dto\TaxReportRealizedGainsDto;
 use FinGather\Service\DataCalculator\Dto\TaxReportUnrealizedDto;
 use FinGather\Service\DataCalculator\Dto\TaxReportUnrealizedPositionDto;
@@ -75,6 +76,7 @@ final class TaxReportCalculatorTest extends TestCase
 		$this->user = UserFixture::getUser();
 		$this->portfolio = PortfolioFixture::getPortfolio();
 		$this->emptyRealizedGains = new TaxReportRealizedGainsDto(
+			method: CostBasisMethodEnum::Fifo,
 			totalSalesProceeds: new Decimal(0),
 			totalCostBasis: new Decimal(0),
 			totalGains: new Decimal(0),
@@ -90,6 +92,59 @@ final class TaxReportCalculatorTest extends TestCase
 		$result = $this->calculate(year: 2024);
 
 		self::assertSame(2024, $result->year);
+	}
+
+	public function testCalculateForCurrentYearExcludesFutureDatedTransactions(): void
+	{
+		$currentYear = (int) (new DateTimeImmutable())->format('Y');
+		$farFuture = new DateTimeImmutable($currentYear . '-12-31 12:00:00');
+
+		$transactionsByAsset = [
+			[
+				TransactionFixture::getTransaction(
+					actionType: TransactionActionTypeEnum::Buy,
+					actionCreated: new DateTimeImmutable($currentYear . '-01-02'),
+					feeDefaultCurrency: new Decimal(7),
+					taxDefaultCurrency: new Decimal(0),
+				),
+				TransactionFixture::getTransaction(
+					actionType: TransactionActionTypeEnum::Buy,
+					actionCreated: $farFuture,
+					feeDefaultCurrency: new Decimal(99),
+					taxDefaultCurrency: new Decimal(0),
+				),
+			],
+		];
+
+		// Skip if today is Dec 31 itself — that would invalidate the assumption.
+		if ($farFuture <= new DateTimeImmutable()) {
+			self::markTestSkipped('Test only meaningful before Dec 31 of the current year.');
+		}
+
+		$result = $this->calculate(year: $currentYear, transactionsByAsset: $transactionsByAsset);
+
+		self::assertSame($currentYear, $result->year);
+		// Future-dated fee must be excluded (yearEnd = now), only the early-year one counts.
+		self::assertSame(7.0, $result->totalFees->toFloat());
+	}
+
+	public function testCalculateForPastYearIncludesDecemberTransactions(): void
+	{
+		$transactionsByAsset = [
+			[
+				TransactionFixture::getTransaction(
+					actionType: TransactionActionTypeEnum::Buy,
+					actionCreated: new DateTimeImmutable('2024-12-31 23:00:00'),
+					feeDefaultCurrency: new Decimal(11),
+					taxDefaultCurrency: new Decimal(0),
+				),
+			],
+		];
+
+		$result = $this->calculate(year: 2024, transactionsByAsset: $transactionsByAsset);
+
+		// Past-year report keeps yearEnd = Dec 31 23:59:59, so Dec 31 transactions count.
+		self::assertSame(11.0, $result->totalFees->toFloat());
 	}
 
 	public function testCalculateNoTransactionsReturnsZeros(): void

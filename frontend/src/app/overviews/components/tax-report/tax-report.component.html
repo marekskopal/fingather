@@ -21,6 +21,20 @@
     </div>
 </div>
 
+@if (isCurrentYear) {
+    <div class="alert alert-info" role="alert">
+        <mat-icon class="align-middle">info</mat-icon>
+        {{ 'app.overviews.taxReport.currentYearNotice' | translate }}
+    </div>
+}
+
+<div class="d-flex justify-content-end mb-3">
+    <a [routerLink]="['cost-basis-comparison']" class="btn-link">
+        {{ 'app.overviews.taxReport.openCostBasisComparison' | translate }}
+        <mat-icon>chevron_right</mat-icon>
+    </a>
+</div>
+
 @if (taxReport(); as report) {
     <div class="tax-report">
         <div class="tax-report-section">
@@ -127,8 +141,11 @@
                                     @for (tx of report.realizedGains.transactions; track $index) {
                                         <tr>
                                             <td>
-                                                <div>{{tx.tickerTicker}}</div>
-                                                <div class="small text-muted">{{tx.tickerName}}</div>
+                                                <fingather-asset-display
+                                                    [tickerSymbol]="tx.tickerTicker"
+                                                    [tickerName]="tx.tickerName"
+                                                    [tickerLogo]="tx.tickerLogo"
+                                                />
                                             </td>
                                             <td>{{tx.buyDate}}</td>
                                             <td>{{tx.sellDate}}</td>
@@ -180,8 +197,11 @@
                                     @for (pos of report.unrealizedPositions.positions; track $index) {
                                         <tr>
                                             <td>
-                                                <div>{{pos.tickerTicker}}</div>
-                                                <div class="small text-muted">{{pos.tickerName}}</div>
+                                                <fingather-asset-display
+                                                    [tickerSymbol]="pos.tickerTicker"
+                                                    [tickerName]="pos.tickerName"
+                                                    [tickerLogo]="pos.tickerLogo"
+                                                />
                                             </td>
                                             <td>{{pos.firstBuyDate}}</td>
                                             <td class="text-end">{{pos.holdingPeriodDays}}</td>
@@ -310,8 +330,11 @@
                                     @for (div of report.dividends.transactions; track $index) {
                                         <tr>
                                             <td>
-                                                <div>{{div.tickerTicker}}</div>
-                                                <div class="small text-muted">{{div.tickerName}}</div>
+                                                <fingather-asset-display
+                                                    [tickerSymbol]="div.tickerTicker"
+                                                    [tickerName]="div.tickerName"
+                                                    [tickerLogo]="div.tickerLogo"
+                                                />
                                             </td>
                                             <td>{{div.date}}</td>
                                             <td class="text-end">{{div.grossAmount | number:'1.2-2' | money: defaultCurrency.id | async}}</td>

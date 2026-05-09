@@ -1,0 +1,337 @@
+<a routerLink=".." class="btn-link" tabindex="0">
+    <mat-icon>chevron_left</mat-icon>
+    {{ 'app.overviews.list.title' | translate }}
+</a>
+
+<div class="header">
+    <h1 class="h3">{{ 'app.overviews.taxOptimization.title' | translate }}</h1>
+
+    <div class="header-controls d-none d-lg-block">
+        <fingather-portfolio-selector />
+    </div>
+</div>
+
+@if (optimization(); as opt) {
+    <p class="text-muted">
+        {{ 'app.overviews.taxOptimization.asOf' | translate: { date: opt.asOfDate } }}
+        @if (opt.jurisdiction === 'CzechRepublic') {
+            &middot; {{ 'app.overviews.taxOptimization.czechRule' | translate: { days: opt.longTermHoldingDays } }}
+        } @else {
+            &middot; {{ 'app.overviews.taxOptimization.genericRule' | translate }}
+        }
+    </p>
+
+    @if (isCzech(opt)) {
+        <div class="tax-optimization-summary">
+            <div class="card">
+                <div class="card-header">
+                    <span class="icon-circle icon-circle-small">
+                        <mat-icon>savings</mat-icon>
+                    </span>
+                    <h3 class="h6">{{ 'app.overviews.taxOptimization.summary.savedByHarvesting' | translate }}</h3>
+                </div>
+                <div class="card-body">
+                    <span class="value h3">
+                        {{opt.estimatedTaxSavedByHarvestingNow | number:'1.2-2' | money: defaultCurrency.id | async}}
+                    </span>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <span class="icon-circle icon-circle-small">
+                        <mat-icon>hourglass_top</mat-icon>
+                    </span>
+                    <h3 class="h6">{{ 'app.overviews.taxOptimization.summary.savedByWaiting' | translate }}</h3>
+                </div>
+                <div class="card-body">
+                    <span class="value h3">
+                        {{opt.estimatedTaxSavedByWaiting | number:'1.2-2' | money: defaultCurrency.id | async}}
+                    </span>
+                </div>
+            </div>
+        </div>
+    }
+
+    <h2 class="h5">{{ 'app.overviews.taxOptimization.bucket.harvestNow' | translate }}</h2>
+    @if (opt.harvestNow.length === 0) {
+        <p class="text-muted">{{ 'app.overviews.taxOptimization.empty' | translate }}</p>
+    } @else {
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="table-responsive" scrollShadow>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>{{ 'app.overviews.taxOptimization.col.ticker' | translate }}</th>
+                                <th class="text-end">{{ 'app.overviews.taxOptimization.col.heldDays' | translate }}</th>
+                                @if (isCzech(opt)) {
+                                    <th class="text-end">{{ 'app.overviews.taxOptimization.col.daysUntilLongTerm' | translate }}</th>
+                                }
+                                <th class="text-end">{{ 'app.overviews.taxOptimization.col.units' | translate }}</th>
+                                <th class="text-end">{{ 'app.overviews.taxOptimization.col.marketValue' | translate }}</th>
+                                <th class="text-end">{{ 'app.overviews.taxOptimization.col.unrealizedGainLoss' | translate }}</th>
+                                <th class="text-end">{{ 'app.overviews.taxOptimization.col.estimatedTaxImpact' | translate }}</th>
+                                <th>{{ 'app.overviews.taxOptimization.col.rationale' | translate }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (suggestion of opt.harvestNow; track trackBySuggestion($index, suggestion)) {
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <fingather-asset-display
+                                                [tickerSymbol]="suggestion.tickerTicker"
+                                                [tickerName]="suggestion.tickerName"
+                                                [tickerLogo]="suggestion.tickerLogo"
+                                            />
+                                            @if (suggestion.holdingVariesByBroker) {
+                                                <mat-icon class="text-warning" style="font-size: 1rem; height: 1rem; width: 1rem;" [title]="'app.overviews.taxOptimization.holdingVariesByBroker' | translate">warning</mat-icon>
+                                            }
+                                        </div>
+                                    </td>
+                                    <td class="text-end">{{suggestion.holdingPeriodDays}}</td>
+                                    @if (isCzech(opt)) {
+                                        <td class="text-end">{{suggestion.daysUntilLongTerm}}</td>
+                                    }
+                                    <td class="text-end">{{suggestion.units | number:'1.0-8'}}</td>
+                                    <td class="text-end">{{suggestion.marketValue | number:'1.2-2' | money: defaultCurrency.id | async}}</td>
+                                    <td class="text-end">
+                                        <fingather-table-value [value]="suggestion.unrealizedGainLoss">
+                                            {{suggestion.unrealizedGainLoss | number:'1.2-2' | money: defaultCurrency.id | async}}
+                                        </fingather-table-value>
+                                    </td>
+                                    <td class="text-end">
+                                        @if (suggestion.estimatedTaxImpact !== null) {
+                                            {{suggestion.estimatedTaxImpact | number:'1.2-2' | money: defaultCurrency.id | async}}
+                                        } @else {
+                                            &mdash;
+                                        }
+                                    </td>
+                                    <td>
+                                        <span class="small text-muted">
+                                            {{ 'app.overviews.taxOptimization.rationale.' + suggestion.rationale | translate }}
+                                        </span>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (isCzech(opt)) {
+        <h2 class="h5">{{ 'app.overviews.taxOptimization.bucket.holdForTaxFreeGain' | translate }}</h2>
+        @if (opt.holdForTaxFreeGain.length === 0) {
+            <p class="text-muted">{{ 'app.overviews.taxOptimization.empty' | translate }}</p>
+        } @else {
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="table-responsive" scrollShadow>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>{{ 'app.overviews.taxOptimization.col.ticker' | translate }}</th>
+                                    <th class="text-end">{{ 'app.overviews.taxOptimization.col.heldDays' | translate }}</th>
+                                    <th class="text-end">{{ 'app.overviews.taxOptimization.col.daysUntilLongTerm' | translate }}</th>
+                                    <th class="text-end">{{ 'app.overviews.taxOptimization.col.unrealizedGainLoss' | translate }}</th>
+                                    <th class="text-end">{{ 'app.overviews.taxOptimization.col.estimatedTaxImpact' | translate }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (suggestion of opt.holdForTaxFreeGain; track trackBySuggestion($index, suggestion)) {
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center gap-2">
+                                                <fingather-asset-display
+                                                    [tickerSymbol]="suggestion.tickerTicker"
+                                                    [tickerName]="suggestion.tickerName"
+                                                    [tickerLogo]="suggestion.tickerLogo"
+                                                />
+                                                @if (suggestion.holdingVariesByBroker) {
+                                                    <mat-icon class="text-warning" style="font-size: 1rem; height: 1rem; width: 1rem;" [title]="'app.overviews.taxOptimization.holdingVariesByBroker' | translate">warning</mat-icon>
+                                                }
+                                            </div>
+                                        </td>
+                                        <td class="text-end">{{suggestion.holdingPeriodDays}}</td>
+                                        <td class="text-end">{{suggestion.daysUntilLongTerm}}</td>
+                                        <td class="text-end">
+                                            <fingather-table-value [value]="suggestion.unrealizedGainLoss">
+                                                {{suggestion.unrealizedGainLoss | number:'1.2-2' | money: defaultCurrency.id | async}}
+                                            </fingather-table-value>
+                                        </td>
+                                        <td class="text-end">
+                                            @if (suggestion.estimatedTaxImpact !== null) {
+                                                {{suggestion.estimatedTaxImpact | number:'1.2-2' | money: defaultCurrency.id | async}}
+                                            } @else {
+                                                &mdash;
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <h2 class="h5">{{ 'app.overviews.taxOptimization.bucket.lossNoLongerDeductible' | translate }}</h2>
+        @if (opt.lossNoLongerDeductible.length === 0) {
+            <p class="text-muted">{{ 'app.overviews.taxOptimization.empty' | translate }}</p>
+        } @else {
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="table-responsive" scrollShadow>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>{{ 'app.overviews.taxOptimization.col.ticker' | translate }}</th>
+                                    <th class="text-end">{{ 'app.overviews.taxOptimization.col.heldDays' | translate }}</th>
+                                    <th class="text-end">{{ 'app.overviews.taxOptimization.col.units' | translate }}</th>
+                                    <th class="text-end">{{ 'app.overviews.taxOptimization.col.marketValue' | translate }}</th>
+                                    <th class="text-end">{{ 'app.overviews.taxOptimization.col.unrealizedGainLoss' | translate }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (suggestion of opt.lossNoLongerDeductible; track trackBySuggestion($index, suggestion)) {
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center gap-2">
+                                                <fingather-asset-display
+                                                    [tickerSymbol]="suggestion.tickerTicker"
+                                                    [tickerName]="suggestion.tickerName"
+                                                    [tickerLogo]="suggestion.tickerLogo"
+                                                />
+                                                @if (suggestion.holdingVariesByBroker) {
+                                                    <mat-icon class="text-warning" style="font-size: 1rem; height: 1rem; width: 1rem;" [title]="'app.overviews.taxOptimization.holdingVariesByBroker' | translate">warning</mat-icon>
+                                                }
+                                            </div>
+                                        </td>
+                                        <td class="text-end">{{suggestion.holdingPeriodDays}}</td>
+                                        <td class="text-end">{{suggestion.units | number:'1.0-8'}}</td>
+                                        <td class="text-end">{{suggestion.marketValue | number:'1.2-2' | money: defaultCurrency.id | async}}</td>
+                                        <td class="text-end">
+                                            <fingather-table-value [value]="suggestion.unrealizedGainLoss">
+                                                {{suggestion.unrealizedGainLoss | number:'1.2-2' | money: defaultCurrency.id | async}}
+                                            </fingather-table-value>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <h2 class="h5">{{ 'app.overviews.taxOptimization.bucket.alreadyTaxFree' | translate }}</h2>
+        @if (opt.alreadyTaxFree.length === 0) {
+            <p class="text-muted">{{ 'app.overviews.taxOptimization.empty' | translate }}</p>
+        } @else {
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="table-responsive" scrollShadow>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>{{ 'app.overviews.taxOptimization.col.ticker' | translate }}</th>
+                                    <th class="text-end">{{ 'app.overviews.taxOptimization.col.heldDays' | translate }}</th>
+                                    <th class="text-end">{{ 'app.overviews.taxOptimization.col.units' | translate }}</th>
+                                    <th class="text-end">{{ 'app.overviews.taxOptimization.col.marketValue' | translate }}</th>
+                                    <th class="text-end">{{ 'app.overviews.taxOptimization.col.unrealizedGainLoss' | translate }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (suggestion of opt.alreadyTaxFree; track trackBySuggestion($index, suggestion)) {
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center gap-2">
+                                                <fingather-asset-display
+                                                    [tickerSymbol]="suggestion.tickerTicker"
+                                                    [tickerName]="suggestion.tickerName"
+                                                    [tickerLogo]="suggestion.tickerLogo"
+                                                />
+                                                @if (suggestion.holdingVariesByBroker) {
+                                                    <mat-icon class="text-warning" style="font-size: 1rem; height: 1rem; width: 1rem;" [title]="'app.overviews.taxOptimization.holdingVariesByBroker' | translate">warning</mat-icon>
+                                                }
+                                            </div>
+                                        </td>
+                                        <td class="text-end">{{suggestion.holdingPeriodDays}}</td>
+                                        <td class="text-end">{{suggestion.units | number:'1.0-8'}}</td>
+                                        <td class="text-end">{{suggestion.marketValue | number:'1.2-2' | money: defaultCurrency.id | async}}</td>
+                                        <td class="text-end">
+                                            <fingather-table-value [value]="suggestion.unrealizedGainLoss">
+                                                {{suggestion.unrealizedGainLoss | number:'1.2-2' | money: defaultCurrency.id | async}}
+                                            </fingather-table-value>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+
+    <h2 class="h5">{{ 'app.overviews.taxOptimization.bucket.winningShortTerm' | translate }}</h2>
+    @if (opt.winningShortTerm.length === 0) {
+        <p class="text-muted">{{ 'app.overviews.taxOptimization.empty' | translate }}</p>
+    } @else {
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="table-responsive" scrollShadow>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>{{ 'app.overviews.taxOptimization.col.ticker' | translate }}</th>
+                                <th class="text-end">{{ 'app.overviews.taxOptimization.col.heldDays' | translate }}</th>
+                                @if (isCzech(opt)) {
+                                    <th class="text-end">{{ 'app.overviews.taxOptimization.col.daysUntilLongTerm' | translate }}</th>
+                                }
+                                <th class="text-end">{{ 'app.overviews.taxOptimization.col.units' | translate }}</th>
+                                <th class="text-end">{{ 'app.overviews.taxOptimization.col.marketValue' | translate }}</th>
+                                <th class="text-end">{{ 'app.overviews.taxOptimization.col.unrealizedGainLoss' | translate }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (suggestion of opt.winningShortTerm; track trackBySuggestion($index, suggestion)) {
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <fingather-asset-display
+                                                [tickerSymbol]="suggestion.tickerTicker"
+                                                [tickerName]="suggestion.tickerName"
+                                                [tickerLogo]="suggestion.tickerLogo"
+                                            />
+                                            @if (suggestion.holdingVariesByBroker) {
+                                                <mat-icon class="text-warning" style="font-size: 1rem; height: 1rem; width: 1rem;" [title]="'app.overviews.taxOptimization.holdingVariesByBroker' | translate">warning</mat-icon>
+                                            }
+                                        </div>
+                                    </td>
+                                    <td class="text-end">{{suggestion.holdingPeriodDays}}</td>
+                                    @if (isCzech(opt)) {
+                                        <td class="text-end">{{suggestion.daysUntilLongTerm}}</td>
+                                    }
+                                    <td class="text-end">{{suggestion.units | number:'1.0-8'}}</td>
+                                    <td class="text-end">{{suggestion.marketValue | number:'1.2-2' | money: defaultCurrency.id | async}}</td>
+                                    <td class="text-end">
+                                        <fingather-table-value [value]="suggestion.unrealizedGainLoss">
+                                            {{suggestion.unrealizedGainLoss | number:'1.2-2' | money: defaultCurrency.id | async}}
+                                        </fingather-table-value>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+} @else {
+    <div class="text-center my-5">
+        <span class="spinner-border spinner-border-lg align-center"></span>
+    </div>
+}

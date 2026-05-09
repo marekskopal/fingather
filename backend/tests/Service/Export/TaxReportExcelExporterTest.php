@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Tests\Service\Export;
 
 use Decimal\Decimal;
+use FinGather\Model\Entity\Enum\CostBasisMethodEnum;
 use FinGather\Service\DataCalculator\Dto\TaxReportDividendsDto;
 use FinGather\Service\DataCalculator\Dto\TaxReportDto;
 use FinGather\Service\DataCalculator\Dto\TaxReportRealizedGainsDto;
@@ -30,6 +31,7 @@ final class TaxReportExcelExporterTest extends TestCase
 		return new TaxReportDto(
 			year: $year,
 			realizedGains: new TaxReportRealizedGainsDto(
+				method: CostBasisMethodEnum::Fifo,
 				totalSalesProceeds: $zero,
 				totalCostBasis: $zero,
 				totalGains: $zero,

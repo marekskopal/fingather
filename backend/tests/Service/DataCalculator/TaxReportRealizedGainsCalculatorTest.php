@@ -18,11 +18,15 @@ use FinGather\Model\Entity\Sector;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\Transaction;
 use FinGather\Model\Entity\User;
+use FinGather\Model\Entity\Enum\CostBasisMethodEnum;
 use FinGather\Service\DataCalculator\Dto\FifoMatchDto;
 use FinGather\Service\DataCalculator\Dto\TaxReportRealizedGainsDto;
 use FinGather\Service\DataCalculator\Dto\TaxReportRealizedGainTransactionDto;
 use FinGather\Service\DataCalculator\Dto\TransactionBuyDto;
-use FinGather\Service\DataCalculator\FifoLotMatcher;
+use FinGather\Service\DataCalculator\LotMatcher\AverageCostLotMatcher;
+use FinGather\Service\DataCalculator\LotMatcher\FifoLotMatcher;
+use FinGather\Service\DataCalculator\LotMatcher\LifoLotMatcher;
+use FinGather\Service\DataCalculator\LotMatcher\LotMatcherFactory;
 use FinGather\Service\DataCalculator\TaxReportRealizedGainsCalculator;
 use FinGather\Service\Provider\CurrentTransactionProviderInterface;
 use FinGather\Service\Provider\Dto\SplitDto;
@@ -47,6 +51,9 @@ use PHPUnit\Framework\TestCase;
 #[UsesClass(TransactionBuyDto::class)]
 #[UsesClass(FifoMatchDto::class)]
 #[UsesClass(FifoLotMatcher::class)]
+#[UsesClass(LifoLotMatcher::class)]
+#[UsesClass(AverageCostLotMatcher::class)]
+#[UsesClass(LotMatcherFactory::class)]
 #[UsesClass(Currency::class)]
 #[UsesClass(Group::class)]
 #[UsesClass(Industry::class)]
@@ -383,8 +390,14 @@ final class TaxReportRealizedGainsCalculatorTest extends TestCase
 		$splitProvider->method('getSplits')
 			->willReturn($splits);
 
-		$calculator = new TaxReportRealizedGainsCalculator($currentTransactionProvider, $splitProvider);
+		$lotMatcherFactory = new LotMatcherFactory(
+			new FifoLotMatcher(),
+			new LifoLotMatcher(),
+			new AverageCostLotMatcher(),
+		);
 
-		return $calculator->calculate($this->user, $this->portfolio, $this->yearStart, $this->yearEnd);
+		$calculator = new TaxReportRealizedGainsCalculator($currentTransactionProvider, $splitProvider, $lotMatcherFactory);
+
+		return $calculator->calculate($this->user, $this->portfolio, $this->yearStart, $this->yearEnd, CostBasisMethodEnum::Fifo);
 	}
 }

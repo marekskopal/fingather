@@ -27,7 +27,7 @@ use FinGather\Service\DataCalculator\Dto\TransactionAccumulatorDto;
 use FinGather\Service\DataCalculator\Dto\TransactionBuyDto;
 use FinGather\Service\DataCalculator\Dto\TransactionValueDto;
 use FinGather\Service\DataCalculator\Dto\ValueDto;
-use FinGather\Service\DataCalculator\FifoLotMatcher;
+use FinGather\Service\DataCalculator\LotMatcher\FifoLotMatcher;
 use FinGather\Service\Provider\CurrentTransactionProviderInterface;
 use FinGather\Service\Provider\Dto\SplitDto;
 use FinGather\Service\Provider\ExchangeRateProviderInterface;
@@ -933,6 +933,12 @@ final class AssetDataCalculatorTest extends TestCase
 		$exchangeRateProvider->method('getExchangeRate')
 			->willReturn($exchangeRate);
 
-		return new AssetDataCalculator($currentTransactionProvider, $splitProvider, $tickerDataProvider, $exchangeRateProvider);
+		return new AssetDataCalculator(
+			$currentTransactionProvider,
+			$splitProvider,
+			$tickerDataProvider,
+			$exchangeRateProvider,
+			new FifoLotMatcher(),
+		);
 	}
 }
