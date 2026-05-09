@@ -84,8 +84,10 @@ final class MwrCalculatorTest extends TestCase
 		// Ending value: ($1000 × 1.05 + $5000) × 1.20 = $7260
 
 		$date0 = new DateTimeImmutable('2024-01-01');
-		$date180 = new DateTimeImmutable('2024-06-29'); // ~180 days
-		$dateEnd = new DateTimeImmutable('2024-12-25'); // ~360 days
+		// ~180 days
+		$date180 = new DateTimeImmutable('2024-06-29');
+		// ~360 days
+		$dateEnd = new DateTimeImmutable('2024-12-25');
 
 		$cashFlows = [
 			new PortfolioCashFlowDto(date: $date0, netCashFlow: new Decimal(1000)),
@@ -94,11 +96,7 @@ final class MwrCalculatorTest extends TestCase
 
 		$endingValue = new Decimal(7260);
 
-		$result = $this->calculator->calculate(
-			cashFlows: $cashFlows,
-			endingValue: $endingValue,
-			endDate: $dateEnd,
-		);
+		$result = $this->calculator->calculate(cashFlows: $cashFlows, endingValue: $endingValue, endDate: $dateEnd);
 
 		// MWR > TWR because of good timing — expect substantially positive return
 		self::assertGreaterThan(10.0, $result);
@@ -122,11 +120,7 @@ final class MwrCalculatorTest extends TestCase
 
 		$endingValue = new Decimal(5890);
 
-		$result = $this->calculator->calculate(
-			cashFlows: $cashFlows,
-			endingValue: $endingValue,
-			endDate: $dateEnd,
-		);
+		$result = $this->calculator->calculate(cashFlows: $cashFlows, endingValue: $endingValue, endDate: $dateEnd);
 
 		// Invested $6000 total, portfolio is worth $5890 — MWR should be negative
 		self::assertLessThan(0.0, $result);

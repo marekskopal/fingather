@@ -15,14 +15,9 @@ final class MwrCalculator implements MwrCalculatorInterface
 	private const float Tolerance = 1e-10;
 	private const float InitialGuess = 0.1;
 
-	/**
-	 * @param list<PortfolioCashFlowDto> $cashFlows  Portfolio-perspective (Buy = positive, Sell = negative).
-	 */
-	public function calculate(
-		array $cashFlows,
-		Decimal $endingValue,
-		DateTimeImmutable $endDate,
-	): float {
+	/** @param list<PortfolioCashFlowDto> $cashFlows Portfolio-perspective (Buy = positive, Sell = negative). */
+	public function calculate(array $cashFlows, Decimal $endingValue, DateTimeImmutable $endDate,): float
+	{
 		if ($cashFlows === []) {
 			return 0.0;
 		}
@@ -39,12 +34,12 @@ final class MwrCalculator implements MwrCalculatorInterface
 		foreach ($cashFlows as $portfolioCf) {
 			// Flip sign: portfolio perspective (Buy positive) → investor perspective (Buy negative)
 			$eventCfs[] = -$portfolioCf->netCashFlow->toFloat();
-			$eventTs[] = $portfolioCf->date->diff($firstDate)->days / 365.0;
+			$eventTs[] = (int) $portfolioCf->date->diff($firstDate)->days / 365.0;
 		}
 
 		// Add ending portfolio value as investor inflow at endDate.
 		$eventCfs[] = $endingValue->toFloat();
-		$eventTs[] = $endDate->diff($firstDate)->days / 365.0;
+		$eventTs[] = (int) $endDate->diff($firstDate)->days / 365.0;
 
 		// Newton-Raphson iteration.
 		$r = self::InitialGuess;
@@ -64,7 +59,7 @@ final class MwrCalculator implements MwrCalculatorInterface
 				$t = $eventTs[$j];
 				$discount = $base ** (-$t);
 				$f += $cf * $discount;
-				$fPrime += -$t * $cf * ($discount / $base);
+				$fPrime += -$t * $cf * $discount / $base;
 			}
 
 			if (abs($f) < self::Tolerance) {

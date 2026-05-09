@@ -18,11 +18,7 @@ interface MwrCalculatorInterface
 	 * where t_i is elapsed years from the first cash flow to each event and
 	 * CF_i is expressed from the investor's perspective (Buy = negative, Sell = positive).
 	 *
-	 * @param list<PortfolioCashFlowDto> $cashFlows  Portfolio-perspective (Buy = positive, Sell = negative).
+	 * @param list<PortfolioCashFlowDto> $cashFlows Portfolio-perspective (Buy = positive, Sell = negative).
 	 */
-	public function calculate(
-		array $cashFlows,
-		Decimal $endingValue,
-		DateTimeImmutable $endDate,
-	): float;
+	public function calculate(array $cashFlows, Decimal $endingValue, DateTimeImmutable $endDate,): float;
 }

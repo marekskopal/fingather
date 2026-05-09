@@ -17,7 +17,7 @@ interface TwrCalculatorInterface
 	 * For each sub-period the return is computed as (V_end_before_CF / V_start) - 1.
 	 * The sub-period returns are then chained geometrically.
 	 *
-	 * @param list<PortfolioCashFlowDto> $cashFlows  Cash flows sorted ascending (Buy = positive, Sell = negative).
+	 * @param list<PortfolioCashFlowDto> $cashFlows Cash flows sorted ascending (Buy = positive, Sell = negative).
 	 * @param callable(DateTimeImmutable): Decimal $portfolioValueFetcher Returns portfolio value for a given date.
 	 */
 	public function calculate(

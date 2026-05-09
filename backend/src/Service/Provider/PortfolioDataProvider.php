@@ -6,8 +6,8 @@ namespace FinGather\Service\Provider;
 
 use DateTimeImmutable;
 use Decimal\Decimal;
-use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
+use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\Enum\OrderDirectionEnum;
 use FinGather\Model\Repository\Enum\TransactionOrderByEnum;
@@ -75,11 +75,7 @@ final class PortfolioDataProvider implements PortfolioDataProviderInterface
 				currentDate: $dateTime,
 			);
 
-			$mwr = $this->mwrCalculator->calculate(
-				cashFlows: $cashFlows,
-				endingValue: $calculatedData->value,
-				endDate: $dateTime,
-			);
+			$mwr = $this->mwrCalculator->calculate(cashFlows: $cashFlows, endingValue: $calculatedData->value, endDate: $dateTime);
 
 			$calculatedData = $calculatedData->withReturnRates(
 				twrPercentage: $twr,

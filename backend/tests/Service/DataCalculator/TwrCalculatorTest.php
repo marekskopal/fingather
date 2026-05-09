@@ -127,7 +127,8 @@ final class TwrCalculatorTest extends TestCase
 
 		$portfolioValues = [
 			$date0->format('Y-m-d') => new Decimal(1000),
-			$date30->format('Y-m-d') => new Decimal(1000),  // 1200 - 200 = 1000 after sell
+			// 1200 - 200 = 1000 after sell
+			$date30->format('Y-m-d') => new Decimal(1000),
 		];
 
 		$result = $this->calculator->calculate(
@@ -154,7 +155,8 @@ final class TwrCalculatorTest extends TestCase
 
 		$cashFlows = [
 			new PortfolioCashFlowDto(date: $date0, netCashFlow: new Decimal(600)),
-			new PortfolioCashFlowDto(date: $date0, netCashFlow: new Decimal(400)), // same day → net $1000
+			// same day → net $1000
+			new PortfolioCashFlowDto(date: $date0, netCashFlow: new Decimal(400)),
 			new PortfolioCashFlowDto(date: $date30, netCashFlow: new Decimal(500)),
 		];
 

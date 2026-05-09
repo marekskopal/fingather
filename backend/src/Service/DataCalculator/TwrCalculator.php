@@ -61,7 +61,7 @@ final class TwrCalculator implements TwrCalculatorInterface
 
 			if (!$prevValue->isZero()) {
 				$subPeriodReturn = $endValueBeforeCf->div($prevValue)->toFloat() - 1.0;
-				$twrProduct *= (1.0 + $subPeriodReturn);
+				$twrProduct *= 1.0 + $subPeriodReturn;
 			}
 
 			$prevValue = $portfolioValueAtDate;
@@ -74,7 +74,7 @@ final class TwrCalculator implements TwrCalculatorInterface
 		$currentKey = $currentDate->format('Y-m-d');
 		if ($lastKey !== $currentKey && !$prevValue->isZero()) {
 			$subPeriodReturn = $currentValue->div($prevValue)->toFloat() - 1.0;
-			$twrProduct *= (1.0 + $subPeriodReturn);
+			$twrProduct *= 1.0 + $subPeriodReturn;
 		}
 
 		return CalculatorUtils::roundPercentage(($twrProduct - 1.0) * 100.0);

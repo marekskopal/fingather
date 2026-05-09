@@ -10,9 +10,7 @@ use Decimal\Decimal;
 /** Net cash flow into the portfolio on a given date (Buy = positive, Sell = negative). */
 final readonly class PortfolioCashFlowDto
 {
-	public function __construct(
-		public DateTimeImmutable $date,
-		public Decimal $netCashFlow,
-	) {
+	public function __construct(public DateTimeImmutable $date, public Decimal $netCashFlow,)
+	{
 	}
 }
