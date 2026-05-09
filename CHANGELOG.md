@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.13.0] - 2026-05-09
+### Added
+- Time-Weighted Return (TWR) and Money-Weighted Return (MWR / XIRR) on the dashboard, accessed via a switcher on the gain/loss card.
+### Changed
+- Asset detail page hides About, DCF, and Fundamentals cards when their data is unavailable.
+
 ## [1.12.0] - 2026-05-08
 ### Added
 - DCF (discounted cash flow) valuation calculator with assumptions, history points, and per-ticker valuation view.
