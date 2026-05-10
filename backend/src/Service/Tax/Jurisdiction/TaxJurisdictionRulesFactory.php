@@ -9,10 +9,8 @@ use FinGather\Model\Entity\Portfolio;
 
 final readonly class TaxJurisdictionRulesFactory
 {
-	public function __construct(
-		private CzechRepublicTaxJurisdictionRules $czechRepublic,
-		private GenericTaxJurisdictionRules $generic,
-	) {
+	public function __construct(private CzechRepublicTaxJurisdictionRules $czechRepublic, private GenericTaxJurisdictionRules $generic,)
+	{
 	}
 
 	public function forPortfolio(Portfolio $portfolio): TaxJurisdictionRulesInterface

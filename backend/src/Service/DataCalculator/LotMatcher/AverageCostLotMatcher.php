@@ -12,13 +12,9 @@ use FinGather\Utils\CalculatorUtils;
 
 final readonly class AverageCostLotMatcher implements LotMatcherInterface
 {
-	public function consumeLots(
-		array &$buys,
-		?int $brokerId,
-		DateTimeImmutable $sellDate,
-		Decimal $sellUnitsAbs,
-		array $splits,
-	): array {
+	/** @return list<FifoMatchDto> */
+	public function consumeLots(array &$buys, ?int $brokerId, DateTimeImmutable $sellDate, Decimal $sellUnitsAbs, array $splits,): array
+	{
 		$totalSplitAdjustedUnits = new Decimal(0, 18);
 		$totalCostDefault = new Decimal(0, 18);
 		$totalCostTicker = new Decimal(0, 18);
@@ -77,10 +73,6 @@ final readonly class AverageCostLotMatcher implements LotMatcherInterface
 			$buys[$buyKey]->units = $newUnits;
 		}
 
-		return [new FifoMatchDto(
-			buy: $syntheticBuy,
-			usedUnitsWithSplits: $usedUnits,
-			usedOriginalUnits: $usedUnits,
-		)];
+		return [new FifoMatchDto(buy: $syntheticBuy, usedUnitsWithSplits: $usedUnits, usedOriginalUnits: $usedUnits)];
 	}
 }

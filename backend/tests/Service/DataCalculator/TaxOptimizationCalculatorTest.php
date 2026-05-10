@@ -11,12 +11,14 @@ use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Country;
 use FinGather\Model\Entity\Currency;
 use FinGather\Model\Entity\Enum\TaxJurisdictionEnum;
+use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Group;
 use FinGather\Model\Entity\Industry;
 use FinGather\Model\Entity\Market;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\Sector;
 use FinGather\Model\Entity\Ticker;
+use FinGather\Model\Entity\Transaction;
 use FinGather\Model\Entity\User;
 use FinGather\Service\DataCalculator\Dto\AssetDataDto;
 use FinGather\Service\DataCalculator\Dto\TaxOptimizationDto;
@@ -66,12 +68,7 @@ final class TaxOptimizationCalculatorTest extends TestCase
 	public function testCzechHarvestNowForShortTermLoss(): void
 	{
 		$asset = AssetFixture::getAsset();
-		$assetData = $this->makeAssetData(
-			firstBuyDaysAgo: 100,
-			gainDefault: '-500',
-			value: '4500',
-			costBasis: '5000',
-		);
+		$assetData = $this->makeAssetData(firstBuyDaysAgo: 100, gainDefault: '-500', value: '4500', costBasis: '5000');
 
 		$result = $this->runOptimization(czech: true, assetsAndData: [[$asset, $assetData]]);
 
@@ -86,12 +83,7 @@ final class TaxOptimizationCalculatorTest extends TestCase
 	{
 		$asset = AssetFixture::getAsset();
 		// 1000 days held → 95 days until long-term
-		$assetData = $this->makeAssetData(
-			firstBuyDaysAgo: 1000,
-			gainDefault: '2000',
-			value: '7000',
-			costBasis: '5000',
-		);
+		$assetData = $this->makeAssetData(firstBuyDaysAgo: 1000, gainDefault: '2000', value: '7000', costBasis: '5000');
 
 		$result = $this->runOptimization(czech: true, assetsAndData: [[$asset, $assetData]]);
 
@@ -105,12 +97,7 @@ final class TaxOptimizationCalculatorTest extends TestCase
 	public function testCzechAlreadyTaxFree(): void
 	{
 		$asset = AssetFixture::getAsset();
-		$assetData = $this->makeAssetData(
-			firstBuyDaysAgo: 1500,
-			gainDefault: '3000',
-			value: '8000',
-			costBasis: '5000',
-		);
+		$assetData = $this->makeAssetData(firstBuyDaysAgo: 1500, gainDefault: '3000', value: '8000', costBasis: '5000');
 
 		$result = $this->runOptimization(czech: true, assetsAndData: [[$asset, $assetData]]);
 
@@ -122,12 +109,7 @@ final class TaxOptimizationCalculatorTest extends TestCase
 	public function testCzechLossNoLongerDeductible(): void
 	{
 		$asset = AssetFixture::getAsset();
-		$assetData = $this->makeAssetData(
-			firstBuyDaysAgo: 1500,
-			gainDefault: '-300',
-			value: '4700',
-			costBasis: '5000',
-		);
+		$assetData = $this->makeAssetData(firstBuyDaysAgo: 1500, gainDefault: '-300', value: '4700', costBasis: '5000');
 
 		$result = $this->runOptimization(czech: true, assetsAndData: [[$asset, $assetData]]);
 
@@ -142,12 +124,7 @@ final class TaxOptimizationCalculatorTest extends TestCase
 	{
 		$asset = AssetFixture::getAsset();
 		// 100 days held → 995 days until long-term, far above 365 threshold
-		$assetData = $this->makeAssetData(
-			firstBuyDaysAgo: 100,
-			gainDefault: '500',
-			value: '5500',
-			costBasis: '5000',
-		);
+		$assetData = $this->makeAssetData(firstBuyDaysAgo: 100, gainDefault: '500', value: '5500', costBasis: '5000');
 
 		$result = $this->runOptimization(czech: true, assetsAndData: [[$asset, $assetData]]);
 
@@ -204,13 +181,7 @@ final class TaxOptimizationCalculatorTest extends TestCase
 	public function testClosedPositionsSkipped(): void
 	{
 		$asset = AssetFixture::getAsset();
-		$assetData = $this->makeAssetData(
-			firstBuyDaysAgo: 100,
-			gainDefault: '0',
-			value: '0',
-			costBasis: '0',
-			units: '0',
-		);
+		$assetData = $this->makeAssetData(firstBuyDaysAgo: 100, gainDefault: '0', value: '0', costBasis: '0', units: '0');
 
 		$result = $this->runOptimization(czech: true, assetsAndData: [[$asset, $assetData]]);
 
@@ -265,8 +236,8 @@ final class TaxOptimizationCalculatorTest extends TestCase
 		// Buy on broker 1; dividend on broker 2 — dividend shouldn't count as a separate buy broker.
 		$transactionsByAsset = [
 			9 => [
-				TransactionFixture::getTransaction(id: 1, asset: $asset, brokerId: 1, actionType: \FinGather\Model\Entity\Enum\TransactionActionTypeEnum::Buy),
-				TransactionFixture::getTransaction(id: 2, asset: $asset, brokerId: 2, actionType: \FinGather\Model\Entity\Enum\TransactionActionTypeEnum::Dividend),
+				TransactionFixture::getTransaction(id: 1, asset: $asset, brokerId: 1, actionType: TransactionActionTypeEnum::Buy),
+				TransactionFixture::getTransaction(id: 2, asset: $asset, brokerId: 2, actionType: TransactionActionTypeEnum::Dividend),
 			],
 		];
 
@@ -318,7 +289,7 @@ final class TaxOptimizationCalculatorTest extends TestCase
 
 	/**
 	 * @param list<array{Asset, AssetDataDto}> $assetsAndData
-	 * @param array<int, list<\FinGather\Model\Entity\Transaction>> $transactionsByAsset
+	 * @param array<int, list<Transaction>> $transactionsByAsset
 	 */
 	private function runOptimization(bool $czech, array $assetsAndData, array $transactionsByAsset = []): TaxOptimizationDto
 	{

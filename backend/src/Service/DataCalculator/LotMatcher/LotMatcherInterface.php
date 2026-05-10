@@ -20,11 +20,5 @@ interface LotMatcherInterface
 	 * @param list<SplitDto> $splits
 	 * @return list<FifoMatchDto>
 	 */
-	public function consumeLots(
-		array &$buys,
-		?int $brokerId,
-		DateTimeImmutable $sellDate,
-		Decimal $sellUnitsAbs,
-		array $splits,
-	): array;
+	public function consumeLots(array &$buys, ?int $brokerId, DateTimeImmutable $sellDate, Decimal $sellUnitsAbs, array $splits,): array;
 }

@@ -26,14 +26,7 @@ final class AddPortfolioTaxSettingsMigration extends Migration
 				enum: array_column(CostBasisMethodEnum::cases(), 'value'),
 				default: CostBasisMethodEnum::Fifo->value,
 			)
-			->addColumn(
-				'estimated_tax_rate',
-				Type::Decimal,
-				precision: 5,
-				scale: 4,
-				nullable: true,
-				default: null,
-			)
+			->addColumn('estimated_tax_rate', Type::Decimal, precision: 5, scale: 4, nullable: true, default: null)
 			->alter();
 
 		$pdo = $this->databaseProvider->getDatabase()->getPdo();

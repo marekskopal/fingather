@@ -30,6 +30,7 @@ final readonly class GenericTaxJurisdictionRules implements TaxJurisdictionRules
 		return true;
 	}
 
+	/** @return non-empty-list<CostBasisMethodEnum> */
 	public function allowedCostBasisMethods(): array
 	{
 		return [CostBasisMethodEnum::Fifo, CostBasisMethodEnum::Lifo, CostBasisMethodEnum::AverageCost];

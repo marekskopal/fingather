@@ -226,9 +226,7 @@ final class CostBasisComparisonCalculatorTest extends TestCase
 		self::assertSame(CostBasisMethodEnum::Lifo, $result->optimalMethod);
 	}
 
-	/**
-	 * @param array<string, string> $netByMethod
-	 */
+	/** @param array<string, string> $netByMethod */
 	private function runComparison(bool $czech, CostBasisMethodEnum $configuredMethod, array $netByMethod): CostBasisComparisonDto
 	{
 		$realizedCalculator = self::createStub(TaxReportRealizedGainsCalculatorInterface::class);

@@ -12,9 +12,7 @@ use FinGather\Service\Tax\Jurisdiction\TaxJurisdictionRulesInterface;
 
 final readonly class PortfolioTaxSettingsDto
 {
-	/**
-	 * @param non-empty-list<CostBasisMethodEnum> $allowedCostBasisMethods
-	 */
+	/** @param non-empty-list<CostBasisMethodEnum> $allowedCostBasisMethods */
 	public function __construct(
 		public int $portfolioId,
 		public TaxJurisdictionEnum $taxJurisdiction,

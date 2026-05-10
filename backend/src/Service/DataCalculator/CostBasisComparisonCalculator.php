@@ -68,10 +68,12 @@ final readonly class CostBasisComparisonCalculator
 				deltaVsConfigured: $deltaVsConfigured,
 			);
 
-			if ($taxableNet < $optimalTaxableNet) {
-				$optimalMethod = $method;
-				$optimalTaxableNet = $taxableNet;
+			if ($taxableNet >= $optimalTaxableNet) {
+				continue;
 			}
+
+			$optimalMethod = $method;
+			$optimalTaxableNet = $taxableNet;
 		}
 
 		return new CostBasisComparisonDto(

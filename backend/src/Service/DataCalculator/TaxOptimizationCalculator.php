@@ -20,6 +20,7 @@ use FinGather\Service\Provider\AssetProviderInterface;
 use FinGather\Service\Provider\CurrentTransactionProviderInterface;
 use FinGather\Service\Tax\Jurisdiction\TaxJurisdictionRulesFactory;
 use FinGather\Service\Tax\Jurisdiction\TaxJurisdictionRulesInterface;
+use const PHP_INT_MAX;
 
 final readonly class TaxOptimizationCalculator
 {
@@ -209,7 +210,7 @@ final readonly class TaxOptimizationCalculator
 		bool $holdingVariesByBroker,
 	): TaxOptimizationSuggestionDto {
 		$ticker = $asset->ticker;
-		$estimatedTaxImpact = ($taxableBase !== null && $rate !== null) ? $taxableBase->mul($rate) : null;
+		$estimatedTaxImpact = $taxableBase !== null && $rate !== null ? $taxableBase->mul($rate) : null;
 
 		return new TaxOptimizationSuggestionDto(
 			assetId: $asset->id,

@@ -8,11 +8,8 @@ use FinGather\Model\Entity\Enum\CostBasisMethodEnum;
 
 final readonly class LotMatcherFactory
 {
-	public function __construct(
-		private FifoLotMatcher $fifo,
-		private LifoLotMatcher $lifo,
-		private AverageCostLotMatcher $averageCost,
-	) {
+	public function __construct(private FifoLotMatcher $fifo, private LifoLotMatcher $lifo, private AverageCostLotMatcher $averageCost,)
+	{
 	}
 
 	public function forMethod(CostBasisMethodEnum $method): LotMatcherInterface

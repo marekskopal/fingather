@@ -12,13 +12,9 @@ use FinGather\Utils\CalculatorUtils;
 
 final readonly class LifoLotMatcher implements LotMatcherInterface
 {
-	public function consumeLots(
-		array &$buys,
-		?int $brokerId,
-		DateTimeImmutable $sellDate,
-		Decimal $sellUnitsAbs,
-		array $splits,
-	): array {
+	/** @return list<FifoMatchDto> */
+	public function consumeLots(array &$buys, ?int $brokerId, DateTimeImmutable $sellDate, Decimal $sellUnitsAbs, array $splits,): array
+	{
 		$matches = [];
 		$sumBuyUnits = new Decimal(0, 18);
 

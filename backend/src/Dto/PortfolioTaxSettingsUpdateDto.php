@@ -13,11 +13,8 @@ namespace FinGather\Dto;
  */
 final readonly class PortfolioTaxSettingsUpdateDto implements ArrayFactoryInterface
 {
-	public function __construct(
-		public string $taxJurisdiction,
-		public string $costBasisMethod,
-		public ?string $estimatedTaxRate,
-	) {
+	public function __construct(public string $taxJurisdiction, public string $costBasisMethod, public ?string $estimatedTaxRate,)
+	{
 	}
 
 	public static function fromArray(array $data): static

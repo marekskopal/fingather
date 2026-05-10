@@ -32,6 +32,7 @@ final readonly class CzechRepublicTaxJurisdictionRules implements TaxJurisdictio
 		return $holdingDays < self::LongTermHoldingDays;
 	}
 
+	/** @return non-empty-list<CostBasisMethodEnum> */
 	public function allowedCostBasisMethods(): array
 	{
 		return [CostBasisMethodEnum::Fifo, CostBasisMethodEnum::AverageCost];
