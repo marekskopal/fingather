@@ -17,5 +17,7 @@ export interface CostBasisComparison {
     configuredMethod: CostBasisMethod;
     optimalMethod: CostBasisMethod;
     estimatedTaxRate: number | null;
+    annualGainExemption: string | null;
+    annualGrossProceedsExemption: string | null;
     rows: CostBasisComparisonRow[];
 }

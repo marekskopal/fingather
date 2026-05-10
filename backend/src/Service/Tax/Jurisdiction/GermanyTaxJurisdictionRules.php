@@ -8,11 +8,11 @@ use Decimal\Decimal;
 use FinGather\Model\Entity\Enum\CostBasisMethodEnum;
 use FinGather\Model\Entity\Enum\TaxJurisdictionEnum;
 
-final readonly class GenericTaxJurisdictionRules implements TaxJurisdictionRulesInterface
+final readonly class GermanyTaxJurisdictionRules implements TaxJurisdictionRulesInterface
 {
 	public function jurisdiction(): TaxJurisdictionEnum
 	{
-		return TaxJurisdictionEnum::Generic;
+		return TaxJurisdictionEnum::Germany;
 	}
 
 	public function longTermHoldingDays(): ?int
@@ -33,12 +33,13 @@ final readonly class GenericTaxJurisdictionRules implements TaxJurisdictionRules
 	/** @return non-empty-list<CostBasisMethodEnum> */
 	public function allowedCostBasisMethods(): array
 	{
-		return [CostBasisMethodEnum::Fifo, CostBasisMethodEnum::Lifo, CostBasisMethodEnum::AverageCost];
+		return [CostBasisMethodEnum::Fifo];
 	}
 
-	public function defaultEstimatedTaxRate(): ?Decimal
+	public function defaultEstimatedTaxRate(): Decimal
 	{
-		return null;
+		// 25% Abgeltungsteuer + 5.5% solidarity surcharge.
+		return new Decimal('0.26375');
 	}
 
 	public function annualGrossProceedsExemption(): ?Decimal
@@ -46,8 +47,9 @@ final readonly class GenericTaxJurisdictionRules implements TaxJurisdictionRules
 		return null;
 	}
 
-	public function annualGainExemption(): ?Decimal
+	public function annualGainExemption(): Decimal
 	{
-		return null;
+		// Sparerpauschbetrag (single filer).
+		return new Decimal('1000');
 	}
 }

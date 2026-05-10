@@ -19,6 +19,8 @@ use FinGather\Service\DataCalculator\Dto\TaxReportRealizedGainsDto;
 use FinGather\Service\DataCalculator\TaxReportRealizedGainsCalculatorInterface;
 use FinGather\Service\Tax\Jurisdiction\CzechRepublicTaxJurisdictionRules;
 use FinGather\Service\Tax\Jurisdiction\GenericTaxJurisdictionRules;
+use FinGather\Service\Tax\Jurisdiction\GermanyTaxJurisdictionRules;
+use FinGather\Service\Tax\Jurisdiction\SlovakiaTaxJurisdictionRules;
 use FinGather\Service\Tax\Jurisdiction\TaxJurisdictionRulesFactory;
 use FinGather\Tests\Fixtures\Model\Entity\PortfolioFixture;
 use FinGather\Tests\Fixtures\Model\Entity\UserFixture;
@@ -35,6 +37,8 @@ use PHPUnit\Framework\TestCase;
 #[UsesClass(CostBasisComparisonRowDto::class)]
 #[UsesClass(TaxReportRealizedGainsDto::class)]
 #[UsesClass(CzechRepublicTaxJurisdictionRules::class)]
+#[UsesClass(SlovakiaTaxJurisdictionRules::class)]
+#[UsesClass(GermanyTaxJurisdictionRules::class)]
 #[UsesClass(GenericTaxJurisdictionRules::class)]
 #[UsesClass(TaxJurisdictionRulesFactory::class)]
 final class CostBasisComparisonCalculatorTest extends TestCase
@@ -146,6 +150,8 @@ final class CostBasisComparisonCalculatorTest extends TestCase
 
 		$factory = new TaxJurisdictionRulesFactory(
 			new CzechRepublicTaxJurisdictionRules(),
+			new SlovakiaTaxJurisdictionRules(),
+			new GermanyTaxJurisdictionRules(),
 			new GenericTaxJurisdictionRules(),
 		);
 
@@ -192,6 +198,8 @@ final class CostBasisComparisonCalculatorTest extends TestCase
 
 		$factory = new TaxJurisdictionRulesFactory(
 			new CzechRepublicTaxJurisdictionRules(),
+			new SlovakiaTaxJurisdictionRules(),
+			new GermanyTaxJurisdictionRules(),
 			new GenericTaxJurisdictionRules(),
 		);
 
@@ -227,8 +235,12 @@ final class CostBasisComparisonCalculatorTest extends TestCase
 	}
 
 	/** @param array<string, string> $netByMethod */
-	private function runComparison(bool $czech, CostBasisMethodEnum $configuredMethod, array $netByMethod): CostBasisComparisonDto
-	{
+	private function runComparison(
+		bool $czech,
+		CostBasisMethodEnum $configuredMethod,
+		array $netByMethod,
+		string $totalSalesProceeds = '200000',
+	): CostBasisComparisonDto {
 		$realizedCalculator = self::createStub(TaxReportRealizedGainsCalculatorInterface::class);
 		$realizedCalculator->method('calculate')
 			->willReturnCallback(static function (
@@ -237,11 +249,14 @@ final class CostBasisComparisonCalculatorTest extends TestCase
 				DateTimeImmutable $_start,
 				DateTimeImmutable $_end,
 				CostBasisMethodEnum $method,
-			) use ($netByMethod): TaxReportRealizedGainsDto {
+			) use (
+				$netByMethod,
+				$totalSalesProceeds
+): TaxReportRealizedGainsDto {
 				$net = new Decimal($netByMethod[$method->value]);
 				return new TaxReportRealizedGainsDto(
 					method: $method,
-					totalSalesProceeds: new Decimal('10000'),
+					totalSalesProceeds: new Decimal($totalSalesProceeds),
 					totalCostBasis: new Decimal('9500'),
 					totalGains: $net->isPositive() ? $net : new Decimal(0),
 					totalLosses: $net->isNegative() ? $net->abs() : new Decimal(0),
@@ -253,6 +268,8 @@ final class CostBasisComparisonCalculatorTest extends TestCase
 
 		$factory = new TaxJurisdictionRulesFactory(
 			new CzechRepublicTaxJurisdictionRules(),
+			new SlovakiaTaxJurisdictionRules(),
+			new GermanyTaxJurisdictionRules(),
 			new GenericTaxJurisdictionRules(),
 		);
 
@@ -268,6 +285,70 @@ final class CostBasisComparisonCalculatorTest extends TestCase
 
 		$calculator = new CostBasisComparisonCalculator($realizedCalculator, $factory);
 		return $calculator->calculate(UserFixture::getUser(), $portfolio, 2024);
+	}
+
+	public function testCzechGrossProceedsExemptionZeroesOutTax(): void
+	{
+		// Proceeds below the 100k CZK threshold → all rows tax-free regardless of net gain.
+		$result = $this->runComparison(
+			czech: true,
+			configuredMethod: CostBasisMethodEnum::Fifo,
+			netByMethod: ['Fifo' => '5000', 'Lifo' => '4000', 'AverageCost' => '4500'],
+			totalSalesProceeds: '80000',
+		);
+
+		foreach ($result->rows as $row) {
+			self::assertNotNull($row->estimatedTax);
+			self::assertSame(0.0, $row->estimatedTax->toFloat());
+		}
+		self::assertNotNull($result->annualGrossProceedsExemption);
+		self::assertSame(100000.0, $result->annualGrossProceedsExemption->toFloat());
+	}
+
+	public function testGermanyAllowanceReducesTax(): void
+	{
+		$realizedCalculator = self::createStub(TaxReportRealizedGainsCalculatorInterface::class);
+		$realizedCalculator->method('calculate')
+			->willReturnCallback(static function (
+				User $_user,
+				Portfolio $_portfolio,
+				DateTimeImmutable $_start,
+				DateTimeImmutable $_end,
+				CostBasisMethodEnum $method,
+			): TaxReportRealizedGainsDto {
+				return new TaxReportRealizedGainsDto(
+					method: $method,
+					totalSalesProceeds: new Decimal('20000'),
+					totalCostBasis: new Decimal('15000'),
+					totalGains: new Decimal('5000'),
+					totalLosses: new Decimal(0),
+					totalFees: new Decimal(0),
+					netRealizedGainLoss: new Decimal('5000'),
+					transactions: [],
+				);
+			});
+
+		$factory = new TaxJurisdictionRulesFactory(
+			new CzechRepublicTaxJurisdictionRules(),
+			new SlovakiaTaxJurisdictionRules(),
+			new GermanyTaxJurisdictionRules(),
+			new GenericTaxJurisdictionRules(),
+		);
+
+		$portfolio = PortfolioFixture::getPortfolio();
+		$portfolio->taxJurisdiction = TaxJurisdictionEnum::Germany;
+		$portfolio->costBasisMethod = CostBasisMethodEnum::Fifo;
+		$portfolio->estimatedTaxRate = new Decimal('0.26375');
+
+		$calculator = new CostBasisComparisonCalculator($realizedCalculator, $factory);
+		$result = $calculator->calculate(UserFixture::getUser(), $portfolio, 2024);
+
+		// (5000 - 1000) * 0.26375 = 1055
+		$rowsByMethod = $this->indexByMethod($result->rows);
+		self::assertNotNull($rowsByMethod['Fifo']->estimatedTax);
+		self::assertSame(1055.0, $rowsByMethod['Fifo']->estimatedTax->toFloat());
+		self::assertNotNull($result->annualGainExemption);
+		self::assertSame(1000.0, $result->annualGainExemption->toFloat());
 	}
 
 	/**

@@ -14,14 +14,25 @@
 @if (optimization(); as opt) {
     <p class="text-muted">
         {{ 'app.overviews.taxOptimization.asOf' | translate: { date: opt.asOfDate } }}
-        @if (opt.jurisdiction === 'CzechRepublic') {
-            &middot; {{ 'app.overviews.taxOptimization.czechRule' | translate: { days: opt.longTermHoldingDays } }}
+        @if (hasLongTermConcept(opt)) {
+            &middot; {{ 'app.overviews.taxOptimization.longTermRule' | translate: { jurisdiction: ('app.portfolios.taxSettings.jurisdiction.' + opt.jurisdiction | translate), days: opt.longTermHoldingDays } }}
         } @else {
-            &middot; {{ 'app.overviews.taxOptimization.genericRule' | translate }}
+            &middot; {{ 'app.overviews.taxOptimization.noLongTermRule' | translate: { jurisdiction: ('app.portfolios.taxSettings.jurisdiction.' + opt.jurisdiction | translate) } }}
         }
     </p>
 
-    @if (isCzech(opt)) {
+    @if (opt.annualGainExemption !== null) {
+        <div class="alert alert-info">
+            {{ 'app.overviews.taxOptimization.allowance.gainExemption' | translate: { amount: opt.annualGainExemption } }}
+        </div>
+    }
+    @if (opt.annualGrossProceedsExemption !== null) {
+        <div class="alert alert-info">
+            {{ 'app.overviews.taxOptimization.allowance.grossProceedsExemption' | translate: { amount: opt.annualGrossProceedsExemption } }}
+        </div>
+    }
+
+    @if (hasLongTermConcept(opt)) {
         <div class="tax-optimization-summary">
             <div class="card">
                 <div class="card-header">
@@ -64,7 +75,7 @@
                             <tr>
                                 <th>{{ 'app.overviews.taxOptimization.col.ticker' | translate }}</th>
                                 <th class="text-end">{{ 'app.overviews.taxOptimization.col.heldDays' | translate }}</th>
-                                @if (isCzech(opt)) {
+                                @if (hasLongTermConcept(opt)) {
                                     <th class="text-end">{{ 'app.overviews.taxOptimization.col.daysUntilLongTerm' | translate }}</th>
                                 }
                                 <th class="text-end">{{ 'app.overviews.taxOptimization.col.units' | translate }}</th>
@@ -90,7 +101,7 @@
                                         </div>
                                     </td>
                                     <td class="text-end">{{suggestion.holdingPeriodDays}}</td>
-                                    @if (isCzech(opt)) {
+                                    @if (hasLongTermConcept(opt)) {
                                         <td class="text-end">{{suggestion.daysUntilLongTerm}}</td>
                                     }
                                     <td class="text-end">{{suggestion.units | number:'1.0-8'}}</td>
@@ -121,7 +132,7 @@
         </div>
     }
 
-    @if (isCzech(opt)) {
+    @if (hasLongTermConcept(opt)) {
         <h2 class="h5">{{ 'app.overviews.taxOptimization.bucket.holdForTaxFreeGain' | translate }}</h2>
         @if (opt.holdForTaxFreeGain.length === 0) {
             <p class="text-muted">{{ 'app.overviews.taxOptimization.empty' | translate }}</p>
@@ -288,7 +299,7 @@
                             <tr>
                                 <th>{{ 'app.overviews.taxOptimization.col.ticker' | translate }}</th>
                                 <th class="text-end">{{ 'app.overviews.taxOptimization.col.heldDays' | translate }}</th>
-                                @if (isCzech(opt)) {
+                                @if (hasLongTermConcept(opt)) {
                                     <th class="text-end">{{ 'app.overviews.taxOptimization.col.daysUntilLongTerm' | translate }}</th>
                                 }
                                 <th class="text-end">{{ 'app.overviews.taxOptimization.col.units' | translate }}</th>
@@ -312,7 +323,7 @@
                                         </div>
                                     </td>
                                     <td class="text-end">{{suggestion.holdingPeriodDays}}</td>
-                                    @if (isCzech(opt)) {
+                                    @if (hasLongTermConcept(opt)) {
                                         <td class="text-end">{{suggestion.daysUntilLongTerm}}</td>
                                     }
                                     <td class="text-end">{{suggestion.units | number:'1.0-8'}}</td>

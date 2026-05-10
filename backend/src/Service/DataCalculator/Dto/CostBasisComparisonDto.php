@@ -15,6 +15,8 @@ final readonly class CostBasisComparisonDto
 		public CostBasisMethodEnum $configuredMethod,
 		public CostBasisMethodEnum $optimalMethod,
 		public ?Decimal $estimatedTaxRate,
+		public ?Decimal $annualGainExemption,
+		public ?Decimal $annualGrossProceedsExemption,
 		public array $rows,
 	) {
 	}

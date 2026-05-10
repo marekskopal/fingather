@@ -33,6 +33,8 @@ final readonly class CostBasisComparisonCalculator
 		$rules = $this->jurisdictionFactory->forPortfolio($portfolio);
 		$allowed = $rules->allowedCostBasisMethods();
 		$rate = $portfolio->estimatedTaxRate ?? $rules->defaultEstimatedTaxRate();
+		$grossExemption = $rules->annualGrossProceedsExemption();
+		$gainExemption = $rules->annualGainExemption();
 
 		/** @var array<string, TaxReportRealizedGainsDto> $resultByMethod */
 		$resultByMethod = [];
@@ -41,19 +43,19 @@ final readonly class CostBasisComparisonCalculator
 		}
 
 		$configuredResult = $resultByMethod[$portfolio->costBasisMethod->value];
-		$configuredTaxableNet = $this->taxableNet($configuredResult);
+		$configuredTaxableNet = $this->taxableNet($configuredResult, $grossExemption, $gainExemption);
 
 		$rows = [];
 		$optimalMethod = $portfolio->costBasisMethod;
-		$optimalTaxableNet = $configuredTaxableNet;
+		$optimalNet = $configuredResult->netRealizedGainLoss;
 
 		foreach (CostBasisMethodEnum::cases() as $method) {
 			$result = $resultByMethod[$method->value];
 			$net = $result->netRealizedGainLoss;
-			$taxableNet = $this->taxableNet($result);
-			$estimatedTax = $rate !== null ? $this->maxZero($taxableNet)->mul($rate) : null;
+			$taxableNet = $this->taxableNet($result, $grossExemption, $gainExemption);
+			$estimatedTax = $rate !== null ? $taxableNet->mul($rate) : null;
 			$deltaVsConfigured = $rate !== null
-				? $this->maxZero($configuredTaxableNet)->mul($rate)->sub($this->maxZero($taxableNet)->mul($rate))
+				? $configuredTaxableNet->mul($rate)->sub($taxableNet->mul($rate))
 				: $configuredTaxableNet->sub($taxableNet);
 
 			$rows[] = new CostBasisComparisonRowDto(
@@ -68,12 +70,12 @@ final readonly class CostBasisComparisonCalculator
 				deltaVsConfigured: $deltaVsConfigured,
 			);
 
-			if ($taxableNet >= $optimalTaxableNet) {
+			if ($net >= $optimalNet) {
 				continue;
 			}
 
 			$optimalMethod = $method;
-			$optimalTaxableNet = $taxableNet;
+			$optimalNet = $net;
 		}
 
 		return new CostBasisComparisonDto(
@@ -81,13 +83,24 @@ final readonly class CostBasisComparisonCalculator
 			configuredMethod: $portfolio->costBasisMethod,
 			optimalMethod: $optimalMethod,
 			estimatedTaxRate: $rate,
+			annualGainExemption: $gainExemption,
+			annualGrossProceedsExemption: $grossExemption,
 			rows: $rows,
 		);
 	}
 
-	private function taxableNet(TaxReportRealizedGainsDto $result): Decimal
+	private function taxableNet(TaxReportRealizedGainsDto $result, ?Decimal $grossExemption, ?Decimal $gainExemption,): Decimal
 	{
-		return $result->netRealizedGainLoss;
+		if ($grossExemption !== null && $result->totalSalesProceeds <= $grossExemption) {
+			return new Decimal(0);
+		}
+
+		$taxable = $this->maxZero($result->netRealizedGainLoss);
+		if ($gainExemption !== null) {
+			$taxable = $this->maxZero($taxable->sub($gainExemption));
+		}
+
+		return $taxable;
 	}
 
 	private function maxZero(Decimal $value): Decimal

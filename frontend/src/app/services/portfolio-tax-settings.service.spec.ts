@@ -16,6 +16,8 @@ const mockSettings: PortfolioTaxSettings = {
     estimatedTaxRate: '0.15',
     longTermHoldingDays: 1095,
     defaultEstimatedTaxRate: '0.15',
+    annualGainExemption: null,
+    annualGrossProceedsExemption: '100000',
     allowedCostBasisMethods: ['Fifo', 'AverageCost'],
 };
 

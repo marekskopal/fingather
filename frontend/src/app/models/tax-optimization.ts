@@ -30,6 +30,8 @@ export interface TaxOptimization {
     jurisdiction: TaxJurisdiction;
     longTermHoldingDays: number | null;
     estimatedTaxRate: number | null;
+    annualGainExemption: string | null;
+    annualGrossProceedsExemption: string | null;
     harvestNow: TaxOptimizationSuggestion[];
     holdForTaxFreeGain: TaxOptimizationSuggestion[];
     lossNoLongerDeductible: TaxOptimizationSuggestion[];

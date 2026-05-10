@@ -81,19 +81,34 @@ final readonly class TaxOptimizationCalculator
 				($a->daysUntilLongTerm ?? PHP_INT_MAX) <=> ($b->daysUntilLongTerm ?? PHP_INT_MAX),
 		);
 
+		$gainExemption = $rules->annualGainExemption();
+		$allowanceTaxShelter = $gainExemption !== null && $rate !== null ? $gainExemption->mul($rate) : null;
+
 		return new TaxOptimizationDto(
 			asOfDate: $asOf->format('Y-m-d'),
 			jurisdiction: $rules->jurisdiction(),
 			longTermHoldingDays: $rules->longTermHoldingDays(),
 			estimatedTaxRate: $rate,
+			annualGainExemption: $gainExemption,
+			annualGrossProceedsExemption: $rules->annualGrossProceedsExemption(),
 			harvestNow: $harvestNow,
 			holdForTaxFreeGain: $holdForTaxFreeGain,
 			lossNoLongerDeductible: $lossNoLongerDeductible,
 			alreadyTaxFree: $alreadyTaxFree,
 			winningShortTerm: $winningShortTerm,
-			estimatedTaxSavedByHarvestingNow: $this->sumTaxImpact($harvestNow),
-			estimatedTaxSavedByWaiting: $this->sumTaxImpact($holdForTaxFreeGain),
+			estimatedTaxSavedByHarvestingNow: $this->applyAllowance($this->sumTaxImpact($harvestNow), $allowanceTaxShelter),
+			estimatedTaxSavedByWaiting: $this->applyAllowance($this->sumTaxImpact($holdForTaxFreeGain), $allowanceTaxShelter),
 		);
+	}
+
+	private function applyAllowance(Decimal $total, ?Decimal $allowanceTaxShelter): Decimal
+	{
+		if ($allowanceTaxShelter === null) {
+			return $total;
+		}
+
+		$reduced = $total->sub($allowanceTaxShelter);
+		return $reduced->isNegative() ? new Decimal(0) : $reduced;
 	}
 
 	/**

@@ -24,6 +24,47 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 const ALL_COST_BASIS_METHODS: CostBasisMethod[] = ['Fifo', 'Lifo', 'AverageCost'];
 
+interface JurisdictionMetadata {
+    longTermHoldingDays: number | null;
+    defaultEstimatedTaxRate: string | null;
+    annualGainExemption: string | null;
+    annualGrossProceedsExemption: string | null;
+    allowed: CostBasisMethod[];
+}
+
+// Mirrors the backend TaxJurisdictionRulesInterface implementations. Keep in sync with
+// backend/src/Service/Tax/Jurisdiction/*TaxJurisdictionRules.php.
+const JURISDICTION_METADATA: Record<TaxJurisdiction, JurisdictionMetadata> = {
+    CzechRepublic: {
+        longTermHoldingDays: 1095,
+        defaultEstimatedTaxRate: '0.15',
+        annualGainExemption: null,
+        annualGrossProceedsExemption: '100000',
+        allowed: ['Fifo', 'AverageCost'],
+    },
+    Slovakia: {
+        longTermHoldingDays: 365,
+        defaultEstimatedTaxRate: '0.19',
+        annualGainExemption: '500',
+        annualGrossProceedsExemption: null,
+        allowed: ['Fifo', 'AverageCost'],
+    },
+    Germany: {
+        longTermHoldingDays: null,
+        defaultEstimatedTaxRate: '0.26375',
+        annualGainExemption: '1000',
+        annualGrossProceedsExemption: null,
+        allowed: ['Fifo'],
+    },
+    Generic: {
+        longTermHoldingDays: null,
+        defaultEstimatedTaxRate: null,
+        annualGainExemption: null,
+        annualGrossProceedsExemption: null,
+        allowed: ALL_COST_BASIS_METHODS,
+    },
+};
+
 @Component({
     templateUrl: 'portfolio-tax-settings.component.html',
     imports: [
@@ -47,6 +88,8 @@ export class PortfolioTaxSettingsComponent extends BaseAddEditForm implements On
     protected costBasisMethodItems: SelectItem<string, string>[] = [];
     protected longTermHoldingDays: number | null = null;
     protected defaultEstimatedTaxRate: string | null = null;
+    protected annualGainExemption: string | null = null;
+    protected annualGrossProceedsExemption: string | null = null;
 
     public async ngOnInit(): Promise<void> {
         this.loading.set(true);
@@ -60,14 +103,12 @@ export class PortfolioTaxSettingsComponent extends BaseAddEditForm implements On
 
         const settings = await this.taxSettingsService.getTaxSettings(id);
 
-        this.jurisdictionItems = (['CzechRepublic', 'Generic'] as TaxJurisdiction[]).map((value) => ({
+        this.jurisdictionItems = (Object.keys(JURISDICTION_METADATA) as TaxJurisdiction[]).map((value) => ({
             key: value,
             label: this.translateService.instant(`app.portfolios.taxSettings.jurisdiction.${value}`),
         }));
 
-        this.refreshCostBasisMethodItems(settings.allowedCostBasisMethods);
-        this.longTermHoldingDays = settings.longTermHoldingDays;
-        this.defaultEstimatedTaxRate = settings.defaultEstimatedTaxRate;
+        this.applyJurisdictionMetadata(settings.taxJurisdiction);
 
         this.form = this.formBuilder.group({
             taxJurisdiction: [settings.taxJurisdiction, Validators.required],
@@ -76,16 +117,12 @@ export class PortfolioTaxSettingsComponent extends BaseAddEditForm implements On
         });
 
         this.form.controls['taxJurisdiction'].valueChanges.subscribe((jurisdiction: TaxJurisdiction) => {
-            const allowed = jurisdiction === 'CzechRepublic'
-                ? (['Fifo', 'AverageCost'] as CostBasisMethod[])
-                : ALL_COST_BASIS_METHODS;
-            this.refreshCostBasisMethodItems(allowed);
+            const metadata = JURISDICTION_METADATA[jurisdiction];
+            this.applyJurisdictionMetadata(jurisdiction);
             const currentMethod = this.form.value.costBasisMethod as CostBasisMethod;
-            if (!allowed.includes(currentMethod)) {
-                this.form.patchValue({ costBasisMethod: allowed[0] });
+            if (!metadata.allowed.includes(currentMethod)) {
+                this.form.patchValue({ costBasisMethod: metadata.allowed[0] });
             }
-            this.longTermHoldingDays = jurisdiction === 'CzechRepublic' ? 1095 : null;
-            this.defaultEstimatedTaxRate = jurisdiction === 'CzechRepublic' ? '0.15' : null;
         });
 
         this.loading.set(false);
@@ -130,6 +167,15 @@ export class PortfolioTaxSettingsComponent extends BaseAddEditForm implements On
             .finally(() => {
                 this.saving.set(false);
             });
+    }
+
+    private applyJurisdictionMetadata(jurisdiction: TaxJurisdiction): void {
+        const metadata = JURISDICTION_METADATA[jurisdiction];
+        this.refreshCostBasisMethodItems(metadata.allowed);
+        this.longTermHoldingDays = metadata.longTermHoldingDays;
+        this.defaultEstimatedTaxRate = metadata.defaultEstimatedTaxRate;
+        this.annualGainExemption = metadata.annualGainExemption;
+        this.annualGrossProceedsExemption = metadata.annualGrossProceedsExemption;
     }
 
     private refreshCostBasisMethodItems(allowed: CostBasisMethod[]): void {

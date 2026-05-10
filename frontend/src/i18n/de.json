@@ -386,10 +386,14 @@
       "taxOptimization": {
         "title": "Steueroptimierung",
         "asOf": "Stand {{date}}",
-        "czechRule": "Lots, die {{days}} Tage gehalten werden, sind in Ihrer Jurisdiktion steuerfrei.",
-        "genericRule": "Ihre Jurisdiktion kennt keine Langzeit-Halteregel.",
+        "longTermRule": "{{jurisdiction}}: Lots, die {{days}} Tage gehalten werden, sind steuerfrei.",
+        "noLongTermRule": "{{jurisdiction}}: keine Langzeit-Halteregel — alle Gewinne sind steuerpflichtig.",
         "empty": "In dieser Kategorie nichts zu zeigen.",
         "holdingVariesByBroker": "Haltedauer variiert nach Broker — Verkäufe aus dem neueren Broker-Lot können kurzfristig sein.",
+        "allowance": {
+          "gainExemption": "Die ersten {{amount}} Kapitalerträge pro Jahr sind in Ihrer Jurisdiktion steuerfrei.",
+          "grossProceedsExemption": "Wenn Ihre gesamten Verkaufserlöse unter {{amount}} pro Jahr bleiben, sind alle Gewinne unabhängig von der Haltedauer steuerfrei."
+        },
         "summary": {
           "savedByHarvesting": "Geschätzte Ersparnis durch Verlustrealisierung",
           "savedByWaiting": "Geschätzte Ersparnis durch Abwarten"
@@ -426,6 +430,10 @@
         "optimalHint": "{{method}} hätte den niedrigsten steuerpflichtigen Gewinn ergeben.",
         "notAllowed": "In Ihrer Jurisdiktion nicht erlaubt (nur Vorschau)",
         "allowed": "In Ihrer Jurisdiktion erlaubt",
+        "allowance": {
+          "gainExemption": "Die ersten {{amount}} Nettogewinn pro Jahr sind steuerfrei; die geschätzte Steuer unten berücksichtigt dies bereits.",
+          "grossProceedsExemption": "Bleiben die Verkaufserlöse unter {{amount}} pro Jahr, fällt die geschätzte Steuer unabhängig von der Methode auf null."
+        },
         "disclaimer": "Steuerschätzungen verwenden den im Portfolio konfigurierten Satz. Eine Änderung der Kostenbasis-Methode betrifft zukünftige Erklärungen; vergangene bleiben nach der alten Methode.",
         "col": {
           "method": "Methode",
@@ -459,9 +467,13 @@
         "jurisdictionRequired": "Steuerjurisdiktion ist erforderlich",
         "jurisdiction": {
           "CzechRepublic": "Tschechische Republik",
+          "Slovakia": "Slowakei",
+          "Germany": "Deutschland",
           "Generic": "Allgemein (keine Langzeit-Regel)"
         },
         "longTermHoldingHint": "Lots, die mindestens {{days}} Tage gehalten werden, qualifizieren sich für langfristige steuerliche Behandlung.",
+        "annualGainExemptionHint": "Die ersten {{amount}} Kapitalerträge pro Jahr sind in dieser Jurisdiktion steuerfrei.",
+        "annualGrossProceedsExemptionHint": "Verkaufserlöse unter {{amount}}/Jahr sind unabhängig von der Haltedauer vollständig steuerfrei.",
         "costBasisMethodLabel": "Kostenbasis-Methode (offizieller Bericht)",
         "costBasisMethodRequired": "Kostenbasis-Methode ist erforderlich",
         "costBasisMethod": {

@@ -20,6 +20,17 @@
         }
     </p>
 
+    @if (cmp.annualGainExemption !== null) {
+        <div class="alert alert-info">
+            {{ 'app.overviews.costBasisComparison.allowance.gainExemption' | translate: { amount: cmp.annualGainExemption } }}
+        </div>
+    }
+    @if (cmp.annualGrossProceedsExemption !== null) {
+        <div class="alert alert-info">
+            {{ 'app.overviews.costBasisComparison.allowance.grossProceedsExemption' | translate: { amount: cmp.annualGrossProceedsExemption } }}
+        </div>
+    }
+
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">

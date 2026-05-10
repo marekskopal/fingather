@@ -59,4 +59,18 @@ final class CzechRepublicTaxJurisdictionRulesTest extends TestCase
 
 		self::assertSame(0.15, $rules->defaultEstimatedTaxRate()->toFloat());
 	}
+
+	public function testAnnualGrossProceedsExemption(): void
+	{
+		$rules = new CzechRepublicTaxJurisdictionRules();
+
+		self::assertSame(100000.0, $rules->annualGrossProceedsExemption()->toFloat());
+	}
+
+	public function testNoAnnualGainExemption(): void
+	{
+		$rules = new CzechRepublicTaxJurisdictionRules();
+
+		self::assertNull($rules->annualGainExemption());
+	}
 }

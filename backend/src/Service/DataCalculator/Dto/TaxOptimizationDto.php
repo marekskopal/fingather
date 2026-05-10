@@ -21,6 +21,8 @@ final readonly class TaxOptimizationDto
 		public TaxJurisdictionEnum $jurisdiction,
 		public ?int $longTermHoldingDays,
 		public ?Decimal $estimatedTaxRate,
+		public ?Decimal $annualGainExemption,
+		public ?Decimal $annualGrossProceedsExemption,
 		public array $harvestNow,
 		public array $holdForTaxFreeGain,
 		public array $lossNoLongerDeductible,

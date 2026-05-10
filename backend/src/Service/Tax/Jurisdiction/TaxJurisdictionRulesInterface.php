@@ -31,4 +31,18 @@ interface TaxJurisdictionRulesInterface
 
 	/** Headline tax rate used for "estimated savings" calculations; null when unknown / not applicable. */
 	public function defaultEstimatedTaxRate(): ?Decimal;
+
+	/**
+	 * Annual exemption on the GROSS PROCEEDS from securities sales (e.g. CZ 100,000 CZK).
+	 * If total gross proceeds in a tax year stay at or below this amount, gains are entirely exempt.
+	 * Null when the jurisdiction has no such allowance.
+	 */
+	public function annualGrossProceedsExemption(): ?Decimal;
+
+	/**
+	 * Annual exemption on the NET GAIN from securities (e.g. SK €500, DE €1,000 Sparerpauschbetrag).
+	 * Applied after the gross-proceeds exemption short-circuit, before computing tax.
+	 * Null when the jurisdiction has no such allowance.
+	 */
+	public function annualGainExemption(): ?Decimal;
 }

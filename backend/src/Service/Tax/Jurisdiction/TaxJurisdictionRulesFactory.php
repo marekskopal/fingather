@@ -9,8 +9,12 @@ use FinGather\Model\Entity\Portfolio;
 
 final readonly class TaxJurisdictionRulesFactory
 {
-	public function __construct(private CzechRepublicTaxJurisdictionRules $czechRepublic, private GenericTaxJurisdictionRules $generic,)
-	{
+	public function __construct(
+		private CzechRepublicTaxJurisdictionRules $czechRepublic,
+		private SlovakiaTaxJurisdictionRules $slovakia,
+		private GermanyTaxJurisdictionRules $germany,
+		private GenericTaxJurisdictionRules $generic,
+	) {
 	}
 
 	public function forPortfolio(Portfolio $portfolio): TaxJurisdictionRulesInterface
@@ -22,6 +26,8 @@ final readonly class TaxJurisdictionRulesFactory
 	{
 		return match ($jurisdiction) {
 			TaxJurisdictionEnum::CzechRepublic => $this->czechRepublic,
+			TaxJurisdictionEnum::Slovakia => $this->slovakia,
+			TaxJurisdictionEnum::Germany => $this->germany,
 			TaxJurisdictionEnum::Generic => $this->generic,
 		};
 	}

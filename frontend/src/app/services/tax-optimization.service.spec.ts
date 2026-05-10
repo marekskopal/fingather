@@ -11,6 +11,8 @@ const mockOptimization: TaxOptimization = {
     jurisdiction: 'CzechRepublic',
     longTermHoldingDays: 1095,
     estimatedTaxRate: 0.15,
+    annualGainExemption: null,
+    annualGrossProceedsExemption: '100000',
     harvestNow: [],
     holdForTaxFreeGain: [],
     lossNoLongerDeductible: [],

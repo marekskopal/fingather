@@ -8,37 +8,39 @@ use Decimal\Decimal;
 use FinGather\Model\Entity\Enum\CostBasisMethodEnum;
 use FinGather\Model\Entity\Enum\TaxJurisdictionEnum;
 
-final readonly class GenericTaxJurisdictionRules implements TaxJurisdictionRulesInterface
+final readonly class SlovakiaTaxJurisdictionRules implements TaxJurisdictionRulesInterface
 {
+	private const int LongTermHoldingDays = 365;
+
 	public function jurisdiction(): TaxJurisdictionEnum
 	{
-		return TaxJurisdictionEnum::Generic;
+		return TaxJurisdictionEnum::Slovakia;
 	}
 
-	public function longTermHoldingDays(): ?int
+	public function longTermHoldingDays(): int
 	{
-		return null;
+		return self::LongTermHoldingDays;
 	}
 
 	public function isLongTermHolding(int $holdingDays): bool
 	{
-		return false;
+		return $holdingDays >= self::LongTermHoldingDays;
 	}
 
 	public function isLossDeductible(int $holdingDays): bool
 	{
-		return true;
+		return $holdingDays < self::LongTermHoldingDays;
 	}
 
 	/** @return non-empty-list<CostBasisMethodEnum> */
 	public function allowedCostBasisMethods(): array
 	{
-		return [CostBasisMethodEnum::Fifo, CostBasisMethodEnum::Lifo, CostBasisMethodEnum::AverageCost];
+		return [CostBasisMethodEnum::Fifo, CostBasisMethodEnum::AverageCost];
 	}
 
-	public function defaultEstimatedTaxRate(): ?Decimal
+	public function defaultEstimatedTaxRate(): Decimal
 	{
-		return null;
+		return new Decimal('0.19');
 	}
 
 	public function annualGrossProceedsExemption(): ?Decimal
@@ -46,8 +48,8 @@ final readonly class GenericTaxJurisdictionRules implements TaxJurisdictionRules
 		return null;
 	}
 
-	public function annualGainExemption(): ?Decimal
+	public function annualGainExemption(): Decimal
 	{
-		return null;
+		return new Decimal('500');
 	}
 }

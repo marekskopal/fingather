@@ -386,10 +386,14 @@
       "taxOptimization": {
         "title": "Optimización Fiscal",
         "asOf": "Al {{date}}",
-        "czechRule": "Los lotes mantenidos {{days}} días están exentos de impuestos en su jurisdicción.",
-        "genericRule": "Su jurisdicción no tiene regla de tenencia a largo plazo.",
+        "longTermRule": "{{jurisdiction}}: los lotes mantenidos {{days}} días están exentos de impuestos.",
+        "noLongTermRule": "{{jurisdiction}}: sin regla de tenencia a largo plazo — todas las ganancias son imponibles.",
         "empty": "No hay nada que mostrar en esta categoría.",
         "holdingVariesByBroker": "El período de tenencia varía según el bróker — las ventas del lote del bróker más reciente pueden ser de corto plazo.",
+        "allowance": {
+          "gainExemption": "Las primeras {{amount}} de ganancias de capital al año están exentas en su jurisdicción.",
+          "grossProceedsExemption": "Si sus ingresos totales por ventas anuales no superan {{amount}}, todas las ganancias están exentas independientemente del período de tenencia."
+        },
         "summary": {
           "savedByHarvesting": "Ahorro estimado al realizar pérdidas",
           "savedByWaiting": "Ahorro estimado al esperar"
@@ -426,6 +430,10 @@
         "optimalHint": "{{method}} habría producido la menor ganancia imponible.",
         "notAllowed": "No permitido en su jurisdicción (solo vista previa)",
         "allowed": "Permitido en su jurisdicción",
+        "allowance": {
+          "gainExemption": "Las primeras {{amount}} de ganancia neta al año están exentas; el impuesto estimado abajo ya lo refleja.",
+          "grossProceedsExemption": "Si los ingresos por ventas anuales se mantienen bajo {{amount}}, el impuesto estimado cae a cero sin importar el método."
+        },
         "disclaimer": "Las estimaciones fiscales usan la tasa configurada del portafolio. Cambiar el método legal afecta declaraciones futuras; las pasadas permanecen con el método anterior.",
         "col": {
           "method": "Método",
@@ -459,9 +467,13 @@
         "jurisdictionRequired": "La jurisdicción fiscal es obligatoria",
         "jurisdiction": {
           "CzechRepublic": "República Checa",
+          "Slovakia": "Eslovaquia",
+          "Germany": "Alemania",
           "Generic": "Genérica (sin regla de largo plazo)"
         },
         "longTermHoldingHint": "Los lotes mantenidos al menos {{days}} días califican para el tratamiento fiscal de largo plazo.",
+        "annualGainExemptionHint": "Las primeras {{amount}} de ganancias de capital al año están exentas en esta jurisdicción.",
+        "annualGrossProceedsExemptionHint": "Los ingresos por ventas inferiores a {{amount}}/año están totalmente exentos sin importar el período de tenencia.",
         "costBasisMethodLabel": "Método de coste base (informe oficial)",
         "costBasisMethodRequired": "El método de coste base es obligatorio",
         "costBasisMethod": {

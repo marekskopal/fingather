@@ -42,4 +42,14 @@ final readonly class CzechRepublicTaxJurisdictionRules implements TaxJurisdictio
 	{
 		return new Decimal('0.15');
 	}
+
+	public function annualGrossProceedsExemption(): Decimal
+	{
+		return new Decimal('100000');
+	}
+
+	public function annualGainExemption(): ?Decimal
+	{
+		return null;
+	}
 }

@@ -30,6 +30,8 @@ use FinGather\Service\Provider\AssetProviderInterface;
 use FinGather\Service\Provider\CurrentTransactionProviderInterface;
 use FinGather\Service\Tax\Jurisdiction\CzechRepublicTaxJurisdictionRules;
 use FinGather\Service\Tax\Jurisdiction\GenericTaxJurisdictionRules;
+use FinGather\Service\Tax\Jurisdiction\GermanyTaxJurisdictionRules;
+use FinGather\Service\Tax\Jurisdiction\SlovakiaTaxJurisdictionRules;
 use FinGather\Service\Tax\Jurisdiction\TaxJurisdictionRulesFactory;
 use FinGather\Tests\Fixtures\Model\Entity\AssetFixture;
 use FinGather\Tests\Fixtures\Model\Entity\PortfolioFixture;
@@ -54,6 +56,8 @@ use PHPUnit\Framework\TestCase;
 #[UsesClass(TaxOptimizationDto::class)]
 #[UsesClass(TaxOptimizationSuggestionDto::class)]
 #[UsesClass(CzechRepublicTaxJurisdictionRules::class)]
+#[UsesClass(SlovakiaTaxJurisdictionRules::class)]
+#[UsesClass(GermanyTaxJurisdictionRules::class)]
 #[UsesClass(GenericTaxJurisdictionRules::class)]
 #[UsesClass(TaxJurisdictionRulesFactory::class)]
 final class TaxOptimizationCalculatorTest extends TestCase
@@ -70,7 +74,7 @@ final class TaxOptimizationCalculatorTest extends TestCase
 		$asset = AssetFixture::getAsset();
 		$assetData = $this->makeAssetData(firstBuyDaysAgo: 100, gainDefault: '-500', value: '4500', costBasis: '5000');
 
-		$result = $this->runOptimization(czech: true, assetsAndData: [[$asset, $assetData]]);
+		$result = $this->runOptimization(jurisdiction: TaxJurisdictionEnum::CzechRepublic, assetsAndData: [[$asset, $assetData]]);
 
 		self::assertCount(1, $result->harvestNow);
 		self::assertSame(TaxOptimizationRationaleEnum::HarvestBeforeLongTerm, $result->harvestNow[0]->rationale);
@@ -85,7 +89,7 @@ final class TaxOptimizationCalculatorTest extends TestCase
 		// 1000 days held → 95 days until long-term
 		$assetData = $this->makeAssetData(firstBuyDaysAgo: 1000, gainDefault: '2000', value: '7000', costBasis: '5000');
 
-		$result = $this->runOptimization(czech: true, assetsAndData: [[$asset, $assetData]]);
+		$result = $this->runOptimization(jurisdiction: TaxJurisdictionEnum::CzechRepublic, assetsAndData: [[$asset, $assetData]]);
 
 		self::assertCount(1, $result->holdForTaxFreeGain);
 		self::assertSame(95, $result->holdForTaxFreeGain[0]->daysUntilLongTerm);
@@ -99,7 +103,7 @@ final class TaxOptimizationCalculatorTest extends TestCase
 		$asset = AssetFixture::getAsset();
 		$assetData = $this->makeAssetData(firstBuyDaysAgo: 1500, gainDefault: '3000', value: '8000', costBasis: '5000');
 
-		$result = $this->runOptimization(czech: true, assetsAndData: [[$asset, $assetData]]);
+		$result = $this->runOptimization(jurisdiction: TaxJurisdictionEnum::CzechRepublic, assetsAndData: [[$asset, $assetData]]);
 
 		self::assertCount(1, $result->alreadyTaxFree);
 		self::assertSame(0, $result->alreadyTaxFree[0]->daysUntilLongTerm);
@@ -111,7 +115,7 @@ final class TaxOptimizationCalculatorTest extends TestCase
 		$asset = AssetFixture::getAsset();
 		$assetData = $this->makeAssetData(firstBuyDaysAgo: 1500, gainDefault: '-300', value: '4700', costBasis: '5000');
 
-		$result = $this->runOptimization(czech: true, assetsAndData: [[$asset, $assetData]]);
+		$result = $this->runOptimization(jurisdiction: TaxJurisdictionEnum::CzechRepublic, assetsAndData: [[$asset, $assetData]]);
 
 		self::assertCount(1, $result->lossNoLongerDeductible);
 		self::assertSame(TaxOptimizationRationaleEnum::LossNoLongerDeductible, $result->lossNoLongerDeductible[0]->rationale);
@@ -126,7 +130,7 @@ final class TaxOptimizationCalculatorTest extends TestCase
 		// 100 days held → 995 days until long-term, far above 365 threshold
 		$assetData = $this->makeAssetData(firstBuyDaysAgo: 100, gainDefault: '500', value: '5500', costBasis: '5000');
 
-		$result = $this->runOptimization(czech: true, assetsAndData: [[$asset, $assetData]]);
+		$result = $this->runOptimization(jurisdiction: TaxJurisdictionEnum::CzechRepublic, assetsAndData: [[$asset, $assetData]]);
 
 		self::assertCount(1, $result->winningShortTerm);
 		self::assertCount(0, $result->holdForTaxFreeGain);
@@ -141,7 +145,10 @@ final class TaxOptimizationCalculatorTest extends TestCase
 		$urgent = $this->makeAssetData(firstBuyDaysAgo: 1090, gainDefault: '-100', value: '4900', costBasis: '5000');
 		$lessUrgent = $this->makeAssetData(firstBuyDaysAgo: 100, gainDefault: '-200', value: '4800', costBasis: '5000');
 
-		$result = $this->runOptimization(czech: true, assetsAndData: [[$lessUrgentAsset, $lessUrgent], [$urgentAsset, $urgent]]);
+		$result = $this->runOptimization(
+			jurisdiction: TaxJurisdictionEnum::CzechRepublic,
+			assetsAndData: [[$lessUrgentAsset, $lessUrgent], [$urgentAsset, $urgent]],
+		);
 
 		self::assertCount(2, $result->harvestNow);
 		// Most urgent first
@@ -157,7 +164,10 @@ final class TaxOptimizationCalculatorTest extends TestCase
 		$short = $this->makeAssetData(firstBuyDaysAgo: 50, gainDefault: '-100', value: '4900', costBasis: '5000');
 		$long = $this->makeAssetData(firstBuyDaysAgo: 2000, gainDefault: '-200', value: '4800', costBasis: '5000');
 
-		$result = $this->runOptimization(czech: false, assetsAndData: [[$shortAsset, $short], [$longAsset, $long]]);
+		$result = $this->runOptimization(
+			jurisdiction: TaxJurisdictionEnum::Generic,
+			assetsAndData: [[$shortAsset, $short], [$longAsset, $long]],
+		);
 
 		self::assertCount(2, $result->harvestNow);
 		self::assertCount(0, $result->lossNoLongerDeductible);
@@ -172,7 +182,7 @@ final class TaxOptimizationCalculatorTest extends TestCase
 		$asset = AssetFixture::getAsset();
 		$assetData = $this->makeAssetData(firstBuyDaysAgo: 50, gainDefault: '500', value: '5500', costBasis: '5000');
 
-		$result = $this->runOptimization(czech: false, assetsAndData: [[$asset, $assetData]]);
+		$result = $this->runOptimization(jurisdiction: TaxJurisdictionEnum::Generic, assetsAndData: [[$asset, $assetData]]);
 
 		self::assertCount(1, $result->winningShortTerm);
 		self::assertCount(0, $result->alreadyTaxFree);
@@ -183,7 +193,7 @@ final class TaxOptimizationCalculatorTest extends TestCase
 		$asset = AssetFixture::getAsset();
 		$assetData = $this->makeAssetData(firstBuyDaysAgo: 100, gainDefault: '0', value: '0', costBasis: '0', units: '0');
 
-		$result = $this->runOptimization(czech: true, assetsAndData: [[$asset, $assetData]]);
+		$result = $this->runOptimization(jurisdiction: TaxJurisdictionEnum::CzechRepublic, assetsAndData: [[$asset, $assetData]]);
 
 		self::assertCount(0, $result->harvestNow);
 		self::assertCount(0, $result->holdForTaxFreeGain);
@@ -204,7 +214,11 @@ final class TaxOptimizationCalculatorTest extends TestCase
 			],
 		];
 
-		$result = $this->runOptimization(czech: true, assetsAndData: [[$asset, $assetData]], transactionsByAsset: $transactionsByAsset);
+		$result = $this->runOptimization(
+			jurisdiction: TaxJurisdictionEnum::CzechRepublic,
+			assetsAndData: [[$asset, $assetData]],
+			transactionsByAsset: $transactionsByAsset,
+		);
 
 		self::assertCount(1, $result->harvestNow);
 		self::assertTrue($result->harvestNow[0]->holdingVariesByBroker);
@@ -222,7 +236,11 @@ final class TaxOptimizationCalculatorTest extends TestCase
 			],
 		];
 
-		$result = $this->runOptimization(czech: true, assetsAndData: [[$asset, $assetData]], transactionsByAsset: $transactionsByAsset);
+		$result = $this->runOptimization(
+			jurisdiction: TaxJurisdictionEnum::CzechRepublic,
+			assetsAndData: [[$asset, $assetData]],
+			transactionsByAsset: $transactionsByAsset,
+		);
 
 		self::assertCount(1, $result->harvestNow);
 		self::assertFalse($result->harvestNow[0]->holdingVariesByBroker);
@@ -241,10 +259,56 @@ final class TaxOptimizationCalculatorTest extends TestCase
 			],
 		];
 
-		$result = $this->runOptimization(czech: true, assetsAndData: [[$asset, $assetData]], transactionsByAsset: $transactionsByAsset);
+		$result = $this->runOptimization(
+			jurisdiction: TaxJurisdictionEnum::CzechRepublic,
+			assetsAndData: [[$asset, $assetData]],
+			transactionsByAsset: $transactionsByAsset,
+		);
 
 		self::assertCount(1, $result->harvestNow);
 		self::assertFalse($result->harvestNow[0]->holdingVariesByBroker);
+	}
+
+	public function testGermanyPositionsBucketAsWinningShortTermRegardlessOfAge(): void
+	{
+		// Germany has no holding-period exemption — even multi-year holdings stay in winningShortTerm if profitable.
+		$asset = AssetFixture::getAsset();
+		$assetData = $this->makeAssetData(firstBuyDaysAgo: 3000, gainDefault: '5000', value: '10000', costBasis: '5000');
+
+		$result = $this->runOptimization(jurisdiction: TaxJurisdictionEnum::Germany, assetsAndData: [[$asset, $assetData]]);
+
+		self::assertSame(TaxJurisdictionEnum::Germany, $result->jurisdiction);
+		self::assertNull($result->longTermHoldingDays);
+		self::assertCount(1, $result->winningShortTerm);
+		self::assertCount(0, $result->alreadyTaxFree);
+		self::assertCount(0, $result->holdForTaxFreeGain);
+	}
+
+	public function testGermanyAllowanceReducesAggregateHarvestSaving(): void
+	{
+		$asset = AssetFixture::getAsset();
+		// Loss of 5000 — without allowance: 5000 * 0.26375 = 1318.75
+		// With Sparerpauschbetrag (1000 EUR) shielding: (5000 - 1000) * 0.26375 = 1055.0
+		$assetData = $this->makeAssetData(firstBuyDaysAgo: 100, gainDefault: '-5000', value: '0', costBasis: '5000');
+
+		$result = $this->runOptimization(jurisdiction: TaxJurisdictionEnum::Germany, assetsAndData: [[$asset, $assetData]]);
+
+		self::assertCount(1, $result->harvestNow);
+		self::assertSame(1055.0, $result->estimatedTaxSavedByHarvestingNow->toFloat());
+		self::assertNotNull($result->annualGainExemption);
+		self::assertSame(1000.0, $result->annualGainExemption->toFloat());
+	}
+
+	public function testSlovakiaPositionAboveOneYearIsTaxFree(): void
+	{
+		$asset = AssetFixture::getAsset();
+		$assetData = $this->makeAssetData(firstBuyDaysAgo: 400, gainDefault: '1000', value: '6000', costBasis: '5000');
+
+		$result = $this->runOptimization(jurisdiction: TaxJurisdictionEnum::Slovakia, assetsAndData: [[$asset, $assetData]]);
+
+		self::assertSame(365, $result->longTermHoldingDays);
+		self::assertCount(1, $result->alreadyTaxFree);
+		self::assertCount(0, $result->winningShortTerm);
 	}
 
 	private function makeAssetData(
@@ -291,7 +355,11 @@ final class TaxOptimizationCalculatorTest extends TestCase
 	 * @param list<array{Asset, AssetDataDto}> $assetsAndData
 	 * @param array<int, list<Transaction>> $transactionsByAsset
 	 */
-	private function runOptimization(bool $czech, array $assetsAndData, array $transactionsByAsset = []): TaxOptimizationDto
+	private function runOptimization(
+		TaxJurisdictionEnum $jurisdiction,
+		array $assetsAndData,
+		array $transactionsByAsset = [],
+	): TaxOptimizationDto
 	{
 		$assetProvider = self::createStub(AssetProviderInterface::class);
 		$assetProvider->method('getAssets')
@@ -314,13 +382,21 @@ final class TaxOptimizationCalculatorTest extends TestCase
 
 		$factory = new TaxJurisdictionRulesFactory(
 			new CzechRepublicTaxJurisdictionRules(),
+			new SlovakiaTaxJurisdictionRules(),
+			new GermanyTaxJurisdictionRules(),
 			new GenericTaxJurisdictionRules(),
 		);
 
 		$portfolio = PortfolioFixture::getPortfolio();
-		if ($czech) {
+		if ($jurisdiction === TaxJurisdictionEnum::CzechRepublic) {
 			$portfolio->taxJurisdiction = TaxJurisdictionEnum::CzechRepublic;
 			$portfolio->estimatedTaxRate = new Decimal('0.15');
+		} elseif ($jurisdiction === TaxJurisdictionEnum::Germany) {
+			$portfolio->taxJurisdiction = TaxJurisdictionEnum::Germany;
+			$portfolio->estimatedTaxRate = new Decimal('0.26375');
+		} elseif ($jurisdiction === TaxJurisdictionEnum::Slovakia) {
+			$portfolio->taxJurisdiction = TaxJurisdictionEnum::Slovakia;
+			$portfolio->estimatedTaxRate = new Decimal('0.19');
 		} else {
 			$portfolio->taxJurisdiction = TaxJurisdictionEnum::Generic;
 			$portfolio->estimatedTaxRate = null;

@@ -386,10 +386,14 @@
       "taxOptimization": {
         "title": "Optimisation fiscale",
         "asOf": "Au {{date}}",
-        "czechRule": "Les lots détenus {{days}} jours sont exonérés d'impôt dans votre juridiction.",
-        "genericRule": "Votre juridiction n'a pas de règle de détention long terme.",
+        "longTermRule": "{{jurisdiction}} : les lots détenus {{days}} jours sont exonérés d'impôt.",
+        "noLongTermRule": "{{jurisdiction}} : pas de règle de détention long terme — tous les gains sont imposables.",
         "empty": "Rien à afficher dans cette catégorie.",
         "holdingVariesByBroker": "La durée de détention varie selon le courtier — les ventes du lot du courtier le plus récent peuvent être à court terme.",
+        "allowance": {
+          "gainExemption": "Les premiers {{amount}} de plus-values par an sont exonérés d'impôt dans votre juridiction.",
+          "grossProceedsExemption": "Si vos produits de cession totaux annuels restent sous {{amount}}, tous les gains sont exonérés quelle que soit la durée de détention."
+        },
         "summary": {
           "savedByHarvesting": "Économie estimée en réalisant les pertes",
           "savedByWaiting": "Économie estimée en attendant"
@@ -426,6 +430,10 @@
         "optimalHint": "{{method}} aurait produit le plus petit gain imposable.",
         "notAllowed": "Non autorisé dans votre juridiction (aperçu uniquement)",
         "allowed": "Autorisé dans votre juridiction",
+        "allowance": {
+          "gainExemption": "Les premiers {{amount}} de gain net annuel sont exonérés ; l'impôt estimé ci-dessous en tient déjà compte.",
+          "grossProceedsExemption": "Si les produits de cession annuels restent sous {{amount}}, l'impôt estimé tombe à zéro quelle que soit la méthode."
+        },
         "disclaimer": "Les estimations d'impôt utilisent le taux configuré pour le portefeuille. Changer la méthode légale affecte les déclarations futures ; les déclarations passées restent sous l'ancienne méthode.",
         "col": {
           "method": "Méthode",
@@ -459,9 +467,13 @@
         "jurisdictionRequired": "La juridiction fiscale est requise",
         "jurisdiction": {
           "CzechRepublic": "République tchèque",
+          "Slovakia": "Slovaquie",
+          "Germany": "Allemagne",
           "Generic": "Générique (pas de règle long terme)"
         },
         "longTermHoldingHint": "Les lots détenus au moins {{days}} jours bénéficient du traitement fiscal long terme.",
+        "annualGainExemptionHint": "Les premiers {{amount}} de plus-values par an sont exonérés dans cette juridiction.",
+        "annualGrossProceedsExemptionHint": "Les produits de cession inférieurs à {{amount}}/an sont entièrement exonérés quelle que soit la durée de détention.",
         "costBasisMethodLabel": "Méthode de coût d'acquisition (rapport officiel)",
         "costBasisMethodRequired": "La méthode de coût d'acquisition est requise",
         "costBasisMethod": {

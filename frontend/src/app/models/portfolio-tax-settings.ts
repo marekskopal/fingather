@@ -1,4 +1,4 @@
-export type TaxJurisdiction = 'CzechRepublic' | 'Generic';
+export type TaxJurisdiction = 'CzechRepublic' | 'Slovakia' | 'Germany' | 'Generic';
 
 export type CostBasisMethod = 'Fifo' | 'Lifo' | 'AverageCost';
 
@@ -9,6 +9,8 @@ export interface PortfolioTaxSettings {
     estimatedTaxRate: string | null;
     longTermHoldingDays: number | null;
     defaultEstimatedTaxRate: string | null;
+    annualGainExemption: string | null;
+    annualGrossProceedsExemption: string | null;
     allowedCostBasisMethods: CostBasisMethod[];
 }
 

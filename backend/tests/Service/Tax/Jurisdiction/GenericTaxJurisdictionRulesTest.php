@@ -49,4 +49,11 @@ final class GenericTaxJurisdictionRulesTest extends TestCase
 		$rules = new GenericTaxJurisdictionRules();
 		self::assertNull($rules->defaultEstimatedTaxRate());
 	}
+
+	public function testNoAllowances(): void
+	{
+		$rules = new GenericTaxJurisdictionRules();
+		self::assertNull($rules->annualGrossProceedsExemption());
+		self::assertNull($rules->annualGainExemption());
+	}
 }

@@ -11,6 +11,8 @@ const mockComparison: CostBasisComparison = {
     configuredMethod: 'Fifo',
     optimalMethod: 'AverageCost',
     estimatedTaxRate: 0.15,
+    annualGainExemption: null,
+    annualGrossProceedsExemption: '100000',
     rows: [],
 };
 

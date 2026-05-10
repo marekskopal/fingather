@@ -37,6 +37,16 @@
                                 {{ 'app.portfolios.taxSettings.longTermHoldingHint' | translate: { days: longTermHoldingDays } }}
                             </small>
                         }
+                        @if (annualGainExemption !== null) {
+                            <small class="form-text text-muted d-block">
+                                {{ 'app.portfolios.taxSettings.annualGainExemptionHint' | translate: { amount: annualGainExemption } }}
+                            </small>
+                        }
+                        @if (annualGrossProceedsExemption !== null) {
+                            <small class="form-text text-muted d-block">
+                                {{ 'app.portfolios.taxSettings.annualGrossProceedsExemptionHint' | translate: { amount: annualGrossProceedsExemption } }}
+                            </small>
+                        }
                     </div>
                     <div class="mb-3">
                         <label for="costBasisMethod" class="form-label">{{ 'app.portfolios.taxSettings.costBasisMethodLabel' | translate }}</label>

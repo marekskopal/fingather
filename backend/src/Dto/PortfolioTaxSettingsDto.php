@@ -20,6 +20,8 @@ final readonly class PortfolioTaxSettingsDto
 		public ?Decimal $estimatedTaxRate,
 		public ?int $longTermHoldingDays,
 		public ?Decimal $defaultEstimatedTaxRate,
+		public ?Decimal $annualGainExemption,
+		public ?Decimal $annualGrossProceedsExemption,
 		public array $allowedCostBasisMethods,
 	) {
 	}
@@ -33,6 +35,8 @@ final readonly class PortfolioTaxSettingsDto
 			estimatedTaxRate: $portfolio->estimatedTaxRate,
 			longTermHoldingDays: $rules->longTermHoldingDays(),
 			defaultEstimatedTaxRate: $rules->defaultEstimatedTaxRate(),
+			annualGainExemption: $rules->annualGainExemption(),
+			annualGrossProceedsExemption: $rules->annualGrossProceedsExemption(),
 			allowedCostBasisMethods: $rules->allowedCostBasisMethods(),
 		);
 	}

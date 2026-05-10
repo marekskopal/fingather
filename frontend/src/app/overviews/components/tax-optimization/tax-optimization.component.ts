@@ -53,8 +53,8 @@ export class TaxOptimizationComponent implements OnInit {
         }, this.destroyRef);
     }
 
-    protected isCzech(optimization: TaxOptimization): boolean {
-        return optimization.jurisdiction === 'CzechRepublic';
+    protected hasLongTermConcept(optimization: TaxOptimization): boolean {
+        return optimization.longTermHoldingDays !== null;
     }
 
     protected trackBySuggestion(_index: number, suggestion: TaxOptimizationSuggestion): number {

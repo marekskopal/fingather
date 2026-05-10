@@ -386,10 +386,14 @@
       "taxOptimization": {
         "title": "Tax Optimization",
         "asOf": "As of {{date}}",
-        "czechRule": "Lots held {{days}} days are tax-free in your jurisdiction.",
-        "genericRule": "No long-term holding rule for your jurisdiction.",
+        "longTermRule": "{{jurisdiction}}: lots held {{days}} days are tax-free.",
+        "noLongTermRule": "{{jurisdiction}}: no long-term holding rule — all gains are taxable.",
         "empty": "Nothing to show in this bucket.",
         "holdingVariesByBroker": "Holding period varies by broker — sales from the newer-broker lot may be short-term.",
+        "allowance": {
+          "gainExemption": "First {{amount}} of capital gains this year is tax-free in your jurisdiction.",
+          "grossProceedsExemption": "If your total sales proceeds this year stay below {{amount}}, all gains are tax-free regardless of holding period."
+        },
         "summary": {
           "savedByHarvesting": "Estimated saving by harvesting now",
           "savedByWaiting": "Estimated saving by waiting"
@@ -426,6 +430,10 @@
         "optimalHint": "{{method}} would have produced the smallest taxable gain.",
         "notAllowed": "Not allowed in your jurisdiction (preview only)",
         "allowed": "Allowed in your jurisdiction",
+        "allowance": {
+          "gainExemption": "First {{amount}} of net gain this year is tax-free; estimated tax below already accounts for it.",
+          "grossProceedsExemption": "If sales proceeds this year stay below {{amount}}, the estimated tax drops to zero regardless of method."
+        },
         "disclaimer": "Tax estimates use the portfolio's configured rate. Switching the legal cost-basis method affects future filings; past filings remain under the old method.",
         "col": {
           "method": "Method",
@@ -459,9 +467,13 @@
         "jurisdictionRequired": "Tax jurisdiction is required",
         "jurisdiction": {
           "CzechRepublic": "Czech Republic",
+          "Slovakia": "Slovakia",
+          "Germany": "Germany",
           "Generic": "Generic (no long-term rule)"
         },
         "longTermHoldingHint": "Lots held at least {{days}} days qualify for long-term tax treatment.",
+        "annualGainExemptionHint": "First {{amount}} of capital gains per year is tax-free in this jurisdiction.",
+        "annualGrossProceedsExemptionHint": "Sales proceeds below {{amount}}/year are entirely tax-free regardless of holding period.",
         "costBasisMethodLabel": "Cost-basis method (legal report)",
         "costBasisMethodRequired": "Cost-basis method is required",
         "costBasisMethod": {

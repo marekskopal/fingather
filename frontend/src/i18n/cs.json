@@ -386,10 +386,14 @@
       "taxOptimization": {
         "title": "Daňová optimalizace",
         "asOf": "K datu {{date}}",
-        "czechRule": "Pozice držené {{days}} dní jsou ve vaší jurisdikci osvobozeny od daně.",
-        "genericRule": "Vaše jurisdikce nemá pravidlo dlouhodobého držení.",
+        "longTermRule": "{{jurisdiction}}: pozice držené {{days}} dní jsou osvobozeny od daně.",
+        "noLongTermRule": "{{jurisdiction}}: bez pravidla dlouhodobého držení — všechny zisky se daní.",
         "empty": "V této kategorii není co zobrazit.",
         "holdingVariesByBroker": "Doba držení se liší podle brokera — prodeje z novějšího brokera mohou být krátkodobé.",
+        "allowance": {
+          "gainExemption": "Prvních {{amount}} kapitálových zisků za rok je ve vaší jurisdikci osvobozeno od daně.",
+          "grossProceedsExemption": "Pokud celkové výnosy z prodejů za rok nepřekročí {{amount}}, všechny zisky jsou osvobozeny od daně bez ohledu na dobu držení."
+        },
         "summary": {
           "savedByHarvesting": "Odhadovaná úspora prodejem ztrátových pozic",
           "savedByWaiting": "Odhadovaná úspora čekáním na osvobození"
@@ -426,6 +430,10 @@
         "optimalHint": "Metoda {{method}} by vedla k nejnižšímu zdanitelnému zisku.",
         "notAllowed": "Není povoleno ve vaší jurisdikci (jen náhled)",
         "allowed": "Povoleno ve vaší jurisdikci",
+        "allowance": {
+          "gainExemption": "Prvních {{amount}} čistého zisku za rok je osvobozeno od daně; odhad daně níže to již zohledňuje.",
+          "grossProceedsExemption": "Pokud výnosy z prodejů za rok nepřekročí {{amount}}, odhadovaná daň klesne na nulu bez ohledu na metodu."
+        },
         "disclaimer": "Odhady daně používají sazbu nastavenou v portfoliu. Změna metody pořizovací ceny ovlivní budoucí přiznání; minulá zůstávají podle staré metody.",
         "col": {
           "method": "Metoda",
@@ -459,9 +467,13 @@
         "jurisdictionRequired": "Daňová jurisdikce je povinná",
         "jurisdiction": {
           "CzechRepublic": "Česká republika",
+          "Slovakia": "Slovensko",
+          "Germany": "Německo",
           "Generic": "Obecné (bez pravidla dlouhodobého držení)"
         },
         "longTermHoldingHint": "Pozice držené alespoň {{days}} dnů splňují test na osvobození od daně.",
+        "annualGainExemptionHint": "Prvních {{amount}} kapitálových zisků za rok je v této jurisdikci osvobozeno od daně.",
+        "annualGrossProceedsExemptionHint": "Výnosy z prodejů do {{amount}} ročně jsou zcela osvobozeny od daně bez ohledu na dobu držení.",
         "costBasisMethodLabel": "Metoda pořizovací ceny (oficiální výkaz)",
         "costBasisMethodRequired": "Metoda pořizovací ceny je povinná",
         "costBasisMethod": {
