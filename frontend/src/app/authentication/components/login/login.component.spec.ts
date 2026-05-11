@@ -141,11 +141,10 @@ describe('LoginComponent', () => {
 describe('LoginComponent (onboarding not completed)', () => {
     let fixture: ComponentFixture<LoginComponent>;
     let component: LoginComponent;
-    let authServiceSpy: Record<string, ReturnType<typeof vi.fn>>;
     let router: Router;
 
     beforeEach(() => {
-        ({ authServiceSpy } = buildProviders({}, { isOnboardingCompleted: false }));
+        buildProviders({}, { isOnboardingCompleted: false });
         fixture = TestBed.createComponent(LoginComponent);
         component = fixture.componentInstance;
         router = TestBed.inject(Router);
