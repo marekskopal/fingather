@@ -1,0 +1,73 @@
+@import '../../../../styles/shared/variables';
+
+.tabs-row {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: $spacing-md;
+    border-bottom: 1px solid $color-gray-lighter;
+
+    ::ng-deep .scroll-shadow-wrapper {
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+
+    .nav-tabs {
+        margin-bottom: -2px;
+
+        &:after {
+            display: none;
+        }
+    }
+}
+
+.tabs-row-options {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: $spacing-xxs;
+    padding: 0 $spacing-md $spacing-sm;
+    flex-shrink: 0;
+
+    @media (min-width: 1400px) {
+        flex-direction: row;
+        align-items: center;
+        gap: $spacing-lg;
+    }
+
+    .form-check.form-switch {
+        margin: 0;
+    }
+}
+
+.tabs-row-options-dropdown {
+    flex-shrink: 0;
+}
+
+.tabs-row-options-toggle {
+    display: flex;
+    align-items: center;
+    padding: $spacing-xs;
+    color: $color-gray-lightest;
+    text-decoration: none;
+
+    &:hover,
+    &:focus {
+        color: $color-white;
+    }
+
+    &:after {
+        display: none;
+    }
+}
+
+.tabs-row-options-menu {
+    padding: $spacing-sm $spacing-md;
+
+    .form-check.form-switch {
+        margin: 0;
+
+        & + .form-check.form-switch {
+            margin-top: $spacing-xs;
+        }
+    }
+}
