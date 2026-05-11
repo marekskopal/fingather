@@ -1,4 +1,3 @@
-import {AsyncPipe} from '@angular/common';
 import {
     ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal,
 } from '@angular/core';
@@ -7,9 +6,9 @@ import {RouterLink} from '@angular/router';
 import {ImportMappingDetails} from '@app/models/import-mapping-details';
 import {PortfolioService} from '@app/services';
 import {ImportMappingService} from '@app/services/import-mapping.service';
+import {AssetDisplayComponent} from '@app/shared/components/asset-display/asset-display.component';
 import {DeleteButtonComponent} from '@app/shared/components/delete-button/delete-button.component';
 import {PortfolioSelectorComponent} from '@app/shared/components/portfolio-selector/portfolio-selector.component';
-import {CurrencyCodePipe} from '@app/shared/pipes/currency-code.pipe';
 import {ScrollShadowDirective} from '@marekskopal/ng-scroll-shadow';
 import {TranslatePipe} from '@ngx-translate/core';
 
@@ -22,8 +21,7 @@ import {TranslatePipe} from '@ngx-translate/core';
         MatIcon,
         DeleteButtonComponent,
         ScrollShadowDirective,
-        AsyncPipe,
-        CurrencyCodePipe,
+        AssetDisplayComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

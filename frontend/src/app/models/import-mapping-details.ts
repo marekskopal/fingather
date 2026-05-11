@@ -8,4 +8,5 @@ export interface ImportMappingDetails {
     tickerTicker: string;
     tickerMarketMic: string;
     tickerCurrencyId: number;
+    tickerLogo: string | null;
 }

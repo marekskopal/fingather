@@ -18,6 +18,7 @@ final readonly class ImportMappingResponseDto
 		public string $tickerTicker,
 		public string $tickerMarketMic,
 		public int $tickerCurrencyId,
+		public ?string $tickerLogo,
 	) {
 	}
 
@@ -33,6 +34,7 @@ final readonly class ImportMappingResponseDto
 			tickerTicker: $importMapping->ticker->ticker,
 			tickerMarketMic: $importMapping->ticker->market->mic,
 			tickerCurrencyId: $importMapping->ticker->currency->id,
+			tickerLogo: $importMapping->ticker->logo,
 		);
 	}
 }

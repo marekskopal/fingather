@@ -27,16 +27,11 @@
                                 <td>{{ mapping.brokerName }}</td>
                                 <td>{{ mapping.importTicker }}</td>
                                 <td>
-                                    <div class="ticker">
-                                        <div class="ticker-info">
-                                            <div class="ticker-ticker">{{ mapping.tickerTicker }}</div>
-                                            <div class="ticker-name ellipsis">{{ mapping.tickerName }}</div>
-                                        </div>
-                                        <div class="ticker-data">
-                                            <span class="tag">{{ mapping.tickerMarketMic }}</span>
-                                            <span>{{ mapping.tickerCurrencyId | currencyCode | async }}</span>
-                                        </div>
-                                    </div>
+                                    <fingather-asset-display
+                                        [tickerSymbol]="mapping.tickerTicker"
+                                        [tickerName]="mapping.tickerName"
+                                        [tickerLogo]="mapping.tickerLogo"
+                                    />
                                 </td>
                                 <td class="actions">
                                     <a routerLink="edit-mapping/{{ mapping.id }}" class="btn btn-secondary" tabindex="0">
