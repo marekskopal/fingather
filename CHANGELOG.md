@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.14.0] - 2026-05-11
+### Added
+- Tax optimization page with tax-loss harvesting suggestions and cost-basis (FIFO/LIFO/average) comparison; per-portfolio tax settings.
+- Slovakia and Germany tax jurisdictions with annual allowances; Czech Republic CZK 100,000 gross-proceeds exemption backfilled.
+- Reusable skeleton loading table for opened, closed, and watched asset list tabs.
+### Changed
+- Asset list switchers moved into the tab row.
+
 ## [1.13.0] - 2026-05-09
 ### Added
 - Time-Weighted Return (TWR) and Money-Weighted Return (MWR / XIRR) on the dashboard, accessed via a switcher on the gain/loss card.
