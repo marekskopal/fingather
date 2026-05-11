@@ -4,7 +4,7 @@ import {
 import { ChartUtils } from '@app/utils/chart-utils';
 import {
     ApexChart, ApexFill, ApexLegend,
-    ApexNonAxisChartSeries, ApexPlotOptions, ApexStates, ApexStroke, ApexTheme, ApexYAxis, NgApexchartsModule,
+    ApexNonAxisChartSeries, ApexPlotOptions, ApexStates, ApexStroke, ApexTheme, ApexTooltip, ApexYAxis, NgApexchartsModule,
 } from 'ng-apexcharts';
 
 export interface StrategyChartItem {
@@ -24,6 +24,7 @@ export type ChartOptions = {
     states: ApexStates;
     legend: ApexLegend;
     plotOptions: ApexPlotOptions;
+    tooltip: ApexTooltip;
     colors: string[];
 };
 
@@ -94,6 +95,11 @@ export class StrategyChartComponent {
                     donut: {
                         size: '60%',
                     },
+                },
+            },
+            tooltip: {
+                y: {
+                    formatter: (value: number): string => `${value}%`,
                 },
             },
             theme: ChartUtils.theme(),

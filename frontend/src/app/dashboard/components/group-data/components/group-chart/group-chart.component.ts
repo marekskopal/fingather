@@ -8,7 +8,7 @@ import {LegendItem} from "@app/shared/components/legend/types/legend-item";
 import {ChartUtils} from "@app/utils/chart-utils";
 import {
     ApexChart, ApexFill, ApexLegend,
-    ApexNonAxisChartSeries, ApexPlotOptions, ApexStates, ApexStroke, ApexTheme, ApexYAxis, NgApexchartsModule,
+    ApexNonAxisChartSeries, ApexPlotOptions, ApexStates, ApexStroke, ApexTheme, ApexTooltip, ApexYAxis, NgApexchartsModule,
 } from 'ng-apexcharts';
 
 export type ChartOptions = {
@@ -22,6 +22,7 @@ export type ChartOptions = {
     states: ApexStates,
     legend: ApexLegend,
     plotOptions: ApexPlotOptions,
+    tooltip: ApexTooltip,
     colors: string[],
 };
 
@@ -120,6 +121,11 @@ export class GroupChartComponent implements OnInit {
                     donut: {
                         size: '60%',
                     },
+                },
+            },
+            tooltip: {
+                y: {
+                    formatter: (value: number): string => `${value}%`,
                 },
             },
             theme: ChartUtils.theme(),
