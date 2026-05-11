@@ -53,7 +53,7 @@
                         (afterChangeAssetsOrder)="changeOpenedAssetsOrderBy($event)"
                     />
                 } @else {
-                    <span class="spinner-border spinner-border-lg align-center"></span>
+                    <fingather-skeleton-table [columns]="openedSkeletonColumns" />
                 }
             </div>
         </ng-template>

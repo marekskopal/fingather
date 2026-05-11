@@ -1,0 +1,51 @@
+<div class="card">
+    <div class="card-body">
+        <table
+            class="table skeleton-table"
+            tableGrid
+            [columns]="tableGridColumns()"
+            scrollShadow
+            aria-hidden="true"
+        >
+            <thead>
+                <tr>
+                    @for (column of columns(); track $index) {
+                        <th [class.text-end]="column.align === 'end'">
+                            <span class="skeleton skeleton-header"></span>
+                        </th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @for (row of rowList(); track row) {
+                    <tr>
+                        @for (column of columnsWithLines(); track $index) {
+                            @if (column.isActions) {
+                                <td class="actions">
+                                    <span class="skeleton skeleton-action"></span>
+                                </td>
+                            } @else if (column.hasAvatar) {
+                                <td>
+                                    <div class="skeleton-name">
+                                        <span class="skeleton skeleton-avatar"></span>
+                                        <div class="skeleton-name-text">
+                                            <span class="skeleton skeleton-line skeleton-line-strong"></span>
+                                            <span class="skeleton skeleton-line skeleton-line-sm"></span>
+                                        </div>
+                                    </div>
+                                </td>
+                            } @else {
+                                <td [class.text-end]="column.align === 'end'">
+                                    <span class="skeleton skeleton-line"></span>
+                                    @for (extra of column.extraLines; track extra) {
+                                        <span class="skeleton skeleton-line skeleton-line-sm"></span>
+                                    }
+                                </td>
+                            }
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

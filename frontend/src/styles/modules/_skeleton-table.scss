@@ -1,0 +1,84 @@
+@keyframes skeleton-shimmer {
+    0% {
+        background-position: -200px 0;
+    }
+    100% {
+        background-position: calc(200px + 100%) 0;
+    }
+}
+
+.skeleton-table {
+    .skeleton {
+        display: inline-block;
+        background-color: $color-gray-light;
+        background-image: linear-gradient(
+            90deg,
+            $color-gray-light 0%,
+            $color-gray-lighter 40%,
+            $color-gray-7 50%,
+            $color-gray-lighter 60%,
+            $color-gray-light 100%
+        );
+        background-size: 200px 100%;
+        background-repeat: no-repeat;
+        border-radius: $border-radius;
+        animation: skeleton-shimmer 1.4s ease-in-out infinite;
+    }
+
+    .skeleton-header {
+        width: 60%;
+        max-width: 96px;
+        height: 0.875rem;
+    }
+
+    .skeleton-line {
+        display: block;
+        width: 70%;
+        height: 1rem;
+        margin: 3px 0;
+    }
+
+    .skeleton-line-strong {
+        width: 55%;
+        height: 1.1rem;
+    }
+
+    .skeleton-line-sm {
+        width: 45%;
+        height: 0.75rem;
+    }
+
+    .skeleton-avatar {
+        width: $ticker-logo-size;
+        height: $ticker-logo-size;
+        border-radius: 50%;
+        flex-shrink: 0;
+    }
+
+    .skeleton-action {
+        width: 38px;
+        height: 38px;
+        border-radius: $border-radius;
+    }
+
+    .skeleton-name {
+        display: flex;
+        align-items: center;
+        gap: $spacing-md;
+        width: 100%;
+    }
+
+    .skeleton-name-text {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-xs;
+        min-width: 0;
+    }
+
+    td.text-end {
+        .skeleton-line {
+            align-self: flex-end;
+        }
+    }
+}

@@ -16,6 +16,8 @@ import {
     AssetService, CurrencyService, GroupWithGroupDataService, PortfolioService,
 } from '@app/services';
 import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selector/portfolio-selector.component";
+import {SkeletonTableComponent} from "@app/shared/components/skeleton-table/skeleton-table.component";
+import {SkeletonTableColumn} from "@app/shared/types/skeleton-table-column";
 import {ScrollShadowDirective} from "@marekskopal/ng-scroll-shadow";
 import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLinkButton, NgbNavOutlet} from "@ng-bootstrap/ng-bootstrap";
 import { TranslatePipe} from "@ngx-translate/core";
@@ -37,6 +39,7 @@ import { TranslatePipe} from "@ngx-translate/core";
         WatchedAssetsComponent,
         NgbNavOutlet,
         ScrollShadowDirective,
+        SkeletonTableComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -58,6 +61,16 @@ export class ListComponent implements OnInit {
     protected readonly showPerAnnum = signal<boolean>(false);
 
     public openedAssetsOrderBy: AssetsOrder = AssetsOrder.TickerName;
+
+    protected readonly openedSkeletonColumns: SkeletonTableColumn[] = [
+        { min: '250px', max: '3fr', hasAvatar: true },
+        { min: '110px', max: '1.2fr', align: 'end', lines: 3 },
+        { min: '110px', max: '1.2fr', align: 'end', lines: 2 },
+        { min: '110px', max: '1.2fr', align: 'end', lines: 2 },
+        { min: '110px', max: '1.2fr', align: 'end', lines: 2 },
+        { min: '110px', max: '1.2fr', align: 'end', lines: 2 },
+        { min: '65px', max: '1fr', isActions: true },
+    ];
 
     public async ngOnInit(): Promise<void> {
         this.defaultCurrency = await this.currencyService.getDefaultCurrency();

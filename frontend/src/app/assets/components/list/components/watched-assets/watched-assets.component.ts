@@ -6,9 +6,11 @@ import {MatIcon} from "@angular/material/icon";
 import {RouterLink} from "@angular/router";
 import { AssetsWithProperties } from '@app/models';
 import {DcfValuationChipComponent} from "@app/shared/components/dcf-valuation-chip/dcf-valuation-chip.component";
+import {SkeletonTableComponent} from "@app/shared/components/skeleton-table/skeleton-table.component";
 import {TickerLogoComponent} from "@app/shared/components/ticker-logo/ticker-logo.component";
 import {TableGridDirective} from "@app/shared/directives/table-grid.directive";
 import {MoneyPipe} from "@app/shared/pipes/money.pipe";
+import {SkeletonTableColumn} from "@app/shared/types/skeleton-table-column";
 import {TableGridColumn} from "@app/shared/types/table-grid-column";
 import {ScrollShadowDirective} from "@marekskopal/ng-scroll-shadow";
 import { TranslatePipe} from "@ngx-translate/core";
@@ -28,6 +30,7 @@ import { TranslatePipe} from "@ngx-translate/core";
         ScrollShadowDirective,
         TableGridDirective,
         DcfValuationChipComponent,
+        SkeletonTableComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -38,5 +41,11 @@ export class WatchedAssetsComponent {
         { min: '250px', max: '3fr' },
         { min: '106px', max: '1.2fr' },
         { min: '65px', max: '1fr' },
+    ];
+
+    protected readonly skeletonColumns: SkeletonTableColumn[] = [
+        { min: '250px', max: '3fr', hasAvatar: true },
+        { min: '106px', max: '1.2fr', align: 'end' },
+        { min: '65px', max: '1fr', isActions: true },
     ];
 }

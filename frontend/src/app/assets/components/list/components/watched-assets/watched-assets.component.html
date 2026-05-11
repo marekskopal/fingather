@@ -1,20 +1,20 @@
-﻿<div class="card">
-    <div class="card-body">
-        <table
-            class="table assets-table"
-            tableGrid
-            [columns]="tableGridColumns"
-            scrollShadow
-        >
-            <thead>
-                <tr>
-                    <th>{{ 'app.assets.list.name' | translate }}</th>
-                    <th class="text-end">{{ 'app.assets.list.price' | translate }}</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (assets(); as assets) {
+@if (assets(); as assets) {
+    <div class="card">
+        <div class="card-body">
+            <table
+                class="table assets-table"
+                tableGrid
+                [columns]="tableGridColumns"
+                scrollShadow
+            >
+                <thead>
+                    <tr>
+                        <th>{{ 'app.assets.list.name' | translate }}</th>
+                        <th class="text-end">{{ 'app.assets.list.price' | translate }}</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
                     @for (asset of assets.watchedAssets; track asset.id) {
                         <tr>
                             <td>
@@ -49,15 +49,10 @@
                             </td>
                         </tr>
                     }
-                } @else {
-                    <tr>
-                        <td colspan="9" class="text-center">
-                            <span class="spinner-border spinner-border-lg align-center"></span>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
-
+} @else {
+    <fingather-skeleton-table [columns]="skeletonColumns" />
+}
