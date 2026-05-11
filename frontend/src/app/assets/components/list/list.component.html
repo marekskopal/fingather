@@ -1,4 +1,4 @@
-﻿<div class="header">
+<div class="header">
     <h1 class="h3">{{ 'app.assets.list.title' | translate }}</h1>
 
     <div class="header-controls">
@@ -7,78 +7,102 @@
             <span>{{ 'app.assets.list.addAsset' | translate }}</span>
         </a>
 
+        @if (activeTab === AssetsTabEnum.OpenedPositions) {
+            <div class="tabs-row-options-dropdown d-lg-none" ngbDropdown placement="bottom-end">
+                <button type="button" class="btn btn-link tabs-row-options-toggle" id="openedAssetsOptions" ngbDropdownToggle>
+                    <mat-icon>settings</mat-icon>
+                </button>
+                <div ngbDropdownMenu aria-labelledby="openedAssetsOptions" class="tabs-row-options-menu">
+                    <div class="form-check form-switch">
+                        <input (change)="changeWithGroups()" class="form-check-input" type="checkbox" role="switch" id="withGroupsMobile">
+                        <label class="form-check-label" for="withGroupsMobile">{{ 'app.assets.list.withGroups' | translate }}</label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input (change)="changeShowPerAnnum()" class="form-check-input" type="checkbox" role="switch" id="showPerAnnumMobile">
+                        <label class="form-check-label" for="showPerAnnumMobile">{{ 'app.assets.list.showPerAnnum' | translate }}</label>
+                    </div>
+                </div>
+            </div>
+        }
+
         <div class="d-none d-lg-block">
             <fingather-portfolio-selector />
         </div>
     </div>
 </div>
 
-<ul
-    ngbNav
-    #nav="ngbNav"
-    [(activeId)]="activeTab"
-    class="nav nav-tabs"
-    role="tablist"
-    scrollShadow
->
-    <li [ngbNavItem]="AssetsTabEnum.OpenedPositions">
-        <button ngbNavLink>
-            {{ 'app.assets.list.openPositions' | translate }}
-        </button>
-        <ng-template ngbNavContent>
-            <div class="assets-list">
-                <div class="form-check form-switch">
-                    <input (change)="changeWithGroups()" class="form-check-input" type="checkbox" role="switch" id="withGroups">
-                    <label class="form-check-label" for="withGroups">{{ 'app.assets.list.withGroups' | translate }}</label>
+<div class="tabs-row">
+    <ul
+        ngbNav
+        #nav="ngbNav"
+        [(activeId)]="activeTab"
+        class="nav nav-tabs"
+        role="tablist"
+        scrollShadow
+    >
+        <li [ngbNavItem]="AssetsTabEnum.OpenedPositions">
+            <button ngbNavLink>
+                {{ 'app.assets.list.openPositions' | translate }}
+            </button>
+            <ng-template ngbNavContent>
+                <div class="assets-list">
+                    @if (openedGroupedAssets(); as openedGroupedAssets) {
+                        <fingather-opened-grouped-assets
+                            [openedGroupedAssets]="openedGroupedAssets"
+                            [assetsOrder]="openedAssetsOrderBy"
+                            [showPerAnnum]="showPerAnnum()"
+                            [defaultCurrency]="defaultCurrency"
+                            (afterChangeAssetsOrder)="changeOpenedAssetsOrderBy($event)"
+                        />
+                    } @else if (assetsWithProperties()) {
+                        <fingather-opened-assets
+                            [assets]="assetsWithProperties()!"
+                            [assetsOrder]="openedAssetsOrderBy"
+                            [showPerAnnum]="showPerAnnum()"
+                            [defaultCurrency]="defaultCurrency"
+                            (afterChangeAssetsOrder)="changeOpenedAssetsOrderBy($event)"
+                        />
+                    } @else {
+                        <fingather-skeleton-table [columns]="openedSkeletonColumns" />
+                    }
                 </div>
-                <div class="form-check form-switch">
-                    <input (change)="changeShowPerAnnum()" class="form-check-input" type="checkbox" role="switch" id="showPerAnnum">
-                    <label class="form-check-label" for="showPerAnnum">{{ 'app.assets.list.showPerAnnum' | translate }}</label>
-                </div>
+            </ng-template>
+        </li>
+        <li [ngbNavItem]="AssetsTabEnum.ClosedPositions">
+            <button ngbNavLink>
+                {{ 'app.assets.list.closedPositions' | translate }}
+            </button>
+            <ng-template ngbNavContent>
+                <fingather-closed-assets
+                    [assets]="assetsWithProperties()"
+                    [defaultCurrency]="defaultCurrency"
+                />
+            </ng-template>
+        </li>
+        <li [ngbNavItem]="AssetsTabEnum.WatchList">
+            <button ngbNavLink>
+                {{ 'app.assets.list.watchList' | translate }}
+            </button>
+            <ng-template ngbNavContent>
+                <fingather-watched-assets
+                    [assets]="assetsWithProperties()"
+                />
+            </ng-template>
+        </li>
+    </ul>
 
-                @if (openedGroupedAssets(); as openedGroupedAssets) {
-                    <fingather-opened-grouped-assets
-                        [openedGroupedAssets]="openedGroupedAssets"
-                        [assetsOrder]="openedAssetsOrderBy"
-                        [showPerAnnum]="showPerAnnum()"
-                        [defaultCurrency]="defaultCurrency"
-                        (afterChangeAssetsOrder)="changeOpenedAssetsOrderBy($event)"
-                    />
-                } @else if (assetsWithProperties()) {
-                    <fingather-opened-assets
-                        [assets]="assetsWithProperties()!"
-                        [assetsOrder]="openedAssetsOrderBy"
-                        [showPerAnnum]="showPerAnnum()"
-                        [defaultCurrency]="defaultCurrency"
-                        (afterChangeAssetsOrder)="changeOpenedAssetsOrderBy($event)"
-                    />
-                } @else {
-                    <fingather-skeleton-table [columns]="openedSkeletonColumns" />
-                }
+    @if (activeTab === AssetsTabEnum.OpenedPositions) {
+        <div class="tabs-row-options d-none d-lg-flex">
+            <div class="form-check form-switch">
+                <input (change)="changeWithGroups()" class="form-check-input" type="checkbox" role="switch" id="withGroups">
+                <label class="form-check-label" for="withGroups">{{ 'app.assets.list.withGroups' | translate }}</label>
             </div>
-        </ng-template>
-    </li>
-    <li [ngbNavItem]="AssetsTabEnum.ClosedPositions">
-        <button ngbNavLink>
-            {{ 'app.assets.list.closedPositions' | translate }}
-        </button>
-        <ng-template ngbNavContent>
-            <fingather-closed-assets
-                [assets]="assetsWithProperties()"
-                [defaultCurrency]="defaultCurrency"
-            />
-        </ng-template>
-    </li>
-    <li [ngbNavItem]="AssetsTabEnum.WatchList">
-        <button ngbNavLink>
-            {{ 'app.assets.list.watchList' | translate }}
-        </button>
-        <ng-template ngbNavContent>
-            <fingather-watched-assets
-                [assets]="assetsWithProperties()"
-            />
-        </ng-template>
-    </li>
-</ul>
+            <div class="form-check form-switch">
+                <input (change)="changeShowPerAnnum()" class="form-check-input" type="checkbox" role="switch" id="showPerAnnum">
+                <label class="form-check-label" for="showPerAnnum">{{ 'app.assets.list.showPerAnnum' | translate }}</label>
+            </div>
+        </div>
+    }
+</div>
 
 <div [ngbNavOutlet]="nav" class="mt-4"></div>

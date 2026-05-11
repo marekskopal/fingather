@@ -19,16 +19,29 @@ import {PortfolioSelectorComponent} from "@app/shared/components/portfolio-selec
 import {SkeletonTableComponent} from "@app/shared/components/skeleton-table/skeleton-table.component";
 import {SkeletonTableColumn} from "@app/shared/types/skeleton-table-column";
 import {ScrollShadowDirective} from "@marekskopal/ng-scroll-shadow";
-import {NgbNav, NgbNavContent, NgbNavItem, NgbNavLinkButton, NgbNavOutlet} from "@ng-bootstrap/ng-bootstrap";
+import {
+    NgbDropdown,
+    NgbDropdownMenu,
+    NgbDropdownToggle,
+    NgbNav,
+    NgbNavContent,
+    NgbNavItem,
+    NgbNavLinkButton,
+    NgbNavOutlet,
+} from "@ng-bootstrap/ng-bootstrap";
 import { TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     templateUrl: 'list.component.html',
+    styleUrl: 'list.component.scss',
     imports: [
         NgbNav,
         NgbNavItem,
         NgbNavLinkButton,
         NgbNavContent,
+        NgbDropdown,
+        NgbDropdownToggle,
+        NgbDropdownMenu,
         RouterLink,
         TranslatePipe,
         MatIcon,
