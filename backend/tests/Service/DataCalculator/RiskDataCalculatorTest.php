@@ -8,6 +8,7 @@ use ArrayIterator;
 use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Dto\Enum\RangeEnum;
+use FinGather\Model\Entity\Ticker;
 use FinGather\Service\DataCalculator\Dto\AssetDataDto;
 use FinGather\Service\DataCalculator\Dto\CalculatedDataDto;
 use FinGather\Service\DataCalculator\Dto\RiskDataDto;
@@ -403,17 +404,13 @@ final class RiskDataCalculatorTest extends TestCase
 	 */
 	public function testCorrelationMatrixMatchesRealMarketDataForBigTechAndBitcoin(): void
 	{
-		$priceData = json_decode(
-			(string) file_get_contents(__DIR__ . '/../../Fixtures/big_tech_prices_2025.json'),
-			associative: true,
-		);
-		self::assertIsArray($priceData);
+		$priceData = $this->loadBigTechPriceFixture();
 
 		$tickers = [];
 		$assets = [];
-		foreach (array_keys($priceData) as $i => $symbol) {
-			$tickers[$symbol] = TickerFixture::getTicker(id: $i + 1, ticker: $symbol);
-			$assets[] = AssetFixture::getAsset(id: $i + 1, ticker: $tickers[$symbol]);
+		foreach (array_keys($priceData) as $index => $symbol) {
+			$tickers[$symbol] = TickerFixture::getTicker(id: $index + 1, ticker: $symbol);
+			$assets[] = AssetFixture::getAsset(id: $index + 1, ticker: $tickers[$symbol]);
 		}
 
 		$from = new DateTimeImmutable('2025-05-01');
@@ -446,7 +443,7 @@ final class RiskDataCalculatorTest extends TestCase
 		}
 
 		$this->tickerDataProvider->method('getAdjustedTickerDatas')->willReturnCallback(
-			static fn($ticker) => $tickerData[$ticker->ticker] ?? [],
+			static fn(Ticker $ticker) => $tickerData[$ticker->ticker] ?? [],
 		);
 
 		$result = $this->calculator->calculate(
@@ -466,7 +463,7 @@ final class RiskDataCalculatorTest extends TestCase
 
 		// Diagonal is always 1.
 		for ($i = 0; $i < 7; $i++) {
-			self::assertEqualsWithDelta(1.0, $matrix[$i][$i], 0.0001, "Diagonal at {$labels[$i]}");
+			self::assertEqualsWithDelta(1.0, $matrix[$i][$i], 0.0001, sprintf('Diagonal at %s', $labels[$i]));
 		}
 
 		// Spot-check known empirical pairs (values verified against the production DB on 2026-05-12).
@@ -603,5 +600,30 @@ final class RiskDataCalculatorTest extends TestCase
 			low: $close,
 			volume: $zero,
 		);
+	}
+
+	/** @return array<string, array<string, float|int>> */
+	private function loadBigTechPriceFixture(): array
+	{
+		$raw = json_decode(
+			(string) file_get_contents(__DIR__ . '/../../Fixtures/big_tech_prices_2025.json'),
+			associative: true,
+		);
+		self::assertIsArray($raw);
+
+		$result = [];
+		foreach ($raw as $symbol => $rows) {
+			self::assertIsString($symbol);
+			self::assertIsArray($rows);
+			$series = [];
+			foreach ($rows as $date => $close) {
+				self::assertIsString($date);
+				self::assertTrue(is_int($close) || is_float($close));
+				$series[$date] = $close;
+			}
+			$result[$symbol] = $series;
+		}
+
+		return $result;
 	}
 }

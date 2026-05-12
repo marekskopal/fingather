@@ -36,16 +36,16 @@ final readonly class RiskDataProvider implements RiskDataProviderInterface
 		?DateTimeImmutable $customRangeTo,
 		SamplingFrequencyEnum $samplingFrequency = SamplingFrequencyEnum::Daily,
 	): RiskDataDto {
-		$benchmarkTickerId = $benchmarkTicker !== null ? $benchmarkTicker->id : 0;
-		$customRangeFromTs = $customRangeFrom !== null ? $customRangeFrom->getTimestamp() : 0;
-		$customRangeToTs = $customRangeTo !== null ? $customRangeTo->getTimestamp() : 0;
+		$benchmarkTickerId = $benchmarkTicker?->id;
+		$customRangeFromTs = $customRangeFrom?->getTimestamp();
+		$customRangeToTs = $customRangeTo?->getTimestamp();
 
 		$key = $portfolio->id
 			. '-' . $range->value
 			. '-' . $samplingFrequency->value
-			. '-' . $benchmarkTickerId
-			. '-' . $customRangeFromTs
-			. '-' . $customRangeToTs;
+			. '-' . ($benchmarkTickerId ?? 0)
+			. '-' . ($customRangeFromTs ?? 0)
+			. '-' . ($customRangeToTs ?? 0);
 
 		/** @var RiskDataDto|null $riskData */
 		$riskData = $this->cache->load($key);

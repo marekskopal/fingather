@@ -9,7 +9,7 @@ export class HistoryPage {
 
     async expectLoaded(): Promise<void> {
         await expect(this.page).toHaveURL('/history');
-        await expect(this.page.locator('.card')).toBeVisible({ timeout: 10000 });
+        await expect(this.page.locator('.card').first()).toBeVisible({ timeout: 10000 });
     }
 
     async expectChartVisible(): Promise<void> {
