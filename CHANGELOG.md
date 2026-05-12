@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.15.0] - 2026-05-12
+### Added
+- Risk analysis on the history page: volatility, max drawdown, Sharpe ratio, beta-to-benchmark, and a correlation heatmap across holdings.
+### Changed
+- Import Mappings list uses the shared asset-display component.
+- Upgraded Docker images.
+- Frontend lint now fails on warnings.
+### Fixed
+- Donut chart tooltip values now include the percent symbol.
+
 ## [1.14.0] - 2026-05-11
 ### Added
 - Tax optimization page with tax-loss harvesting suggestions and cost-basis (FIFO/LIFO/average) comparison; per-portfolio tax settings.
