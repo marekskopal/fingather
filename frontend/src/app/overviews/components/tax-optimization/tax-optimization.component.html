@@ -63,10 +63,8 @@
         </div>
     }
 
-    <h2 class="h5">{{ 'app.overviews.taxOptimization.bucket.harvestNow' | translate }}</h2>
-    @if (opt.harvestNow.length === 0) {
-        <p class="text-muted">{{ 'app.overviews.taxOptimization.empty' | translate }}</p>
-    } @else {
+    @if (opt.harvestNow.length > 0) {
+        <h2 class="h5">{{ 'app.overviews.taxOptimization.bucket.harvestNow' | translate }}</h2>
         <div class="card mb-4">
             <div class="card-body">
                 <div class="table-responsive" scrollShadow>
@@ -133,10 +131,8 @@
     }
 
     @if (hasLongTermConcept(opt)) {
-        <h2 class="h5">{{ 'app.overviews.taxOptimization.bucket.holdForTaxFreeGain' | translate }}</h2>
-        @if (opt.holdForTaxFreeGain.length === 0) {
-            <p class="text-muted">{{ 'app.overviews.taxOptimization.empty' | translate }}</p>
-        } @else {
+        @if (opt.holdForTaxFreeGain.length > 0) {
+            <h2 class="h5">{{ 'app.overviews.taxOptimization.bucket.holdForTaxFreeGain' | translate }}</h2>
             <div class="card mb-4">
                 <div class="card-body">
                     <div class="table-responsive" scrollShadow>
@@ -188,10 +184,8 @@
             </div>
         }
 
-        <h2 class="h5">{{ 'app.overviews.taxOptimization.bucket.lossNoLongerDeductible' | translate }}</h2>
-        @if (opt.lossNoLongerDeductible.length === 0) {
-            <p class="text-muted">{{ 'app.overviews.taxOptimization.empty' | translate }}</p>
-        } @else {
+        @if (opt.lossNoLongerDeductible.length > 0) {
+            <h2 class="h5">{{ 'app.overviews.taxOptimization.bucket.lossNoLongerDeductible' | translate }}</h2>
             <div class="card mb-4">
                 <div class="card-body">
                     <div class="table-responsive" scrollShadow>
@@ -237,10 +231,8 @@
             </div>
         }
 
-        <h2 class="h5">{{ 'app.overviews.taxOptimization.bucket.alreadyTaxFree' | translate }}</h2>
-        @if (opt.alreadyTaxFree.length === 0) {
-            <p class="text-muted">{{ 'app.overviews.taxOptimization.empty' | translate }}</p>
-        } @else {
+        @if (opt.alreadyTaxFree.length > 0) {
+            <h2 class="h5">{{ 'app.overviews.taxOptimization.bucket.alreadyTaxFree' | translate }}</h2>
             <div class="card mb-4">
                 <div class="card-body">
                     <div class="table-responsive" scrollShadow>
@@ -287,10 +279,8 @@
         }
     }
 
-    <h2 class="h5">{{ 'app.overviews.taxOptimization.bucket.winningShortTerm' | translate }}</h2>
-    @if (opt.winningShortTerm.length === 0) {
-        <p class="text-muted">{{ 'app.overviews.taxOptimization.empty' | translate }}</p>
-    } @else {
+    @if (opt.winningShortTerm.length > 0) {
+        <h2 class="h5">{{ 'app.overviews.taxOptimization.bucket.winningShortTerm' | translate }}</h2>
         <div class="card mb-4">
             <div class="card-body">
                 <div class="table-responsive" scrollShadow>

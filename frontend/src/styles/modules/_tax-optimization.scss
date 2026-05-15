@@ -1,0 +1,10 @@
+.tax-optimization-summary {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-lg;
+    margin-bottom: $spacing-lg;
+
+    @include media-breakpoint-up(md) {
+        grid-template-columns: 1fr 1fr;
+    }
+}
