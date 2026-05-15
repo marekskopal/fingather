@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.15.1] - 2026-05-16
+### Changed
+- Tax optimization summary cards now sit side-by-side on tablet and wider; empty buckets are no longer rendered.
+
 ## [1.15.0] - 2026-05-12
 ### Added
 - Risk analysis on the history page: volatility, max drawdown, Sharpe ratio, beta-to-benchmark, and a correlation heatmap across holdings.
