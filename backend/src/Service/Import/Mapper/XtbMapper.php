@@ -4,114 +4,57 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Import\Mapper;
 
-use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
-use FinGather\Service\Import\Mapper\Dto\MappingDto;
 use Override;
 use PhpOffice\PhpSpreadsheet\Exception;
-use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
-final class XtbMapper extends XlsxMapper
+final class XtbMapper extends AbstractXtbMapper
 {
-	private const string Id = 'Id';
-	private const string Symbol = 'Symbol';
-	private const string Type = 'Type';
-	private const string Volume = 'Volume';
-	private const string Price = 'Price';
-	private const string Total = 'Total';
-	private const string Created = 'Created';
-	private const string Currency = 'Currency';
-	private const string Tax = 'Tax';
+	private const int CashOperationsSheet = 0;
+	private const string CashOperationsSheetTitle = 'Cash Operations';
 
-	private const int CashOperationHistorySheet = 3;
-
-	public function getImportType(): BrokerImportTypeEnum
-	{
-		return BrokerImportTypeEnum::Xtb;
-	}
-
-	public function getMapping(): MappingDto
-	{
-		$mappingDto = new MappingDto(
-			actionType: self::Type,
-			country: fn (array $record): ?string => $this->countryFromSymbol($record[self::Symbol]),
-			created: fn (array $record): string => Date::excelToDateTimeObject((float) $record[self::Created])->format('Y-m-d H:i:s'),
-			ticker: fn (array $record): string => substr($record[self::Symbol], 0, (int) strrpos($record[self::Symbol], '.')),
-			units: self::Volume,
-			price: self::Price,
-			total: self::Total,
-			currency: self::Currency,
-			tax: self::Tax,
-			importIdentifier: self::Id,
-		);
-		return $mappingDto;
-	}
-
-	private function countryFromSymbol(string $symbol): ?string
-	{
-		$dotPos = strrpos($symbol, '.');
-		if ($dotPos === false) {
-			return null;
-		}
-
-		// XTB suffixes are exchange/country tags (".DE", ".UK", etc.). Map them to the
-		// markets.country code so the resolver can scope ticker lookups to the right
-		// country and avoid colliding with same-named tickers on other exchanges
-		// (e.g. MC.FR is LVMH on Paris, not Moelis on NYSE).
-		return match (substr($symbol, $dotPos + 1)) {
-			'DE' => 'DE',
-			'NL' => 'NL',
-			'US' => 'US',
-			'FR' => 'FR',
-			'UK' => 'GB',
-			'IT' => 'IT',
-			'CH' => 'CH',
-			'ES' => 'ES',
-			'PL' => 'PL',
-			default => null,
-		};
-	}
+	private const int HeaderRow = 5;
 
 	/** @return list<array<string, string>> */
 	#[Override]
 	public function getRecordsFromSheet(Spreadsheet $spreadsheet): array
 	{
-		$cashOperationSheet = $spreadsheet->getSheet(self::CashOperationHistorySheet);
+		$cashOperationsSheet = $spreadsheet->getSheet(self::CashOperationsSheet);
 
 		/** @var array<int, array<string, string>> $sheetData */
-		$sheetData = $cashOperationSheet->toArray('', true, true, true);
+		$sheetData = $cashOperationsSheet->toArray('', true, true, true);
 
-		$currency = $sheetData[6]['F'] ?? '';
-
-		$closeTradeAmountById = $this->indexCloseTradeAmounts($sheetData);
+		// New XTB exports rows newest-first; iterate oldest-first so a dividend
+		// is always seen before its paired withholding-tax row (tax_id == div_id + 1).
+		$sheetData = array_reverse($sheetData, preserve_keys: true);
 
 		$records = [];
 		$dividendRecordIndexById = [];
 
 		foreach ($sheetData as $index => $row) {
-			if ($index <= 11) {
+			if ($index <= self::HeaderRow) {
 				continue;
 			}
 
-			$type = $row['C'];
+			$type = $row['A'];
 
-			if ($type === 'Stock purchase' || $type === 'Stock sale') {
-				$record = $this->buildTradeRecord($row, $currency, $closeTradeAmountById);
+			if ($type === 'Stock purchase' || $type === 'Stock sell') {
+				$record = $this->buildTradeRecord($row);
 				if ($record !== null) {
 					$records[] = $record;
 				}
-			} elseif ($type === 'DIVIDENT') {
-				$record = $this->buildDividendRecord($row, $currency);
+			} elseif ($type === 'Dividend') {
+				$record = $this->buildDividendRecord($row);
 				if ($record !== null) {
 					$records[] = $record;
-					$dividendRecordIndexById[$row['B']] = count($records) - 1;
+					$dividendRecordIndexById[$row['F']] = count($records) - 1;
 				}
-			} elseif ($type === 'Withholding Tax') {
+			} elseif ($type === 'Withholding tax') {
 				// Tax row id == dividend id + 1; row order in the sheet isn't reliable,
 				// so we pair by id rather than by adjacent index.
-				$dividendId = (string) ((int) $row['B'] - 1);
+				$dividendId = (string) ((int) $row['F'] - 1);
 				if (isset($dividendRecordIndexById[$dividendId])) {
-					$records[$dividendRecordIndexById[$dividendId]][self::Tax] = (string) abs((float) $row['G']);
+					$records[$dividendRecordIndexById[$dividendId]][self::Tax] = (string) abs((float) $row['E']);
 				}
 			}
 		}
@@ -121,29 +64,28 @@ final class XtbMapper extends XlsxMapper
 
 	/**
 	 * @param array<string, string> $row
-	 * @param array<string, float> $closeTradeAmountById
 	 * @return array<string, string>|null
 	 */
-	private function buildTradeRecord(array $row, string $currency, array $closeTradeAmountById): ?array
+	private function buildTradeRecord(array $row): ?array
 	{
-		$operationDetails = $this->parseOperationDetails($row['E']);
+		$operationDetails = $this->parseOperationDetails($row['G']);
 		if ($operationDetails === null) {
 			return null;
 		}
 
-		$amount = $row['C'] === 'Stock sale'
-			? $this->resolveSellAmount($row, $closeTradeAmountById)
-			: abs((float) $row['G']);
+		// New XTB exports sells with the proceeds already netted (no separate
+		// "close trade" row), so the Amount column is the gross figure we want.
+		$amount = abs((float) $row['E']);
 
 		return [
-			self::Id => $row['B'],
-			self::Symbol => $row['F'],
+			self::Id => $row['F'],
+			self::Symbol => $row['B'],
 			self::Type => $operationDetails['action'],
 			self::Volume => $operationDetails['volume'],
 			self::Created => $row['D'],
 			self::Price => '',
 			self::Total => (string) $amount,
-			self::Currency => $currency,
+			self::Currency => '',
 			self::Tax => '',
 		];
 	}
@@ -152,92 +94,26 @@ final class XtbMapper extends XlsxMapper
 	 * @param array<string, string> $row
 	 * @return array<string, string>|null
 	 */
-	private function buildDividendRecord(array $row, string $currency): ?array
+	private function buildDividendRecord(array $row): ?array
 	{
-		$pricePerShare = $this->parseDividendPricePerShare($row['E']);
+		$pricePerShare = $this->parseDividendPricePerShare($row['G']);
 		if ($pricePerShare === null) {
 			return null;
 		}
 
-		$amount = abs((float) $row['G']);
+		$amount = abs((float) $row['E']);
 
 		return [
-			self::Id => $row['B'],
-			self::Symbol => $row['F'],
+			self::Id => $row['F'],
+			self::Symbol => $row['B'],
 			self::Type => 'DIVIDEND',
 			self::Volume => (string) ($amount / (float) $pricePerShare),
 			self::Created => $row['D'],
 			self::Price => (string) $amount,
 			self::Total => '',
-			self::Currency => $currency,
+			self::Currency => '',
 			self::Tax => '',
 		];
-	}
-
-	/**
-	 * XTB splits each sell into two rows: a "close trade" carrying the realised
-	 * P/L and a "Stock sale" whose amount is only the released cost basis. Index
-	 * the close-trade amounts by id so we can add them to the matching sale
-	 * (close_trade.id == stock_sale.id - 1) and recover the true gross proceeds.
-	 *
-	 * @param array<int, array<string, string>> $sheetData
-	 * @return array<string, float>
-	 */
-	private function indexCloseTradeAmounts(array $sheetData): array
-	{
-		$closeTradeAmountById = [];
-		foreach ($sheetData as $index => $row) {
-			if ($index <= 11) {
-				continue;
-			}
-			if ($row['C'] === 'close trade') {
-				$closeTradeAmountById[$row['B']] = (float) $row['G'];
-			}
-		}
-
-		return $closeTradeAmountById;
-	}
-
-	/**
-	 * @param array<string, string> $row
-	 * @param array<string, float> $closeTradeAmountById
-	 */
-	private function resolveSellAmount(array $row, array $closeTradeAmountById): float
-	{
-		$rawAmount = (float) $row['G'];
-		$closeTradeId = (string) ((int) $row['B'] - 1);
-		if (isset($closeTradeAmountById[$closeTradeId])) {
-			$rawAmount += $closeTradeAmountById[$closeTradeId];
-		}
-
-		return abs($rawAmount);
-	}
-
-	/** @return array{action: string, volume: string}|null */
-	private function parseOperationDetails(string $comment): ?array
-	{
-		// Volume can be either a single number (e.g. "OPEN BUY 3 @ 7.69") or
-		// a partial-trade pair "this_volume/total_position_volume" (e.g. "CLOSE BUY 0.4511/0.5846 @ 1094.50").
-		if (preg_match('/^(OPEN|CLOSE)\s+(BUY|SELL)\s+([\d.]+)(?:\s*\/\s*[\d.]+)?\s+@\s+([\d.]+)$/', $comment, $matches) !== 1) {
-			return null;
-		}
-
-		$action = $matches[1] === 'CLOSE' ? 'SELL' : 'BUY';
-		$volume = $matches[3];
-
-		return [
-			'action' => $action,
-			'volume' => $volume,
-		];
-	}
-
-	private function parseDividendPricePerShare(string $comment): ?string
-	{
-		if (preg_match('/(?:corr\s+)?[\w.]+\s+\w+\s+([\d.]+)\s*\/\s*SHR/', $comment, $matches) !== 1) {
-			return null;
-		}
-
-		return $matches[1];
 	}
 
 	#[Override]
@@ -250,11 +126,11 @@ final class XtbMapper extends XlsxMapper
 		$spreadsheet = $this->loadSpreadsheet($content);
 
 		try {
-			$cashOperationSheet = $spreadsheet->getSheet(self::CashOperationHistorySheet);
+			$cashOperationsSheet = $spreadsheet->getSheet(self::CashOperationsSheet);
 		} catch (Exception) {
 			return false;
 		}
 
-		return str_starts_with($cashOperationSheet->getTitle(), 'CASH OPERATION HISTORY');
+		return $cashOperationsSheet->getTitle() === self::CashOperationsSheetTitle;
 	}
 }

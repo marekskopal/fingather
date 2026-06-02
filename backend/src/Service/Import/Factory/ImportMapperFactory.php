@@ -21,6 +21,7 @@ use FinGather\Service\Import\Mapper\PortuMapper;
 use FinGather\Service\Import\Mapper\RevolutMapper;
 use FinGather\Service\Import\Mapper\SchwabMapper;
 use FinGather\Service\Import\Mapper\Trading212Mapper;
+use FinGather\Service\Import\Mapper\XtbLegacyMapper;
 use FinGather\Service\Import\Mapper\XtbMapper;
 
 final readonly class ImportMapperFactory implements ImportMapperFactoryInterface
@@ -29,6 +30,7 @@ final readonly class ImportMapperFactory implements ImportMapperFactoryInterface
 		BrokerImportTypeEnum::Trading212->value => Trading212Mapper::class,
 		BrokerImportTypeEnum::InteractiveBrokers->value => InteractiveBrokersMapper::class,
 		BrokerImportTypeEnum::Xtb->value => XtbMapper::class,
+		BrokerImportTypeEnum::Xtb->value . 'Legacy' => XtbLegacyMapper::class,
 		BrokerImportTypeEnum::Etoro->value => EtoroMapper::class,
 		BrokerImportTypeEnum::Revolut->value => RevolutMapper::class,
 		BrokerImportTypeEnum::Anycoin->value => AnycoinMapper::class,
