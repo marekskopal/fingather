@@ -68,7 +68,7 @@ final class GoogleAuthServiceTest extends TestCase
 		]);
 
 		$this->expectException(GoogleAuthException::class);
-		$this->expectExceptionMessage('Invalid audience in Google ID token');
+		$this->expectExceptionMessageIsOrContains('Invalid audience in Google ID token');
 		$service->verifyIdToken('valid-id-token');
 	}
 
@@ -85,7 +85,7 @@ final class GoogleAuthServiceTest extends TestCase
 		]);
 
 		$this->expectException(GoogleAuthException::class);
-		$this->expectExceptionMessage('Email not verified with Google');
+		$this->expectExceptionMessageIsOrContains('Email not verified with Google');
 		$service->verifyIdToken('valid-id-token');
 	}
 
@@ -96,7 +96,7 @@ final class GoogleAuthServiceTest extends TestCase
 		]);
 
 		$this->expectException(GoogleAuthException::class);
-		$this->expectExceptionMessage('Failed to verify Google ID token');
+		$this->expectExceptionMessageIsOrContains('Failed to verify Google ID token');
 		$service->verifyIdToken('valid-id-token');
 	}
 
@@ -107,7 +107,7 @@ final class GoogleAuthServiceTest extends TestCase
 		]);
 
 		$this->expectException(GoogleAuthException::class);
-		$this->expectExceptionMessage('Failed to verify Google ID token');
+		$this->expectExceptionMessageIsOrContains('Failed to verify Google ID token');
 		$service->verifyIdToken('valid-id-token');
 	}
 

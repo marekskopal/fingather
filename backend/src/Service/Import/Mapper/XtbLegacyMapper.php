@@ -44,12 +44,12 @@ final class XtbLegacyMapper extends AbstractXtbMapper
 				$record = $this->buildDividendRecord($row, $currency);
 				if ($record !== null) {
 					$records[] = $record;
-					$dividendRecordIndexById[$row['B']] = count($records) - 1;
+					$dividendRecordIndexById[(int) $row['B']] = count($records) - 1;
 				}
 			} elseif ($type === 'Withholding Tax') {
 				// Tax row id == dividend id + 1; row order in the sheet isn't reliable,
 				// so we pair by id rather than by adjacent index.
-				$dividendId = (string) ((int) $row['B'] - 1);
+				$dividendId = (int) $row['B'] - 1;
 				if (isset($dividendRecordIndexById[$dividendId])) {
 					$records[$dividendRecordIndexById[$dividendId]][self::Tax] = (string) abs((float) $row['G']);
 				}
@@ -61,7 +61,7 @@ final class XtbLegacyMapper extends AbstractXtbMapper
 
 	/**
 	 * @param array<string, string> $row
-	 * @param array<string, float> $closeTradeAmountById
+	 * @param array<int, float> $closeTradeAmountById
 	 * @return array<string, string>|null
 	 */
 	private function buildTradeRecord(array $row, string $currency, array $closeTradeAmountById): ?array
@@ -121,7 +121,7 @@ final class XtbLegacyMapper extends AbstractXtbMapper
 	 * (close_trade.id == stock_sale.id - 1) and recover the true gross proceeds.
 	 *
 	 * @param array<int, array<string, string>> $sheetData
-	 * @return array<string, float>
+	 * @return array<int, float>
 	 */
 	private function indexCloseTradeAmounts(array $sheetData): array
 	{
@@ -131,7 +131,7 @@ final class XtbLegacyMapper extends AbstractXtbMapper
 				continue;
 			}
 			if ($row['C'] === 'close trade') {
-				$closeTradeAmountById[$row['B']] = (float) $row['G'];
+				$closeTradeAmountById[(int) $row['B']] = (float) $row['G'];
 			}
 		}
 
@@ -140,12 +140,12 @@ final class XtbLegacyMapper extends AbstractXtbMapper
 
 	/**
 	 * @param array<string, string> $row
-	 * @param array<string, float> $closeTradeAmountById
+	 * @param array<int, float> $closeTradeAmountById
 	 */
 	private function resolveSellAmount(array $row, array $closeTradeAmountById): float
 	{
 		$rawAmount = (float) $row['G'];
-		$closeTradeId = (string) ((int) $row['B'] - 1);
+		$closeTradeId = (int) $row['B'] - 1;
 		if (isset($closeTradeAmountById[$closeTradeId])) {
 			$rawAmount += $closeTradeAmountById[$closeTradeId];
 		}

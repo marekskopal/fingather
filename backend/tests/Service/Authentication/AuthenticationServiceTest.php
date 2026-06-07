@@ -53,7 +53,7 @@ final class AuthenticationServiceTest extends TestCase
 		$service = new AuthenticationService($userProvider);
 
 		$this->expectException(AuthenticationException::class);
-		$this->expectExceptionMessage('User with email missing@example.com was not found.');
+		$this->expectExceptionMessageIsOrContains('User with email missing@example.com was not found.');
 		$service->authenticate(new CredentialsDto('missing@example.com', 'whatever'));
 	}
 
@@ -67,7 +67,7 @@ final class AuthenticationServiceTest extends TestCase
 		$service = new AuthenticationService($userProvider);
 
 		$this->expectException(AuthenticationException::class);
-		$this->expectExceptionMessage('Password is incorrect.');
+		$this->expectExceptionMessageIsOrContains('Password is incorrect.');
 		$service->authenticate(new CredentialsDto($user->email, 'anything'));
 	}
 
@@ -81,7 +81,7 @@ final class AuthenticationServiceTest extends TestCase
 		$service = new AuthenticationService($userProvider);
 
 		$this->expectException(AuthenticationException::class);
-		$this->expectExceptionMessage('Password is incorrect.');
+		$this->expectExceptionMessageIsOrContains('Password is incorrect.');
 		$service->authenticate(new CredentialsDto($user->email, 'wrong'));
 	}
 

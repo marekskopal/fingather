@@ -193,7 +193,7 @@ final readonly class TaxReportRealizedGainsCalculator implements TaxReportRealiz
 				tickerLogo: $ticker->logo,
 				buyDate: $match->buy->actionCreated->format('Y-m-d'),
 				sellDate: $transaction->actionCreated->format('Y-m-d'),
-				holdingPeriodDays: (int) $transaction->actionCreated->diff($match->buy->actionCreated)->days,
+				holdingPeriodDays: $transaction->actionCreated->diff($match->buy->actionCreated)->days,
 				units: $match->usedUnitsWithSplits,
 				buyPrice: $match->buy->priceDefaultCurrency,
 				sellPrice: $transaction->priceDefaultCurrency,

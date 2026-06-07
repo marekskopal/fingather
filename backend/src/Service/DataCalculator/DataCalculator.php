@@ -18,7 +18,7 @@ final readonly class DataCalculator implements DataCalculatorInterface
 		DateTimeImmutable $dateTime,
 		DateTimeImmutable $firstTransactionActionCreated,
 	): CalculatedDataDto {
-		$fromFirstTransactionDays = (int) $dateTime->diff($firstTransactionActionCreated)->days;
+		$fromFirstTransactionDays = $dateTime->diff($firstTransactionActionCreated)->days;
 
 		$sumAssetValue = new Decimal(0);
 		$sumAssetTransactionValueDefaultCurrency = new Decimal(0);

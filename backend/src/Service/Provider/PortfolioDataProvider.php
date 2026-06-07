@@ -66,7 +66,7 @@ final class PortfolioDataProvider implements PortfolioDataProviderInterface
 		$calculatedData = $this->computeBasicPortfolioData($user, $portfolio, $dateTime, $firstTransactionDate);
 
 		if ($cashFlows !== []) {
-			$fromFirstTransactionDays = (int) $dateTime->diff($cashFlows[0]->date)->days;
+			$fromFirstTransactionDays = $dateTime->diff($cashFlows[0]->date)->days;
 
 			$twr = $this->twrCalculator->calculate(
 				cashFlows: $cashFlows,

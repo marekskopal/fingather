@@ -131,7 +131,7 @@ final readonly class TaxOptimizationCalculator
 		array &$alreadyTaxFree,
 		array &$winningShortTerm,
 	): void {
-		$holdingDays = (int) $asOf->diff($assetData->firstTransactionActionCreated)->days;
+		$holdingDays = $asOf->diff($assetData->firstTransactionActionCreated)->days;
 		$gain = $assetData->gainDefaultCurrency;
 		$longTermDays = $rules->longTermHoldingDays();
 		$daysUntilLongTerm = $longTermDays !== null ? max(0, $longTermDays - $holdingDays) : null;

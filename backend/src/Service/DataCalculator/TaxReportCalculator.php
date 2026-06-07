@@ -71,7 +71,7 @@ final readonly class TaxReportCalculator
 				tickerName: $asset->ticker->name,
 				tickerLogo: $asset->ticker->logo,
 				firstBuyDate: $assetData->firstTransactionActionCreated->format('Y-m-d'),
-				holdingPeriodDays: (int) $yearEnd->diff($assetData->firstTransactionActionCreated)->days,
+				holdingPeriodDays: $yearEnd->diff($assetData->firstTransactionActionCreated)->days,
 				units: $assetData->units,
 				buyPrice: $assetData->averagePriceDefaultCurrency,
 				costBasis: $assetData->transactionValueDefaultCurrency,

@@ -47,12 +47,12 @@ final class XtbMapper extends AbstractXtbMapper
 				$record = $this->buildDividendRecord($row);
 				if ($record !== null) {
 					$records[] = $record;
-					$dividendRecordIndexById[$row['F']] = count($records) - 1;
+					$dividendRecordIndexById[(int) $row['F']] = count($records) - 1;
 				}
 			} elseif ($type === 'Withholding tax') {
 				// Tax row id == dividend id + 1; row order in the sheet isn't reliable,
 				// so we pair by id rather than by adjacent index.
-				$dividendId = (string) ((int) $row['F'] - 1);
+				$dividendId = (int) $row['F'] - 1;
 				if (isset($dividendRecordIndexById[$dividendId])) {
 					$records[$dividendRecordIndexById[$dividendId]][self::Tax] = (string) abs((float) $row['E']);
 				}

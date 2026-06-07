@@ -58,7 +58,7 @@ final class EncryptionServiceTest extends TestCase
 		$wrongKeyService = new EncryptionService('wrong-encryption-key-32-chars-mn');
 
 		$this->expectException(\RuntimeException::class);
-		$this->expectExceptionMessage('Failed to decrypt data.');
+		$this->expectExceptionMessageIsOrContains('Failed to decrypt data.');
 		$wrongKeyService->decrypt($encrypted);
 	}
 
@@ -75,7 +75,7 @@ final class EncryptionServiceTest extends TestCase
 		$service = new EncryptionService(self::EncryptionKey);
 
 		$this->expectException(\RuntimeException::class);
-		$this->expectExceptionMessage('Failed to decode encrypted data.');
+		$this->expectExceptionMessageIsOrContains('Failed to decode encrypted data.');
 		$service->decrypt('not-valid-base64!!!');
 	}
 }

@@ -34,12 +34,12 @@ final class MwrCalculator implements MwrCalculatorInterface
 		foreach ($cashFlows as $portfolioCf) {
 			// Flip sign: portfolio perspective (Buy positive) → investor perspective (Buy negative)
 			$eventCfs[] = -$portfolioCf->netCashFlow->toFloat();
-			$eventTs[] = (int) $portfolioCf->date->diff($firstDate)->days / 365.0;
+			$eventTs[] = $portfolioCf->date->diff($firstDate)->days / 365.0;
 		}
 
 		// Add ending portfolio value as investor inflow at endDate.
 		$eventCfs[] = $endingValue->toFloat();
-		$eventTs[] = (int) $endDate->diff($firstDate)->days / 365.0;
+		$eventTs[] = $endDate->diff($firstDate)->days / 365.0;
 
 		// Newton-Raphson iteration.
 		$r = self::InitialGuess;

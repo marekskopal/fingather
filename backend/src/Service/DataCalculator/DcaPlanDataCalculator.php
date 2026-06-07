@@ -365,7 +365,7 @@ final readonly class DcaPlanDataCalculator
 			return null;
 		}
 
-		$days = (int) $lastData->date->diff($firstData->date)->days;
+		$days = $lastData->date->diff($firstData->date)->days;
 		$years = max($days, self::MinDays) / 365.0;
 		$cagr = (($lastData->close->toFloat() / $firstData->close->toFloat()) ** (1.0 / $years) - 1.0) * 100.0;
 

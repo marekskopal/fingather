@@ -110,7 +110,7 @@ final readonly class OverviewDataCalculator
 			$fee = $portfolioDataToDate->fee->sub($portfolioDataFromDate->fee);
 
 			assert($previousYearEndDate !== null);
-			$interannualDays = (int) $yearToDate->diff($previousYearEndDate)->days;
+			$interannualDays = $yearToDate->diff($previousYearEndDate)->days;
 
 			$gainPercentage = CalculatorUtils::diffToPercentage($portfolioDataFromDate->gain, $portfolioDataToDate->gain);
 			$gainPercentagePerAnnum = CalculatorUtils::toPercentagePerAnnum($gainPercentage, $interannualDays);

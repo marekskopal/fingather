@@ -13,7 +13,6 @@ use FinGather\Model\Entity\Enum\UserRoleEnum;
  *         id: int,
  *         email: string,
  *         name: string,
- *         defaultCurrencyId: int,
  *         role: value-of<UserRoleEnum>,
  *     },
  *     token: string,

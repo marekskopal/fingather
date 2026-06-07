@@ -13,9 +13,7 @@ use FinGather\Model\Entity\PasswordReset;
  *         id: int,
  *         email: string,
  *         name: string,
- *         defaultCurrencyId: int,
  *         role: value-of<UserRoleEnum>,
- *         planExpires: string|null,
  *     },
  *     token: string,
  * }>

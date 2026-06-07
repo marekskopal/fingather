@@ -56,7 +56,7 @@ final readonly class AssetDataCalculator implements AssetDataCalculatorInterface
 		$exchangeRate = $this->exchangeRateProvider->getExchangeRate($dateTime, $tickerCurrency, $portfolio->currency);
 
 		$firstTransaction = array_first($transactions);
-		$fromFirstTransactionDays = (int) $dateTime->diff($firstTransaction->actionCreated)->days;
+		$fromFirstTransactionDays = $dateTime->diff($firstTransaction->actionCreated)->days;
 
 		$accumulator = new TransactionAccumulatorDto();
 
