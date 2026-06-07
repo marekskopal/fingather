@@ -1,6 +1,6 @@
 {
   "name": "fingather",
-  "version": "1.15.1",
+  "version": "1.15.2",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --configuration ssl --open",

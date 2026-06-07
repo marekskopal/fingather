@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.15.2] - 2026-06-07
+### Changed
+- XTB importer now supports both the new single-sheet "Cash Operations" export and the legacy four-sheet layout.
+### Fixed
+- Czech translation of "Upcoming Dividends" on the dividends page.
+
 ## [1.15.1] - 2026-05-16
 ### Changed
 - Tax optimization summary cards now sit side-by-side on tablet and wider; empty buckets are no longer rendered.
