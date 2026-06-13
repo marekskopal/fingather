@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.15.3] - 2026-06-13
+### Security
+- Secret values (database, Stripe, encryption, JWT and external API keys, request authorization tokens) are now masked in error logs instead of being written in plaintext.
+
 ## [1.15.2] - 2026-06-07
 ### Changed
 - XTB importer now supports both the new single-sheet "Cash Operations" export and the legacy four-sheet layout.
