@@ -38,3 +38,9 @@ make test-env-down  # docker compose -f docker-compose.test.yml down
 ## API Contract
 
 Backend `Decimal` values (php-decimal) are serialised as **JSON strings**, not numbers. iOS and frontend consumers must handle this accordingly.
+
+## Releases
+
+See `RELEASE.md` for the full process.
+
+**Never create a release (version bump, `Release vX.Y.Z` commit, or tag) until all GitHub Actions workflows pass on the commit being released.** Verify the Backend, Frontend, and E2E workflows are green first — locally run `make test` plus the backend lint/static-analysis steps (`vendor/bin/phpcs` and `vendor/bin/phpstan analyze`), or check the pushed commit's runs with `gh run list`. Tag only a commit whose CI is green.
