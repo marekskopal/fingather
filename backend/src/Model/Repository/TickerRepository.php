@@ -8,6 +8,7 @@ use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Ticker;
 use Iterator;
 use MarekSkopal\ORM\Query\Enum\DirectionEnum;
+use MarekSkopal\ORM\Query\Expression\RawExpression;
 use MarekSkopal\ORM\Query\Select;
 use MarekSkopal\ORM\Query\Where\WhereBuilder;
 use MarekSkopal\ORM\Repository\AbstractRepository;
@@ -91,7 +92,7 @@ final class TickerRepository extends AbstractRepository
 			->select(Asset::class)
 			->columns(['ticker_id'])
 			->groupBy(['ticker_id'])
-			->orderBy('count(*)', DirectionEnum::Desc)
+			->orderBy(new RawExpression('count(*)'), DirectionEnum::Desc)
 			->limit($limit)
 			->offset($offset)
 			->fetchAssocAll();
