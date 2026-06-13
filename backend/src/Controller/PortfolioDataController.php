@@ -8,7 +8,12 @@ use DateTimeImmutable;
 use FinGather\Dto\Enum\RangeEnum;
 use FinGather\Dto\PortfolioDataDto;
 use FinGather\Dto\PortfolioDataWithBenchmarkDataDto;
+use FinGather\Helper\DatePeriod;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
+use FinGather\Model\Entity\Portfolio;
+use FinGather\Model\Entity\Ticker;
+use FinGather\Model\Entity\Transaction;
+use FinGather\Model\Entity\User;
 use FinGather\Response\NotFoundResponse;
 use FinGather\Route\Routes;
 use FinGather\Service\Provider\AssetProviderInterface;
@@ -111,10 +116,6 @@ final readonly class PortfolioDataController
 
 		$firstTransaction = array_first($transactions);
 
-		$portfolioDatas = [];
-
-		$benchmarkDataFromDate = null;
-
 		$datePeriod = DateTimeUtils::getDatePeriod(
 			range: $range,
 			customRangeFrom: $customRangeFrom,
@@ -122,6 +123,27 @@ final readonly class PortfolioDataController
 			firstDate: $firstTransaction->actionCreated,
 			shiftStartDate: $range === RangeEnum::All,
 		);
+
+		$portfolioDatas = $this->buildPortfolioDatas($user, $portfolio, $datePeriod, $benchmarkTicker, $transactions);
+
+		return new JsonResponse($portfolioDatas);
+	}
+
+	/**
+	 * @param list<Transaction> $transactions
+	 * @return list<PortfolioDataWithBenchmarkDataDto>
+	 */
+	private function buildPortfolioDatas(
+		User $user,
+		Portfolio $portfolio,
+		DatePeriod $datePeriod,
+		?Ticker $benchmarkTicker,
+		array $transactions,
+	): array {
+		$portfolioDatas = [];
+
+		$benchmarkDataFromDate = null;
+
 		foreach ($datePeriod as $dateTime) {
 			/** @var DateTimeImmutable $dateTime */
 			$portfolioData = $this->portfolioDataProvider->getPortfolioData($user, $portfolio, $dateTime);
@@ -157,6 +179,6 @@ final readonly class PortfolioDataController
 			$portfolioDatas[] = PortfolioDataWithBenchmarkDataDto::fromCalculatedDataDto($portfolioData, $benchmarkData);
 		}
 
-		return new JsonResponse($portfolioDatas);
+		return $portfolioDatas;
 	}
 }
