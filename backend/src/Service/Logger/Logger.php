@@ -39,9 +39,7 @@ final readonly class Logger
 		return new TracyToPsrLoggerAdapter(Debugger::getLogger());
 	}
 
-	/**
-	 * @api Wired as Tracy's bluescreen scrubber callback (signature: key, value, class).
-	 */
+	/** @api Wired as Tracy's bluescreen scrubber callback (signature: key, value, class). */
 	public static function isSensitiveKey(int|string $key, mixed $value = null, ?string $class = null): bool
 	{
 		return is_string($key) && preg_match(self::SensitiveKeyPattern, $key) === 1;
