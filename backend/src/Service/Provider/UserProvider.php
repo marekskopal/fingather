@@ -14,6 +14,7 @@ use FinGather\Model\Repository\Enum\UserOrderByEnum;
 use FinGather\Model\Repository\UserRepository;
 use FinGather\Validator\PasswordValidator;
 use Iterator;
+use Psr\Log\LoggerInterface;
 use SensitiveParameter;
 use const PASSWORD_BCRYPT;
 
@@ -24,6 +25,7 @@ final readonly class UserProvider implements UserProviderInterface
 		private EmailVerifyProviderInterface $emailVerifyProvider,
 		private GroupProviderInterface $groupProvider,
 		private PortfolioProviderInterface $portfolioProvider,
+		private LoggerInterface $logger,
 	) {
 	}
 
@@ -85,6 +87,8 @@ final readonly class UserProvider implements UserProviderInterface
 		);
 		$this->userRepository->persist($user);
 
+		$this->logger->info('Creating user ' . $user->id . ' (' . $user->email . ').');
+
 		$defaultPortfolio = $this->portfolioProvider->createDefaultPortfolio($user, $defaultCurrency);
 
 		$this->groupProvider->createOthersGroup($user, $defaultPortfolio);
@@ -117,6 +121,8 @@ final readonly class UserProvider implements UserProviderInterface
 			locale: $locale,
 		);
 		$this->userRepository->persist($user);
+
+		$this->logger->info('Creating user ' . $user->id . ' (' . $user->email . ') from Google.');
 
 		$defaultPortfolio = $this->portfolioProvider->createDefaultPortfolio($user, $defaultCurrency);
 
@@ -201,6 +207,8 @@ final readonly class UserProvider implements UserProviderInterface
 
 	public function deleteUser(User $user): void
 	{
+		$this->logger->info('Deleting user ' . $user->id . ' (' . $user->email . ').');
+
 		$this->userRepository->delete($user);
 	}
 
