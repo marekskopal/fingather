@@ -134,7 +134,10 @@ server {
         proxy_set_header X-Forwarded-Proto $scheme;
     }
 
-    location /mcp {
+    # Bounded so it matches /mcp and /mcp/... only — never sibling paths like
+    # /mcp-server (the TYPO3 marketing page), which a plain `location /mcp` prefix
+    # would greedily capture and misroute to the backend.
+    location ~ ^/mcp(/|$) {
         add_header X-Content-Type-Options nosniff;
         add_header Cache-Control "no-store";
 
