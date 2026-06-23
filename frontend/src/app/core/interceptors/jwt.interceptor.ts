@@ -10,6 +10,10 @@ import { catchError, from, Observable, shareReplay, switchMap, tap, throwError }
 const refreshTokenUrl = `${environment.apiUrl}/authentication/refresh-token` as const;
 const stopImpersonationUrl = `${environment.apiUrl}/authentication/stop-impersonation` as const;
 
+// Origin-relative endpoints (outside environment.apiUrl) that still need the Bearer token.
+// The MCP OAuth authorize endpoint identifies the consenting user from this header.
+const authenticatedNonApiUrls = ['/mcp/oauth/authorize'];
+
 let refreshTokenObservable: Observable<Authentication> | null = null;
 
 export function jwtInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
@@ -37,11 +41,7 @@ export function jwtInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): 
 }
 
 function addAuthHeader(req: HttpRequest<unknown>, authService: AuthenticationService): HttpRequest<unknown> {
-    if (!authService.isLoggedIn()) {
-        return req;
-    }
-
-    if (!req.url.startsWith(environment.apiUrl)) {
+    if (!authService.isLoggedIn() || !requiresAuthHeader(req.url)) {
         return req;
     }
 
@@ -50,6 +50,10 @@ function addAuthHeader(req: HttpRequest<unknown>, authService: AuthenticationSer
             Authorization: `Bearer ${authService.authentication()?.accessToken}`,
         },
     });
+}
+
+function requiresAuthHeader(url: string): boolean {
+    return url.startsWith(environment.apiUrl) || authenticatedNonApiUrls.includes(url);
 }
 
 function handleTokenRefresh(
