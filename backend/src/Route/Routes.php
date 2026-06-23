@@ -125,12 +125,12 @@ enum Routes: string
 	case TransactionExportCsv = '/api/transactions/{portfolioId:number}/export-csv';
 	case TransactionExportXlsx = '/api/transactions/{portfolioId:number}/export-xlsx';
 
-	case OAuthMetadata = '/.well-known/oauth-authorization-server/api/mcp';
-	case OAuthResourceMetadata = '/.well-known/oauth-protected-resource/api/mcp';
-	case OAuthAuthorize = '/api/mcp/oauth/authorize';
-	case OAuthToken = '/api/mcp/oauth/token';
-	case OAuthRegister = '/api/mcp/oauth/register';
-	case OAuthClientInfo = '/api/mcp/oauth/client-info';
+	case OAuthMetadata = '/.well-known/oauth-authorization-server/mcp';
+	case OAuthResourceMetadata = '/.well-known/oauth-protected-resource/mcp';
+	case OAuthAuthorize = '/mcp/oauth/authorize';
+	case OAuthToken = '/mcp/oauth/token';
+	case OAuthRegister = '/mcp/oauth/register';
+	case OAuthClientInfo = '/mcp/oauth/client-info';
 
-	case Mcp = '/api/mcp';
+	case Mcp = '/mcp';
 }

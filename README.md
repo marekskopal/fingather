@@ -357,7 +357,7 @@ FinGather includes a built-in [Model Context Protocol](https://modelcontextproto
    ```bash
    claude mcp add fingather \
      --transport http \
-     --url https://your-fingather-domain/api/mcp \
+     --url https://your-fingather-domain/mcp \
      --header "Authorization: Bearer YOUR_MCP_API_KEY"
    ```
 

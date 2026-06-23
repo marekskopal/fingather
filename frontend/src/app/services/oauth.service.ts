@@ -1,6 +1,5 @@
 import {HttpClient} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
-import {environment} from '@environments/environment';
 import {firstValueFrom} from 'rxjs';
 
 export interface OAuthClientInfo {
@@ -27,7 +26,7 @@ export class OAuthService {
 
     public async getClientInfo(clientId: string): Promise<OAuthClientInfo> {
         return firstValueFrom(
-            this.http.get<OAuthClientInfo>(`${environment.apiUrl}/mcp/oauth/client-info`, {
+            this.http.get<OAuthClientInfo>('/mcp/oauth/client-info', {
                 params: {client_id: clientId},
             }),
         );
@@ -35,7 +34,7 @@ export class OAuthService {
 
     public async authorize(request: OAuthAuthorizeRequest): Promise<OAuthAuthorizeResponse> {
         return firstValueFrom(
-            this.http.post<OAuthAuthorizeResponse>(`${environment.apiUrl}/mcp/oauth/authorize`, request),
+            this.http.post<OAuthAuthorizeResponse>('/mcp/oauth/authorize', request),
         );
     }
 }

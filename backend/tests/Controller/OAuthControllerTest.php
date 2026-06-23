@@ -58,7 +58,7 @@ final class OAuthControllerTest extends TestCase
 
 	public function testGetMetadataReturnsCorrectStructure(): void
 	{
-		$request = (new ServerRequest())->withUri(new Uri('https://example.com/.well-known/oauth-authorization-server/api/mcp'));
+		$request = (new ServerRequest())->withUri(new Uri('https://example.com/.well-known/oauth-authorization-server/mcp'));
 
 		$response = $this->controller->actionGetMetadata($request);
 
@@ -67,7 +67,7 @@ final class OAuthControllerTest extends TestCase
 
 		/** @var array<string, mixed> $body */
 		$body = json_decode((string) $response->getBody(), true);
-		self::assertSame('https://example.com/api/mcp', $body['issuer']);
+		self::assertSame('https://example.com/mcp', $body['issuer']);
 		self::assertSame('https://example.com/oauth/authorize', $body['authorization_endpoint']);
 		self::assertArrayHasKey('token_endpoint', $body);
 		self::assertArrayHasKey('registration_endpoint', $body);
@@ -77,7 +77,7 @@ final class OAuthControllerTest extends TestCase
 
 	public function testGetResourceMetadataReturnsCorrectStructure(): void
 	{
-		$request = (new ServerRequest())->withUri(new Uri('https://example.com/.well-known/oauth-protected-resource/api/mcp'));
+		$request = (new ServerRequest())->withUri(new Uri('https://example.com/.well-known/oauth-protected-resource/mcp'));
 
 		$response = $this->controller->actionGetResourceMetadata($request);
 
@@ -85,8 +85,8 @@ final class OAuthControllerTest extends TestCase
 
 		/** @var array<string, mixed> $body */
 		$body = json_decode((string) $response->getBody(), true);
-		self::assertSame('https://example.com/api/mcp', $body['resource']);
-		self::assertSame(['https://example.com/api/mcp'], $body['authorization_servers']);
+		self::assertSame('https://example.com/mcp', $body['resource']);
+		self::assertSame(['https://example.com/mcp'], $body['authorization_servers']);
 	}
 
 	public function testPostRegisterReturns201(): void
@@ -102,7 +102,7 @@ final class OAuthControllerTest extends TestCase
 		$this->clientService->method('registerClient')->willReturn($client);
 
 		$request = (new ServerRequest())
-			->withUri(new Uri('https://example.com/api/mcp/oauth/register'))
+			->withUri(new Uri('https://example.com/mcp/oauth/register'))
 			->withHeader('Content-Type', 'application/json')
 			->withBody(new Stream('php://temp', 'r+'));
 
@@ -127,7 +127,7 @@ final class OAuthControllerTest extends TestCase
 	public function testPostRegisterRejectsNonJsonContentType(): void
 	{
 		$request = (new ServerRequest())
-			->withUri(new Uri('https://example.com/api/mcp/oauth/register'))
+			->withUri(new Uri('https://example.com/mcp/oauth/register'))
 			->withHeader('Content-Type', 'text/plain');
 
 		$response = $this->controller->actionPostRegister($request);
@@ -252,7 +252,7 @@ final class OAuthControllerTest extends TestCase
 		$this->clientService->method('findByClientId')->willReturn($client);
 
 		$request = (new ServerRequest())
-			->withUri(new Uri('https://example.com/api/mcp/oauth/client-info?client_id=client-123'))
+			->withUri(new Uri('https://example.com/mcp/oauth/client-info?client_id=client-123'))
 			->withQueryParams(['client_id' => 'client-123']);
 
 		$response = $this->controller->actionGetClientInfo($request);
@@ -270,7 +270,7 @@ final class OAuthControllerTest extends TestCase
 		$this->clientService->method('findByClientId')->willReturn(null);
 
 		$request = (new ServerRequest())
-			->withUri(new Uri('https://example.com/api/mcp/oauth/client-info?client_id=unknown'))
+			->withUri(new Uri('https://example.com/mcp/oauth/client-info?client_id=unknown'))
 			->withQueryParams(['client_id' => 'unknown']);
 
 		$response = $this->controller->actionGetClientInfo($request);
