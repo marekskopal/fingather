@@ -13,6 +13,9 @@ use FinGather\Route\Routes;
 use MarekSkopal\Router\Attribute\RouteDelete;
 use MarekSkopal\Router\Attribute\RouteGet;
 use MarekSkopal\Router\Attribute\RoutePost;
+use Mcp\Server\Transport\Http\Middleware\CorsMiddleware;
+use Mcp\Server\Transport\Http\Middleware\DnsRebindingProtectionMiddleware;
+use Mcp\Server\Transport\Http\Middleware\ProtocolVersionMiddleware;
 use Mcp\Server\Transport\StreamableHttpTransport;
 use Predis\ClientInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -64,9 +67,35 @@ final readonly class McpController
 
 		$sessionStore = new RedisSessionStore($this->redis);
 		$mcpServer = $this->server->build($sessionStore);
-		$transport = new StreamableHttpTransport($request);
+		// Replicate the transport's secure default middleware, but seed DNS-rebinding
+		// protection with the deployed host — the SDK default only allows localhost, which
+		// 403s ("Invalid Host header") the public host in production.
+		$transport = new StreamableHttpTransport($request, middleware: [
+			new CorsMiddleware(),
+			new DnsRebindingProtectionMiddleware($this->allowedHosts()),
+			new ProtocolVersionMiddleware(),
+		]);
 
 		return $mcpServer->run($transport);
+	}
+
+	/**
+	 * Hosts permitted by the transport's DNS-rebinding protection. The SDK default is
+	 * localhost-only; seed it from PROXY_HOST so deployed requests pass while keeping
+	 * defense-in-depth (nginx already enforces `server_name`).
+	 *
+	 * @return list<string>
+	 */
+	private function allowedHosts(): array
+	{
+		$hosts = ['localhost', '127.0.0.1', '[::1]'];
+
+		$proxyHost = getenv('PROXY_HOST');
+		if ($proxyHost !== false && $proxyHost !== '') {
+			$hosts[] = strtolower($proxyHost);
+		}
+
+		return $hosts;
 	}
 
 	private function extractBearerToken(ServerRequestInterface $request): ?string
