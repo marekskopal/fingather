@@ -1,5 +1,5 @@
 FROM composer:2.10.1 AS composer
-FROM mlocati/php-extension-installer:2.11.9 AS php-extension-installer
+FROM mlocati/php-extension-installer:2.11.12 AS php-extension-installer
 FROM dunglas/frankenphp:1.12.4-php8.5.7-alpine AS php
 
 COPY --from=php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
