@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.16.0] - 2026-06-23
+### Changed
+- MCP server is now served at `/mcp` instead of `/api/mcp`.
+- Upgraded Docker images and Composer/pnpm dependencies.
+### Fixed
+- Most-used tickers query corrected for ORM 1.2.0.
+
 ## [1.15.3] - 2026-06-13
 ### Security
 - Secret values (database, Stripe, encryption, JWT and external API keys, request authorization tokens) are now masked in error logs instead of being written in plaintext.
