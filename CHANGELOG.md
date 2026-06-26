@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.17.0] - 2026-06-27
+### Changed
+- Upgraded the frontend to Angular 22 and refreshed Composer/pnpm dependencies and Docker images.
+- Containers now expose readiness healthchecks and service startup is gated on dependencies being healthy.
+### Fixed
+- Corrected the Docker Compose dependency direction so the proxy starts after the services it routes to.
+
 ## [1.16.0] - 2026-06-23
 ### Changed
 - MCP server is now served at `/mcp` instead of `/api/mcp`.
