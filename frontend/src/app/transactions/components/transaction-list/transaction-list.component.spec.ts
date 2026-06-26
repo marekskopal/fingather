@@ -10,7 +10,7 @@ import { Ticker } from '@app/models/ticker';
 import { Transaction } from '@app/models/transaction';
 import { TransactionList } from '@app/models/transaction-list';
 import { PortfolioService, TransactionService } from '@app/services';
-import { TranslateModule } from '@ngx-translate/core';
+import { provideTranslateService } from '@ngx-translate/core';
 
 import { TransactionListComponent } from './transaction-list.component';
 
@@ -75,8 +75,8 @@ describe('TransactionListComponent', () => {
         };
 
         await TestBed.configureTestingModule({
-            imports: [TransactionListComponent, TranslateModule.forRoot()],
-            providers: [
+            imports: [TransactionListComponent],
+            providers: [provideTranslateService(), 
                 { provide: TransactionService, useValue: transactionService },
                 { provide: PortfolioService, useValue: portfolioService },
                 provideRouter([]),

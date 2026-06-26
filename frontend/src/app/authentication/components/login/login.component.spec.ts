@@ -4,7 +4,7 @@ import { provideRouter, Router } from '@angular/router';
 import { AlertService } from '@app/services/alert.service';
 import { AuthenticationService } from '@app/services/authentication.service';
 import { CurrentUserService } from '@app/services/current-user.service';
-import { TranslateModule } from '@ngx-translate/core';
+import { provideTranslateService } from '@ngx-translate/core';
 
 import { LoginComponent } from './login.component';
 
@@ -27,8 +27,8 @@ function buildProviders(
     const alertServiceSpy = { error: vi.fn(), clear: vi.fn() };
 
     TestBed.configureTestingModule({
-        imports: [LoginComponent, TranslateModule.forRoot()],
-        providers: [
+        imports: [LoginComponent],
+        providers: [provideTranslateService(), 
             { provide: AuthenticationService, useValue: authServiceSpy },
             { provide: CurrentUserService, useValue: currentUserServiceSpy },
             { provide: AlertService, useValue: alertServiceSpy },

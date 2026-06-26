@@ -51,7 +51,7 @@ export class AppComponent {
         if (this.authenticationService.isLoggedIn()) {
             this.currentUserService.getCurrentUser().then((user) => {
                 const supportedLangs = this.translateService.getLangs();
-                if (supportedLangs.includes(user.locale) && user.locale !== this.translateService.currentLang) {
+                if (supportedLangs.includes(user.locale) && user.locale !== this.translateService.currentLang()) {
                     this.storageService.set('currentLanguage', user.locale);
                     this.translateService.use(user.locale);
                 }

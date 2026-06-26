@@ -2,7 +2,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {Asset, Ticker} from '@app/models';
 import { TickerTypeEnum } from '@app/models/enums/ticker-type-enum';
-import { TranslateModule } from '@ngx-translate/core';
+import { provideTranslateService } from '@ngx-translate/core';
 
 import { AssetSelectorComponent } from './asset-selector.component';
 
@@ -33,7 +33,8 @@ const mockAssets: Asset[] = [
 
 function buildComponent(): ComponentFixture<AssetSelectorComponent> {
     TestBed.configureTestingModule({
-        imports: [AssetSelectorComponent, TranslateModule.forRoot()],
+        imports: [AssetSelectorComponent],
+        providers: [provideTranslateService()],
         schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
 

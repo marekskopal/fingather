@@ -86,7 +86,7 @@ export class DividendsDataChartComponent implements OnInit, OnChanges {
         return {
             series: [],
             chart: {
-                ...ChartUtils.locale(this.translateService.currentLang ?? 'en'),
+                ...ChartUtils.locale(this.translateService.currentLang() ?? 'en'),
                 type: 'bar',
                 height: 600,
                 stacked: true,

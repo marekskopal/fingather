@@ -7,7 +7,7 @@ import { AlertService } from '@app/services/alert.service';
 import { AuthenticationService } from '@app/services/authentication.service';
 import { CurrencyService } from '@app/services/currency.service';
 import { CurrentUserService } from '@app/services/current-user.service';
-import { TranslateModule } from '@ngx-translate/core';
+import { provideTranslateService } from '@ngx-translate/core';
 
 import { SignUpComponent } from './sign-up.component';
 
@@ -36,8 +36,8 @@ function buildProviders(overrides: Record<string, ReturnType<typeof vi.fn>> = {}
     const uniqueEmailValidatorSpy = { validate: vi.fn().mockResolvedValue(null) };
 
     TestBed.configureTestingModule({
-        imports: [SignUpComponent, TranslateModule.forRoot()],
-        providers: [
+        imports: [SignUpComponent],
+        providers: [provideTranslateService(), 
             { provide: AuthenticationService, useValue: authServiceSpy },
             { provide: CurrencyService, useValue: currencyServiceSpy },
             { provide: CurrentUserService, useValue: currentUserServiceSpy },

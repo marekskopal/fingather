@@ -4,7 +4,7 @@ import { Goal } from '@app/models';
 import { GoalTypeEnum } from '@app/models/enums/goal-type-enum';
 import { CurrencyService } from '@app/services';
 import { ColorEnum } from '@app/utils/enum/color-enum';
-import { TranslateModule } from '@ngx-translate/core';
+import { provideTranslateService } from '@ngx-translate/core';
 
 import { GoalProgressBarComponent } from './goal-progress-bar.component';
 
@@ -30,8 +30,8 @@ function buildComponent(goal: Goal, index = 0): ComponentFixture<GoalProgressBar
     const currencyServiceSpy = { getDefaultCurrency: vi.fn().mockResolvedValue(mockCurrency) };
 
     TestBed.configureTestingModule({
-        imports: [GoalProgressBarComponent, TranslateModule.forRoot()],
-        providers: [{ provide: CurrencyService, useValue: currencyServiceSpy }],
+        imports: [GoalProgressBarComponent],
+        providers: [provideTranslateService(), { provide: CurrencyService, useValue: currencyServiceSpy }],
         schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
 

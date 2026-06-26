@@ -1,9 +1,6 @@
-import { DatePipe } from '@angular/common';
 import {
     ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal,
 } from '@angular/core';
-import { MatIcon } from '@angular/material/icon';
-import { RouterLink } from '@angular/router';
 import { GoalProgressBarComponent } from '@app/goals/goal-progress-bar/goal-progress-bar.component';
 import { Goal } from '@app/models';
 import { GoalTypeEnum } from '@app/models/enums/goal-type-enum';
@@ -16,9 +13,6 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core';
     templateUrl: 'goals-dashboard.component.html',
     imports: [
         TranslatePipe,
-        RouterLink,
-        MatIcon,
-        DatePipe,
         GoalProgressBarComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,

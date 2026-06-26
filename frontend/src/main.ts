@@ -1,4 +1,4 @@
-import {provideHttpClient, withInterceptors} from "@angular/common/http";
+import {provideHttpClient, withInterceptors, withXhr} from "@angular/common/http";
 import {enableProdMode, provideZonelessChangeDetection} from '@angular/core';
 import {bootstrapApplication} from "@angular/platform-browser";
 import {provideRouter} from "@angular/router";
@@ -20,7 +20,7 @@ bootstrapApplication(AppComponent, {
         provideTranslateService({
             loader: provideTranslateHttpLoader({prefix: "/i18n/", suffix: `.json?v=${environment.i18nVersion}`}),
         }),
-        provideHttpClient(withInterceptors([jwtInterceptor, errorInterceptor])),
+        provideHttpClient(withXhr(), withInterceptors([jwtInterceptor, errorInterceptor])),
         provideZonelessChangeDetection(),
     ],
 });

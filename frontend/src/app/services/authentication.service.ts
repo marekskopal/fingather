@@ -73,7 +73,7 @@ export class AuthenticationService {
         const authentication = await firstValueFrom<Authentication>(
             this.http.post<Authentication>(`${environment.apiUrl}/authentication/sign-up`, {
                 ...signUp,
-                locale: this.translateService.currentLang ?? 'en',
+                locale: this.translateService.currentLang() ?? 'en',
             }),
         );
 
@@ -103,7 +103,7 @@ export class AuthenticationService {
             this.http.post<GoogleLoginResponse>(`${environment.apiUrl}/authentication/google-login`, {
                 idToken,
                 defaultCurrencyId,
-                locale: this.translateService.currentLang ?? 'en',
+                locale: this.translateService.currentLang() ?? 'en',
             }),
         );
 

@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { AlertService } from '@app/services/alert.service';
 import { AuthenticationService } from '@app/services/authentication.service';
-import { TranslateModule } from '@ngx-translate/core';
+import { provideTranslateService } from '@ngx-translate/core';
 
 import { ForgotPasswordComponent } from './forgot-password.component';
 
@@ -18,8 +18,8 @@ function buildProviders(overrides: Record<string, ReturnType<typeof vi.fn>> = {}
     const alertServiceSpy = { error: vi.fn(), clear: vi.fn() };
 
     TestBed.configureTestingModule({
-        imports: [ForgotPasswordComponent, TranslateModule.forRoot()],
-        providers: [
+        imports: [ForgotPasswordComponent],
+        providers: [provideTranslateService(), 
             { provide: AuthenticationService, useValue: authServiceSpy },
             { provide: AlertService, useValue: alertServiceSpy },
             provideRouter([]),

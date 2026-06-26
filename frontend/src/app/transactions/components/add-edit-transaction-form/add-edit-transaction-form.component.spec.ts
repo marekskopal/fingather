@@ -12,7 +12,7 @@ import {
     PortfolioService,
     TransactionService,
 } from '@app/services';
-import { TranslateModule } from '@ngx-translate/core';
+import { provideTranslateService } from '@ngx-translate/core';
 
 import { AddEditTransactionFormComponent } from './add-edit-transaction-form.component';
 
@@ -22,8 +22,8 @@ describe('AddEditTransactionFormComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [AddEditTransactionFormComponent, TranslateModule.forRoot()],
-            providers: [
+            imports: [AddEditTransactionFormComponent],
+            providers: [provideTranslateService(), 
                 {
                     provide: TransactionService,
                     useValue: {

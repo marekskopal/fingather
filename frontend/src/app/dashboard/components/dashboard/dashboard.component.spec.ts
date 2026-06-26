@@ -1,7 +1,7 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
+import { provideTranslateService, TranslatePipe } from '@ngx-translate/core';
 
 import { DashboardComponent } from './dashboard.component';
 
@@ -11,8 +11,8 @@ describe('DashboardComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [DashboardComponent, TranslateModule.forRoot()],
-            providers: [provideRouter([])],
+            imports: [DashboardComponent],
+            providers: [provideTranslateService(), provideRouter([])],
             schemas: [NO_ERRORS_SCHEMA],
         })
             .overrideComponent(DashboardComponent, { set: { imports: [TranslatePipe], schemas: [NO_ERRORS_SCHEMA] } })

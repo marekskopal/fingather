@@ -5,7 +5,7 @@ import { Currency, Portfolio } from '@app/models';
 import { AlertService } from '@app/services/alert.service';
 import { CurrencyService } from '@app/services/currency.service';
 import { PortfolioService } from '@app/services/portfolio.service';
-import { TranslateModule } from '@ngx-translate/core';
+import { provideTranslateService } from '@ngx-translate/core';
 
 import { AddEditPortfolioComponent } from './add-edit-portfolio.component';
 
@@ -43,8 +43,8 @@ function buildProviders(
     const routerSpy = { navigate: vi.fn() };
 
     TestBed.configureTestingModule({
-        imports: [AddEditPortfolioComponent, TranslateModule.forRoot()],
-        providers: [
+        imports: [AddEditPortfolioComponent],
+        providers: [provideTranslateService(), 
             { provide: PortfolioService, useValue: portfolioServiceSpy },
             { provide: CurrencyService, useValue: currencyServiceSpy },
             { provide: AlertService, useValue: alertServiceSpy },

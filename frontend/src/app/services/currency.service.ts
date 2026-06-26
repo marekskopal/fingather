@@ -20,7 +20,7 @@ export class CurrencyService {
 
     public async getCurrenciesMap(): Promise<Map<number, Currency>> {
         while (this.isLoading) {
-            // eslint-disable-next-line no-await-in-loop, no-promise-executor-return
+             
             await new Promise((r) => setTimeout(r, 10));
         }
 

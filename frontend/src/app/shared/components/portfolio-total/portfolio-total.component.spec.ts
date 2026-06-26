@@ -2,7 +2,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Currency, Portfolio, PortfolioData } from '@app/models';
 import { CurrencyService, PortfolioDataService, PortfolioService } from '@app/services';
-import { TranslateModule } from '@ngx-translate/core';
+import { provideTranslateService } from '@ngx-translate/core';
 
 import { PortfolioTotalComponent } from './portfolio-total.component';
 
@@ -64,8 +64,8 @@ describe('PortfolioTotalComponent', () => {
         };
 
         await TestBed.configureTestingModule({
-            imports: [PortfolioTotalComponent, TranslateModule.forRoot()],
-            providers: [
+            imports: [PortfolioTotalComponent],
+            providers: [provideTranslateService(), 
                 { provide: PortfolioDataService, useValue: portfolioDataServiceSpy },
                 { provide: CurrencyService, useValue: currencyServiceSpy },
                 { provide: PortfolioService, useValue: portfolioServiceSpy },

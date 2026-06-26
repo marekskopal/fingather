@@ -3,7 +3,7 @@ import {
 } from '@angular/core';
 import {MatIcon} from "@angular/material/icon";
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import {TranslateModule} from "@ngx-translate/core";
+import {TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     selector: 'fingather-confirm-dialog',
@@ -11,7 +11,7 @@ import {TranslateModule} from "@ngx-translate/core";
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
         MatIcon,
-        TranslateModule,
+        TranslatePipe,
     ],
 })
 export class ConfirmDialogComponent {

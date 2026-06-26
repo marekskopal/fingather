@@ -27,12 +27,12 @@ export class LanguageSelectorComponent {
     private readonly currentUserService = inject(CurrentUserService);
 
     protected languages: readonly string[] = this.translateService.getLangs();
-    protected currentLanguage: string = this.translateService.currentLang;
+    protected currentLanguage: string = this.translateService.currentLang() ?? 'en';
 
     protected changeLanguage(lang: string): void {
         this.storageService.set('currentLanguage', lang);
         this.translateService.use(lang);
-        this.currentLanguage = this.translateService.currentLang;
+        this.currentLanguage = this.translateService.currentLang() ?? lang;
 
         if (this.authenticationService.isLoggedIn()) {
             this.currentUserService.updateLocale(lang).catch(() => {

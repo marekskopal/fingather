@@ -5,7 +5,7 @@ import { DcaPlan } from '@app/models';
 import { DcaPlanTargetTypeEnum } from '@app/models/enums/dca-plan-target-type-enum';
 import { DcaPlanService } from '@app/services';
 import { GoalService } from '@app/services/goal.service';
-import { TranslateModule } from '@ngx-translate/core';
+import { provideTranslateService } from '@ngx-translate/core';
 
 import { DcaPlanDetailComponent } from './dca-plan-detail.component';
 
@@ -40,8 +40,8 @@ describe('DcaPlanDetailComponent', () => {
             };
 
             await TestBed.configureTestingModule({
-                imports: [DcaPlanDetailComponent, TranslateModule.forRoot()],
-                providers: [
+                imports: [DcaPlanDetailComponent],
+                providers: [provideTranslateService(), 
                     { provide: DcaPlanService, useValue: dcaPlanServiceSpy },
                     { provide: GoalService, useValue: { getGoals: vi.fn().mockResolvedValue([]) } },
                     { provide: ActivatedRoute, useValue: { snapshot: { params: { id: '1' } } } },
@@ -80,8 +80,8 @@ describe('DcaPlanDetailComponent', () => {
             };
 
             await TestBed.configureTestingModule({
-                imports: [DcaPlanDetailComponent, TranslateModule.forRoot()],
-                providers: [
+                imports: [DcaPlanDetailComponent],
+                providers: [provideTranslateService(), 
                     { provide: DcaPlanService, useValue: dcaPlanServiceSpy },
                     { provide: GoalService, useValue: { getGoals: vi.fn().mockResolvedValue([]) } },
                     { provide: ActivatedRoute, useValue: { snapshot: { params: {} } } },

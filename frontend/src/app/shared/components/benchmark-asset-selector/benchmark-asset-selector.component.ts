@@ -3,7 +3,7 @@ import {
 } from '@angular/core';
 import {BenchmarkAsset} from "@app/models";
 import {NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle} from "@ng-bootstrap/ng-bootstrap";
-import {TranslateModule} from "@ngx-translate/core";
+import {TranslatePipe} from "@ngx-translate/core";
 
 @Component({
     selector: 'fingather-benchmark-asset-selector',
@@ -13,7 +13,7 @@ import {TranslateModule} from "@ngx-translate/core";
         NgbDropdownToggle,
         NgbDropdownMenu,
         NgbDropdownItem,
-        TranslateModule,
+        TranslatePipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

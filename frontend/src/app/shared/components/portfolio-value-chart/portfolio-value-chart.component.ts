@@ -116,7 +116,7 @@ export class PortfolioValueChartComponent implements OnInit, OnChanges {
                 },
             ],
             chart: {
-                ...ChartUtils.locale(this.translateService.currentLang ?? 'en'),
+                ...ChartUtils.locale(this.translateService.currentLang() ?? 'en'),
                 height: this.height(),
                 type: 'area',
                 zoom: {

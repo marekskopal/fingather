@@ -4,7 +4,7 @@ import { provideRouter } from '@angular/router';
 import { AssetsWithProperties, Currency, Portfolio } from '@app/models';
 import { AssetsOrder } from '@app/models/enums/assets-order';
 import { AssetService, CurrencyService, GroupWithGroupDataService, PortfolioService } from '@app/services';
-import { TranslateModule } from '@ngx-translate/core';
+import { provideTranslateService } from '@ngx-translate/core';
 
 import { ListComponent } from './list.component';
 
@@ -47,8 +47,8 @@ describe('ListComponent', () => {
         };
 
         await TestBed.configureTestingModule({
-            imports: [ListComponent, TranslateModule.forRoot()],
-            providers: [
+            imports: [ListComponent],
+            providers: [provideTranslateService(), 
                 provideRouter([]),
                 { provide: AssetService, useValue: assetServiceSpy },
                 { provide: CurrencyService, useValue: currencyServiceSpy },

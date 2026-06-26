@@ -46,7 +46,7 @@ export class DeleteButtonComponent {
 
             await this.confirm.emit();
         } catch (error) {
-            // eslint-disable-next-line no-console
+             
             console.error(error);
             if (error instanceof Error) {
                 this.alertService.error(error.message);

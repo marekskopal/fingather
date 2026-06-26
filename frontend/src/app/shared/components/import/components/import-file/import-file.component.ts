@@ -16,7 +16,7 @@ import {FakeLoadingService} from "@app/services/fake-loading.service";
 import {DeletedImportFile} from "@app/shared/components/import/types/deleted-import-file";
 import {ImportFileStatus} from "@app/shared/components/import/types/import-file-status";
 import {FileSizePipe} from "@app/shared/pipes/file-size.pipe";
-import {TranslateModule} from "@ngx-translate/core";
+import {TranslatePipe} from "@ngx-translate/core";
 import {NgxFileDropEntry} from "ngx-file-drop";
 
 @Component({
@@ -25,7 +25,7 @@ import {NgxFileDropEntry} from "ngx-file-drop";
     imports: [
         MatIcon,
         FileSizePipe,
-        TranslateModule,
+        TranslatePipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
