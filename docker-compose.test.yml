@@ -6,6 +6,12 @@ services:
             MYSQL_DATABASE: fingather_test
             MYSQL_USER: fingather_test
             MYSQL_PASSWORD: fingather_test
+        healthcheck:
+            test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+            interval: 10s
+            timeout: 5s
+            retries: 10
+            start_period: 20s
         networks:
             - backend-test
         tmpfs:
@@ -16,6 +22,12 @@ services:
         environment:
             RABBITMQ_DEFAULT_USER: fingather_test
             RABBITMQ_DEFAULT_PASS: fingather_test
+        healthcheck:
+            test: ["CMD-SHELL", "rabbitmq-diagnostics -q ping"]
+            interval: 10s
+            timeout: 5s
+            retries: 10
+            start_period: 20s
         networks:
             - backend-test
 
@@ -27,6 +39,12 @@ services:
     redis-test:
         image: redis:8.6.0-alpine
         command: redis-server --save "" --loglevel warning --requirepass fingather_test
+        healthcheck:
+            test: ["CMD-SHELL", "redis-cli -a fingather_test ping | grep -q PONG"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+            start_period: 5s
         networks:
             - backend-test
 
@@ -78,10 +96,14 @@ services:
         volumes:
             - fingather_test_logs:/app/log
         depends_on:
-            - db-test
-            - rabbitmq-test
-            - memcached-test
-            - redis-test
+            db-test:
+                condition: service_healthy
+            rabbitmq-test:
+                condition: service_healthy
+            memcached-test:
+                condition: service_started
+            redis-test:
+                condition: service_healthy
         networks:
             - backend-test
         healthcheck:
@@ -98,7 +120,8 @@ services:
         ports:
             - "127.0.0.1:4201:443"
         depends_on:
-            - backend-test
+            backend-test:
+                condition: service_healthy
         networks:
             - backend-test
 
