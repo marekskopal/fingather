@@ -1,6 +1,6 @@
 services:
     db-test:
-        image: mariadb:11.4
+        image: mariadb:11.8
         environment:
             MYSQL_ROOT_PASSWORD: fingather_test
             MYSQL_DATABASE: fingather_test
@@ -18,7 +18,7 @@ services:
             - /var/lib/mysql   # ephemeral — data is lost on container stop
 
     rabbitmq-test:
-        image: rabbitmq:4.2.3-alpine
+        image: rabbitmq:4.3.4-alpine
         environment:
             RABBITMQ_DEFAULT_USER: fingather_test
             RABBITMQ_DEFAULT_PASS: fingather_test
@@ -32,12 +32,12 @@ services:
             - backend-test
 
     memcached-test:
-        image: memcached:1.6.40-alpine
+        image: memcached:1.6.45-alpine
         networks:
             - backend-test
 
     redis-test:
-        image: redis:8.6.0-alpine
+        image: redis:8.10.0-alpine
         command: redis-server --save "" --loglevel warning --requirepass fingather_test
         healthcheck:
             test: ["CMD-SHELL", "redis-cli -a fingather_test ping | grep -q PONG"]
