@@ -14,7 +14,7 @@ use FinGather\Model\Entity\Enum\GoalTypeEnum;
  *     type: value-of<GoalTypeEnum>,
  *     targetValue: float,
  *     deadline: string|null,
- *     dcaPlanId: int|null,
+ *     dcaPlanId?: int|null,
  * }>
  */
 final readonly class GoalCreateDto implements ArrayFactoryInterface

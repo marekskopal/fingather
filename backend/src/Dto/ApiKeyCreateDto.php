@@ -10,7 +10,7 @@ use FinGather\Model\Entity\Enum\ApiKeyTypeEnum;
  * @implements ArrayFactoryInterface<array{
  *     type: value-of<ApiKeyTypeEnum>,
  *     apiKey: string,
- *     userKey: string|null,
+ *     userKey?: string|null,
  * }>
  */
 final readonly class ApiKeyCreateDto implements ArrayFactoryInterface

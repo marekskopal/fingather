@@ -11,9 +11,9 @@ use FinGather\Model\Entity\Enum\DcaPlanTargetTypeEnum;
 /**
  * @implements ArrayFactoryInterface<array{
  *     targetType: value-of<DcaPlanTargetTypeEnum>,
- *     assetId: int|null,
- *     groupId: int|null,
- *     strategyId: int|null,
+ *     assetId?: int|null,
+ *     groupId?: int|null,
+ *     strategyId?: int|null,
  *     amount: float,
  *     currencyId: int,
  *     intervalMonths: int,

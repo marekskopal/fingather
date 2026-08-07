@@ -15,8 +15,8 @@ use FinGather\Model\Entity\Enum\PriceAlertTypeEnum;
  *     targetValue: string,
  *     recurrence: value-of<AlertRecurrenceEnum>,
  *     cooldownHours: int,
- *     portfolioId: int|null,
- *     tickerId: int|null,
+ *     portfolioId?: int|null,
+ *     tickerId?: int|null,
  * }>
  */
 final readonly class PriceAlertCreateDto implements ArrayFactoryInterface

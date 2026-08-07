@@ -6,8 +6,8 @@ namespace FinGather\Dto;
 
 /**
  * @implements ArrayFactoryInterface<array{
- *     assetId: int|null,
- *     groupId: int|null,
+ *     assetId?: int|null,
+ *     groupId?: int|null,
  *     isOthers: bool,
  *     percentage: float,
  * }>

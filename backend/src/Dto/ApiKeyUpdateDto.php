@@ -7,7 +7,7 @@ namespace FinGather\Dto;
 /**
  * @implements ArrayFactoryInterface<array{
  *     apiKey: string,
- *     userKey: string|null,
+ *     userKey?: string|null,
  * }>
  */
 final readonly class ApiKeyUpdateDto implements ArrayFactoryInterface
