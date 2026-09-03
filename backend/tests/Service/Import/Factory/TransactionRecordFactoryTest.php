@@ -105,6 +105,40 @@ final class TransactionRecordFactoryTest extends TestCase
 		self::assertEquals(new Decimal('501.25'), $record->total);
 	}
 
+	public function testNumericFieldExceedingDecimalPrecisionIsTruncatedWithoutWarning(): void
+	{
+		$factory = new TransactionRecordFactory();
+		$mapper = $this->makeMapper(new MappingDto(price: 'price', units: 'units', fee: 'fee', total: 'total'));
+
+		set_error_handler(static function (int $severity, string $message): never {
+			throw new \ErrorException($message, 0, $severity);
+		});
+
+		try {
+			$record = $factory->createFromCsvRecord($mapper, [
+				// 38 significant digits, as exported by Coinbase
+				'price' => '83077.13218807841858183895871015217242',
+				// leading zeros are not significant
+				'units' => '0.000065815584000000000000000000000001',
+				// negative value with excess digits
+				'fee' => '-0.123456789012345678901234567890123',
+				// integer-only values are untouched
+				'total' => '12345',
+			]);
+		} finally {
+			restore_error_handler();
+		}
+
+		self::assertNotNull($record->price);
+		self::assertSame('83077.13218807841858183895871', $record->price->toString());
+		self::assertNotNull($record->units);
+		self::assertSame('0.00006581558400000000000000000000', $record->units->toString());
+		self::assertNotNull($record->fee);
+		self::assertSame('-0.1234567890123456789012345678', $record->fee->toString());
+		self::assertNotNull($record->total);
+		self::assertSame('12345', $record->total->toString());
+	}
+
 	public function testDateFieldIsCoercedToDateTimeImmutable(): void
 	{
 		$factory = new TransactionRecordFactory();

@@ -61,7 +61,38 @@ final readonly class TransactionRecordFactory implements TransactionRecordFactor
 	private function mapCsvRecordColumnToDecimal(string|callable|null $mapping, array $csvRecord): ?Decimal
 	{
 		$mappedCsvRecordColumn = $this->mapCsvRecordColumn($mapping, $csvRecord);
-		return isset($mappedCsvRecordColumn) ? new Decimal($mappedCsvRecordColumn) : null;
+		return isset($mappedCsvRecordColumn) ? $this->toDecimal($mappedCsvRecordColumn) : null;
+	}
+
+	/**
+	 * Some brokers (e.g. Coinbase) export values with more significant digits than php-decimal's
+	 * default precision. Constructing a Decimal from such a string emits a "Loss of data on string
+	 * conversion" warning for every cell, so truncate the fraction to fit the precision first.
+	 */
+	private function toDecimal(string $value): Decimal
+	{
+		$matches = [];
+		if (preg_match('/^([+-]?)(\d*)(?:\.(\d*))?$/', $value, $matches) !== 1) {
+			return new Decimal($value);
+		}
+
+		$sign = $matches[1];
+		$integer = $matches[2];
+		$fraction = $matches[3] ?? '';
+
+		$significantIntegerDigits = strlen(ltrim($integer, '0'));
+		$significantDigits = $significantIntegerDigits > 0
+			? $significantIntegerDigits + strlen($fraction)
+			: strlen(ltrim($fraction, '0'));
+
+		$excessDigits = $significantDigits - Decimal::DEFAULT_PRECISION;
+		if ($excessDigits <= 0) {
+			return new Decimal($value);
+		}
+
+		$fraction = substr($fraction, 0, max(0, strlen($fraction) - $excessDigits));
+
+		return new Decimal($sign . ($integer !== '' ? $integer : '0') . ($fraction !== '' ? '.' . $fraction : ''));
 	}
 
 	/**
