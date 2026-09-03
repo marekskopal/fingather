@@ -11,6 +11,19 @@ use Override;
 
 final class CoinbaseMapper extends CsvMapper
 {
+	// Coinbase reports staked ETH under its own "ETH2" symbol, which no market knows.
+	private const array TickerAliases = [
+		'ETH2' => 'ETH',
+	];
+
+	// Fiat cash movements have no asset to import and would only be logged as "Ticker not found".
+	private const array SkippedTransactionTypes = [
+		'deposit',
+		'exchange deposit',
+		'withdrawal',
+		'exchange withdrawal',
+	];
+
 	public function getImportType(): BrokerImportTypeEnum
 	{
 		return BrokerImportTypeEnum::Coinbase;
@@ -21,7 +34,7 @@ final class CoinbaseMapper extends CsvMapper
 		return new MappingDto(
 			actionType: 'Transaction Type',
 			created: 'Timestamp',
-			ticker: 'Asset',
+			ticker: fn (array $record): string => self::TickerAliases[$record['Asset']] ?? $record['Asset'],
 			units: 'Quantity Transacted',
 			price: fn (array $record): string => $this->getMoneyValue($record['Price at Transaction'])->value ?? '0',
 			currency: 'Price Currency',
@@ -42,12 +55,26 @@ final class CoinbaseMapper extends CsvMapper
 
 		return
 			// Check if there is at least one record (header is not counted)
-			isset($records[1]) &&
-			array_key_exists('Transaction Type', $records[1]) &&
-			array_key_exists('Timestamp', $records[1]) &&
-			array_key_exists('Asset', $records[1]) &&
-			array_key_exists('Quantity Transacted', $records[1]) &&
-			array_key_exists('ID', $records[1]);
+			isset($records[0]) &&
+			array_key_exists('Transaction Type', $records[0]) &&
+			array_key_exists('Timestamp', $records[0]) &&
+			array_key_exists('Asset', $records[0]) &&
+			array_key_exists('Quantity Transacted', $records[0]) &&
+			array_key_exists('ID', $records[0]);
+	}
+
+	/** @return list<array<string, string>> */
+	#[Override]
+	public function getRecords(string $content): array
+	{
+		return array_values(array_filter(
+			parent::getRecords($content),
+			static fn (array $record): bool => !in_array(
+				strtolower($record['Transaction Type'] ?? ''),
+				self::SkippedTransactionTypes,
+				true,
+			),
+		));
 	}
 
 	/** @return list<int> */
