@@ -33,6 +33,7 @@ use FinGather\Service\Provider\ImportProviderInterface;
 use FinGather\Service\Provider\SplitProviderInterface;
 use FinGather\Service\Provider\TickerProviderInterface;
 use FinGather\Service\Provider\TransactionProviderInterface;
+use FinGather\Utils\CsvUtils;
 use Psr\Log\LoggerInterface;
 
 final readonly class ImportService
@@ -100,6 +101,13 @@ final readonly class ImportService
 		Currency $defaultCurrency,
 		?DateTimeImmutable $firstDate,
 	): ?DateTimeImmutable {
+		if (CsvUtils::isCsvWithoutRecords($importFile->fileName, $importFile->contents)) {
+			// Broker API exports (e.g. Trading212) regularly deliver a header-only CSV when nothing
+			// happened in the period - that is not a mapper detection failure worth an error entry.
+			$this->logger->info('Import file ' . $importFile->fileName . ' contains no records, skipping.');
+			return null;
+		}
+
 		try {
 			$importMapper = $this->importMapperFactory->createImportMapper(
 				fileName: $importFile->fileName,

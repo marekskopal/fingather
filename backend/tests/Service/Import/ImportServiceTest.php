@@ -52,6 +52,7 @@ use FinGather\Tests\Fixtures\Model\Entity\SplitDtoFixture;
 use FinGather\Tests\Fixtures\Model\Entity\TickerFixture;
 use FinGather\Tests\Fixtures\Model\Entity\TransactionFixture;
 use FinGather\Tests\Fixtures\Model\Entity\UserFixture;
+use FinGather\Utils\CsvUtils;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
@@ -79,6 +80,7 @@ use ReflectionClass;
 #[UsesClass(Sector::class)]
 #[UsesClass(SplitDto::class)]
 #[UsesClass(Country::class)]
+#[UsesClass(CsvUtils::class)]
 final class ImportServiceTest extends TestCase
 {
 	private User $user;
@@ -273,6 +275,61 @@ final class ImportServiceTest extends TestCase
 			dataProvider: $dataProvider,
 			importMapperFactory: $failingFactory,
 			importFiles: [$this->makeImportFile()],
+		);
+
+		$importService->importDataFiles($this->import);
+	}
+
+	public function testHeaderOnlyCsvIsSkippedWithoutMapperDetection(): void
+	{
+		$mapperFactory = $this->createMock(ImportMapperFactoryInterface::class);
+		$mapperFactory->expects($this->never())->method('createImportMapper');
+
+		$transactionProvider = $this->createMock(TransactionProviderInterface::class);
+		$transactionProvider->expects($this->never())->method('createTransaction');
+
+		$logger = $this->createMock(LoggerInterface::class);
+		$logger->expects($this->once())->method('info')->with(self::stringContains('trading212.csv'));
+		$logger->expects($this->never())->method('log');
+
+		$importService = $this->createImportService(
+			transactionProvider: $transactionProvider,
+			importMapperFactory: $mapperFactory,
+			importFiles: [
+				$this->makeImportFile(
+					'trading212.csv',
+					"Action,Time,ISIN,Ticker,Name,No. of shares,Price / share,Currency (Price / share)\r\n\r\n",
+				),
+			],
+			logger: $logger,
+		);
+
+		$importService->importDataFiles($this->import);
+	}
+
+	public function testCsvWithRecordsGoesThroughMapperDetection(): void
+	{
+		$mapperFactory = $this->createMock(ImportMapperFactoryInterface::class);
+		$mapperFactory->expects($this->once())->method('createImportMapper')
+			->willReturn($this->makeMapperStub($this->makeTransactionRecord()));
+
+		$importService = $this->createImportService(
+			importMapperFactory: $mapperFactory,
+			importFiles: [$this->makeImportFile('trading212.csv', "Action,Time,Ticker\nMarket buy,2024-01-01,AAPL\n")],
+		);
+
+		$importService->importDataFiles($this->import);
+	}
+
+	public function testNonCsvFileIsNotCheckedForEmptiness(): void
+	{
+		$mapperFactory = $this->createMock(ImportMapperFactoryInterface::class);
+		$mapperFactory->expects($this->once())->method('createImportMapper')
+			->willReturn($this->makeMapperStub($this->makeTransactionRecord()));
+
+		$importService = $this->createImportService(
+			importMapperFactory: $mapperFactory,
+			importFiles: [$this->makeImportFile('export.xlsx', 'PK')],
 		);
 
 		$importService->importDataFiles($this->import);
@@ -1274,6 +1331,7 @@ final class ImportServiceTest extends TestCase
 		array $importFiles = [],
 		?TransactionRecord $transactionRecord = null,
 		array $importMappings = [],
+		?LoggerInterface $logger = null,
 	): ImportService {
 		$defaultRecord = $transactionRecord ?? $this->makeTransactionRecord();
 
@@ -1337,17 +1395,17 @@ final class ImportServiceTest extends TestCase
 			marketRepository: $marketRepository ?? (new ReflectionClass(
 				MarketRepository::class,
 			))->newInstanceWithoutConstructor(),
-			logger: self::createStub(LoggerInterface::class),
+			logger: $logger ?? self::createStub(LoggerInterface::class),
 		);
 	}
 
-	private function makeImportFile(string $fileName = 'test.csv'): ImportFile
+	private function makeImportFile(string $fileName = 'test.csv', string $contents = "header\nrow\n"): ImportFile
 	{
 		return new ImportFile(
 			import: $this->import,
 			created: new DateTimeImmutable(),
 			fileName: $fileName,
-			contents: 'dummy',
+			contents: $contents,
 		);
 	}
 
