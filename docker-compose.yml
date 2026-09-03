@@ -128,7 +128,7 @@ services:
             - dev
 
     rabbitmq:
-        image: rabbitmq:4.3.4-alpine
+        image: rabbitmq:4.3.5-alpine
         restart: unless-stopped
         environment:
             RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
@@ -151,7 +151,7 @@ services:
             - backend
 
     redis:
-        image: redis:8.10.0-alpine
+        image: redis:8.10.1-alpine
         restart: unless-stopped
         environment:
             REDIS_PASSWORD: ${REDIS_PASSWORD}
@@ -175,7 +175,7 @@ services:
             - backend
 
     buggregator:
-        image: butschster/buggregator:2.4.0
+        image: butschster/buggregator:2.4.1
         ports:
             - 127.0.0.1:8000:8000
             - 127.0.0.1:1025:1025

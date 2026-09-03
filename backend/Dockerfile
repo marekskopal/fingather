@@ -1,4 +1,4 @@
-FROM composer:2.10.2 AS composer
+FROM composer:2.10.3 AS composer
 FROM mlocati/php-extension-installer:2.11.12 AS php-extension-installer
 FROM dunglas/frankenphp:1.12.7-php8.5.9-alpine AS php
 
