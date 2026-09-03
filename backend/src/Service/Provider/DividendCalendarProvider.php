@@ -18,6 +18,7 @@ use FinGather\Utils\DateTimeUtils;
 use MarekSkopal\TwelveData\Dto\Fundamentals\DividendsCalendar;
 use MarekSkopal\TwelveData\Exception\NotFoundException;
 use MarekSkopal\TwelveData\TwelveData;
+use Psr\Log\LoggerInterface;
 
 final readonly class DividendCalendarProvider implements DividendCalendarProviderInterface
 {
@@ -32,6 +33,7 @@ final readonly class DividendCalendarProvider implements DividendCalendarProvide
 		private AssetDataProviderInterface $assetDataProvider,
 		private ExchangeRateProviderInterface $exchangeRateProvider,
 		private TwelveData $twelveData,
+		private LoggerInterface $logger,
 		CacheFactoryInterface $cacheFactory,
 	) {
 		$this->cache = $cacheFactory->create(driver: CacheStorageEnum::Redis, namespace: self::CacheNamespace);
@@ -114,6 +116,15 @@ final readonly class DividendCalendarProvider implements DividendCalendarProvide
 			);
 		} catch (NotFoundException) {
 			$calendarEntries = [];
+		} catch (\Throwable $e) {
+			// TwelveData occasionally answers with a body the client cannot parse (e.g. an error
+			// object instead of a list). One broken ticker must not take down the whole calendar,
+			// so treat it as "no dividends" for this run and do not cache the result.
+			$this->logger->warning(
+				'Dividend calendar for ticker ' . $ticker->ticker . ' (' . $ticker->market->mic . ') could not be loaded: ' . $e->getMessage(),
+			);
+
+			return [];
 		}
 
 		$this->cache->save(key: $cacheKey, data: $calendarEntries, expireSeconds: self::CacheTtlSeconds);
