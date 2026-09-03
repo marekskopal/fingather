@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FinGather\Service\Provider;
 
 use DateTimeImmutable;
+use Decimal\Decimal;
 use FinGather\Dto\AssetDto;
 use FinGather\Dto\AssetsWithPropertiesDto;
 use FinGather\Dto\AssetWithPropertiesDto;
@@ -42,8 +43,9 @@ final readonly class AssetWithPropertiesProvider implements AssetWithPropertiesP
 
 			$assetData = $this->assetDataProvider->getAssetData($user, $portfolio, $asset, $dateTime);
 			if ($assetData === null) {
-				$lastTickerDataClose = $this->tickerDataProvider->getLastTickerDataClose($asset->ticker, $dateTime);
-				assert($lastTickerDataClose !== null);
+				// A watched ticker may have no price history at all (e.g. an obscure crypto token
+				// that TwelveData does not cover) - show it with a zero price instead of failing.
+				$lastTickerDataClose = $this->tickerDataProvider->getLastTickerDataClose($asset->ticker, $dateTime) ?? new Decimal(0);
 				$watchedAssets[] = AssetDto::fromEntity($asset, $lastTickerDataClose, $dcfChip);
 
 				continue;

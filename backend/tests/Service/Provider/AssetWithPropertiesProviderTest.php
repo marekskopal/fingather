@@ -116,6 +116,27 @@ final class AssetWithPropertiesProviderTest extends TestCase
 		self::assertEquals(new Decimal('150'), $result->watchedAssets[0]->price);
 	}
 
+	public function testWatchedAssetWithoutTickerDataFallsBackToZeroPrice(): void
+	{
+		$watchedAsset = $this->makeAsset(id: 1, tickerSymbol: 'AMP');
+
+		$provider = $this->makeProvider(
+			portfolioValue: new Decimal('1000'),
+			assets: [$watchedAsset],
+			assetDataMap: [],
+			// no close price available for ticker 1
+			watchedTickerCloseMap: [],
+		);
+
+		$result = $provider->getAssetsWithAssetData($this->user, $this->portfolio, new DateTimeImmutable(), AssetOrderEnum::TickerName);
+
+		self::assertCount(0, $result->openAssets);
+		self::assertCount(0, $result->closedAssets);
+		self::assertCount(1, $result->watchedAssets);
+		self::assertSame(1, $result->watchedAssets[0]->id);
+		self::assertTrue($result->watchedAssets[0]->price->isZero());
+	}
+
 	public function testTickerNameOrderSortsAlphabetically(): void
 	{
 		$msft = $this->makeAsset(id: 1, tickerSymbol: 'MSFT');
