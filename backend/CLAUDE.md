@@ -71,6 +71,8 @@ final class ExampleMigration extends Migration
 - **Final class mocking rule:** PHPUnit cannot double `final` classes. If a `final` service needs to be mocked in tests, extract an interface (`*Interface`), make the class implement it, and register the interface binding in `ApplicationFactory`. Use the interface as the type-hint in consumers and test stubs.
 - For `final` repository/infrastructure classes that only need to be "never called" in a test, use `(new ReflectionClass(Foo::class))->newInstanceWithoutConstructor()` — any accidental call throws an Error as an implicit assertion.
 - For `readonly class` stubs, set uninitialized readonly properties via `ReflectionProperty::setValue($stub, $value)`.
+- `assertEquals()` on `Decimal` compares by numeric value (`2.5` equals `2.50`) via `tests/Comparator/DecimalComparator.php`, registered in `tests/bootstrap.php`. Without it, the result depends on the ext-decimal version: 1.5.0 treats any two Decimals as equal, 1.5.3 compares string forms.
+- ext-decimal is pinned to `1.5.3` in `backend/Dockerfile` and in the CI image in `.github/workflows/backend.yml`. Keep the two in sync.
 
 ## Code Quality
 

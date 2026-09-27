@@ -12,7 +12,7 @@ RUN install-php-extensions \
     sockets \
     mbstring \
     zip \
-    decimal-^1 \
+    decimal-1.5.3 \
     simplexml \
     gd \
     igbinary \
