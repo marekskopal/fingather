@@ -15,6 +15,12 @@ use FinGather\Model\Repository\TickerRepository;
 use FinGather\Service\Update\TickerLogoUpdater;
 use FinGather\Tests\Fixtures\Model\Entity\MarketFixture;
 use FinGather\Tests\Fixtures\Model\Entity\TickerFixture;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Response;
 use MarekSkopal\TwelveData\Api\Fundamentals;
 use MarekSkopal\TwelveData\Dto\Fundamentals\Logo;
 use MarekSkopal\TwelveData\Dto\Fundamentals\LogoMeta;
@@ -44,6 +50,11 @@ final class TickerLogoUpdaterTest extends TestCase
 		return (new ReflectionClass(TickerRepository::class))->newInstanceWithoutConstructor();
 	}
 
+	private function makeHttpClient(Response|ConnectException ...$responses): Client
+	{
+		return new Client(['handler' => HandlerStack::create(new MockHandler($responses))]);
+	}
+
 	private function makeLogo(?string $url, ?string $logoBase = null): Logo
 	{
 		return new Logo(
@@ -62,7 +73,7 @@ final class TickerLogoUpdaterTest extends TestCase
 		$twelveData = self::createStub(TwelveData::class);
 		// TwelveData must not be called — if it were, getFundamentals() would return a stub that returns null for logo()
 		// and the method would reach persist(), which would throw because the repo is uninitialized.
-		$updater = new TickerLogoUpdater($this->makeTickerRepository(), $twelveData);
+		$updater = new TickerLogoUpdater($this->makeTickerRepository(), $twelveData, $this->makeHttpClient());
 		$updater->updateTickerLogo($ticker);
 
 		// Logo unchanged confirms early return happened
@@ -81,7 +92,7 @@ final class TickerLogoUpdaterTest extends TestCase
 		$twelveData = self::createStub(TwelveData::class);
 		$twelveData->method('getFundamentals')->willReturn($fundamentalsStub);
 
-		$updater = new TickerLogoUpdater($this->makeTickerRepository(), $twelveData);
+		$updater = new TickerLogoUpdater($this->makeTickerRepository(), $twelveData, $this->makeHttpClient());
 		// should not throw
 		$updater->updateTickerLogo($ticker);
 
@@ -102,7 +113,7 @@ final class TickerLogoUpdaterTest extends TestCase
 		$twelveData = self::createStub(TwelveData::class);
 		$twelveData->method('getFundamentals')->willReturn($fundamentalsStub);
 
-		$updater = new TickerLogoUpdater($this->makeTickerRepository(), $twelveData);
+		$updater = new TickerLogoUpdater($this->makeTickerRepository(), $twelveData, $this->makeHttpClient());
 		// should not throw
 		$updater->updateTickerLogo($ticker);
 
@@ -131,7 +142,7 @@ final class TickerLogoUpdaterTest extends TestCase
 		$twelveData = self::createStub(TwelveData::class);
 		$twelveData->method('getFundamentals')->willReturn($fundamentalsStub);
 
-		$updater = new TickerLogoUpdater($this->makeTickerRepository(), $twelveData);
+		$updater = new TickerLogoUpdater($this->makeTickerRepository(), $twelveData, $this->makeHttpClient());
 		$updater->updateTickerLogo($ticker);
 
 		self::assertSame('AAPL', $capturedSymbol);
@@ -158,9 +169,65 @@ final class TickerLogoUpdaterTest extends TestCase
 		$twelveData = self::createStub(TwelveData::class);
 		$twelveData->method('getFundamentals')->willReturn($fundamentalsStub);
 
-		$updater = new TickerLogoUpdater($this->makeTickerRepository(), $twelveData);
+		$updater = new TickerLogoUpdater($this->makeTickerRepository(), $twelveData, $this->makeHttpClient());
 		$updater->updateTickerLogo($ticker);
 
 		self::assertSame('BTC/USD', $capturedSymbol);
+	}
+
+	public function testSkipsLogoWhenDownloadReturnsNotFound(): void
+	{
+		$ticker = TickerFixture::getTicker();
+		$ticker->logo = null;
+
+		$fundamentalsStub = self::createStub(Fundamentals::class);
+		$fundamentalsStub->method('logo')->willReturn($this->makeLogo(url: 'https://api.twelvedata.com/logo/wbd.com'));
+
+		$twelveData = self::createStub(TwelveData::class);
+		$twelveData->method('getFundamentals')->willReturn($fundamentalsStub);
+
+		$updater = new TickerLogoUpdater($this->makeTickerRepository(), $twelveData, $this->makeHttpClient(new Response(404)));
+		// should not throw nor emit a PHP warning
+		$updater->updateTickerLogo($ticker);
+
+		self::assertNull($ticker->logo);
+	}
+
+	public function testSkipsLogoWhenDownloadFails(): void
+	{
+		$ticker = TickerFixture::getTicker();
+		$ticker->logo = null;
+
+		$fundamentalsStub = self::createStub(Fundamentals::class);
+		$fundamentalsStub->method('logo')->willReturn($this->makeLogo(url: 'https://api.twelvedata.com/logo/wbd.com'));
+
+		$twelveData = self::createStub(TwelveData::class);
+		$twelveData->method('getFundamentals')->willReturn($fundamentalsStub);
+
+		$httpClient = $this->makeHttpClient(
+			new ConnectException('Connection refused', new Request('GET', 'https://api.twelvedata.com/logo/wbd.com')),
+		);
+
+		$updater = new TickerLogoUpdater($this->makeTickerRepository(), $twelveData, $httpClient);
+		$updater->updateTickerLogo($ticker);
+
+		self::assertNull($ticker->logo);
+	}
+
+	public function testSkipsLogoWhenDownloadIsEmpty(): void
+	{
+		$ticker = TickerFixture::getTicker();
+		$ticker->logo = null;
+
+		$fundamentalsStub = self::createStub(Fundamentals::class);
+		$fundamentalsStub->method('logo')->willReturn($this->makeLogo(url: 'https://api.twelvedata.com/logo/wbd.com'));
+
+		$twelveData = self::createStub(TwelveData::class);
+		$twelveData->method('getFundamentals')->willReturn($fundamentalsStub);
+
+		$updater = new TickerLogoUpdater($this->makeTickerRepository(), $twelveData, $this->makeHttpClient(new Response(200, body: '')));
+		$updater->updateTickerLogo($ticker);
+
+		self::assertNull($ticker->logo);
 	}
 }

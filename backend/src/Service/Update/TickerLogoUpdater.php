@@ -7,6 +7,8 @@ namespace FinGather\Service\Update;
 use FinGather\Model\Entity\Enum\MarketTypeEnum;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Repository\TickerRepository;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use MarekSkopal\TwelveData\Dto\Fundamentals\Logo;
 use MarekSkopal\TwelveData\Exception\NotFoundException;
 use MarekSkopal\TwelveData\TwelveData;
@@ -16,7 +18,7 @@ final readonly class TickerLogoUpdater
 	private const string LOGOS_PATH = '/app/public/images/logos/';
 	private const string LOGOS_API_DIR = 'api/';
 
-	public function __construct(private TickerRepository $tickerRepository, private TwelveData $twelveData,)
+	public function __construct(private TickerRepository $tickerRepository, private TwelveData $twelveData, private Client $httpClient,)
 	{
 	}
 
@@ -48,8 +50,14 @@ final readonly class TickerLogoUpdater
 			return;
 		}
 
-		$fileContents = file_get_contents($url);
-		if ($fileContents === false) {
+		// TwelveData sometimes returns logo URLs that no longer exist (404) - skip them, the next run retries
+		try {
+			$fileContents = $this->httpClient->get($url)->getBody()->getContents();
+		} catch (GuzzleException) {
+			return;
+		}
+
+		if ($fileContents === '') {
 			return;
 		}
 
