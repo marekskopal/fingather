@@ -21,12 +21,19 @@ use MarekSkopal\ORM\Exception\ConstrainException;
 use MarekSkopal\TwelveData\Dto\CoreData\TimeSeries;
 use MarekSkopal\TwelveData\Enum\AdjustEnum;
 use MarekSkopal\TwelveData\Exception\BadRequestException;
+use MarekSkopal\TwelveData\Exception\InternalServerErrorException;
 use MarekSkopal\TwelveData\Exception\NotFoundException;
 use MarekSkopal\TwelveData\TwelveData;
+use Psr\Http\Client\ClientExceptionInterface;
+use Psr\Log\LoggerInterface;
 
 final readonly class TickerDataProvider implements TickerDataProviderInterface
 {
 	private const TwelveDataTimeSeriesMaxResults = 5000;
+
+	private const UnavailableCacheKeyPrefix = 'unavailable-';
+
+	private const UnavailableRetrySeconds = 600;
 
 	private Cache $cache;
 
@@ -34,6 +41,7 @@ final readonly class TickerDataProvider implements TickerDataProviderInterface
 		private TickerDataRepository $tickerDataRepository,
 		private SplitProviderInterface $splitProvider,
 		private TwelveData $twelveData,
+		private LoggerInterface $logger,
 		CacheFactoryInterface $cacheFactory,
 	) {
 		$this->cache = $cacheFactory->create(namespace: self::class);
@@ -123,6 +131,10 @@ final readonly class TickerDataProvider implements TickerDataProviderInterface
 
 	public function updateTickerData(Ticker $ticker, bool $fullHistory = false): ?DateTimeImmutable
 	{
+		if ($this->cache->load(self::UnavailableCacheKeyPrefix . $ticker->id) !== null) {
+			return null;
+		}
+
 		$lastTickerData = $this->tickerDataRepository->findLastTickerData($ticker->id);
 		if ($lastTickerData !== null && $fullHistory) {
 			return null;
@@ -174,6 +186,9 @@ final readonly class TickerDataProvider implements TickerDataProviderInterface
 			);
 		} catch (NotFoundException | BadRequestException) {
 			return 0;
+		} catch (InternalServerErrorException | ClientExceptionInterface $e) {
+			$this->markUnavailable($ticker, $e);
+			return 0;
 		}
 
 		$this->createTickerData($ticker, $timeSeries);
@@ -193,6 +208,9 @@ final readonly class TickerDataProvider implements TickerDataProviderInterface
 			$timeSeries = $this->twelveData->coreData->timeSeries(symbol: $ticker->ticker . '/USD', startDate: $fromDate, endDate: $toDate);
 			$this->createTickerData($ticker, $timeSeries);
 		} catch (NotFoundException | BadRequestException) {
+			return 0;
+		} catch (InternalServerErrorException | ClientExceptionInterface $e) {
+			$this->markUnavailable($ticker, $e);
 			return 0;
 		}
 
@@ -227,5 +245,19 @@ final readonly class TickerDataProvider implements TickerDataProviderInterface
 			$key = $ticker->id . '-' . $timeSeriesValue->datetime->getTimestamp();
 			$this->cache->remove($key);
 		}
+	}
+
+	/**
+	 * TwelveData 5xx and network errors are transient. Skip the ticker instead of failing the whole
+	 * warmup or update run, and do not retry it for a while so a warmup looping over many dates does
+	 * not call the API for every date. Missing data is filled in by a later update run.
+	 */
+	private function markUnavailable(Ticker $ticker, \Throwable $e): void
+	{
+		$this->logger->warning(
+			'Ticker data for ticker ' . $ticker->ticker . ' (' . $ticker->market->mic . ') could not be loaded: ' . $e->getMessage(),
+		);
+
+		$this->cache->save(key: self::UnavailableCacheKeyPrefix . $ticker->id, data: true, expireSeconds: self::UnavailableRetrySeconds);
 	}
 }
