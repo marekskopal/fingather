@@ -40,7 +40,7 @@ Translation files: `src/i18n/*.json` (en, cs, de, fr, es).
 
 ## Testing (Vitest)
 
-- Config: `vitest.config.ts` — uses `defineConfig` from `vite`
+- Config: `vitest.config.mts` — uses `defineConfig` from `vitest/config`; tsconfig paths via native `resolve.tsconfigPaths`
 - Setup: `src/test-setup.ts` — imports `@angular/compiler`, zone.js, initialises TestBed
 - Globals enabled: no imports needed for `describe`/`it`/`expect`/`vi`
 - **Gotcha:** when a service method awaits a mocked dependency, add `await Promise.resolve()` before `httpMock.expectOne()` so the promise chain settles before flushing
