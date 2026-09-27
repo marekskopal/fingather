@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.17.1] - 2026-09-27
+### Changed
+- API keys rejected by the broker (e.g. a revoked Trading212 key) now pause the automatic import instead of failing every day. The API keys page shows a warning, and saving the key again resumes the import. Requires running the database migrations.
+- Upgraded Composer/pnpm dependencies and Docker images, including apexcharts 7, vitest 5 and Adminer 6.
+- ext-decimal is pinned to 1.5.3 in the production and CI images.
+### Fixed
+- A transient TwelveData error (5xx or network) for one ticker no longer aborts the whole portfolio warmup.
+- Ticker logos whose download URL returns 404 no longer log PHP warnings.
+- Dividend calendar no longer fails when TwelveData returns an unparseable response for a ticker.
+- Coinbase import skips fiat deposit/withdrawal rows and imports ETH2 staking income as ETH instead of dropping it.
+- Imported numeric values with excess precision are truncated instead of logging data-loss warnings.
+- Header-only CSV imports are skipped instead of logging a mapper error.
+- Watched assets without any price history no longer break the assets list.
+
 ## [1.17.0] - 2026-06-27
 ### Changed
 - Upgraded the frontend to Angular 22 and refreshed Composer/pnpm dependencies and Docker images.
