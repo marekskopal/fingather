@@ -652,7 +652,8 @@
         "type": "Type",
         "addApiKey": "Ajouter une clé API",
         "deleteTitle": "Supprimer la clé API",
-        "deleteMessage": "Êtes-vous sûr de vouloir supprimer cette clé API ?"
+        "deleteMessage": "Êtes-vous sûr de vouloir supprimer cette clé API ?",
+        "invalidApiKey": "Le courtier a refusé cette clé API, l'import automatique est donc suspendu. Modifiez la clé pour en saisir une valide."
       },
       "addEdit": {
         "headerAdd": "Ajouter une clé API",

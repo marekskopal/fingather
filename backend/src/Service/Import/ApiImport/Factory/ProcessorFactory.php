@@ -14,7 +14,7 @@ use FinGather\Service\Provider\ApiKeyProviderInterface;
 use FinGather\Service\Provider\ImportFileProviderInterface;
 use FinGather\Service\Provider\ImportProviderInterface;
 
-final readonly class ProcessorFactory
+final readonly class ProcessorFactory implements ProcessorFactoryInterface
 {
 	public function __construct(
 		private ApiKeyProviderInterface $apiKeyProvider,

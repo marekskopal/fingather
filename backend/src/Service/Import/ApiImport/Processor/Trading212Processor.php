@@ -9,6 +9,7 @@ use DateTimeImmutable;
 use FinGather\Model\Entity\ApiImport;
 use FinGather\Model\Entity\ApiKey;
 use FinGather\Model\Entity\Enum\ApiImportStatusEnum;
+use FinGather\Service\Import\ApiImport\Exception\ApiKeyUnauthorizedException;
 use FinGather\Service\Import\ImportService;
 use FinGather\Service\Provider\ApiImportProviderInterface;
 use FinGather\Service\Provider\ApiKeyProviderInterface;
@@ -18,6 +19,8 @@ use MarekSkopal\Trading212\Config\Config;
 use MarekSkopal\Trading212\Dto\HistoricalItems\DataIncluded;
 use MarekSkopal\Trading212\Dto\HistoricalItems\Export;
 use MarekSkopal\Trading212\Dto\HistoricalItems\ExportCsv;
+use MarekSkopal\Trading212\Exception\ForbiddenException;
+use MarekSkopal\Trading212\Exception\UnauthorizedException;
 use MarekSkopal\Trading212\Trading212;
 use Ramsey\Uuid\Uuid;
 
@@ -33,6 +36,15 @@ final readonly class Trading212Processor implements ProcessorInterface
 	}
 
 	public function prepare(ApiKey $apiKey): void
+	{
+		try {
+			$this->prepareExport($apiKey);
+		} catch (UnauthorizedException | ForbiddenException $e) {
+			throw new ApiKeyUnauthorizedException($e->getMessage(), $e->getCode(), $e);
+		}
+	}
+
+	private function prepareExport(ApiKey $apiKey): void
 	{
 		$trading212 = new Trading212(new Config(
 			apiKey: $this->apiKeyProvider->decryptApiKeyValue($apiKey),
@@ -88,7 +100,7 @@ final readonly class Trading212Processor implements ProcessorInterface
 		$this->apiImportProvider->updateApiImport($apiImport, ApiImportStatusEnum::Waiting);
 
 		if ($createNextImport) {
-			$this->prepare($apiKey);
+			$this->prepareExport($apiKey);
 		}
 	}
 
@@ -101,7 +113,12 @@ final readonly class Trading212Processor implements ProcessorInterface
 			apiSecret: $this->apiKeyProvider->decryptUserKeyValue($apiImport->apiKey) ?? '',
 		));
 
-		$exports = $trading212->getHistoricalItems()->exports();
+		try {
+			$exports = $trading212->getHistoricalItems()->exports();
+		} catch (UnauthorizedException | ForbiddenException $e) {
+			throw new ApiKeyUnauthorizedException($e->getMessage(), $e->getCode(), $e);
+		}
+
 		$export = array_values(array_filter($exports, fn(Export $item): bool => $item->reportId === $apiImport->reportId))[0] ?? null;
 		if ($export === null) {
 			$this->apiImportProvider->updateApiImport(apiImport: $apiImport, status: ApiImportStatusEnum::Error, error: 'Export not found');

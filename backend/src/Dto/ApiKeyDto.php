@@ -9,8 +9,13 @@ use FinGather\Model\Entity\Enum\ApiKeyTypeEnum;
 
 final readonly class ApiKeyDto
 {
-	public function __construct(public int $id, public ApiKeyTypeEnum $type, public string $apiKey, public ?string $userKey = null)
-	{
+	public function __construct(
+		public int $id,
+		public ApiKeyTypeEnum $type,
+		public string $apiKey,
+		public ?string $userKey = null,
+		public ?string $error = null,
+	) {
 	}
 
 	public static function fromEntity(ApiKey $entity, string $decryptedApiKey, ?string $decryptedUserKey): self
@@ -20,6 +25,7 @@ final readonly class ApiKeyDto
 			type: $entity->type,
 			apiKey: self::mask($decryptedApiKey),
 			userKey: $decryptedUserKey !== null ? self::mask($decryptedUserKey) : null,
+			error: $entity->error,
 		);
 	}
 

@@ -648,7 +648,8 @@
         "type": "Typ",
         "addApiKey": "Přidat API klíč",
         "deleteTitle": "Smazat API klíč",
-        "deleteMessage": "Opravdu chcete smazat tento API klíč?"
+        "deleteMessage": "Opravdu chcete smazat tento API klíč?",
+        "invalidApiKey": "Broker tento API klíč odmítl, automatický import je proto pozastaven. Upravte klíč a zadejte platný."
       },
       "addEdit": {
         "headerAdd": "Přidat API klíč",

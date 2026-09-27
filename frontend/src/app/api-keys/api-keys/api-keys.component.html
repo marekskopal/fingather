@@ -29,7 +29,12 @@
                         @for(apiKey of apiKeys; track apiKey.id) {
                             <tr>
                                 <td>{{apiKey.type}}</td>
-                                <td>{{apiKey.apiKey}}</td>
+                                <td>
+                                    {{apiKey.apiKey}}
+                                    @if (apiKey.error !== null) {
+                                        <div class="text-danger">{{ 'app.apiKeys.apiKeys.invalidApiKey' | translate }}</div>
+                                    }
+                                </td>
                                 <td class="actions">
                                     <a routerLink="edit-api-key/{{apiKey.id}}" class="btn btn-secondary" tabindex="0">
                                         <mat-icon>edit</mat-icon>

@@ -58,6 +58,12 @@ final readonly class ApiKeyProvider implements ApiKeyProviderInterface
 		return $updatedApiKey;
 	}
 
+	public function setApiKeyError(ApiKey $apiKey, ?string $error): void
+	{
+		$apiKey->error = $error;
+		$this->apiKeyRepository->persist($apiKey);
+	}
+
 	public function deleteApiKey(ApiKey $apiKey): void
 	{
 		$this->apiKeyRepository->delete($apiKey);

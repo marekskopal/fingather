@@ -652,7 +652,8 @@
         "type": "Typ",
         "addApiKey": "API-Schlüssel hinzufügen",
         "deleteTitle": "API-Schlüssel löschen",
-        "deleteMessage": "Sind Sie sicher, dass Sie diesen API-Schlüssel löschen möchten?"
+        "deleteMessage": "Sind Sie sicher, dass Sie diesen API-Schlüssel löschen möchten?",
+        "invalidApiKey": "Der Broker hat diesen API-Schlüssel abgelehnt, daher ist der automatische Import pausiert. Bearbeiten Sie den Schlüssel und geben Sie einen gültigen ein."
       },
       "addEdit": {
         "headerAdd": "API-Schlüssel hinzufügen",

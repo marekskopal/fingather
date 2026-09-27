@@ -21,6 +21,8 @@ interface ApiKeyProviderInterface
 
 	public function updateApiKey(ApiKey $apiKeyEntity, string $apiKey, ?string $userKey = null): ApiKey;
 
+	public function setApiKeyError(ApiKey $apiKey, ?string $error): void;
+
 	public function deleteApiKey(ApiKey $apiKey): void;
 
 	public function decryptApiKeyValue(ApiKey $apiKey): string;

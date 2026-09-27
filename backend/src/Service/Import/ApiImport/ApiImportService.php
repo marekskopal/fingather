@@ -6,8 +6,10 @@ namespace FinGather\Service\Import\ApiImport;
 
 use FinGather\Dto\ApiImportPrepareCheckDto;
 use FinGather\Dto\ApiImportProcessCheckDto;
+use FinGather\Model\Entity\Enum\ApiImportStatusEnum;
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
-use FinGather\Service\Import\ApiImport\Factory\ProcessorFactory;
+use FinGather\Service\Import\ApiImport\Exception\ApiKeyUnauthorizedException;
+use FinGather\Service\Import\ApiImport\Factory\ProcessorFactoryInterface;
 use FinGather\Service\Provider\ApiImportProviderInterface;
 use FinGather\Service\Provider\ApiKeyProviderInterface;
 use FinGather\Service\Provider\BrokerProviderInterface;
@@ -16,7 +18,7 @@ use Psr\Log\LoggerInterface;
 final readonly class ApiImportService
 {
 	public function __construct(
-		private ProcessorFactory $processorFactory,
+		private ProcessorFactoryInterface $processorFactory,
 		private ApiKeyProviderInterface $apiKeyProvider,
 		private ApiImportProviderInterface $apiImportProvider,
 		private BrokerProviderInterface $brokerProvider,
@@ -29,6 +31,11 @@ final readonly class ApiImportService
 		$apiKey = $this->apiKeyProvider->getApiKey(apiKeyId: $apiImportPrepareCheck->apiKeyId);
 		if ($apiKey === null) {
 			$this->logger->error('Preparing API import - ApiKey not found - apiKeyId:' . $apiImportPrepareCheck->apiKeyId);
+			return;
+		}
+
+		if ($apiKey->error !== null) {
+			$this->logger->info('Preparing API import - skipped, ApiKey has error - apiKeyId:' . $apiKey->id);
 			return;
 		}
 
@@ -46,7 +53,13 @@ final readonly class ApiImportService
 		}
 
 		$processor = $this->processorFactory->create($apiKey->type);
-		$processor->prepare($apiKey);
+
+		try {
+			$processor->prepare($apiKey);
+		} catch (ApiKeyUnauthorizedException $e) {
+			$this->logger->warning('Preparing API import - ApiKey unauthorized - apiKeyId:' . $apiKey->id);
+			$this->apiKeyProvider->setApiKeyError($apiKey, $e->getMessage());
+		}
 	}
 
 	public function processImport(ApiImportProcessCheckDto $apiImportProcessCheck): void
@@ -66,6 +79,13 @@ final readonly class ApiImportService
 		}
 
 		$processor = $this->processorFactory->create($apiKey->type);
-		$processor->process($apiImport);
+
+		try {
+			$processor->process($apiImport);
+		} catch (ApiKeyUnauthorizedException $e) {
+			$this->logger->warning('Processing API import - ApiKey unauthorized - apiImportId:' . $apiImport->id);
+			$this->apiImportProvider->updateApiImport(apiImport: $apiImport, status: ApiImportStatusEnum::Error, error: $e->getMessage());
+			$this->apiKeyProvider->setApiKeyError($apiKey, $e->getMessage());
+		}
 	}
 }

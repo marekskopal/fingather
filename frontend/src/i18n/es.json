@@ -652,7 +652,8 @@
         "type": "Tipo",
         "addApiKey": "Agregar Clave API",
         "deleteTitle": "Eliminar Clave API",
-        "deleteMessage": "¿Estás seguro de que quieres eliminar esta clave API?"
+        "deleteMessage": "¿Estás seguro de que quieres eliminar esta clave API?",
+        "invalidApiKey": "El bróker rechazó esta clave API, por lo que la importación automática está en pausa. Edita la clave e introduce una válida."
       },
       "addEdit": {
         "headerAdd": "Agregar Clave API",

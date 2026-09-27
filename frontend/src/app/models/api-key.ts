@@ -5,4 +5,5 @@ export interface ApiKey extends AbstractEntity {
     type: ApiKeyTypeEnum;
     apiKey: string;
     userKey: string | null;
+    error: string | null;
 }

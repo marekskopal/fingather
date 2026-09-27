@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace FinGather\App\ServiceProvider;
 
+use FinGather\Service\Import\ApiImport\Factory\ProcessorFactory;
+use FinGather\Service\Import\ApiImport\Factory\ProcessorFactoryInterface;
 use FinGather\Service\Import\Factory\ImportMapperFactory;
 use FinGather\Service\Import\Factory\ImportMapperFactoryInterface;
 use FinGather\Service\Import\Factory\TransactionRecordFactory;
@@ -16,6 +18,7 @@ final class ImportServiceProvider extends AbstractServiceProvider
 	{
 		return in_array($id, [
 			ImportMapperFactoryInterface::class,
+			ProcessorFactoryInterface::class,
 			TransactionRecordFactoryInterface::class,
 		], true);
 	}
@@ -25,6 +28,7 @@ final class ImportServiceProvider extends AbstractServiceProvider
 		$container = $this->getContainer();
 
 		$container->add(ImportMapperFactoryInterface::class, ImportMapperFactory::class);
+		$container->add(ProcessorFactoryInterface::class, ProcessorFactory::class);
 		$container->add(TransactionRecordFactoryInterface::class, TransactionRecordFactory::class);
 	}
 }
