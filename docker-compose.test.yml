@@ -18,7 +18,7 @@ services:
             - /var/lib/mysql   # ephemeral — data is lost on container stop
 
     rabbitmq-test:
-        image: rabbitmq:4.3.4-alpine
+        image: rabbitmq:4.3.6-alpine
         environment:
             RABBITMQ_DEFAULT_USER: fingather_test
             RABBITMQ_DEFAULT_PASS: fingather_test
@@ -37,7 +37,7 @@ services:
             - backend-test
 
     redis-test:
-        image: redis:8.10.0-alpine
+        image: redis:8.10.2-alpine
         command: redis-server --save "" --loglevel warning --requirepass fingather_test
         healthcheck:
             test: ["CMD-SHELL", "redis-cli -a fingather_test ping | grep -q PONG"]
