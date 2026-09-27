@@ -11,7 +11,7 @@ use Iterator;
 /** @extends \DatePeriod<DateTimeImmutable, DateTimeImmutable, int|null> */
 final class DatePeriod extends \DatePeriod
 {
-	/** @return Iterator<DateTimeImmutable> */
+	/** @return Iterator<int, DateTimeImmutable> */
 	public function getIterator(): Iterator
 	{
 		return new ArrayIterator(array_merge(
