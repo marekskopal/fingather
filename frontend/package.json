@@ -33,7 +33,7 @@
     "@ngx-translate/core": "^18.0.0",
     "@ngx-translate/http-loader": "^18.0.0",
     "@popperjs/core": "^2.11.8",
-    "apexcharts": "^6.10.0",
+    "apexcharts": "^7.6.0",
     "bootstrap": "^5.3.8",
     "ng-apexcharts": "^3.1.0",
     "ngx-file-drop": "^16.0.0",
