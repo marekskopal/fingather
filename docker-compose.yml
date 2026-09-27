@@ -168,7 +168,7 @@ services:
             - redis_volume:/data
 
     adminer:
-        image: adminer:5.5.1
+        image: adminer:6.1.1
         restart: unless-stopped
         networks:
             - frontend
