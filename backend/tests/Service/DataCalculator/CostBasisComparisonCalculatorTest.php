@@ -164,7 +164,7 @@ final class CostBasisComparisonCalculatorTest extends TestCase
 
 		// One yearEnd per method (3 methods); all should be at most "now", not Dec 31.
 		$decemberCutoff = new DateTimeImmutable($currentYear . '-12-31 00:00:00');
-		self::assertNotEmpty($capturedYearEnds);
+		self::assertNotCount(0, $capturedYearEnds);
 		foreach ($capturedYearEnds as $yearEnd) {
 			self::assertLessThan($decemberCutoff, $yearEnd);
 		}
@@ -211,7 +211,7 @@ final class CostBasisComparisonCalculatorTest extends TestCase
 		$calculator->calculate(UserFixture::getUser(), $portfolio, 2024);
 
 		$expected = new DateTimeImmutable('2024-12-31 23:59:59');
-		self::assertNotEmpty($capturedYearEnds);
+		self::assertNotCount(0, $capturedYearEnds);
 		foreach ($capturedYearEnds as $yearEnd) {
 			self::assertEquals($expected, $yearEnd);
 		}

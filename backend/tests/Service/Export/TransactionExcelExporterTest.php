@@ -117,8 +117,8 @@ final class TransactionExcelExporterTest extends TestCase
 		$sheet = $spreadsheet->getActiveSheet();
 
 		// Row 1 has headers, row 2 should be empty
-		self::assertNotEmpty($sheet->getCell('A1')->getValue());
-		self::assertEmpty($sheet->getCell('A2')->getValue());
+		self::assertSame('Date', $sheet->getCell('A1')->getValue());
+		self::assertNull($sheet->getCell('A2')->getValue());
 
 		$spreadsheet->disconnectWorksheets();
 		unlink($file);

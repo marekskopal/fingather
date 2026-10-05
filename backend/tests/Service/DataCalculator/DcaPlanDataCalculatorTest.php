@@ -506,7 +506,7 @@ final class DcaPlanDataCalculatorTest extends TestCase
 		$projection = $calculator->getProjectionWithSimulation($dcaPlan, horizonYears: 1, withCurrentValue: false, simulations: 100);
 
 		// Splice produced enough history → simulation ran → percentile bands present.
-		self::assertNotEmpty($projection->dataPoints);
+		self::assertNotCount(0, $projection->dataPoints);
 		self::assertNotNull($projection->dataPoints[0]->p50);
 	}
 

@@ -79,7 +79,8 @@ final class EmailFactoryTest extends TestCase
 
 		$email = $factory->createGoalEmail($user, $goal, '1500.00');
 
-		self::assertNotEmpty($email->getSubject());
+		self::assertNotNull($email->getSubject());
+		self::assertNotSame('', $email->getSubject());
 		self::assertCount(1, $email->getFrom());
 		self::assertSame($from, $email->getFrom()[0]->getAddress());
 	}
@@ -116,7 +117,8 @@ final class EmailFactoryTest extends TestCase
 
 		$email = $factory->createPriceAlertEmail($user, $priceAlert, '100.00');
 
-		self::assertNotEmpty($email->getSubject());
+		self::assertNotNull($email->getSubject());
+		self::assertNotSame('', $email->getSubject());
 	}
 
 	public function testCreateEmailVerifyEmailHasCorrectRecipient(): void
@@ -147,7 +149,8 @@ final class EmailFactoryTest extends TestCase
 
 		$email = $factory->createEmailVerifyEmail($emailVerify);
 
-		self::assertNotEmpty($email->getSubject());
+		self::assertNotNull($email->getSubject());
+		self::assertNotSame('', $email->getSubject());
 	}
 
 	public function testCreatePasswordResetEmailHasCorrectRecipient(): void

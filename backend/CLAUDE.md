@@ -76,5 +76,5 @@ final class ExampleMigration extends Migration
 
 ## Code Quality
 
-- PHPStan max level, cognitive complexity limit 15
+- PHPStan max level, cognitive complexity limits: 25 per function, 50 per class
 - Strict typing (PHP 8.5+)

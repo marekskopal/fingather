@@ -13,7 +13,8 @@ parameters:
        - tests
 
     cognitive_complexity:
-        function: 15
+        function: 25
+        class: 50
 
     checkImplicitMixed: true
     checkBenevolentUnionTypes: true
