@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Fixed
+- Transactions with a broker and stock splits failed to load after the ORM 2.0 upgrade, and saving a transaction could drop its broker. Fixed by upgrading `marekskopal/orm` to 2.0.2.
 
 ## [1.18.0] - 2026-10-10
 ### Changed

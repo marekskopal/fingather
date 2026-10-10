@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fac8d9f78bcd3611b9e0f8523d0e0cb1",
+    "content-hash": "a155034e87bc6cd0675313fc54183101",
     "packages": [
         {
             "name": "brick/math",
@@ -1484,16 +1484,16 @@
         },
         {
             "name": "marekskopal/orm",
-            "version": "v2.0.1",
+            "version": "v2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/marekskopal/orm.git",
-                "reference": "d0d1ece78c39f6189999f74b4ba52b8eaca6f8b1"
+                "reference": "2f1a5cb25168a3d25f342bc53390c5c7e1b9e226"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/marekskopal/orm/zipball/d0d1ece78c39f6189999f74b4ba52b8eaca6f8b1",
-                "reference": "d0d1ece78c39f6189999f74b4ba52b8eaca6f8b1",
+                "url": "https://api.github.com/repos/marekskopal/orm/zipball/2f1a5cb25168a3d25f342bc53390c5c7e1b9e226",
+                "reference": "2f1a5cb25168a3d25f342bc53390c5c7e1b9e226",
                 "shasum": ""
             },
             "require": {
@@ -1537,9 +1537,9 @@
             ],
             "support": {
                 "issues": "https://github.com/marekskopal/orm/issues",
-                "source": "https://github.com/marekskopal/orm/tree/v2.0.1"
+                "source": "https://github.com/marekskopal/orm/tree/v2.0.2"
             },
-            "time": "2026-10-06T19:27:26+00:00"
+            "time": "2026-10-10T16:33:55+00:00"
         },
         {
             "name": "marekskopal/orm-decimal",

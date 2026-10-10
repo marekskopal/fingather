@@ -29,7 +29,7 @@
         "marekskopal/buggregator-client": "^0.1.0",
         "marekskopal/etoro": "^0.9",
         "marekskopal/openfigi": "^1.0",
-        "marekskopal/orm": "^2.0",
+        "marekskopal/orm": "^2.0.2",
         "marekskopal/orm-decimal": "^1.2",
         "marekskopal/orm-migrations": "^2.0",
         "marekskopal/router": "^1.1",
