@@ -24,7 +24,7 @@ final readonly class TaxReportExcelExporter
 		$this->createRealizedGainsSheet($spreadsheet->getActiveSheet(), $taxReport, $currencySymbol);
 		$this->createUnrealizedPositionsSheet($spreadsheet->createSheet(), $taxReport, $currencySymbol);
 		$this->createDividendsSheet($spreadsheet->createSheet(), $taxReport, $currencySymbol);
-		$this->createSummarySheet($spreadsheet->createSheet(), $taxReport, $currencySymbol);
+		$this->createSummarySheet($spreadsheet->createSheet(), $taxReport);
 
 		$spreadsheet->setActiveSheetIndex(0);
 
@@ -197,7 +197,7 @@ final readonly class TaxReportExcelExporter
 		$this->setLandscapeFitToWidth($sheet, PageSetup::PAPERSIZE_A4);
 	}
 
-	private function createSummarySheet(Worksheet $sheet, TaxReportDto $taxReport, string $currencySymbol): void
+	private function createSummarySheet(Worksheet $sheet, TaxReportDto $taxReport): void
 	{
 		$sheet->setTitle('Summary');
 
