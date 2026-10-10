@@ -70,7 +70,7 @@ foreach (QueueEnum::cases() as $queue) {
 
 					/** @var JobHandler $handler */
 					$handler = $application->container->get($handlerClass);
-					$handler->handle(new AmqpReceivedMessage($msg->getBody(), $queueName));
+					$handler->handle(new AmqpReceivedMessage($msg->getBody()));
 
 					$msg->ack();
 				} catch (\Throwable $e) {

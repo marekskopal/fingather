@@ -26,13 +26,5 @@ interface ImportMappingProviderInterface
 	/** @return array<string, ImportMapping> */
 	public function getImportMappings(User $user, Portfolio $portfolio, Broker $broker): array;
 
-	public function createImportMapping(
-		User $user,
-		Portfolio $portfolio,
-		Broker $broker,
-		string $importTicker,
-		Ticker $ticker,
-	): ImportMapping;
-
 	public function createImportMappingFromImportStart(User $user, ImportStartDto $importStart): void;
 }

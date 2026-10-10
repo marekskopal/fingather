@@ -20,7 +20,10 @@ final class IndustryDataProvider implements IndustryDataProviderInterface
 
 	private const string CacheNamespace = 'industry-data';
 
-	public function __construct(private readonly CalculatedGroupDataProvider $calculatedDataProvider, CacheFactoryInterface $cacheFactory)
+	public function __construct(
+		private readonly CalculatedGroupDataProviderInterface $calculatedDataProvider,
+		CacheFactoryInterface $cacheFactory,
+	)
 	{
 		$this->cache = $cacheFactory->create(driver: CacheStorageEnum::Redis, namespace: self::CacheNamespace);
 	}

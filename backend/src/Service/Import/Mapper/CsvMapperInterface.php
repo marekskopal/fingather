@@ -6,5 +6,4 @@ namespace FinGather\Service\Import\Mapper;
 
 interface CsvMapperInterface extends MapperInterface
 {
-	public function getCsvDelimiter(): string;
 }

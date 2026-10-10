@@ -12,8 +12,6 @@ interface ImpersonationSessionProviderInterface
 {
 	public function getActiveSession(int $id): ?ImpersonationSession;
 
-	public function getSession(int $id): ?ImpersonationSession;
-
 	public function createSession(User $admin, User $target, string $ipAddress, string $userAgent,): ImpersonationSession;
 
 	public function endSession(ImpersonationSession $session, ImpersonationTerminationReasonEnum $reason,): void;

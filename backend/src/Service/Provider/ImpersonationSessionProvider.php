@@ -21,11 +21,6 @@ final readonly class ImpersonationSessionProvider implements ImpersonationSessio
 		return $this->impersonationSessionRepository->findActiveSession($id);
 	}
 
-	public function getSession(int $id): ?ImpersonationSession
-	{
-		return $this->impersonationSessionRepository->findSession($id);
-	}
-
 	public function createSession(User $admin, User $target, string $ipAddress, string $userAgent,): ImpersonationSession
 	{
 		$session = new ImpersonationSession(

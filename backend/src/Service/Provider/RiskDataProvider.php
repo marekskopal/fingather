@@ -67,9 +67,4 @@ final readonly class RiskDataProvider implements RiskDataProviderInterface
 
 		return $riskData;
 	}
-
-	public function deleteRiskData(?User $user = null, ?Portfolio $portfolio = null): void
-	{
-		$this->cache->clean($user, $portfolio);
-	}
 }

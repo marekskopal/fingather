@@ -23,9 +23,6 @@ parameters:
     checkTooWideReturnTypesInProtectedAndPublicMethods: true
     reportAnyTypeWideningInVarTag: true
 
-    unused_public:
-        properties: false
-
     shipmonkRules:
         allowComparingOnlyComparableTypes:
             enabled: false
@@ -43,3 +40,7 @@ services:
         class: FinGather\PhpStan\CycleReadWritePropertiesExtension
         tags:
             - phpstan.properties.readWriteExtension
+    -
+        class: FinGather\PhpStan\DeadCodeUsageProvider
+        tags:
+            - shipmonk.deadCode.memberUsageProvider

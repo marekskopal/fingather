@@ -14,7 +14,6 @@ use FinGather\Model\Entity\User;
 
 final class DcaPlanFixture
 {
-	/** @phpstan-ignore-next-line public.method.unused */
 	public static function getDcaPlan(
 		?int $id = null,
 		?User $user = null,

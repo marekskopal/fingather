@@ -16,7 +16,6 @@ use FinGather\Model\Entity\User;
 
 final class PriceAlertFixture
 {
-	/** @phpstan-ignore-next-line public.method.unused */
 	public static function getPriceAlert(
 		?int $id = null,
 		?User $user = null,

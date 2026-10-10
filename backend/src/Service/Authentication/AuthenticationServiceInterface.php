@@ -23,6 +23,4 @@ interface AuthenticationServiceInterface
 	public function createAuthentication(User $user): AuthenticationDto;
 
 	public function createImpersonationAuthentication(User $admin, User $target, int $sessionId,): ImpersonationAuthenticationDto;
-
-	public function getImpersonationTokenExpiration(): int;
 }

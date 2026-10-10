@@ -9,7 +9,7 @@ use FinGather\App\ApplicationFactory;
 use FinGather\Model\Repository\GoalRepository;
 use FinGather\Service\Email\EmailFactory;
 use FinGather\Service\Email\MailerFactory;
-use FinGather\Service\Goal\GoalChecker;
+use FinGather\Service\Goal\GoalCheckerInterface;
 use FinGather\Service\Provider\GoalProviderInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputInterface;
@@ -29,8 +29,8 @@ final class GoalCheckCommand extends AbstractCommand
 		$goalProvider = $application->container->get(GoalProviderInterface::class);
 		assert($goalProvider instanceof GoalProviderInterface);
 
-		$goalChecker = $application->container->get(GoalChecker::class);
-		assert($goalChecker instanceof GoalChecker);
+		$goalChecker = $application->container->get(GoalCheckerInterface::class);
+		assert($goalChecker instanceof GoalCheckerInterface);
 
 		$goalRepository = $application->container->get(GoalRepository::class);
 		assert($goalRepository instanceof GoalRepository);

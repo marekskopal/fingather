@@ -17,9 +17,6 @@ interface PortfolioProviderInterface
 	/** @return Iterator<Portfolio> */
 	public function getPortfolios(User $user): Iterator;
 
-	/** @return list<Portfolio> */
-	public function getOtherPortfolios(User $user, Portfolio $portfolio): array;
-
 	public function getPortfolio(User $user, int $portfolioId): ?Portfolio;
 
 	public function getDefaultPortfolio(User $user): Portfolio;

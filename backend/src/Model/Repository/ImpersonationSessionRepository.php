@@ -22,13 +22,6 @@ final class ImpersonationSessionRepository extends AbstractRepository
 		return $session;
 	}
 
-	public function findSession(int $id): ?ImpersonationSession
-	{
-		return $this->findOne([
-			'id' => $id,
-		]);
-	}
-
 	/** @return iterable<ImpersonationSession> */
 	public function findRecentSessions(int $limit = 100): iterable
 	{

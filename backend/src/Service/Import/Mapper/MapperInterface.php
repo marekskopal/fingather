@@ -16,8 +16,6 @@ interface MapperInterface
 
 	public function getMapping(): MappingDto;
 
-	public function check(string $content, string $fileName): bool;
-
 	/** @return list<int>|null */
 	public function getAllowedMarketIds(): ?array;
 }

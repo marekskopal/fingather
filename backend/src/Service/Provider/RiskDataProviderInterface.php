@@ -23,6 +23,4 @@ interface RiskDataProviderInterface
 		?DateTimeImmutable $customRangeTo,
 		SamplingFrequencyEnum $samplingFrequency = SamplingFrequencyEnum::Daily,
 	): RiskDataDto;
-
-	public function deleteRiskData(?User $user = null, ?Portfolio $portfolio = null): void;
 }
