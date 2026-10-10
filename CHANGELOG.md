@@ -6,9 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [1.18.0] - 2026-10-10
 ### Changed
 - The backend runs on `marekskopal/orm` 2.0 (and `orm-migrations` 2.0). Updates write only the columns that changed, saving an unchanged entity costs no query, lazy relations load in batches instead of one query per row, prepared statements are reused per connection, and the database connection opens on the first query.
 - The ORM schema is dumped to `backend/var/orm-schema.php` during the backend image build (`bin/console orm:schema-dump`) and loaded from there under opcache, instead of being built from entity attributes and cached in memcached. Without the file the schema is built at process start, so entity changes no longer need a memcached flush. Requires rebuilding the backend image; the old `Orm` memcached entry is no longer read and expires on its own.
+- Upgraded Composer/pnpm dependencies and Docker images, including Angular 22.2.2, apexcharts 7.9 and PHPStan 2.3.
 
 ## [1.17.1] - 2026-09-27
 ### Changed
