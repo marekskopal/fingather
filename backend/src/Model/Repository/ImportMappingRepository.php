@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace FinGather\Model\Repository;
 
 use FinGather\Model\Entity\ImportMapping;
-use Iterator;
 use MarekSkopal\ORM\Repository\AbstractRepository;
 
 /** @extends AbstractRepository<ImportMapping> */
 final class ImportMappingRepository extends AbstractRepository
 {
-	/** @return Iterator<ImportMapping> */
-	public function findImportMappings(int $userId, int $portfolioId, int $brokerId): Iterator
+	/** @return list<ImportMapping> */
+	public function findImportMappings(int $userId, int $portfolioId, int $brokerId): array
 	{
 		return $this->findAll([
 			'user_id' => $userId,
@@ -21,8 +20,8 @@ final class ImportMappingRepository extends AbstractRepository
 		]);
 	}
 
-	/** @return Iterator<ImportMapping> */
-	public function findByPortfolio(int $userId, int $portfolioId): Iterator
+	/** @return list<ImportMapping> */
+	public function findByPortfolio(int $userId, int $portfolioId): array
 	{
 		return $this->findAll([
 			'user_id' => $userId,

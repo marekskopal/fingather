@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace FinGather\Tests\Service\Export;
 
-use ArrayIterator;
 use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Country;
 use FinGather\Model\Entity\Currency;
@@ -43,7 +42,7 @@ final class TransactionExcelExporterTest extends TestCase
 		$exporter = new TransactionExcelExporter();
 		$transaction = TransactionFixture::getTransaction();
 
-		$file = $exporter->export(new ArrayIterator([$transaction]));
+		$file = $exporter->export([$transaction]);
 
 		self::assertFileExists($file);
 		self::assertStringEndsWith('.xlsx', $file);
@@ -55,7 +54,7 @@ final class TransactionExcelExporterTest extends TestCase
 	{
 		$exporter = new TransactionExcelExporter();
 
-		$file = $exporter->export(new ArrayIterator([]));
+		$file = $exporter->export([]);
 
 		$reader = new XlsxReader();
 		$spreadsheet = $reader->load($file);
@@ -80,7 +79,7 @@ final class TransactionExcelExporterTest extends TestCase
 		$exporter = new TransactionExcelExporter();
 		$transaction = TransactionFixture::getTransaction();
 
-		$file = $exporter->export(new ArrayIterator([$transaction]));
+		$file = $exporter->export([$transaction]);
 
 		$reader = new XlsxReader();
 		$spreadsheet = $reader->load($file);
@@ -110,7 +109,7 @@ final class TransactionExcelExporterTest extends TestCase
 	{
 		$exporter = new TransactionExcelExporter();
 
-		$file = $exporter->export(new ArrayIterator([]));
+		$file = $exporter->export([]);
 
 		$reader = new XlsxReader();
 		$spreadsheet = $reader->load($file);

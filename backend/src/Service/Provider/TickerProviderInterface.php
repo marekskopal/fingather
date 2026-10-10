@@ -6,26 +6,25 @@ namespace FinGather\Service\Provider;
 
 use FinGather\Model\Entity\Market;
 use FinGather\Model\Entity\Ticker;
-use Iterator;
 
 interface TickerProviderInterface
 {
-	/** @return Iterator<Ticker> */
-	public function getTickers(?Market $market = null, ?string $search = null, ?int $limit = null, ?int $offset = null): Iterator;
+	/** @return list<Ticker> */
+	public function getTickers(?Market $market = null, ?string $search = null, ?int $limit = null, ?int $offset = null): array;
 
 	public function getTicker(int $tickerId): ?Ticker;
 
-	/** @return Iterator<Ticker> */
-	public function getActiveTickers(): Iterator;
+	/** @return list<Ticker> */
+	public function getActiveTickers(): array;
 
 	/** @return list<Ticker> */
 	public function getTickersMostUsed(?int $limit = null, ?int $offset = null): array;
 
 	/**
 	 * @param list<int>|null $marketIds
-	 * @return Iterator<Ticker>
+	 * @return list<Ticker>
 	 */
-	public function getTickersByTicker(string $ticker, ?array $marketIds = null, ?string $isin = null): Iterator;
+	public function getTickersByTicker(string $ticker, ?array $marketIds = null, ?string $isin = null): array;
 
 	/** @param list<int>|null $marketIds */
 	public function countTickersByTicker(string $ticker, ?array $marketIds = null, ?string $isin = null): int;
@@ -35,9 +34,9 @@ interface TickerProviderInterface
 
 	/**
 	 * @param list<int>|null $marketIds
-	 * @return Iterator<Ticker>
+	 * @return list<Ticker>
 	 */
-	public function getTickersByIsin(string $isin, ?array $marketIds = null): Iterator;
+	public function getTickersByIsin(string $isin, ?array $marketIds = null): array;
 
 	/** @param list<int>|null $marketIds */
 	public function countTickersByIsin(string $isin, ?array $marketIds = null): int;

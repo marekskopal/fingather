@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace FinGather\Tests\Service\Provider;
 
-use ArrayIterator;
 use DateTimeImmutable;
 use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Country;
@@ -157,7 +156,7 @@ final class DataProviderTest extends TestCase
 		});
 
 		$transactionProvider = self::createStub(TransactionProviderInterface::class);
-		$transactionProvider->method('getTransactions')->willReturn(new ArrayIterator($transactions));
+		$transactionProvider->method('getTransactions')->willReturn($transactions);
 		$transactionProvider->method('updateTransactionDefaultCurrency')->willReturnCallback(
 			static function (Transaction $tx) use (&$counts): Transaction {
 				$counts['updateTransaction']++;

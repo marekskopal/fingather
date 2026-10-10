@@ -27,7 +27,7 @@ final class TickerFundamentalUpdateCommand extends AbstractCommand
 		$tickerProvider = $application->container->get(TickerProviderInterface::class);
 		assert($tickerProvider instanceof TickerProviderInterface);
 
-		$activeTickers = iterator_to_array($tickerProvider->getActiveTickers(), false);
+		$activeTickers = $tickerProvider->getActiveTickers();
 		foreach ($activeTickers as $ticker) {
 			$tickerFundamental = $tickerFundamentalProvider->getTickerFundamental($ticker);
 			if ($tickerFundamental === null) {

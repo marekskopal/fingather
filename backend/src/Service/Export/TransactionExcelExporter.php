@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace FinGather\Service\Export;
 
 use FinGather\Model\Entity\Transaction;
-use Iterator;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
@@ -14,8 +13,8 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx as XlsxWriter;
 
 final readonly class TransactionExcelExporter
 {
-	/** @param Iterator<Transaction> $transactions */
-	public function export(Iterator $transactions): string
+	/** @param list<Transaction> $transactions */
+	public function export(array $transactions): string
 	{
 		$spreadsheet = new Spreadsheet();
 

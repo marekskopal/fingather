@@ -16,14 +16,13 @@ use FinGather\Model\Entity\Transaction;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\Enum\OrderDirectionEnum;
 use FinGather\Model\Repository\Enum\TransactionOrderByEnum;
-use Iterator;
 
 interface TransactionProviderInterface
 {
 	/**
 	 * @param list<TransactionActionTypeEnum>|null $actionTypes
 	 * @param array<value-of<TransactionOrderByEnum>,OrderDirectionEnum> $orderBy
-	 * @return Iterator<Transaction>
+	 * @return list<Transaction>
 	 */
 	public function getTransactions(
 		User $user,
@@ -39,7 +38,7 @@ interface TransactionProviderInterface
 		array $orderBy = [
 			TransactionOrderByEnum::ActionCreated->value => OrderDirectionEnum::DESC,
 		],
-	): Iterator;
+	): array;
 
 	/** @param list<TransactionActionTypeEnum>|null $actionTypes */
 	public function countTransactions(

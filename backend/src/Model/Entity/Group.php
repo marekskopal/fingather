@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace FinGather\Model\Entity;
 
 use FinGather\Model\Repository\GroupRepository;
-use Iterator;
 use MarekSkopal\ORM\Attribute\Column;
 use MarekSkopal\ORM\Attribute\Entity;
 use MarekSkopal\ORM\Attribute\ManyToOne;
 use MarekSkopal\ORM\Attribute\OneToMany;
 use MarekSkopal\ORM\Enum\Type;
+use MarekSkopal\ORM\Mapper\Collection;
 
 #[Entity(repositoryClass: GroupRepository::class)]
 class Group extends AEntity
@@ -18,7 +18,7 @@ class Group extends AEntity
 	public const string OthersName = 'Others';
 	public const string OthersColor = '#2c3d3f';
 
-	/** @param Iterator<Asset> $assets */
+	/** @param Collection<Asset> $assets */
 	public function __construct(
 		#[ManyToOne(entityClass: User::class)]
 		public readonly User $user,
@@ -31,7 +31,7 @@ class Group extends AEntity
 		#[Column(type: Type::Boolean, default: false)]
 		public bool $isOthers,
 		#[OneToMany(entityClass: Asset::class)]
-		public readonly Iterator $assets,
+		public readonly Collection $assets,
 	) {
 	}
 }

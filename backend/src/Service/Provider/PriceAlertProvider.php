@@ -14,7 +14,6 @@ use FinGather\Model\Entity\PriceAlert;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\PriceAlertRepository;
-use Iterator;
 
 final readonly class PriceAlertProvider implements PriceAlertProviderInterface
 {
@@ -22,8 +21,8 @@ final readonly class PriceAlertProvider implements PriceAlertProviderInterface
 	{
 	}
 
-	/** @return Iterator<PriceAlert> */
-	public function getPriceAlerts(User $user): Iterator
+	/** @return list<PriceAlert> */
+	public function getPriceAlerts(User $user): array
 	{
 		return $this->priceAlertRepository->findPriceAlerts($user->id);
 	}
@@ -33,8 +32,8 @@ final readonly class PriceAlertProvider implements PriceAlertProviderInterface
 		return $this->priceAlertRepository->findPriceAlert($priceAlertId, $user->id);
 	}
 
-	/** @return Iterator<PriceAlert> */
-	public function getActivePriceAlerts(): Iterator
+	/** @return list<PriceAlert> */
+	public function getActivePriceAlerts(): array
 	{
 		return $this->priceAlertRepository->findActivePriceAlerts();
 	}

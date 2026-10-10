@@ -6,14 +6,13 @@ namespace FinGather\Model\Repository;
 
 use DateTimeImmutable;
 use FinGather\Model\Entity\Split;
-use Iterator;
 use MarekSkopal\ORM\Repository\AbstractRepository;
 
 /** @extends AbstractRepository<Split> */
 final class SplitRepository extends AbstractRepository
 {
-	/** @return Iterator<Split> */
-	public function findSplits(int $tickerId): Iterator
+	/** @return list<Split> */
+	public function findSplits(int $tickerId): array
 	{
 		return $this->select()
 			->where([

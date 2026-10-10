@@ -58,7 +58,7 @@ final class E2eSeedCommand extends AbstractCommand
 		// 1. Run migrations
 		$this->writeln('Running migrations...', $output);
 		$application->dbContext->getMigrator()->migrate();
-		$application->dbContext->clearCache();
+		$application->dbContext->getDatabase()->clearStatementCache();
 
 		$pdo = $application->dbContext->getDatabase()->getPdo();
 

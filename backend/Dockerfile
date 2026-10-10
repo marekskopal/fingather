@@ -52,3 +52,6 @@ WORKDIR /app/
 RUN rm -rf /app/vendor \
     && COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --no-progress --classmap-authoritative -d /app/ \
     && composer clear-cache
+
+# Generated ORM hydrators/extractors, loaded by DbContext under opcache instead of an attribute scan.
+RUN php bin/console orm:schema-dump

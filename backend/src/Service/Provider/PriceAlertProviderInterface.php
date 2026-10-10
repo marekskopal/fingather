@@ -11,17 +11,16 @@ use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\PriceAlert;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\User;
-use Iterator;
 
 interface PriceAlertProviderInterface
 {
-	/** @return Iterator<PriceAlert> */
-	public function getPriceAlerts(User $user): Iterator;
+	/** @return list<PriceAlert> */
+	public function getPriceAlerts(User $user): array;
 
 	public function getPriceAlert(int $priceAlertId, User $user): ?PriceAlert;
 
-	/** @return Iterator<PriceAlert> */
-	public function getActivePriceAlerts(): Iterator;
+	/** @return list<PriceAlert> */
+	public function getActivePriceAlerts(): array;
 
 	public function createPriceAlert(
 		User $user,

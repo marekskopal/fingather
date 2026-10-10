@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace FinGather\Tests\Controller;
 
-use ArrayIterator;
 use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Controller\GoalController;
@@ -103,7 +102,7 @@ final class GoalControllerTest extends TestCase
 	public function testGetGoalsReturnsJsonResponse(): void
 	{
 		$this->portfolioProvider->method('getPortfolio')->willReturn(PortfolioFixture::getPortfolio());
-		$this->goalProvider->method('getGoals')->willReturn(new ArrayIterator([]));
+		$this->goalProvider->method('getGoals')->willReturn([]);
 
 		$response = $this->goalController->actionGetGoals(
 			$this::createStub(ServerRequestInterface::class),

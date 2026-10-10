@@ -38,7 +38,7 @@ final readonly class PortfolioController
 
 		$portfolios = array_map(
 			fn (Portfolio $portfolio): PortfolioDto => PortfolioDto::fromEntity($portfolio),
-			iterator_to_array($this->portfolioProvider->getPortfolios($user), false),
+			$this->portfolioProvider->getPortfolios($user),
 		);
 
 		return new JsonResponse($portfolios);

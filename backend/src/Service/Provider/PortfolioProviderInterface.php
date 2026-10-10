@@ -10,12 +10,11 @@ use FinGather\Model\Entity\Enum\CostBasisMethodEnum;
 use FinGather\Model\Entity\Enum\TaxJurisdictionEnum;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
-use Iterator;
 
 interface PortfolioProviderInterface
 {
-	/** @return Iterator<Portfolio> */
-	public function getPortfolios(User $user): Iterator;
+	/** @return list<Portfolio> */
+	public function getPortfolios(User $user): array;
 
 	public function getPortfolio(User $user, int $portfolioId): ?Portfolio;
 

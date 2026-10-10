@@ -16,6 +16,6 @@ interface ImpersonationSessionProviderInterface
 
 	public function endSession(ImpersonationSession $session, ImpersonationTerminationReasonEnum $reason,): void;
 
-	/** @return iterable<ImpersonationSession> */
-	public function getRecentSessions(int $limit = 100): iterable;
+	/** @return list<ImpersonationSession> */
+	public function getRecentSessions(int $limit = 100): array;
 }

@@ -45,7 +45,7 @@ final readonly class StrategyComparisonProvider implements StrategyComparisonPro
 
 		// Build actual percentages for groups
 		$groupPercentages = [];
-		$allGroups = iterator_to_array($this->groupProvider->getGroups($user, $portfolio), false);
+		$allGroups = $this->groupProvider->getGroups($user, $portfolio);
 		$othersGroup = $this->groupProvider->getOthersGroup($user, $portfolio);
 		$allGroups[] = $othersGroup;
 

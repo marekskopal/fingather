@@ -13,11 +13,10 @@ use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\Sector;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\User;
-use Iterator;
 
 interface AssetProviderInterface
 {
-	/** @return Iterator<Asset> */
+	/** @return list<Asset> */
 	public function getAssets(
 		User $user,
 		Portfolio $portfolio,
@@ -26,7 +25,7 @@ interface AssetProviderInterface
 		?Country $country = null,
 		?Sector $sector = null,
 		?Industry $industry = null,
-	): Iterator;
+	): array;
 
 	/**
 	 * Returns assets with ticker, group and ticker's ManyToOne relations preloaded.

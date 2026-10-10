@@ -18,7 +18,6 @@ use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\DcaPlanRepository;
 use FinGather\Service\DataCalculator\DcaPlanDataCalculator;
 use FinGather\Service\DataCalculator\Dto\ReturnRateDto;
-use Iterator;
 
 final readonly class DcaPlanProvider implements DcaPlanProviderInterface
 {
@@ -26,8 +25,8 @@ final readonly class DcaPlanProvider implements DcaPlanProviderInterface
 	{
 	}
 
-	/** @return Iterator<DcaPlan> */
-	public function getDcaPlans(User $user, Portfolio $portfolio): Iterator
+	/** @return list<DcaPlan> */
+	public function getDcaPlans(User $user, Portfolio $portfolio): array
 	{
 		return $this->dcaPlanRepository->findDcaPlans($user->id, $portfolio->id);
 	}

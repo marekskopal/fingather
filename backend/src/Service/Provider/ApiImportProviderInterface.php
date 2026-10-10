@@ -10,12 +10,11 @@ use FinGather\Model\Entity\ApiKey;
 use FinGather\Model\Entity\Enum\ApiImportStatusEnum;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
-use Iterator;
 
 interface ApiImportProviderInterface
 {
-	/** @return Iterator<ApiImport> */
-	public function getApiImports(?User $user = null, ?Portfolio $portfolio = null, ?ApiImportStatusEnum $apiImportStatus = null): Iterator;
+	/** @return list<ApiImport> */
+	public function getApiImports(?User $user = null, ?Portfolio $portfolio = null, ?ApiImportStatusEnum $apiImportStatus = null): array;
 
 	public function getApiImport(int $apiImportId): ?ApiImport;
 

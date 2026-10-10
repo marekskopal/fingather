@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace FinGather\Tests\Service\Provider;
 
-use ArrayIterator;
 use DateTimeImmutable;
 use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Country;
@@ -58,7 +57,7 @@ final class AssetGroupingProvidersTest extends TestCase
 		];
 
 		$assetProvider = self::createStub(AssetProviderInterface::class);
-		$assetProvider->method('getAssets')->willReturn(new ArrayIterator($assets));
+		$assetProvider->method('getAssets')->willReturn($assets);
 
 		$provider = new CountryProvider($assetProvider);
 
@@ -81,7 +80,7 @@ final class AssetGroupingProvidersTest extends TestCase
 		];
 
 		$assetProvider = self::createStub(AssetProviderInterface::class);
-		$assetProvider->method('getAssets')->willReturn(new ArrayIterator($assets));
+		$assetProvider->method('getAssets')->willReturn($assets);
 
 		$provider = new SectorProvider($assetProvider);
 
@@ -105,7 +104,7 @@ final class AssetGroupingProvidersTest extends TestCase
 		];
 
 		$assetProvider = self::createStub(AssetProviderInterface::class);
-		$assetProvider->method('getAssets')->willReturn(new ArrayIterator($assets));
+		$assetProvider->method('getAssets')->willReturn($assets);
 
 		$provider = new IndustryProvider($assetProvider);
 
@@ -119,7 +118,7 @@ final class AssetGroupingProvidersTest extends TestCase
 	public function testCountryProviderReturnsEmptyArrayForNoAssets(): void
 	{
 		$assetProvider = self::createStub(AssetProviderInterface::class);
-		$assetProvider->method('getAssets')->willReturn(new ArrayIterator([]));
+		$assetProvider->method('getAssets')->willReturn([]);
 
 		$provider = new CountryProvider($assetProvider);
 

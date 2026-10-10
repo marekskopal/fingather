@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace FinGather\Tests\Service\Provider;
 
-use ArrayIterator;
 use DateTimeImmutable;
 use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Country;
@@ -141,9 +140,9 @@ final class CurrentTransactionProviderTest extends TestCase
 		$callCount = 0;
 		$transactionProvider = self::createStub(TransactionProviderInterface::class);
 		$transactionProvider->method('getTransactions')->willReturnCallback(
-			function () use (&$callCount, $transactions): ArrayIterator {
+			function () use (&$callCount, $transactions): array {
 				$callCount++;
-				return new ArrayIterator($transactions);
+				return $transactions;
 			},
 		);
 
@@ -160,9 +159,9 @@ final class CurrentTransactionProviderTest extends TestCase
 		$callCount = 0;
 		$transactionProvider = self::createStub(TransactionProviderInterface::class);
 		$transactionProvider->method('getTransactions')->willReturnCallback(
-			function () use (&$callCount): ArrayIterator {
+			function () use (&$callCount): array {
 				$callCount++;
-				return new ArrayIterator([]);
+				return [];
 			},
 		);
 
@@ -188,7 +187,7 @@ final class CurrentTransactionProviderTest extends TestCase
 	private function makeProvider(array $transactions): CurrentTransactionProvider
 	{
 		$transactionProvider = self::createStub(TransactionProviderInterface::class);
-		$transactionProvider->method('getTransactions')->willReturn(new ArrayIterator($transactions));
+		$transactionProvider->method('getTransactions')->willReturn($transactions);
 
 		return new CurrentTransactionProvider($transactionProvider, new TransactionCutoffFinder());
 	}

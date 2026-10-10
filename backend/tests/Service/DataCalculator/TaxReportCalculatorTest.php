@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace FinGather\Tests\Service\DataCalculator;
 
-use ArrayIterator;
 use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Model\Entity\Asset;
@@ -626,7 +625,7 @@ final class TaxReportCalculatorTest extends TestCase
 
 		$assetProvider = self::createStub(AssetProviderInterface::class);
 		$assetProvider->method('getAssets')
-			->willReturn(new ArrayIterator($assets));
+			->willReturn($assets);
 
 		$assetDataProvider = self::createStub(AssetDataProviderInterface::class);
 		$assetDataProvider->method('getAssetData')

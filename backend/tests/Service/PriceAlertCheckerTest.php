@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace FinGather\Tests\Service;
 
-use ArrayIterator;
 use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Model\Entity\Country;
@@ -296,7 +295,7 @@ final class PriceAlertCheckerTest extends TestCase
 		?PortfolioProviderInterface $portfolioProvider = null,
 	): PriceAlertChecker {
 		$priceAlertProvider = self::createStub(PriceAlertProviderInterface::class);
-		$priceAlertProvider->method('getActivePriceAlerts')->willReturn(new ArrayIterator($alerts));
+		$priceAlertProvider->method('getActivePriceAlerts')->willReturn($alerts);
 
 		if ($portfolioProvider === null) {
 			$portfolioProvider = self::createStub(PortfolioProviderInterface::class);

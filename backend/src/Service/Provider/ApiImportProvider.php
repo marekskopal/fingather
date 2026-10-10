@@ -11,7 +11,6 @@ use FinGather\Model\Entity\Enum\ApiImportStatusEnum;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\ApiImportRepository;
-use Iterator;
 
 final readonly class ApiImportProvider implements ApiImportProviderInterface
 {
@@ -19,8 +18,8 @@ final readonly class ApiImportProvider implements ApiImportProviderInterface
 	{
 	}
 
-	/** @return Iterator<ApiImport> */
-	public function getApiImports(?User $user = null, ?Portfolio $portfolio = null, ?ApiImportStatusEnum $apiImportStatus = null): Iterator
+	/** @return list<ApiImport> */
+	public function getApiImports(?User $user = null, ?Portfolio $portfolio = null, ?ApiImportStatusEnum $apiImportStatus = null): array
 	{
 		return $this->apiImportRepository->findApiImports(
 			userId: $user?->id,

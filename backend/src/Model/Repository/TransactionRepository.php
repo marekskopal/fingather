@@ -9,7 +9,6 @@ use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
 use FinGather\Model\Entity\Transaction;
 use FinGather\Model\Repository\Enum\OrderDirectionEnum;
 use FinGather\Model\Repository\Enum\TransactionOrderByEnum;
-use Iterator;
 use MarekSkopal\ORM\Query\Select;
 use MarekSkopal\ORM\Query\Where\WhereBuilder;
 use MarekSkopal\ORM\Repository\AbstractRepository;
@@ -20,7 +19,7 @@ final class TransactionRepository extends AbstractRepository
 	/**
 	 * @param list<TransactionActionTypeEnum>|null $actionTypes
 	 * @param array<value-of<TransactionOrderByEnum>,OrderDirectionEnum> $orderBy
-	 * @return Iterator<Transaction>
+	 * @return list<Transaction>
 	 */
 	public function findTransactions(
 		int $userId,
@@ -36,7 +35,7 @@ final class TransactionRepository extends AbstractRepository
 		array $orderBy = [
 			TransactionOrderByEnum::ActionCreated->value => OrderDirectionEnum::DESC,
 		],
-	): Iterator {
+	): array {
 		return $this->getTransactionsSelect(
 			$userId,
 			$portfolioId,

@@ -55,7 +55,7 @@ final readonly class GoalController
 				$reachability = $this->goalChecker->getReachability($goal);
 				return GoalDto::fromEntity($goal, $currentValue, $progressPercentage, $reachability);
 			},
-			iterator_to_array($this->goalProvider->getGoals($user, $portfolio), false),
+			$this->goalProvider->getGoals($user, $portfolio),
 		);
 
 		return new JsonResponse($goals);

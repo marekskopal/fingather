@@ -6,14 +6,13 @@ namespace FinGather\Model\Repository;
 
 use FinGather\Model\Entity\Enum\TickerTypeEnum;
 use FinGather\Model\Entity\ProxyAsset;
-use Iterator;
 use MarekSkopal\ORM\Repository\AbstractRepository;
 
 /** @extends AbstractRepository<ProxyAsset> */
 final class ProxyAssetRepository extends AbstractRepository
 {
-	/** @return Iterator<ProxyAsset> */
-	public function findProxyAssets(): Iterator
+	/** @return list<ProxyAsset> */
+	public function findProxyAssets(): array
 	{
 		return $this->findAll();
 	}

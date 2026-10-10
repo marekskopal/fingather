@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace FinGather\Tests\Service\Provider;
 
-use ArrayIterator;
 use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Dto\CountryDto;
@@ -170,7 +169,7 @@ final class DividendCalendarProviderTest extends TestCase
 		new ReflectionProperty(TwelveData::class, 'fundamentals')->setValue($twelveData, $fundamentals);
 
 		$assetProvider = self::createStub(AssetProviderInterface::class);
-		$assetProvider->method('getAssets')->willReturn(new ArrayIterator($assets));
+		$assetProvider->method('getAssets')->willReturn($assets);
 
 		$assetDataProvider = self::createStub(AssetDataProviderInterface::class);
 		$assetDataProvider->method('getAssetData')->willReturn($this->makeAssetDataDto(units: new Decimal('10')));

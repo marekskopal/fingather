@@ -8,12 +8,11 @@ use FinGather\Dto\StrategyItemCreateDto;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\Strategy;
 use FinGather\Model\Entity\User;
-use Iterator;
 
 interface StrategyProviderInterface
 {
-	/** @return Iterator<Strategy> */
-	public function getStrategies(User $user, Portfolio $portfolio): Iterator;
+	/** @return list<Strategy> */
+	public function getStrategies(User $user, Portfolio $portfolio): array;
 
 	public function getStrategy(User $user, int $strategyId): ?Strategy;
 

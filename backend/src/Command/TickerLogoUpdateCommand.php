@@ -31,7 +31,7 @@ final class TickerLogoUpdateCommand extends AbstractCommand
 		$logger = $application->container->get(LoggerInterface::class);
 		assert($logger instanceof LoggerInterface);
 
-		$activeTickers = iterator_to_array($tickerProvider->getActiveTickers(), false);
+		$activeTickers = $tickerProvider->getActiveTickers();
 		foreach ($activeTickers as $ticker) {
 			try {
 				$tickerLogoUpdater->updateTickerLogo($ticker);

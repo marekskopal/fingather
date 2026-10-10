@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace FinGather\Tests\Controller;
 
-use ArrayIterator;
 use FinGather\Controller\PriceAlertController;
 use FinGather\Dto\PriceAlertCreateDto;
 use FinGather\Dto\PriceAlertDto;
@@ -84,7 +83,7 @@ final class PriceAlertControllerTest extends TestCase
 
 	public function testGetPriceAlertsReturnsJsonResponse(): void
 	{
-		$this->priceAlertProvider->method('getPriceAlerts')->willReturn(new ArrayIterator([]));
+		$this->priceAlertProvider->method('getPriceAlerts')->willReturn([]);
 
 		$response = $this->priceAlertController->actionGetPriceAlerts(
 			$this::createStub(ServerRequestInterface::class),

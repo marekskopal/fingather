@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace FinGather\Tests\Controller;
 
-use ArrayIterator;
 use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Controller\DcaPlanController;
@@ -109,7 +108,7 @@ final class DcaPlanControllerTest extends TestCase
 	public function testGetDcaPlansReturnsJsonResponse(): void
 	{
 		$this->portfolioProvider->method('getPortfolio')->willReturn(PortfolioFixture::getPortfolio());
-		$this->dcaPlanProvider->method('getDcaPlans')->willReturn(new ArrayIterator([]));
+		$this->dcaPlanProvider->method('getDcaPlans')->willReturn([]);
 
 		$response = $this->dcaPlanController->actionGetDcaPlans(
 			$this::createStub(ServerRequestInterface::class),

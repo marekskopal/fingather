@@ -6,14 +6,13 @@ namespace FinGather\Model\Repository;
 
 use DateTimeImmutable;
 use FinGather\Model\Entity\TickerData;
-use Iterator;
 use MarekSkopal\ORM\Repository\AbstractRepository;
 
 /** @extends AbstractRepository<TickerData> */
 final class TickerDataRepository extends AbstractRepository
 {
-	/** @return Iterator<TickerData> */
-	public function findTickerDatas(int $tickerId, DateTimeImmutable $fromDate, DateTimeImmutable $toDate): Iterator
+	/** @return list<TickerData> */
+	public function findTickerDatas(int $tickerId, DateTimeImmutable $fromDate, DateTimeImmutable $toDate): array
 	{
 		return $this->select()
 			->where(['ticker_id' => $tickerId])

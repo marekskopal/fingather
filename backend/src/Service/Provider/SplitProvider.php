@@ -35,7 +35,7 @@ final readonly class SplitProvider implements SplitProviderInterface
 
 		$splits = array_map(
 			fn(Split $split): SplitDto => SplitDto::fromEntity($split),
-			iterator_to_array($this->splitRepository->findSplits($ticker->id), false),
+			$this->splitRepository->findSplits($ticker->id),
 		);
 		$this->cache->save($key, $splits);
 

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Provider;
 
-use ArrayIterator;
 use Decimal\Decimal;
 use FinGather\Dto\StrategyItemCreateDto;
 use FinGather\Model\Entity\Portfolio;
@@ -15,7 +14,7 @@ use FinGather\Model\Repository\AssetRepository;
 use FinGather\Model\Repository\GroupRepository;
 use FinGather\Model\Repository\StrategyItemRepository;
 use FinGather\Model\Repository\StrategyRepository;
-use Iterator;
+use MarekSkopal\ORM\Mapper\Collection;
 
 final readonly class StrategyProvider implements StrategyProviderInterface
 {
@@ -27,8 +26,8 @@ final readonly class StrategyProvider implements StrategyProviderInterface
 	) {
 	}
 
-	/** @return Iterator<Strategy> */
-	public function getStrategies(User $user, Portfolio $portfolio): Iterator
+	/** @return list<Strategy> */
+	public function getStrategies(User $user, Portfolio $portfolio): array
 	{
 		return $this->strategyRepository->findStrategies($user->id, $portfolio->id);
 	}
@@ -58,7 +57,7 @@ final readonly class StrategyProvider implements StrategyProviderInterface
 			portfolio: $portfolio,
 			name: $name,
 			isDefault: $isDefault,
-			strategyItems: new ArrayIterator([]),
+			strategyItems: new Collection([]),
 		);
 		$this->strategyRepository->persist($strategy);
 
@@ -107,7 +106,7 @@ final readonly class StrategyProvider implements StrategyProviderInterface
 			return;
 		}
 
-		$strategies = iterator_to_array($this->getStrategies($user, $portfolio), false);
+		$strategies = $this->getStrategies($user, $portfolio);
 		if (count($strategies) <= 0) {
 			return;
 		}

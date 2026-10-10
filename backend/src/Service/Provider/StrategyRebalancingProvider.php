@@ -129,7 +129,7 @@ final readonly class StrategyRebalancingProvider implements StrategyRebalancingP
 	private function buildGroupDataMap(User $user, Portfolio $portfolio, DateTimeImmutable $dateTime): array
 	{
 		$map = [];
-		$groups = iterator_to_array($this->groupProvider->getGroups($user, $portfolio), false);
+		$groups = $this->groupProvider->getGroups($user, $portfolio);
 		foreach ($groups as $group) {
 			$map[$group->id] = $this->groupDataProvider->getGroupData($group, $user, $portfolio, $dateTime);
 		}

@@ -12,7 +12,6 @@ use FinGather\Model\Entity\Goal;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\GoalRepository;
-use Iterator;
 
 final readonly class GoalProvider implements GoalProviderInterface
 {
@@ -20,8 +19,8 @@ final readonly class GoalProvider implements GoalProviderInterface
 	{
 	}
 
-	/** @return Iterator<Goal> */
-	public function getGoals(User $user, Portfolio $portfolio): Iterator
+	/** @return list<Goal> */
+	public function getGoals(User $user, Portfolio $portfolio): array
 	{
 		return $this->goalRepository->findGoals($user->id, $portfolio->id);
 	}
@@ -31,8 +30,8 @@ final readonly class GoalProvider implements GoalProviderInterface
 		return $this->goalRepository->findGoal($goalId, $user->id);
 	}
 
-	/** @return Iterator<Goal> */
-	public function getActiveGoals(): Iterator
+	/** @return list<Goal> */
+	public function getActiveGoals(): array
 	{
 		return $this->goalRepository->findActiveGoals();
 	}

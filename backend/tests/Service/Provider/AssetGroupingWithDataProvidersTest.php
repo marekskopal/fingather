@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace FinGather\Tests\Service\Provider;
 
-use ArrayIterator;
 use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Dto\AbstractGroupWithGroupDataDto;
@@ -162,7 +161,7 @@ final class AssetGroupingWithDataProvidersTest extends TestCase
 		];
 
 		$assetProvider = self::createStub(AssetProviderInterface::class);
-		$assetProvider->method('getAssets')->willReturn(new ArrayIterator($assets));
+		$assetProvider->method('getAssets')->willReturn($assets);
 
 		$assetDataProvider = self::createStub(AssetDataProviderInterface::class);
 		$assetDataProvider->method('getAssetData')->willReturnCallback(

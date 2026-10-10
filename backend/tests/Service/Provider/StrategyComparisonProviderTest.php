@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace FinGather\Tests\Service\Provider;
 
-use ArrayIterator;
 use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Dto\StrategyComparisonItemDto;
@@ -34,6 +33,7 @@ use FinGather\Tests\Fixtures\Model\Entity\GroupFixture;
 use FinGather\Tests\Fixtures\Model\Entity\PortfolioFixture;
 use FinGather\Tests\Fixtures\Model\Entity\UserFixture;
 use FinGather\Utils\CalculatorUtils;
+use MarekSkopal\ORM\Mapper\Collection;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
@@ -231,7 +231,7 @@ final class StrategyComparisonProviderTest extends TestCase
 			portfolio: $this->portfolio,
 			name: $name,
 			isDefault: $isDefault,
-			strategyItems: new ArrayIterator($strategyItems),
+			strategyItems: new Collection($strategyItems),
 		);
 		$strategy->id = $id;
 		return $strategy;
@@ -244,7 +244,7 @@ final class StrategyComparisonProviderTest extends TestCase
 			portfolio: $this->portfolio,
 			name: 'parent',
 			isDefault: false,
-			strategyItems: new ArrayIterator([]),
+			strategyItems: new Collection([]),
 		);
 		$strategy->id = 1;
 
@@ -265,7 +265,7 @@ final class StrategyComparisonProviderTest extends TestCase
 			portfolio: $this->portfolio,
 			name: 'parent',
 			isDefault: false,
-			strategyItems: new ArrayIterator([]),
+			strategyItems: new Collection([]),
 		);
 		$strategy->id = 1;
 
@@ -360,7 +360,7 @@ final class StrategyComparisonProviderTest extends TestCase
 			->willReturn($this->makeCalculatedDataDto($portfolioValue));
 
 		$assetProvider = self::createStub(AssetProviderInterface::class);
-		$assetProvider->method('getAssets')->willReturn(new ArrayIterator($assets));
+		$assetProvider->method('getAssets')->willReturn($assets);
 
 		$assetDataProvider = self::createStub(AssetDataProviderInterface::class);
 		$assetDataProvider->method('getAssetData')->willReturnCallback(
@@ -377,7 +377,7 @@ final class StrategyComparisonProviderTest extends TestCase
 		$othersGroup->id = 999;
 
 		$groupProvider = self::createStub(GroupProviderInterface::class);
-		$groupProvider->method('getGroups')->willReturn(new ArrayIterator($groups));
+		$groupProvider->method('getGroups')->willReturn($groups);
 		$groupProvider->method('getOthersGroup')->willReturn($othersGroup);
 
 		$groupDataProvider = self::createStub(GroupDataProviderInterface::class);

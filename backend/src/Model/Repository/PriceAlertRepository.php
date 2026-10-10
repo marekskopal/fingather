@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace FinGather\Model\Repository;
 
 use FinGather\Model\Entity\PriceAlert;
-use Iterator;
 use MarekSkopal\ORM\Repository\AbstractRepository;
 
 /** @extends AbstractRepository<PriceAlert> */
 final class PriceAlertRepository extends AbstractRepository
 {
-	/** @return Iterator<PriceAlert> */
-	public function findPriceAlerts(int $userId): Iterator
+	/** @return list<PriceAlert> */
+	public function findPriceAlerts(int $userId): array
 	{
 		return $this->select()
 			->where(['user_id' => $userId])
@@ -26,8 +25,8 @@ final class PriceAlertRepository extends AbstractRepository
 			->fetchOne();
 	}
 
-	/** @return Iterator<PriceAlert> */
-	public function findActivePriceAlerts(): Iterator
+	/** @return list<PriceAlert> */
+	public function findActivePriceAlerts(): array
 	{
 		return $this->select()
 			->where(['is_active' => true])

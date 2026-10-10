@@ -126,7 +126,7 @@ final readonly class TransactionController
 
 		$transactionDtos = array_map(
 			fn (Transaction $transaction): TransactionDto => TransactionDto::fromEntity($transaction),
-			iterator_to_array($transactions, false),
+			$transactions,
 		);
 
 		return new JsonResponse(new TransactionListDto($transactionDtos, $count));

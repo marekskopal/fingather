@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace FinGather\Tests\Service\DataCalculator;
 
-use ArrayIterator;
 use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Dto\Enum\RangeEnum;
@@ -71,7 +70,7 @@ final class DividendDataCalculatorTest extends TestCase
 
 		$transactionProvider = self::createStub(TransactionProviderInterface::class);
 		$transactionProvider->method('getFirstTransaction')->willReturn($firstTransaction);
-		$transactionProvider->method('getTransactions')->willReturn(new ArrayIterator([]));
+		$transactionProvider->method('getTransactions')->willReturn([]);
 
 		$calculator = new DividendDataCalculator($transactionProvider);
 
@@ -106,7 +105,7 @@ final class DividendDataCalculatorTest extends TestCase
 
 		$transactionProvider = self::createStub(TransactionProviderInterface::class);
 		$transactionProvider->method('getFirstTransaction')->willReturn($firstTransaction);
-		$transactionProvider->method('getTransactions')->willReturn(new ArrayIterator([$tx1, $tx2]));
+		$transactionProvider->method('getTransactions')->willReturn([$tx1, $tx2]);
 
 		$calculator = new DividendDataCalculator($transactionProvider);
 
@@ -143,7 +142,7 @@ final class DividendDataCalculatorTest extends TestCase
 
 		$transactionProvider = self::createStub(TransactionProviderInterface::class);
 		$transactionProvider->method('getFirstTransaction')->willReturn($firstTransaction);
-		$transactionProvider->method('getTransactions')->willReturn(new ArrayIterator([$tx1, $tx2]));
+		$transactionProvider->method('getTransactions')->willReturn([$tx1, $tx2]);
 
 		$calculator = new DividendDataCalculator($transactionProvider);
 
@@ -180,7 +179,7 @@ final class DividendDataCalculatorTest extends TestCase
 
 		$transactionProvider = self::createStub(TransactionProviderInterface::class);
 		$transactionProvider->method('getFirstTransaction')->willReturn($firstTransaction);
-		$transactionProvider->method('getTransactions')->willReturn(new ArrayIterator([$tx1, $tx2]));
+		$transactionProvider->method('getTransactions')->willReturn([$tx1, $tx2]);
 
 		$calculator = new DividendDataCalculator($transactionProvider);
 
@@ -219,7 +218,7 @@ final class DividendDataCalculatorTest extends TestCase
 
 		$transactionProvider = self::createStub(TransactionProviderInterface::class);
 		$transactionProvider->method('getFirstTransaction')->willReturn($firstTransaction);
-		$transactionProvider->method('getTransactions')->willReturn(new ArrayIterator([$tx1, $tx2]));
+		$transactionProvider->method('getTransactions')->willReturn([$tx1, $tx2]);
 
 		$calculator = new DividendDataCalculator($transactionProvider);
 
@@ -260,7 +259,7 @@ final class DividendDataCalculatorTest extends TestCase
 
 		$transactionProvider = self::createStub(TransactionProviderInterface::class);
 		$transactionProvider->method('getFirstTransaction')->willReturn($firstTransaction);
-		$transactionProvider->method('getTransactions')->willReturn(new ArrayIterator([$tx1, $tx2]));
+		$transactionProvider->method('getTransactions')->willReturn([$tx1, $tx2]);
 
 		$calculator = new DividendDataCalculator($transactionProvider);
 

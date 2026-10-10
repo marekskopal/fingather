@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace FinGather\Tests\Service\DataCalculator;
 
-use ArrayIterator;
 use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Dto\Enum\RangeEnum;
@@ -95,7 +94,7 @@ final class RiskDataCalculatorTest extends TestCase
 		$this->portfolioDataProvider->method('getPortfolioData')->willReturn(
 			$this->makeCalculatedData(value: 100.0),
 		);
-		$this->assetProvider->method('getAssets')->willReturn(new ArrayIterator([]));
+		$this->assetProvider->method('getAssets')->willReturn([]);
 
 		$result = $this->calculator->calculate(
 			user: UserFixture::getUser(),
@@ -129,7 +128,7 @@ final class RiskDataCalculatorTest extends TestCase
 			$this->makeCalculatedData(value: 115.0),
 			$this->makeCalculatedData(value: 105.0),
 		);
-		$this->assetProvider->method('getAssets')->willReturn(new ArrayIterator([]));
+		$this->assetProvider->method('getAssets')->willReturn([]);
 
 		$result = $this->calculator->calculate(
 			user: UserFixture::getUser(),
@@ -159,7 +158,7 @@ final class RiskDataCalculatorTest extends TestCase
 			$this->makeCalculatedData(value: 80.0),
 			$this->makeCalculatedData(value: 100.0),
 		);
-		$this->assetProvider->method('getAssets')->willReturn(new ArrayIterator([]));
+		$this->assetProvider->method('getAssets')->willReturn([]);
 
 		$result = $this->calculator->calculate(
 			user: UserFixture::getUser(),
@@ -189,7 +188,7 @@ final class RiskDataCalculatorTest extends TestCase
 			$this->makeCalculatedData(value: 108.0, returnPercentagePerAnnum: 20.0),
 			$this->makeCalculatedData(value: 110.0, returnPercentagePerAnnum: 20.0),
 		);
-		$this->assetProvider->method('getAssets')->willReturn(new ArrayIterator([]));
+		$this->assetProvider->method('getAssets')->willReturn([]);
 
 		$result = $this->calculator->calculate(
 			user: UserFixture::getUser(),
@@ -216,7 +215,7 @@ final class RiskDataCalculatorTest extends TestCase
 			$this->makeCalculatedData(value: 105.0),
 			$this->makeCalculatedData(value: 110.0),
 		);
-		$this->assetProvider->method('getAssets')->willReturn(new ArrayIterator([]));
+		$this->assetProvider->method('getAssets')->willReturn([]);
 
 		$result = $this->calculator->calculate(
 			user: UserFixture::getUser(),
@@ -245,7 +244,7 @@ final class RiskDataCalculatorTest extends TestCase
 			$this->makeCalculatedData(value: 103.0),
 			$this->makeCalculatedData(value: 107.0),
 		);
-		$this->assetProvider->method('getAssets')->willReturn(new ArrayIterator([]));
+		$this->assetProvider->method('getAssets')->willReturn([]);
 
 		$benchmarkTicker = TickerFixture::getTicker();
 		$this->tickerDataProvider->method('getAdjustedTickerDatas')->willReturn([
@@ -285,7 +284,7 @@ final class RiskDataCalculatorTest extends TestCase
 		$asset1 = AssetFixture::getAsset(id: 1, ticker: $ticker1);
 		$asset2 = AssetFixture::getAsset(id: 2, ticker: $ticker2);
 
-		$this->assetProvider->method('getAssets')->willReturn(new ArrayIterator([$asset1, $asset2]));
+		$this->assetProvider->method('getAssets')->willReturn([$asset1, $asset2]);
 
 		$openAssetData = $this->makeAssetDataDto(units: new Decimal('10'), value: new Decimal('1000'));
 		$this->assetDataProvider->method('getAssetData')->willReturn($openAssetData);
@@ -347,7 +346,7 @@ final class RiskDataCalculatorTest extends TestCase
 		$asset1 = AssetFixture::getAsset(id: 1, ticker: $ticker1);
 		$asset2 = AssetFixture::getAsset(id: 2, ticker: $ticker2);
 
-		$this->assetProvider->method('getAssets')->willReturn(new ArrayIterator([$asset1, $asset2]));
+		$this->assetProvider->method('getAssets')->willReturn([$asset1, $asset2]);
 		$this->assetDataProvider->method('getAssetData')->willReturn(
 			$this->makeAssetDataDto(units: new Decimal('10'), value: new Decimal('1000')),
 		);
@@ -423,7 +422,7 @@ final class RiskDataCalculatorTest extends TestCase
 			$this->makeCalculatedData(value: 100.0),
 		);
 		$this->assetProvider->method('getAssets')->willReturnCallback(
-			static fn() => new ArrayIterator($assets),
+			static fn() => $assets,
 		);
 		$this->assetDataProvider->method('getAssetData')->willReturn(
 			$this->makeAssetDataDto(units: new Decimal('10'), value: new Decimal('1000')),
@@ -507,7 +506,7 @@ final class RiskDataCalculatorTest extends TestCase
 		$this->portfolioDataProvider->method('getPortfolioData')->willReturn(
 			$this->makeCalculatedData(value: 100.0),
 		);
-		$this->assetProvider->method('getAssets')->willReturn(new ArrayIterator([]));
+		$this->assetProvider->method('getAssets')->willReturn([]);
 
 		$result = $this->calculator->calculate(
 			user: UserFixture::getUser(),

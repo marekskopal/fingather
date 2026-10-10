@@ -9,7 +9,6 @@ use FinGather\Model\Entity\Import;
 use FinGather\Model\Entity\ImportFile;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\ImportFileRepository;
-use Iterator;
 
 final readonly class ImportFileProvider implements ImportFileProviderInterface
 {
@@ -31,8 +30,8 @@ final readonly class ImportFileProvider implements ImportFileProviderInterface
 		return $importFile;
 	}
 
-	/** @return Iterator<ImportFile> */
-	public function getImportFiles(Import $import): Iterator
+	/** @return list<ImportFile> */
+	public function getImportFiles(Import $import): array
 	{
 		return $this->importFileRepository->findImportFiles($import->id);
 	}

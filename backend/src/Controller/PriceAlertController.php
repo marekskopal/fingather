@@ -40,7 +40,7 @@ final readonly class PriceAlertController
 
 		$priceAlerts = array_map(
 			fn (PriceAlert $priceAlert): PriceAlertDto => PriceAlertDto::fromEntity($priceAlert),
-			iterator_to_array($this->priceAlertProvider->getPriceAlerts($user), false),
+			$this->priceAlertProvider->getPriceAlerts($user),
 		);
 
 		return new JsonResponse($priceAlerts);

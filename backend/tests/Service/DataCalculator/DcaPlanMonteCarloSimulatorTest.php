@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace FinGather\Tests\Service\DataCalculator;
 
-use ArrayIterator;
 use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Model\Entity\Country;
@@ -112,7 +111,7 @@ final class DcaPlanMonteCarloSimulatorTest extends TestCase
 		];
 
 		$tickerDataProvider = self::createStub(TickerDataProviderInterface::class);
-		$tickerDataProvider->method('getTickerDatasByTickerId')->willReturn(new ArrayIterator($rows));
+		$tickerDataProvider->method('getTickerDatasByTickerId')->willReturn($rows);
 
 		$simulator = new DcaPlanMonteCarloSimulator($tickerDataProvider);
 
@@ -240,7 +239,7 @@ final class DcaPlanMonteCarloSimulatorTest extends TestCase
 
 		$tickerDataProvider = self::createStub(TickerDataProviderInterface::class);
 		$tickerDataProvider->method('getTickerDatasByTickerId')
-			->willReturnCallback(fn (int $tickerId) => $tickerId === 1 ? new ArrayIterator($tickerRows) : new ArrayIterator($proxyRows));
+			->willReturnCallback(fn (int $tickerId) => $tickerId === 1 ? $tickerRows : $proxyRows);
 
 		$simulator = new DcaPlanMonteCarloSimulator($tickerDataProvider);
 
@@ -274,7 +273,7 @@ final class DcaPlanMonteCarloSimulatorTest extends TestCase
 		];
 
 		$tickerDataProvider = self::createStub(TickerDataProviderInterface::class);
-		$tickerDataProvider->method('getTickerDatasByTickerId')->willReturn(new ArrayIterator($tickerRows));
+		$tickerDataProvider->method('getTickerDatasByTickerId')->willReturn($tickerRows);
 
 		$simulator = new DcaPlanMonteCarloSimulator($tickerDataProvider);
 

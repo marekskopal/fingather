@@ -123,7 +123,7 @@ final readonly class ImportController
 
 		$importMappings = array_map(
 			fn (ImportMapping $importMapping): ImportMappingResponseDto => ImportMappingResponseDto::fromEntity($importMapping),
-			iterator_to_array($this->importMappingProvider->getPortfolioImportMappings($user, $portfolio), false),
+			$this->importMappingProvider->getPortfolioImportMappings($user, $portfolio),
 		);
 
 		return new JsonResponse($importMappings);

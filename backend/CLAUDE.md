@@ -32,6 +32,12 @@ bin/console cache:clear                 # Clear cache
 - Entities use `DateTimeImmutable` with `Type::Timestamp` for datetime fields
 - Financial values use php-decimal for precision (`Decimal` serialises as JSON string)
 
+## ORM (`marekskopal/orm` 2.x)
+
+- `fetchAll()`/`findAll()` return `list<T>`; repository and provider list methods return arrays (no `Iterator`/`iterator_to_array()`). OneToMany relations are typed `Collection` (`MarekSkopal\ORM\Mapper\Collection`).
+- The schema is dumped to `var/orm-schema.php` by `bin/console orm:schema-dump` during the image build and loaded by `DbContext` via `Schema::fromFile()`. Without the file it is built from entity attributes at process start, so entity changes need a backend restart, not a cache flush. The dev override bind-mounts only `src/`, so mount an empty `./backend/var:/app/var` there too, otherwise the image's dumped schema shadows entity edits. Don't leave a locally dumped `backend/var/` around.
+- Long-running workers clear `getIdentityMap()` after each request/message. After migrating on an open connection, call `getDatabase()->clearStatementCache()`.
+
 ## Adding a Repository
 
 When adding a new `Model/Repository/*Repository.php` you MUST also register it in `src/App/ServiceProvider/OrmServiceProvider.php`:

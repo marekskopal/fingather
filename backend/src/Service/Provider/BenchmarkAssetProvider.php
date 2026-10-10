@@ -7,7 +7,6 @@ namespace FinGather\Service\Provider;
 use FinGather\Model\Entity\BenchmarkAsset;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Repository\BenchmarkAssetRepository;
-use Iterator;
 
 final readonly class BenchmarkAssetProvider implements BenchmarkAssetProviderInterface
 {
@@ -15,8 +14,8 @@ final readonly class BenchmarkAssetProvider implements BenchmarkAssetProviderInt
 	{
 	}
 
-	/** @return Iterator<BenchmarkAsset> */
-	public function getBenchmarkAssets(): Iterator
+	/** @return list<BenchmarkAsset> */
+	public function getBenchmarkAssets(): array
 	{
 		return $this->benchmarkAssetRepository->findBenchmarkAssets();
 	}

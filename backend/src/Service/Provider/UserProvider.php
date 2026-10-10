@@ -13,7 +13,6 @@ use FinGather\Model\Repository\Enum\OrderDirectionEnum;
 use FinGather\Model\Repository\Enum\UserOrderByEnum;
 use FinGather\Model\Repository\UserRepository;
 use FinGather\Validator\PasswordValidator;
-use Iterator;
 use Psr\Log\LoggerInterface;
 use SensitiveParameter;
 use const PASSWORD_BCRYPT;
@@ -31,13 +30,13 @@ final readonly class UserProvider implements UserProviderInterface
 
 	/**
 	 * @param array<value-of<UserOrderByEnum>,OrderDirectionEnum> $orderBy
-	 * @return Iterator<User>
+	 * @return list<User>
 	 */
 	public function getUsers(
 		?int $limit = null,
 		?int $offset = null,
 		array $orderBy = [UserOrderByEnum::Id->value => OrderDirectionEnum::DESC],
-	): Iterator {
+	): array {
 		return $this->userRepository->findUsers($limit, $offset, $orderBy);
 	}
 

@@ -72,7 +72,7 @@ final readonly class UserController extends AdminController
 					transactionCount: $this->transactionProvider->countTransactions($user),
 				);
 			},
-			iterator_to_array($this->userProvider->getUsers($limit, $offset, $orderBy), false),
+			$this->userProvider->getUsers($limit, $offset, $orderBy),
 		);
 
 		$count = $this->userProvider->countUsers();

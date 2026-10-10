@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace FinGather\Tests\Service\Import;
 
-use ArrayIterator;
 use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Model\Entity\Asset;
@@ -1367,7 +1366,7 @@ final class ImportServiceTest extends TestCase
 
 		$defaultImportFileProvider = self::createStub(ImportFileProviderInterface::class);
 		$defaultImportFileProvider->method('getImportFiles')
-			->willReturn(new ArrayIterator($importFiles));
+			->willReturn($importFiles);
 
 		$defaultImportProvider = self::createStub(ImportProviderInterface::class);
 		$defaultDataProvider = self::createStub(DataProviderInterface::class);

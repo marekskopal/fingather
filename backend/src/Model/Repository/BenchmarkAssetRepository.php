@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace FinGather\Model\Repository;
 
 use FinGather\Model\Entity\BenchmarkAsset;
-use Iterator;
 use MarekSkopal\ORM\Repository\AbstractRepository;
 
 /** @extends AbstractRepository<BenchmarkAsset> */
 final class BenchmarkAssetRepository extends AbstractRepository
 {
-	/** @return Iterator<BenchmarkAsset> */
-	public function findBenchmarkAssets(): Iterator
+	/** @return list<BenchmarkAsset> */
+	public function findBenchmarkAssets(): array
 	{
 		return $this->findAll();
 	}

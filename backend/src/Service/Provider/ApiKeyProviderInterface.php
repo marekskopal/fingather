@@ -8,12 +8,11 @@ use FinGather\Model\Entity\ApiKey;
 use FinGather\Model\Entity\Enum\ApiKeyTypeEnum;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
-use Iterator;
 
 interface ApiKeyProviderInterface
 {
-	/** @return Iterator<ApiKey> */
-	public function getApiKeys(?User $user = null, ?Portfolio $portfolio = null): Iterator;
+	/** @return list<ApiKey> */
+	public function getApiKeys(?User $user = null, ?Portfolio $portfolio = null): array;
 
 	public function getApiKey(int $apiKeyId, ?User $user = null): ?ApiKey;
 

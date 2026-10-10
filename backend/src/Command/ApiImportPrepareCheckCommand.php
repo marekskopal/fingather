@@ -42,7 +42,7 @@ final class ApiImportPrepareCheckCommand extends AbstractCommand
 
 			$apiKeys = [$apiKeyEntity];
 		} else {
-			$apiKeys = iterator_to_array($apiKeyProvider->getApiKeys(), false);
+			$apiKeys = $apiKeyProvider->getApiKeys();
 		}
 
 		foreach ($apiKeys as $apiKey) {

@@ -6,14 +6,13 @@ namespace FinGather\Model\Repository;
 
 use FinGather\Model\Entity\ApiImport;
 use FinGather\Model\Entity\Enum\ApiImportStatusEnum;
-use Iterator;
 use MarekSkopal\ORM\Repository\AbstractRepository;
 
 /** @extends AbstractRepository<ApiImport> */
 final class ApiImportRepository extends AbstractRepository
 {
-	/** @return Iterator<ApiImport> */
-	public function findApiImports(?int $userId = null, ?int $portfolioId = null, ?ApiImportStatusEnum $apiImportStatus = null): Iterator
+	/** @return list<ApiImport> */
+	public function findApiImports(?int $userId = null, ?int $portfolioId = null, ?ApiImportStatusEnum $apiImportStatus = null): array
 	{
 		$apiImportsSelect = $this->select();
 

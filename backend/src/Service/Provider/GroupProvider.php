@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Provider;
 
-use ArrayIterator;
 use FinGather\Model\Entity\Group;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\AssetRepository;
 use FinGather\Model\Repository\GroupRepository;
-use Iterator;
+use MarekSkopal\ORM\Mapper\Collection;
 
 final readonly class GroupProvider implements GroupProviderInterface
 {
@@ -21,8 +20,8 @@ final readonly class GroupProvider implements GroupProviderInterface
 	) {
 	}
 
-	/** @return Iterator<Group> */
-	public function getGroups(User $user, Portfolio $portfolio): Iterator
+	/** @return list<Group> */
+	public function getGroups(User $user, Portfolio $portfolio): array
 	{
 		return $this->groupRepository->findGroups($user->id, $portfolio->id);
 	}
@@ -40,7 +39,7 @@ final readonly class GroupProvider implements GroupProviderInterface
 	/** @param list<int> $assetIds */
 	public function createGroup(User $user, Portfolio $portfolio, string $name, string $color, array $assetIds): Group
 	{
-		$group = new Group(user: $user, portfolio: $portfolio, name: $name, color: $color, isOthers: false, assets: new ArrayIterator([]));
+		$group = new Group(user: $user, portfolio: $portfolio, name: $name, color: $color, isOthers: false, assets: new Collection([]));
 		$this->groupRepository->persist($group);
 
 		foreach ($assetIds as $assetId) {
@@ -66,7 +65,7 @@ final readonly class GroupProvider implements GroupProviderInterface
 			name: Group::OthersName,
 			color: Group::OthersColor,
 			isOthers: true,
-			assets: new ArrayIterator([]),
+			assets: new Collection([]),
 		);
 		$this->groupRepository->persist($group);
 

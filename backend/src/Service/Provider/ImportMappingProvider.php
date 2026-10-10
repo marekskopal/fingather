@@ -12,7 +12,6 @@ use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\ImportMappingRepository;
 use FinGather\Model\Repository\ImportRepository;
-use Iterator;
 
 final readonly class ImportMappingProvider implements ImportMappingProviderInterface
 {
@@ -24,8 +23,8 @@ final readonly class ImportMappingProvider implements ImportMappingProviderInter
 	) {
 	}
 
-	/** @return Iterator<ImportMapping> */
-	public function getPortfolioImportMappings(User $user, Portfolio $portfolio): Iterator
+	/** @return list<ImportMapping> */
+	public function getPortfolioImportMappings(User $user, Portfolio $portfolio): array
 	{
 		return $this->importMappingRepository->findByPortfolio($user->id, $portfolio->id);
 	}

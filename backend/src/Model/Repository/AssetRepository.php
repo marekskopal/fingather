@@ -7,16 +7,14 @@ namespace FinGather\Model\Repository;
 use DateTimeImmutable;
 use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Enum\TransactionActionTypeEnum;
-use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\Transaction;
-use Iterator;
 use MarekSkopal\ORM\Query\Select;
 use MarekSkopal\ORM\Repository\AbstractRepository;
 
 /** @extends AbstractRepository<Asset> */
 final class AssetRepository extends AbstractRepository
 {
-	/** @return Iterator<Asset> */
+	/** @return list<Asset> */
 	public function findAssets(
 		int $userId,
 		?int $portfolioId = null,
@@ -25,7 +23,7 @@ final class AssetRepository extends AbstractRepository
 		?int $countryId = null,
 		?int $sectorId = null,
 		?int $industryId = null,
-	): Iterator
+	): array
 	{
 		return $this->getAssetsSelect($userId, $portfolioId, $dateTime, $groupId, $countryId, $sectorId, $industryId)->fetchAll();
 	}
@@ -50,30 +48,11 @@ final class AssetRepository extends AbstractRepository
 		?int $industryId = null,
 	): array
 	{
-		$assets = iterator_to_array(
-			$this->getAssetsSelect($userId, $portfolioId, $dateTime, $groupId, $countryId, $sectorId, $industryId)
-				->with('ticker', 'group')
-				->fetchAll(),
-			false,
-		);
-
-		if ($assets === []) {
-			return [];
-		}
-
-		// Preload ticker's nested ManyToOne relations into EntityCache so that
-		// later access to $asset->ticker->market / sector / industry / country / currency
-		// is served from cache instead of triggering a query per ticker per relation.
-		$tickerIds = array_values(array_unique(array_map(static fn (Asset $asset): int => $asset->ticker->id, $assets)));
-		iterator_to_array(
-			$this->queryProvider->select(Ticker::class)
-				->where(['id', 'IN', $tickerIds])
-				->with('currency', 'market', 'sector', 'industry', 'country')
-				->fetchAll(),
-			false,
-		);
-
-		return $assets;
+		// Eager-load the ticker's nested relations (one query per relation level) so that later access to
+		// $asset->ticker->market / sector / industry / country / currency needs no query per ticker.
+		return $this->getAssetsSelect($userId, $portfolioId, $dateTime, $groupId, $countryId, $sectorId, $industryId)
+			->with('group', 'ticker.currency', 'ticker.market', 'ticker.sector', 'ticker.industry', 'ticker.country')
+			->fetchAll();
 	}
 
 	public function countAssets(

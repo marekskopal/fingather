@@ -51,7 +51,7 @@ final readonly class ApiKeyController
 				$this->apiKeyProvider->decryptApiKeyValue($apiKey),
 				$this->apiKeyProvider->decryptUserKeyValue($apiKey),
 			),
-			iterator_to_array($this->apiKeyProvider->getApiKeys($user, $portfolio), false),
+			$this->apiKeyProvider->getApiKeys($user, $portfolio),
 		);
 
 		return new JsonResponse($apiKeys);

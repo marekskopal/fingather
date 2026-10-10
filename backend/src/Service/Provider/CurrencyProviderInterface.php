@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace FinGather\Service\Provider;
 
 use FinGather\Model\Entity\Currency;
-use Iterator;
 
 interface CurrencyProviderInterface
 {
-	/** @return Iterator<Currency> */
-	public function getCurrencies(): Iterator;
+	/** @return list<Currency> */
+	public function getCurrencies(): array;
 
 	public function getCurrency(int $currencyId): ?Currency;
 

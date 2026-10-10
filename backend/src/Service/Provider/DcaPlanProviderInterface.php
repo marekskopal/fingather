@@ -16,12 +16,11 @@ use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\Strategy;
 use FinGather\Model\Entity\User;
 use FinGather\Service\DataCalculator\Dto\ReturnRateDto;
-use Iterator;
 
 interface DcaPlanProviderInterface
 {
-	/** @return Iterator<DcaPlan> */
-	public function getDcaPlans(User $user, Portfolio $portfolio): Iterator;
+	/** @return list<DcaPlan> */
+	public function getDcaPlans(User $user, Portfolio $portfolio): array;
 
 	public function getDcaPlan(int $dcaPlanId, User $user): ?DcaPlan;
 

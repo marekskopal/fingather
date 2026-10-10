@@ -6,7 +6,6 @@ namespace FinGather\Service\Provider;
 
 use FinGather\Model\Entity\Currency;
 use FinGather\Model\Repository\CurrencyRepository;
-use Iterator;
 
 final readonly class CurrencyProvider implements CurrencyProviderInterface
 {
@@ -14,8 +13,8 @@ final readonly class CurrencyProvider implements CurrencyProviderInterface
 	{
 	}
 
-	/** @return Iterator<Currency> */
-	public function getCurrencies(): Iterator
+	/** @return list<Currency> */
+	public function getCurrencies(): array
 	{
 		return $this->currencyRepository->findCurrencies();
 	}

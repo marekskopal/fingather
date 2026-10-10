@@ -16,7 +16,6 @@ use FinGather\Service\Cache\Cache;
 use FinGather\Service\Cache\CacheFactoryInterface;
 use FinGather\Service\Provider\Dto\TickerDataAdjustedDto;
 use FinGather\Utils\DateTimeUtils;
-use Iterator;
 use MarekSkopal\ORM\Exception\ConstrainException;
 use MarekSkopal\TwelveData\Dto\CoreData\TimeSeries;
 use MarekSkopal\TwelveData\Enum\AdjustEnum;
@@ -47,14 +46,14 @@ final readonly class TickerDataProvider implements TickerDataProviderInterface
 		$this->cache = $cacheFactory->create(namespace: self::class);
 	}
 
-	/** @return Iterator<TickerData> */
-	public function getTickerDatas(Ticker $ticker, DateTimeImmutable $fromDate, DateTimeImmutable $toDate): Iterator
+	/** @return list<TickerData> */
+	public function getTickerDatas(Ticker $ticker, DateTimeImmutable $fromDate, DateTimeImmutable $toDate): array
 	{
 		return $this->tickerDataRepository->findTickerDatas($ticker->id, $fromDate, $toDate);
 	}
 
-	/** @return Iterator<TickerData> */
-	public function getTickerDatasByTickerId(int $tickerId, DateTimeImmutable $fromDate, DateTimeImmutable $toDate): Iterator
+	/** @return list<TickerData> */
+	public function getTickerDatasByTickerId(int $tickerId, DateTimeImmutable $fromDate, DateTimeImmutable $toDate): array
 	{
 		return $this->tickerDataRepository->findTickerDatas($tickerId, $fromDate, $toDate);
 	}
@@ -86,7 +85,7 @@ final readonly class TickerDataProvider implements TickerDataProviderInterface
 					volume: $tickerData->volume,
 				);
 			},
-			iterator_to_array($this->getTickerDatas($ticker, $fromDate, $toDate), false),
+			$this->getTickerDatas($ticker, $fromDate, $toDate),
 		);
 	}
 

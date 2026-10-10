@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace FinGather\Tests\Service\Export;
 
-use ArrayIterator;
 use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Country;
 use FinGather\Model\Entity\Currency;
@@ -41,7 +40,7 @@ final class TransactionCsvExporterTest extends TestCase
 		$exporter = new TransactionCsvExporter();
 		$transaction = TransactionFixture::getTransaction();
 
-		$file = $exporter->export(new ArrayIterator([$transaction]));
+		$file = $exporter->export([$transaction]);
 
 		self::assertFileExists($file);
 		self::assertStringEndsWith('.csv', $file);
@@ -53,7 +52,7 @@ final class TransactionCsvExporterTest extends TestCase
 	{
 		$exporter = new TransactionCsvExporter();
 
-		$file = $exporter->export(new ArrayIterator([]));
+		$file = $exporter->export([]);
 
 		$handle = fopen($file, 'r');
 		self::assertNotFalse($handle);
@@ -84,7 +83,7 @@ final class TransactionCsvExporterTest extends TestCase
 		$exporter = new TransactionCsvExporter();
 		$transaction = TransactionFixture::getTransaction();
 
-		$file = $exporter->export(new ArrayIterator([$transaction]));
+		$file = $exporter->export([$transaction]);
 
 		$handle = fopen($file, 'r');
 		self::assertNotFalse($handle);
@@ -112,7 +111,7 @@ final class TransactionCsvExporterTest extends TestCase
 	{
 		$exporter = new TransactionCsvExporter();
 
-		$file = $exporter->export(new ArrayIterator([]));
+		$file = $exporter->export([]);
 
 		$rows = [];
 		$handle = fopen($file, 'r');

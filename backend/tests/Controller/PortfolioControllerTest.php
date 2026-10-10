@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace FinGather\Tests\Controller;
 
-use ArrayIterator;
 use FinGather\Controller\PortfolioController;
 use FinGather\Dto\PortfolioCreateDto;
 use FinGather\Dto\PortfolioDto;
@@ -57,7 +56,7 @@ final class PortfolioControllerTest extends TestCase
 
 	public function testGetPortfoliosReturnsJsonResponse(): void
 	{
-		$this->portfolioProvider->method('getPortfolios')->willReturn(new ArrayIterator([]));
+		$this->portfolioProvider->method('getPortfolios')->willReturn([]);
 
 		$response = $this->portfolioController->actionGetPortfolios($this::createStub(ServerRequestInterface::class));
 

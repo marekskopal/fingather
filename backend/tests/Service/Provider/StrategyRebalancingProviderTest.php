@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace FinGather\Tests\Service\Provider;
 
-use ArrayIterator;
 use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Dto\StrategyRebalancingDto;
@@ -37,6 +36,7 @@ use FinGather\Tests\Fixtures\Model\Entity\GroupFixture;
 use FinGather\Tests\Fixtures\Model\Entity\PortfolioFixture;
 use FinGather\Tests\Fixtures\Model\Entity\UserFixture;
 use FinGather\Utils\CalculatorUtils;
+use MarekSkopal\ORM\Mapper\Collection;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
@@ -304,7 +304,7 @@ final class StrategyRebalancingProviderTest extends TestCase
 			portfolio: $this->portfolio,
 			name: 'Test Strategy',
 			isDefault: false,
-			strategyItems: new ArrayIterator($strategyItems),
+			strategyItems: new Collection($strategyItems),
 		);
 		$strategy->id = 1;
 		return $strategy;
@@ -317,7 +317,7 @@ final class StrategyRebalancingProviderTest extends TestCase
 			portfolio: $this->portfolio,
 			name: 'Test Strategy',
 			isDefault: false,
-			strategyItems: new ArrayIterator([]),
+			strategyItems: new Collection([]),
 		);
 		$strategy->id = 1;
 
@@ -338,7 +338,7 @@ final class StrategyRebalancingProviderTest extends TestCase
 			portfolio: $this->portfolio,
 			name: 'Test Strategy',
 			isDefault: false,
-			strategyItems: new ArrayIterator([]),
+			strategyItems: new Collection([]),
 		);
 		$strategy->id = 1;
 
@@ -427,7 +427,7 @@ final class StrategyRebalancingProviderTest extends TestCase
 			->willReturn($this->makeCalculatedDataDto($portfolioValue));
 
 		$assetProvider = self::createStub(AssetProviderInterface::class);
-		$assetProvider->method('getAssets')->willReturn(new ArrayIterator($assets));
+		$assetProvider->method('getAssets')->willReturn($assets);
 
 		$assetDataProvider = self::createStub(AssetDataProviderInterface::class);
 		$assetDataProvider->method('getAssetData')
@@ -438,7 +438,7 @@ final class StrategyRebalancingProviderTest extends TestCase
 			->willReturn($this->makeCalculatedDataDto(new Decimal('0')));
 
 		$groupProvider = self::createStub(GroupProviderInterface::class);
-		$groupProvider->method('getGroups')->willReturn(new ArrayIterator([]));
+		$groupProvider->method('getGroups')->willReturn([]);
 
 		return new StrategyRebalancingProvider(
 			portfolioDataProvider: $portfolioDataProvider,
@@ -458,7 +458,7 @@ final class StrategyRebalancingProviderTest extends TestCase
 			->willReturn($this->makeCalculatedDataDto($portfolioValue));
 
 		$assetProvider = self::createStub(AssetProviderInterface::class);
-		$assetProvider->method('getAssets')->willReturn(new ArrayIterator([]));
+		$assetProvider->method('getAssets')->willReturn([]);
 
 		$assetDataProvider = self::createStub(AssetDataProviderInterface::class);
 
@@ -467,7 +467,7 @@ final class StrategyRebalancingProviderTest extends TestCase
 			->willReturn($this->makeCalculatedDataDto($groupDataValue));
 
 		$groupProvider = self::createStub(GroupProviderInterface::class);
-		$groupProvider->method('getGroups')->willReturn(new ArrayIterator([$group]));
+		$groupProvider->method('getGroups')->willReturn([$group]);
 
 		return new StrategyRebalancingProvider(
 			portfolioDataProvider: $portfolioDataProvider,

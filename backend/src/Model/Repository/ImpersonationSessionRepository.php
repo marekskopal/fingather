@@ -22,8 +22,8 @@ final class ImpersonationSessionRepository extends AbstractRepository
 		return $session;
 	}
 
-	/** @return iterable<ImpersonationSession> */
-	public function findRecentSessions(int $limit = 100): iterable
+	/** @return list<ImpersonationSession> */
+	public function findRecentSessions(int $limit = 100): array
 	{
 		return $this->select()
 			->orderBy('id', 'DESC')

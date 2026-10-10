@@ -33,7 +33,7 @@ final class MigrationRunCommand extends AbstractCommand
 			return self::FAILURE;
 		}
 
-		$application->dbContext->clearCache();
+		$application->dbContext->getDatabase()->clearStatementCache();
 
 		return self::SUCCESS;
 	}

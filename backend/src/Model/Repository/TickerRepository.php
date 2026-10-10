@@ -6,7 +6,6 @@ namespace FinGather\Model\Repository;
 
 use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Ticker;
-use Iterator;
 use MarekSkopal\ORM\Query\Enum\DirectionEnum;
 use MarekSkopal\ORM\Query\Expression\RawExpression;
 use MarekSkopal\ORM\Query\Select;
@@ -16,8 +15,8 @@ use MarekSkopal\ORM\Repository\AbstractRepository;
 /** @extends AbstractRepository<Ticker> */
 final class TickerRepository extends AbstractRepository
 {
-	/** @return Iterator<Ticker> */
-	public function findTickers(?int $marketId = null, ?string $search = null, ?int $limit = null, ?int $offset = null,): Iterator
+	/** @return list<Ticker> */
+	public function findTickers(?int $marketId = null, ?string $search = null, ?int $limit = null, ?int $offset = null,): array
 	{
 		return $this->getTickersSelect($marketId, $search, $limit, $offset)->fetchAll();
 	}
@@ -26,12 +25,12 @@ final class TickerRepository extends AbstractRepository
 	public function findTickersTicker(?int $marketId = null, ?string $search = null, ?int $limit = null, ?int $offset = null): array
 	{
 		/**
-		 * @var Iterator<array{
+		 * @var list<array{
 		 *     ticker: string,
 		 * }> $tickers
 		 */
 		$tickers = $this->getTickersSelect($marketId, $search, $limit, $offset)->columns(['ticker'])->fetchAssocAll();
-		return array_map(fn(array $ticker): string => $ticker['ticker'], iterator_to_array($tickers, false));
+		return array_map(fn(array $ticker): string => $ticker['ticker'], $tickers);
 	}
 
 	/** @return Select<Ticker> */
@@ -72,8 +71,8 @@ final class TickerRepository extends AbstractRepository
 		]);
 	}
 
-	/** @return Iterator<Ticker> */
-	public function findActiveTickers(): Iterator
+	/** @return list<Ticker> */
+	public function findActiveTickers(): array
 	{
 		$activeTickersSelect = $this->queryProvider
 			->select(Asset::class)
@@ -98,11 +97,11 @@ final class TickerRepository extends AbstractRepository
 			->fetchAssocAll();
 
 		/** @var list<int> $mostUsedTickerIds */
-		$mostUsedTickerIds = array_column(iterator_to_array($mostUsedTickersSelect, false), 'ticker_id');
+		$mostUsedTickerIds = array_column($mostUsedTickersSelect, 'ticker_id');
 
-		$tickers = iterator_to_array($this->select()
+		$tickers = $this->select()
 			->where(['id', 'in', $mostUsedTickerIds])
-			->fetchAll(), false);
+			->fetchAll();
 
 		usort(
 			$tickers,
@@ -123,9 +122,9 @@ final class TickerRepository extends AbstractRepository
 
 	/**
 	 * @param list<int>|null $marketIds
-	 * @return Iterator<Ticker>
+	 * @return list<Ticker>
 	 */
-	public function findTickersByTicker(string $ticker, ?array $marketIds = null, ?string $isin = null): Iterator
+	public function findTickersByTicker(string $ticker, ?array $marketIds = null, ?string $isin = null): array
 	{
 		return $this->getTickerByTickerSelect($ticker, $marketIds, $isin)
 			->fetchAll();
@@ -167,9 +166,9 @@ final class TickerRepository extends AbstractRepository
 
 	/**
 	 * @param list<int>|null $marketIds
-	 * @return Iterator<Ticker>
+	 * @return list<Ticker>
 	 */
-	public function findTickersByIsin(string $isin, ?array $marketIds = null): Iterator
+	public function findTickersByIsin(string $isin, ?array $marketIds = null): array
 	{
 		return $this->getTickerByIsinSelect($isin, $marketIds)
 			->fetchAll();

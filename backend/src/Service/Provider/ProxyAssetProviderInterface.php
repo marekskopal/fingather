@@ -7,12 +7,11 @@ namespace FinGather\Service\Provider;
 use FinGather\Model\Entity\Enum\TickerTypeEnum;
 use FinGather\Model\Entity\ProxyAsset;
 use FinGather\Model\Entity\Ticker;
-use Iterator;
 
 interface ProxyAssetProviderInterface
 {
-	/** @return Iterator<ProxyAsset> */
-	public function getProxyAssets(): Iterator;
+	/** @return list<ProxyAsset> */
+	public function getProxyAssets(): array;
 
 	public function getProxyAsset(int $id): ?ProxyAsset;
 

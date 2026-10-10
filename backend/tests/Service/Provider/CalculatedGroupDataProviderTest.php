@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace FinGather\Tests\Service\Provider;
 
-use ArrayIterator;
 use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Model\Entity\Asset;
@@ -71,7 +70,7 @@ final class CalculatedGroupDataProviderTest extends TestCase
 		);
 
 		$assetProvider = self::createStub(AssetProviderInterface::class);
-		$assetProvider->method('getAssets')->willReturn(new ArrayIterator([]));
+		$assetProvider->method('getAssets')->willReturn([]);
 
 		$assetDataProvider = self::createStub(AssetDataProviderInterface::class);
 
@@ -90,7 +89,7 @@ final class CalculatedGroupDataProviderTest extends TestCase
 		$asset2Data = $this->makeAssetDataDto(new Decimal('500'), new DateTimeImmutable('2024-01-15'));
 
 		$assetProvider = self::createStub(AssetProviderInterface::class);
-		$assetProvider->method('getAssets')->willReturn(new ArrayIterator([$asset1, $asset2]));
+		$assetProvider->method('getAssets')->willReturn([$asset1, $asset2]);
 
 		$assetDataProvider = self::createStub(AssetDataProviderInterface::class);
 		$assetDataProvider->method('getAssetData')->willReturnCallback(
@@ -127,7 +126,7 @@ final class CalculatedGroupDataProviderTest extends TestCase
 		$asset2Data = $this->makeAssetDataDto(new Decimal('200'), $earlier);
 
 		$assetProvider = self::createStub(AssetProviderInterface::class);
-		$assetProvider->method('getAssets')->willReturn(new ArrayIterator([$asset1, $asset2]));
+		$assetProvider->method('getAssets')->willReturn([$asset1, $asset2]);
 
 		$assetDataProvider = self::createStub(AssetDataProviderInterface::class);
 		$assetDataProvider->method('getAssetData')->willReturnCallback(
@@ -158,7 +157,7 @@ final class CalculatedGroupDataProviderTest extends TestCase
 		$assetData = $this->makeAssetDataDto(new Decimal('100'), new DateTimeImmutable('2024-01-01'));
 
 		$assetProvider = self::createStub(AssetProviderInterface::class);
-		$assetProvider->method('getAssets')->willReturn(new ArrayIterator([$asset]));
+		$assetProvider->method('getAssets')->willReturn([$asset]);
 
 		$assetDataProvider = self::createStub(AssetDataProviderInterface::class);
 		$assetDataProvider->method('getAssetData')->willReturn($assetData);

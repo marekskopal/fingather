@@ -10,7 +10,6 @@ use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\ApiKeyRepository;
 use FinGather\Service\Encryption\EncryptionServiceInterface;
-use Iterator;
 
 final readonly class ApiKeyProvider implements ApiKeyProviderInterface
 {
@@ -18,8 +17,8 @@ final readonly class ApiKeyProvider implements ApiKeyProviderInterface
 	{
 	}
 
-	/** @return Iterator<ApiKey> */
-	public function getApiKeys(?User $user = null, ?Portfolio $portfolio = null): Iterator
+	/** @return list<ApiKey> */
+	public function getApiKeys(?User $user = null, ?Portfolio $portfolio = null): array
 	{
 		return $this->apiKeyRepository->findApiKeys(userId: $user?->id, portfolioId: $portfolio?->id);
 	}

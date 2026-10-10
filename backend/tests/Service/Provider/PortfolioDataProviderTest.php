@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace FinGather\Tests\Service\Provider;
 
-use ArrayIterator;
 use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Model\Entity\Asset;
@@ -79,7 +78,7 @@ final class PortfolioDataProviderTest extends TestCase
 		$this->assetDataProvider = $this::createStub(AssetDataProviderInterface::class);
 		$this->transactionProvider = $this::createStub(TransactionProviderInterface::class);
 		// Return empty iterator by default so buildCashFlows produces no cash flows.
-		$this->transactionProvider->method('getTransactions')->willReturn(new ArrayIterator([]));
+		$this->transactionProvider->method('getTransactions')->willReturn([]);
 
 		$storage = $this::createStub(Storage::class);
 		$cache = new Cache($storage, 'test-portfolio-data');
@@ -102,7 +101,7 @@ final class PortfolioDataProviderTest extends TestCase
 	public function testGetPortfolioDataSingleAssetReturnsCalculatorResult(): void
 	{
 		$asset = AssetFixture::getAsset();
-		$this->assetProvider->method('getAssets')->willReturn(new ArrayIterator([$asset]));
+		$this->assetProvider->method('getAssets')->willReturn([$asset]);
 
 		$assetData = $this->makeAssetDataDto();
 		$this->assetDataProvider->method('getAssetData')->willReturn($assetData);
@@ -125,7 +124,7 @@ final class PortfolioDataProviderTest extends TestCase
 	public function testGetPortfolioDataAssetDataNullSkipsAsset(): void
 	{
 		$asset = AssetFixture::getAsset();
-		$this->assetProvider->method('getAssets')->willReturn(new ArrayIterator([$asset]));
+		$this->assetProvider->method('getAssets')->willReturn([$asset]);
 
 		$this->assetDataProvider->method('getAssetData')->willReturn(null);
 
@@ -146,7 +145,7 @@ final class PortfolioDataProviderTest extends TestCase
 
 	public function testGetPortfolioDataNoAssetsReturnsCalculatorResult(): void
 	{
-		$this->assetProvider->method('getAssets')->willReturn(new ArrayIterator([]));
+		$this->assetProvider->method('getAssets')->willReturn([]);
 		$this->transactionProvider->method('getFirstTransaction')->willReturn(null);
 
 		$calculatedData = $this->makeCalculatedDataDto(new Decimal('0'));

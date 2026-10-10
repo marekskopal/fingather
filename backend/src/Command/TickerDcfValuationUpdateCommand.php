@@ -28,7 +28,7 @@ final class TickerDcfValuationUpdateCommand extends AbstractCommand
 		$tickerProvider = $application->container->get(TickerProviderInterface::class);
 		assert($tickerProvider instanceof TickerProviderInterface);
 
-		$activeTickers = iterator_to_array($tickerProvider->getActiveTickers(), false);
+		$activeTickers = $tickerProvider->getActiveTickers();
 		$count = 0;
 
 		foreach ($activeTickers as $index => $ticker) {

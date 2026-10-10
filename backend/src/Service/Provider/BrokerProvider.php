@@ -9,7 +9,6 @@ use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\BrokerRepository;
-use Iterator;
 
 final readonly class BrokerProvider implements BrokerProviderInterface
 {
@@ -17,8 +16,8 @@ final readonly class BrokerProvider implements BrokerProviderInterface
 	{
 	}
 
-	/** @return Iterator<Broker> */
-	public function getBrokers(User $user, Portfolio $portfolio): Iterator
+	/** @return list<Broker> */
+	public function getBrokers(User $user, Portfolio $portfolio): array
 	{
 		return $this->brokerRepository->findBrokers($user->id, $portfolio->id);
 	}

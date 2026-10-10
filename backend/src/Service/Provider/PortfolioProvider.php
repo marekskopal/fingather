@@ -11,7 +11,6 @@ use FinGather\Model\Entity\Enum\TaxJurisdictionEnum;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\PortfolioRepository;
-use Iterator;
 
 final readonly class PortfolioProvider implements PortfolioProviderInterface
 {
@@ -22,8 +21,8 @@ final readonly class PortfolioProvider implements PortfolioProviderInterface
 	) {
 	}
 
-	/** @return Iterator<Portfolio> */
-	public function getPortfolios(User $user): Iterator
+	/** @return list<Portfolio> */
+	public function getPortfolios(User $user): array
 	{
 		return $this->portfolioRepository->findPortfolios($user->id);
 	}
@@ -32,7 +31,7 @@ final readonly class PortfolioProvider implements PortfolioProviderInterface
 	public function getOtherPortfolios(User $user, Portfolio $portfolio): array
 	{
 		return array_values(array_filter(
-			iterator_to_array($this->getPortfolios($user), false),
+			$this->getPortfolios($user),
 			fn (Portfolio $otherPortfolio) => $otherPortfolio->id !== $portfolio->id,
 		));
 	}

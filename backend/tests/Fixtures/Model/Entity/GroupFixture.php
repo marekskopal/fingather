@@ -4,23 +4,22 @@ declare(strict_types=1);
 
 namespace FinGather\Tests\Fixtures\Model\Entity;
 
-use ArrayIterator;
 use FinGather\Model\Entity\Asset;
 use FinGather\Model\Entity\Group;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
-use Iterator;
+use MarekSkopal\ORM\Mapper\Collection;
 
 final class GroupFixture
 {
-	/** @param Iterator<Asset>|null $assets */
+	/** @param Collection<Asset>|null $assets */
 	public static function getGroup(
 		?User $user = null,
 		?Portfolio $portfolio = null,
 		?string $name = null,
 		?string $color = null,
 		?bool $isOthers = null,
-		?Iterator $assets = null,
+		?Collection $assets = null,
 	): Group {
 		return new Group(
 			user: $user ?? UserFixture::getUser(),
@@ -28,7 +27,7 @@ final class GroupFixture
 			name: $name ?? 'Test Group',
 			color: $color ?? '#000000',
 			isOthers: $isOthers ?? true,
-			assets: $assets ?? new ArrayIterator([]),
+			assets: $assets ?? new Collection([]),
 		);
 	}
 }

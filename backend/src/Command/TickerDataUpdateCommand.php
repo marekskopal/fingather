@@ -34,7 +34,7 @@ final class TickerDataUpdateCommand extends AbstractCommand
 
 		$firstDate = new DateTimeImmutable('today');
 
-		$activeTickers = iterator_to_array($tickerProvider->getActiveTickers(), false);
+		$activeTickers = $tickerProvider->getActiveTickers();
 		foreach ($activeTickers as $ticker) {
 			$tickerFirstDate = $tickerDataProvider->updateTickerData($ticker);
 

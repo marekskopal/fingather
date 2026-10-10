@@ -8,12 +8,11 @@ use FinGather\Model\Entity\Broker;
 use FinGather\Model\Entity\Enum\BrokerImportTypeEnum;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
-use Iterator;
 
 interface BrokerProviderInterface
 {
-	/** @return Iterator<Broker> */
-	public function getBrokers(User $user, Portfolio $portfolio): Iterator;
+	/** @return list<Broker> */
+	public function getBrokers(User $user, Portfolio $portfolio): array;
 
 	public function getBroker(User $user, int $brokerId): ?Broker;
 

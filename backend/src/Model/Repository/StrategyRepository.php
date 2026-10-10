@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace FinGather\Model\Repository;
 
 use FinGather\Model\Entity\Strategy;
-use Iterator;
 use MarekSkopal\ORM\Repository\AbstractRepository;
 
 /** @extends AbstractRepository<Strategy> */
 final class StrategyRepository extends AbstractRepository
 {
-	/** @return Iterator<Strategy> */
-	public function findStrategies(int $userId, int $portfolioId): Iterator
+	/** @return list<Strategy> */
+	public function findStrategies(int $userId, int $portfolioId): array
 	{
 		return $this->findAll([
 			'user_id' => $userId,

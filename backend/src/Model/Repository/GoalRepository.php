@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace FinGather\Model\Repository;
 
 use FinGather\Model\Entity\Goal;
-use Iterator;
 use MarekSkopal\ORM\Repository\AbstractRepository;
 
 /** @extends AbstractRepository<Goal> */
 final class GoalRepository extends AbstractRepository
 {
-	/** @return Iterator<Goal> */
-	public function findGoals(int $userId, int $portfolioId): Iterator
+	/** @return list<Goal> */
+	public function findGoals(int $userId, int $portfolioId): array
 	{
 		return $this->select()
 			->where(['user_id' => $userId, 'portfolio_id' => $portfolioId])
@@ -26,8 +25,8 @@ final class GoalRepository extends AbstractRepository
 			->fetchOne();
 	}
 
-	/** @return Iterator<Goal> */
-	public function findActiveGoals(): Iterator
+	/** @return list<Goal> */
+	public function findActiveGoals(): array
 	{
 		return $this->select()
 			->where(['is_active' => true])

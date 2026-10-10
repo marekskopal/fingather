@@ -7,12 +7,11 @@ namespace FinGather\Service\Provider;
 use FinGather\Model\Entity\Group;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
-use Iterator;
 
 interface GroupProviderInterface
 {
-	/** @return Iterator<Group> */
-	public function getGroups(User $user, Portfolio $portfolio): Iterator;
+	/** @return list<Group> */
+	public function getGroups(User $user, Portfolio $portfolio): array;
 
 	public function getGroup(User $user, int $groupId): ?Group;
 

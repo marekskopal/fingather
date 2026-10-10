@@ -79,7 +79,7 @@ foreach (QueueEnum::cases() as $queue) {
 				}
 			}
 
-			$application->dbContext->getOrm()->getEntityCache()->clear();
+			$application->dbContext->getOrm()->getIdentityMap()->clear();
 			$currentTransactionProvider->clear();
 			gc_collect_cycles();
 		},

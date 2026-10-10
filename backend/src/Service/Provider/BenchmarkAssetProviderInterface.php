@@ -6,12 +6,11 @@ namespace FinGather\Service\Provider;
 
 use FinGather\Model\Entity\BenchmarkAsset;
 use FinGather\Model\Entity\Ticker;
-use Iterator;
 
 interface BenchmarkAssetProviderInterface
 {
-	/** @return Iterator<BenchmarkAsset> */
-	public function getBenchmarkAssets(): Iterator;
+	/** @return list<BenchmarkAsset> */
+	public function getBenchmarkAssets(): array;
 
 	public function getBenchmarkAsset(int $id): ?BenchmarkAsset;
 

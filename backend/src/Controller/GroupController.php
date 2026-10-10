@@ -46,7 +46,7 @@ final readonly class GroupController
 
 		$groups = array_map(
 			fn (Group $group): GroupDto => GroupDto::fromEntity($group),
-			iterator_to_array($this->groupProvider->getGroups($user, $portfolio), false),
+			$this->groupProvider->getGroups($user, $portfolio),
 		);
 
 		return new JsonResponse($groups);

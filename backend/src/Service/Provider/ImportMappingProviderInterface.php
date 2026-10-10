@@ -10,12 +10,11 @@ use FinGather\Model\Entity\ImportMapping;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Entity\User;
-use Iterator;
 
 interface ImportMappingProviderInterface
 {
-	/** @return Iterator<ImportMapping> */
-	public function getPortfolioImportMappings(User $user, Portfolio $portfolio): Iterator;
+	/** @return list<ImportMapping> */
+	public function getPortfolioImportMappings(User $user, Portfolio $portfolio): array;
 
 	public function getImportMapping(User $user, int $importMappingId): ?ImportMapping;
 

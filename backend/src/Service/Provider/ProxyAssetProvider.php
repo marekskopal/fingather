@@ -8,7 +8,6 @@ use FinGather\Model\Entity\Enum\TickerTypeEnum;
 use FinGather\Model\Entity\ProxyAsset;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Repository\ProxyAssetRepository;
-use Iterator;
 
 final readonly class ProxyAssetProvider implements ProxyAssetProviderInterface
 {
@@ -16,8 +15,8 @@ final readonly class ProxyAssetProvider implements ProxyAssetProviderInterface
 	{
 	}
 
-	/** @return Iterator<ProxyAsset> */
-	public function getProxyAssets(): Iterator
+	/** @return list<ProxyAsset> */
+	public function getProxyAssets(): array
 	{
 		return $this->proxyAssetRepository->findProxyAssets();
 	}

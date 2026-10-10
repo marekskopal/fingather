@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace FinGather\Service\Dbal;
 
-use FinGather\Service\Cache\CacheFactory;
 use MarekSkopal\ORM\Database\DatabaseInterface;
 use MarekSkopal\ORM\Migrations\Migrator;
 use MarekSkopal\ORM\ORM;
@@ -13,8 +12,12 @@ use MarekSkopal\ORM\Schema\Schema;
 
 final readonly class DbContext
 {
-	private const string CacheNamespace = 'Orm';
-	private const string CacheKey = 'Schema';
+	/**
+	 * Schema dumped with generated hydrators by `orm:schema-dump` in the image build (see Dockerfile).
+	 * When absent, the schema is built from the entity attributes on every process start, so entity
+	 * changes take effect without a cache flush.
+	 */
+	public const string SchemaFile = __DIR__ . '/../../../var/orm-schema.php';
 
 	private ReconnectableDatabase $database;
 
@@ -25,22 +28,14 @@ final readonly class DbContext
 	public function __construct(string $host, string $name, string $user, string $password)
 	{
 		$this->database = new ReconnectableDatabase($host, $name, $user, $password);
-
-		$cache = CacheFactory::createPsrCache(namespace: self::CacheNamespace);
-		$schema = $cache->get(self::CacheKey);
-		if ($schema instanceof Schema) {
-			$this->schema = $schema;
-			$this->orm = new ORM($this->database, $schema);
-			return;
-		}
-
-		$this->schema = new SchemaBuilder()
-			->addEntityPath(__DIR__ . '/../../Model/Entity')
-			->build();
-
-		$cache->set(self::CacheKey, $this->schema);
-
+		$this->schema = is_file(self::SchemaFile) ? Schema::fromFile(self::SchemaFile) : self::createSchemaBuilder()->build();
 		$this->orm = new ORM($this->database, $this->schema);
+	}
+
+	public static function createSchemaBuilder(): SchemaBuilder
+	{
+		return new SchemaBuilder()
+			->addEntityPath(__DIR__ . '/../../Model/Entity');
 	}
 
 	public function getOrm(): ORM
@@ -61,11 +56,5 @@ final readonly class DbContext
 	public function getSchema(): Schema
 	{
 		return $this->schema;
-	}
-
-	public function clearCache(): void
-	{
-		$cache = CacheFactory::createPsrCache(namespace: self::CacheNamespace);
-		$cache->clear();
 	}
 }

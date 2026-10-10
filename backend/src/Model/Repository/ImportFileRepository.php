@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace FinGather\Model\Repository;
 
 use FinGather\Model\Entity\ImportFile;
-use Iterator;
 use MarekSkopal\ORM\Repository\AbstractRepository;
 
 /** @extends AbstractRepository<ImportFile> */
@@ -18,8 +17,8 @@ final class ImportFileRepository extends AbstractRepository
 		]);
 	}
 
-	/** @return Iterator<ImportFile> */
-	public function findImportFiles(int $importId): Iterator
+	/** @return list<ImportFile> */
+	public function findImportFiles(int $importId): array
 	{
 		return $this->findAll([
 			'import_id' => $importId,

@@ -11,17 +11,16 @@ use FinGather\Model\Entity\Enum\GoalTypeEnum;
 use FinGather\Model\Entity\Goal;
 use FinGather\Model\Entity\Portfolio;
 use FinGather\Model\Entity\User;
-use Iterator;
 
 interface GoalProviderInterface
 {
-	/** @return Iterator<Goal> */
-	public function getGoals(User $user, Portfolio $portfolio): Iterator;
+	/** @return list<Goal> */
+	public function getGoals(User $user, Portfolio $portfolio): array;
 
 	public function getGoal(int $goalId, User $user): ?Goal;
 
-	/** @return Iterator<Goal> */
-	public function getActiveGoals(): Iterator;
+	/** @return list<Goal> */
+	public function getActiveGoals(): array;
 
 	public function createGoal(
 		User $user,

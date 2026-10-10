@@ -17,7 +17,6 @@ use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\Enum\OrderDirectionEnum;
 use FinGather\Model\Repository\Enum\TransactionOrderByEnum;
 use FinGather\Model\Repository\TransactionRepository;
-use Iterator;
 
 final readonly class TransactionProvider implements TransactionProviderInterface
 {
@@ -30,7 +29,7 @@ final readonly class TransactionProvider implements TransactionProviderInterface
 	/**
 	 * @param list<TransactionActionTypeEnum>|null $actionTypes
 	 * @param array<value-of<TransactionOrderByEnum>,OrderDirectionEnum> $orderBy
-	 * @return Iterator<Transaction>
+	 * @return list<Transaction>
 	 */
 	public function getTransactions(
 		User $user,
@@ -46,7 +45,7 @@ final readonly class TransactionProvider implements TransactionProviderInterface
 		array $orderBy = [
 			TransactionOrderByEnum::ActionCreated->value => OrderDirectionEnum::DESC,
 		],
-	): Iterator {
+	): array {
 		return $this->transactionRepository->findTransactions(
 			$user->id,
 			$portfolio?->id,

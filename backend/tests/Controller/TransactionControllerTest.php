@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace FinGather\Tests\Controller;
 
-use ArrayIterator;
 use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Controller\TransactionController;
@@ -140,7 +139,7 @@ final class TransactionControllerTest extends TestCase
 	public function testGetTransactionsReturnsJsonResponse(): void
 	{
 		$this->portfolioProvider->method('getPortfolio')->willReturn(PortfolioFixture::getPortfolio());
-		$this->transactionProvider->method('getTransactions')->willReturn(new ArrayIterator([]));
+		$this->transactionProvider->method('getTransactions')->willReturn([]);
 		$this->transactionProvider->method('countTransactions')->willReturn(0);
 		$request = $this::createStub(ServerRequestInterface::class);
 		$request->method('getQueryParams')->willReturn([]);

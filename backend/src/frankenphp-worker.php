@@ -34,7 +34,7 @@ $handler = static function () use ($application, $logger, $emitter): void {
 };
 
 while (frankenphp_handle_request($handler)) {
-	$application->dbContext->getOrm()->getEntityCache()->clear();
+	$application->dbContext->getOrm()->getIdentityMap()->clear();
 	$currentTransactionProvider->clear();
 	gc_collect_cycles();
 }

@@ -46,7 +46,7 @@ final readonly class StrategyController
 
 		$strategies = array_map(
 			fn (Strategy $strategy): StrategyDto => StrategyDto::fromEntity($strategy),
-			iterator_to_array($this->strategyProvider->getStrategies($user, $portfolio), false),
+			$this->strategyProvider->getStrategies($user, $portfolio),
 		);
 
 		return new JsonResponse($strategies);

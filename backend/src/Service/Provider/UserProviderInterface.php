@@ -10,20 +10,19 @@ use FinGather\Model\Entity\Enum\UserRoleEnum;
 use FinGather\Model\Entity\User;
 use FinGather\Model\Repository\Enum\OrderDirectionEnum;
 use FinGather\Model\Repository\Enum\UserOrderByEnum;
-use Iterator;
 use SensitiveParameter;
 
 interface UserProviderInterface
 {
 	/**
 	 * @param array<value-of<UserOrderByEnum>,OrderDirectionEnum> $orderBy
-	 * @return Iterator<User>
+	 * @return list<User>
 	 */
 	public function getUsers(
 		?int $limit = null,
 		?int $offset = null,
 		array $orderBy = [UserOrderByEnum::Id->value => OrderDirectionEnum::DESC],
-	): Iterator;
+	): array;
 
 	public function countUsers(): int;
 

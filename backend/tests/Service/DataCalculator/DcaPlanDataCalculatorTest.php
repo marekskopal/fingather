@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace FinGather\Tests\Service\DataCalculator;
 
-use ArrayIterator;
 use DateTimeImmutable;
 use Decimal\Decimal;
 use FinGather\Dto\AssetsWithPropertiesDto;
@@ -48,6 +47,7 @@ use FinGather\Tests\Fixtures\Model\Entity\TickerDataFixture;
 use FinGather\Tests\Fixtures\Model\Entity\TickerFixture;
 use FinGather\Tests\Fixtures\Model\Entity\UserFixture;
 use FinGather\Utils\CalculatorUtils;
+use MarekSkopal\ORM\Mapper\Collection;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
@@ -177,7 +177,7 @@ final class DcaPlanDataCalculatorTest extends TestCase
 		$ticker = TickerFixture::getTicker();
 		$ticker->id = 1;
 		$asset = AssetFixture::getAsset(ticker: $ticker);
-		$group = GroupFixture::getGroup(assets: new ArrayIterator([$asset]));
+		$group = GroupFixture::getGroup(assets: new Collection([$asset]));
 		$dcaPlan = $this->createDcaPlan(DcaPlanTargetTypeEnum::Group, group: $group);
 
 		$calculator = $this->createCalculator(firstTickerData: $firstData, lastTickerData: $lastData);
@@ -209,7 +209,7 @@ final class DcaPlanDataCalculatorTest extends TestCase
 			portfolio: PortfolioFixture::getPortfolio(),
 			name: 'Test Strategy',
 			isDefault: false,
-			strategyItems: new ArrayIterator([$strategyItem]),
+			strategyItems: new Collection([$strategyItem]),
 		);
 
 		$dcaPlan = $this->createDcaPlan(DcaPlanTargetTypeEnum::Strategy, strategy: $strategy);
@@ -342,7 +342,7 @@ final class DcaPlanDataCalculatorTest extends TestCase
 			portfolio: PortfolioFixture::getPortfolio(),
 			name: 'Weighted Strategy',
 			isDefault: false,
-			strategyItems: new ArrayIterator([$strategyItem1, $strategyItem2]),
+			strategyItems: new Collection([$strategyItem1, $strategyItem2]),
 		);
 
 		$dcaPlan = $this->createDcaPlan(DcaPlanTargetTypeEnum::Strategy, strategy: $strategy);
@@ -414,7 +414,7 @@ final class DcaPlanDataCalculatorTest extends TestCase
 			portfolio: PortfolioFixture::getPortfolio(),
 			name: 'Weighted Strategy With Negative',
 			isDefault: false,
-			strategyItems: new ArrayIterator([$strategyItem1, $strategyItem2]),
+			strategyItems: new Collection([$strategyItem1, $strategyItem2]),
 		);
 
 		$dcaPlan = $this->createDcaPlan(DcaPlanTargetTypeEnum::Strategy, strategy: $strategy);
@@ -480,8 +480,8 @@ final class DcaPlanDataCalculatorTest extends TestCase
 		$tickerDataProvider->method('getLastTickerData')->willReturn(null);
 		$tickerDataProvider->method('getTickerDatasByTickerId')
 			->willReturnCallback(fn (int $tickerId) => $tickerId === 1
-				? new ArrayIterator($tickerRows)
-				: new ArrayIterator($proxyRows));
+				? $tickerRows
+				: $proxyRows);
 
 		$assetWithPropertiesProvider = self::createStub(AssetWithPropertiesProviderInterface::class);
 		$assetWithPropertiesProvider->method('getAssetsWithAssetData')
@@ -743,7 +743,7 @@ final class DcaPlanDataCalculatorTest extends TestCase
 		$ticker = TickerFixture::getTicker();
 		$ticker->id = 1;
 		$asset = AssetFixture::getAsset(ticker: $ticker);
-		$group = GroupFixture::getGroup(assets: new ArrayIterator([$asset]));
+		$group = GroupFixture::getGroup(assets: new Collection([$asset]));
 		$group->id = 1;
 
 		$assetDto1 = $this->createAssetWithPropertiesDto(tickerId: 1, percentage: 40.0, value: 200.0, groupId: 1);

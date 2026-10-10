@@ -7,7 +7,6 @@ namespace FinGather\Service\Provider;
 use FinGather\Model\Entity\Market;
 use FinGather\Model\Entity\Ticker;
 use FinGather\Model\Repository\TickerRepository;
-use Iterator;
 
 final readonly class TickerProvider implements TickerProviderInterface
 {
@@ -15,8 +14,8 @@ final readonly class TickerProvider implements TickerProviderInterface
 	{
 	}
 
-	/** @return Iterator<Ticker> */
-	public function getTickers(?Market $market = null, ?string $search = null, ?int $limit = null, ?int $offset = null,): Iterator
+	/** @return list<Ticker> */
+	public function getTickers(?Market $market = null, ?string $search = null, ?int $limit = null, ?int $offset = null,): array
 	{
 		return $this->tickerRepository->findTickers(marketId: $market?->id, search: $search, limit: $limit, offset: $offset);
 	}
@@ -26,8 +25,8 @@ final readonly class TickerProvider implements TickerProviderInterface
 		return $this->tickerRepository->findTicker($tickerId);
 	}
 
-	/** @return Iterator<Ticker> */
-	public function getActiveTickers(): Iterator
+	/** @return list<Ticker> */
+	public function getActiveTickers(): array
 	{
 		return $this->tickerRepository->findActiveTickers();
 	}
@@ -40,9 +39,9 @@ final readonly class TickerProvider implements TickerProviderInterface
 
 	/**
 	 * @param list<int>|null $marketIds
-	 * @return Iterator<Ticker>
+	 * @return list<Ticker>
 	 */
-	public function getTickersByTicker(string $ticker, ?array $marketIds = null, ?string $isin = null): Iterator
+	public function getTickersByTicker(string $ticker, ?array $marketIds = null, ?string $isin = null): array
 	{
 		return $this->tickerRepository->findTickersByTicker($ticker, $marketIds, $isin);
 	}
@@ -61,9 +60,9 @@ final readonly class TickerProvider implements TickerProviderInterface
 
 	/**
 	 * @param list<int>|null $marketIds
-	 * @return Iterator<Ticker>
+	 * @return list<Ticker>
 	 */
-	public function getTickersByIsin(string $isin, ?array $marketIds = null): Iterator
+	public function getTickersByIsin(string $isin, ?array $marketIds = null): array
 	{
 		return $this->tickerRepository->findTickersByIsin($isin, $marketIds);
 	}

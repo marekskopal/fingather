@@ -51,7 +51,7 @@ final readonly class DcaPlanController
 
 		$dcaPlans = array_map(
 			fn (DcaPlan $dcaPlan): DcaPlanDto => DcaPlanDto::fromEntity($dcaPlan, $this->dcaPlanProvider->getReturnRate($dcaPlan)),
-			iterator_to_array($this->dcaPlanProvider->getDcaPlans($user, $portfolio), false),
+			$this->dcaPlanProvider->getDcaPlans($user, $portfolio),
 		);
 
 		return new JsonResponse($dcaPlans);

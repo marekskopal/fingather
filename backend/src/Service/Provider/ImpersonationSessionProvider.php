@@ -50,8 +50,8 @@ final readonly class ImpersonationSessionProvider implements ImpersonationSessio
 		$this->impersonationSessionRepository->persist($session);
 	}
 
-	/** @return iterable<ImpersonationSession> */
-	public function getRecentSessions(int $limit = 100): iterable
+	/** @return list<ImpersonationSession> */
+	public function getRecentSessions(int $limit = 100): array
 	{
 		return $this->impersonationSessionRepository->findRecentSessions($limit);
 	}
