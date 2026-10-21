@@ -1,4 +1,4 @@
-FROM nginx:1.31.6-alpine
+FROM nginx:1.31.7-alpine
 
 ARG ADMINER_USER
 ARG ADMINER_PASSWORD
