@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.18.2] - 2026-10-21
+### Changed
+- The backend image runs on PHP 8.5.12 (FrankenPHP 1.13.1), which includes critical upstream fixes. Requires rebuilding the backend image.
+- Upgraded Composer/pnpm dependencies and Docker images, including Angular 22.2.3, mcp/sdk 0.9, Node 24.22, nginx 1.31.7 and RabbitMQ 4.4.
+
 ## [1.18.1] - 2026-10-10
 ### Fixed
 - Transactions with a broker and stock splits failed to load after the ORM 2.0 upgrade, and saving a transaction could drop its broker. Fixed by upgrading `marekskopal/orm` to 2.0.2.
