@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.18.3] - 2026-11-19
+### Changed
+- MariaDB runs on 12.3 (from 11.8). The `db` service sets `MARIADB_AUTO_UPGRADE`, so the existing data directory is upgraded on the first start; back up the database before deploying.
+- The frontend image builds on Node 26 (LTS), and CI runs on Node 26.
+- The backend image runs on PHP 8.5.13 (FrankenPHP 1.13.6). Requires rebuilding the backend image.
+- Upgraded nette/caching to 4, apexcharts to 8 and jsdom to 31.
+- Upgraded Composer/pnpm dependencies and Docker images, including Angular 22.3.0, mcp/sdk 0.10, nginx 1.31.9, Redis 8.10.3 and RabbitMQ 4.4.1.
+
 ## [1.18.2] - 2026-10-21
 ### Changed
 - The backend image runs on PHP 8.5.12 (FrankenPHP 1.13.1), which includes critical upstream fixes. Requires rebuilding the backend image.
