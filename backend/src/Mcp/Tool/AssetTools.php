@@ -17,7 +17,7 @@ use FinGather\Service\Provider\AssetProviderInterface;
 use FinGather\Service\Provider\PortfolioProviderInterface;
 use FinGather\Service\Provider\TransactionProviderInterface;
 use FinGather\Utils\DateTimeUtils;
-use Mcp\Capability\Attribute\McpTool;
+use Mcp\Server\Capability\Attribute\McpTool;
 
 final readonly class AssetTools
 {

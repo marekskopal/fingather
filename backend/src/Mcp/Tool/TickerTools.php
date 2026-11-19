@@ -9,7 +9,7 @@ use FinGather\Mcp\Dto\McpTickerFundamentalsDto;
 use FinGather\Mcp\Dto\McpTickerListDto;
 use FinGather\Service\Provider\TickerFundamentalProviderInterface;
 use FinGather\Service\Provider\TickerProviderInterface;
-use Mcp\Capability\Attribute\McpTool;
+use Mcp\Server\Capability\Attribute\McpTool;
 
 final readonly class TickerTools
 {

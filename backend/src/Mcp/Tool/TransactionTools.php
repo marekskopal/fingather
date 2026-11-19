@@ -17,7 +17,7 @@ use FinGather\Service\Provider\CurrencyProviderInterface;
 use FinGather\Service\Provider\DataProviderInterface;
 use FinGather\Service\Provider\PortfolioProviderInterface;
 use FinGather\Service\Provider\TransactionProviderInterface;
-use Mcp\Capability\Attribute\McpTool;
+use Mcp\Server\Capability\Attribute\McpTool;
 use RuntimeException;
 
 final readonly class TransactionTools

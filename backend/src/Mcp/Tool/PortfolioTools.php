@@ -11,7 +11,7 @@ use FinGather\Mcp\Dto\McpPortfolioSummaryDto;
 use FinGather\Mcp\McpUserContextInterface;
 use FinGather\Service\Provider\PortfolioDataProviderInterface;
 use FinGather\Service\Provider\PortfolioProviderInterface;
-use Mcp\Capability\Attribute\McpTool;
+use Mcp\Server\Capability\Attribute\McpTool;
 
 final readonly class PortfolioTools
 {

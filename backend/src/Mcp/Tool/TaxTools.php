@@ -8,7 +8,7 @@ use FinGather\Mcp\Dto\McpTaxReportDto;
 use FinGather\Mcp\McpUserContextInterface;
 use FinGather\Service\DataCalculator\TaxReportCalculator;
 use FinGather\Service\Provider\PortfolioProviderInterface;
-use Mcp\Capability\Attribute\McpTool;
+use Mcp\Server\Capability\Attribute\McpTool;
 use RuntimeException;
 
 final readonly class TaxTools

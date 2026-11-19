@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace FinGather\Mcp\Server;
 
-use Mcp\Server;
+use Mcp\Server\Server;
 use Mcp\Server\Session\SessionStoreInterface;
 use Psr\Container\ContainerInterface;
 

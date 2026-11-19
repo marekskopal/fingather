@@ -13,7 +13,7 @@ use FinGather\Mcp\McpUserContextInterface;
 use FinGather\Service\Provider\PortfolioProviderInterface;
 use FinGather\Service\Provider\StrategyProviderInterface;
 use FinGather\Service\Provider\StrategyRebalancingProviderInterface;
-use Mcp\Capability\Attribute\McpTool;
+use Mcp\Server\Capability\Attribute\McpTool;
 use RuntimeException;
 
 final readonly class StrategyTools

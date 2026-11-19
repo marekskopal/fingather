@@ -13,7 +13,7 @@ use FinGather\Service\Provider\GroupWithGroupDataProviderInterface;
 use FinGather\Service\Provider\IndustryWithIndustryDataProviderInterface;
 use FinGather\Service\Provider\PortfolioProviderInterface;
 use FinGather\Service\Provider\SectorWithSectorDataProviderInterface;
-use Mcp\Capability\Attribute\McpTool;
+use Mcp\Server\Capability\Attribute\McpTool;
 
 final readonly class AllocationTools
 {

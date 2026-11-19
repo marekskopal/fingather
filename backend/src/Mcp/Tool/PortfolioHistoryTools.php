@@ -14,7 +14,7 @@ use FinGather\Service\Provider\CurrentTransactionProviderInterface;
 use FinGather\Service\Provider\PortfolioDataProviderInterface;
 use FinGather\Service\Provider\PortfolioProviderInterface;
 use FinGather\Utils\DateTimeUtils;
-use Mcp\Capability\Attribute\McpTool;
+use Mcp\Server\Capability\Attribute\McpTool;
 
 final readonly class PortfolioHistoryTools
 {
