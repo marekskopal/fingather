@@ -29,8 +29,8 @@ jobs:
             - name: Build CI image
               run: |
                   docker build -t fingather-backend-ci -f - backend <<'EOF'
-                  FROM dunglas/frankenphp:1.13.1-php8.5.12-alpine
-                  COPY --from=mlocati/php-extension-installer:2.12.3 /usr/bin/install-php-extensions /usr/local/bin/
+                  FROM dunglas/frankenphp:1.13.6-php8.5.13-alpine
+                  COPY --from=mlocati/php-extension-installer:2.13.2 /usr/bin/install-php-extensions /usr/local/bin/
                   RUN install-php-extensions \
                       pdo_mysql \
                       bcmath \
@@ -42,7 +42,7 @@ jobs:
                       gd \
                       igbinary \
                       redis
-                  COPY --from=composer:2.10.3 /usr/bin/composer /usr/local/bin/composer
+                  COPY --from=composer:2.11.2 /usr/bin/composer /usr/local/bin/composer
                   EOF
 
             - name: Install dependencies
