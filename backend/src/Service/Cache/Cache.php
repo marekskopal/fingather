@@ -53,20 +53,22 @@ final readonly class Cache
 
 	public function clean(?User $user = null, ?Portfolio $portfolio = null, ?DateTimeImmutable $date = null): void
 	{
-		$dependencies = null;
 		$tags = CacheTag::getForClean($this->namespace, $user, $portfolio, $date);
-		if (count($tags) > 0) {
-			$dependencies = [
-				\Nette\Caching\Cache::Tags => $tags,
-			];
+		if (count($tags) === 0) {
+			// nette/caching 4 throws on clean() without conditions; keep the storage-level cleanup of expired items
+			$this->storage->clean([]);
+
+			return;
 		}
 
-		$this->cache->clean($dependencies);
+		$this->cache->clean(tags: $tags);
 	}
 
 	public function cleanAll(): void
 	{
-		$this->cache->clean([\Nette\Caching\Cache::All => true]);
+		// Go to the storage directly: since nette/caching 4, Cache::clean(all: true) on a namespaced cache only cleans
+		// the namespace, which neither MemcachedStorage nor contributte's RedisStorage supports. Flush everything as before.
+		$this->storage->clean([\Nette\Caching\Cache::All => true]);
 	}
 
 	public function getStorage(): Storage

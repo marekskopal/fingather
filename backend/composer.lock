@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "172f2e89f9665cc40c5f94930e408e1e",
+    "content-hash": "0c57a0ea246ed40a4609bd9034170cae",
     "packages": [
         {
             "name": "brick/math",
@@ -2081,29 +2081,29 @@
         },
         {
             "name": "nette/caching",
-            "version": "v3.4.3",
+            "version": "v4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/caching.git",
-                "reference": "03619feb69580472ab0ba44c7730d4e74e68e86c"
+                "reference": "60df393b7f3523f71a0e98b82258abf1e3a626ab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/caching/zipball/03619feb69580472ab0ba44c7730d4e74e68e86c",
-                "reference": "03619feb69580472ab0ba44c7730d4e74e68e86c",
+                "url": "https://api.github.com/repos/nette/caching/zipball/60df393b7f3523f71a0e98b82258abf1e3a626ab",
+                "reference": "60df393b7f3523f71a0e98b82258abf1e3a626ab",
                 "shasum": ""
             },
             "require": {
-                "nette/utils": "^4.0",
-                "php": "8.1 - 8.6"
+                "nette/utils": "^4.1",
+                "php": "8.4 - 8.6"
             },
             "conflict": {
-                "latte/latte": "<3.0.12"
+                "latte/latte": "<3.1.4"
             },
             "require-dev": {
-                "latte/latte": "^3.0.12",
+                "latte/latte": "^3.1.4",
                 "nette/di": "^3.1 || ^4.0",
-                "nette/phpstan-rules": "^1.0",
+                "nette/phpstan-rules": "^1.0.7",
                 "nette/tester": "^2.6",
                 "phpstan/extension-installer": "^1.4@stable",
                 "phpstan/phpstan": "^2.1.40@stable",
@@ -2111,12 +2111,15 @@
                 "tracy/tracy": "^2.9"
             },
             "suggest": {
-                "ext-pdo_sqlite": "to use SQLiteStorage or SQLiteJournal"
+                "ext-memcached": "to use MemcachedStorage",
+                "ext-pdo_sqlite": "to use SQLiteStorage or SQLiteJournal",
+                "ext-redis": "to use RedisStorage",
+                "psr/simple-cache": "to use PsrCacheAdapter or Psr16Storage"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.4-dev"
+                    "dev-master": "4.0-dev"
                 }
             },
             "autoload": {
@@ -2139,7 +2142,7 @@
                     "homepage": "https://davidgrudl.com"
                 }
             ],
-            "description": "⚡ Nette Caching: a cache with an easy API and smart invalidation by expiration, tags, priorities or file changes. Storages for files, SQLite, Memcached and memory.",
+            "description": "⚡ Nette Caching: a cache with an easy API and smart invalidation by expiration, tags, priorities or file changes. Storages for files, SQLite, Memcached, Redis and memory.",
             "homepage": "https://doc.nette.org/caching",
             "keywords": [
                 "cache",
@@ -2148,14 +2151,15 @@
                 "memcached",
                 "nette",
                 "psr-16",
+                "redis",
                 "sqlite"
             ],
             "support": {
                 "issues": "https://github.com/nette/caching/issues",
-                "source": "https://github.com/nette/caching/tree/v3.4.3"
+                "source": "https://github.com/nette/caching/tree/v4.0.0"
             },
-            "time": "2026-10-27T18:39:00+00:00",
-            "published-time": "2026-10-27T18:40:58+00:00"
+            "time": "2026-11-06T16:35:12+00:00",
+            "published-time": "2026-11-06T17:00:17+00:00"
         },
         {
             "name": "nette/di",
